@@ -1,11 +1,14 @@
 import 'package:get/get.dart';
 import 'package:myray_mobile/app/modules/auth/bindings/enter_otp_binding.dart';
+import 'package:myray_mobile/app/modules/auth/bindings/forgot_password_binding.dart';
 import 'package:myray_mobile/app/modules/auth/bindings/login_binding.dart';
+import 'package:myray_mobile/app/modules/auth/bindings/reset_password_binding.dart';
 import 'package:myray_mobile/app/modules/auth/bindings/signup_binding.dart';
 import 'package:myray_mobile/app/modules/auth/views/choose_role_view.dart';
 import 'package:myray_mobile/app/modules/auth/views/enter_otp.dart';
 import 'package:myray_mobile/app/modules/auth/views/forgot_password_view.dart';
 import 'package:myray_mobile/app/modules/auth/views/login_view.dart';
+import 'package:myray_mobile/app/modules/auth/views/reset_password_view.dart';
 import 'package:myray_mobile/app/modules/auth/views/signup_view.dart';
 import 'package:myray_mobile/app/modules/home/bindings/home_binding.dart';
 import 'package:myray_mobile/app/modules/home/views/home_view.dart';
@@ -31,6 +34,7 @@ class AppPages {
     GetPage(
       name: _Paths.forgotPassword,
       page: () => const ForgotPasswordView(),
+      binding: ForgotPasswordBinding(),
     ),
     GetPage(
       name: _Paths.signup,
@@ -42,6 +46,12 @@ class AppPages {
       name: _Paths.enterOtp,
       page: () => const EnterOtp(),
       binding: EnterOtpBinding(),
+      transition: Transition.rightToLeft,
+    ),
+    GetPage(
+      name: _Paths.resetPassword,
+      page: () => const ResetPasswordView(),
+      binding: ResetPasswordBinding(),
       transition: Transition.rightToLeft,
     ),
     GetPage(

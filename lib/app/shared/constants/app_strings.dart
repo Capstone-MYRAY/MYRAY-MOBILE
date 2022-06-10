@@ -9,6 +9,7 @@ class AppStrings {
   static const titleEnterOtp = 'Nhập OTP';
   static const titleConfirm = 'Xác nhận';
   static const titleResend = 'Gửi lại';
+  static const titleSendOtp = 'Gửi mã OTP';
 
   //Label
   static const labelPhone = 'Số điện thoại';
@@ -32,10 +33,13 @@ class AppStrings {
       'Người cần tuyển nhân công thông qua ứng dụng.';
   static const captionEnterOtp =
       'Mã OTP gồm 6 số đã được gửi đến số điện thoại';
+  static const captionForgotPassword =
+      'Đừng lo, chuyện này thường xảy ra. Hãy nhập số điện thoại để cài lại mật khẩu';
 
   //Others
   static const doNotHaveAccount = 'Không có tài khoản?';
   static const forgotPassword = 'Quên mật khẩu?';
+  static const resetPassword = 'Đặt lại mật khẩu';
   static const farmer = 'Nông dân';
   static const landowner = 'Chủ đất';
 }

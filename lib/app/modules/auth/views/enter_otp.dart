@@ -40,6 +40,7 @@ class EnterOtp extends GetView<EnterOtpController> {
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
+        backgroundColor: AppColors.white,
         resizeToAvoidBottomInset: false,
         body: SafeArea(
           child: Container(
@@ -47,7 +48,6 @@ class EnterOtp extends GetView<EnterOtpController> {
               top: 24,
             ),
             width: double.infinity,
-            // child: SingleChildScrollView(
             child: Column(
               children: [
                 Image.asset(
@@ -113,7 +113,6 @@ class EnterOtp extends GetView<EnterOtpController> {
                 )
               ],
             ),
-            // ),
           ),
         ),
       ),

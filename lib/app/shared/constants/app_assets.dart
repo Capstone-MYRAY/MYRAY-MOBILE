@@ -8,4 +8,6 @@ class AppAssets {
   static const farmer = _imgPath + 'farmer.png';
   static const landowner = _imgPath + 'landowner.png';
   static const otp = _imgPath + 'otp.png';
+  static const forgotPassword = _imgPath + 'forgot_password.png';
+  static const resetPassword = _imgPath + 'reset_password.png';
 }
