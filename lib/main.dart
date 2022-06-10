@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 import 'package:myray_mobile/app/routes/app_pages.dart';
 import 'package:myray_mobile/app/theme/app_theme.dart';
@@ -22,6 +23,14 @@ class MyApp extends StatelessWidget {
       initialRoute: AppPages.initial,
       getPages: AppPages.routes,
       theme: AppTheme.lightTheme,
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('vi', 'VN'),
+      ],
+      locale: const Locale('vi'),
     );
   }
 }

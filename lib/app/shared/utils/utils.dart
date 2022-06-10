@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 class Utils {
   Utils._();
 
@@ -5,12 +7,25 @@ class Utils {
     return value == null || value.isEmpty;
   }
 
+  static bool equalsIgnoreCase(String s1, String s2) {
+    return s1.toLowerCase() == s2.toLowerCase();
+  }
+
   static final vietnamesePhone = RegExp(
-    '(84|0[3|5|7|8|9])+([0-9]{8})\b',
+    r'(84|0[3|5|7|8|9])+([0-9]{8})\b',
     caseSensitive: false,
   );
 
-  static bool equalsIgnoreCase(String s1, String s2) {
-    return s1.toLowerCase() == s2.toLowerCase();
+  static bool isWorkingAge(String dob, String patern) {
+    DateTime birthDate = DateFormat(patern).parse(dob);
+    DateTime today = DateTime.now();
+
+    DateTime workingDate = DateTime(
+      birthDate.year + 15,
+      birthDate.month,
+      birthDate.day,
+    );
+
+    return workingDate.isBefore(today);
   }
 }

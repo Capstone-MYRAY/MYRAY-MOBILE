@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 
 ///This class contains all app colors.
@@ -14,4 +16,5 @@ class AppColors {
   static const Color grey = Color(0xFF8E8EA1);
   static const Color black = Color(0xFF0C0C0C);
   static const Color white = Color(0xFFFFFFFF);
+  static const Color greyOtp = Color(0xFFEAEAEA);
 }
