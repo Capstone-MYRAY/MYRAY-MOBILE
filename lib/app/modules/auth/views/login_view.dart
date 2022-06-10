@@ -43,7 +43,7 @@ class LoginView extends GetView<LoginController> {
                           labelText: AppStrings.labelPhone,
                           placeholder: AppStrings.placeholderPhone,
                           inputAction: TextInputAction.next,
-                          keyBoardType: TextInputType.number,
+                          keyBoardType: TextInputType.phone,
                           validator: controller.validatePhone,
                         ),
                         const SizedBox(height: 16.0),

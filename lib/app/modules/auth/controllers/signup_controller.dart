@@ -92,7 +92,7 @@ class SignupController extends GetxController {
 
   String? validateConfirmPassword(value) {
     String password = passwordController.text;
-    if (Utils.equalsIgnoreCase(value, password)) {
+    if (!Utils.equalsIgnoreCase(value, password)) {
       return 'Mật khẩu xác nhận không trùng khớp';
     }
     return null;
@@ -102,5 +102,10 @@ class SignupController extends GetxController {
     if (!formKey.currentState!.validate()) {
       return;
     }
+
+    Get.toNamed(Routes.enterOtp, arguments: {
+      'action': 'signup',
+      'phone': phoneController.text,
+    });
   }
 }

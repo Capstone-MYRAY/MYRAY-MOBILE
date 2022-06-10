@@ -6,6 +6,9 @@ class AppStrings {
   static const titleSignup = 'Đăng ký';
   static const titleChooseRole = 'Bạn là...';
   static const titleContinue = 'Tiếp tục';
+  static const titleEnterOtp = 'Nhập OTP';
+  static const titleConfirm = 'Xác nhận';
+  static const titleResend = 'Gửi lại';
 
   //Label
   static const labelPhone = 'Số điện thoại';
@@ -27,6 +30,8 @@ class AppStrings {
   static const captionFarmer = 'Người cần tìm công việc thông qua ứng dụng.';
   static const captionLandowner =
       'Người cần tuyển nhân công thông qua ứng dụng.';
+  static const captionEnterOtp =
+      'Mã OTP gồm 6 số đã được gửi đến số điện thoại';
 
   //Others
   static const doNotHaveAccount = 'Không có tài khoản?';
