@@ -1,0 +1,4 @@
+enum Activities {
+  signup,
+  reset,
+}

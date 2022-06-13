@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:myray_mobile/app/modules/auth/controllers/reset_password_controller.dart';
+import 'package:myray_mobile/app/modules/auth/controllers/signup_controller.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
 import 'package:myray_mobile/app/shared/widgets/input_field.dart';
 
-class ResetPasswordView extends GetView<ResetPasswordController> {
-  const ResetPasswordView({Key? key}) : super(key: key);
+class EnterPasswordView extends GetView<SignupController> {
+  const EnterPasswordView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class ResetPasswordView extends GetView<ResetPasswordController> {
               child: Column(
                 children: [
                   Image.asset(
-                    AppAssets.resetPassword,
+                    AppAssets.enterPassword,
                     width: Get.width * 0.6,
                     alignment: Alignment.topCenter,
                   ),
@@ -33,7 +33,7 @@ class ResetPasswordView extends GetView<ResetPasswordController> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          AppStrings.resetPassword,
+                          AppStrings.titleEnterPassword,
                           style: Get.textTheme.headline2,
                         ),
                         const SizedBox(height: 16),
@@ -63,8 +63,8 @@ class ResetPasswordView extends GetView<ResetPasswordController> {
                         ),
                         const SizedBox(height: 24),
                         ElevatedButton(
-                          onPressed: () {},
-                          child: const Text(AppStrings.resetPassword),
+                          onPressed: () => controller.onSignupAccount(),
+                          child: const Text(AppStrings.titleSignup),
                         ),
                       ],
                     ),

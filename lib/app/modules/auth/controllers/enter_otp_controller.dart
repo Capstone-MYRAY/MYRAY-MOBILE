@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:get/get.dart';
+import 'package:myray_mobile/app/data/enums/activities.dart';
 import 'package:myray_mobile/app/routes/app_pages.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 
@@ -32,6 +33,10 @@ class EnterOtpController extends GetxController {
     if (_timer != null) {
       _timer!.cancel();
     }
-    Get.offAllNamed(Routes.login);
+    if (Get.arguments['action'] == Activities.signup) {
+      Get.toNamed(Routes.enterPassword);
+    } else if (Get.arguments['action'] == Activities.reset) {
+      Get.offAllNamed(Routes.login);
+    }
   }
 }

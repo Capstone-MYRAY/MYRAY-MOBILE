@@ -10,4 +10,5 @@ class AppAssets {
   static const otp = _imgPath + 'otp.png';
   static const forgotPassword = _imgPath + 'forgot_password.png';
   static const resetPassword = _imgPath + 'reset_password.png';
+  static const enterPassword = _imgPath + 'enter_password.png';
 }

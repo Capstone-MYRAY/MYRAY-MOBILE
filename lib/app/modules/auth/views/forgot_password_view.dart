@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:myray_mobile/app/modules/auth/controllers/forgot_password_controller.dart';
+import 'package:myray_mobile/app/modules/auth/controllers/reset_password_controller.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
 import 'package:myray_mobile/app/shared/widgets/input_field.dart';
 
-class ForgotPasswordView extends GetView<ForgotPasswordController> {
+class ForgotPasswordView extends GetView<ResetPasswordController> {
   const ForgotPasswordView({Key? key}) : super(key: key);
 
   @override
@@ -17,9 +17,7 @@ class ForgotPasswordView extends GetView<ForgotPasswordController> {
       ),
       body: SafeArea(
         child: Container(
-          margin: const EdgeInsets.only(
-            top: 24,
-          ),
+          alignment: Alignment.center,
           width: double.infinity,
           child: SingleChildScrollView(
             child: Column(
@@ -54,7 +52,7 @@ class ForgotPasswordView extends GetView<ForgotPasswordController> {
                       ),
                       const SizedBox(height: 24),
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: controller.navigateToOtpScreen,
                         child: const Text(AppStrings.titleSendOtp),
                       ),
                     ],

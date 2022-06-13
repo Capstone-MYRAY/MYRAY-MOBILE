@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:myray_mobile/app/modules/auth/auth.dart';
+import 'package:myray_mobile/app/modules/auth/views/enter_password_view.dart';
 import 'package:myray_mobile/app/modules/dashboard/bindings/dashboard_binding.dart';
 import 'package:myray_mobile/app/modules/dashboard/views/farmer_dashboard_view.dart';
 import 'package:myray_mobile/app/modules/dashboard/views/landowner_dashboard_view.dart';
@@ -10,7 +11,7 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  static const initial = Routes.onboard;
+  static const initial = Routes.login;
 
   static final routes = [
     GetPage(
@@ -30,7 +31,7 @@ class AppPages {
     GetPage(
       name: _Paths.forgotPassword,
       page: () => const ForgotPasswordView(),
-      binding: ForgotPasswordBinding(),
+      binding: ResetPasswordBinding(),
     ),
     GetPage(
       name: _Paths.signup,
@@ -50,6 +51,13 @@ class AppPages {
       binding: ResetPasswordBinding(),
       transition: Transition.rightToLeft,
     ),
+    GetPage(
+      name: _Paths.enterPassword,
+      page: () => const EnterPasswordView(),
+      binding: SignupBinding(),
+      transition: Transition.rightToLeft,
+    ),
+
     //landowner
     GetPage(
       name: _Paths.landownerDashboard,
