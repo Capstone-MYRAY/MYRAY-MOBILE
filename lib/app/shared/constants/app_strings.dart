@@ -17,6 +17,7 @@ class AppStrings {
   static const titleConfirm = 'Xác nhận';
   static const titleResend = 'Gửi lại';
   static const titleSendOtp = 'Gửi mã OTP';
+  static const titleEnterPassword = 'Nhập mật khẩu';
 
   //Label
   static const labelPhone = 'Số điện thoại';

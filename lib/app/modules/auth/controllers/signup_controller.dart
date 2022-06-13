@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:myray_mobile/app/data/enums/roles.dart';
+import 'package:myray_mobile/app/data/enums/enums.dart';
 import 'package:myray_mobile/app/routes/app_pages.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/utils/utils.dart';
@@ -104,8 +104,12 @@ class SignupController extends GetxController {
     }
 
     Get.toNamed(Routes.enterOtp, arguments: {
-      'action': 'signup',
+      'action': Activities.signup,
       'phone': phoneController.text,
     });
+  }
+
+  onSignupAccount() {
+    Get.offAllNamed(Routes.login);
   }
 }

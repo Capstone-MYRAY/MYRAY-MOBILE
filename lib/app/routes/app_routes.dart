@@ -10,6 +10,7 @@ abstract class Routes {
   static const signup = _Paths.signup;
   static const enterOtp = _Paths.enterOtp;
   static const resetPassword = _Paths.resetPassword;
+  static const enterPassword = _Paths.enterPassword;
   static const landownerDashboard = _Paths.landownerDashboard;
   static const farmerDashboard = _Paths.farmerDashboard;
 }
@@ -25,6 +26,7 @@ abstract class _Paths {
   static const signup = '/signup';
   static const enterOtp = '/enter_otp';
   static const resetPassword = '/reset_password';
+  static const enterPassword = '/enter_password';
 
   //Landowner views
   static const landownerDashboard = '$_landowner/dashboard';
