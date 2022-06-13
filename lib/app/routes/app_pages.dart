@@ -1,26 +1,22 @@
 import 'package:get/get.dart';
-import 'package:myray_mobile/app/modules/auth/bindings/enter_otp_binding.dart';
-import 'package:myray_mobile/app/modules/auth/bindings/forgot_password_binding.dart';
-import 'package:myray_mobile/app/modules/auth/bindings/login_binding.dart';
-import 'package:myray_mobile/app/modules/auth/bindings/reset_password_binding.dart';
-import 'package:myray_mobile/app/modules/auth/bindings/signup_binding.dart';
-import 'package:myray_mobile/app/modules/auth/views/choose_role_view.dart';
-import 'package:myray_mobile/app/modules/auth/views/enter_otp.dart';
-import 'package:myray_mobile/app/modules/auth/views/forgot_password_view.dart';
-import 'package:myray_mobile/app/modules/auth/views/login_view.dart';
-import 'package:myray_mobile/app/modules/auth/views/reset_password_view.dart';
-import 'package:myray_mobile/app/modules/auth/views/signup_view.dart';
-import 'package:myray_mobile/app/modules/home/bindings/home_binding.dart';
-import 'package:myray_mobile/app/modules/home/views/home_view.dart';
+import 'package:myray_mobile/app/modules/auth/auth.dart';
+import 'package:myray_mobile/app/modules/dashboard/bindings/dashboard_binding.dart';
+import 'package:myray_mobile/app/modules/dashboard/views/farmer_dashboard_view.dart';
+import 'package:myray_mobile/app/modules/dashboard/views/landowner_dashboard_view.dart';
+import 'package:myray_mobile/onboard.dart';
 
 part 'app_routes.dart';
 
 class AppPages {
   AppPages._();
 
-  static const initial = Routes.login;
+  static const initial = Routes.onboard;
 
   static final routes = [
+    GetPage(
+      name: _Paths.onboard,
+      page: () => const OnBoard(),
+    ),
     GetPage(
       name: _Paths.login,
       page: () => const LoginView(),
@@ -54,10 +50,18 @@ class AppPages {
       binding: ResetPasswordBinding(),
       transition: Transition.rightToLeft,
     ),
+    //landowner
     GetPage(
-      name: _Paths.home,
-      page: () => const HomeView(),
-      binding: HomeBinding(),
+      name: _Paths.landownerDashboard,
+      page: () => const LandownerDashboardView(),
+      binding: DashboardBinding(),
     ),
+    GetPage(
+      name: _Paths.farmerDashboard,
+      page: () => const FarmerDashboardView(),
+      binding: DashboardBinding(),
+    ),
+
+    //farmer
   ];
 }

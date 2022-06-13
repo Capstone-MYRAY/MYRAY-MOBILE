@@ -200,6 +200,9 @@ class AppTheme {
         elevation: 1.0,
         backgroundColor: cardBackground,
         selectedItemColor: primaryColor,
+        showSelectedLabels: true,
+        showUnselectedLabels: true,
+        type: BottomNavigationBarType.fixed,
         unselectedItemColor: textColor.withOpacity(0.5),
         selectedIconTheme: IconThemeData(
           color: primaryColor,
@@ -212,10 +215,10 @@ class AppTheme {
         ),
         unselectedIconTheme: IconThemeData(
           color: textColor.withOpacity(0.5),
-          size: 24.0,
+          size: 32.0,
         ),
         unselectedLabelStyle: baseTextTheme.subtitle2!.copyWith(
-          fontSize: 12.0,
+          fontSize: 13.0,
           color: textColor.withOpacity(0.5),
           fontWeight: FontWeight.normal,
         ),

@@ -1,6 +1,13 @@
 class AppStrings {
   const AppStrings._();
 
+  //tabs
+  static const home = 'Trang chủ';
+  static const jobPost = 'Công việc';
+  static const applied = 'Chờ duyệt';
+  static const message = 'Tin nhắn';
+  static const profile = 'Hồ sơ';
+
   //Title
   static const titleLogin = 'Đăng nhập';
   static const titleSignup = 'Đăng ký';
