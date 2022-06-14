@@ -16,6 +16,8 @@ class Utils {
     caseSensitive: false,
   );
 
+  static final isAlphabet = RegExp(r'[a-zA-z]');
+
   static bool isWorkingAge(String dob, String patern) {
     DateTime birthDate = DateFormat(patern).parse(dob);
     DateTime today = DateTime.now();

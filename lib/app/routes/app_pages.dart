@@ -41,7 +41,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.enterOtp,
-      page: () => const EnterOtp(),
+      page: () => const EnterOtpView(),
       binding: EnterOtpBinding(),
       transition: Transition.rightToLeft,
     ),

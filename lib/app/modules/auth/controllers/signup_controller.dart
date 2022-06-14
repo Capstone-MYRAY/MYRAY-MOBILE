@@ -1,12 +1,18 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:myray_mobile/app/data/enums/enums.dart';
+import 'package:myray_mobile/app/data/models/request/signup_request.dart';
+import 'package:myray_mobile/app/modules/auth/auth_repository.dart';
 import 'package:myray_mobile/app/routes/app_pages.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/utils/utils.dart';
 
 class SignupController extends GetxController {
+  final AuthRepository authRepository;
+  SignupController({required this.authRepository});
+
   var selectedRole = Roles.none.obs;
   DateTime? selectedDate;
   late GlobalKey<FormState> formKey;
@@ -15,6 +21,8 @@ class SignupController extends GetxController {
   late TextEditingController dobController;
   late TextEditingController passwordController;
   late TextEditingController confirmPasswordController;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  String _formatPhone = '';
 
   @override
   void onInit() {
@@ -53,47 +61,10 @@ class SignupController extends GetxController {
     }
   }
 
-  String? validateFullName(value) {
-    if (Utils.isEmpty(value)) {
-      return AppErrors.MSG0002;
-    }
-    return null;
-  }
-
-  String? validatePhone(value) {
-    if (Utils.isEmpty(value)) {
-      return AppErrors.MSG0002;
-    }
-
-    if (!Utils.vietnamesePhone.hasMatch(value)) {
-      return AppErrors.MSG0003;
-    }
-    return null;
-  }
-
-  String? validateDob(value) {
-    if (Utils.isEmpty(value)) {
-      return AppErrors.MSG0002;
-    }
-
-    if (!Utils.isWorkingAge(value, 'dd/MM/yyyy')) {
-      return 'Phải đủ tối thiểu 15 tuổi';
-    }
-
-    return null;
-  }
-
-  String? validatePassword(value) {
-    if (Utils.isEmpty(value)) {
-      return AppErrors.MSG0002;
-    }
-    return null;
-  }
-
   String? validateConfirmPassword(value) {
     String password = passwordController.text;
     if (!Utils.equalsIgnoreCase(value, password)) {
-      return 'Mật khẩu xác nhận không trùng khớp';
+      return AppMsg.MSG6006;
     }
     return null;
   }
@@ -103,13 +74,40 @@ class SignupController extends GetxController {
       return;
     }
 
+    String phone = phoneController.text;
+    if (phone.startsWith('0')) {
+      _formatPhone = '+84${phone.substring(1)}';
+    } else if (phone.startsWith('84')) {
+      _formatPhone = '+$phone';
+    } else {
+      _formatPhone = phone;
+    }
+
     Get.toNamed(Routes.enterOtp, arguments: {
       'action': Activities.signup,
-      'phone': phoneController.text,
+      'phone': _formatPhone,
     });
   }
 
-  onSignupAccount() {
+  onSignupAccount() async {
+    String fullName = fullNameController.text;
+    DateTime dob = selectedDate!;
+    String password = passwordController.text;
+    int roleId = selectedRole.value == Roles.landowner
+        ? CommonConstants.landownerRoleId
+        : CommonConstants.farmerRoleId;
+
+    SignupRequest data = SignupRequest(
+      fullName: fullName,
+      phoneNumber: _formatPhone,
+      dob: dob,
+      password: password,
+      roleId: roleId,
+    );
+
+    await authRepository.signup(data);
+    await _auth.signOut();
+
     Get.offAllNamed(Routes.login);
   }
 }
