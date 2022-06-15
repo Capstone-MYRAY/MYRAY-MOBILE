@@ -16,6 +16,8 @@ class Utils {
     caseSensitive: false,
   );
 
+  static final isAlphabet = RegExp(r'[a-zA-z]');
+
   static bool isWorkingAge(String dob, String patern) {
     DateTime birthDate = DateFormat(patern).parse(dob);
     DateTime today = DateTime.now();
@@ -27,5 +29,15 @@ class Utils {
     );
 
     return workingDate.isBefore(today);
+  }
+
+  static String formatVietnamesePhone(String phone) {
+    if (phone.startsWith('0')) {
+      return '+84${phone.substring(1)}';
+    } else if (phone.startsWith('84')) {
+      return '+$phone';
+    } else {
+      return phone;
+    }
   }
 }

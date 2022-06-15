@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:myray_mobile/app/modules/auth/controllers/signup_controller.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
+import 'package:myray_mobile/app/shared/utils/field_validation.dart';
 import 'package:myray_mobile/app/shared/widgets/input_field.dart';
 import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
 
@@ -43,7 +44,7 @@ class SignupView extends GetView<SignupController> {
                           labelText: '${AppStrings.labelFullName}*',
                           placeholder: AppStrings.placeholderFullName,
                           inputAction: TextInputAction.next,
-                          validator: controller.validateFullName,
+                          validator: FieldValidation.instance.validateFullName,
                         ),
                         const SizedBox(height: 16.0),
                         InputField(
@@ -53,7 +54,7 @@ class SignupView extends GetView<SignupController> {
                           placeholder: AppStrings.placeholderPhone,
                           inputAction: TextInputAction.next,
                           keyBoardType: TextInputType.phone,
-                          validator: controller.validatePhone,
+                          validator: FieldValidation.instance.validatePhone,
                         ),
                         const SizedBox(height: 16.0),
                         InputField(
@@ -61,7 +62,7 @@ class SignupView extends GetView<SignupController> {
                           icon: const Icon(CustomIcons.cake_variant_outline),
                           labelText: '${AppStrings.labelDob}*',
                           placeholder: AppStrings.placeholderDate,
-                          validator: controller.validateDob,
+                          validator: FieldValidation.instance.validateDob,
                           onTap: controller.chooseDate,
                           readOnly: true,
                         ),

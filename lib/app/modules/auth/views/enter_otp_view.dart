@@ -7,8 +7,8 @@ import 'package:otp_text_field/style.dart';
 import 'package:myray_mobile/app/modules/auth/controllers/enter_otp_controller.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 
-class EnterOtp extends GetView<EnterOtpController> {
-  const EnterOtp({Key? key}) : super(key: key);
+class EnterOtpView extends GetView<EnterOtpController> {
+  const EnterOtpView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -68,12 +68,17 @@ class EnterOtp extends GetView<EnterOtpController> {
                         ),
                         const SizedBox(height: 16),
                         Obx(
-                          () => controller.start.value ==
-                                  CommonConstants.otpTimer
-                              ? _buildText(
-                                  'Chưa nhận được mã? ', AppStrings.titleResend)
-                              : _buildText('Gửi lại sau ',
-                                  controller.start.value.toString()),
+                          () =>
+                              controller.start.value == CommonConstants.otpTimer
+                                  ? _buildText(
+                                      s1: 'Chưa nhận được mã? ',
+                                      s2: AppStrings.titleResend,
+                                      onTap: controller.resendOTP,
+                                    )
+                                  : _buildText(
+                                      s1: 'Gửi lại sau ',
+                                      s2: controller.start.value.toString(),
+                                    ),
                         ),
                         const SizedBox(height: 24),
                         Obx(
@@ -97,7 +102,8 @@ class EnterOtp extends GetView<EnterOtpController> {
     );
   }
 
-  Widget _buildText(String s1, String s2) {
+  Widget _buildText(
+      {required String s1, required String s2, Function()? onTap}) {
     return SizedBox(
       width: double.infinity,
       child: RichText(
@@ -114,8 +120,7 @@ class EnterOtp extends GetView<EnterOtpController> {
                   color: AppColors.primaryColor,
                   fontWeight: FontWeight.w700,
                 ),
-                recognizer: TapGestureRecognizer()
-                  ..onTap = controller.resendOTP),
+                recognizer: TapGestureRecognizer()..onTap = onTap),
           ],
         ),
       ),

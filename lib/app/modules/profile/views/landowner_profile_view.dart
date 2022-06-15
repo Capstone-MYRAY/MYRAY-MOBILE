@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:myray_mobile/app/modules/auth/controllers/auth_controller.dart';
+import 'package:myray_mobile/app/shared/constants/app_strings.dart';
 
 class LandownerProfileView extends StatelessWidget {
   const LandownerProfileView({Key? key}) : super(key: key);
@@ -10,10 +13,13 @@ class LandownerProfileView extends StatelessWidget {
         title: const Text('ProfileView'),
         centerTitle: true,
       ),
-      body: const Center(
-        child: Text(
-          'ProfileView is working',
-          style: TextStyle(fontSize: 20),
+      body: Center(
+        child: ElevatedButton(
+          onPressed: () {
+            final AuthController _authController = Get.find<AuthController>();
+            _authController.logOut();
+          },
+          child: const Text(AppStrings.titleLogout),
         ),
       ),
     );

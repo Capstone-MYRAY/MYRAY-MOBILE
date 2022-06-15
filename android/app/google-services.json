@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "139406435549",
+    "project_id": "myray-dalt",
+    "storage_bucket": "myray-dalt.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:139406435549:android:3d49da63da6307e42d2734",
+        "android_client_info": {
+          "package_name": "com.example.myray_mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "139406435549-ijp2b6dc07pbhjisf2oompdsemndslnk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.myray_mobile",
+            "certificate_hash": "21f235a05a34f7fd05d18050fd6357c5a56ddedf"
+          }
+        },
+        {
+          "client_id": "139406435549-n4uhberfg3sp59g0eft8ft1jgtc9b6rc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC9qU6LlgY98nP1C5qkYOfFu50A72f8v9Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "139406435549-n4uhberfg3sp59g0eft8ft1jgtc9b6rc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
