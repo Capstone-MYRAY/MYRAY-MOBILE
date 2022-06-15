@@ -15,4 +15,5 @@ class AppMsg {
   static const MSG6006 = 'Mật khẩu xác nhận không trùng khớp';
   static const MSG6007 = 'Bạn phải đủ 15 tuổi mới được đăng ký';
   static const MSG6008 = 'Mã OTP không đúng';
+  static const MSG6009 = 'Đăng ký tài khoản thành công!';
 }

@@ -1,10 +1,12 @@
 import 'dart:async';
 
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:myray_mobile/app/data/enums/activities.dart';
 import 'package:myray_mobile/app/data/providers/firebase_provider.dart';
 import 'package:myray_mobile/app/routes/app_pages.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
+import 'package:myray_mobile/app/shared/widgets/custom_snackbar.dart';
 
 class EnterOtpController extends GetxController {
   late String phone;
@@ -47,7 +49,9 @@ class EnterOtpController extends GetxController {
 
   onSubmit() async {
     try {
+      EasyLoading.show(status: AppStrings.loading);
       await FirebaseProvider.instance.verify(otp: otp.value);
+      EasyLoading.dismiss();
       if (_timer != null) {
         _timer!.cancel();
       }
@@ -58,8 +62,9 @@ class EnterOtpController extends GetxController {
         Get.offAllNamed(Routes.login);
       }
     } on Exception catch (e) {
+      EasyLoading.dismiss();
       if (e.toString().contains('Wrong OTP')) {
-        Get.snackbar('Error', AppMsg.MSG6008);
+        CustomSnackbar.show(title: 'Error', message: AppMsg.MSG6008);
       }
     }
   }

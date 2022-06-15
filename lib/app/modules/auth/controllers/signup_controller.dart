@@ -9,6 +9,7 @@ import 'package:myray_mobile/app/modules/auth/auth_repository.dart';
 import 'package:myray_mobile/app/routes/app_pages.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/utils/utils.dart';
+import 'package:myray_mobile/app/shared/widgets/custom_snackbar.dart';
 import 'package:myray_mobile/app/shared/widgets/information_dialog.dart';
 
 class SignupController extends GetxController {
@@ -121,5 +122,6 @@ class SignupController extends GetxController {
     EasyLoading.dismiss();
 
     Get.offAllNamed(Routes.login);
+    CustomSnackbar.show(title: 'Thông báo', message: AppMsg.MSG6009);
   }
 }

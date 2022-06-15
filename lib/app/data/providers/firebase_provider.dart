@@ -16,9 +16,7 @@ class FirebaseProvider {
   }) async {
     await _firebaseAuth.verifyPhoneNumber(
       phoneNumber: phoneNumber,
-      verificationCompleted: (PhoneAuthCredential credential) async {
-        await _firebaseAuth.signInWithCredential(credential);
-      },
+      verificationCompleted: (PhoneAuthCredential credential) async {},
       verificationFailed: (FirebaseAuthException e) {
         if (e.code == 'invalid-phone-number') {
           throw Exception('Invalid phone number');
@@ -45,7 +43,6 @@ class FirebaseProvider {
       if (e.toString().contains('invalid-verification-code')) {
         throw Exception('Wrong OTP');
       }
-      print(e.toString());
     }
   }
 }
