@@ -47,9 +47,9 @@ class AppTheme {
       colorScheme: ColorScheme(
         brightness: brightness,
         primary: primaryColor,
-        primaryVariant: primaryColor,
+        primaryContainer: primaryColor,
         secondary: secondaryColor!,
-        secondaryVariant: secondaryColor,
+        secondaryContainer: secondaryColor,
         surface: textColor!,
         background: background,
         error: errorColor,

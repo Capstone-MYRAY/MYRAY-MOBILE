@@ -4,6 +4,7 @@ import 'package:myray_mobile/app/modules/auth/views/enter_password_view.dart';
 import 'package:myray_mobile/app/modules/dashboard/bindings/dashboard_binding.dart';
 import 'package:myray_mobile/app/modules/dashboard/views/farmer_dashboard_view.dart';
 import 'package:myray_mobile/app/modules/dashboard/views/landowner_dashboard_view.dart';
+import 'package:myray_mobile/init_view.dart';
 import 'package:myray_mobile/onboard.dart';
 
 part 'app_routes.dart';
@@ -11,9 +12,13 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  static const initial = Routes.login;
+  static const initial = Routes.init;
 
   static final routes = [
+    GetPage(
+      name: _Paths.init,
+      page: () => const InitView(),
+    ),
     GetPage(
       name: _Paths.onboard,
       page: () => const OnBoard(),
@@ -41,7 +46,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.enterOtp,
-      page: () => const EnterOtp(),
+      page: () => const EnterOtpView(),
       binding: EnterOtpBinding(),
       transition: Transition.rightToLeft,
     ),

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:myray_mobile/app/modules/auth/controllers/reset_password_controller.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
+import 'package:myray_mobile/app/shared/utils/field_validation.dart';
 import 'package:myray_mobile/app/shared/widgets/input_field.dart';
 
 class ForgotPasswordView extends GetView<ResetPasswordController> {
@@ -49,6 +50,7 @@ class ForgotPasswordView extends GetView<ResetPasswordController> {
                         labelText: AppStrings.labelPhone,
                         placeholder: AppStrings.placeholderPhone,
                         keyBoardType: TextInputType.phone,
+                        validator: FieldValidation.instance.validatePhone,
                       ),
                       const SizedBox(height: 24),
                       ElevatedButton(

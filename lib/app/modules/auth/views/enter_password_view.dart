@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:myray_mobile/app/modules/auth/controllers/signup_controller.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
+import 'package:myray_mobile/app/shared/utils/field_validation.dart';
 import 'package:myray_mobile/app/shared/widgets/input_field.dart';
 
 class EnterPasswordView extends GetView<SignupController> {
@@ -41,14 +42,19 @@ class EnterPasswordView extends GetView<SignupController> {
                           child: Column(
                             children: [
                               InputField(
+                                isPassword: true,
                                 controller: controller.passwordController,
                                 icon: const Icon(CustomIcons.lock_outline),
                                 labelText: AppStrings.labelPassword,
                                 placeholder: AppStrings.placeholderPassword,
                                 keyBoardType: TextInputType.text,
+                                inputAction: TextInputAction.next,
+                                validator:
+                                    FieldValidation.instance.validatePassword,
                               ),
                               const SizedBox(height: 16),
                               InputField(
+                                isPassword: true,
                                 controller:
                                     controller.confirmPasswordController,
                                 icon:
@@ -57,13 +63,14 @@ class EnterPasswordView extends GetView<SignupController> {
                                 placeholder:
                                     AppStrings.placeholderConfirmPassword,
                                 keyBoardType: TextInputType.text,
+                                validator: controller.validateConfirmPassword,
                               ),
                             ],
                           ),
                         ),
                         const SizedBox(height: 24),
                         ElevatedButton(
-                          onPressed: () => controller.onSignupAccount(),
+                          onPressed: controller.onSignupAccount,
                           child: const Text(AppStrings.titleSignup),
                         ),
                       ],

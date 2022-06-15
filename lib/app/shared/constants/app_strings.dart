@@ -18,6 +18,8 @@ class AppStrings {
   static const titleResend = 'Gửi lại';
   static const titleSendOtp = 'Gửi mã OTP';
   static const titleEnterPassword = 'Nhập mật khẩu';
+  static const titleLogout = 'Đăng xuất';
+  static const titleClose = 'Đóng';
 
   //Label
   static const labelPhone = 'Số điện thoại';
@@ -50,4 +52,5 @@ class AppStrings {
   static const resetPassword = 'Đặt lại mật khẩu';
   static const farmer = 'Nông dân';
   static const landowner = 'Chủ đất';
+  static const loading = 'Đang xử lý';
 }
