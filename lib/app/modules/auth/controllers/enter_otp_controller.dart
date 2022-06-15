@@ -31,7 +31,7 @@ class EnterOtpController extends GetxController {
 
   resendOTP() async {
     if (action == Activities.signup) {
-      await _getOtp();
+      _getOtp();
     }
 
     const oneSec = Duration(seconds: 1);
@@ -47,7 +47,7 @@ class EnterOtpController extends GetxController {
 
   onSubmit() async {
     try {
-      // await FirebaseProvider.instance.verify(otp: otp.value);
+      await FirebaseProvider.instance.verify(otp: otp.value);
       if (_timer != null) {
         _timer!.cancel();
       }

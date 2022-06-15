@@ -50,6 +50,7 @@ class ResetPasswordView extends GetView<ResetPasswordController> {
                                 inputAction: TextInputAction.next,
                                 validator:
                                     FieldValidation.instance.validatePassword,
+                                isPassword: true,
                               ),
                               const SizedBox(height: 16),
                               InputField(
@@ -62,6 +63,7 @@ class ResetPasswordView extends GetView<ResetPasswordController> {
                                     AppStrings.placeholderConfirmPassword,
                                 keyBoardType: TextInputType.text,
                                 validator: controller.validateConfirmPassword,
+                                isPassword: true,
                               ),
                             ],
                           ),

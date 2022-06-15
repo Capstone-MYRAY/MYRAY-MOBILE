@@ -5,6 +5,7 @@ class CommonConstants {
   static const double borderRadius = 4.0;
   static const int otpNum = 6;
   static const int otpTimer = 60;
-  static const landownerRoleId = 3;
-  static const farmerRoleId = 4;
+  static const int landownerRoleId = 3;
+  static const int farmerRoleId = 4;
+  static const String appName = 'MYRAY';
 }

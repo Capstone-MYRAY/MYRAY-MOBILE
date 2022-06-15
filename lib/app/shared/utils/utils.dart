@@ -30,4 +30,14 @@ class Utils {
 
     return workingDate.isBefore(today);
   }
+
+  static String formatVietnamesePhone(String phone) {
+    if (phone.startsWith('0')) {
+      return '+84${phone.substring(1)}';
+    } else if (phone.startsWith('84')) {
+      return '+$phone';
+    } else {
+      return phone;
+    }
+  }
 }

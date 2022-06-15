@@ -16,8 +16,8 @@ class FirebaseProvider {
   }) async {
     await _firebaseAuth.verifyPhoneNumber(
       phoneNumber: phoneNumber,
-      verificationCompleted: (PhoneAuthCredential credential) {
-        // await _firebaseAuth.signInWithCredential(credential);
+      verificationCompleted: (PhoneAuthCredential credential) async {
+        await _firebaseAuth.signInWithCredential(credential);
       },
       verificationFailed: (FirebaseAuthException e) {
         if (e.code == 'invalid-phone-number') {

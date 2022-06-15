@@ -3,6 +3,7 @@ part of 'app_pages.dart';
 abstract class Routes {
   Routes._();
 
+  static const init = _Paths.init;
   static const onboard = _Paths.onboard;
   static const login = _Paths.login;
   static const chooseRole = _Paths.chooseRole;
@@ -19,6 +20,7 @@ abstract class _Paths {
   static const _landowner = '/landowner';
   static const _farmer = '/farmer';
 
+  static const init = '/init';
   static const onboard = '/onboard';
   static const login = '/login';
   static const chooseRole = '/choose_role';

@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:myray_mobile/app/data/enums/enums.dart';
@@ -8,10 +9,10 @@ import 'package:myray_mobile/app/modules/auth/auth_repository.dart';
 import 'package:myray_mobile/app/routes/app_pages.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/utils/utils.dart';
+import 'package:myray_mobile/app/shared/widgets/information_dialog.dart';
 
 class SignupController extends GetxController {
-  final AuthRepository authRepository;
-  SignupController({required this.authRepository});
+  final AuthRepository _authRepository = Get.find();
 
   var selectedRole = Roles.none.obs;
   DateTime? selectedDate;
@@ -69,19 +70,24 @@ class SignupController extends GetxController {
     return null;
   }
 
-  onSubmitForm() {
+  onSubmitForm() async {
     if (!formKey.currentState!.validate()) {
       return;
     }
 
     String phone = phoneController.text;
-    if (phone.startsWith('0')) {
-      _formatPhone = '+84${phone.substring(1)}';
-    } else if (phone.startsWith('84')) {
-      _formatPhone = '+$phone';
-    } else {
-      _formatPhone = phone;
+
+    EasyLoading.show(status: AppStrings.loading);
+    bool isDuplicated = await _authRepository.checkDuplicatedPhone(phone);
+    if (isDuplicated) {
+      EasyLoading.dismiss();
+      InformationDialog.showDialog(
+          msg: AppMsg.MSG6001, confirmTitle: AppStrings.titleClose);
+      return;
     }
+
+    EasyLoading.dismiss();
+    _formatPhone = Utils.formatVietnamesePhone(phone);
 
     Get.toNamed(Routes.enterOtp, arguments: {
       'action': Activities.signup,
@@ -97,6 +103,10 @@ class SignupController extends GetxController {
         ? CommonConstants.landownerRoleId
         : CommonConstants.farmerRoleId;
 
+    if (!formKey.currentState!.validate()) {
+      return;
+    }
+
     SignupRequest data = SignupRequest(
       fullName: fullName,
       phoneNumber: _formatPhone,
@@ -105,8 +115,10 @@ class SignupController extends GetxController {
       roleId: roleId,
     );
 
-    await authRepository.signup(data);
+    EasyLoading.show(status: AppStrings.loading);
+    await _authRepository.signup(data);
     await _auth.signOut();
+    EasyLoading.dismiss();
 
     Get.offAllNamed(Routes.login);
   }

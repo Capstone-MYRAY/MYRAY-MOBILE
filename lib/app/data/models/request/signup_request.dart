@@ -27,6 +27,7 @@ class SignupRequest {
     this.password,
   });
 
-  factory SignupRequest.fromJson(dynamic json) => _$SignupRequestFromJson(json);
+  factory SignupRequest.fromJson(Map<String, dynamic> json) =>
+      _$SignupRequestFromJson(json);
   Map<String, dynamic> toJson() => _$SignupRequestToJson(this);
 }
