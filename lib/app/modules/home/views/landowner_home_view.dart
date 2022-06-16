@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:myray_mobile/app/shared/constants/constants.dart';
+import 'package:myray_mobile/app/shared/widgets/landowner_appbar.dart';
 
 import '../controllers/landowner_home_controller.dart';
 
@@ -9,12 +11,14 @@ class LandownerHomeView extends GetView<LandownerHomeController> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('HomeView'),
-        centerTitle: true,
+    return const Scaffold(
+      appBar: LandownerAppbar(
+        title: Text(
+          AppStrings.home,
+          textScaleFactor: 1,
+        ),
       ),
-      body: const Center(
+      body: Center(
         child: Text(
           'HomeView is working',
           style: TextStyle(fontSize: 20),

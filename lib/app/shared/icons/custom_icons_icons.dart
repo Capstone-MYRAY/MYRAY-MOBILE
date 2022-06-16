@@ -141,4 +141,6 @@ class CustomIcons {
       IconData(0xe839, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData tree_outline =
       IconData(0xe83a, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData credit_card_outline =
+      IconData(0xe83b, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }

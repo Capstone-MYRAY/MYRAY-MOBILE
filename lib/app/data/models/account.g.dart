@@ -18,7 +18,7 @@ Account _$AccountFromJson(Map<String, dynamic> json) => Account(
           : DateTime.parse(json['date_of_birth'] as String),
       phoneNumber: json['phone_number'] as String?,
       email: json['email'] as String?,
-      balance: json['balance'] as int? ?? 0,
+      balance: (json['balance'] as num?)?.toDouble() ?? 0,
       point: json['point'] as int? ?? 0,
       aboutMe: json['about_me'] as String?,
     );

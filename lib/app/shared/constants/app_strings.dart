@@ -20,6 +20,21 @@ class AppStrings {
   static const titleEnterPassword = 'Nhập mật khẩu';
   static const titleLogout = 'Đăng xuất';
   static const titleClose = 'Đóng';
+  static const titleViewProfile = 'Xem hồ sơ';
+  static const titleMyGarden = 'Vườn của tôi';
+  static const titlePaymentHistory = 'Lịch sử giao dịch';
+  static const titleFavorite = 'Yêu thích';
+  static const titleReport = 'Báo cáo';
+  static const titleGuidepost = 'Bài viết';
+
+  //Subtitle
+  static const subtitleMyGarden = 'Danh sách vườn';
+  static const subtitlePaymentHistory = 'Danh sách giao dịch đã thực hiện';
+  static const subtitleLandownerFavorite = 'Danh sách nông dân tôi yêu thích';
+  static const subtitleLandownerReport = 'Dach sách nông dân đã báo cáo';
+  static const subtitleGuidepost = 'Hướng dẫn kỹ thuật làm nông';
+  static const subtitleChangePassword = 'Đổi mật khẩu';
+  static const subtitleLogout = 'Đăng xuất tài khoản';
 
   //Label
   static const labelPhone = 'Số điện thoại';
