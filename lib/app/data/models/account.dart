@@ -32,7 +32,7 @@ class Account {
   String? email;
 
   @JsonKey(name: 'balance', defaultValue: 0)
-  int? balance;
+  double? balance;
 
   @JsonKey(name: 'point', defaultValue: 0)
   int? point;
