@@ -11,15 +11,15 @@ class AuthRepository {
   AuthRepository();
 
   Future<bool> signup(SignupRequest data) async {
-    final response = await _apiProvider.postMethod(
-        path: '/Authentication/signup', data: data);
+    final response =
+        await _apiProvider.postMethod('/Authentication/signup', data.toJson());
     if (response.isOk) return true;
     return false;
   }
 
   Future<AuthResponse?> login(AuthRequest data) async {
-    final response = await _apiProvider.postMethod(
-        path: '/Authentication/login', data: data);
+    final response =
+        await _apiProvider.postMethod('/Authentication/login', data.toJson());
     print(response.body.toString());
     if (response.isOk) return AuthResponse.fromJson(response.body);
     if (response.hasError) {
@@ -29,8 +29,7 @@ class AuthRepository {
   }
 
   Future<bool> checkDuplicatedPhone(String phoneNum) async {
-    final response =
-        await _apiProvider.getMethod(path: '/Account/phone/$phoneNum');
+    final response = await _apiProvider.getMethod('/Account/phone/$phoneNum');
     if (response.statusCode == 200) return true;
     return false;
   }

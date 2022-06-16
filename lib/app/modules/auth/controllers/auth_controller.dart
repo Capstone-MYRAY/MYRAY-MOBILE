@@ -12,9 +12,9 @@ class AuthController extends GetxController with StorageProvider {
   }
 
   Future<void> login(String token, String refreshToken) async {
-    isLogged.value = true;
     await saveToken(token, refreshToken);
     AuthCredentials.instance.updateUserInfor();
+    isLogged.value = true;
   }
 
   void checkLoginStatus() {
