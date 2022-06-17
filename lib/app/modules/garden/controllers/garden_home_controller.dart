@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 import 'package:myray_mobile/app/modules/garden/widgets/garden_card.dart';
 
 class GardenHomeController extends GetxController {
-  List<GardenCard> gardens = [
+  List<GardenCard> gardens = const [
     GardenCard(),
     GardenCard(),
     GardenCard(),

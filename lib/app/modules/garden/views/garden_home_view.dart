@@ -38,7 +38,7 @@ class GardenHomeView extends GetView<GardenHomeController> {
                       physics: const NeverScrollableScrollPhysics(),
                       itemCount: controller.gardens.length,
                       itemBuilder: ((context, index) {
-                        return GardenCard();
+                        return const GardenCard();
                       }),
                     ),
                     controller.loadingState.value
@@ -46,7 +46,7 @@ class GardenHomeView extends GetView<GardenHomeController> {
                             fontSize: 40.0,
                             color: AppColors.primaryColor,
                           )
-                        : SizedBox(),
+                        : const SizedBox(),
                   ],
                 ),
               ),

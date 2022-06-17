@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:myray_mobile/app/data/enums/tabs.dart';
 import 'package:myray_mobile/app/modules/applied_job/views/applied_job_view.dart';
 import 'package:myray_mobile/app/modules/dashboard/controllers/dashboard_controller.dart';
+import 'package:myray_mobile/app/modules/home/views/farmer_home_view.dart';
 import 'package:myray_mobile/app/modules/job_post/views/farmer_job_post_view.dart';
 import 'package:myray_mobile/app/modules/message/views/farmer_message_view.dart';
 import 'package:myray_mobile/app/modules/profile/views/farmer_profile_view.dart';
@@ -21,7 +22,7 @@ class FarmerDashboardView extends StatelessWidget {
           body: IndexedStack(
             index: controller.tabIndex,
             children: const [
-              FarmerProfileView(),
+              FarmerHomeView(),
               FarmerJobPostView(),
               AppliedJobView(),
               FarmerMessageView(),
