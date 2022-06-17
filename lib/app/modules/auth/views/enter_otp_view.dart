@@ -19,9 +19,6 @@ class EnterOtpView extends GetView<EnterOtpController> {
         body: SafeArea(
           child: Container(
             alignment: Alignment.center,
-            // margin: const EdgeInsets.only(
-            //   top: 24,
-            // ),
             width: double.infinity,
             child: SingleChildScrollView(
               child: Column(
@@ -50,7 +47,7 @@ class EnterOtpView extends GetView<EnterOtpController> {
                         OTPTextField(
                           length: 6,
                           width: double.infinity,
-                          fieldWidth: 50,
+                          fieldWidth: 40,
                           fieldStyle: FieldStyle.box,
                           otpFieldStyle: OtpFieldStyle(
                             backgroundColor: AppColors.greyOtp,
@@ -61,7 +58,7 @@ class EnterOtpView extends GetView<EnterOtpController> {
                           hasError: false,
                           outlineBorderRadius: CommonConstants.borderRadius,
                           style: Get.textTheme.bodyText1!,
-                          textFieldAlignment: MainAxisAlignment.spaceAround,
+                          textFieldAlignment: MainAxisAlignment.spaceBetween,
                           onChanged: (pin) {
                             controller.otp.value = pin;
                           },
