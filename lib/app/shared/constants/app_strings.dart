@@ -26,6 +26,9 @@ class AppStrings {
   static const titleFavorite = 'Yêu thích';
   static const titleReport = 'Báo cáo';
   static const titleGuidepost = 'Bài viết';
+  static const titleCheckattendance ="Điểm danh";
+  static const titleHistoryJob = "Lịch sử";
+  static const titlePassword = "Mật khẩu";
 
   //Subtitle
   static const subtitleMyGarden = 'Danh sách vườn';
@@ -35,6 +38,11 @@ class AppStrings {
   static const subtitleGuidepost = 'Hướng dẫn kỹ thuật làm nông';
   static const subtitleChangePassword = 'Đổi mật khẩu';
   static const subtitleLogout = 'Đăng xuất tài khoản';
+  static const subtitleCheckattendance = "Kiểm tra điểm danh";
+  static const subtitleHistoryJob = "Công việc đã làm";
+  static const subtitleFarmerFavorite = "Danh sách chủ rẫy yêu thích";
+  static const subtitlePassword = "Thay đổi mật khẩu";
+
 
   //Label
   static const labelPhone = 'Số điện thoại';
