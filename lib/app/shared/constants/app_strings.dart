@@ -26,9 +26,12 @@ class AppStrings {
   static const titleFavorite = 'Yêu thích';
   static const titleReport = 'Báo cáo';
   static const titleGuidepost = 'Bài viết';
+  static const titleGarden = 'Danh sách vườn';
+  static const titleDetails = 'Chi tiết';
+  static const titleDelete = 'Xóa';
 
   //Subtitle
-  static const subtitleMyGarden = 'Danh sách vườn';
+  static const subtitleMyGarden = 'Danh sách vườn đã tạo';
   static const subtitlePaymentHistory = 'Danh sách giao dịch đã thực hiện';
   static const subtitleLandownerFavorite = 'Danh sách nông dân tôi yêu thích';
   static const subtitleLandownerReport = 'Dach sách nông dân đã báo cáo';

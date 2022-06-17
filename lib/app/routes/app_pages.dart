@@ -4,6 +4,8 @@ import 'package:myray_mobile/app/modules/auth/views/enter_password_view.dart';
 import 'package:myray_mobile/app/modules/dashboard/bindings/dashboard_binding.dart';
 import 'package:myray_mobile/app/modules/dashboard/views/farmer_dashboard_view.dart';
 import 'package:myray_mobile/app/modules/dashboard/views/landowner_dashboard_view.dart';
+import 'package:myray_mobile/app/modules/garden/bindings/garden_home_binding.dart';
+import 'package:myray_mobile/app/modules/garden/views/garden_home_view.dart';
 import 'package:myray_mobile/app/modules/profile/views/landowner_profile_details_view.dart';
 import 'package:myray_mobile/init_view.dart';
 
@@ -68,6 +70,11 @@ class AppPages {
     GetPage(
       name: _Paths.landownerProfile,
       page: () => const LandownerProfileDetailsView(),
+    ),
+    GetPage(
+      name: _Paths.gardenHome,
+      page: () => const GardenHomeView(),
+      binding: GardenHomeBinding(),
     ),
 
     //farmer

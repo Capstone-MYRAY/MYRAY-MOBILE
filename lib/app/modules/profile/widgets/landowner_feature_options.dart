@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:myray_mobile/app/modules/auth/controllers/auth_controller.dart';
+import 'package:myray_mobile/app/routes/app_pages.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
 import 'package:myray_mobile/app/shared/widgets/feature_option.dart';
@@ -16,7 +17,9 @@ class LandownerFeatureOptions extends StatelessWidget {
           icon: CustomIcons.sprout_outline,
           title: AppStrings.titleMyGarden,
           subtitle: AppStrings.subtitleMyGarden,
-          onTap: () {},
+          onTap: () {
+            Get.toNamed(Routes.gardenHome);
+          },
         ),
         _buildDevider(),
         FeatureOption(
