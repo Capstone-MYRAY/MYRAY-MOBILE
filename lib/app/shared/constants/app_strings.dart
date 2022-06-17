@@ -26,12 +26,15 @@ class AppStrings {
   static const titleFavorite = 'Yêu thích';
   static const titleReport = 'Báo cáo';
   static const titleGuidepost = 'Bài viết';
-  static const titleCheckattendance ="Điểm danh";
+  static const titleGarden = 'Danh sách vườn';
+  static const titleDetails = 'Chi tiết';
+  static const titleDelete = 'Xóa';
+  static const titleCheckattendance = "Điểm danh";
   static const titleHistoryJob = "Lịch sử";
   static const titlePassword = "Mật khẩu";
 
   //Subtitle
-  static const subtitleMyGarden = 'Danh sách vườn';
+  static const subtitleMyGarden = 'Danh sách vườn đã tạo';
   static const subtitlePaymentHistory = 'Danh sách giao dịch đã thực hiện';
   static const subtitleLandownerFavorite = 'Danh sách nông dân tôi yêu thích';
   static const subtitleLandownerReport = 'Dach sách nông dân đã báo cáo';
@@ -42,7 +45,6 @@ class AppStrings {
   static const subtitleHistoryJob = "Công việc đã làm";
   static const subtitleFarmerFavorite = "Danh sách chủ rẫy yêu thích";
   static const subtitlePassword = "Thay đổi mật khẩu";
-
 
   //Label
   static const labelPhone = 'Số điện thoại';

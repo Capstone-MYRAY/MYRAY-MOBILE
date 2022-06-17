@@ -4,6 +4,7 @@ import 'package:myray_mobile/app/modules/auth/auth_repository.dart';
 import 'package:myray_mobile/app/modules/auth/controllers/auth_controller.dart';
 import 'package:myray_mobile/app/modules/auth/controllers/login_controller.dart';
 import 'package:myray_mobile/app/modules/dashboard/controllers/dashboard_controller.dart';
+import 'package:myray_mobile/app/modules/garden/garden_repository.dart';
 import 'package:myray_mobile/app/modules/profile/controllers/farmer_profile_controller.dart';
 import 'package:myray_mobile/app/modules/profile/controllers/landowner_profile_controller.dart';
 import 'package:myray_mobile/app/modules/profile/profile_repository.dart';
@@ -18,8 +19,9 @@ class AppBinding extends Bindings {
       () => LoginController(authRepository: Get.find()),
       fenix: true,
     );
-    Get.lazyPut(() => ProfileRepository());
+    Get.lazyPut(() => ProfileRepository(), fenix: true);
     Get.lazyPut(() => DashboardController(), fenix: true);
+    Get.lazyPut(() => GardenRepository(), fenix: true);
     Get.lazyPut(() => LandownerProfileController());
     Get.lazyPut(() => FarmerProfileController());
   }
