@@ -94,7 +94,7 @@ class PersonalInformation extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Thông tin cá nhân',
+                    'Mô tả',
                     style: Get.textTheme.headline6,
                   ),
                   const SizedBox(height: 16.0),

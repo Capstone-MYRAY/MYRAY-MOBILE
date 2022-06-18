@@ -22,7 +22,8 @@ class FarmerProfileView extends GetView<FarmerProfileController> {
               () => FarmerAvatar(
                 avatar: controller.user.value.imageUrl,
                 fullName: controller.user.value.fullName ?? '',
-                onButtonClick: () => {print('Xem hồ sơ')},
+                point: controller.user.value.point,
+                onButtonClick: controller.navigateToDetailpage,
               ),
             ),
             const SizedBox(height: 32),
