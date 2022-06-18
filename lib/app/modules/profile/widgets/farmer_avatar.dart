@@ -55,7 +55,6 @@ class FarmerAvatar extends StatelessWidget {
             margin: EdgeInsets.only(top: _imageSize * 2 / 3),
             alignment: Alignment.center,
             width: Get.width * 0.9,
-            height: Get.height * 0.22,
             decoration: const BoxDecoration(
               color: AppColors.white,
               borderRadius: BorderRadius.all(
@@ -68,7 +67,9 @@ class FarmerAvatar extends StatelessWidget {
                 SizedBox(height: _imageSize / 2.5),
                 Text(
                   fullName,
-                  style: Get.textTheme.headline4,
+                  style: Get.textTheme.headline4,                
+                  softWrap: true,
+                  textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 10.0),
                 Row(
@@ -85,19 +86,21 @@ class FarmerAvatar extends StatelessWidget {
                         fontWeight: FontWeight.bold
                       ),
                     ),
-                    const SizedBox(width: 5.0),
+                    SizedBox(width: 5.0),
                     Text(
                       'điểm thưởng',
                       style: TextStyle(fontSize: 15),
                     )
                   ],
                 ),
-                const SizedBox(height: 10.0),
-                FilledButton(
-                  title: AppStrings.titleViewProfile,
-                  minWidth: CommonConstants.buttonWidthSmall,
-                  onPressed: onButtonClick
-                )
+                Padding(
+                  padding: const EdgeInsets.only(top: 10.0,bottom: 11.0),
+                  child: FilledButton(
+                    title: AppStrings.titleViewProfile,
+                    minWidth: CommonConstants.buttonWidthSmall,
+                    onPressed: onButtonClick
+                  ),
+                ),               
               ],
             ),
           ),
