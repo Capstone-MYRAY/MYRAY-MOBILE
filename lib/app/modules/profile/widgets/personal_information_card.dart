@@ -104,11 +104,9 @@ class PersonalInformation extends StatelessWidget {
                         child: user.value.aboutMe == null
                             ? const Text(
                                 'Chưa có thông tin',
-                                softWrap: true,
                               )
                             : Text(
                                 user.value.aboutMe!,
-                                softWrap: true,
                               ),
                       ),
                     ],

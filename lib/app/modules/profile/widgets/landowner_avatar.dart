@@ -51,7 +51,12 @@ class LandownerAvatar extends StatelessWidget {
           Container(
             margin: EdgeInsets.only(top: _imageSize * 2 / 3),
             alignment: Alignment.center,
-            padding: const EdgeInsets.all(24),
+            padding: EdgeInsets.only(
+              top: _imageSize / 3 + 16,
+              bottom: 24,
+              right: 24,
+              left: 24,
+            ),
             width: Get.width * 0.9,
             decoration: const BoxDecoration(
               color: AppColors.white,
@@ -62,10 +67,10 @@ class LandownerAvatar extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                SizedBox(height: _imageSize / 3 - 8),
                 Text(
                   fullName,
                   style: Get.textTheme.headline4,
+                  textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 16.0),
                 FilledButton(

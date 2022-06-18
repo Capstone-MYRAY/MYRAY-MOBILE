@@ -36,9 +36,15 @@ class LandownerProfileDetailsView extends StatelessWidget {
                   backgroundImage: _avatar,
                 ),
                 const SizedBox(height: 16.0),
-                Text(
-                  _user.fullName ?? '',
-                  style: Get.textTheme.headline4,
+                ConstrainedBox(
+                  constraints: BoxConstraints(
+                    maxWidth: Get.width * 0.9,
+                  ),
+                  child: Text(
+                    _user.fullName ?? '',
+                    style: Get.textTheme.headline4,
+                    textAlign: TextAlign.center,
+                  ),
                 ),
                 const SizedBox(height: 8.0),
                 Text(
