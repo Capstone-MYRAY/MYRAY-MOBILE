@@ -78,4 +78,10 @@ class AppStrings {
   static const farmer = 'Nông dân';
   static const landowner = 'Chủ đất';
   static const loading = 'Đang xử lý';
+  
+  //Replaced String
+  static const nullFullName = "Người dùng";
+
+  //Button
+  static const editButton ="Chỉnh sửa";
 }

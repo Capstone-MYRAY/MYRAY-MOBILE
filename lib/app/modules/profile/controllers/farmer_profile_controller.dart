@@ -1,7 +1,7 @@
-
 import 'package:get/get.dart';
 import 'package:myray_mobile/app/data/models/account.dart';
 import 'package:myray_mobile/app/modules/profile/profile_repository.dart';
+import 'package:myray_mobile/app/routes/app_pages.dart';
 import 'package:myray_mobile/app/shared/utils/auth_credentials.dart';
 
 class FarmerProfileController extends GetxController{
@@ -21,6 +21,10 @@ class FarmerProfileController extends GetxController{
      if(user != null){
       this.user.value = user;
      }
+  }
+
+  void  navigateToDetailpage(){
+    Get.toNamed(Routes.farmerProfile);
   }
 
  

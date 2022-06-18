@@ -19,6 +19,7 @@ abstract class Routes {
 
   //farmer
   static const farmerDashboard = _Paths.farmerDashboard;
+  static const farmerProfile = _Paths.farmerProfile;
 }
 
 abstract class _Paths {
@@ -41,4 +42,5 @@ abstract class _Paths {
 
   //farmer views
   static const farmerDashboard = '$_farmer/dashboard';
+  static const farmerProfile =  '$_farmer/profile';
 }
