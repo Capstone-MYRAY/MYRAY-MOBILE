@@ -13,4 +13,7 @@ class CommonConstants {
   static const double buttonHeight = 32.0;
   static const String appName = 'MYRAY';
   static const String ddMMyyyy = 'dd/MM/yyyy';
+  static const int maxLine = 100;
+  static  double get buttonWidthLarge => Get.width * 0.7;
+  static  const double buttonHeightSmall = 20;
 }

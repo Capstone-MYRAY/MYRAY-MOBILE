@@ -7,12 +7,14 @@ import 'package:myray_mobile/app/shared/widgets/filled_button.dart';
 class FarmerAvatar extends StatelessWidget {
   final String? avatar;
   final String fullName;
+  final int? point;
   final void Function()? onButtonClick;
 
   FarmerAvatar({
     Key? key,
     this.avatar,
     required this.fullName,
+    this.point,
     this.onButtonClick
   }) : super(key: key);
 
@@ -43,6 +45,7 @@ class FarmerAvatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Container(
         width: double.infinity,
         alignment: Alignment.topCenter,
@@ -71,18 +74,18 @@ class FarmerAvatar extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  children: const [
-                    Icon(CustomIcons.star, size: 15),
-                    SizedBox(width: 5.0),
-                    Text(
-                      "1000",
+                  children: const[
+                     Icon(CustomIcons.star, size: 15),
+                     SizedBox(width: 5.0),
+                     Text(
+                    "1000",// chưa load dữ liệu lên được, vì có thể thay đổi nên tính sau
                       style: TextStyle(
                         fontSize: 15,
                         color: AppColors.primaryColor,
                         fontWeight: FontWeight.bold
                       ),
                     ),
-                    SizedBox(width: 5.0),
+                    const SizedBox(width: 5.0),
                     Text(
                       'điểm thưởng',
                       style: TextStyle(fontSize: 15),

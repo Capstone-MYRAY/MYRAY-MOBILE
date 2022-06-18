@@ -6,6 +6,7 @@ import 'package:myray_mobile/app/modules/dashboard/views/farmer_dashboard_view.d
 import 'package:myray_mobile/app/modules/dashboard/views/landowner_dashboard_view.dart';
 import 'package:myray_mobile/app/modules/garden/bindings/garden_home_binding.dart';
 import 'package:myray_mobile/app/modules/garden/views/garden_home_view.dart';
+import 'package:myray_mobile/app/modules/profile/views/farmer_profile_detail.dart';
 import 'package:myray_mobile/app/modules/profile/views/landowner_profile_details_view.dart';
 import 'package:myray_mobile/init_view.dart';
 
@@ -83,5 +84,10 @@ class AppPages {
       page: () => const FarmerDashboardView(),
       binding: DashboardBinding(),
     ),
+    GetPage(
+      name: _Paths.farmerProfile,
+      page: () => const FarmerProfileDetailView(),
+      transition: Transition.downToUp
+    )
   ];
 }
