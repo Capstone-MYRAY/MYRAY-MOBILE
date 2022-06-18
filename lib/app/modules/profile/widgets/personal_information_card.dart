@@ -32,7 +32,15 @@ class PersonalInformation extends StatelessWidget {
               fontWeight: FontWeight.w300,
             ),
           ),
-          Text(right),
+          ConstrainedBox(
+            constraints: BoxConstraints(
+              maxWidth: (Get.width * 0.9 - 32 * 2) / 2,
+            ),
+            child: Text(
+              right,
+              softWrap: true,
+            ),
+          ),
         ],
       ),
     );
@@ -92,14 +100,17 @@ class PersonalInformation extends StatelessWidget {
                   const SizedBox(height: 16.0),
                   Row(
                     children: [
-                      user.value.aboutMe == null
-                          ? const Text('Chưa có thông tin')
-                          : Flexible(
-                              child: Text(
-                              user.value.aboutMe!,
-                              maxLines: CommonConstants.maxLine,
-                              overflow: TextOverflow.ellipsis,
-                            )),
+                      Expanded(
+                        child: user.value.aboutMe == null
+                            ? const Text(
+                                'Chưa có thông tin',
+                                softWrap: true,
+                              )
+                            : Text(
+                                user.value.aboutMe!,
+                                softWrap: true,
+                              ),
+                      ),
                     ],
                   ),
                 ],
