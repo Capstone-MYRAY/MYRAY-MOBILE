@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
+import 'package:myray_mobile/app/data/enums/activities.dart';
 import 'package:myray_mobile/app/modules/garden/controllers/garden_home_controller.dart';
 import 'package:myray_mobile/app/modules/garden/widgets/garden_card.dart';
+import 'package:myray_mobile/app/routes/app_pages.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:progress_indicators/progress_indicators.dart';
 
@@ -20,7 +22,10 @@ class GardenHomeView extends GetView<GardenHomeController> {
           Icons.add,
           size: 35,
         ),
-        onPressed: () {},
+        onPressed: () {
+          Get.toNamed(Routes.gardenForm,
+              arguments: {'action': Activities.create});
+        },
       ),
       body: SizedBox(
         width: double.infinity,

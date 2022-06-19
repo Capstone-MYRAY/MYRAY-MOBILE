@@ -11,11 +11,15 @@ mixin StorageProvider {
 
   String? getToken() {
     final box = GetStorage(CommonConstants.appName);
-    return box.read(StorageProviderKey.token.toString());
+    String? token = box.read(StorageProviderKey.token.toString());
+    print('token: $token');
+    return token;
   }
 
   String? getRefreshToken() {
     final box = GetStorage(CommonConstants.appName);
+    String? refreshToken = box.read(StorageProviderKey.refreshToken.toString());
+    print('refreshToken: $refreshToken');
     return box.read(StorageProviderKey.refreshToken.toString());
   }
 

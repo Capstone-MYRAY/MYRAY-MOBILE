@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 
 class Utils {
@@ -9,6 +12,12 @@ class Utils {
 
   static bool equalsIgnoreCase(String s1, String s2) {
     return s1.toLowerCase() == s2.toLowerCase();
+  }
+
+  static bool equalsUtf8String(String s1, String s2) {
+    List<int> encodeS1 = utf8.encode(s1);
+    List<int> encodeS2 = utf8.encode(s2);
+    return listEquals(encodeS1, encodeS2);
   }
 
   static final vietnamesePhone = RegExp(
