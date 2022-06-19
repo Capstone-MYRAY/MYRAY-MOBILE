@@ -4,7 +4,9 @@ import 'package:myray_mobile/app/modules/auth/views/enter_password_view.dart';
 import 'package:myray_mobile/app/modules/dashboard/bindings/dashboard_binding.dart';
 import 'package:myray_mobile/app/modules/dashboard/views/farmer_dashboard_view.dart';
 import 'package:myray_mobile/app/modules/dashboard/views/landowner_dashboard_view.dart';
+import 'package:myray_mobile/app/modules/garden/bindings/garden_form_binding.dart';
 import 'package:myray_mobile/app/modules/garden/bindings/garden_home_binding.dart';
+import 'package:myray_mobile/app/modules/garden/views/garden_form_view.dart';
 import 'package:myray_mobile/app/modules/garden/views/garden_home_view.dart';
 import 'package:myray_mobile/app/modules/profile/views/farmer_profile_detail.dart';
 import 'package:myray_mobile/app/modules/profile/views/landowner_profile_details_view.dart';
@@ -77,6 +79,11 @@ class AppPages {
       page: () => const GardenHomeView(),
       binding: GardenHomeBinding(),
     ),
+    GetPage(
+      name: _Paths.gardenForm,
+      page: () => const GardenFormView(),
+      binding: GardenFormBinding(),
+    ),
 
     //farmer
     GetPage(
@@ -85,9 +92,8 @@ class AppPages {
       binding: DashboardBinding(),
     ),
     GetPage(
-      name: _Paths.farmerProfile,
-      page: () => const FarmerProfileDetailView(),
-      transition: Transition.downToUp
-    )
+        name: _Paths.farmerProfile,
+        page: () => const FarmerProfileDetailView(),
+        transition: Transition.downToUp)
   ];
 }

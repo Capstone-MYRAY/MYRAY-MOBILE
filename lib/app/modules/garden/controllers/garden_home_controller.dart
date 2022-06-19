@@ -12,12 +12,11 @@ class GardenHomeController extends GetxController {
   final loadingState = false.obs;
 
   Future<void> addMore() async {
-    print('add nè');
     loadingState.value = true;
     await Future.delayed(const Duration(seconds: 2));
 
     gardens.addAll([
-      GardenCard(),
+      const GardenCard(),
     ]);
 
     loadingState.value = false;

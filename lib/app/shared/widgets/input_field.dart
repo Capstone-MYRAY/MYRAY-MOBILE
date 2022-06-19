@@ -9,6 +9,8 @@ class InputField extends StatelessWidget {
   final bool enabled;
   final bool readOnly;
   final int errorMaxLine;
+  final int? minLines;
+  final int maxLines;
   final TextInputType keyBoardType;
   final TextEditingController controller;
   final FocusNode? focusNode;
@@ -31,6 +33,8 @@ class InputField extends StatelessWidget {
     this.enabled = true,
     this.readOnly = false,
     this.errorMaxLine = 2,
+    this.minLines,
+    this.maxLines = 1,
     this.keyBoardType = TextInputType.text,
     this.inputAction = TextInputAction.done,
     this.autovalidateMode = AutovalidateMode.onUserInteraction,
@@ -45,6 +49,8 @@ class InputField extends StatelessWidget {
         hintText: placeholder,
         errorMaxLines: errorMaxLine,
       ),
+      minLines: minLines,
+      maxLines: maxLines,
       obscureText: isPassword,
       validator: validator,
       autofocus: autoFocus,

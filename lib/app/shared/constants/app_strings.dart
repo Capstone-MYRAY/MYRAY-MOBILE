@@ -22,6 +22,7 @@ class AppStrings {
   static const titleClose = 'Đóng';
   static const titleViewProfile = 'Xem hồ sơ';
   static const titleMyGarden = 'Vườn của tôi';
+  static const titleCreateGarden = 'Thêm mới vườn';
   static const titlePaymentHistory = 'Lịch sử giao dịch';
   static const titleFavorite = 'Yêu thích';
   static const titleReport = 'Báo cáo';
@@ -32,6 +33,7 @@ class AppStrings {
   static const titleCheckattendance = "Điểm danh";
   static const titleHistoryJob = "Lịch sử";
   static const titlePassword = "Mật khẩu";
+  static const titleCreate = 'Tạo mới';
 
   //Subtitle
   static const subtitleMyGarden = 'Danh sách vườn đã tạo';
@@ -52,6 +54,9 @@ class AppStrings {
   static const labelConfirmPassword = 'Xác nhận mật khẩu';
   static const labelFullName = 'Họ và tên';
   static const labelDob = 'Ngày tháng năm sinh';
+  static const labelLandArea = 'Diện tích (ha)';
+  static const labelGardenName = 'Tên vườn';
+  static const labelDescription = 'Mô tả';
 
   //Placeholder
   static const placeholderPhone = 'Nhập số điện thoại';
@@ -59,6 +64,9 @@ class AppStrings {
   static const placeholderConfirmPassword = 'Nhập lại mật khẩu';
   static const placeholderFullName = 'Nhập họ và tên';
   static const placeholderDate = 'dd/MM/yyyy';
+  static const placeholderLandArea = 'Nhập diện tích';
+  static const placeholderGardenName = 'Nhập tên vườn';
+  static const placeholderDescription = 'Nhập mô tả';
 
   //Caption
   static const captionChooseRole =
@@ -78,10 +86,10 @@ class AppStrings {
   static const farmer = 'Nông dân';
   static const landowner = 'Chủ đất';
   static const loading = 'Đang xử lý';
-  
+
   //Replaced String
   static const nullFullName = "Người dùng";
 
   //Button
-  static const editButton ="Chỉnh sửa";
+  static const editButton = "Chỉnh sửa";
 }

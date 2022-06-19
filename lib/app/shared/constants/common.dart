@@ -9,6 +9,7 @@ class CommonConstants {
   static const int otpTimer = 60;
   static const int landownerRoleId = 3;
   static const int farmerRoleId = 4;
+  static const int maxImage = 4;
   static double get buttonWidthSmall => Get.width * 0.3;
   static const double buttonHeight = 32.0;
   static const String appName = 'MYRAY';
