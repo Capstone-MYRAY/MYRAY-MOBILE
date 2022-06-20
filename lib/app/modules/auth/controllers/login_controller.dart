@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:myray_mobile/app/data/models/request/auth_request.dart';
-import 'package:myray_mobile/app/data/models/response/auth_response.dart';
+import 'package:myray_mobile/app/data/models/auth/auth_request.dart';
+import 'package:myray_mobile/app/data/models/auth/auth_response.dart';
 import 'package:myray_mobile/app/modules/auth/auth_repository.dart';
 import 'package:myray_mobile/app/modules/auth/controllers/auth_controller.dart';
 import 'package:myray_mobile/app/routes/app_pages.dart';

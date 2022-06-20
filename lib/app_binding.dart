@@ -8,7 +8,7 @@ import 'package:myray_mobile/app/modules/auth/controllers/login_controller.dart'
 import 'package:myray_mobile/app/modules/dashboard/controllers/dashboard_controller.dart';
 import 'package:myray_mobile/app/modules/garden/garden_repository.dart';
 import 'package:myray_mobile/app/modules/home/controllers/farmer_home_controller.dart';
-import 'package:myray_mobile/app/modules/job_post/repositories/jobpost_repository.dart';
+import 'package:myray_mobile/app/modules/job_post/job_post_repository.dart';
 import 'package:myray_mobile/app/modules/profile/controllers/farmer_profile_controller.dart';
 import 'package:myray_mobile/app/modules/profile/controllers/landowner_profile_controller.dart';
 import 'package:myray_mobile/app/modules/profile/profile_repository.dart';
@@ -32,6 +32,6 @@ class AppBinding extends Bindings {
     Get.lazyPut(() => LandownerProfileController());
     Get.lazyPut(() => FarmerProfileController());
     Get.lazyPut(() => FarmerHomeController());
-    Get.lazyPut(() => FarmerJobPostRepository());
+    Get.lazyPut(() => JobPostRepository());
   }
 }
