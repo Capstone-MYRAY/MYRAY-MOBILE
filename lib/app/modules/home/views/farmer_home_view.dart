@@ -13,45 +13,54 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
         appBar: AppBar(
           title: const Text(AppStrings.home),
           centerTitle: true,
-        ),       
+        ),
         body: Obx(
           () => ListView.builder(
             itemCount: controller.listJobPost.length,
             itemBuilder: (context, index) {
               if (controller.listJobPost[index].payPerHourJob != null) {
-                return FarmerPostCard(
-                  title: controller.listJobPost[index].title,
-                  address: "142 Lâm Đồng",
-                  price: 30000,
-                  treeType: "Cây cà phê",
-                  workType: "Làm công",
-                  isStatus: true,
-                  onTap: () {
-                    print("Tap job post");
-                  },
+                return Container(
+                  margin: EdgeInsets.only(bottom: 30),
+                  child: FarmerPostCard(
+                    title: controller.listJobPost[index].title,
+                    address: "142 Lâm Đồng",
+                    price: 30000,
+                    treeType: "Cây cà phê",
+                    workType: "Làm công",
+                    isStatus: true,
+                    onTap: () {
+                      print("Tap job post");
+                    },
+                  ),
                 );
               } else if (controller.listJobPost[index].payPerTaskJob != null) {
-                return FarmerPostCard(
-                  title: controller.listJobPost[index].title,
-                  address: "142 Lâm Đồng",
-                  price: 30000,
-                  treeType: "Cây cà phê",
-                  workType: "Làm khoán",
-                  isStatus: true,
-                  onTap: () {
-                    print("Tap job post");
-                  },
+                return Container(
+                  margin: EdgeInsets.only(bottom: 30),
+                  child: FarmerPostCard(
+                    title: controller.listJobPost[index].title,
+                    address: "142 Lâm Đồng",
+                    price: 30000,
+                    treeType: "Cây cà phê",
+                    workType: "Làm khoán",
+                    isStatus: true,
+                    onTap: () {
+                      print("Tap job post");
+                    },
+                  ),
                 );
               } else {
-                return FarmerPostCard(
-                  title: controller.listJobPost[index].title,
-                  address: "142 Lâm Đồng",
-                  price: 30000,
-                  treeType: "Cây cà phê",
-                  isStatus: true,
-                  onTap: () {
-                    print("Tap job post");
-                  },
+                return Container(
+                  margin: EdgeInsets.only(bottom: 30),
+                  child: FarmerPostCard(
+                    title: controller.listJobPost[index].title,
+                    address: "142 Lâm Đồng",
+                    price: 30000,
+                    treeType: "Cây cà phê",
+                    isStatus: true,
+                    onTap: () {
+                      print("Tap job post");
+                    },
+                  ),
                 );
               }
             },

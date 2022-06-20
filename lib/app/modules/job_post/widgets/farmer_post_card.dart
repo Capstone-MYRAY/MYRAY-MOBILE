@@ -39,12 +39,12 @@ class FarmerPostCard extends StatelessWidget {
       onTap: onTap,
       child: Container(
         width: Get.width * 0.8,
-        height: Get.height * 0.25,
+        height: Get.width * 0.5,
+          margin: const EdgeInsets.only(right: 20, left: 20, bottom: 20),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           color: AppColors.white,
         ),
-        alignment: Alignment.topLeft,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

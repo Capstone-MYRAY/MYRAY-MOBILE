@@ -29,11 +29,23 @@ class JobPost {
   @JsonKey(name: 'published_by')
   int publishedBy;
 
+  @JsonKey(name: 'published_name')
+  String publishedName;
+
   @JsonKey(name: 'published_date')
   DateTime publishedDate;
 
   @JsonKey(name: 'created_date')
   DateTime createdDate;
+
+  @JsonKey(name: 'updated_date')
+  DateTime? updatedDate;
+
+  @JsonKey(name: 'approved_by')
+  int? approvedBy;
+
+  @JsonKey(name: 'approved_date')
+  DateTime? approvedDate;
 
   @JsonKey(name: 'status')
   int status;
@@ -53,9 +65,13 @@ class JobPost {
       required this.endJobDate,
       required this.numPublishDay,
       required this.publishedBy,
+      required this.publishedName,
       required this.publishedDate,
-      required this.createdDate,
+      required this.createdDate,     
       required this.status,
+      this.approvedBy,
+      this.approvedDate,
+      this.updatedDate,
       this.payPerHourJob,
       this.payPerTaskJob});
 

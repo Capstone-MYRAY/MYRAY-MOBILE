@@ -12,9 +12,13 @@ class PayPerTaskJob{
   @JsonKey(name: 'salary')
   double salary;
 
+  @JsonKey(name: 'is_farm_tools_avaiable')
+  bool? isFarmToolsAvaiable;
+
   PayPerTaskJob({
     required this.finishTime,
-    required this.salary
+    required this.salary,
+    this.isFarmToolsAvaiable
   });
 
   factory PayPerTaskJob.fromJson(Map<String, dynamic> json) => _$PayPerTaskJobFromJson(json);
