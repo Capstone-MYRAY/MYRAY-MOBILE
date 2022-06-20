@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myray_mobile/app/shared/constants/app_strings.dart';
 
 class FarmerJobPostView extends StatelessWidget {
   const FarmerJobPostView({Key? key}) : super(key: key);
@@ -6,16 +7,14 @@ class FarmerJobPostView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('JobPostView'),
-        centerTitle: true,
-      ),
-      body: const Center(
-        child: Text(
-          'JobPostView is working',
-          style: TextStyle(fontSize: 20),
+        appBar: AppBar(
+          title: const Text(AppStrings.jobPost),
+          centerTitle: true,
         ),
-      ),
-    );
+        body: Column(
+          children: [
+            const Text("hello"),
+          ],
+        ));
   }
 }
