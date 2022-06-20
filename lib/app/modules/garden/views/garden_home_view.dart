@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 import 'package:myray_mobile/app/data/enums/activities.dart';
+import 'package:myray_mobile/app/data/models/garden/garden.dart';
 import 'package:myray_mobile/app/modules/garden/controllers/garden_home_controller.dart';
 import 'package:myray_mobile/app/modules/garden/widgets/garden_card.dart';
 import 'package:myray_mobile/app/routes/app_pages.dart';
@@ -34,25 +35,38 @@ class GardenHomeView extends GetView<GardenHomeController> {
             width: Get.width * 0.9,
             child: Obx(
               () => LazyLoadScrollView(
-                onEndOfPage: controller.addMore,
-                isLoading: controller.loadingState.value,
-                child: ListView(
-                  children: [
-                    ListView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: controller.gardens.length,
-                      itemBuilder: ((context, index) {
-                        return const GardenCard();
-                      }),
-                    ),
-                    controller.loadingState.value
-                        ? JumpingDotsProgressIndicator(
-                            fontSize: 40.0,
-                            color: AppColors.primaryColor,
-                          )
-                        : const SizedBox(),
-                  ],
+                onEndOfPage: controller.getGardens,
+                isLoading: controller.isLoading.value,
+                child: RefreshIndicator(
+                  onRefresh: controller.onRefresh,
+                  child: ListView(
+                    children: [
+                      ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: controller.gardens.length,
+                        itemBuilder: ((context, index) {
+                          Garden garden = controller.gardens[index];
+                          return GardenCard(
+                            key: ValueKey(garden.id),
+                            address: garden.address,
+                            gardenName: garden.name,
+                            landArea: garden.landArea,
+                            thumbnail: garden.imageUrl
+                                .split(CommonConstants.imageDelimiter)
+                                .first,
+                            onTapButton: () {},
+                          );
+                        }),
+                      ),
+                      controller.isLoading.value
+                          ? JumpingDotsProgressIndicator(
+                              fontSize: 40.0,
+                              color: AppColors.primaryColor,
+                            )
+                          : const SizedBox(),
+                    ],
+                  ),
                 ),
               ),
             ),

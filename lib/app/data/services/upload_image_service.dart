@@ -9,7 +9,6 @@ class UploadImageService {
   Future<UploadImageResponse?> uploadImage(FormData images) async {
     final response = await _apiProvider.multipartFile('/File', images);
     if (response.statusCode == HttpStatus.ok) {
-      print(response.body.toString());
       return UploadImageResponse.fromJson(response.body);
     }
     return null;

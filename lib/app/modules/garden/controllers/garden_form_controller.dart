@@ -10,7 +10,6 @@ import 'package:myray_mobile/app/data/models/area/get_area_request.dart';
 import 'package:myray_mobile/app/data/models/area/get_area_response.dart';
 import 'package:myray_mobile/app/data/models/garden/garden.dart';
 import 'package:myray_mobile/app/data/models/garden/post_garden_request.dart';
-import 'package:myray_mobile/app/data/models/upload_file/image_response.dart';
 import 'package:myray_mobile/app/data/models/upload_file/upload_image_response.dart';
 import 'package:myray_mobile/app/data/services/area_repository.dart';
 import 'package:myray_mobile/app/data/services/upload_image_service.dart';

@@ -9,8 +9,8 @@ part of 'garden.dart';
 Garden _$GardenFromJson(Map<String, dynamic> json) => Garden(
       areaId: json['area_id'] as int,
       accountId: json['account_id'] as int,
-      latitudes: json['latitudes'] as double,
-      longitudes: json['longitudes'] as double,
+      latitudes: (json['latitudes'] as num).toDouble(),
+      longitudes: (json['longitudes'] as num).toDouble(),
       landArea: (json['land_area'] as num).toDouble(),
       address: json['address'] as String,
       description: json['description'] as String,

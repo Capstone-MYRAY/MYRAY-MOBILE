@@ -1,6 +1,5 @@
 import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/status/http_status.dart';
-import 'package:myray_mobile/app/data/models/account.dart';
 import 'package:myray_mobile/app/data/models/area/get_area_request.dart';
 import 'package:myray_mobile/app/data/models/area/get_area_response.dart';
 import 'package:myray_mobile/app/data/providers/api/api_provider.dart';
