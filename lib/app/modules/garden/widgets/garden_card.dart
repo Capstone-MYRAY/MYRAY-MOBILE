@@ -5,7 +5,20 @@ import 'package:myray_mobile/app/shared/widgets/card_field.dart';
 import 'package:myray_mobile/app/shared/widgets/filled_button.dart';
 
 class GardenCard extends StatelessWidget {
-  const GardenCard({Key? key}) : super(key: key);
+  final String thumbnail;
+  final String gardenName;
+  final String address;
+  final double landArea;
+  final void Function()? onTapButton;
+
+  const GardenCard({
+    Key? key,
+    required this.thumbnail,
+    required this.gardenName,
+    required this.address,
+    required this.landArea,
+    this.onTapButton,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,28 +43,28 @@ class GardenCard extends StatelessWidget {
                         CommonConstants.borderRadius,
                       ),
                     ),
-                    child: Image.asset(AppAssets.tempAvatar),
+                    child: Image.network(thumbnail),
                   ),
                 ),
                 const SizedBox(width: 12.0),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
+                    children: [
                       CardField(
                         icon: CustomIcons.sprout_outline,
                         title: 'Tên vườn',
-                        data: 'Long An Bình Phước nè - 100000000',
+                        data: gardenName,
                       ),
                       CardField(
                         icon: CustomIcons.map_marker_outline,
-                        title: 'Khu vực',
-                        data: 'Long An',
+                        title: 'Địa chỉ',
+                        data: address,
                       ),
                       CardField(
                         icon: CustomIcons.mountain,
                         title: 'Diện tích',
-                        data: '1000ha',
+                        data: '$landArea ha',
                       ),
                     ],
                   ),
@@ -72,7 +85,7 @@ class GardenCard extends StatelessWidget {
                 FilledButton(
                   minWidth: CommonConstants.buttonWidthSmall,
                   title: AppStrings.titleDetails,
-                  onPressed: () {},
+                  onPressed: onTapButton,
                 ),
               ],
             ),

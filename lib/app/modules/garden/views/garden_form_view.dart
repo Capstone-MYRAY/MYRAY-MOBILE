@@ -2,8 +2,10 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:myray_mobile/app/modules/garden/controllers/garden_form_controller.dart';
+import 'package:myray_mobile/app/modules/garden/widgets/upload_image_holder.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
+import 'package:myray_mobile/app/shared/utils/field_validation.dart';
 import 'package:myray_mobile/app/shared/widgets/filled_button.dart';
 import 'package:myray_mobile/app/shared/widgets/input_field.dart';
 import 'package:myray_mobile/app/shared/widgets/my_card.dart';
@@ -24,6 +26,7 @@ class GardenFormView extends GetView<GardenFormController> {
           ),
           width: double.infinity,
           child: Form(
+            key: controller.formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -51,6 +54,10 @@ class GardenFormView extends GetView<GardenFormController> {
                                 ? null
                                 : controller.selectedProvince,
                             onChanged: controller.onChangeProvince,
+                            validator:
+                                FieldValidation.instance.validateProvince,
+                            autoValidateMode:
+                                AutovalidateMode.onUserInteraction,
                             emptyBuilder: ((_, __) {
                               return _buildError('Không có dữ liệu');
                             }),
@@ -72,6 +79,10 @@ class GardenFormView extends GetView<GardenFormController> {
                                 ? null
                                 : controller.selectedDistrict,
                             onChanged: controller.onChangeDistrict,
+                            validator:
+                                FieldValidation.instance.validateDistrict,
+                            autoValidateMode:
+                                AutovalidateMode.onUserInteraction,
                             emptyBuilder: ((_, __) {
                               return _buildError(
                                   'Không có dữ liệu\nVui lòng chọn tỉnh trước.');
@@ -96,12 +107,40 @@ class GardenFormView extends GetView<GardenFormController> {
                                     ? null
                                     : controller.selectedCommune.value,
                             onChanged: controller.onChangeCommune,
+                            validator: FieldValidation.instance.validateCommune,
+                            autoValidateMode:
+                                AutovalidateMode.onUserInteraction,
                             emptyBuilder: ((_, __) {
                               return _buildError(
                                   'Không có dữ liệu\nVui lòng chọn tỉnh và huyện trước');
                             }),
                           );
                         }),
+                        const SizedBox(height: 16.0),
+                        Row(
+                          children: [
+                            Flexible(
+                              child: InputField(
+                                controller: controller.addressController,
+                                icon: const Icon(Icons.map_outlined),
+                                labelText: AppStrings.labelAddress + '*',
+                                placeholder: AppStrings.placeholderAddress,
+                                inputAction: TextInputAction.next,
+                                keyBoardType: TextInputType.text,
+                                minLines: 1,
+                                maxLines: 8,
+                                readOnly: true,
+                                validator:
+                                    FieldValidation.instance.validateAddress,
+                              ),
+                            ),
+                            IconButton(
+                              icon: const Icon(CustomIcons.map_marker_outline),
+                              tooltip: 'Lấy vị trí hiện tại',
+                              onPressed: controller.getCurrentPosition,
+                            ),
+                          ],
+                        ),
                         const SizedBox(height: 16.0),
                         InputField(
                           controller: controller.landAreaController,
@@ -110,6 +149,8 @@ class GardenFormView extends GetView<GardenFormController> {
                           placeholder: AppStrings.placeholderLandArea,
                           inputAction: TextInputAction.next,
                           keyBoardType: TextInputType.number,
+                          validator: FieldValidation.instance.validateLandArea,
+                          onChanged: controller.onChangeLandArea,
                         ),
                         const SizedBox(height: 16.0),
                         InputField(
@@ -119,6 +160,10 @@ class GardenFormView extends GetView<GardenFormController> {
                           placeholder: AppStrings.placeholderGardenName,
                           inputAction: TextInputAction.next,
                           keyBoardType: TextInputType.text,
+                          validator:
+                              FieldValidation.instance.validateGardenName,
+                          minLines: 1,
+                          maxLines: 8,
                         ),
                         const SizedBox(height: 16.0),
                         InputField(
@@ -151,7 +196,9 @@ class GardenFormView extends GetView<GardenFormController> {
                             ),
                           ),
                           const SizedBox(height: 16.0),
-                          _buildImagePlaceHolder(),
+                          UploadImageHolder(
+                            key: controller.imageHolderKey,
+                          ),
                         ]),
                   ),
                 ),
@@ -159,7 +206,7 @@ class GardenFormView extends GetView<GardenFormController> {
                 FilledButton(
                   minWidth: (Get.width * 0.9 - 32 * 2),
                   title: AppStrings.titleCreate,
-                  onPressed: () {},
+                  onPressed: controller.onCreate,
                 ),
               ],
             ),
@@ -179,33 +226,6 @@ class GardenFormView extends GetView<GardenFormController> {
           textAlign: TextAlign.center,
         ),
       ),
-    );
-  }
-
-  _buildImagePlaceHolder() {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.symmetric(
-        horizontal: 32.0,
-        vertical: 24.0,
-      ),
-      decoration: BoxDecoration(
-        color: AppColors.white,
-        borderRadius: BorderRadius.circular(CommonConstants.borderRadius),
-      ),
-      child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-        const Icon(
-          CustomIcons.image_plus,
-          size: 40,
-        ),
-        const SizedBox(height: 8.0),
-        const Text('Bấm để chọn ảnh'),
-        const SizedBox(height: 4.0),
-        Text(
-          '(Tối đa 4 ảnh)',
-          style: Get.textTheme.caption,
-        ),
-      ]),
     );
   }
 }

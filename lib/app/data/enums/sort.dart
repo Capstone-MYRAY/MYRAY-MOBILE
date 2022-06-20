@@ -18,3 +18,14 @@ enum AreaSortColumn {
   @JsonValue('Commune')
   commune,
 }
+
+enum GardenSortColumn {
+  @JsonValue('AreaId')
+  area,
+  @JsonValue('Name')
+  name,
+  @JsonValue('LandArea')
+  landArea,
+  @JsonValue('CreateDate')
+  createdDate,
+}

@@ -8,15 +8,17 @@ class CustomSnackbar {
   static show({
     required String title,
     required String message,
+    Color backgroundColor = AppColors.primaryColor,
+    Color textColor = AppColors.white,
     Widget? icon,
     SnackPosition? snackPosition = SnackPosition.BOTTOM,
   }) {
     return Get.snackbar(
       title,
       message,
-      backgroundColor: AppColors.primaryColor,
+      backgroundColor: backgroundColor,
       borderRadius: CommonConstants.borderRadius,
-      colorText: AppColors.white,
+      colorText: textColor,
       duration: const Duration(seconds: 2),
       icon: icon,
       snackPosition: snackPosition,
