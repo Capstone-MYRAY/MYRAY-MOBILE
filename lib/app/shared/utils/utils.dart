@@ -20,13 +20,6 @@ class Utils {
     return listEquals(encodeS1, encodeS2);
   }
 
-  static final vietnamesePhone = RegExp(
-    r'(\+84|84)+([0-9]{9})|(0[3|5|7|8|9])+([0-9]{8})\b',
-    caseSensitive: false,
-  );
-
-  static final isAlphabet = RegExp(r'[a-zA-z]');
-
   static bool isWorkingAge(String dob, String patern) {
     DateTime birthDate = DateFormat(patern).parse(dob);
     DateTime today = DateTime.now();
@@ -49,4 +42,13 @@ class Utils {
       return phone;
     }
   }
+
+  static final vietnamesePhone = RegExp(
+    r'(\+84|84)+([0-9]{9})|(0[3|5|7|8|9])+([0-9]{8})\b',
+    caseSensitive: false,
+  );
+
+  static final isAlphabet = RegExp(r'[a-zA-z]');
+
+  static final isNumber = RegExp(r'[0-9]');
 }

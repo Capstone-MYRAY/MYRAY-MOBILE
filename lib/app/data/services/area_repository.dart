@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/status/http_status.dart';
+import 'package:myray_mobile/app/data/models/account.dart';
 import 'package:myray_mobile/app/data/models/area/get_area_request.dart';
 import 'package:myray_mobile/app/data/models/area/get_area_response.dart';
 import 'package:myray_mobile/app/data/providers/api/api_provider.dart';
@@ -13,7 +14,19 @@ class AreaRepository {
     final int? statusCode = response.statusCode;
 
     if (statusCode == HttpStatus.ok) {
-      return GetAreaResponse.fromJson(response.body);
+      //filter response body
+      final filter =
+          (response.body['list_object'] as List<dynamic>).where((object) {
+        return !object['area_accounts'].isEmpty;
+      }).toList();
+
+      //re-create filtered map
+      final Map<String, dynamic> filterMap = {
+        'list_object': filter,
+        'paging_metadata': response.body['paging_metadata']
+      };
+
+      return GetAreaResponse.fromJson(filterMap);
     }
 
     if (statusCode == HttpStatus.noContent) {

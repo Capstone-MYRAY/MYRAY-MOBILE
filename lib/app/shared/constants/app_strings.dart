@@ -34,6 +34,7 @@ class AppStrings {
   static const titleHistoryJob = "Lịch sử";
   static const titlePassword = "Mật khẩu";
   static const titleCreate = 'Tạo mới';
+  static const titleEdit = 'Chỉnh sửa';
 
   //Subtitle
   static const subtitleMyGarden = 'Danh sách vườn đã tạo';
@@ -57,6 +58,7 @@ class AppStrings {
   static const labelLandArea = 'Diện tích (ha)';
   static const labelGardenName = 'Tên vườn';
   static const labelDescription = 'Mô tả';
+  static const labelAddress = 'Địa chỉ';
 
   //Placeholder
   static const placeholderPhone = 'Nhập số điện thoại';
@@ -67,6 +69,7 @@ class AppStrings {
   static const placeholderLandArea = 'Nhập diện tích';
   static const placeholderGardenName = 'Nhập tên vườn';
   static const placeholderDescription = 'Nhập mô tả';
+  static const placeholderAddress = 'Chạm để lấy địa chỉ';
 
   //Caption
   static const captionChooseRole =

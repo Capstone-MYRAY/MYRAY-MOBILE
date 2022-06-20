@@ -9,4 +9,8 @@ class ApiProvider extends BaseProvider {
   Future<Response> postMethod(String path, Map<String, dynamic> data) {
     return post(path, data);
   }
+
+  Future<Response> multipartFile(String path, dynamic body) {
+    return post(path, body, contentType: "multipart/form-data");
+  }
 }

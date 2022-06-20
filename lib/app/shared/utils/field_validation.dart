@@ -49,4 +49,54 @@ class FieldValidation {
     }
     return null;
   }
+
+  String? validateProvince(value) {
+    if (value == null) return AppMsg.MSG0002;
+    if (Utils.isEmpty(value.value)) {
+      return AppMsg.MSG0002;
+    }
+    return null;
+  }
+
+  String? validateDistrict(value) {
+    if (value == null) return AppMsg.MSG0002;
+    if (Utils.isEmpty(value.value)) {
+      return AppMsg.MSG0002;
+    }
+    return null;
+  }
+
+  String? validateCommune(value) {
+    if (value == null) return AppMsg.MSG0002;
+    if (Utils.isEmpty(value.commune)) {
+      return AppMsg.MSG0002;
+    }
+    return null;
+  }
+
+  String? validateAddress(value) {
+    if (Utils.isEmpty(value)) {
+      return AppMsg.MSG0002;
+    }
+    return null;
+  }
+
+  String? validateLandArea(value) {
+    if (Utils.isEmpty(value)) {
+      return AppMsg.MSG0002;
+    }
+
+    if (!Utils.isNumber.hasMatch(value)) {
+      return AppMsg.MSG0005;
+    }
+
+    return null;
+  }
+
+  String? validateGardenName(value) {
+    if (Utils.isEmpty(value)) {
+      return AppMsg.MSG0002;
+    }
+    return null;
+  }
 }

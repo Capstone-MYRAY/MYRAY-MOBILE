@@ -1,6 +1,7 @@
 import 'package:get/instance_manager.dart';
 import 'package:myray_mobile/app/data/providers/api/api_provider.dart';
 import 'package:myray_mobile/app/data/services/area_repository.dart';
+import 'package:myray_mobile/app/data/services/upload_image_service.dart';
 import 'package:myray_mobile/app/modules/auth/auth_repository.dart';
 import 'package:myray_mobile/app/modules/auth/controllers/auth_controller.dart';
 import 'package:myray_mobile/app/modules/auth/controllers/login_controller.dart';
@@ -24,6 +25,8 @@ class AppBinding extends Bindings {
     Get.lazyPut(() => DashboardController(), fenix: true);
     Get.lazyPut(() => GardenRepository(), fenix: true);
     Get.lazyPut(() => AreaRepository(), fenix: true);
+    Get.lazyPut(() => GardenRepository(), fenix: true);
+    Get.lazyPut(() => UploadImageService(), fenix: true);
     Get.lazyPut(() => LandownerProfileController());
     Get.lazyPut(() => FarmerProfileController());
   }
