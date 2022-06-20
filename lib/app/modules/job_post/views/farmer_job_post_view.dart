@@ -13,22 +13,7 @@ class FarmerJobPostView extends StatelessWidget {
         ),
         body: Column(
           children: [
-            SingleChildScrollView(
-              child: Column(
-                children: [
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: 1,
-                      itemBuilder: (context, index) {
-                        return const Card(
-                          child: Text('Hello'),
-                        );
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            )
+            const Text("hello"),
           ],
         ));
   }
