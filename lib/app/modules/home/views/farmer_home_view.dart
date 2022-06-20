@@ -66,5 +66,6 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
             },
           ),
         ));
+
   }
 }
