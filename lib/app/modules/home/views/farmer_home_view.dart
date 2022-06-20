@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:myray_mobile/app/modules/home/widgets/farmer_post_card.dart';
-import 'package:myray_mobile/app/shared/widgets/status_chip.dart';
-import 'package:myray_mobile/app/shared/constants/app_colors.dart';
+import 'package:myray_mobile/app/modules/home/controllers/farmer_home_controller.dart';
+import 'package:myray_mobile/app/modules/job_post/widgets/farmer_post_card.dart';
 import 'package:myray_mobile/app/shared/constants/app_strings.dart';
-import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
 
-class FarmerHomeView extends StatelessWidget {
+class FarmerHomeView extends GetView<FarmerHomeController> {
   const FarmerHomeView({Key? key}) : super(key: key);
 
   @override
@@ -15,14 +13,50 @@ class FarmerHomeView extends StatelessWidget {
         appBar: AppBar(
           title: const Text(AppStrings.home),
           centerTitle: true,
-        ),
-        body: const FarmerPostCard(
-            title: "Thu hoạch cà phê",
-            address: "142 Lâm Đồng",
-            price: 30000,
-            treeType: "Cây cà phê",
-            workType: "Làm khoán",
-            isStatus: true,
-            ));
+        ),       
+        body: Obx(
+          () => ListView.builder(
+            itemCount: controller.listJobPost.length,
+            itemBuilder: (context, index) {
+              if (controller.listJobPost[index].payPerHourJob != null) {
+                return FarmerPostCard(
+                  title: controller.listJobPost[index].title,
+                  address: "142 Lâm Đồng",
+                  price: 30000,
+                  treeType: "Cây cà phê",
+                  workType: "Làm công",
+                  isStatus: true,
+                  onTap: () {
+                    print("Tap job post");
+                  },
+                );
+              } else if (controller.listJobPost[index].payPerTaskJob != null) {
+                return FarmerPostCard(
+                  title: controller.listJobPost[index].title,
+                  address: "142 Lâm Đồng",
+                  price: 30000,
+                  treeType: "Cây cà phê",
+                  workType: "Làm khoán",
+                  isStatus: true,
+                  onTap: () {
+                    print("Tap job post");
+                  },
+                );
+              } else {
+                return FarmerPostCard(
+                  title: controller.listJobPost[index].title,
+                  address: "142 Lâm Đồng",
+                  price: 30000,
+                  treeType: "Cây cà phê",
+                  isStatus: true,
+                  onTap: () {
+                    print("Tap job post");
+                  },
+                );
+              }
+            },
+          ),
+        ));
+
   }
 }
