@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
-import 'package:myray_mobile/app/data/models/request/auth_request.dart';
-import 'package:myray_mobile/app/data/models/request/signup_request.dart';
-import 'package:myray_mobile/app/data/models/response/auth_response.dart';
+import 'package:myray_mobile/app/data/models/auth/auth_request.dart';
+import 'package:myray_mobile/app/data/models/auth/auth_response.dart';
+import 'package:myray_mobile/app/data/models/auth/signup_request.dart';
 import 'package:myray_mobile/app/data/providers/api/api_provider.dart';
 import 'package:myray_mobile/app/shared/utils/custom_exception.dart';
 
