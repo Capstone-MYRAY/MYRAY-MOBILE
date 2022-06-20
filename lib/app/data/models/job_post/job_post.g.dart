@@ -15,9 +15,17 @@ JobPost _$JobPostFromJson(Map<String, dynamic> json) => JobPost(
       endJobDate: DateTime.parse(json['end_job_date'] as String),
       numPublishDay: json['num_publish_day'] as int,
       publishedBy: json['published_by'] as int,
+      publishedName: json['published_name'] as String,
       publishedDate: DateTime.parse(json['published_date'] as String),
       createdDate: DateTime.parse(json['created_date'] as String),
       status: json['status'] as int,
+      approvedBy: json['approved_by'] as int?,
+      approvedDate: json['approved_date'] == null
+          ? null
+          : DateTime.parse(json['approved_date'] as String),
+      updatedDate: json['updated_date'] == null
+          ? null
+          : DateTime.parse(json['updated_date'] as String),
       payPerHourJob: json['pay_per_hour_job'] == null
           ? null
           : PayPerHourJob.fromJson(
@@ -38,9 +46,9 @@ Map<String, dynamic> _$JobPostToJson(JobPost instance) {
     'end_job_date': instance.endJobDate.toIso8601String(),
     'num_publish_day': instance.numPublishDay,
     'published_by': instance.publishedBy,
+    'published_name': instance.publishedName,
     'published_date': instance.publishedDate.toIso8601String(),
     'created_date': instance.createdDate.toIso8601String(),
-    'status': instance.status,
   };
 
   void writeNotNull(String key, dynamic value) {
@@ -49,6 +57,10 @@ Map<String, dynamic> _$JobPostToJson(JobPost instance) {
     }
   }
 
+  writeNotNull('updated_date', instance.updatedDate?.toIso8601String());
+  writeNotNull('approved_by', instance.approvedBy);
+  writeNotNull('approved_date', instance.approvedDate?.toIso8601String());
+  val['status'] = instance.status;
   writeNotNull('pay_per_hour_job', instance.payPerHourJob);
   writeNotNull('pay_per_task_job', instance.payPerTaskJob);
   return val;
