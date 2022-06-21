@@ -32,18 +32,19 @@ class GardenCard extends StatelessWidget {
           children: [
             Row(
               children: [
-                ConstrainedBox(
-                  constraints: const BoxConstraints(
-                    maxWidth: 60,
-                    maxHeight: 60,
-                  ),
+                SizedBox(
                   child: ClipRRect(
                     borderRadius: const BorderRadius.all(
                       Radius.circular(
                         CommonConstants.borderRadius,
                       ),
                     ),
-                    child: Image.network(thumbnail),
+                    child: Image.network(
+                      thumbnail,
+                      fit: BoxFit.fill,
+                      width: 90,
+                      height: 90,
+                    ),
                   ),
                 ),
                 const SizedBox(width: 12.0),
@@ -56,11 +57,13 @@ class GardenCard extends StatelessWidget {
                         title: 'Tên vườn',
                         data: gardenName,
                       ),
+                      const SizedBox(height: 4),
                       CardField(
                         icon: CustomIcons.map_marker_outline,
                         title: 'Địa chỉ',
                         data: address,
                       ),
+                      const SizedBox(height: 4),
                       CardField(
                         icon: CustomIcons.mountain,
                         title: 'Diện tích',

@@ -14,6 +14,7 @@ import 'package:myray_mobile/app/data/models/upload_file/upload_image_response.d
 import 'package:myray_mobile/app/data/services/area_repository.dart';
 import 'package:myray_mobile/app/data/services/upload_image_service.dart';
 import 'package:myray_mobile/app/data/services/user_location_service.dart';
+import 'package:myray_mobile/app/modules/garden/controllers/garden_home_controller.dart';
 import 'package:myray_mobile/app/modules/garden/garden_repository.dart';
 import 'package:myray_mobile/app/modules/garden/widgets/upload_image_holder.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
@@ -150,7 +151,11 @@ class GardenFormController extends GetxController {
     }
 
     EasyLoading.dismiss();
-    //TODO: refresh garden list
+
+    //refresh garden list
+    final _gardenHomeController = Get.find<GardenHomeController>();
+    _gardenHomeController.onRefresh();
+
     Get.back();
     CustomSnackbar.show(
       title: 'Thành công',

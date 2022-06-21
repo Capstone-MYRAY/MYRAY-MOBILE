@@ -1,44 +1,40 @@
 import 'package:flutter/cupertino.dart';
+import 'package:get/get.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 
 class StatusChip extends StatelessWidget {
+  final String statusName;
+  final Color backgroundColor;
+  final Color foregroundColor;
+  final EdgeInsetsGeometry padding;
 
-  final String statusName; 
-  final Color color;
-
-  const StatusChip({Key? key, required this.statusName, required this.color}) : super(key: key);
+  const StatusChip({
+    Key? key,
+    required this.statusName,
+    this.backgroundColor = AppColors.grey,
+    this.foregroundColor = AppColors.white,
+    this.padding = const EdgeInsets.symmetric(
+      horizontal: 10.0,
+      vertical: 6.0,
+    ),
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 60,
-      height: 25,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        // color: Color(0xfff34740),
-        color:color,
+        color: backgroundColor,
       ),
-      padding: const EdgeInsets.only(
-        top: 4,
-        bottom: 5,
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text(
-            statusName,
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-              color: AppColors.white,
-              fontSize: 12,
-              fontFamily: "Roboto",
-              fontWeight: FontWeight.w600,
-              letterSpacing: 0.45,
-            ),
-          ),
-        ],
+      padding: padding,
+      child: Text(
+        statusName,
+        textAlign: TextAlign.center,
+        style: Get.textTheme.bodyText2!.copyWith(
+          fontWeight: FontWeight.w600,
+          letterSpacing: 0.45,
+          color: foregroundColor,
+        ),
       ),
     );
   }

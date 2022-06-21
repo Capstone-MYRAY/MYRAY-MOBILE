@@ -44,8 +44,10 @@ class GardenHomeController extends GetxController {
         }
 
         gardens.addAll(_response.gardens!);
-        isLoading.value = false;
+        //update hasNext
+        _hasNextPage = _response.metadata!.hasNextPage;
       }
+      isLoading.value = false;
     } on CustomException catch (e) {
       isLoading.value = false;
       _hasNextPage = false;

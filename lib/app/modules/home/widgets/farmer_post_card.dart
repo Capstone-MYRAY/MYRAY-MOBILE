@@ -17,18 +17,18 @@ class FarmerPostCard extends StatelessWidget {
   final String treeType;
   final String workType;
 
-  const FarmerPostCard({
-    Key? key,
-    required this.title,
-    required this.address,
-    required this.price,
-    required this.treeType,
-    required this.workType,
-    this.isStatus = false,
-    this.statusName = "Nổi bật",
-    this.backgroundColor = AppColors.white,
-    this.statusColor = AppColors.markedPostChipColor
-  }) : super(key: key);
+  const FarmerPostCard(
+      {Key? key,
+      required this.title,
+      required this.address,
+      required this.price,
+      required this.treeType,
+      required this.workType,
+      this.isStatus = false,
+      this.statusName = "Nổi bật",
+      this.backgroundColor = AppColors.white,
+      this.statusColor = AppColors.markedPostChipColor})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -58,9 +58,12 @@ class FarmerPostCard extends StatelessWidget {
                     maxLines: 10,
                   ),
                 ),
-                 isStatus! ? StatusChip(
-                    statusName: statusName!,
-                    color: statusColor!): const SizedBox(width: 1,)
+                isStatus!
+                    ? StatusChip(
+                        statusName: statusName!, backgroundColor: statusColor!)
+                    : const SizedBox(
+                        width: 1,
+                      )
               ],
             ),
           ),
