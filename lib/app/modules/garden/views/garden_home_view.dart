@@ -55,7 +55,13 @@ class GardenHomeView extends GetView<GardenHomeController> {
                             thumbnail: garden.imageUrl
                                 .split(CommonConstants.imageDelimiter)
                                 .first,
-                            onTapButton: () {},
+                            onDetailsTap: () {
+                              Get.toNamed(Routes.gardenDetails, arguments: {
+                                CommonConstants.tag: garden.id.toString(),
+                                CommonConstants.item: garden,
+                              });
+                            },
+                            onDeleteTap: () {},
                           );
                         }),
                       ),

@@ -7,6 +7,7 @@ class FilledButton extends StatelessWidget {
   final double minWidth;
   final double minHeight;
   final Color? color;
+  final EdgeInsetsGeometry? padding;
 
   const FilledButton({
     Key? key,
@@ -14,6 +15,7 @@ class FilledButton extends StatelessWidget {
     required this.onPressed,
     this.minWidth = double.infinity,
     this.minHeight = CommonConstants.buttonHeight,
+    this.padding,
     this.color = AppColors.primaryColor,
   }) : super(key: key);
 
@@ -23,6 +25,7 @@ class FilledButton extends StatelessWidget {
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
         minimumSize: Size(minWidth, minHeight),
+        padding: padding,
         primary: color,
       ),
       child: Text(title),

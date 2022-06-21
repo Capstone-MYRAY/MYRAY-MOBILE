@@ -199,11 +199,21 @@ class UploadImageHolderState extends State<UploadImageHolder> {
           ),
           const SizedBox(height: 16.0),
           FilledButton(
-              title: AppStrings.titleEdit, onPressed: () => _editImage(id)),
+            title: AppStrings.titleEdit,
+            onPressed: () => _editImage(id),
+            padding: const EdgeInsets.symmetric(
+              vertical: 8.0,
+              horizontal: 4.0,
+            ),
+          ),
           const SizedBox(height: 16.0),
           FilledButton(
             title: AppStrings.titleDelete,
             onPressed: () => _removeImage(id),
+            padding: const EdgeInsets.symmetric(
+              vertical: 8.0,
+              horizontal: 4.0,
+            ),
             color: AppColors.errorColor,
           ),
         ],
@@ -218,19 +228,6 @@ class UploadImageHolderState extends State<UploadImageHolder> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            // Material(
-            //   color: Colors.transparent,
-            //   child: InkWell(
-            //     onTap: _clearImages,
-            //     child: const Padding(
-            //       padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
-            //       child: Tooltip(
-            //         message: 'Xóa',
-            //         child: Icon(Icons.clear),
-            //       ),
-            //     ),
-            //   ),
-            // ),
             Container(
               padding: const EdgeInsets.only(
                 top: 8.0,
