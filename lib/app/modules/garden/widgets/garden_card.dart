@@ -9,7 +9,8 @@ class GardenCard extends StatelessWidget {
   final String gardenName;
   final String address;
   final double landArea;
-  final void Function()? onTapButton;
+  final void Function()? onDeleteTap;
+  final void Function()? onDetailsTap;
 
   const GardenCard({
     Key? key,
@@ -17,7 +18,8 @@ class GardenCard extends StatelessWidget {
     required this.gardenName,
     required this.address,
     required this.landArea,
-    this.onTapButton,
+    this.onDeleteTap,
+    this.onDetailsTap,
   }) : super(key: key);
 
   @override
@@ -81,14 +83,22 @@ class GardenCard extends StatelessWidget {
                 FilledButton(
                   minWidth: CommonConstants.buttonWidthSmall,
                   title: AppStrings.titleDelete,
-                  onPressed: () {},
+                  onPressed: onDeleteTap,
                   color: AppColors.errorColor,
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 8.0,
+                    horizontal: 4.0,
+                  ),
                 ),
                 const SizedBox(width: 16.0),
                 FilledButton(
                   minWidth: CommonConstants.buttonWidthSmall,
                   title: AppStrings.titleDetails,
-                  onPressed: onTapButton,
+                  onPressed: onDetailsTap,
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 8.0,
+                    horizontal: 4.0,
+                  ),
                 ),
               ],
             ),

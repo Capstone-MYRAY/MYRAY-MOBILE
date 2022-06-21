@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/status/http_status.dart';
+import 'package:myray_mobile/app/data/models/area/area.dart';
 import 'package:myray_mobile/app/data/models/area/get_area_request.dart';
 import 'package:myray_mobile/app/data/models/area/get_area_response.dart';
 import 'package:myray_mobile/app/data/providers/api/api_provider.dart';
@@ -29,7 +30,22 @@ class AreaRepository {
     }
 
     if (statusCode == HttpStatus.noContent) {
-      throw CustomException('No area');
+      throw CustomException('Does not exist');
+    }
+
+    return null;
+  }
+
+  Future<Area?> getAreaById(int id) async {
+    final response = await _apiProvider.getMethod('/Area/$id');
+    final int? statusCode = response.statusCode;
+
+    if (statusCode == HttpStatus.ok) {
+      return Area.fromJson(response.body);
+    }
+
+    if (statusCode == HttpStatus.noContent) {
+      throw CustomException('Does not exist');
     }
 
     return null;

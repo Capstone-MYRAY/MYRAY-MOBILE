@@ -17,4 +17,6 @@ class CommonConstants {
   static double get buttonWidthLarge => Get.width * 0.7;
   static const double buttonHeightSmall = 20;
   static const String imageDelimiter = '<|>';
+  static const String tag = 'tag';
+  static const String item = 'item';
 }

@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:myray_mobile/app/shared/constants/app_colors.dart';
+import 'package:myray_mobile/app/shared/constants/constants.dart';
 
 class AppTheme {
   static double scaleFactor = 1;
@@ -103,7 +103,8 @@ class AppTheme {
           padding: MaterialStateProperty.all(
             const EdgeInsets.symmetric(vertical: 12.0, horizontal: 4.0),
           ),
-          minimumSize: MaterialStateProperty.all(const Size.fromHeight(32)),
+          minimumSize: MaterialStateProperty.all(
+              const Size.fromHeight(CommonConstants.buttonHeightSmall)),
           textStyle: MaterialStateProperty.all(
             baseTextTheme.bodyText2!.copyWith(
               color: buttonText,

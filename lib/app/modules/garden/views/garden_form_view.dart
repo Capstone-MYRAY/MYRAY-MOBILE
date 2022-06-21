@@ -44,8 +44,8 @@ class GardenFormView extends GetView<GardenFormController> {
                             mode: Mode.MENU,
                             dropdownSearchDecoration: const InputDecoration(
                               icon: Icon(CustomIcons.map_marker_outline),
-                              labelText: 'Tỉnh*',
-                              hintText: 'Chọn tỉnh',
+                              labelText: '${AppStrings.labelProvince}*',
+                              hintText: AppStrings.placeholderProvince,
                             ),
                             showSelectedItems: true,
                             compareFn: controller.compareString,
@@ -69,8 +69,8 @@ class GardenFormView extends GetView<GardenFormController> {
                             mode: Mode.MENU,
                             dropdownSearchDecoration: const InputDecoration(
                               icon: Icon(CustomIcons.map_marker_outline),
-                              labelText: 'Huyện*',
-                              hintText: 'Chọn huyện',
+                              labelText: '${AppStrings.labelDistrict}*',
+                              hintText: AppStrings.placeholderDistrict,
                             ),
                             showSelectedItems: true,
                             compareFn: controller.compareString,
@@ -95,8 +95,8 @@ class GardenFormView extends GetView<GardenFormController> {
                             mode: Mode.MENU,
                             dropdownSearchDecoration: const InputDecoration(
                               icon: Icon(CustomIcons.map_marker_outline),
-                              labelText: 'Xã*',
-                              hintText: 'Chọn xã',
+                              labelText: '${AppStrings.labelCommune}*',
+                              hintText: AppStrings.placeholderCommune,
                             ),
                             items: controller.communes,
                             showSelectedItems: true,
@@ -145,7 +145,7 @@ class GardenFormView extends GetView<GardenFormController> {
                         InputField(
                           controller: controller.landAreaController,
                           icon: const Icon(CustomIcons.mountain),
-                          labelText: AppStrings.labelLandArea + '*',
+                          labelText: AppStrings.labelLandArea + ' (ha)*',
                           placeholder: AppStrings.placeholderLandArea,
                           inputAction: TextInputAction.next,
                           keyBoardType: TextInputType.number,

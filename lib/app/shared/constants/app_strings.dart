@@ -23,6 +23,7 @@ class AppStrings {
   static const titleViewProfile = 'Xem hồ sơ';
   static const titleMyGarden = 'Vườn của tôi';
   static const titleCreateGarden = 'Thêm mới vườn';
+  static const titleGardenDetails = 'Chi tiết vườn';
   static const titlePaymentHistory = 'Lịch sử giao dịch';
   static const titleFavorite = 'Yêu thích';
   static const titleReport = 'Báo cáo';
@@ -55,10 +56,13 @@ class AppStrings {
   static const labelConfirmPassword = 'Xác nhận mật khẩu';
   static const labelFullName = 'Họ và tên';
   static const labelDob = 'Ngày tháng năm sinh';
-  static const labelLandArea = 'Diện tích (ha)';
+  static const labelLandArea = 'Diện tích';
   static const labelGardenName = 'Tên vườn';
   static const labelDescription = 'Mô tả';
   static const labelAddress = 'Địa chỉ';
+  static const labelProvince = 'Tỉnh';
+  static const labelDistrict = 'Huyện';
+  static const labelCommune = 'Xã';
 
   //Placeholder
   static const placeholderPhone = 'Nhập số điện thoại';
@@ -70,6 +74,9 @@ class AppStrings {
   static const placeholderGardenName = 'Nhập tên vườn';
   static const placeholderDescription = 'Nhập mô tả';
   static const placeholderAddress = 'Chạm để lấy địa chỉ';
+  static const placeholderProvince = 'Chọn tỉnh';
+  static const placeholderDistrict = 'Chọn huyện';
+  static const placeholderCommune = 'Chọn xã';
 
   //Caption
   static const captionChooseRole =
