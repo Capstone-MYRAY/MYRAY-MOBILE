@@ -40,7 +40,7 @@ class FarmerPostCard extends StatelessWidget {
       child: Container(
         width: Get.width * 0.8,
         height: Get.width * 0.5,
-          margin: const EdgeInsets.only(right: 20, left: 20, bottom: 20),
+        margin: const EdgeInsets.only(right: 20, left: 20, bottom: 20),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           color: AppColors.white,
@@ -64,7 +64,10 @@ class FarmerPostCard extends StatelessWidget {
                     ),
                   ),
                   isStatus!
-                      ? StatusChip(statusName: statusName!, color: statusColor!)
+                      ? StatusChip(
+                          statusName: statusName!,
+                          backgroundColor: statusColor!,
+                        )
                       : const SizedBox(
                           width: 1,
                         )
@@ -149,7 +152,7 @@ class FarmerPostCard extends StatelessWidget {
                     child: WorkTypeChip(
                       workType: workType,
                     ))
-                : SizedBox(
+                : const SizedBox(
                     width: 1,
                   )
           ],
