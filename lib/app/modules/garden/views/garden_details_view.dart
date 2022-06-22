@@ -10,7 +10,7 @@ class GardenDetailsView extends GetView<GardenDetailsController> {
   const GardenDetailsView({Key? key}) : super(key: key);
 
   @override
-  String? get tag => Get.arguments[CommonConstants.tag];
+  String? get tag => Get.arguments[Arguments.tag];
 
   @override
   Widget build(BuildContext context) {
@@ -79,6 +79,7 @@ class GardenDetailsView extends GetView<GardenDetailsController> {
                 return GardenDetailsCard(
                   garden: controller.garden.value,
                   area: controller.area!.value,
+                  onEditTap: controller.navigateToEditForm,
                 );
               }),
               const SizedBox(height: 16.0),

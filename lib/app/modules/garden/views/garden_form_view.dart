@@ -17,7 +17,7 @@ class GardenFormView extends GetView<GardenFormController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(AppStrings.titleCreateGarden),
+        title: Text(controller.screenTitle),
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -205,8 +205,8 @@ class GardenFormView extends GetView<GardenFormController> {
                 const SizedBox(height: 24.0),
                 FilledButton(
                   minWidth: (Get.width * 0.9 - 32 * 2),
-                  title: AppStrings.titleCreate,
-                  onPressed: controller.onCreate,
+                  title: controller.buttonTitle,
+                  onPressed: controller.onSubmit,
                 ),
               ],
             ),

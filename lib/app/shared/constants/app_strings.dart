@@ -23,6 +23,7 @@ class AppStrings {
   static const titleViewProfile = 'Xem hồ sơ';
   static const titleMyGarden = 'Vườn của tôi';
   static const titleCreateGarden = 'Thêm mới vườn';
+  static const titleEditGarden = 'Chỉnh sửa vườn';
   static const titleGardenDetails = 'Chi tiết vườn';
   static const titlePaymentHistory = 'Lịch sử giao dịch';
   static const titleFavorite = 'Yêu thích';
@@ -36,6 +37,9 @@ class AppStrings {
   static const titlePassword = "Mật khẩu";
   static const titleCreate = 'Tạo mới';
   static const titleEdit = 'Chỉnh sửa';
+  static const titleUpdate = 'Cập nhật';
+  static const titleSuccess = 'Thành công';
+  static const titleError = 'Lỗi';
 
   //Subtitle
   static const subtitleMyGarden = 'Danh sách vườn đã tạo';

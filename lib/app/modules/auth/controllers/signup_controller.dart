@@ -91,8 +91,8 @@ class SignupController extends GetxController {
     _formatPhone = Utils.formatVietnamesePhone(phone);
 
     Get.toNamed(Routes.enterOtp, arguments: {
-      'action': Activities.signup,
-      'phone': _formatPhone,
+      Arguments.action: Activities.signup,
+      Arguments.phone: _formatPhone,
     });
   }
 

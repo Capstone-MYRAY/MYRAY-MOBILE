@@ -6,12 +6,11 @@ import 'package:myray_mobile/app/shared/constants/constants.dart';
 class GardenDetailsBinding extends Bindings {
   @override
   void dependencies() {
-    final String tag = Get.arguments[CommonConstants.tag];
-    Rx<Garden> garden = Rx(Get.arguments[CommonConstants.item]);
+    final String tag = Get.arguments[Arguments.tag];
+    Rx<Garden> garden = Rx(Get.arguments[Arguments.item]);
     Get.lazyPut(
       () => GardenDetailsController(garden: garden),
       tag: tag,
-      fenix: true,
     );
   }
 }
