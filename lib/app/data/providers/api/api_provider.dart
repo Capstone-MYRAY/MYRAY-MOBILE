@@ -10,6 +10,14 @@ class ApiProvider extends BaseProvider {
     return post(path, data);
   }
 
+  Future<Response> putMethod(String path, Map<String, dynamic> data) {
+    return put(path, data);
+  }
+
+  Future<Response> deleteImage(String path, dynamic data) {
+    return post(path, data);
+  }
+
   Future<Response> multipartFile(String path, dynamic body) {
     return post(path, body, contentType: "multipart/form-data");
   }

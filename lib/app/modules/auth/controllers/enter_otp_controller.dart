@@ -18,8 +18,8 @@ class EnterOtpController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    phone = Get.arguments['phone'];
-    action = Get.arguments['action'];
+    phone = Get.arguments[Arguments.phone];
+    action = Get.arguments[Arguments.action];
     if (action == Activities.signup) {
       _getOtp();
     }

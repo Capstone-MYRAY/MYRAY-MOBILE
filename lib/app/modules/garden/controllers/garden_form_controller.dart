@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:myray_mobile/app/data/enums/enums.dart';
 import 'package:myray_mobile/app/data/models/area/area.dart';
 import 'package:myray_mobile/app/data/models/area/get_area_request.dart';
@@ -14,6 +15,7 @@ import 'package:myray_mobile/app/data/models/upload_file/upload_image_response.d
 import 'package:myray_mobile/app/data/services/area_repository.dart';
 import 'package:myray_mobile/app/data/services/upload_image_service.dart';
 import 'package:myray_mobile/app/data/services/user_location_service.dart';
+import 'package:myray_mobile/app/modules/garden/controllers/garden_details_controller.dart';
 import 'package:myray_mobile/app/modules/garden/controllers/garden_home_controller.dart';
 import 'package:myray_mobile/app/modules/garden/garden_repository.dart';
 import 'package:myray_mobile/app/modules/garden/widgets/upload_image_holder.dart';
@@ -51,7 +53,19 @@ class GardenFormController extends GetxController {
   late GlobalKey<FormState> formKey;
   late GlobalKey<UploadImageHolderState> imageHolderKey;
 
-  Position? _position;
+  GardenDetailsController? detailsController;
+
+  LatLng? _latLng;
+
+  final Activities action = Get.arguments[Arguments.action];
+
+  String get screenTitle => action == Activities.create
+      ? AppStrings.titleCreateGarden
+      : AppStrings.titleEditGarden;
+
+  String get buttonTitle => action == Activities.create
+      ? AppStrings.titleCreate
+      : AppStrings.titleUpdate;
 
   @override
   void onInit() async {
@@ -63,44 +77,186 @@ class GardenFormController extends GetxController {
     imageHolderKey = GlobalKey<UploadImageHolderState>();
 
     await getAreas();
+
+    //load value if action is update
+    if (action == Activities.update) {
+      //get details controller
+      detailsController =
+          Get.find<GardenDetailsController>(tag: Get.arguments[Arguments.tag]);
+
+      //load area
+      Area _area = detailsController!.area!.value;
+      Garden garden = detailsController!.garden.value;
+      selectedProvince.value = _area.province;
+      selectedDistrict.value = _area.district;
+      selectedCommune.value = Commune(id: _area.id, commune: _area.commune);
+
+      landAreaController.text = garden.landArea.toString();
+      gardenNameController.text = garden.name;
+      descriptionController.text = garden.description;
+      addressController.text = garden.address;
+      _latLng = LatLng(
+        garden.latitudes,
+        garden.longitudes,
+      );
+
+      //generate images list
+      List<String> imageStr =
+          garden.imageUrl.split(CommonConstants.imageDelimiter);
+      List<UploadImage> images = [];
+      for (String str in imageStr) {
+        int id = images.length + 1;
+        images.add(UploadImage(id: id, path: str));
+      }
+
+      //set images
+      imageHolderKey.currentState!.setImages(images);
+    }
+
     super.onInit();
   }
 
-  onCreate() async {
+  onSubmit() async {
     bool formError = !formKey.currentState!.validate();
     bool imageError = !imageHolderKey.currentState!.validate();
     if (formError || imageError) {
       return;
     }
 
+    if (action == Activities.create) {
+      await onCreate();
+    } else {
+      await onUpdate();
+    }
+  }
+
+  List<MultipartFile> generateMultipart(List<UploadImage> images) {
+    List<MultipartFile> _uploadImages = <MultipartFile>[];
+    for (UploadImage image in images) {
+      if (!Utils.isNetworkImage(image.path)) {
+        File imageFile = File(image.path);
+        var fileName = image.path.split('/').last;
+        var multipleFile = MultipartFile(imageFile, filename: fileName);
+        _uploadImages.add(multipleFile);
+      }
+    }
+    return _uploadImages;
+  }
+
+  onUpdate() async {
+    //show loading
+    EasyLoading.show(status: AppStrings.loading);
+
+    // delete image from server
+    await _uploadImageService
+        .deleteImages(imageHolderKey.currentState!.deleteImages);
+
+    //upload new image
+    final List<UploadImage> _images =
+        imageHolderKey.currentState!.selectedImages;
+    List<MultipartFile> _uploadImages = generateMultipart(_images);
+    UploadImageResponse? upLoadResponse;
+    String _imageUrl = '';
+    if (_uploadImages.isNotEmpty) {
+      upLoadResponse = await _uploadImageService.uploadImage(_uploadImages);
+
+      if (upLoadResponse == null) {
+        EasyLoading.dismiss();
+        //show error
+        CustomSnackbar.show(
+          title: AppStrings.titleError,
+          message: 'Có lỗi xảy ra',
+          backgroundColor: AppColors.errorColor,
+        );
+        return;
+      }
+
+      int count = 0;
+      //merge uploaded images with old images
+      for (int i = 0; i < _images.length; i++) {
+        if (!Utils.isNetworkImage(_images[i].path)) {
+          _images[i].path = upLoadResponse.files[count].link;
+          count++;
+        }
+      }
+    }
+
+    //concatenate uploaded image_url
+    for (int i = 0; i < _images.length; i++) {
+      _imageUrl += _images[i].path;
+      if (i < _images.length - 1) {
+        _imageUrl += CommonConstants.imageDelimiter;
+      }
+    }
+
+    //update garden
+    final int _areaId = selectedCommune.value.id;
+    final String _gardenName = gardenNameController.text;
+    final String _description = descriptionController.text;
+    final double _latitude = _latLng!.latitude;
+    final double _longitude = _latLng!.longitude;
+    final double _landArea = double.parse(landAreaController.text);
+    final String _address = addressController.text;
+
+    Garden data = detailsController!.garden.value
+      ..areaId = _areaId
+      ..name = _gardenName
+      ..description = _description
+      ..latitudes = _latitude
+      ..longitudes = _longitude
+      ..landArea = _landArea
+      ..address = _address
+      ..imageUrl = _imageUrl;
+
+    Garden? updatedGarden = await _gardenRepository.update(data);
+    if (updatedGarden == null) {
+      EasyLoading.dismiss();
+      //show error
+      CustomSnackbar.show(
+        title: AppStrings.titleError,
+        message: 'Có lỗi xảy ra',
+        backgroundColor: AppColors.errorColor,
+      );
+      return;
+    }
+
+    EasyLoading.dismiss();
+
+    //refresh garden
+    detailsController!.garden.value = updatedGarden;
+
+    //update garden list
+    final GardenHomeController _gardenHome = Get.find<GardenHomeController>();
+    final _gardens = _gardenHome.gardens;
+    int index = _gardens.indexWhere(
+        (garden) => garden.id == detailsController!.garden.value.id);
+    detailsController!.garden.value = updatedGarden;
+    _gardens[index] = updatedGarden;
+    Get.back();
+    CustomSnackbar.show(
+      title: AppStrings.titleSuccess,
+      message: 'Cập nhật thành công',
+    );
+  }
+
+  onCreate() async {
     //show loading
     EasyLoading.show(status: AppStrings.loading);
 
     //upload image to server
     print('===Upload image');
-    final List<UploadImage> _images = imageHolderKey.currentState!.getImages();
-    List<MultipartFile> _uploadImages = <MultipartFile>[];
-    for (UploadImage image in _images) {
-      File imageFile = File(image.path);
-      // var stream = imageFile.readAsBytes().asStream();
-      // var length = imageFile.lengthSync();
-      var fileName = image.path.split('/').last;
-      var multipleFile = MultipartFile(imageFile, filename: fileName);
-      _uploadImages.add(multipleFile);
-    }
-
-    final formData = FormData({'formFiles': _uploadImages});
-
-    print(_uploadImages.length);
+    final List<UploadImage> _images =
+        imageHolderKey.currentState!.selectedImages;
+    List<MultipartFile> _uploadImages = generateMultipart(_images);
 
     UploadImageResponse? upLoadResponse =
-        await _uploadImageService.uploadImage(formData);
+        await _uploadImageService.uploadImage(_uploadImages);
 
     if (upLoadResponse == null) {
       EasyLoading.dismiss();
       //show error
       CustomSnackbar.show(
-        title: 'Error',
+        title: AppStrings.titleError,
         message: 'Có lỗi xảy ra',
         backgroundColor: AppColors.errorColor,
       );
@@ -111,7 +267,7 @@ class GardenFormController extends GetxController {
     String _imageUrl = '';
     for (int i = 0; i < upLoadResponse.files.length; i++) {
       _imageUrl += upLoadResponse.files[i].link;
-      if (i != upLoadResponse.files.length - 1) {
+      if (i < upLoadResponse.files.length - 1) {
         _imageUrl += CommonConstants.imageDelimiter;
       }
     }
@@ -120,8 +276,8 @@ class GardenFormController extends GetxController {
     final int _accountId = AuthCredentials.instance.user!.id!;
     final String _gardenName = gardenNameController.text;
     final String _description = descriptionController.text;
-    final double _latitude = _position!.latitude;
-    final double _longitude = _position!.longitude;
+    final double _latitude = _latLng!.latitude;
+    final double _longitude = _latLng!.longitude;
     final double _landArea = double.parse(landAreaController.text);
     final String _address = addressController.text;
 
@@ -143,7 +299,7 @@ class GardenFormController extends GetxController {
       EasyLoading.dismiss();
       //show error
       CustomSnackbar.show(
-        title: 'Lỗi',
+        title: AppStrings.titleError,
         message: 'Có lỗi xảy ra',
         backgroundColor: AppColors.errorColor,
       );
@@ -158,22 +314,20 @@ class GardenFormController extends GetxController {
 
     Get.back();
     CustomSnackbar.show(
-      title: 'Thành công',
+      title: AppStrings.titleSuccess,
       message: 'Bạn đã thêm vườn thành công',
     );
   }
 
   getCurrentPosition() async {
     EasyLoading.show(status: AppStrings.loading);
-    _position = await UserLocationService.getGeoLocationPosition();
-    if (_position == null) {
-      EasyLoading.dismiss();
-      return;
-    }
+    Position _position = await UserLocationService.getGeoLocationPosition();
+
+    _latLng = LatLng(_position.latitude, _position.longitude);
+
     print(
-        'location: latitude-${_position!.latitude}, longtitude-${_position!.longitude}');
-    String address =
-        await UserLocationService.getAddressFromLatLong(_position!);
+        'location: latitude-${_position.latitude}, longtitude-${_position.longitude}');
+    String address = await UserLocationService.getAddressFromLatLong(_position);
     EasyLoading.dismiss();
     addressController.text = address;
   }
@@ -247,8 +401,7 @@ class GardenFormController extends GetxController {
 
   onChangeCommune(value) {
     selectedCommune.value = value;
-    gardenNameController.text =
-        selectedCommune.value.commune + ' - ' + landAreaController.text;
+    setGardenName();
   }
 
   String getCommuneString(item) {
@@ -270,7 +423,13 @@ class GardenFormController extends GetxController {
   }
 
   onChangeLandArea(value) {
-    gardenNameController.text =
-        selectedCommune.value.commune + ' - ' + landAreaController.text;
+    setGardenName();
+  }
+
+  setGardenName() {
+    if (action == Activities.create) {
+      gardenNameController.text =
+          selectedCommune.value.commune + ' - ' + landAreaController.text;
+    }
   }
 }
