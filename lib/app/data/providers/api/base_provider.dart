@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/request/request.dart';
+import 'package:myray_mobile/app/data/environment.dart';
 import 'package:myray_mobile/app/data/models/auth/auth_response.dart';
 import 'package:myray_mobile/app/modules/auth/controllers/auth_controller.dart';
 import 'package:myray_mobile/app/shared/constants/app_msg.dart';
@@ -9,15 +10,13 @@ import 'package:myray_mobile/app/shared/utils/auth_credentials.dart';
 import 'package:myray_mobile/app/shared/utils/custom_exception.dart';
 import 'package:myray_mobile/app/shared/widgets/information_dialog.dart';
 
-import 'api_constants.dart';
-
 class BaseProvider extends GetConnect {
   final _authController = Get.find<AuthController>();
 
   @override
   void onInit() {
-    httpClient.baseUrl = ApiConstants.baseUrl;
-    httpClient.defaultContentType = ApiConstants.contentType;
+    httpClient.baseUrl = Environment.apiUrl;
+    httpClient.defaultContentType = 'application/json; charset=utf-8';
 
     httpClient.addRequestModifier(requestInterceptor);
 
