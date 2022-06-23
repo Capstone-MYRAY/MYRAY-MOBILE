@@ -2,6 +2,7 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:myray_mobile/app/modules/garden/controllers/garden_form_controller.dart';
+import 'package:myray_mobile/app/modules/garden/views/search_places_view.dart';
 import 'package:myray_mobile/app/modules/garden/widgets/upload_image_holder.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
@@ -132,6 +133,9 @@ class GardenFormView extends GetView<GardenFormController> {
                                 readOnly: true,
                                 validator:
                                     FieldValidation.instance.validateAddress,
+                                onTap: () {
+                                  Get.to(() => SearchPlacesView());
+                                },
                               ),
                             ),
                             IconButton(
