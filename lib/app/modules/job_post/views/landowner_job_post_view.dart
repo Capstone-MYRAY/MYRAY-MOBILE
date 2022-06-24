@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import 'package:myray_mobile/app/shared/constants/constants.dart';
+import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
+import 'package:myray_mobile/app/shared/widgets/card_field.dart';
 import 'package:myray_mobile/app/shared/widgets/landowner_appbar.dart';
 import 'package:myray_mobile/app/shared/widgets/my_card.dart';
 import 'package:myray_mobile/app/shared/widgets/status_chip.dart';
@@ -32,6 +35,38 @@ class LandownerJobPostView extends StatelessWidget {
                         foregroundColor: AppColors.white,
                         statusName: 'Thường',
                       ),
+                    ),
+                    const SizedBox(height: 8.0),
+                    Text(
+                      'This is long long long title to check overflow',
+                      style: Get.textTheme.headline4,
+                    ),
+                    const SizedBox(height: 8.0),
+                    CardField(
+                      icon: CustomIcons.map_marker_outline,
+                      title: AppStrings.labelAddress,
+                      data:
+                          '86/2 Nguyễn Thông, Phường 9, Quận 3, Thành phố Hồ Chí Minh, Việt Nam',
+                    ),
+                    CardField(
+                      icon: CustomIcons.bulletin_board,
+                      title: AppStrings.labelWorkType,
+                      data: 'Làm công',
+                    ),
+                    CardField(
+                      icon: CustomIcons.tree_outline,
+                      title: AppStrings.labelTreeType,
+                      data: 'Cây cao su',
+                    ),
+                    CardField(
+                      icon: CustomIcons.calendar_range,
+                      title: AppStrings.labelPublishDate,
+                      data: '28/05/2022',
+                    ),
+                    CardField(
+                      icon: CustomIcons.calendar_range,
+                      title: AppStrings.labelExpiryDate,
+                      data: '02/06/2022',
                     ),
                   ],
                 ),

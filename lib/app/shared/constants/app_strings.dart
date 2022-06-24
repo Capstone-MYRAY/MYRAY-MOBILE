@@ -67,6 +67,10 @@ class AppStrings {
   static const labelProvince = 'Tỉnh';
   static const labelDistrict = 'Huyện';
   static const labelCommune = 'Xã';
+  static const labelWorkType = 'Loại hình';
+  static const labelTreeType = 'Loại cây';
+  static const labelPublishDate = 'Ngày đăng';
+  static const labelExpiryDate = 'Ngày hết hạn';
 
   //Placeholder
   static const placeholderPhone = 'Nhập số điện thoại';
