@@ -2,6 +2,7 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:myray_mobile/app/modules/garden/controllers/garden_form_controller.dart';
+import 'package:myray_mobile/app/modules/garden/views/search_places_view.dart';
 import 'package:myray_mobile/app/modules/garden/widgets/upload_image_holder.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
@@ -17,7 +18,7 @@ class GardenFormView extends GetView<GardenFormController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(AppStrings.titleCreateGarden),
+        title: Text(controller.screenTitle),
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -132,6 +133,9 @@ class GardenFormView extends GetView<GardenFormController> {
                                 readOnly: true,
                                 validator:
                                     FieldValidation.instance.validateAddress,
+                                onTap: () {
+                                  Get.to(() => SearchPlacesView());
+                                },
                               ),
                             ),
                             IconButton(
@@ -205,8 +209,8 @@ class GardenFormView extends GetView<GardenFormController> {
                 const SizedBox(height: 24.0),
                 FilledButton(
                   minWidth: (Get.width * 0.9 - 32 * 2),
-                  title: AppStrings.titleCreate,
-                  onPressed: controller.onCreate,
+                  title: controller.buttonTitle,
+                  onPressed: controller.onSubmit,
                 ),
               ],
             ),

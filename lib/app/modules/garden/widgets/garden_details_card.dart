@@ -11,10 +11,13 @@ import 'package:myray_mobile/app/shared/widgets/my_card.dart';
 class GardenDetailsCard extends StatelessWidget {
   final Garden garden;
   final Area area;
+  final void Function()? onEditTap;
+
   const GardenDetailsCard({
     Key? key,
     required this.garden,
     required this.area,
+    this.onEditTap,
   }) : super(key: key);
 
   @override
@@ -27,7 +30,7 @@ class GardenDetailsCard extends StatelessWidget {
             alignment: Alignment.centerRight,
             child: CustomIconButton(
               icon: CustomIcons.pencil,
-              onTap: () {},
+              onTap: onEditTap,
               toolTip: AppStrings.titleEdit,
               size: 20,
             ),

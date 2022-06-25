@@ -18,6 +18,14 @@ class GardenRepository {
     return null;
   }
 
+  Future<Garden?> update(Garden data) async {
+    final response = await _apiProvider.putMethod('/Garden', data.toJson());
+    if (response.isOk) {
+      return Garden.fromJson(response.body);
+    }
+    return null;
+  }
+
   Future<GetGardenResponse?> getGardens(GetGardenRequest data) async {
     final response =
         await _apiProvider.getMethod('/Garden', data: data.toJson());

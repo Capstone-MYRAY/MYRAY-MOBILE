@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import "package:images_picker/images_picker.dart";
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
+import 'package:myray_mobile/app/shared/utils/utils.dart';
 import 'package:myray_mobile/app/shared/widgets/filled_button.dart';
 
 class UploadImage {
@@ -26,6 +27,7 @@ class UploadImageHolder extends StatefulWidget {
 
 class UploadImageHolderState extends State<UploadImageHolder> {
   final List<UploadImage> _selectedImages = [];
+  final List<String> _tempDelete = [];
   bool _isError = false;
   final String _errorContent = 'Hãy chọn tối thiểu một bức ảnh';
 
@@ -43,8 +45,14 @@ class UploadImageHolderState extends State<UploadImageHolder> {
     return !_isError;
   }
 
-  getImages() {
-    return _selectedImages;
+  List<UploadImage> get selectedImages => _selectedImages;
+  List<String> get deleteImages {
+    return _tempDelete.map((image) => image.split('/').last).toList();
+  }
+
+  setImages(List<UploadImage> images) {
+    _selectedImages.addAll(images);
+    setState(() {});
   }
 
   _showImageDialog({int maxImage = CommonConstants.maxImage}) async {
@@ -114,10 +122,19 @@ class UploadImageHolderState extends State<UploadImageHolder> {
     setState(() {});
   }
 
+  _addTempDeletImg(String path) {
+    if (Utils.isNetworkImage(path)) {
+      _tempDelete.add(path);
+    }
+  }
+
   _removeImage(int id) {
     print('xóa $id nè');
     final index = _selectedImages.indexWhere((image) => image.id == id);
     if (index >= 0) {
+      //add image to temp delete
+      _addTempDeletImg(_selectedImages[index].path);
+
       _selectedImages.removeAt(index);
       setState(() {});
     }
@@ -129,6 +146,10 @@ class UploadImageHolderState extends State<UploadImageHolder> {
       final UploadImage? found =
           _selectedImages.firstWhere((image) => image.id == id);
       if (found != null) {
+        //add image to temp delete
+        _addTempDeletImg(found.path);
+
+        //Update image
         found.path = _tempImage[0].path;
         setState(() {});
       }
@@ -191,10 +212,15 @@ class UploadImageHolderState extends State<UploadImageHolder> {
             borderRadius: BorderRadius.circular(CommonConstants.borderRadius),
             child: AspectRatio(
               aspectRatio: 1 / 1,
-              child: Image.file(
-                File(path),
-                fit: BoxFit.fill,
-              ),
+              child: Utils.isNetworkImage(path)
+                  ? Image.network(
+                      path,
+                      fit: BoxFit.fill,
+                    )
+                  : Image.file(
+                      File(path),
+                      fit: BoxFit.fill,
+                    ),
             ),
           ),
           const SizedBox(height: 16.0),

@@ -28,8 +28,8 @@ class ResetPasswordController extends GetxController {
 
   void navigateToOtpScreen() {
     Get.toNamed(Routes.enterOtp, arguments: {
-      'action': Activities.reset,
-      'phone': phoneController.text,
+      Arguments.action: Activities.reset,
+      Arguments.phone: phoneController.text,
     });
   }
 }

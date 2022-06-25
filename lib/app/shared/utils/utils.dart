@@ -43,6 +43,10 @@ class Utils {
     }
   }
 
+  static bool isNetworkImage(String path) {
+    return path.contains('https') || path.contains('http');
+  }
+
   static final vietnamesePhone = RegExp(
     r'(\+84|84)+([0-9]{9})|(0[3|5|7|8|9])+([0-9]{8})\b',
     caseSensitive: false,

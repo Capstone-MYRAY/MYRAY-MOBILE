@@ -35,13 +35,13 @@ class Garden {
   String description;
 
   @JsonKey(name: 'create_date')
-  DateTime createdDate;
+  DateTime? createdDate;
 
   @JsonKey(name: 'update_date')
   DateTime? updatedDate;
 
   @JsonKey(name: 'status')
-  int status;
+  int? status;
 
   Garden({
     required this.areaId,
@@ -53,9 +53,9 @@ class Garden {
     required this.description,
     required this.imageUrl,
     required this.name,
-    required this.createdDate,
     required this.id,
-    required this.status,
+    this.createdDate,
+    this.status,
     this.updatedDate,
   });
 

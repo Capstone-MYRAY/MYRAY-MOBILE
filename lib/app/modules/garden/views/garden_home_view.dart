@@ -25,7 +25,7 @@ class GardenHomeView extends GetView<GardenHomeController> {
         ),
         onPressed: () {
           Get.toNamed(Routes.gardenForm,
-              arguments: {'action': Activities.create});
+              arguments: {Arguments.action: Activities.create});
         },
       ),
       body: SizedBox(
@@ -57,8 +57,8 @@ class GardenHomeView extends GetView<GardenHomeController> {
                                 .first,
                             onDetailsTap: () {
                               Get.toNamed(Routes.gardenDetails, arguments: {
-                                CommonConstants.tag: garden.id.toString(),
-                                CommonConstants.item: garden,
+                                Arguments.tag: garden.id.toString(),
+                                Arguments.item: garden,
                               });
                             },
                             onDeleteTap: () {},
