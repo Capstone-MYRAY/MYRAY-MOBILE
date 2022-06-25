@@ -11,13 +11,15 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(AppStrings.home),
-        centerTitle: true,
-      ),
-      body: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-        Row(
-          children: [
+        appBar: AppBar(
+          title: const Text(AppStrings.home),
+          centerTitle: true,
+        ),
+        body: Container(
+          padding: EdgeInsets.all(10),
+            child: SingleChildScrollView(
+                child: Column(mainAxisSize: MainAxisSize.min, children: [
+          Row(children: [
             Padding(
               padding: const EdgeInsets.all(11.0),
               child: Text(
@@ -29,17 +31,16 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
                 ),
               ),
             ),
-          ],
-        ),
-        Expanded(
-          child: Obx(
-            () => ListView.builder(
-              itemCount: controller.listJobPost.length,
-              itemBuilder: (context, index) {
-                if (controller.listJobPost[index].payPerHourJob != null) {
-                  return Container(
-                    margin: EdgeInsets.only(bottom: 10),
-                    child: FarmerPostCard(
+          ]),
+          SizedBox(
+            height: Get.height * 0.32,
+            child: Obx(
+              () => ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: controller.listJobPost.length,
+                itemBuilder: (context, index) {
+                  if (controller.listJobPost[index].payPerHourJob != null) {
+                    return FarmerPostCard(
                       title: controller.listJobPost[index].title,
                       address: "142 Lâm Đồng",
                       price: 30000,
@@ -49,13 +50,10 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
                       onTap: () {
                         print("Tap job post");
                       },
-                    ),
-                  );
-                } else if (controller.listJobPost[index].payPerTaskJob !=
-                    null) {
-                  return Container(
-                    margin: EdgeInsets.only(bottom: 10),
-                    child: FarmerPostCard(
+                    );
+                  } else if (controller.listJobPost[index].payPerTaskJob !=
+                      null) {
+                    return FarmerPostCard(
                       title: controller.listJobPost[index].title,
                       address: "142 Lâm Đồng",
                       price: 30000,
@@ -65,12 +63,9 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
                       onTap: () {
                         print("Tap job post");
                       },
-                    ),
-                  );
-                } else {
-                  return Container(
-                    margin: EdgeInsets.only(bottom: 10),
-                    child: FarmerPostCard(
+                    );
+                  } else {
+                    return FarmerPostCard(
                       title: controller.listJobPost[index].title,
                       address: "142 Lâm Đồng",
                       price: 30000,
@@ -79,27 +74,44 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
                       onTap: () {
                         print("Tap job post");
                       },
-                    ),
-                  );
-                }
-              },
-            ),
-          ),
-        ),
-        Row(children: [
-          Padding(
-            padding: const EdgeInsets.all(11.0),
-            child: Text(
-              "Nổi bật",
-              style: Get.textTheme.headline2?.copyWith(
-                color: AppColors.primaryColor,
-                fontWeight: FontWeight.w500,
-                letterSpacing: 2,
+                    );
+                  }
+                },
               ),
             ),
           ),
-        ]),
-      ]),
-    );
+          Row(children: [
+            Padding(
+              padding: const EdgeInsets.all(11.0),
+              child: Text(
+                "Công việc",
+                style: Get.textTheme.headline2?.copyWith(
+                  color: AppColors.primaryColor,
+                  fontWeight: FontWeight.w500,
+                  letterSpacing: 2,
+                ),
+              ),
+            ),
+          ]),
+          Flexible(
+            child: ListView.builder(
+                itemCount: 15,
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  return FarmerPostCard(
+                      title: "Thu hoạch cà phê $index",
+                      address: "142 Lâm Đồng",
+                      price: 30000,
+                      treeType: "Cây cà phê",
+                      workType: "Làm công",
+                      onTap: () {
+                        print("Tap job post");
+                      },
+                    );
+                  
+                }),
+          ),
+        ]))));
   }
 }

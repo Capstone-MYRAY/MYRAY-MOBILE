@@ -39,14 +39,15 @@ class FarmerPostCard extends StatelessWidget {
       onTap: onTap,
       child: Container(
         width: Get.width * 0.8,
-        height: Get.width * 0.5,
-        margin: const EdgeInsets.only(right: 20, left: 20, bottom: 20),
+        // height: Get.height * 0.20,
+        margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 12),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           color: AppColors.white,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
             Padding(
               padding: const EdgeInsets.only(top: 15, left: 15, right: 15),
@@ -145,13 +146,14 @@ class FarmerPostCard extends StatelessWidget {
             ),
             workType != null
                 ? Padding(
-                    padding: const EdgeInsets.only(top: 10, left: 15),
+                    padding: const EdgeInsets.only(top: 12, left: 15),
                     child: WorkTypeChip(
                       workType: workType,
                     ))
                 : const SizedBox(
                     width: 1,
-                  )
+                  ),
+             const SizedBox(height: 5,)     
           ],
         ),
       ),
