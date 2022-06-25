@@ -1,11 +1,12 @@
 import 'package:get/get.dart';
 import 'package:myray_mobile/app/data/models/auth/job_post_response.dart';
+import 'package:myray_mobile/app/data/models/job_post/get_request_job_post_list.dart';
 import 'package:myray_mobile/app/modules/job_post/job_post_repository.dart';
 
 class FarmerHomeController extends GetxController {
   final _repository = Get.find<JobPostRepository>();
   late int page = 1;
-  late int page_size = 20;
+  late int page_size = 5;
   var listJobPost = [].obs;
 
   @override
@@ -14,9 +15,11 @@ class FarmerHomeController extends GetxController {
     await getListJobPost();
   }
 
+  GetRequestJobPostList data = GetRequestJobPostList(status: 2);
+    
   getListJobPost() async {
     JobPostResponse? response =
-        await _repository.getJobPostList(page, page_size);
+        await _repository.getJobPostList(data);
 
     if (response != null) {
       print(response.listJobPost.length);
