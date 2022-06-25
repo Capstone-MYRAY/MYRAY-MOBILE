@@ -29,3 +29,14 @@ enum GardenSortColumn {
   @JsonValue('CreateDate')
   createdDate,
 }
+
+enum JobPostSortColumn{
+  @JsonValue('PublishedDate')
+  publishedDate,
+
+  @JsonValue('CreatedDate')
+  createdDate,
+
+  @JsonValue('ApprovedDate')
+  approvedDate,
+}
