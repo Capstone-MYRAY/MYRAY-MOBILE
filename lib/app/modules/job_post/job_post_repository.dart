@@ -8,7 +8,6 @@ class JobPostRepository {
   Future<JobPostResponse?> getJobPostList(int page, int pageSize) async {
     final response = await _apiProvider
         .getMethod('/JobPost?Status=2&page=$page&page-size=$pageSize');
-    print("djgfhdfj");
     if (response.statusCode == HttpStatus.ok) {
       return JobPostResponse.fromJson(response.body);
     }

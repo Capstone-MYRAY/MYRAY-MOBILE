@@ -64,10 +64,7 @@ class FarmerPostCard extends StatelessWidget {
                     ),
                   ),
                   isStatus!
-                      ? StatusChip(
-                          statusName: statusName!,
-                          backgroundColor: statusColor!,
-                        )
+                      ? StatusChip(statusName: statusName!, backgroundColor: statusColor!)
                       : const SizedBox(
                           width: 1,
                         )
