@@ -121,7 +121,7 @@ class SignupController extends GetxController {
     await _auth.signOut();
     EasyLoading.dismiss();
 
-    Get.offAllNamed(Routes.login);
+    Get.offAllNamed(Routes.init);
     CustomSnackbar.show(title: 'Thông báo', message: AppMsg.MSG6009);
   }
 }
