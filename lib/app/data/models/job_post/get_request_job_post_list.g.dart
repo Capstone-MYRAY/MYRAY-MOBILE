@@ -9,13 +9,13 @@ part of 'get_request_job_post_list.dart';
 GetRequestJobPostList _$GetRequestJobPostListFromJson(
         Map<String, dynamic> json) =>
     GetRequestJobPostList(
-      status: json['status'] as int?,
+      status: json['status'] as String?,
       title: json['title'] as String?,
       sortColumn: json['sort-column'] as String?,
       orderBy: json['order-by'] as String?,
-      page: json['page'] as int?,
-      pageSize: json['page-size'] as int?,
-      publishBy: json['publish-by'] as int?,
+      page: json['page'] as String?,
+      pageSize: json['page-size'] as String?,
+      publishBy: json['publish-by'] as String?,
     );
 
 Map<String, dynamic> _$GetRequestJobPostListToJson(

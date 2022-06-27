@@ -48,7 +48,7 @@ class JobPost {
   DateTime? approvedDate;
 
   @JsonKey(name: 'status')
-  int status;
+  String status;
 
   @JsonKey(name: 'pay_per_hour_job')
   PayPerHourJob? payPerHourJob;

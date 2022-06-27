@@ -15,11 +15,11 @@ class FarmerHomeController extends GetxController {
     await getListJobPost();
   }
 
-  GetRequestJobPostList data = GetRequestJobPostList(status: 2);
-    
+  GetRequestJobPostList data =
+      GetRequestJobPostList(status: "2", page: "1", pageSize: "5");
+
   getListJobPost() async {
-    JobPostResponse? response =
-        await _repository.getJobPostList(data);
+    JobPostResponse? response = await _repository.getJobPostList(data);
 
     if (response != null) {
       print(response.listJobPost.length);
