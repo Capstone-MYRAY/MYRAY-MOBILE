@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:myray_mobile/app/data/models/job_post/job_post.dart';
 import 'package:myray_mobile/app/modules/home/controllers/farmer_home_controller.dart';
 import 'package:myray_mobile/app/modules/job_post/widgets/farmer_post_card.dart';
+import 'package:myray_mobile/app/routes/app_pages.dart';
 import 'package:myray_mobile/app/shared/constants/app_colors.dart';
 import 'package:myray_mobile/app/shared/constants/app_strings.dart';
+import 'package:myray_mobile/app/shared/constants/common.dart';
 
 class FarmerHomeView extends GetView<FarmerHomeController> {
   const FarmerHomeView({Key? key}) : super(key: key);
@@ -16,102 +19,103 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
           centerTitle: true,
         ),
         body: Container(
-          padding: EdgeInsets.all(10),
+            padding: EdgeInsets.all(10),
             child: SingleChildScrollView(
                 child: Column(mainAxisSize: MainAxisSize.min, children: [
-          Row(children: [
-            Padding(
-              padding: const EdgeInsets.all(11.0),
-              child: Text(
-                "Nổi bật",
-                style: Get.textTheme.headline2?.copyWith(
-                  color: AppColors.primaryColor,
-                  fontWeight: FontWeight.w500,
-                  letterSpacing: 2,
+              Row(children: [
+                Padding(
+                  padding: const EdgeInsets.all(11.0),
+                  child: Text(
+                    "Nổi bật",
+                    style: Get.textTheme.headline2?.copyWith(
+                      color: AppColors.primaryColor,
+                      fontWeight: FontWeight.w500,
+                      letterSpacing: 2,
+                    ),
+                  ),
+                ),
+              ]),
+              SizedBox(
+                height: Get.height * 0.32,
+                child: Obx(
+                  () => ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: controller.listJobPost.length,
+                    itemBuilder: (context, index) {
+                      JobPost jobPost = controller.listJobPost[index];
+                      if (jobPost.payPerHourJob != null) {
+                        return FarmerPostCard(
+                          title: jobPost.title,
+                          address: "142 Lâm Đồng",
+                          price: 30000,
+                          treeType: "Cây cà phê",
+                          workType: "Làm công",
+                          isStatus: true,
+                          onTap: () => {
+                            Get.toNamed(Routes.farmerJobPostDetail,
+                                arguments: {Arguments.item: jobPost})
+                          },
+                        );
+                      } else if (jobPost.payPerTaskJob != null) {
+                        return FarmerPostCard(
+                          title: jobPost.title,
+                          address: "142 Lâm Đồng",
+                          price: 30000,
+                          treeType: "Cây cà phê",
+                          workType: "Làm khoán",
+                          isStatus: true,
+                          onTap: () {
+                            Get.toNamed(Routes.farmerJobPostDetail,
+                                arguments: {Arguments.item: jobPost});
+                          },
+                        );
+                      } else {
+                        return FarmerPostCard(
+                          title: jobPost.title,
+                          address: "142 Lâm Đồng",
+                          price: 30000,
+                          treeType: "Cây cà phê",
+                          isStatus: true,
+                          onTap: () {
+                            // controller.navigateToDetailPage(jobPost);
+                          },
+                        );
+                      }
+                    },
+                  ),
                 ),
               ),
-            ),
-          ]),
-          SizedBox(
-            height: Get.height * 0.32,
-            child: Obx(
-              () => ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: controller.listJobPost.length,
-                itemBuilder: (context, index) {
-                  if (controller.listJobPost[index].payPerHourJob != null) {
-                    return FarmerPostCard(
-                      title: controller.listJobPost[index].title,
-                      address: "142 Lâm Đồng",
-                      price: 30000,
-                      treeType: "Cây cà phê",
-                      workType: "Làm công",
-                      isStatus: true,
-                      onTap: () {
-                        print("Tap job post");
-                      },
-                    );
-                  } else if (controller.listJobPost[index].payPerTaskJob !=
-                      null) {
-                    return FarmerPostCard(
-                      title: controller.listJobPost[index].title,
-                      address: "142 Lâm Đồng",
-                      price: 30000,
-                      treeType: "Cây cà phê",
-                      workType: "Làm khoán",
-                      isStatus: true,
-                      onTap: () {
-                        print("Tap job post");
-                      },
-                    );
-                  } else {
-                    return FarmerPostCard(
-                      title: controller.listJobPost[index].title,
-                      address: "142 Lâm Đồng",
-                      price: 30000,
-                      treeType: "Cây cà phê",
-                      isStatus: true,
-                      onTap: () {
-                        print("Tap job post");
-                      },
-                    );
-                  }
-                },
-              ),
-            ),
-          ),
-          Row(children: [
-            Padding(
-              padding: const EdgeInsets.all(11.0),
-              child: Text(
-                "Công việc",
-                style: Get.textTheme.headline2?.copyWith(
-                  color: AppColors.primaryColor,
-                  fontWeight: FontWeight.w500,
-                  letterSpacing: 2,
+              Row(children: [
+                Padding(
+                  padding: const EdgeInsets.all(11.0),
+                  child: Text(
+                    "Công việc",
+                    style: Get.textTheme.headline2?.copyWith(
+                      color: AppColors.primaryColor,
+                      fontWeight: FontWeight.w500,
+                      letterSpacing: 2,
+                    ),
+                  ),
                 ),
+              ]),
+              Flexible(
+                child: ListView.builder(
+                    itemCount: 15,
+                    physics: NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      return FarmerPostCard(
+                        title: "Thu hoạch cà phê $index",
+                        address: "142 Lâm Đồng",
+                        price: 30000,
+                        treeType: "Cây cà phê",
+                        workType: "Làm công",
+                        onTap: () {
+                          print("Tap job post");
+                        },
+                      );
+                    }),
               ),
-            ),
-          ]),
-          Flexible(
-            child: ListView.builder(
-                itemCount: 15,
-                physics: NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemBuilder: (context, index) {
-                  return FarmerPostCard(
-                      title: "Thu hoạch cà phê $index",
-                      address: "142 Lâm Đồng",
-                      price: 30000,
-                      treeType: "Cây cà phê",
-                      workType: "Làm công",
-                      onTap: () {
-                        print("Tap job post");
-                      },
-                    );
-                  
-                }),
-          ),
-        ]))));
+            ]))));
   }
 }

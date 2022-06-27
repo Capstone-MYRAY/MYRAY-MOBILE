@@ -10,6 +10,8 @@ import 'package:myray_mobile/app/modules/garden/bindings/garden_home_binding.dar
 import 'package:myray_mobile/app/modules/garden/views/garden_details_view.dart';
 import 'package:myray_mobile/app/modules/garden/views/garden_form_view.dart';
 import 'package:myray_mobile/app/modules/garden/views/garden_home_view.dart';
+import 'package:myray_mobile/app/modules/home/bindings/farmer_job_post_detail_binding.dart';
+import 'package:myray_mobile/app/modules/home/views/farmer_job_post_detail.dart';
 import 'package:myray_mobile/app/modules/profile/views/farmer_profile_detail.dart';
 import 'package:myray_mobile/app/modules/profile/views/landowner_profile_details_view.dart';
 import 'package:myray_mobile/init_view.dart';
@@ -101,6 +103,12 @@ class AppPages {
     GetPage(
         name: _Paths.farmerProfile,
         page: () => const FarmerProfileDetailView(),
-        transition: Transition.downToUp)
+        transition: Transition.downToUp,
+    ),
+    GetPage(
+      name: _Paths.farmerJobPostDetail,
+      page: () => const FarmerJobPostDetail(),
+      binding: FarmerJobPostDetailBinding(),
+    )
   ];
 }
