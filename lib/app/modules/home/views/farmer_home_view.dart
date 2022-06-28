@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:myray_mobile/app/data/models/job_post/job_post.dart';
 import 'package:myray_mobile/app/modules/home/controllers/farmer_home_controller.dart';
-import 'package:myray_mobile/app/modules/job_post/widgets/farmer_post_card.dart';
+import 'package:myray_mobile/app/modules/home/widgets/farmer_post_card.dart';
 import 'package:myray_mobile/app/routes/app_pages.dart';
 import 'package:myray_mobile/app/shared/constants/app_colors.dart';
 import 'package:myray_mobile/app/shared/constants/app_strings.dart';
@@ -41,8 +42,12 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
                   () => ListView.builder(
                     scrollDirection: Axis.horizontal,
                     itemCount: controller.listJobPost.length,
-                    itemBuilder: (context, index) {
+                    itemBuilder: (context, index) {                
                       JobPost jobPost = controller.listJobPost[index];
+                      var publishedDate = jobPost.publishedDate;
+                      var numberPublishDate = jobPost.numPublishDay;
+                      var expiredDate = controller.getExpiredDate(publishedDate, numberPublishDate);
+                      
                       if (jobPost.payPerHourJob != null) {
                         return FarmerPostCard(
                           title: jobPost.title,
@@ -50,24 +55,14 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
                           price: 30000,
                           treeType: "Cây cà phê",
                           workType: "Làm công",
-                          isStatus: true,
+                          isStatus: true,   
+                          expiredDate: DateFormat('dd-MM-yyyy').format(expiredDate), 
+                          isExpired: controller.checkExpiredDate(expiredDate),                                           
                           onTap: () => {
                             Get.toNamed(Routes.farmerJobPostDetail,
                                 arguments: {Arguments.item: jobPost})
                           },
-                        );
-                      } else if (jobPost.payPerTaskJob != null) {
-                        return FarmerPostCard(
-                          title: jobPost.title,
-                          address: "142 Lâm Đồng",
-                          price: 30000,
-                          treeType: "Cây cà phê",
-                          workType: "Làm khoán",
-                          isStatus: true,
-                          onTap: () {
-                            Get.toNamed(Routes.farmerJobPostDetail,
-                                arguments: {Arguments.item: jobPost});
-                          },
+                          
                         );
                       } else {
                         return FarmerPostCard(
@@ -75,9 +70,12 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
                           address: "142 Lâm Đồng",
                           price: 30000,
                           treeType: "Cây cà phê",
+                          workType: "Làm khoán",
                           isStatus: true,
+                          expiredDate: expiredDate,                                            
                           onTap: () {
-                            // controller.navigateToDetailPage(jobPost);
+                            Get.toNamed(Routes.farmerJobPostDetail,
+                                arguments: {Arguments.item: jobPost});
                           },
                         );
                       }

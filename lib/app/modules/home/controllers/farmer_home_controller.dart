@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:myray_mobile/app/data/models/auth/job_post_response.dart';
 import 'package:myray_mobile/app/data/models/job_post/get_request_job_post_list.dart';
 import 'package:myray_mobile/app/data/models/job_post/job_post.dart';
@@ -11,11 +12,28 @@ class FarmerHomeController extends GetxController {
   late int page = 1;
   late int page_size = 5;
   var listJobPost = [].obs;
+  var isExpired = false.obs;
 
   @override
   void onInit() async {
     super.onInit();
     await getListJobPost();
+  }
+
+  getExpiredDate(DateTime publishedDate, int numberPublishDate) {
+    var publishDate = publishedDate.toLocal();
+    var expiredDate = DateTime(publishDate.year, publishDate.month,
+        publishDate.day + numberPublishDate);
+        return expiredDate;
+    // return  DateFormat('dd-MM-yyyy').format(expiredDate);
+  }
+
+  checkExpiredDate(DateTime expiredDate){
+    var now = DateTime.now().toLocal();
+    if(now.compareTo(expiredDate) > 0){
+      return true;
+    }
+    return false;
   }
 
   GetRequestJobPostList data =
@@ -30,7 +48,8 @@ class FarmerHomeController extends GetxController {
     }
   }
 
-  navigateToDetailPage(Rx<JobPost> jobPost){
-    Get.toNamed(Routes.farmerJobPostDetail, arguments: {Arguments.item : jobPost});
+  navigateToDetailPage(Rx<JobPost> jobPost) {
+    Get.toNamed(Routes.farmerJobPostDetail,
+        arguments: {Arguments.item: jobPost});
   }
 }
