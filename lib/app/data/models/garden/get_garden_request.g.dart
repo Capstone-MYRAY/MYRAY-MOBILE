@@ -43,7 +43,7 @@ const _$GardenSortColumnEnumMap = {
   GardenSortColumn.area: 'AreaId',
   GardenSortColumn.name: 'Name',
   GardenSortColumn.landArea: 'LandArea',
-  GardenSortColumn.createdDate: 'CreateDate',
+  GardenSortColumn.createdDate: 'CreatedDate',
 };
 
 const _$SortOrderEnumMap = {

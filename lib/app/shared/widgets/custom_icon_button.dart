@@ -35,7 +35,7 @@ class CustomIconButton extends StatelessWidget {
         child: Padding(
           padding: padding,
           child: Tooltip(
-            message: toolTip,
+            message: toolTip ?? '',
             child: Icon(
               icon,
               color: foregroundColor ?? AppColors.iconColor,

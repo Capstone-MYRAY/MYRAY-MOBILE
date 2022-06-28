@@ -224,6 +224,9 @@ class AppTheme {
           fontWeight: FontWeight.normal,
         ),
       ),
+      timePickerTheme: TimePickerThemeData(
+        backgroundColor: cardBackground,
+      ),
       fontFamily: 'Roboto',
       textTheme: TextTheme(
         headline1: baseTextTheme.headline1!.copyWith(

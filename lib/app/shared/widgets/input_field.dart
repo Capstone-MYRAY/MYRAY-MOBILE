@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class InputField extends StatelessWidget {
   final Widget icon;
@@ -20,6 +21,7 @@ class InputField extends StatelessWidget {
   final String? Function(String?)? validator;
   final void Function()? onTap;
   final void Function(String)? onChanged;
+  final List<TextInputFormatter>? inputFormatters;
 
   const InputField({
     Key? key,
@@ -42,6 +44,7 @@ class InputField extends StatelessWidget {
     this.keyBoardType = TextInputType.text,
     this.inputAction = TextInputAction.done,
     this.autovalidateMode = AutovalidateMode.onUserInteraction,
+    this.inputFormatters,
   }) : super(key: key);
 
   @override
@@ -68,6 +71,7 @@ class InputField extends StatelessWidget {
       readOnly: readOnly,
       onTap: onTap,
       onChanged: onChanged,
+      inputFormatters: inputFormatters,
     );
   }
 }

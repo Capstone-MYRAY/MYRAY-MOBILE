@@ -29,6 +29,7 @@ class GardenRepository {
   Future<GetGardenResponse?> getGardens(GetGardenRequest data) async {
     final response =
         await _apiProvider.getMethod('/Garden', data: data.toJson());
+
     if (response.statusCode == HttpStatus.ok) {
       return GetGardenResponse.fromJson(response.body);
     }

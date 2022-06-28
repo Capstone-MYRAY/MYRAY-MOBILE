@@ -12,6 +12,8 @@ import 'package:myray_mobile/app/modules/garden/views/garden_form_view.dart';
 import 'package:myray_mobile/app/modules/garden/views/garden_home_view.dart';
 import 'package:myray_mobile/app/modules/home/bindings/farmer_job_post_detail_binding.dart';
 import 'package:myray_mobile/app/modules/home/views/farmer_job_post_detail.dart';
+import 'package:myray_mobile/app/modules/job_post/bindings/job_post_form_binding.dart';
+import 'package:myray_mobile/app/modules/job_post/views/job_post_form_view.dart';
 import 'package:myray_mobile/app/modules/profile/views/farmer_profile_detail.dart';
 import 'package:myray_mobile/app/modules/profile/views/landowner_profile_details_view.dart';
 import 'package:myray_mobile/init_view.dart';
@@ -92,6 +94,11 @@ class AppPages {
       name: _Paths.gardenDetails,
       page: () => const GardenDetailsView(),
       binding: GardenDetailsBinding(),
+    ),
+    GetPage(
+      name: _Paths.jobPostForm,
+      page: () => const JobPostFormView(),
+      binding: JobPostFormBinding(),
     ),
 
     //farmer

@@ -1,7 +1,6 @@
 import 'package:get/get.dart';
 import 'package:myray_mobile/app/data/enums/sort.dart';
-import 'package:myray_mobile/app/data/models/garden/garden.dart';
-import 'package:myray_mobile/app/data/models/garden/get_garden_request.dart';
+import 'package:myray_mobile/app/data/models/garden/garden_models.dart';
 import 'package:myray_mobile/app/modules/garden/garden_repository.dart';
 import 'package:myray_mobile/app/shared/utils/auth_credentials.dart';
 import 'package:myray_mobile/app/shared/utils/custom_exception.dart';

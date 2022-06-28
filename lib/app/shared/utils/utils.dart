@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class Utils {
@@ -46,6 +47,15 @@ class Utils {
   static bool isNetworkImage(String path) {
     return path.contains('https') || path.contains('http');
   }
+
+  static String formatHHmm(TimeOfDay time) {
+    return time.hour.toString().padLeft(2, '0') +
+        ':' +
+        time.minute.toString().padLeft(2, '0');
+  }
+
+  static final vietnameseCurrencyFormat =
+      NumberFormat.currency(locale: 'vi_VN', symbol: 'đ');
 
   static final vietnamesePhone = RegExp(
     r'(\+84|84)+([0-9]{9})|(0[3|5|7|8|9])+([0-9]{8})\b',
