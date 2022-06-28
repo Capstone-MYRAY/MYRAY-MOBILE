@@ -18,7 +18,7 @@ JobPost _$JobPostFromJson(Map<String, dynamic> json) => JobPost(
       publishedName: json['published_name'] as String,
       publishedDate: DateTime.parse(json['published_date'] as String),
       createdDate: DateTime.parse(json['created_date'] as String),
-      status: json['status'] as int,
+      status: json['status'] as String,
       approvedBy: json['approved_by'] as int?,
       approvedDate: json['approved_date'] == null
           ? null

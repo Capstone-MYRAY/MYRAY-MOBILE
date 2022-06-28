@@ -145,4 +145,6 @@ class AppStrings {
 
   //Button
   static const editButton = "Chỉnh sửa";
+  static const messageButton = "Nhắn tin";
+  static const applyButton =  "Ứng tuyển ngay";
 }
