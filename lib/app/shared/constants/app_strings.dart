@@ -40,6 +40,7 @@ class AppStrings {
   static const titleUpdate = 'Cập nhật';
   static const titleSuccess = 'Thành công';
   static const titleError = 'Lỗi';
+  static const titleCreateJobPost = 'Tạo công việc';
 
   //Subtitle
   static const subtitleMyGarden = 'Danh sách vườn đã tạo';
@@ -71,6 +72,22 @@ class AppStrings {
   static const labelTreeType = 'Loại cây';
   static const labelPublishDate = 'Ngày đăng';
   static const labelExpiryDate = 'Ngày hết hạn';
+  static const labelWorkName = 'Tên công việc';
+  static const labelEstimateWork = 'Số công ước lượng';
+  static const labelMinFarmer = 'Số người tối thiểu';
+  static const labelMaxFarmer = 'Số người tối đa';
+  static const labelHourSalary = 'Giá công';
+  static const labelStartHour = 'Giờ bắt đầu làm việc';
+  static const labelEndHour = 'Giờ kết thúc công việc';
+  static const labelTaskSalary = 'Tiền công';
+  static const labelJobStartDate = 'Ngày bắt đầu công việc';
+  static const labelJobEndDate = 'Ngày kết thúc công việc';
+  static const labelToolAvailable = 'Có sẵn nông cụ';
+  static const labelJobDescription = 'Mô tả công việc';
+  static const labelNumOfPublishDay = 'Số ngày đăng';
+  static const labelUpgradePost = 'Nâng cấp bài đăng';
+  static const labelUpgradeDate = 'Ngày nâng cấp';
+  static const labelNumOfUpgradeDay = 'Số ngày nâng cấp';
 
   //Placeholder
   static const placeholderPhone = 'Nhập số điện thoại';
@@ -85,6 +102,21 @@ class AppStrings {
   static const placeholderProvince = 'Chọn tỉnh';
   static const placeholderDistrict = 'Chọn huyện';
   static const placeholderCommune = 'Chọn xã';
+  static const placeholderWorkName = 'Nhập tên công việc';
+  static const placeholderEstimateWork = 'Nhập số công ước lượng';
+  static const placeholderMinFarmer = 'Nhập số người tối thiểu';
+  static const placeholderMaxFarmer = 'Nhập số người tối đa';
+  static const placeholderHourSalary = 'Nhập giá công';
+  static const placeholderStartHour = 'Chọn giờ bắt đầu làm việc';
+  static const placeholderEndHour = 'Chọn giờ kết thúc công việc';
+  static const placeholderTaskSalary = 'Nhập tiền công';
+  static const placeholderJobStartDate = 'Chọn ngày bắt đầu công việc';
+  static const placeholderJobEndDate = 'Chọn ngày kết thúc công việc';
+  static const placeholderJobDescription = 'Nhập mô tả công việc';
+  static const placeholderNumOfPublishDay = 'Nhập số ngày đăng';
+  static const placeholderPublishDate = 'Chọn nhập ngày đăng';
+  static const placeholderUpgradeDate = 'Chọn ngày nâng cấp';
+  static const placeholderNumOfUpgradeDay = 'Nhập số ngày nâng cấp';
 
   //Caption
   static const captionChooseRole =
@@ -104,6 +136,9 @@ class AppStrings {
   static const farmer = 'Nông dân';
   static const landowner = 'Chủ đất';
   static const loading = 'Đang xử lý';
+  static const payPerTask = 'Làm khoán';
+  static const payPerHour = 'Làm công';
+  static const noData = 'Không có dữ liệu';
 
   //Replaced String
   static const nullFullName = "Người dùng";

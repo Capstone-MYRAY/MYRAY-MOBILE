@@ -18,6 +18,7 @@ abstract class Routes {
   static const gardenHome = _Paths.gardenHome;
   static const gardenForm = _Paths.gardenForm;
   static const gardenDetails = _Paths.gardenDetails;
+  static const jobPostForm = _Paths.jobPostForm;
 
   //farmer
   static const farmerDashboard = _Paths.farmerDashboard;
@@ -43,6 +44,7 @@ abstract class _Paths {
   static const gardenHome = '$_landowner/garden_home';
   static const gardenForm = '$_landowner/garden_form';
   static const gardenDetails = '$_landowner/garden_details';
+  static const jobPostForm = '$_landowner/job_post_form';
 
   //farmer views
   static const farmerDashboard = '$_farmer/dashboard';

@@ -26,11 +26,11 @@ enum GardenSortColumn {
   name,
   @JsonValue('LandArea')
   landArea,
-  @JsonValue('CreateDate')
+  @JsonValue('CreatedDate')
   createdDate,
 }
 
-enum JobPostSortColumn{
+enum JobPostSortColumn {
   @JsonValue('PublishedDate')
   publishedDate,
 
@@ -39,4 +39,18 @@ enum JobPostSortColumn{
 
   @JsonValue('ApprovedDate')
   approvedDate,
+}
+
+enum TreeTypeSortColumn {
+  @JsonValue('Type')
+  type,
+}
+
+enum PostTypeSortColumn {
+  @JsonValue('Name')
+  name,
+  @JsonValue('Price')
+  price,
+  @JsonValue('Color')
+  color,
 }

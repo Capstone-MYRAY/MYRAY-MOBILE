@@ -11,6 +11,7 @@ import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/utils/utils.dart';
 import 'package:myray_mobile/app/shared/widgets/custom_snackbar.dart';
 import 'package:myray_mobile/app/shared/widgets/information_dialog.dart';
+import 'package:myray_mobile/app/shared/widgets/my_date_picker.dart';
 
 class SignupController extends GetxController {
   final AuthRepository _authRepository = Get.find();
@@ -50,13 +51,7 @@ class SignupController extends GetxController {
   }
 
   chooseDate() async {
-    selectedDate = await showDatePicker(
-      context: Get.context!,
-      initialDate: selectedDate ?? DateTime.now(),
-      firstDate: DateTime(1900),
-      lastDate: DateTime.now(),
-      locale: const Locale('vi'),
-    );
+    selectedDate = await MyDatePicker.show(initDate: selectedDate);
 
     if (selectedDate != null) {
       dobController.text = DateFormat('dd/MM/yyyy').format(selectedDate!);

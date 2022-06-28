@@ -54,6 +54,7 @@ dependencies:
   google_maps_flutter: ^2.1.8
   geocoding: ^2.0.4
   flutter_config: ^2.0.0
+  multiselect_formfield: ^0.1.7
 
 dev_dependencies:
   flutter_test:
