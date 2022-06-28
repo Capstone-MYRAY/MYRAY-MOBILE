@@ -10,7 +10,7 @@ class GetRequestJobPostList{
   String? title;
 
   @JsonKey(name: 'status')
-  int? status;
+  String? status;
 
   @JsonKey(name: 'sort-column')
   String? sortColumn;
@@ -19,13 +19,13 @@ class GetRequestJobPostList{
   String? orderBy;
 
   @JsonKey(name: 'page')
-  int? page;
+  String? page;
 
   @JsonKey(name: 'page-size')
-  int? pageSize;
+  String? pageSize;
 
   @JsonKey(name: 'publish-by')
-  int? publishBy;
+  String? publishBy;
 
   GetRequestJobPostList({
     this.status,
