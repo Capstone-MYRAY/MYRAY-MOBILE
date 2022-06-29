@@ -58,7 +58,7 @@ class FarmerProfileDetailView extends StatelessWidget {
                 height: 16.0,
               ),
               FilledButton(
-                  title: AppStrings.editButton,
+                  title: AppStrings.titleEdit,
                   minWidth: CommonConstants.buttonWidthLarge,
                   minHeight: CommonConstants.buttonHeightSmall,
                   onPressed: () {}),

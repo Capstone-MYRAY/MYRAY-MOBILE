@@ -88,7 +88,14 @@ class AppStrings {
   static const labelUpgradePost = 'Nâng cấp bài đăng';
   static const labelUpgradeDate = 'Ngày nâng cấp';
   static const labelNumOfUpgradeDay = 'Số ngày nâng cấp';
-
+  static const labelInprogress = 'Đang làm';
+  static const labelNotStartJob = 'Chưa bắt đầu';
+  static const labelJobVerify = 'Công việc';
+  static const labelExtendEndDateVerify = 'Gia hạn ngày kết thúc';
+  static const labelOnLeave = 'Nghỉ phép';
+  static const labelWorkingTime = 'Giờ làm việc';
+  static const labelPresentDate = 'Ngày hiện tại';
+  static const labelShortJobEndDate = 'Ngày kết thúc';
   //Placeholder
   static const placeholderPhone = 'Nhập số điện thoại';
   static const placeholderPassword = 'Nhập mật khẩu';
@@ -139,12 +146,15 @@ class AppStrings {
   static const payPerTask = 'Làm khoán';
   static const payPerHour = 'Làm công';
   static const noData = 'Không có dữ liệu';
+  static const noMarkedJobPost = "Không có bài viết nào nổi bật";
 
   //Replaced String
   static const nullFullName = "Người dùng";
 
   //Button
-  static const editButton = "Chỉnh sửa";
   static const messageButton = "Nhắn tin";
   static const applyButton =  "Ứng tuyển ngay";
+  static const extendButton = "Gia hạn";
+  static const buttonOnLeave = 'Nghỉ phép';
+
 }
