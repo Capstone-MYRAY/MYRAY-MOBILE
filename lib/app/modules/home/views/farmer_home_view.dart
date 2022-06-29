@@ -5,9 +5,11 @@ import 'package:myray_mobile/app/data/models/job_post/job_post.dart';
 import 'package:myray_mobile/app/modules/home/controllers/farmer_home_controller.dart';
 import 'package:myray_mobile/app/modules/home/widgets/farmer_post_card.dart';
 import 'package:myray_mobile/app/routes/app_pages.dart';
+import 'package:myray_mobile/app/shared/constants/app_assets.dart';
 import 'package:myray_mobile/app/shared/constants/app_colors.dart';
 import 'package:myray_mobile/app/shared/constants/app_strings.dart';
 import 'package:myray_mobile/app/shared/constants/common.dart';
+import 'package:progress_indicators/progress_indicators.dart';
 
 class FarmerHomeView extends GetView<FarmerHomeController> {
   const FarmerHomeView({Key? key}) : super(key: key);
@@ -36,53 +38,78 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
                   ),
                 ),
               ]),
-              SizedBox(
-                height: Get.height * 0.32,
-                child: Obx(
-                  () => ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: controller.listJobPost.length,
-                    itemBuilder: (context, index) {                
-                      JobPost jobPost = controller.listJobPost[index];
-                      var publishedDate = jobPost.publishedDate;
-                      var numberPublishDate = jobPost.numPublishDay;
-                      var expiredDate = controller.getExpiredDate(publishedDate, numberPublishDate);
-                      
-                      if (jobPost.payPerHourJob != null) {
-                        return FarmerPostCard(
-                          title: jobPost.title,
-                          address: "142 Lâm Đồng",
-                          price: 30000,
-                          treeType: "Cây cà phê",
-                          workType: "Làm công",
-                          isStatus: true,   
-                          expiredDate: DateFormat('dd-MM-yyyy').format(expiredDate), 
-                          isExpired: controller.checkExpiredDate(expiredDate),                                           
-                          onTap: () => {
-                            Get.toNamed(Routes.farmerJobPostDetail,
-                                arguments: {Arguments.item: jobPost})
-                          },
-                          
-                        );
-                      } else {
-                        return FarmerPostCard(
-                          title: jobPost.title,
-                          address: "142 Lâm Đồng",
-                          price: 30000,
-                          treeType: "Cây cà phê",
-                          workType: "Làm khoán",
-                          isStatus: true,
-                          expiredDate: expiredDate,                                            
-                          onTap: () {
-                            Get.toNamed(Routes.farmerJobPostDetail,
-                                arguments: {Arguments.item: jobPost});
-                          },
-                        );
-                      }
-                    },
-                  ),
-                ),
-              ),
+              controller.isLoading.value
+                  ? JumpingDotsProgressIndicator(
+                      fontSize: 40.0,
+                      color: AppColors.primaryColor,
+                    )
+                  : controller.listJobPost.isNotEmpty
+                      ? SizedBox(
+                          height: Get.height * 0.32,
+                          child: Obx(
+                            () => ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: controller.listJobPost.length,
+                              itemBuilder: (context, index) {
+                                JobPost jobPost = controller.listJobPost[index];
+                                var publishedDate = jobPost.publishedDate;
+                                var numberPublishDate = jobPost.numPublishDay;
+                                var expiredDate = controller.getExpiredDate(
+                                    publishedDate, numberPublishDate);
+                                if (jobPost.payPerHourJob != null) {
+                                  return FarmerPostCard(
+                                    title: jobPost.title,
+                                    address: "142 Lâm Đồng",
+                                    price: 30000,
+                                    treeType: "Cây cà phê",
+                                    workType: "Làm công",
+                                    isStatus: true,
+                                    expiredDate: DateFormat('dd-MM-yyyy')
+                                        .format(expiredDate),
+                                    isExpired: controller
+                                        .checkExpiredDate(expiredDate),
+                                    onTap: () => {
+                                      Get.toNamed(Routes.farmerJobPostDetail,
+                                          arguments: {Arguments.item: jobPost})
+                                    },
+                                  );
+                                } else {
+                                  return FarmerPostCard(
+                                    title: jobPost.title,
+                                    address: "142 Lâm Đồng",
+                                    price: 30000,
+                                    treeType: "Cây cà phê",
+                                    workType: "Làm khoán",
+                                    isStatus: true,
+                                    expiredDate: expiredDate,
+                                    onTap: () {
+                                      Get.toNamed(Routes.farmerJobPostDetail,
+                                          arguments: {Arguments.item: jobPost});
+                                    },
+                                  );
+                                }
+                              },
+                            ),
+                          ),
+                        )
+                      : Center(
+                          child: Column(
+                            children: [
+                              Text(
+                                AppStrings.noMarkedJobPost,
+                                style: Get.textTheme.bodyMedium!.copyWith(
+                                  color: AppColors.grey
+                                ),                                
+                              ),
+                              const SizedBox(height: 10),
+                              const ImageIcon(
+                                AssetImage(AppAssets.noJobFound),
+                                size: 20,
+                                color: AppColors.grey
+                              )
+                            ],
+                          ),
+                        ),
               Row(children: [
                 Padding(
                   padding: const EdgeInsets.all(11.0),
@@ -99,7 +126,7 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
               Flexible(
                 child: ListView.builder(
                     itemCount: 15,
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
                       return FarmerPostCard(

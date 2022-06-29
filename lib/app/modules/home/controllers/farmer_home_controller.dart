@@ -13,11 +13,12 @@ class FarmerHomeController extends GetxController {
   late int page_size = 5;
   var listJobPost = [].obs;
   var isExpired = false.obs;
+  var isLoading = false.obs;
 
   @override
   void onInit() async {
-    super.onInit();
     await getListJobPost();
+    super.onInit();   
   }
 
   getExpiredDate(DateTime publishedDate, int numberPublishDate) {
@@ -25,7 +26,6 @@ class FarmerHomeController extends GetxController {
     var expiredDate = DateTime(publishDate.year, publishDate.month,
         publishDate.day + numberPublishDate);
         return expiredDate;
-    // return  DateFormat('dd-MM-yyyy').format(expiredDate);
   }
 
   checkExpiredDate(DateTime expiredDate){
@@ -40,11 +40,13 @@ class FarmerHomeController extends GetxController {
       GetRequestJobPostList(status: "2", page: "1", pageSize: "5");
 
   getListJobPost() async {
+    isLoading.value = true;
     JobPostResponse? response = await _repository.getJobPostList(data);
 
     if (response != null) {
-      print(response.listJobPost.length);
+      print("Số lượng load: " + response.listJobPost.length.toString());
       listJobPost.value = response.listJobPost;
+      isLoading.value = false;
     }
   }
 

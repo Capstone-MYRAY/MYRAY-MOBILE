@@ -11,4 +11,7 @@ class AppAssets {
   static const forgotPassword = _imgPath + 'forgot_password.png';
   static const resetPassword = _imgPath + 'reset_password.png';
   static const enterPassword = _imgPath + 'enter_password.png';
+
+   //icon
+   static const noJobFound = _imgPath + 'job_seeker.png';
 }
