@@ -11,7 +11,7 @@ class FarmerInprogressJobList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      padding: const EdgeInsets.only(top: 20),
+      padding: const EdgeInsets.only(top: 10),
       itemCount: 10,
       itemBuilder: (context, index) {
         return Container(
@@ -19,44 +19,58 @@ class FarmerInprogressJobList extends StatelessWidget {
           child: Card(
             color: AppColors.white,
             child: Padding(
-              padding: const EdgeInsets.only(left: 10, top: 10),
-              child: Column(
+              padding: const EdgeInsets.only(top: 10),
+              child: 
+              Column(
                 children: [
-                  Row(
-                    children: [
-                      Text(
-                        "Thu hoạch cà phê",
-                        style: Get.textTheme.headline3?.copyWith(
-                          color: AppColors.brown,
-                        ),
+                  Padding(
+                    padding: EdgeInsets.only(left: 20, right: 20),
+                    child:
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                                "Thu hoạch cà phê vào năm tới + Thu hoạch hồ tiêu, mắc ca, hột điều",
+                                style: Get.textTheme.headline3?.copyWith(
+                                  color: AppColors.brown,
+                                ),
+                                softWrap: true,
+                                maxLines: 3,
+                                textAlign: TextAlign.justify,
+                                overflow: TextOverflow.ellipsis
+                              ),
+                          ),
+                        ],
                       ),
-                    ],
+                      
+                    
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 5, left: 15),
+                    padding: const EdgeInsets.only(top: 10, left: 15, right: 15),
                     child: Row(
                       children: [
                         const Icon(CustomIcons.map_marker_outline, size: 20),
                         const SizedBox(
                           width: 10,
                         ),
-                        Flexible(
+                        Expanded(
                           child: Text(
-                            "31/8, ấp Hưng Lân, xã Bà Điểm, huyện Hóc Môn",
-                            style: Get.textTheme.bodyText2,
-                            softWrap: true,
-                            overflow: TextOverflow.ellipsis,
-                            textAlign: TextAlign.left,
-                            maxLines: 10,
-                          ),
+                              "144 Dương Đình Hội, lô 17 - D11, phường Phước Long B, thành phố Thủ Đức, thành phố Hồ Chí Minh",
+                              style: Get.textTheme.bodyText2,
+                              softWrap: true,
+                              overflow: TextOverflow.ellipsis,
+                              textAlign: TextAlign.left,
+                              maxLines: 10,
+                            ),
                         ),
+                        
                       ],
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 20),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         Column(
                           children: [
@@ -137,7 +151,7 @@ class FarmerInprogressJobList extends StatelessWidget {
                             ),
                             index % 2 == 0 ?
                             CustomTextButton(onPressed: (){}, title: AppStrings.extendButton,)
-                            : CustomTextButton(onPressed: (){}, title: AppStrings.buttonOnLeave,),
+                            : CustomTextButton(onPressed: (){}, title: AppStrings.buttonCheckAttendance,),
                             
                           ],
                         ),
