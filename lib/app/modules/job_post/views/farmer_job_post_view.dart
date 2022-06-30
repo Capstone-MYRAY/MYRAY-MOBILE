@@ -11,54 +11,69 @@ class FarmerJobPostView extends GetView<FarmerJobPostController> {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      initialIndex: 0,
-      length: 2,
-      child: Scaffold(
-        appBar: AppBar(
-          title: Container(
-            child: const Text(AppStrings.jobPost),
-          ),
-          centerTitle: true,
-          elevation: 0,
-          bottom: PreferredSize(
-            preferredSize: controller.tabBar.preferredSize,
-            child: Material(
-              color: AppColors.backgroundColor,
-              // child: Container(
-              //   padding: EdgeInsets.only(left: 10),
-              //   decoration: BoxDecoration(
-              //     color: Colors.amberAccent,
-              //     shape: BoxShape.rectangle,
-              //   ),
-              //   child: controller.tabBar
-              // ),
-                child: controller.tabBar
-
-               
-            ),
-          )
+    return Scaffold(
+      appBar: AppBar(
+        title: Container(
+          child: const Text(AppStrings.jobPost),
         ),
-        body: TabBarView(
-          children: <Widget>[
-            const FarmerInprogressJobList(),
-            Center(
-              child: Column(
-                children: [
-                  Text(
-                    AppStrings.noMarkedJobPost,
-                    style: Get.textTheme.bodyMedium!
-                        .copyWith(color: AppColors.grey),
-                  ),
-                  const SizedBox(height: 10),
-                  const ImageIcon(AssetImage(AppAssets.noJobFound),
-                      size: 20, color: AppColors.grey),
-                ],
-              ),
-            ),
-          ],
-        ),
+        centerTitle: true,
+        elevation: 0,
       ),
+      body: SingleChildScrollView(
+          child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10),
+        child: Container(
+          padding: const EdgeInsets.only(top: 5),
+          height: Get.height,
+          child: Column(
+            children: [
+              Container(
+                width: Get.width * 0.9,
+                decoration: BoxDecoration(
+                    color: AppColors.white,
+                    borderRadius: BorderRadius.circular(5)),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(5),
+                      child: controller.tabBar,
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 10),
+              const Divider(
+                indent:10,
+                endIndent:10,
+                color: AppColors.brown,
+                thickness: 0.5,
+              ),
+              Expanded(
+                child: TabBarView(
+                  controller: controller.tabController,
+                  children: <Widget>[
+                    const FarmerInprogressJobList(),
+                    Center(
+                      child: Column(
+                        children: [
+                          Text(
+                            AppStrings.noMarkedJobPost,
+                            style: Get.textTheme.bodyMedium!
+                                .copyWith(color: AppColors.grey),
+                          ),
+                          const SizedBox(height: 10),
+                          const ImageIcon(AssetImage(AppAssets.noJobFound),
+                              size: 20, color: AppColors.grey),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
+        ),
+      )),
     );
   }
 }

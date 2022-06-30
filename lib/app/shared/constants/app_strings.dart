@@ -155,6 +155,6 @@ class AppStrings {
   static const messageButton = "Nhắn tin";
   static const applyButton =  "Ứng tuyển ngay";
   static const extendButton = "Gia hạn";
-  static const buttonOnLeave = 'Nghỉ phép';
+  static const buttonCheckAttendance = 'Điểm danh';
 
 }

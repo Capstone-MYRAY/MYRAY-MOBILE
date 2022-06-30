@@ -20,4 +20,5 @@ class AppColors {
   static const Color greyOtp = Color(0xFFEAEAEA);
   static const Color markedPostChipColor = Color(0xfff34740);
   static const Color brown = Color(0xff825823);
+  static const Color markedBackgroundColor = Color(0xffE0F3E1);
 }
