@@ -340,7 +340,6 @@ class JobPostFormView extends GetView<JobPostFormController> {
         _buildEquationDisplay(
             equation: controller.upgradeEquation,
             cost: controller.totalUpgrade),
-        numOfP
       ],
     );
   }
