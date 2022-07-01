@@ -1,6 +1,8 @@
 import 'package:get/instance_manager.dart';
 import 'package:myray_mobile/app/data/providers/api/api_provider.dart';
 import 'package:myray_mobile/app/data/services/area_repository.dart';
+import 'package:myray_mobile/app/data/services/fee_data_service.dart';
+import 'package:myray_mobile/app/data/services/post_type_repository.dart';
 import 'package:myray_mobile/app/data/services/tree_type_repository.dart';
 import 'package:myray_mobile/app/data/services/upload_image_service.dart';
 import 'package:myray_mobile/app/modules/auth/auth_repository.dart';
@@ -31,8 +33,9 @@ class AppBinding extends Bindings {
     Get.lazyPut(() => GardenRepository(), fenix: true);
     Get.lazyPut(() => AreaRepository(), fenix: true);
     Get.lazyPut(() => TreeTypeRepository(), fenix: true);
-    Get.lazyPut(() => GardenRepository(), fenix: true);
+    Get.lazyPut(() => PostTypeRepository(), fenix: true);
     Get.lazyPut(() => UploadImageService(), fenix: true);
+    Get.lazyPut(() => FeeDataService(), fenix: true);
     Get.lazyPut(() => LandownerProfileController());
     Get.lazyPut(() => LandownerJobPostController());
     Get.lazyPut(() => FarmerProfileController());

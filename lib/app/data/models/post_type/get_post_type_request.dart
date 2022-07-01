@@ -6,7 +6,7 @@ part 'get_post_type_request.g.dart';
 @JsonSerializable(includeIfNull: false)
 class GetPostTypeRequest {
   @JsonKey(name: 'name')
-  String name;
+  String? name;
 
   @JsonKey(name: 'description')
   String? description;
@@ -23,7 +23,14 @@ class GetPostTypeRequest {
   @JsonKey(name: 'page-size')
   String? pageSize;
 
-  GetPostTypeRequest({required this.name});
+  GetPostTypeRequest({
+    this.name,
+    this.description,
+    this.sortColumn,
+    this.orderBy,
+    this.page,
+    this.pageSize,
+  });
 
   factory GetPostTypeRequest.fromJson(Map<String, dynamic> json) =>
       _$GetPostTypeRequestFromJson(json);

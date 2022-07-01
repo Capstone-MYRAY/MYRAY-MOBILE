@@ -10,6 +10,8 @@ class PostTypeRepository {
     final response =
         await _apiProvider.getMethod('/posttype', data: data.toJson());
 
+    print(response.bodyString);
+
     if (response.statusCode == HttpStatus.ok) {
       return GetPostTypeResponse.fromJson(response.body);
     }

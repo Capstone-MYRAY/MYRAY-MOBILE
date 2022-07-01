@@ -88,6 +88,7 @@ class AppStrings {
   static const labelUpgradePost = 'Nâng cấp bài đăng';
   static const labelUpgradeDate = 'Ngày nâng cấp';
   static const labelNumOfUpgradeDay = 'Số ngày nâng cấp';
+  static const labelPostType = 'Gói nâng cấp';
   static const labelInprogress = 'Đang làm';
   static const labelNotStartJob = 'Chưa bắt đầu';
   static const labelJobVerify = 'Công việc';
@@ -96,6 +97,7 @@ class AppStrings {
   static const labelWorkingTime = 'Giờ làm việc';
   static const labelPresentDate = 'Ngày hiện tại';
   static const labelShortJobEndDate = 'Ngày kết thúc';
+
   //Placeholder
   static const placeholderPhone = 'Nhập số điện thoại';
   static const placeholderPassword = 'Nhập mật khẩu';
@@ -114,16 +116,17 @@ class AppStrings {
   static const placeholderMinFarmer = 'Nhập số người tối thiểu';
   static const placeholderMaxFarmer = 'Nhập số người tối đa';
   static const placeholderHourSalary = 'Nhập giá công';
-  static const placeholderStartHour = 'Chọn giờ bắt đầu làm việc';
-  static const placeholderEndHour = 'Chọn giờ kết thúc công việc';
+  static const placeholderStartHour = 'Bấm chọn giờ bắt đầu làm việc';
+  static const placeholderEndHour = 'Bấm chọn giờ kết thúc công việc';
   static const placeholderTaskSalary = 'Nhập tiền công';
-  static const placeholderJobStartDate = 'Chọn ngày bắt đầu công việc';
-  static const placeholderJobEndDate = 'Chọn ngày kết thúc công việc';
+  static const placeholderJobStartDate = 'Bấm chọn ngày bắt đầu công việc';
+  static const placeholderJobEndDate = 'Bấm chọn ngày kết thúc công việc';
   static const placeholderJobDescription = 'Nhập mô tả công việc';
   static const placeholderNumOfPublishDay = 'Nhập số ngày đăng';
-  static const placeholderPublishDate = 'Chọn nhập ngày đăng';
-  static const placeholderUpgradeDate = 'Chọn ngày nâng cấp';
+  static const placeholderPublishDate = 'Bấm chọn nhập ngày đăng';
+  static const placeholderUpgradeDate = 'Bấm chọn ngày nâng cấp';
   static const placeholderNumOfUpgradeDay = 'Nhập số ngày nâng cấp';
+  static const placeholderSearch = 'Tìm kiếm...';
 
   //Caption
   static const captionChooseRole =
@@ -153,8 +156,7 @@ class AppStrings {
 
   //Button
   static const messageButton = "Nhắn tin";
-  static const applyButton =  "Ứng tuyển ngay";
+  static const applyButton = "Ứng tuyển ngay";
   static const extendButton = "Gia hạn";
   static const buttonOnLeave = 'Nghỉ phép';
-
 }

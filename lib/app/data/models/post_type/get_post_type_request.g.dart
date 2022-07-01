@@ -8,19 +8,17 @@ part of 'get_post_type_request.dart';
 
 GetPostTypeRequest _$GetPostTypeRequestFromJson(Map<String, dynamic> json) =>
     GetPostTypeRequest(
-      name: json['name'] as String,
-    )
-      ..description = json['description'] as String?
-      ..sortColumn =
-          $enumDecodeNullable(_$PostTypeSortColumnEnumMap, json['sort-column'])
-      ..orderBy = $enumDecodeNullable(_$SortOrderEnumMap, json['order-by'])
-      ..page = json['page'] as String?
-      ..pageSize = json['page-size'] as String?;
+      name: json['name'] as String?,
+      description: json['description'] as String?,
+      sortColumn:
+          $enumDecodeNullable(_$PostTypeSortColumnEnumMap, json['sort-column']),
+      orderBy: $enumDecodeNullable(_$SortOrderEnumMap, json['order-by']),
+      page: json['page'] as String?,
+      pageSize: json['page-size'] as String?,
+    );
 
 Map<String, dynamic> _$GetPostTypeRequestToJson(GetPostTypeRequest instance) {
-  final val = <String, dynamic>{
-    'name': instance.name,
-  };
+  final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -28,6 +26,7 @@ Map<String, dynamic> _$GetPostTypeRequestToJson(GetPostTypeRequest instance) {
     }
   }
 
+  writeNotNull('name', instance.name);
   writeNotNull('description', instance.description);
   writeNotNull('sort-column', _$PostTypeSortColumnEnumMap[instance.sortColumn]);
   writeNotNull('order-by', _$SortOrderEnumMap[instance.orderBy]);
