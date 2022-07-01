@@ -158,5 +158,7 @@ class AppStrings {
   static const messageButton = "Nhắn tin";
   static const applyButton = "Ứng tuyển ngay";
   static const extendButton = "Gia hạn";
+  static const buttonCheckAttendance = 'Điểm danh';
+
   static const buttonOnLeave = 'Nghỉ phép';
 }

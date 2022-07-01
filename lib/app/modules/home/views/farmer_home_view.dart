@@ -9,6 +9,7 @@ import 'package:myray_mobile/app/shared/constants/app_assets.dart';
 import 'package:myray_mobile/app/shared/constants/app_colors.dart';
 import 'package:myray_mobile/app/shared/constants/app_strings.dart';
 import 'package:myray_mobile/app/shared/constants/common.dart';
+import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
 import 'package:progress_indicators/progress_indicators.dart';
 
 class FarmerHomeView extends GetView<FarmerHomeController> {
@@ -17,17 +18,23 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text(AppStrings.home),
-          centerTitle: true,
-        ),
-        body: Container(
-            padding: EdgeInsets.all(10),
-            child: SingleChildScrollView(
-                child: Column(mainAxisSize: MainAxisSize.min, children: [
-              Row(children: [
-                Padding(
-                  padding: const EdgeInsets.all(11.0),
+      appBar: AppBar(
+        title: const Text(AppStrings.home),
+        centerTitle: true,
+      ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.only(top: 10),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(11.0),
+              decoration: const BoxDecoration(
+                color: AppColors.white,
+              ),
+              child: Row(children: [
+                Container(
+                  margin: const EdgeInsets.only(left: 20),
                   child: Text(
                     "Nổi bật",
                     style: Get.textTheme.headline2?.copyWith(
@@ -37,17 +44,32 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
                     ),
                   ),
                 ),
+                const SizedBox(width: 10,),
+                const Icon(
+                  CustomIcons.star,
+                  size: 20,
+                  color: Colors.amber,
+                ),
               ]),
-              controller.isLoading.value
-                  ? JumpingDotsProgressIndicator(
-                      fontSize: 40.0,
-                      color: AppColors.primaryColor,
-                    )
-                  : controller.listJobPost.isNotEmpty
-                      ? SizedBox(
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            controller.isLoading.value
+                ? JumpingDotsProgressIndicator(
+                    fontSize: 40.0,
+                    color: AppColors.primaryColor,
+                  )
+                : controller.listJobPost.isNotEmpty
+                    ? Container(
+                        decoration: const BoxDecoration(
+                          color: AppColors.white,
+                        ),
+                        child: SizedBox(
                           height: Get.height * 0.32,
                           child: Obx(
                             () => ListView.builder(
+                              padding: const EdgeInsets.only(left: 10),
                               scrollDirection: Axis.horizontal,
                               itemCount: controller.listJobPost.length,
                               itemBuilder: (context, index) {
@@ -58,6 +80,8 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
                                     publishedDate, numberPublishDate);
                                 if (jobPost.payPerHourJob != null) {
                                   return FarmerPostCard(
+                                    backgroundColor:
+                                        AppColors.markedBackgroundColor,
                                     title: jobPost.title,
                                     address: "142 Lâm Đồng",
                                     price: 30000,
@@ -91,28 +115,33 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
                               },
                             ),
                           ),
-                        )
-                      : Center(
-                          child: Column(
-                            children: [
-                              Text(
-                                AppStrings.noMarkedJobPost,
-                                style: Get.textTheme.bodyMedium!.copyWith(
-                                  color: AppColors.grey
-                                ),                                
-                              ),
-                              const SizedBox(height: 10),
-                              const ImageIcon(
-                                AssetImage(AppAssets.noJobFound),
-                                size: 20,
-                                color: AppColors.grey
-                              )
-                            ],
-                          ),
                         ),
-              Row(children: [
-                Padding(
-                  padding: const EdgeInsets.all(11.0),
+                      )
+                    : Center(
+                        child: Column(
+                          children: [
+                            Text(
+                              AppStrings.noMarkedJobPost,
+                              style: Get.textTheme.bodyMedium!
+                                  .copyWith(color: AppColors.grey),
+                            ),
+                            const SizedBox(height: 10),
+                            const ImageIcon(AssetImage(AppAssets.noJobFound),
+                                size: 20, color: AppColors.grey)
+                          ],
+                        ),
+                      ),
+            const SizedBox(
+              height: 20,
+            ),
+            Container(
+              padding: const EdgeInsets.all(11.0),
+              decoration: const BoxDecoration(
+                color: AppColors.white,
+              ),
+              child: Row(children: [
+                Container(
+                  margin: const EdgeInsets.only(left: 20),
                   child: Text(
                     "Công việc",
                     style: Get.textTheme.headline2?.copyWith(
@@ -122,25 +151,35 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
                     ),
                   ),
                 ),
+                const SizedBox(
+                  width: 10,
+                ),
+                const ImageIcon(AssetImage(AppAssets.noJobFound),
+                    size: 20, color: AppColors.brown)
               ]),
-              Flexible(
-                child: ListView.builder(
-                    itemCount: 15,
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) {
-                      return FarmerPostCard(
-                        title: "Thu hoạch cà phê $index",
-                        address: "142 Lâm Đồng",
-                        price: 30000,
-                        treeType: "Cây cà phê",
-                        workType: "Làm công",
-                        onTap: () {
-                          print("Tap job post");
-                        },
-                      );
-                    }),
-              ),
-            ]))));
+            ),
+            Flexible(
+              child: ListView.builder(
+                  padding: const EdgeInsets.only(left: 10),
+                  itemCount: 15,
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    return FarmerPostCard(
+                      title: "Thu hoạch cà phê $index",
+                      address: "142 Lâm Đồng",
+                      price: 30000,
+                      treeType: "Cây cà phê",
+                      workType: "Làm công",
+                      onTap: () {
+                        print("Tap job post");
+                      },
+                    );
+                  }),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
