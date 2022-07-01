@@ -1,4 +1,3 @@
-import 'package:myray_mobile/app/data/models/garden/garden_models.dart';
 import 'package:myray_mobile/app/shared/constants/app_msg.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/utils/utils.dart';
@@ -87,7 +86,7 @@ class FieldValidation {
       return AppMsg.MSG0002;
     }
 
-    if (!Utils.isNumber.hasMatch(value)) {
+    if (!Utils.isPositiveRealNumber(value)) {
       return AppMsg.MSG0005;
     }
 
@@ -98,11 +97,6 @@ class FieldValidation {
     if (Utils.isEmpty(value)) {
       return AppMsg.MSG0002;
     }
-    return null;
-  }
-
-  String? validateGardenSelection(Garden? garden) {
-    if (garden == null) return AppMsg.MSG0002;
     return null;
   }
 }

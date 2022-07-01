@@ -1,12 +1,13 @@
 import 'package:dropdown_search/dropdown_search.dart';
-import 'package:multiselect_formfield/multiselect_formfield.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:myray_mobile/app/data/models/garden/garden_models.dart';
+import 'package:myray_mobile/app/data/models/post_type/post_type.dart';
 import 'package:myray_mobile/app/modules/job_post/controllers/job_post_form_controller.dart';
+import 'package:myray_mobile/app/modules/job_post/widgets/tree_type_fields.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
-import 'package:myray_mobile/app/shared/utils/field_validation.dart';
 import 'package:myray_mobile/app/shared/utils/utils.dart';
 import 'package:myray_mobile/app/shared/widgets/custom_icon_button.dart';
 import 'package:myray_mobile/app/shared/widgets/dropdown_empty_builder.dart';
@@ -47,12 +48,14 @@ class JobPostFormView extends GetView<JobPostFormController> {
                       ),
                       const SizedBox(height: 16.0),
                       InputField(
+                        key: UniqueKey(),
                         controller: controller.workNameController,
                         icon: const Icon(CustomIcons.briefcase_outline),
                         labelText: AppStrings.labelWorkName + '*',
                         placeholder: AppStrings.placeholderWorkName,
                         inputAction: TextInputAction.next,
                         keyBoardType: TextInputType.text,
+                        validator: controller.validateWorkName,
                         minLines: 1,
                         maxLines: 4,
                       ),
@@ -63,6 +66,7 @@ class JobPostFormView extends GetView<JobPostFormController> {
                           children: [
                             Expanded(
                               child: DropdownSearch<Garden>(
+                                key: UniqueKey(),
                                 mode: Mode.MENU,
                                 dropdownSearchDecoration: const InputDecoration(
                                   icon: Icon(CustomIcons.sprout_outline),
@@ -76,8 +80,7 @@ class JobPostFormView extends GetView<JobPostFormController> {
                                 onChanged: controller.onGardenChange,
                                 autoValidateMode:
                                     AutovalidateMode.onUserInteraction,
-                                validator: FieldValidation
-                                    .instance.validateGardenSelection,
+                                validator: controller.validateGardenSelection,
                                 emptyBuilder: (_, __) =>
                                     const DropdownEmptyBuilder(
                                         msg: AppStrings.noData),
@@ -87,7 +90,9 @@ class JobPostFormView extends GetView<JobPostFormController> {
                               const SizedBox(width: 8.0),
                               CustomIconButton(
                                 icon: Icons.remove_red_eye,
-                                onTap: () {},
+                                onTap: () {
+                                  //TODO: view garden details here
+                                },
                                 toolTip: 'Xem chi tiết',
                                 size: 25,
                               ),
@@ -96,70 +101,30 @@ class JobPostFormView extends GetView<JobPostFormController> {
                         ),
                       ),
                       const SizedBox(height: 16.0),
-                      Container(
-                        decoration: BoxDecoration(
-                          border:
-                              Border.all(color: AppColors.black, width: 1.0),
-                          borderRadius: const BorderRadius.all(
-                            Radius.circular(CommonConstants.borderRadius),
-                          ),
-                        ),
-                        child: GetBuilder<JobPostFormController>(
-                          builder: (controller) => MultiSelectFormField(
-                            checkBoxActiveColor: AppColors.primaryColor,
-                            checkBoxCheckColor: AppColors.white,
-                            title: Row(children: [
-                              const Icon(
-                                CustomIcons.tree_outline,
-                                size: 24.0,
-                              ),
-                              const SizedBox(width: 8.0),
-                              Text(
-                                AppStrings.labelTreeType,
-                                style: Get.textTheme.headline6,
-                              ),
-                            ]),
-                            okButtonLabel: 'Chọn'.toUpperCase(),
-                            cancelButtonLabel: 'Đóng'.toUpperCase(),
-                            hintWidget: Text('Chọn loại cây'),
-                            border: InputBorder.none,
-                            fillColor: Colors.transparent,
-                            dialogTextStyle: Get.textTheme.bodyText2!,
-                            leading: const Icon(CustomIcons.tree_outline),
-                            dataSource: controller.treeTypes != null
-                                ? controller.treeTypes!
-                                    .map((type) => type.toJson())
-                                    .toList()
-                                    .cast<dynamic>()
-                                : null,
-                            textField: 'type',
-                            valueField: 'id',
-                            chipBackGroundColor:
-                                AppColors.primaryColor.withOpacity(0.5),
-                            chipLabelStyle: Get.textTheme.bodyText2!.copyWith(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 15.0 * Get.textScaleFactor,
-                            ),
-                            onSaved: (value) {
-                              controller.selectedTreeTypes.value =
-                                  value.cast<int>();
-                              print(controller.selectedTreeTypes.toString());
-                            },
-                          ),
+                      GetBuilder<JobPostFormController>(
+                        builder: (controller) => TreeTypeField(
+                          key: controller.treeTypeFieldKey,
+                          treeTypes: controller.treeTypes != null
+                              ? controller.treeTypes!
+                              : [],
+                          selectedTreeTypes: controller.selectedTreeTypes,
                         ),
                       ),
                       const SizedBox(height: 16.0),
                       InputField(
+                        key: UniqueKey(),
                         controller: controller.jobStartDateController,
                         icon: const Icon(CustomIcons.calendar_range),
-                        labelText: AppStrings.labelJobStartDate,
+                        labelText: '${AppStrings.labelJobStartDate}*',
                         placeholder: AppStrings.placeholderJobStartDate,
                         inputAction: TextInputAction.next,
-                        keyBoardType: TextInputType.number,
-                        onTap: () {},
+                        readOnly: true,
+                        onTap: controller.onChooseStartDate,
+                        validator: controller.validateJobStartDate,
                       ),
                       const SizedBox(height: 16.0),
                       DropdownSearch<String>(
+                        key: UniqueKey(),
                         mode: Mode.MENU,
                         dropdownSearchDecoration: const InputDecoration(
                           icon: Icon(CustomIcons.bulletin_board),
@@ -172,6 +137,8 @@ class JobPostFormView extends GetView<JobPostFormController> {
                         compareFn: controller.compareWorkType,
                         onChanged: controller.onWorkTypeChange,
                         showSelectedItems: true,
+                        autoValidateMode: AutovalidateMode.onUserInteraction,
+                        validator: controller.validateWorkType,
                       ),
                       Obx(
                         () => Column(
@@ -181,6 +148,7 @@ class JobPostFormView extends GetView<JobPostFormController> {
                       ),
                       const SizedBox(height: 16.0),
                       InputField(
+                        key: UniqueKey(),
                         controller: controller.descriptionController,
                         icon: const Icon(Icons.paste_outlined),
                         labelText: AppStrings.labelJobDescription,
@@ -189,20 +157,35 @@ class JobPostFormView extends GetView<JobPostFormController> {
                         minLines: 3,
                         maxLines: 10,
                       ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 16.0),
+                MyCard(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Thông tin bài đăng',
+                        style: Get.textTheme.headline6,
+                      ),
                       const SizedBox(height: 16.0),
                       InputField(
+                        key: UniqueKey(),
                         controller: controller.publishDateController,
                         icon: const Icon(CustomIcons.calendar_range),
                         labelText: '${AppStrings.labelPublishDate}*',
                         placeholder: AppStrings.placeholderPublishDate,
                         inputAction: TextInputAction.next,
                         readOnly: true,
-                        onTap: () {},
+                        validator: controller.validatePublishDate,
+                        onTap: controller.onChoosePublishDate,
                       ),
                       const SizedBox(height: 16.0),
                       Column(
                         children: [
                           InputField(
+                            key: UniqueKey(),
                             controller: controller.numOfPublishDayController,
                             icon: const Icon(CustomIcons.calendar_range),
                             labelText: '${AppStrings.labelNumOfPublishDay}*',
@@ -210,6 +193,10 @@ class JobPostFormView extends GetView<JobPostFormController> {
                             inputAction: TextInputAction.next,
                             keyBoardType: TextInputType.number,
                             onChanged: controller.onChangeNumOfPublishDay,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.digitsOnly
+                            ],
+                            validator: controller.validateNumOfPublishDay,
                           ),
                           const SizedBox(height: 8.0),
                           Obx(
@@ -251,6 +238,7 @@ class JobPostFormView extends GetView<JobPostFormController> {
                             ),
                           ),
                           InputField(
+                            key: UniqueKey(),
                             controller: controller.usingPointController,
                             icon: const Icon(CustomIcons.gift_open_outline),
                             labelText: 'Dùng điểm',
@@ -258,6 +246,10 @@ class JobPostFormView extends GetView<JobPostFormController> {
                             inputAction: TextInputAction.next,
                             keyBoardType: TextInputType.number,
                             onChanged: controller.onChangeUsingPoint,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.digitsOnly
+                            ],
+                            validator: controller.validateUsingPoint,
                           ),
                           const SizedBox(height: 8.0),
                           Obx(
@@ -274,12 +266,10 @@ class JobPostFormView extends GetView<JobPostFormController> {
                 ),
                 const SizedBox(height: 16.0),
                 FilledButton(
-                    title: AppStrings.titleCreate,
-                    minWidth: Get.width * 0.7,
-                    onPressed: () {
-                      controller.formKey.currentState!.save();
-                      print(controller.selectedTreeTypes);
-                    })
+                  title: AppStrings.titleCreate,
+                  minWidth: Get.width * 0.7,
+                  onPressed: controller.onSubmitForm,
+                )
               ],
             ),
           ),
@@ -292,29 +282,65 @@ class JobPostFormView extends GetView<JobPostFormController> {
     if (!isUpgrade) return const SizedBox();
     return Column(
       children: [
+        DropdownSearch<PostType>(
+          key: UniqueKey(),
+          mode: Mode.MENU,
+          dropdownSearchDecoration: const InputDecoration(
+            icon: Icon(CustomIcons.box),
+            labelText: '${AppStrings.labelPostType}*',
+          ),
+          showSelectedItems: true,
+          emptyBuilder: (_, __) =>
+              const DropdownEmptyBuilder(msg: AppStrings.noData),
+          popupItemBuilder: (_, postType, isSelected) => ListTile(
+            title: Text(
+              postType.name,
+              style: Get.textTheme.bodyText1!.copyWith(
+                color: isSelected ? AppColors.primaryColor : AppColors.black,
+              ),
+            ),
+            trailing: Text(
+              Utils.vietnameseCurrencyFormat.format(postType.price),
+              style: Get.textTheme.caption,
+            ),
+          ),
+          items: controller.postTypes,
+          selectedItem: controller.selectedPostType.value,
+          compareFn: controller.comparePostType,
+          onChanged: controller.onPostTypeChange,
+          validator: controller.validatePostType,
+          autoValidateMode: AutovalidateMode.onUserInteraction,
+        ),
+        const SizedBox(height: 16.0),
         InputField(
+          key: UniqueKey(),
           controller: controller.upgradeDateController,
           icon: const Icon(CustomIcons.calendar_range),
           labelText: '${AppStrings.labelUpgradeDate}*',
           placeholder: AppStrings.placeholderUpgradeDate,
           inputAction: TextInputAction.next,
           readOnly: true,
-          onTap: () {},
+          onTap: controller.onChooseUpgradeDate,
+          validator: controller.validateUpgradeDate,
         ),
         const SizedBox(height: 16.0),
         InputField(
+          key: UniqueKey(),
           controller: controller.numOfUpgradeDateController,
           icon: const Icon(CustomIcons.calendar_range),
           labelText: '${AppStrings.labelNumOfUpgradeDay}*',
           placeholder: AppStrings.placeholderNumOfUpgradeDay,
           inputAction: TextInputAction.next,
           keyBoardType: TextInputType.number,
+          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
           onChanged: controller.onChangeNumOfUpgradeDay,
+          validator: controller.validateNumOfUpgradeDay,
         ),
         const SizedBox(height: 8.0),
         _buildEquationDisplay(
             equation: controller.upgradeEquation,
             cost: controller.totalUpgrade),
+        numOfP
       ],
     );
   }
@@ -349,41 +375,55 @@ class JobPostFormView extends GetView<JobPostFormController> {
       return [
         const SizedBox(height: 16.0),
         InputField(
+          key: UniqueKey(),
           controller: controller.estimateWorkController,
           icon: const Icon(CustomIcons.lucide_axe),
-          labelText: AppStrings.labelEstimateWork,
+          labelText: '${AppStrings.labelEstimateWork}*',
           placeholder: AppStrings.placeholderEstimateWork,
           inputAction: TextInputAction.next,
           keyBoardType: TextInputType.number,
+          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+          validator: controller.validateEstimateWork,
         ),
         const SizedBox(height: 16.0),
         InputField(
+          key: UniqueKey(),
           controller: controller.minFarmerController,
           icon: const Icon(CustomIcons.account_outline),
-          labelText: AppStrings.labelMinFarmer,
+          labelText: '${AppStrings.labelMinFarmer}*',
           placeholder: AppStrings.placeholderMinFarmer,
           inputAction: TextInputAction.next,
           keyBoardType: TextInputType.number,
+          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+          validator: controller.validateMinFarmer,
         ),
         const SizedBox(height: 16.0),
         InputField(
+          key: UniqueKey(),
           controller: controller.maxFarmerController,
           icon: const Icon(CustomIcons.account_outline),
-          labelText: AppStrings.labelMaxFarmer,
+          labelText: '${AppStrings.labelMaxFarmer}*',
           placeholder: AppStrings.placeholderMaxFarmer,
           inputAction: TextInputAction.next,
           keyBoardType: TextInputType.number,
-        ),
-        InputField(
-          controller: controller.hourSalaryController,
-          icon: const Icon(CustomIcons.cash),
-          labelText: AppStrings.labelHourSalary,
-          placeholder: AppStrings.placeholderHourSalary,
-          inputAction: TextInputAction.next,
-          keyBoardType: TextInputType.number,
+          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+          validator: controller.validateMaxFarmer,
         ),
         const SizedBox(height: 16.0),
         InputField(
+          key: UniqueKey(),
+          controller: controller.hourSalaryController,
+          icon: const Icon(CustomIcons.cash),
+          labelText: '${AppStrings.labelHourSalary}*',
+          placeholder: AppStrings.placeholderHourSalary,
+          inputAction: TextInputAction.next,
+          keyBoardType: TextInputType.number,
+          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+          validator: controller.validateHourSalary,
+        ),
+        const SizedBox(height: 16.0),
+        InputField(
+          key: UniqueKey(),
           controller: controller.startHourController,
           icon: const Icon(Icons.timer_outlined),
           labelText: AppStrings.labelStartHour,
@@ -392,9 +432,11 @@ class JobPostFormView extends GetView<JobPostFormController> {
           keyBoardType: TextInputType.number,
           readOnly: true,
           onTap: controller.onChooseStartHour,
+          validator: controller.validateStartHour,
         ),
         const SizedBox(height: 16.0),
         InputField(
+          key: UniqueKey(),
           controller: controller.endHourController,
           icon: const Icon(Icons.timer_outlined),
           labelText: AppStrings.labelEndHour,
@@ -403,28 +445,34 @@ class JobPostFormView extends GetView<JobPostFormController> {
           keyBoardType: TextInputType.number,
           readOnly: true,
           onTap: controller.onChooseEndHour,
+          validator: controller.validateEndHour,
         ),
       ];
     } else {
       return [
         const SizedBox(height: 16.0),
         InputField(
+          key: UniqueKey(),
           controller: controller.taskSalaryController,
           icon: const Icon(CustomIcons.cash),
-          labelText: AppStrings.labelTaskSalary,
+          labelText: '${AppStrings.labelTaskSalary}*',
           placeholder: AppStrings.placeholderTaskSalary,
           inputAction: TextInputAction.next,
           keyBoardType: TextInputType.number,
+          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+          validator: controller.validateTaskSalary,
         ),
         const SizedBox(height: 16.0),
         InputField(
-          controller: controller.jobEndDate,
+          key: UniqueKey(),
+          controller: controller.jobEndDateController,
           icon: const Icon(CustomIcons.calendar_range),
-          labelText: AppStrings.labelJobEndDate,
+          labelText: '${AppStrings.labelJobEndDate}*',
           placeholder: AppStrings.placeholderJobEndDate,
           inputAction: TextInputAction.next,
-          keyBoardType: TextInputType.number,
-          onTap: () {},
+          validator: controller.validateJobEndDate,
+          readOnly: true,
+          onTap: controller.onChooseJobEndDate,
         ),
         const SizedBox(height: 16.0),
         Row(
@@ -438,6 +486,7 @@ class JobPostFormView extends GetView<JobPostFormController> {
             ),
             Obx(
               () => MyCheckBox(
+                key: UniqueKey(),
                 value: controller.isToolAvailable.value,
                 onChanged: (value) => controller.isToolAvailable.value = value!,
               ),

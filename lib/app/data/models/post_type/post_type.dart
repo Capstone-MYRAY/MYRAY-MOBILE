@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:myray_mobile/app/shared/constants/app_colors.dart';
 
 part 'post_type.g.dart';
 
@@ -32,6 +30,11 @@ class PostType {
     this.color = '000000',
     this.background = '8E8EA1',
   });
+
+  @override
+  String toString() {
+    return name;
+  }
 
   factory PostType.fromJson(Map<String, dynamic> json) =>
       _$PostTypeFromJson(json);

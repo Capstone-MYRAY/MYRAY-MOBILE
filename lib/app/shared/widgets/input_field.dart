@@ -14,7 +14,7 @@ class InputField extends StatelessWidget {
   final int maxLines;
   final Widget? suffix;
   final TextInputType keyBoardType;
-  final TextEditingController controller;
+  final TextEditingController? controller;
   final FocusNode? focusNode;
   final TextInputAction inputAction;
   final AutovalidateMode autovalidateMode;
@@ -25,9 +25,9 @@ class InputField extends StatelessWidget {
 
   const InputField({
     Key? key,
-    required this.controller,
     required this.icon,
     required this.labelText,
+    this.controller,
     this.validator,
     this.focusNode,
     this.onTap,
