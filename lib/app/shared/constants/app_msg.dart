@@ -18,4 +18,6 @@ class AppMsg {
   static const MSG6007 = 'Bạn phải đủ 15 tuổi mới được đăng ký';
   static const MSG6008 = 'Mã OTP không đúng';
   static const MSG6009 = 'Đăng ký tài khoản thành công!';
+
+  static const MSG3005 = 'Bạn muốn ứng tuyển vào công việc này? ';
 }
