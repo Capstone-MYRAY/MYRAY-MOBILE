@@ -106,7 +106,8 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
                                     treeType: "Cây cà phê",
                                     workType: "Làm khoán",
                                     isStatus: true,
-                                    expiredDate: expiredDate,
+                                    expiredDate: DateFormat('dd-MM-yyyy')
+                                        .format(expiredDate),
                                     onTap: () {
                                       Get.toNamed(Routes.farmerJobPostDetail,
                                           arguments: {Arguments.item: jobPost});

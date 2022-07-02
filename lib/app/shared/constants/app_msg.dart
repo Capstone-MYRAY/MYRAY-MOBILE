@@ -20,4 +20,6 @@ class AppMsg {
   static const MSG6009 = 'Đăng ký tài khoản thành công!';
 
   static const MSG3005 = 'Bạn muốn ứng tuyển vào công việc này? ';
+  static const MSG3006 = 'Ứng tuyển thành công!';
+  static const MSG3007 = 'Ứng tuyển không thành công!';
 }

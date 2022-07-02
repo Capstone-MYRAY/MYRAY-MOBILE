@@ -8,7 +8,7 @@ class CustomDialog {
   CustomDialog._();
 
   static show({
-    required void Function()? confirm,
+    required void Function() confirm,
     required String message,
     String? confirmTitle = AppStrings.titleConfirm,
     String? cancelTileButton = AppStrings.cancel,
@@ -28,7 +28,7 @@ class CustomDialog {
       barrierDismissible: false,
       radius: 10,
       confirm: CustomTextButton(
-        onPressed: () {},
+        onPressed: confirm,
         title: confirmTitle,
         background: AppColors.white,
         foreground: AppColors.primaryColor,
