@@ -22,4 +22,12 @@ class JobPostRepository {
     }
     return null;
   }
+
+  Future<dynamic> applyJob (int data) async {
+    final response = await _apiProvider.getMethod('/apply/$data');
+    if(response.statusCode == HttpStatus.ok){
+      return true;
+    }
+    return false;
+  }
 }

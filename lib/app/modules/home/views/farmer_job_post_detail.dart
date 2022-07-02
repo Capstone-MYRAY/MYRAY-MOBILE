@@ -18,7 +18,7 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
       ),
       bottomNavigationBar: CustomBottomNavigationBar(
         onPressedOutlineButton: () {},
-        onPressedFilledButton: () {},
+        onPressedFilledButton: () {controller.applyJob(controller.jobPost.id);},
       ),
       body: CustomScrollView(slivers: [
         SliverPersistentHeader(
