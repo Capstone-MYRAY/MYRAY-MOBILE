@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:myray_mobile/app/shared/constants/app_strings.dart';
 import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
-import 'package:myray_mobile/app/shared/widgets/custom_outline_button.dart';
-import 'package:myray_mobile/app/shared/widgets/filled_button.dart';
+import 'package:myray_mobile/app/shared/widgets/buttons/custom_outline_button.dart';
+import 'package:myray_mobile/app/shared/widgets/buttons/filled_button.dart';
 
 class CustomBottomNavigationBar extends StatelessWidget {
   final void Function()? onPressedOutlineButton;

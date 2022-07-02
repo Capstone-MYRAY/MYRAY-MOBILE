@@ -9,8 +9,8 @@ import 'package:myray_mobile/app/routes/app_pages.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/utils/utils.dart';
 import 'package:myray_mobile/app/shared/widgets/custom_snackbar.dart';
-import 'package:myray_mobile/app/shared/widgets/information_dialog.dart';
-import 'package:myray_mobile/app/shared/widgets/my_date_picker.dart';
+import 'package:myray_mobile/app/shared/widgets/dialogs/information_dialog.dart';
+import 'package:myray_mobile/app/shared/widgets/controls/my_date_picker.dart';
 
 class SignupController extends GetxController {
   final AuthRepository _authRepository = Get.find();

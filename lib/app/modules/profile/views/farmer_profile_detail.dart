@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:myray_mobile/app/modules/profile/controllers/farmer_profile_controller.dart';
 import 'package:myray_mobile/app/modules/profile/widgets/personal_information_card.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
-import 'package:myray_mobile/app/shared/widgets/filled_button.dart';
+import 'package:myray_mobile/app/shared/widgets/buttons/filled_button.dart';
 
 class FarmerProfileDetailView extends StatelessWidget {
   const FarmerProfileDetailView({Key? key}) : super(key: key);

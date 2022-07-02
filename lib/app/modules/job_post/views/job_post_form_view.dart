@@ -9,12 +9,12 @@ import 'package:myray_mobile/app/modules/job_post/widgets/tree_type_fields.dart'
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
 import 'package:myray_mobile/app/shared/utils/utils.dart';
-import 'package:myray_mobile/app/shared/widgets/custom_icon_button.dart';
-import 'package:myray_mobile/app/shared/widgets/dropdown_empty_builder.dart';
-import 'package:myray_mobile/app/shared/widgets/filled_button.dart';
-import 'package:myray_mobile/app/shared/widgets/input_field.dart';
-import 'package:myray_mobile/app/shared/widgets/my_card.dart';
-import 'package:myray_mobile/app/shared/widgets/my_check_box.dart';
+import 'package:myray_mobile/app/shared/widgets/buttons/custom_icon_button.dart';
+import 'package:myray_mobile/app/shared/widgets/builders/dropdown_empty_builder.dart';
+import 'package:myray_mobile/app/shared/widgets/buttons/filled_button.dart';
+import 'package:myray_mobile/app/shared/widgets/controls/input_field.dart';
+import 'package:myray_mobile/app/shared/widgets/cards/my_card.dart';
+import 'package:myray_mobile/app/shared/widgets/controls/my_check_box.dart';
 
 class JobPostFormView extends GetView<JobPostFormController> {
   const JobPostFormView({Key? key}) : super(key: key);
@@ -23,9 +23,7 @@ class JobPostFormView extends GetView<JobPostFormController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          AppStrings.titleCreateJobPost,
-        ),
+        title: Text(controller.screenTitle),
       ),
       body: Container(
         padding: const EdgeInsets.symmetric(
@@ -231,7 +229,7 @@ class JobPostFormView extends GetView<JobPostFormController> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Điểm hiện tại: 50000 điểm',
+                            'Điểm hiện tại: ${controller.userPoint} điểm',
                             style: Get.textTheme.bodyText2!.copyWith(
                               fontWeight: FontWeight.w500,
                               fontSize: 14.0 * Get.textScaleFactor,
@@ -264,9 +262,51 @@ class JobPostFormView extends GetView<JobPostFormController> {
                     ],
                   ),
                 ),
+                const SizedBox(height: 8.0),
+                MyCard(
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Tổng cộng',
+                            style: Get.textTheme.bodyText1,
+                          ),
+                          Obx(
+                            () => Text(
+                              controller.totalFee,
+                              style: Get.textTheme.bodyText2!.copyWith(
+                                color: AppColors.errorColor,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 8.0),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Điểm tích lũy',
+                            style: Get.textTheme.bodyText1,
+                          ),
+                          Obx(
+                            () => Text(
+                              '+${controller.bonusPoint}',
+                              style: Get.textTheme.bodyText2!.copyWith(
+                                color: AppColors.primaryColor,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
                 const SizedBox(height: 16.0),
                 FilledButton(
-                  title: AppStrings.titleCreate,
+                  title: controller.buttonTitle,
                   minWidth: Get.width * 0.7,
                   onPressed: controller.onSubmitForm,
                 )

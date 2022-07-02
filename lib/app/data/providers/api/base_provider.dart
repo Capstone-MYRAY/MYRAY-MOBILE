@@ -8,7 +8,7 @@ import 'package:myray_mobile/app/modules/auth/controllers/auth_controller.dart';
 import 'package:myray_mobile/app/shared/constants/app_msg.dart';
 import 'package:myray_mobile/app/shared/utils/auth_credentials.dart';
 import 'package:myray_mobile/app/shared/utils/custom_exception.dart';
-import 'package:myray_mobile/app/shared/widgets/information_dialog.dart';
+import 'package:myray_mobile/app/shared/widgets/dialogs/information_dialog.dart';
 
 class BaseProvider extends GetConnect {
   final _authController = Get.find<AuthController>();

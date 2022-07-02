@@ -41,6 +41,7 @@ class AppStrings {
   static const titleSuccess = 'Thành công';
   static const titleError = 'Lỗi';
   static const titleCreateJobPost = 'Tạo công việc';
+  static const titleEditJobPost = 'Chỉnh sửa công việc';
 
   //Subtitle
   static const subtitleMyGarden = 'Danh sách vườn đã tạo';

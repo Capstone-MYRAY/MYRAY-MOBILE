@@ -34,7 +34,7 @@ class GardenRepository {
       return GetGardenResponse.fromJson(response.body);
     }
 
-    if (response.statusCode == HttpStatus.ok) {
+    if (response.statusCode == HttpStatus.noContent) {
       throw CustomException('No content');
     }
 

@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:myray_mobile/app/modules/auth/controllers/login_controller.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
-import 'package:myray_mobile/app/shared/widgets/input_field.dart';
+import 'package:myray_mobile/app/shared/widgets/controls/input_field.dart';
 
 class LoginView extends GetView<LoginController> {
   const LoginView({Key? key}) : super(key: key);

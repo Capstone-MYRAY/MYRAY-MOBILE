@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:myray_mobile/app/data/enums/payment_history_status.dart';
+import 'package:myray_mobile/app/data/enums/enums.dart';
 import 'package:myray_mobile/app/data/models/account.dart';
 import 'package:myray_mobile/app/data/models/payment_history/payment_history_models.dart';
 import 'package:myray_mobile/app/modules/payment_history/payment_history_repository.dart';
