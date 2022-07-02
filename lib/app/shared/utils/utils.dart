@@ -104,6 +104,8 @@ class Utils {
   static final vietnameseCurrencyFormat =
       NumberFormat.currency(locale: 'vi_VN', symbol: 'đ');
 
+  static final threeDigitsFormat = NumberFormat.decimalPattern('vi_VN');
+
   static final vietnamesePhone = RegExp(
     r'(\+84|84)+([0-9]{9})|(0[3|5|7|8|9])+([0-9]{8})\b',
     caseSensitive: false,
