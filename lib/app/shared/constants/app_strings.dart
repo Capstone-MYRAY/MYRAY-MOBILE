@@ -156,5 +156,8 @@ class AppStrings {
   static const applyButton =  "Ứng tuyển ngay";
   static const extendButton = "Gia hạn";
   static const buttonCheckAttendance = 'Điểm danh';
+  static const cancel = "Hủy";
+  static const back = "Quay lại";
+  static const shortApplyButton = "Ứng tuyển";
 
 }

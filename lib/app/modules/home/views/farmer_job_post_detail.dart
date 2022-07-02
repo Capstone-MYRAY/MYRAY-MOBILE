@@ -4,7 +4,9 @@ import 'package:myray_mobile/app/modules/home/controllers/farmer_job_post_detail
 import 'package:myray_mobile/app/modules/home/widgets/custom_bottom_navigation_bar.dart';
 import 'package:myray_mobile/app/modules/home/widgets/custom_sliver_app_bar.dart';
 import 'package:myray_mobile/app/shared/constants/app_colors.dart';
+import 'package:myray_mobile/app/shared/constants/app_msg.dart';
 import 'package:myray_mobile/app/shared/widgets/bullet.dart';
+import 'package:myray_mobile/app/shared/widgets/custom_confirm_dialog.dart';
 
 class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
   const FarmerJobPostDetail({Key? key}) : super(key: key);
@@ -18,7 +20,12 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
       ),
       bottomNavigationBar: CustomBottomNavigationBar(
         onPressedOutlineButton: () {},
-        onPressedFilledButton: () {controller.applyJob(controller.jobPost.id);},
+        onPressedFilledButton: () {
+          CustomDialog.show(
+              confirm: () {controller.applyJob(controller.jobPost.id);},
+              message:
+                  "${AppMsg.MSG3005} Lưu ý: bạn chỉ có 1 lần hủy ứng tuyển, hãy cân nhắc");
+        },
       ),
       body: CustomScrollView(slivers: [
         SliverPersistentHeader(
@@ -30,7 +37,10 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
         ),
         buildImages2(),
         buildImages3(),
-        SliverToBoxAdapter(child: Padding(padding: EdgeInsets.only(bottom: 50),))
+        SliverToBoxAdapter(
+            child: Padding(
+          padding: EdgeInsets.only(bottom: 50),
+        ))
       ]),
     );
   }
