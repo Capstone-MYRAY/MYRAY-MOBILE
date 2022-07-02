@@ -9,14 +9,29 @@ import 'package:myray_mobile/app/data/models/tree_type/tree_type_models.dart';
 import 'package:myray_mobile/app/data/services/services.dart';
 import 'package:myray_mobile/app/modules/garden/garden_repository.dart';
 import 'package:myray_mobile/app/modules/job_post/widgets/tree_type_fields.dart';
+import 'package:myray_mobile/app/modules/profile/controllers/landowner_profile_controller.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/utils/auth_credentials.dart';
 import 'package:myray_mobile/app/shared/utils/utils.dart';
-import 'package:myray_mobile/app/shared/widgets/my_date_picker.dart';
+import 'package:myray_mobile/app/shared/widgets/dialogs/information_dialog.dart';
+import 'package:myray_mobile/app/shared/widgets/controls/my_date_picker.dart';
 
 class JobPostFormController extends GetxController {
+  final Activities action = Get.arguments[Arguments.action];
+
+  String get screenTitle => action == Activities.create
+      ? AppStrings.titleCreateJobPost
+      : AppStrings.titleEditJobPost;
+
+  String get buttonTitle => action == Activities.create
+      ? AppStrings.titleCreate
+      : AppStrings.titleUpdate;
+
   final Rx<FeeData> _feeConfig = Rx(FeeData());
+  final _userPoint = Get.find<LandownerProfileController>().user.value.point!;
+
   var postTypeCost = 0.0.obs;
+  final _totalFee = 0.0.obs;
 
   final _gardenRepository = Get.find<GardenRepository>();
   final _treeTypeRepository = Get.find<TreeTypeRepository>();
@@ -88,6 +103,17 @@ class JobPostFormController extends GetxController {
   String get totalUpgrade =>
       '= ${Utils.vietnameseCurrencyFormat.format(upgradeCost.value)}';
 
+  String get userPoint => Utils.threeDigitsFormat.format(_userPoint);
+  String get totalFee => Utils.vietnameseCurrencyFormat.format(_totalFee.value);
+  String get bonusPoint {
+    if (_feeConfig.value.pointToReduce1VND != 0) {
+      return Utils.threeDigitsFormat
+          .format((_totalFee / _feeConfig.value.payToHave1Point).round());
+    }
+
+    return "0";
+  }
+
   @override
   void onInit() async {
     formKey = GlobalKey<FormState>();
@@ -145,7 +171,23 @@ class JobPostFormController extends GetxController {
   onSubmitForm() {
     bool isTreeTypeValid = treeTypeFieldKey.currentState!.validate();
     bool isFormFieldsValid = formKey.currentState!.validate();
+
+    if (!isTreeTypeValid || !isFormFieldsValid) return;
+
+    //check balance
+    final _profile = Get.find<LandownerProfileController>();
+    if (_totalFee.value > _profile.balanceWithPending.value) {
+      InformationDialog.showDialog(
+        msg: 'Bạn không đủ tiền trong tài khoản.',
+        confirmTitle: AppStrings.titleClose,
+      );
+      return;
+    }
+
+    //execute create or update
   }
+
+  onCreate() {}
 
   getFeeConfig() async {
     final _result = await _feeDataService.getFeeConfig();
@@ -160,7 +202,7 @@ class JobPostFormController extends GetxController {
 
     GetGardenRequest data = GetGardenRequest(
       accountId: _accountId.toString(),
-      page: 1.toString(),
+      page: GardenStatus.active.index.toString(),
       pageSize: 100.toString(),
       sortColumn: GardenSortColumn.createdDate,
       orderBy: SortOrder.descending,
@@ -175,8 +217,11 @@ class JobPostFormController extends GetxController {
   }
 
   getTreeTypes() async {
-    GetTreeTypeRequest data =
-        GetTreeTypeRequest(page: 1.toString(), pageSize: 100.toString());
+    GetTreeTypeRequest data = GetTreeTypeRequest(
+      page: 1.toString(),
+      pageSize: 100.toString(),
+      status: TreeTypeStatus.active.index.toString(),
+    );
 
     final GetTreeTypeResponse? _response =
         await _treeTypeRepository.getList(data);
@@ -250,9 +295,15 @@ class JobPostFormController extends GetxController {
     calUpgradeCost();
   }
 
-  //void calculate upgradeCost
+  calTotalFee() {
+    _totalFee.value = totalPostingMoney.value +
+        upgradeCost.value -
+        totalDiscountByPoint.value;
+  }
+
   void calUpgradeCost() {
     upgradeCost.value = postTypeCost.value * numOfUpgradeDay.value;
+    calTotalFee();
   }
 
   //open time picker
@@ -353,12 +404,18 @@ class JobPostFormController extends GetxController {
 
   //choose job publish date
   void onChoosePublishDate() async {
+    DateTime now = DateTime.now();
+
+    //the publish date cannot be today if created time after 4 p.m. in the same date
+    DateTime _firstDate = now.hour >= 16 && now.hour <= 23
+        ? now.add(const Duration(days: 1))
+        : now;
     DateTime? _initDate = publishDateController.text.isNotEmpty
         ? Utils.fromddMMyyyy(publishDateController.text)
-        : null;
+        : _firstDate;
     DateTime? _pickedDate = await MyDatePicker.show(
         initDate: _initDate,
-        firstDate: DateTime.now(),
+        firstDate: _firstDate,
         lastDate: DateTime.now().add(const Duration(days: 365 * 10)));
     if (_pickedDate != null) {
       publishDateController.text = Utils.formatddMMyyyy(_pickedDate);
@@ -374,6 +431,7 @@ class JobPostFormController extends GetxController {
     }
     totalPostingMoney.value =
         _feeConfig.value.postingFeePerDay * numOfPublishDay.value;
+    calTotalFee();
   }
 
   void onChangeUsingPoint(String value) {
@@ -384,6 +442,7 @@ class JobPostFormController extends GetxController {
     }
     totalDiscountByPoint.value =
         _feeConfig.value.pointToReduce1VND * usingPoint.value;
+    calTotalFee();
   }
 
   void onChangeNumOfUpgradeDay(String value) {
@@ -452,7 +511,10 @@ class JobPostFormController extends GetxController {
       return AppMsg.MSG0010;
     }
 
-    //TODO: check if inputted point is larger than having point or not
+    //check user point is enough or not
+    if (int.parse(value) > _userPoint) {
+      return 'Điểm của bạn không đủ';
+    }
 
     return null;
   }
@@ -622,7 +684,6 @@ class JobPostFormController extends GetxController {
       }
     }
 
-    //TODO: cannot publish in the same date if created time after 4 p.m. in the same date
     return null;
   }
 

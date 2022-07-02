@@ -2,11 +2,6 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'tree_type.g.dart';
 
-enum TreeTypeStatus {
-  inActive,
-  active,
-}
-
 @JsonSerializable(includeIfNull: false)
 class TreeType {
   @JsonKey(name: 'id')

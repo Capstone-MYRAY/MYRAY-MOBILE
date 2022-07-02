@@ -7,9 +7,9 @@ part of 'fee_data.dart';
 // **************************************************************************
 
 FeeData _$FeeDataFromJson(Map<String, dynamic> json) => FeeData(
-      postingFeePerDay: (json['job_post'] as num).toDouble(),
-      payToHave1Point: (json['earn_point'] as num).toDouble(),
-      pointToReduce1VND: (json['point'] as num).toDouble(),
+      postingFeePerDay: (json['job_post'] as num?)?.toDouble() ?? 0,
+      payToHave1Point: (json['earn_point'] as num?)?.toDouble() ?? 0,
+      pointToReduce1VND: (json['point'] as num?)?.toDouble() ?? 0,
     );
 
 Map<String, dynamic> _$FeeDataToJson(FeeData instance) => <String, dynamic>{

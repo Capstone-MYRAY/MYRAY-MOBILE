@@ -14,6 +14,7 @@ import 'package:myray_mobile/app/modules/home/controllers/farmer_home_controller
 import 'package:myray_mobile/app/modules/job_post/controllers/farmer_job_post_controller.dart';
 import 'package:myray_mobile/app/modules/job_post/controllers/landowner_job_post_controller.dart';
 import 'package:myray_mobile/app/modules/job_post/job_post_repository.dart';
+import 'package:myray_mobile/app/modules/payment_history/payment_history_repository.dart';
 import 'package:myray_mobile/app/modules/profile/controllers/farmer_profile_controller.dart';
 import 'package:myray_mobile/app/modules/profile/controllers/landowner_profile_controller.dart';
 import 'package:myray_mobile/app/modules/profile/profile_repository.dart';
@@ -35,6 +36,7 @@ class AppBinding extends Bindings {
     Get.lazyPut(() => TreeTypeRepository(), fenix: true);
     Get.lazyPut(() => PostTypeRepository(), fenix: true);
     Get.lazyPut(() => UploadImageService(), fenix: true);
+    Get.lazyPut(() => PaymentHistoryRepository(), fenix: true);
     Get.lazyPut(() => FeeDataService(), fenix: true);
     Get.lazyPut(() => LandownerProfileController());
     Get.lazyPut(() => LandownerJobPostController());

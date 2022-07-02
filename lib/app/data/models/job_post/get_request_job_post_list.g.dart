@@ -11,11 +11,12 @@ GetRequestJobPostList _$GetRequestJobPostListFromJson(
     GetRequestJobPostList(
       status: json['status'] as String?,
       title: json['title'] as String?,
-      sortColumn: json['sort-column'] as String?,
-      orderBy: json['order-by'] as String?,
+      sortColumn:
+          $enumDecodeNullable(_$JobPostSortColumnEnumMap, json['sort-column']),
+      orderBy: $enumDecodeNullable(_$SortOrderEnumMap, json['order-by']),
       page: json['page'] as String?,
       pageSize: json['page-size'] as String?,
-      publishBy: json['publish-by'] as String?,
+      publishBy: json['publishBy'] as String?,
     );
 
 Map<String, dynamic> _$GetRequestJobPostListToJson(
@@ -30,10 +31,21 @@ Map<String, dynamic> _$GetRequestJobPostListToJson(
 
   writeNotNull('title', instance.title);
   writeNotNull('status', instance.status);
-  writeNotNull('sort-column', instance.sortColumn);
-  writeNotNull('order-by', instance.orderBy);
+  writeNotNull('sort-column', _$JobPostSortColumnEnumMap[instance.sortColumn]);
+  writeNotNull('order-by', _$SortOrderEnumMap[instance.orderBy]);
   writeNotNull('page', instance.page);
   writeNotNull('page-size', instance.pageSize);
-  writeNotNull('publish-by', instance.publishBy);
+  writeNotNull('publishBy', instance.publishBy);
   return val;
 }
+
+const _$JobPostSortColumnEnumMap = {
+  JobPostSortColumn.publishedDate: 'PublishedDate',
+  JobPostSortColumn.createdDate: 'CreatedDate',
+  JobPostSortColumn.approvedDate: 'ApprovedDate',
+};
+
+const _$SortOrderEnumMap = {
+  SortOrder.ascending: 'ASC',
+  SortOrder.descending: 'DESC',
+};

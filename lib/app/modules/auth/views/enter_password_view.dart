@@ -4,7 +4,7 @@ import 'package:myray_mobile/app/modules/auth/controllers/signup_controller.dart
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
 import 'package:myray_mobile/app/shared/utils/field_validation.dart';
-import 'package:myray_mobile/app/shared/widgets/input_field.dart';
+import 'package:myray_mobile/app/shared/widgets/controls/input_field.dart';
 
 class EnterPasswordView extends GetView<SignupController> {
   const EnterPasswordView({Key? key}) : super(key: key);

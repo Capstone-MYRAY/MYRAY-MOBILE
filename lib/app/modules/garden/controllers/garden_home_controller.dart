@@ -14,13 +14,13 @@ class GardenHomeController extends GetxController {
 
   final isLoading = false.obs;
 
-  @override
-  void onInit() async {
-    await getGardens();
-    super.onInit();
-  }
+  // @override
+  // void onInit() async {
+  //   await getGardens();
+  //   super.onInit();
+  // }
 
-  Future<void> getGardens() async {
+  Future<bool?> getGardens() async {
     final int _accountId = AuthCredentials.instance.user!.id!;
 
     GetGardenRequest data = GetGardenRequest(
@@ -39,7 +39,7 @@ class GardenHomeController extends GetxController {
         final _response = await _gardenRepository.getGardens(data);
         if (_response == null) {
           isLoading.value = false;
-          return;
+          return null;
         }
 
         gardens.addAll(_response.gardens!);
@@ -47,10 +47,11 @@ class GardenHomeController extends GetxController {
         _hasNextPage = _response.metadata!.hasNextPage;
       }
       isLoading.value = false;
+      return true;
     } on CustomException catch (e) {
       isLoading.value = false;
       _hasNextPage = false;
-      print(e.toString());
+      return null;
     }
   }
 

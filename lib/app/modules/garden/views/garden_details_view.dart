@@ -4,7 +4,8 @@ import 'package:myray_mobile/app/data/models/area/area.dart';
 import 'package:myray_mobile/app/modules/garden/controllers/garden_details_controller.dart';
 import 'package:myray_mobile/app/modules/garden/widgets/garden_details_card.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
-import 'package:myray_mobile/app/shared/widgets/filled_button.dart';
+import 'package:myray_mobile/app/shared/widgets/builders/loading_builder.dart';
+import 'package:myray_mobile/app/shared/widgets/buttons/filled_button.dart';
 
 class GardenDetailsView extends GetView<GardenDetailsController> {
   const GardenDetailsView({Key? key}) : super(key: key);
@@ -22,13 +23,7 @@ class GardenDetailsView extends GetView<GardenDetailsController> {
         future: controller.getArea(),
         builder: ((context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: SizedBox(
-                width: 60,
-                height: 60,
-                child: CircularProgressIndicator(),
-              ),
-            );
+            return const LoadingBuilder();
           }
 
           if (snapshot.hasError || snapshot.data == null) {

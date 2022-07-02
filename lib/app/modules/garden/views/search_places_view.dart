@@ -9,7 +9,7 @@ import 'package:myray_mobile/app/data/services/user_location_service.dart';
 
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
-import 'package:myray_mobile/app/shared/widgets/custom_icon_button.dart';
+import 'package:myray_mobile/app/shared/widgets/buttons/custom_icon_button.dart';
 import 'package:myray_mobile/app/shared/widgets/custom_snackbar.dart';
 
 class SearchPlacesView extends StatefulWidget {

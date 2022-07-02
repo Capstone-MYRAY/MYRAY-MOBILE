@@ -44,7 +44,9 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
                     ),
                   ),
                 ),
-                const SizedBox(width: 10,),
+                const SizedBox(
+                  width: 10,
+                ),
                 const Icon(
                   CustomIcons.star,
                   size: 20,
@@ -76,7 +78,7 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
                               itemBuilder: (context, index) {
                                 JobPost jobPost = controller.listJobPost[index];
                                 var publishedDate = jobPost.publishedDate;
-                                var numberPublishDate = jobPost.numPublishDay;
+                                var numberPublishDate = jobPost.numOfPublishDay;
                                 var expiredDate = controller.getExpiredDate(
                                     publishedDate, numberPublishDate);
                                 if (jobPost.payPerHourJob != null) {
