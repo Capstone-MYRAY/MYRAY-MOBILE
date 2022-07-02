@@ -57,13 +57,14 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
             const SizedBox(
               height: 10,
             ),
-            controller.isLoading.value
-                ? JumpingDotsProgressIndicator(
-                    fontSize: 40.0,
-                    color: AppColors.primaryColor,
-                  )
-                : controller.listJobPost.isNotEmpty
-                    ? Container(
+            // controller.isLoading.value
+            //     ? JumpingDotsProgressIndicator(
+            //         fontSize: 40.0,
+            //         color: AppColors.primaryColor,
+            //       ):
+                //  controller.listJobPost.isNotEmpty
+                //     ?
+                     Container(
                         decoration: const BoxDecoration(
                           color: AppColors.white,
                         ),
@@ -118,21 +119,21 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
                             ),
                           ),
                         ),
-                      )
-                    : Center(
-                        child: Column(
-                          children: [
-                            Text(
-                              AppStrings.noMarkedJobPost,
-                              style: Get.textTheme.bodyMedium!
-                                  .copyWith(color: AppColors.grey),
-                            ),
-                            const SizedBox(height: 10),
-                            const ImageIcon(AssetImage(AppAssets.noJobFound),
-                                size: 20, color: AppColors.grey)
-                          ],
-                        ),
                       ),
+                    // : Center(
+                    //     child: Column(
+                    //       children: [
+                    //         Text(
+                    //           AppStrings.noMarkedJobPost,
+                    //           style: Get.textTheme.bodyMedium!
+                    //               .copyWith(color: AppColors.grey),
+                    //         ),
+                    //         const SizedBox(height: 10),
+                    //         const ImageIcon(AssetImage(AppAssets.noJobFound),
+                    //             size: 20, color: AppColors.grey)
+                    //       ],
+                    //     ),
+                      // ),
             const SizedBox(
               height: 20,
             ),
