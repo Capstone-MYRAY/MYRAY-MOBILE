@@ -1,8 +1,8 @@
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:myray_mobile/app/data/models/auth/job_post_response.dart';
 import 'package:myray_mobile/app/data/models/job_post/get_request_job_post_list.dart';
 import 'package:myray_mobile/app/data/models/job_post/job_post.dart';
+import 'package:myray_mobile/app/data/models/job_post/job_post_response.dart';
 import 'package:myray_mobile/app/modules/job_post/job_post_repository.dart';
 import 'package:myray_mobile/app/routes/app_pages.dart';
 import 'package:myray_mobile/app/shared/constants/common.dart';

@@ -18,6 +18,10 @@ class ApiProvider extends BaseProvider {
     return post(path, data);
   }
 
+   Future<Response> patchMethod(String path, Map<String, dynamic>? data) {
+    return patch(path, {query: data});
+  }
+
   Future<Response> multipartFile(String path, dynamic body) {
     return post(path, body, contentType: "multipart/form-data");
   }
