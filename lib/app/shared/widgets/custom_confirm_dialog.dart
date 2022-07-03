@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import "package:get/get.dart";
 import 'package:myray_mobile/app/shared/constants/app_colors.dart';
 import 'package:myray_mobile/app/shared/constants/app_strings.dart';
-import 'package:myray_mobile/app/shared/widgets/custom_textButton.dart';
+import 'package:myray_mobile/app/shared/widgets/buttons/custom_text_button.dart';
 
 class CustomDialog {
   CustomDialog._();
@@ -48,7 +48,6 @@ class CustomDialog {
             overflow: TextOverflow.ellipsis,
             textAlign: TextAlign.justify,
           ),
-         
         ],
       ),
     );

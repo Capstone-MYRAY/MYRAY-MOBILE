@@ -9,6 +9,7 @@ part of 'get_tree_type_request.dart';
 GetTreeTypeRequest _$GetTreeTypeRequestFromJson(Map<String, dynamic> json) =>
     GetTreeTypeRequest(
       type: json['type'] as String?,
+      status: json['status'] as String?,
       sortColumn:
           $enumDecodeNullable(_$TreeTypeSortColumnEnumMap, json['sort-column']),
       orderBy: $enumDecodeNullable(_$SortOrderEnumMap, json['order-by']),
@@ -26,6 +27,7 @@ Map<String, dynamic> _$GetTreeTypeRequestToJson(GetTreeTypeRequest instance) {
   }
 
   writeNotNull('type', instance.type);
+  writeNotNull('status', instance.status);
   writeNotNull('sort-column', _$TreeTypeSortColumnEnumMap[instance.sortColumn]);
   writeNotNull('order-by', _$SortOrderEnumMap[instance.orderBy]);
   writeNotNull('page', instance.page);

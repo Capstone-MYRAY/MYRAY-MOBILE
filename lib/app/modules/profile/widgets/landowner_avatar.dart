@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
-import 'package:myray_mobile/app/shared/widgets/filled_button.dart';
+import 'package:myray_mobile/app/shared/widgets/buttons/filled_button.dart';
 
 class LandownerAvatar extends StatelessWidget {
   final String fullName;

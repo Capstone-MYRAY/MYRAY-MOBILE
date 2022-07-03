@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:myray_mobile/app/modules/profile/controllers/landowner_profile_controller.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
+import 'package:myray_mobile/app/shared/utils/utils.dart';
 
 class LandownerAppbar extends GetView<LandownerProfileController>
     implements PreferredSizeWidget {
@@ -64,13 +65,15 @@ class LandownerAppbar extends GetView<LandownerProfileController>
                   icon: CustomIcons.wallet_outline,
                   title: 'Số dư',
                   details: controller.user.value.balance != null
-                      ? controller.user.value.balance.toString()
+                      ? Utils.vietnameseCurrencyFormat
+                          .format(controller.balanceWithPending.value)
                       : AppStrings.loading),
               _buildField(
                 icon: CustomIcons.gift_open_outline,
                 title: 'Điểm',
                 details: controller.user.value.point != null
-                    ? controller.user.value.point.toString()
+                    ? Utils.threeDigitsFormat
+                        .format(controller.user.value.point)
                     : AppStrings.loading,
               ),
             ],

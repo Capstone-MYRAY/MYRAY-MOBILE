@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:myray_mobile/app/shared/constants/app_colors.dart';
 import 'package:myray_mobile/app/shared/constants/app_strings.dart';
 import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
-import 'package:myray_mobile/app/shared/widgets/custom_textButton.dart';
+import 'package:myray_mobile/app/shared/widgets/buttons/custom_text_button.dart';
 
 class FarmerInprogressJobList extends StatelessWidget {
   const FarmerInprogressJobList({Key? key}) : super(key: key);
@@ -20,33 +20,29 @@ class FarmerInprogressJobList extends StatelessWidget {
             color: AppColors.white,
             child: Padding(
               padding: const EdgeInsets.only(top: 10),
-              child: 
-              Column(
+              child: Column(
                 children: [
                   Padding(
                     padding: EdgeInsets.only(left: 20, right: 20),
-                    child:
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                                "Thu hoạch cà phê vào năm tới + Thu hoạch hồ tiêu, mắc ca, hột điều",
-                                style: Get.textTheme.headline3?.copyWith(
-                                  color: AppColors.brown,
-                                ),
-                                softWrap: true,
-                                maxLines: 3,
-                                textAlign: TextAlign.justify,
-                                overflow: TextOverflow.ellipsis
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                              "Thu hoạch cà phê vào năm tới + Thu hoạch hồ tiêu, mắc ca, hột điều",
+                              style: Get.textTheme.headline3?.copyWith(
+                                color: AppColors.brown,
                               ),
-                          ),
-                        ],
-                      ),
-                      
-                    
+                              softWrap: true,
+                              maxLines: 3,
+                              textAlign: TextAlign.justify,
+                              overflow: TextOverflow.ellipsis),
+                        ),
+                      ],
+                    ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 10, left: 15, right: 15),
+                    padding:
+                        const EdgeInsets.only(top: 10, left: 15, right: 15),
                     child: Row(
                       children: [
                         const Icon(CustomIcons.map_marker_outline, size: 20),
@@ -55,15 +51,14 @@ class FarmerInprogressJobList extends StatelessWidget {
                         ),
                         Expanded(
                           child: Text(
-                              "144 Dương Đình Hội, lô 17 - D11, phường Phước Long B, thành phố Thủ Đức, thành phố Hồ Chí Minh",
-                              style: Get.textTheme.bodyText2,
-                              softWrap: true,
-                              overflow: TextOverflow.ellipsis,
-                              textAlign: TextAlign.left,
-                              maxLines: 10,
-                            ),
+                            "144 Dương Đình Hội, lô 17 - D11, phường Phước Long B, thành phố Thủ Đức, thành phố Hồ Chí Minh",
+                            style: Get.textTheme.bodyText2,
+                            softWrap: true,
+                            overflow: TextOverflow.ellipsis,
+                            textAlign: TextAlign.left,
+                            maxLines: 10,
+                          ),
                         ),
-                        
                       ],
                     ),
                   ),
@@ -102,8 +97,10 @@ class FarmerInprogressJobList extends StatelessWidget {
                               ],
                             ),
                             const SizedBox(height: 7),
-                            CustomTextButton(onPressed: (){}, title: "Báo cáo",),
-                           
+                            CustomTextButton(
+                              onPressed: () {},
+                              title: "Báo cáo",
+                            ),
                           ],
                         ),
                         Column(
@@ -149,10 +146,15 @@ class FarmerInprogressJobList extends StatelessWidget {
                             const SizedBox(
                               height: 7,
                             ),
-                            index % 2 == 0 ?
-                            CustomTextButton(onPressed: (){}, title: AppStrings.extendButton,)
-                            : CustomTextButton(onPressed: (){}, title: AppStrings.buttonCheckAttendance,),
-                            
+                            index % 2 == 0
+                                ? CustomTextButton(
+                                    onPressed: () {},
+                                    title: AppStrings.extendButton,
+                                  )
+                                : CustomTextButton(
+                                    onPressed: () {},
+                                    title: AppStrings.buttonCheckAttendance,
+                                  ),
                           ],
                         ),
                       ],

@@ -3,6 +3,7 @@ import 'package:myray_mobile/app/data/models/job_post/pay_per_hour_job/pay_per_h
 import 'package:myray_mobile/app/data/models/job_post/pay_per_task_job/pay_per_task_job.dart';
 
 part 'job_post.g.dart';
+
 @JsonSerializable(includeIfNull: false)
 class JobPost {
   @JsonKey(name: 'id')
@@ -11,6 +12,9 @@ class JobPost {
   @JsonKey(name: 'garden_id')
   int gardenId;
 
+  @JsonKey(name: 'garden_name')
+  int gardenName;
+
   @JsonKey(name: 'title')
   String title;
 
@@ -18,13 +22,13 @@ class JobPost {
   String type;
 
   @JsonKey(name: 'start_job_date')
-  DateTime startJobDate;
+  DateTime jobStartDate;
 
   @JsonKey(name: 'end_job_date')
-  DateTime endJobDate;
+  DateTime jobEndDate;
 
   @JsonKey(name: 'num_publish_day')
-  int numPublishDay;
+  int numOfPublishDay;
 
   @JsonKey(name: 'published_by')
   int publishedBy;
@@ -47,8 +51,26 @@ class JobPost {
   @JsonKey(name: 'approved_date')
   DateTime? approvedDate;
 
+  @JsonKey(name: 'description')
+  String? description;
+
   @JsonKey(name: 'status')
-  String status;
+  int status;
+
+  @JsonKey(name: 'status_work')
+  int? workStatus;
+
+  @JsonKey(name: 'reason_reject')
+  String? rejectedReason;
+
+  @JsonKey(name: 'post_type_id')
+  int? postTypeId;
+
+  @JsonKey(name: 'color')
+  String? foregroundColor;
+
+  @JsonKey(name: 'background')
+  String? backgroundColor;
 
   @JsonKey(name: 'pay_per_hour_job')
   PayPerHourJob? payPerHourJob;
@@ -56,24 +78,32 @@ class JobPost {
   @JsonKey(name: 'pay_per_task_job')
   PayPerTaskJob? payPerTaskJob;
 
-  JobPost(
-      {required this.id,
-      required this.gardenId,
-      required this.title,
-      required this.type,
-      required this.startJobDate,
-      required this.endJobDate,
-      required this.numPublishDay,
-      required this.publishedBy,
-      required this.publishedName,
-      required this.publishedDate,
-      required this.createdDate,     
-      required this.status,
-      this.approvedBy,
-      this.approvedDate,
-      this.updatedDate,
-      this.payPerHourJob,
-      this.payPerTaskJob});
+  JobPost({
+    required this.id,
+    required this.gardenId,
+    required this.gardenName,
+    required this.title,
+    required this.type,
+    required this.jobStartDate,
+    required this.jobEndDate,
+    required this.numOfPublishDay,
+    required this.publishedBy,
+    required this.publishedName,
+    required this.publishedDate,
+    required this.createdDate,
+    required this.status,
+    this.approvedBy,
+    this.approvedDate,
+    this.updatedDate,
+    this.description,
+    this.payPerHourJob,
+    this.payPerTaskJob,
+    this.workStatus,
+    this.rejectedReason,
+    this.postTypeId,
+    this.backgroundColor,
+    this.foregroundColor,
+  });
 
   factory JobPost.fromJson(Map<String, dynamic> json) =>
       _$JobPostFromJson(json);

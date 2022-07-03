@@ -4,7 +4,7 @@ import 'package:myray_mobile/app/modules/auth/controllers/auth_controller.dart';
 import 'package:myray_mobile/app/routes/app_pages.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
-import 'package:myray_mobile/app/shared/widgets/feature_option.dart';
+import 'package:myray_mobile/app/shared/widgets/cards/feature_option.dart';
 
 class LandownerFeatureOptions extends StatelessWidget {
   const LandownerFeatureOptions({Key? key}) : super(key: key);

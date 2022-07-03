@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
-import 'package:myray_mobile/app/shared/widgets/card_field.dart';
-import 'package:myray_mobile/app/shared/widgets/filled_button.dart';
+import 'package:myray_mobile/app/shared/widgets/cards/card_field.dart';
+import 'package:myray_mobile/app/shared/widgets/buttons/filled_button.dart';
 
 class GardenCard extends StatelessWidget {
   final String thumbnail;
