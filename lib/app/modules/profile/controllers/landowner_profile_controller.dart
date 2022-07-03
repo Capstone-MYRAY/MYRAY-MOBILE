@@ -21,6 +21,8 @@ class LandownerProfileController extends GetxController {
 
   //balance in account minus balance fluctuation of pending payment histories
   calBalance() async {
+    balanceWithPending.value = user.value.balance!;
+
     final data = GetPaymentHistoryRequest(
       page: 1.toString(),
       pageSize: 100.toString(),
@@ -42,7 +44,7 @@ class LandownerProfileController extends GetxController {
         pendingFee += payment.balanceFluctuation ?? 0;
       }
 
-      balanceWithPending.value = user.value.balance! - pendingFee;
+      balanceWithPending.value -= -pendingFee;
     }
   }
 

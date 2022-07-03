@@ -9,6 +9,8 @@ class AppMsg {
   static const MSG0005 = 'Vui lòng nhập số thực lớn hơn 0';
   static const MSG0009 = 'Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại';
   static const MSG0010 = 'Vui lòng nhập số nguyên lớn hơn 0';
+  static const MSG4006 = 'Bạn đã tạo công việc thành công';
+  static const MSG4011 = 'Bạn đã thêm vườn thành công';
   static const MSG6001 = 'Số điện thoại này đã được đăng ký';
   static const MSG6002 = 'Số điện thoại không có trong hệ thống';
   static const MSG6003 = 'Mật khẩu không đúng';

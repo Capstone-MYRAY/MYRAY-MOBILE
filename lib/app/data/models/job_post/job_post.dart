@@ -1,8 +1,15 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:myray_mobile/app/data/models/job_post/pay_per_hour_job/pay_per_hour_job.dart';
 import 'package:myray_mobile/app/data/models/job_post/pay_per_task_job/pay_per_task_job.dart';
+import 'package:myray_mobile/app/data/models/tree_jobs/tree_jobs.dart';
+import 'package:myray_mobile/app/shared/constants/constants.dart';
 
 part 'job_post.g.dart';
+
+Map<String, String> _workTypeAlias = {
+  'PayPerHourJob': AppStrings.payPerHour,
+  'PayPerTaskJob': AppStrings.payPerTask,
+};
 
 @JsonSerializable(includeIfNull: false)
 class JobPost {
@@ -13,10 +20,16 @@ class JobPost {
   int gardenId;
 
   @JsonKey(name: 'garden_name')
-  int gardenName;
+  String gardenName;
 
   @JsonKey(name: 'title')
   String title;
+
+  @JsonKey(name: 'tree_jobs')
+  List<TreeJobs> treeJobs;
+
+  @JsonKey(name: 'address')
+  String address;
 
   @JsonKey(name: 'type')
   String type;
@@ -25,7 +38,7 @@ class JobPost {
   DateTime jobStartDate;
 
   @JsonKey(name: 'end_job_date')
-  DateTime jobEndDate;
+  DateTime? jobEndDate;
 
   @JsonKey(name: 'num_publish_day')
   int numOfPublishDay;
@@ -85,13 +98,14 @@ class JobPost {
     required this.title,
     required this.type,
     required this.jobStartDate,
-    required this.jobEndDate,
     required this.numOfPublishDay,
     required this.publishedBy,
     required this.publishedName,
     required this.publishedDate,
     required this.createdDate,
     required this.status,
+    required this.address,
+    required this.treeJobs,
     this.approvedBy,
     this.approvedDate,
     this.updatedDate,
@@ -103,10 +117,13 @@ class JobPost {
     this.postTypeId,
     this.backgroundColor,
     this.foregroundColor,
+    this.jobEndDate,
   });
 
   factory JobPost.fromJson(Map<String, dynamic> json) =>
       _$JobPostFromJson(json);
 
   Map<String, dynamic> toJson() => _$JobPostToJson(this);
+
+  String get workType => _workTypeAlias[type] ?? '';
 }
