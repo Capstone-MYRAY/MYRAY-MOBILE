@@ -12,6 +12,7 @@ class FarmerHomeController extends GetxController {
   late int page = 1;
   late int page_size = 5;
   var listJobPost = [].obs;
+  var secondJobPost = [].obs;
   var isExpired = false.obs;
   var isLoading = false.obs;
 
@@ -37,7 +38,7 @@ class FarmerHomeController extends GetxController {
   }
 
   GetRequestJobPostList data =
-      GetRequestJobPostList(status: "2", page: "1", pageSize: "5");
+      GetRequestJobPostList(status: "2", page: "1", pageSize: "20");
 
   getListJobPost() async {
     isLoading.value = true;
@@ -46,9 +47,12 @@ class FarmerHomeController extends GetxController {
     if (response != null) {
       print("Số lượng load: " + response.listJobPost.length.toString());
       listJobPost.value = response.listJobPost;
+      secondJobPost.value = response.secondObject!;
       isLoading.value = false;
     }
   }
+  //list Object: các bài đăng thường
+  //second list object: các bài đăng đặc biệt
 
   navigateToDetailPage(Rx<JobPost> jobPost) {
     Get.toNamed(Routes.farmerJobPostDetail,

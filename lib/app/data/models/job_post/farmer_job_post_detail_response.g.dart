@@ -23,9 +23,10 @@ FarmerJobPostDetailResponse _$FarmerJobPostDetailResponseFromJson(
       status: json['status'] as int,
       statusWork: json['status_work'] as int,
       description: json['description'] as String,
-      treeJobs: json['tree_jobs'] == null
-          ? null
-          : TreeType.fromJson(json['tree_jobs'] as Map<String, dynamic>),
+      title: json['title'] as String,
+      treeJobs: (json['tree_jobs'] as List<dynamic>?)
+          ?.map((e) => TreeJobs.fromJson(e as Map<String, dynamic>))
+          .toList(),
       postTypeId: json['post_type_id'] as int?,
       payPerHourJob: json['pay_per_hour_job'] == null
           ? null
@@ -51,6 +52,7 @@ Map<String, dynamic> _$FarmerJobPostDetailResponseToJson(
   }
 
   writeNotNull('tree_jobs', instance.treeJobs);
+  val['title'] = instance.title;
   val['type'] = instance.type;
   val['start_job_date'] = instance.startJobDate.toIso8601String();
   val['end_job_date'] = instance.endJobDate.toIso8601String();
