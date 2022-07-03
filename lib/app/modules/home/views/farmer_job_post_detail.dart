@@ -6,8 +6,11 @@ import 'package:myray_mobile/app/modules/home/widgets/custom_sliver_app_bar.dart
 import 'package:myray_mobile/app/shared/constants/app_colors.dart';
 import 'package:myray_mobile/app/shared/constants/app_msg.dart';
 import 'package:myray_mobile/app/shared/constants/app_strings.dart';
+import 'package:myray_mobile/app/shared/widgets/builders/loading_builder.dart';
 import 'package:myray_mobile/app/shared/widgets/bullet.dart';
 import 'package:myray_mobile/app/shared/widgets/custom_confirm_dialog.dart';
+import 'package:myray_mobile/app/data/models/job_post/farmer_job_post_detail_response.dart';
+
 
 class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
   const FarmerJobPostDetail({Key? key}) : super(key: key);
@@ -35,7 +38,50 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
                 },
               ),
       ),
-      body: CustomScrollView(slivers: [
+      body: FutureBuilder<FarmerJobPostDetailResponse?>(
+        future: controller.getJobPostDetail(),
+        builder: ((context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const LoadingBuilder();
+          }
+
+          if (snapshot.hasError || snapshot.data == null) {
+            printError(info: snapshot.error.toString());
+            return SizedBox(
+              width: double.infinity,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const Icon(
+                    Icons.error,
+                    size: 50.0,
+                    color: AppColors.errorColor,
+                  ),
+                  const SizedBox(height: 8.0),
+                  Text(
+                    'Đã có lỗi xảy ra',
+                    style: Get.textTheme.headline6!.copyWith(
+                      color: AppColors.errorColor,
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }
+
+          if (snapshot.hasData) {
+            controller.detailPost = snapshot.data!.obs;           
+            return detailList();
+          }
+
+          return const SizedBox();
+        }),
+      ),
+    );
+  }
+
+  Widget detailList() => CustomScrollView(slivers: [
         SliverPersistentHeader(
           delegate: CustomSliverAppBarDelegate(
             expandedHeight: Get.height * 0.2,
@@ -43,17 +89,15 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
             titleFloatingCard: controller.jobPost.title,
           ),
         ),
-        buildImages2(),
-        buildImages3(),
+        _buildCardInfoJjob(),
+        _buildCardDescriptionJob(),
         const SliverToBoxAdapter(
             child: Padding(
           padding: EdgeInsets.only(bottom: 50),
         ))
-      ]),
-    );
-  }
+      ]);
 
-  Widget buildImages2() => SliverToBoxAdapter(
+  Widget _buildCardInfoJjob() => SliverToBoxAdapter(
       child: Container(
           padding: const EdgeInsets.only(top: 100, left: 20, right: 20),
           child: Card(
@@ -78,8 +122,9 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
                     Text("Chủ đất:", style: Get.textTheme.bodyText1),
                     const SizedBox(
                       width: 20,
-                    ),
-                    Text("Landowner"),
+                    ),   
+                    controller.landownerAccount != null ?                  
+                    Text(controller.landownerAccount!.value.fullName!) : const Text("Tên chủ rẫy đang cập nhật"),
                   ],
                 ),
                 const SizedBox(
@@ -168,7 +213,7 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
             ),
           )));
 
-  Widget buildImages3() => SliverToBoxAdapter(
+  Widget _buildCardDescriptionJob() => SliverToBoxAdapter(
       child: Container(
           padding: EdgeInsets.only(top: 20, left: 20, right: 20),
           child: Card(

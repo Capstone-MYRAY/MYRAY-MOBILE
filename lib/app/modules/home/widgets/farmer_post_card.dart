@@ -17,7 +17,7 @@ class FarmerPostCard extends StatelessWidget {
   final bool? isExpired;
   final String title;
   final String address;
-  final int price;
+  final double price;
   final String treeType;
 
   const FarmerPostCard(

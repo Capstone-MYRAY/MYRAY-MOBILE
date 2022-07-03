@@ -2,6 +2,7 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:myray_mobile/app/data/models/job_post/pay_per_hour_job/pay_per_hour_job.dart';
 import 'package:myray_mobile/app/data/models/job_post/pay_per_task_job/pay_per_task_job.dart';
+import 'package:myray_mobile/app/data/models/tree_jobs/tree_jobs.dart';
 import 'package:myray_mobile/app/data/models/tree_type/tree_type.dart';
 part 'farmer_job_post_detail_response.g.dart';
 
@@ -15,7 +16,10 @@ class FarmerJobPostDetailResponse {
   int gardenId;
 
   @JsonKey(name: 'tree_jobs')
-  TreeType? treeJobs;
+  List<TreeJobs>? treeJobs;
+
+  @JsonKey(name: 'title')
+  String title;
 
   @JsonKey(name: 'type')
   String type;
@@ -79,6 +83,7 @@ class FarmerJobPostDetailResponse {
     required this.status,
     required this.statusWork,
     required this.description,
+    required this.title,
     this.treeJobs,
     this.postTypeId,  
     this.payPerHourJob,

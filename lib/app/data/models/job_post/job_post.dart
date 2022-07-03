@@ -15,6 +15,9 @@ class JobPost {
   @JsonKey(name: 'garden_name')
   String gardenName;
 
+  @JsonKey(name: 'address')
+  String address;
+
   @JsonKey(name: 'title')
   String title;
 
@@ -92,6 +95,7 @@ class JobPost {
     required this.publishedDate,
     required this.createdDate,
     required this.status,
+    required this.address,
     this.approvedBy,
     this.approvedDate,
     this.updatedDate,

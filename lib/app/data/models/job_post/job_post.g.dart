@@ -20,6 +20,7 @@ JobPost _$JobPostFromJson(Map<String, dynamic> json) => JobPost(
       publishedDate: DateTime.parse(json['published_date'] as String),
       createdDate: DateTime.parse(json['created_date'] as String),
       status: json['status'] as int,
+      address: json['address'] as String,
       approvedBy: json['approved_by'] as int?,
       approvedDate: json['approved_date'] == null
           ? null
@@ -48,6 +49,7 @@ Map<String, dynamic> _$JobPostToJson(JobPost instance) {
     'id': instance.id,
     'garden_id': instance.gardenId,
     'garden_name': instance.gardenName,
+    'address': instance.address,
     'title': instance.title,
     'type': instance.type,
     'start_job_date': instance.jobStartDate.toIso8601String(),

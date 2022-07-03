@@ -8,6 +8,7 @@ import 'package:myray_mobile/app/data/models/job_post/job_post_response.dart';
 import 'package:myray_mobile/app/data/models/job_post/landowner_get_job_post_response.dart';
 import 'package:myray_mobile/app/data/providers/api/api_provider.dart';
 import 'package:myray_mobile/app/shared/utils/custom_exception.dart';
+import 'package:myray_mobile/app/data/models/job_post/farmer_job_post_detail_response.dart';
 
 class JobPostRepository {
   final ApiProvider _apiProvider = Get.find<ApiProvider>();
@@ -30,7 +31,14 @@ class JobPostRepository {
     return null;
   }
   //Get job post detail
-  //FarmerJobPostDetailResponse
+  Future<FarmerJobPostDetailResponse?> getFarmerJobPostdDetail(int jobPostId) async {
+    final response =  await _apiProvider.getMethod(JOB_POST_URL + "/$jobPostId");
+    print("Link:  ${response.request!.url}");
+    if(response.statusCode == HttpStatus.ok){
+      return FarmerJobPostDetailResponse.fromJson(response.body);
+    }
+    return null;
+  }
 
   Future<LandownerGetJobPostResponse?> getLandownerJobPostList(
       GetRequestJobPostList data) async {
