@@ -98,139 +98,144 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
         ))
       ]);
 
-  Widget _buildCardInfoJjob() => SliverToBoxAdapter(
-      child: Container(
-          padding: const EdgeInsets.only(top: 100, left: 20, right: 20),
-          child: Card(
-            color: AppColors.white,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 15, top: 20),
-              child: Column(children: [
-                Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                  Text(
-                    "Thông tin công việc",
-                    style: Get.textTheme.displayMedium?.copyWith(
-                      color: AppColors.brown,
-                    ),
-                  ),
-                ]),
-                Divider(
-                  color: AppColors.primaryColor.withOpacity(0.5),
-                  height: 10,
-                  endIndent: 15,
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text("Chủ đất:", style: Get.textTheme.bodyText1),
-                    const SizedBox(
-                      width: 15,
-                    ),
+  Widget _buildCardInfoJjob() {
+    String _jobEndDate = controller.jobPost.jobEndDate == null
+        ? 'Chưa xác định'
+        : DateFormat('dd-MM-yyyy').format(controller.jobPost.jobEndDate!);
+
+    return SliverToBoxAdapter(
+        child: Container(
+            padding: const EdgeInsets.only(top: 100, left: 20, right: 20),
+            child: Card(
+              color: AppColors.white,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 15, top: 20),
+                child: Column(children: [
+                  Row(mainAxisAlignment: MainAxisAlignment.start, children: [
                     Text(
-                      controller.landownerAccount != null
-                          ? controller.landownerAccount!.value.fullName!
-                          : "Tên chủ rẫy đang cập nhật",
-                      style: TextStyle(
-                        fontSize: Get.textScaleFactor * 15,
+                      "Thông tin công việc",
+                      style: Get.textTheme.displayMedium?.copyWith(
+                        color: AppColors.brown,
                       ),
                     ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text("Địa chỉ:", style: Get.textTheme.bodyText1),
-                    const SizedBox(
-                      width: 20,
-                    ),
-                    Flexible(
-                      child: Text(
-                        controller.jobPost.address,
-                        softWrap: true,
-                        maxLines: 5,
-                        textAlign: TextAlign.left,
+                  ]),
+                  Divider(
+                    color: AppColors.primaryColor.withOpacity(0.5),
+                    height: 10,
+                    endIndent: 15,
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text("Chủ đất:", style: Get.textTheme.bodyText1),
+                      const SizedBox(
+                        width: 15,
+                      ),
+                      Text(
+                        controller.landownerAccount != null
+                            ? controller.landownerAccount!.value.fullName!
+                            : "Tên chủ rẫy đang cập nhật",
                         style: TextStyle(
                           fontSize: Get.textScaleFactor * 15,
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text("Loại công việc:", style: Get.textTheme.bodyText1),
-                    const SizedBox(
-                      width: 20,
-                    ),
-                    Text(
-                      controller.jobPost.type == 'PayPerHourJob'
-                          ? AppStrings.payPerHour
-                          : AppStrings.payPerTask,
-                      style: TextStyle(
-                        color: AppColors.primaryColor,
-                        fontSize: Get.textScaleFactor * 15,
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text("Địa chỉ:", style: Get.textTheme.bodyText1),
+                      const SizedBox(
+                        width: 20,
                       ),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text("Tiền lương:", style: Get.textTheme.bodyText1),
-                    const SizedBox(
-                      width: 44,
-                    ),
-                    Text(
-                      controller.jobPost.type == 'PayPerHourJob'
-                          ? "${controller.jobPost.payPerHourJob!.salary} đ/công"
-                          : "${controller.jobPost.payPerTaskJob!.salary} đ",
-                      style: TextStyle(
-                        fontSize: Get.textScaleFactor * 15,
+                      Flexible(
+                        child: Text(
+                          controller.jobPost.address,
+                          softWrap: true,
+                          maxLines: 5,
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                            fontSize: Get.textScaleFactor * 15,
+                          ),
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text("Ngày dự kiến:", style: Get.textTheme.bodyText1),
-                    const SizedBox(
-                      width: 29,
-                    ),
-                    Text(
-                      DateFormat('dd-MM-yyyy')
-                              .format(controller.jobPost.jobStartDate) +
-                          " đến " +
-                          DateFormat('dd-MM-yyyy')
-                              .format(controller.jobPost.jobEndDate),
-                      style: TextStyle(
-                        fontSize: Get.textScaleFactor * 15,
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text("Loại công việc:", style: Get.textTheme.bodyText1),
+                      const SizedBox(
+                        width: 20,
                       ),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
-              ]),
-            ),
-          )));
+                      Text(
+                        controller.jobPost.type == 'PayPerHourJob'
+                            ? AppStrings.payPerHour
+                            : AppStrings.payPerTask,
+                        style: TextStyle(
+                          color: AppColors.primaryColor,
+                          fontSize: Get.textScaleFactor * 15,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text("Tiền lương:", style: Get.textTheme.bodyText1),
+                      const SizedBox(
+                        width: 44,
+                      ),
+                      Text(
+                        controller.jobPost.type == 'PayPerHourJob'
+                            ? "${controller.jobPost.payPerHourJob!.salary} đ/công"
+                            : "${controller.jobPost.payPerTaskJob!.salary} đ",
+                        style: TextStyle(
+                          fontSize: Get.textScaleFactor * 15,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text("Ngày dự kiến:", style: Get.textTheme.bodyText1),
+                      const SizedBox(
+                        width: 29,
+                      ),
+                      Text(
+                        DateFormat('dd-MM-yyyy')
+                                .format(controller.jobPost.jobStartDate) +
+                            " đến " +
+                            _jobEndDate,
+                        style: TextStyle(
+                          fontSize: Get.textScaleFactor * 15,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                ]),
+              ),
+            )));
+  }
 
   Widget _buildCardDescriptionJob() => SliverToBoxAdapter(
       child: Container(

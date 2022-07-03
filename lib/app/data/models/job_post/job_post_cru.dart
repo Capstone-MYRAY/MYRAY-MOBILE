@@ -26,7 +26,7 @@ class JobPostCru {
   int numOfPublishDay;
 
   @JsonKey(name: 'description')
-  int? description;
+  String? description;
 
   @JsonKey(name: 'published_date')
   DateTime publishedDate;
@@ -47,16 +47,16 @@ class JobPostCru {
   DateTime? pinDate;
 
   @JsonKey(name: 'number_pin_day')
-  DateTime? numberOfPinDay;
+  int? numberOfPinDay;
 
   JobPostCru({
     required this.gardenId,
     required this.title,
     required this.treeJobs,
     required this.jobStartDate,
-    required this.jobEndDate,
     required this.numOfPublishDay,
     required this.publishedDate,
+    this.jobEndDate,
     this.description,
     this.payPerHourJob,
     this.payPerTaskJob,

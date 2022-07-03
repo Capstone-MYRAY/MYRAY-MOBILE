@@ -1,18 +1,27 @@
 import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:myray_mobile/app/data/enums/enums.dart';
 import 'package:myray_mobile/app/data/models/fee_data.dart';
 import 'package:myray_mobile/app/data/models/garden/garden_models.dart';
+import 'package:myray_mobile/app/data/models/job_post/job_post.dart';
+import 'package:myray_mobile/app/data/models/job_post/job_post_cru.dart';
+import 'package:myray_mobile/app/data/models/job_post/pay_per_hour_job/pay_per_hour_job.dart';
+import 'package:myray_mobile/app/data/models/job_post/pay_per_task_job/pay_per_task_job.dart';
 import 'package:myray_mobile/app/data/models/post_type/post_type_models.dart';
+import 'package:myray_mobile/app/data/models/tree_jobs/tree_jobs.dart';
 import 'package:myray_mobile/app/data/models/tree_type/tree_type_models.dart';
 import 'package:myray_mobile/app/data/services/services.dart';
 import 'package:myray_mobile/app/modules/garden/garden_repository.dart';
+import 'package:myray_mobile/app/modules/job_post/controllers/landowner_job_post_controller.dart';
+import 'package:myray_mobile/app/modules/job_post/job_post_repository.dart';
 import 'package:myray_mobile/app/modules/job_post/widgets/tree_type_fields.dart';
 import 'package:myray_mobile/app/modules/profile/controllers/landowner_profile_controller.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/utils/auth_credentials.dart';
 import 'package:myray_mobile/app/shared/utils/utils.dart';
+import 'package:myray_mobile/app/shared/widgets/custom_snackbar.dart';
 import 'package:myray_mobile/app/shared/widgets/dialogs/information_dialog.dart';
 import 'package:myray_mobile/app/shared/widgets/controls/my_date_picker.dart';
 
@@ -36,6 +45,7 @@ class JobPostFormController extends GetxController {
   final _gardenRepository = Get.find<GardenRepository>();
   final _treeTypeRepository = Get.find<TreeTypeRepository>();
   final _postTypeRepository = Get.find<PostTypeRepository>();
+  final _jobPostRepository = Get.find<JobPostRepository>();
   final _feeDataService = Get.find<FeeDataService>();
 
   final RxList<Garden> gardens = RxList<Garden>();
@@ -111,7 +121,7 @@ class JobPostFormController extends GetxController {
           .format((_totalFee / _feeConfig.value.payToHave1Point).round());
     }
 
-    return "0";
+    return '0';
   }
 
   @override
@@ -169,6 +179,7 @@ class JobPostFormController extends GetxController {
   }
 
   onSubmitForm() {
+    //check form validation
     bool isTreeTypeValid = treeTypeFieldKey.currentState!.validate();
     bool isFormFieldsValid = formKey.currentState!.validate();
 
@@ -185,9 +196,106 @@ class JobPostFormController extends GetxController {
     }
 
     //execute create or update
+    if (action == Activities.create) {
+      onCreate();
+    } else {}
   }
 
-  onCreate() {}
+  onCreate() async {
+    EasyLoading.show(status: AppStrings.loading);
+
+    //get data from controller
+    JobPostCru data = _createData();
+
+    final JobPost? _newJobPost = await _jobPostRepository.create(data);
+
+    EasyLoading.dismiss();
+
+    print(_newJobPost == null);
+
+    if (_newJobPost == null) {
+      //show error
+      CustomSnackbar.show(
+        title: AppStrings.titleError,
+        message: 'Có lỗi xảy ra',
+        backgroundColor: AppColors.errorColor,
+      );
+      return;
+    }
+
+    //refresh job post list
+    final _jobPostController = Get.find<LandownerJobPostController>();
+    _jobPostController.onRefresh();
+
+    Get.back();
+
+    CustomSnackbar.show(
+      title: AppStrings.titleSuccess,
+      message: AppMsg.MSG4006,
+    );
+  }
+
+  JobPostCru _createData() {
+    int _gardenId = selectedGarden.value!.id;
+    List<TreeJobs> _treeJobs = selectedTreeTypes
+        .map((treeType) => TreeJobs(treeTypeId: treeType.id!))
+        .toList();
+    String _title = workNameController.text;
+    DateTime _jobStartDate = Utils.fromddMMyyyy(jobStartDateController.text);
+    int _numOfPublishDay = int.parse(numOfPublishDayController.text);
+    String _description = descriptionController.text;
+    DateTime _publishedDate = Utils.fromddMMyyyy(publishDateController.text);
+    DateTime? _jobEndDate;
+    PayPerHourJob? _payPerHourJob;
+    PayPerTaskJob? _payPerTaskJob;
+
+    if (selectedWorkType.value == AppStrings.payPerTask) {
+      _payPerTaskJob = PayPerTaskJob(
+        salary: taskSalaryController.numberValue,
+        isFarmToolsAvaiable: isToolAvailable.value,
+      );
+
+      _jobEndDate = Utils.fromddMMyyyy(jobEndDateController.text);
+    } else {
+      _payPerHourJob = PayPerHourJob(
+        estimatedTotalTask: int.parse(estimateWorkController.text),
+        minFarmer: int.parse(minFarmerController.text),
+        maxFarmer: int.parse(maxFarmerController.text),
+        salary: hourSalaryController.numberValue,
+        startTime: startHourController.text,
+        finishTime: endHourController.text,
+      );
+    }
+
+    int _usedPoint = usingPointController.text.isNotEmpty
+        ? double.parse(usingPointController.text).round()
+        : 0;
+
+    int? _postTypeId = selectedPostType.value?.id;
+    DateTime? _pinDate;
+    int? _numberOfPinDay;
+    if (_postTypeId != null) {
+      _pinDate = Utils.fromddMMyyyy(upgradeDateController.text);
+      _numberOfPinDay = int.parse(numOfUpgradeDateController.text);
+    }
+
+    return JobPostCru(
+      gardenId: _gardenId,
+      title: _title,
+      treeJobs: _treeJobs,
+      jobStartDate: _jobStartDate,
+      jobEndDate: _jobEndDate,
+      numOfPublishDay: _numOfPublishDay,
+      publishedDate: _publishedDate,
+      description: _description,
+      numberOfPinDay: _numberOfPinDay,
+      payPerHourJob: _payPerHourJob,
+      payPerTaskJob: _payPerTaskJob,
+      pinDate: _pinDate,
+      postTypeId: _postTypeId,
+      usedPoint: _usedPoint,
+    );
+  }
 
   getFeeConfig() async {
     final _result = await _feeDataService.getFeeConfig();
@@ -307,10 +415,10 @@ class JobPostFormController extends GetxController {
   }
 
   //open time picker
-  Future<TimeOfDay?> chooseTime() {
+  Future<TimeOfDay?> chooseTime({TimeOfDay? initTime}) {
     return showTimePicker(
       context: Get.context!,
-      initialTime: TimeOfDay.now(),
+      initialTime: initTime ?? TimeOfDay.now(),
       confirmText: 'Chọn'.toUpperCase(),
       cancelText: 'Đóng'.toUpperCase(),
       hourLabelText: 'Giờ',
@@ -340,7 +448,10 @@ class JobPostFormController extends GetxController {
 
   //choose start hour
   void onChooseStartHour() async {
-    TimeOfDay? _pickedTime = await chooseTime();
+    TimeOfDay? _initTime = startHourController.text.isNotEmpty
+        ? Utils.fromHHmm(startHourController.text)
+        : null;
+    TimeOfDay? _pickedTime = await chooseTime(initTime: _initTime);
     if (_pickedTime != null) {
       String timeFormat = Utils.formatHHmm(_pickedTime);
       startHourController.text = timeFormat;
@@ -349,7 +460,10 @@ class JobPostFormController extends GetxController {
 
   //choose start hour
   void onChooseEndHour() async {
-    TimeOfDay? _pickedTime = await chooseTime();
+    TimeOfDay? _initTime = endHourController.text.isNotEmpty
+        ? Utils.fromHHmm(endHourController.text)
+        : null;
+    TimeOfDay? _pickedTime = await chooseTime(initTime: _initTime);
     if (_pickedTime != null) {
       String timeFormat = Utils.formatHHmm(_pickedTime);
       endHourController.text = timeFormat;

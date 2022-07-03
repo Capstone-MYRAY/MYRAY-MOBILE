@@ -55,7 +55,9 @@ class JobPostRepository {
   Future<JobPost?> create(JobPostCru data) async {
     final response = await _apiProvider.postMethod('/jobpost', data.toJson());
 
-    if (response.statusCode == HttpStatus.created) {
+    print(response.bodyString);
+
+    if (response.isOk) {
       return JobPost.fromJson(response.body);
     }
 

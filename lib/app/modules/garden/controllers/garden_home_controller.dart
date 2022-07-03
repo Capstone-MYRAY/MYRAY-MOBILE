@@ -37,7 +37,7 @@ class GardenHomeController extends GetxController {
     try {
       if (_hasNextPage) {
         final _response = await _gardenRepository.getGardens(data);
-        if (_response == null) {
+        if (_response == null || _response.gardens!.isEmpty) {
           isLoading.value = false;
           return null;
         }

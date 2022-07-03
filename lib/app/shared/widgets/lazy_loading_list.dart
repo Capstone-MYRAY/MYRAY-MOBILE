@@ -34,21 +34,24 @@ class LazyLoadingList extends StatelessWidget {
             isLoading: isLoading,
             child: RefreshIndicator(
               onRefresh: onRefresh,
-              child: ListView(
-                children: [
-                  ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: itemCount,
-                    itemBuilder: itemBuilder,
-                  ),
-                  isLoading
-                      ? JumpingDotsProgressIndicator(
-                          fontSize: 40.0,
-                          color: AppColors.primaryColor,
-                        )
-                      : const SizedBox(),
-                ],
+              child: Container(
+                margin: const EdgeInsets.symmetric(vertical: 8.0),
+                child: ListView(
+                  children: [
+                    ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: itemCount,
+                      itemBuilder: itemBuilder,
+                    ),
+                    isLoading
+                        ? JumpingDotsProgressIndicator(
+                            fontSize: 40.0,
+                            color: AppColors.primaryColor,
+                          )
+                        : const SizedBox(),
+                  ],
+                ),
               ),
             ),
           ),

@@ -101,6 +101,13 @@ class Utils {
     return DateFormat(CommonConstants.ddMMyyyy).parse(date);
   }
 
+  static TimeOfDay fromHHmm(String time) {
+    return TimeOfDay(
+      hour: int.parse(time.split(":").first),
+      minute: int.parse(time.split(":").last),
+    );
+  }
+
   static final vietnameseCurrencyFormat =
       NumberFormat.currency(locale: 'vi_VN', symbol: 'đ');
 
@@ -112,6 +119,4 @@ class Utils {
   );
 
   static final isAlphabet = RegExp(r'[a-zA-z]');
-
-  // static final isUnsignedNumber = RegExp(r'[0-9]');
 }

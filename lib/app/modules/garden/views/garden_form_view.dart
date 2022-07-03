@@ -181,7 +181,6 @@ class GardenFormView extends GetView<GardenFormController> {
                         ),
                       ]),
                 ),
-                const SizedBox(height: 24.0),
                 SizedBox(
                   width: Get.width * 0.9,
                   child: Padding(
