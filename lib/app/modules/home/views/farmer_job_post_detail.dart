@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+import 'package:myray_mobile/app/data/enums/job_type.dart';
 import 'package:myray_mobile/app/modules/home/controllers/farmer_job_post_detail_controller.dart';
 import 'package:myray_mobile/app/modules/home/widgets/custom_bottom_navigation_bar.dart';
 import 'package:myray_mobile/app/modules/home/widgets/custom_sliver_app_bar.dart';
@@ -10,7 +12,6 @@ import 'package:myray_mobile/app/shared/widgets/builders/loading_builder.dart';
 import 'package:myray_mobile/app/shared/widgets/bullet.dart';
 import 'package:myray_mobile/app/shared/widgets/custom_confirm_dialog.dart';
 import 'package:myray_mobile/app/data/models/job_post/farmer_job_post_detail_response.dart';
-
 
 class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
   const FarmerJobPostDetail({Key? key}) : super(key: key);
@@ -71,7 +72,7 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
           }
 
           if (snapshot.hasData) {
-            controller.detailPost = snapshot.data!.obs;           
+            controller.detailPost = snapshot.data!.obs;
             return detailList();
           }
 
@@ -113,6 +114,11 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
                     ),
                   ),
                 ]),
+                Divider(
+                  color: AppColors.primaryColor.withOpacity(0.5),
+                  height: 10,
+                  endIndent: 15,
+                ),
                 const SizedBox(
                   height: 20,
                 ),
@@ -121,14 +127,20 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
                   children: [
                     Text("Chủ đất:", style: Get.textTheme.bodyText1),
                     const SizedBox(
-                      width: 20,
-                    ),   
-                    controller.landownerAccount != null ?                  
-                    Text(controller.landownerAccount!.value.fullName!) : const Text("Tên chủ rẫy đang cập nhật"),
+                      width: 15,
+                    ),
+                    Text(
+                      controller.landownerAccount != null
+                          ? controller.landownerAccount!.value.fullName!
+                          : "Tên chủ rẫy đang cập nhật",
+                      style: TextStyle(
+                        fontSize: Get.textScaleFactor * 15,
+                      ),
+                    ),
                   ],
                 ),
                 const SizedBox(
-                  height: 10,
+                  height: 15,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -137,31 +149,21 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
                     const SizedBox(
                       width: 20,
                     ),
-                    const Flexible(
+                    Flexible(
                       child: Text(
-                        "39 Nguyễn Bỉnh Khiêm, P.2, TP Bảo Lộc, Lâm Đồng",
+                        controller.jobPost.address,
                         softWrap: true,
                         maxLines: 5,
                         textAlign: TextAlign.left,
+                        style: TextStyle(
+                          fontSize: Get.textScaleFactor * 15,
+                        ),
                       ),
                     ),
                   ],
                 ),
                 const SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text("Số điện thoại:", style: Get.textTheme.bodyText1),
-                    const SizedBox(
-                      width: 20,
-                    ),
-                    Text("0987654321"),
-                  ],
-                ),
-                const SizedBox(
-                  height: 10,
+                  height: 15,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -171,43 +173,60 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
                       width: 20,
                     ),
                     Text(
-                      "Làm công",
-                      style: TextStyle(color: AppColors.primaryColor),
+                      controller.jobPost.type == 'PayPerHourJob'
+                          ? AppStrings.payPerHour
+                          : AppStrings.payPerTask,
+                      style: TextStyle(
+                        color: AppColors.primaryColor,
+                        fontSize: Get.textScaleFactor * 15,
+                      ),
                     ),
                   ],
                 ),
                 const SizedBox(
-                  height: 10,
+                  height: 15,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text("Tiền lương:", style: Get.textTheme.bodyText1),
                     const SizedBox(
-                      width: 20,
+                      width: 44,
                     ),
                     Text(
-                      "30.000 đ/công",
+                      controller.jobPost.type == 'PayPerHourJob'
+                          ? "${controller.jobPost.payPerHourJob!.salary} đ/công"
+                          : "${controller.jobPost.payPerTaskJob!.salary} đ",
+                      style: TextStyle(
+                        fontSize: Get.textScaleFactor * 15,
+                      ),
                     ),
                   ],
                 ),
                 const SizedBox(
-                  height: 10,
+                  height: 15,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Text("Thời gian:", style: Get.textTheme.bodyText1),
+                    Text("Ngày dự kiến:", style: Get.textTheme.bodyText1),
                     const SizedBox(
-                      width: 20,
+                      width: 29,
                     ),
                     Text(
-                      "2-3 tháng",
+                      DateFormat('dd-MM-yyyy')
+                              .format(controller.jobPost.jobStartDate) +
+                          " đến " +
+                          DateFormat('dd-MM-yyyy')
+                              .format(controller.jobPost.jobEndDate),
+                      style: TextStyle(
+                        fontSize: Get.textScaleFactor * 15,
+                      ),
                     ),
                   ],
                 ),
                 const SizedBox(
-                  height: 10,
+                  height: 15,
                 ),
               ]),
             ),
@@ -215,7 +234,7 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
 
   Widget _buildCardDescriptionJob() => SliverToBoxAdapter(
       child: Container(
-          padding: EdgeInsets.only(top: 20, left: 20, right: 20),
+          padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
           child: Card(
             color: AppColors.white,
             child: Padding(
@@ -234,77 +253,14 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
                 ),
                 Row(
                   children: [
-                    const Bullet(),
-                    const SizedBox(
-                      width: 20,
-                    ),
                     Flexible(
                         child: Text(
-                      "Cần gấp người hái cà phê ở tháng. Bao ăn ở tại chỗ. được hướng dẫn làm việc. Ngày làm 6 - 7 tiếng.",
+                      controller.detailPost?.value.description ??
+                          "Không có mô tả",
                       maxLines: 10,
                       softWrap: true,
                       style: Get.textTheme.bodyText2?.copyWith(
-                        fontSize: 15,
-                      ),
-                    ))
-                  ],
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  children: [
-                    const Bullet(),
-                    const SizedBox(
-                      width: 20,
-                    ),
-                    Flexible(
-                        child: Text(
-                      "Nam nữ đều làm được, có sức khỏe tốt. Nếu nữ thì cần có nam đi theo để hỗ trợ nhau trong lúc làm việc.",
-                      maxLines: 10,
-                      softWrap: true,
-                      style: Get.textTheme.bodyText2?.copyWith(
-                        fontSize: 15,
-                      ),
-                    ))
-                  ],
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  children: [
-                    const Bullet(),
-                    const SizedBox(
-                      width: 20,
-                    ),
-                    Flexible(
-                        child: Text(
-                      "Được trợ cấp tiền xe lên Bảo Lộc, và cho tiền lúc về.",
-                      maxLines: 10,
-                      softWrap: true,
-                      style: Get.textTheme.bodyText2?.copyWith(
-                        fontSize: 15,
-                      ),
-                    ))
-                  ],
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  children: [
-                    const Bullet(),
-                    const SizedBox(
-                      width: 20,
-                    ),
-                    Flexible(
-                        child: Text(
-                      "Thưởng nếu làm tốt.",
-                      maxLines: 10,
-                      softWrap: true,
-                      style: Get.textTheme.bodyText2?.copyWith(
-                        fontSize: 15,
+                        fontSize: Get.textScaleFactor * 15,
                       ),
                     ))
                   ],
