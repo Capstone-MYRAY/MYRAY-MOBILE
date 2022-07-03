@@ -14,21 +14,21 @@ class FarmerJobPostDetailController extends GetxController {
 
   applyJob(int idJobPost) async {
     Get.back();
-    // await _jobPostRepository.applyJob(idJobPost).then(
-    //       (result) => {
+    await _jobPostRepository.applyJob(idJobPost).then(
+          (result) => {
 
-    //         if (result)
-    //           {
-    //             CustomSnackbar.show(
-    //                 title: "Thành công", message: AppMsg.MSG3006),
-    //           }
-    //         else
-    //           {
-    //             CustomSnackbar.show(title: "Thất bại", message: AppMsg.MSG3007, backgroundColor: AppColors.errorColor),
-    //           }
+            if (result)
+              {
+                CustomSnackbar.show(
+                    title: "Thành công", message: AppMsg.MSG3006),
+              }
+            else
+              {
+                CustomSnackbar.show(title: "Thất bại", message: AppMsg.MSG3007, backgroundColor: AppColors.errorColor),
+              }
             
-    //       },
-    //     );
+          },
+        );
     check.value= true;
     update();
     print("Đã apply bài post có id $idJobPost");

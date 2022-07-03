@@ -13,7 +13,7 @@ class JobPost {
   int gardenId;
 
   @JsonKey(name: 'garden_name')
-  int gardenName;
+  String gardenName;
 
   @JsonKey(name: 'title')
   String title;

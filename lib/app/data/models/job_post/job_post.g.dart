@@ -9,7 +9,7 @@ part of 'job_post.dart';
 JobPost _$JobPostFromJson(Map<String, dynamic> json) => JobPost(
       id: json['id'] as int,
       gardenId: json['garden_id'] as int,
-      gardenName: json['garden_name'] as int,
+      gardenName: json['garden_name'] as String,
       title: json['title'] as String,
       type: json['type'] as String,
       jobStartDate: DateTime.parse(json['start_job_date'] as String),
