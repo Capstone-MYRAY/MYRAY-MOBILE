@@ -26,15 +26,16 @@ class GardenDetailsCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Align(
-            alignment: Alignment.centerRight,
-            child: CustomIconButton(
-              icon: CustomIcons.pencil,
-              onTap: onEditTap,
-              toolTip: AppStrings.titleEdit,
-              size: 20,
+          if (onEditTap != null)
+            Align(
+              alignment: Alignment.centerRight,
+              child: CustomIconButton(
+                icon: CustomIcons.pencil,
+                onTap: onEditTap,
+                toolTip: AppStrings.titleEdit,
+                size: 20,
+              ),
             ),
-          ),
           Text(
             'Thông tin vườn',
             style: Get.textTheme.headline6,

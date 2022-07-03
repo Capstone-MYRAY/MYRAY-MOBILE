@@ -74,7 +74,9 @@ class GardenDetailsView extends GetView<GardenDetailsController> {
                 return GardenDetailsCard(
                   garden: controller.garden.value,
                   area: controller.area!.value,
-                  onEditTap: controller.navigateToEditForm,
+                  onEditTap: controller.action == null
+                      ? controller.navigateToEditForm
+                      : null,
                 );
               }),
               const SizedBox(height: 16.0),
@@ -86,11 +88,12 @@ class GardenDetailsView extends GetView<GardenDetailsController> {
                     onPressed: () {},
                   ),
                   const SizedBox(height: 16.0),
-                  FilledButton(
-                    title: AppStrings.titleDelete,
-                    onPressed: () {},
-                    color: AppColors.errorColor,
-                  ),
+                  if (controller.action == null)
+                    FilledButton(
+                      title: AppStrings.titleDelete,
+                      onPressed: () {},
+                      color: AppColors.errorColor,
+                    ),
                 ]),
               ),
             ],

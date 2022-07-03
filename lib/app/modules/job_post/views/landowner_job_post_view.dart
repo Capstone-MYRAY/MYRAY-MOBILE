@@ -52,6 +52,7 @@ class LandownerJobPostView extends GetView<LandownerJobPostController> {
                 itemBuilder: ((context, index) {
                   JobPost jobPost = controller.jobPosts[index];
                   return LandownerJobPostItem(
+                    key: ValueKey(jobPost.id),
                     title: jobPost.title,
                     address: jobPost.address,
                     publishedDate: jobPost.publishedDate,
