@@ -9,6 +9,7 @@ import 'package:myray_mobile/app/shared/constants/common.dart';
 class GardenDetailsController extends GetxController {
   final _areaRepository = Get.find<AreaRepository>();
   final Rx<Garden> garden;
+  final action = Get.arguments[Arguments.action];
   Rx<Area>? area;
 
   GardenDetailsController({required this.garden});

@@ -71,7 +71,6 @@ class JobPostFormView extends GetView<JobPostFormController> {
                                   labelText: '${AppStrings.labelGardenName}*',
                                 ),
                                 items: controller.gardens,
-                                itemAsString: controller.getGardenName,
                                 showSelectedItems: true,
                                 compareFn: controller.compareGarden,
                                 selectedItem: controller.selectedGarden.value,
@@ -88,9 +87,7 @@ class JobPostFormView extends GetView<JobPostFormController> {
                               const SizedBox(width: 8.0),
                               CustomIconButton(
                                 icon: Icons.remove_red_eye,
-                                onTap: () {
-                                  //TODO: view garden details here
-                                },
+                                onTap: controller.viewGardenDetails,
                                 toolTip: 'Xem chi tiết',
                                 size: 25,
                               ),

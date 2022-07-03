@@ -7,6 +7,7 @@ import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/utils/hex_color_extension.dart';
 import 'package:myray_mobile/app/shared/widgets/builders/list_empty_builder.dart';
 import 'package:myray_mobile/app/shared/widgets/builders/loading_builder.dart';
+import 'package:myray_mobile/app/shared/widgets/controls/search_and_filter.dart';
 import 'package:myray_mobile/app/shared/widgets/landowner_appbar.dart';
 import 'package:myray_mobile/app/shared/widgets/lazy_loading_list.dart';
 
@@ -43,36 +44,49 @@ class LandownerJobPostView extends GetView<LandownerJobPostController> {
           }
 
           if (snapshot.hasData) {
-            return Obx(
-              () => LazyLoadingList(
-                onEndOfPage: controller.getJobPosts,
-                isLoading: controller.isLoading.value,
-                onRefresh: controller.onRefresh,
-                itemCount: controller.jobPosts.length,
-                itemBuilder: ((context, index) {
-                  JobPost jobPost = controller.jobPosts[index];
-                  return LandownerJobPostItem(
-                    title: jobPost.title,
-                    address: jobPost.address,
-                    publishedDate: jobPost.publishedDate,
-                    backgroundColor: jobPost.backgroundColor != null
-                        ? HexColor.fromHex(jobPost.backgroundColor!)
-                        : null,
-                    foregroundColor: jobPost.foregroundColor != null
-                        ? HexColor.fromHex(jobPost.foregroundColor!)
-                        : null,
-                    treeTypes: jobPost.treeJobs,
-                    workType: jobPost.workType,
-                    onDetailsPress: () {},
-                  );
-                }),
-              ),
-            );
+            return _buildContent();
           }
 
           return const SizedBox();
         },
       ),
+    );
+  }
+
+  Widget _buildContent() {
+    return Column(
+      // mainAxisSize: MainAxisSize.min,
+      children: [
+        SearchAndFilter(onFilterTap: () {}),
+        Obx(
+          () => Expanded(
+            child: LazyLoadingList(
+              onEndOfPage: controller.getJobPosts,
+              isLoading: controller.isLoading.value,
+              onRefresh: controller.onRefresh,
+              itemCount: controller.jobPosts.length,
+              itemBuilder: ((context, index) {
+                JobPost jobPost = controller.jobPosts[index];
+                return LandownerJobPostItem(
+                  key: ValueKey(jobPost.id),
+                  title: jobPost.title,
+                  address: jobPost.address,
+                  publishedDate: jobPost.publishedDate,
+                  backgroundColor: jobPost.backgroundColor != null
+                      ? HexColor.fromHex(jobPost.backgroundColor!)
+                      : null,
+                  foregroundColor: jobPost.foregroundColor != null
+                      ? HexColor.fromHex(jobPost.foregroundColor!)
+                      : null,
+                  treeTypes: jobPost.treeJobs,
+                  workType: jobPost.workType,
+                  onDetailsPress: () {},
+                );
+              }),
+            ),
+          ),
+        )
+      ],
     );
   }
 }

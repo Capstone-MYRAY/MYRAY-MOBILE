@@ -18,6 +18,7 @@ import 'package:myray_mobile/app/modules/job_post/controllers/landowner_job_post
 import 'package:myray_mobile/app/modules/job_post/job_post_repository.dart';
 import 'package:myray_mobile/app/modules/job_post/widgets/tree_type_fields.dart';
 import 'package:myray_mobile/app/modules/profile/controllers/landowner_profile_controller.dart';
+import 'package:myray_mobile/app/routes/app_pages.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/utils/auth_credentials.dart';
 import 'package:myray_mobile/app/shared/utils/utils.dart';
@@ -338,7 +339,6 @@ class JobPostFormController extends GetxController {
       final List<TreeType> _treeTypes = _response.treeTypes!;
       treeTypes = _treeTypes.obs;
       update();
-      print(treeTypes!.map((type) => type.toJson()).toString());
     }
   }
 
@@ -359,16 +359,24 @@ class JobPostFormController extends GetxController {
     }
   }
 
+  viewGardenDetails() {
+    //get garden by id
+    Garden garden =
+        gardens.firstWhere((garden) => garden.id == selectedGarden.value!.id);
+
+    Get.toNamed(Routes.gardenDetails, arguments: {
+      Arguments.tag: garden.id.toString(),
+      Arguments.item: garden,
+      Arguments.action: Activities.view,
+    });
+  }
+
   //functions for garden dropdown list
   bool compareGarden(Garden? g1, Garden? g2) {
     if (g1 != null && g2 != null) {
       return g1.id == g2.id;
     }
     return false;
-  }
-
-  String getGardenName(item) {
-    return item.name;
   }
 
   void onGardenChange(Garden? garden) {

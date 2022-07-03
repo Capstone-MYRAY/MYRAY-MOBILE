@@ -40,4 +40,14 @@ class GardenRepository {
 
     return null;
   }
+
+  Future<Garden?> getById(int id) async {
+    final response = await _apiProvider.getMethod('/garden/$id');
+
+    if (response.statusCode == HttpStatus.ok) {
+      return Garden.fromJson(response.body);
+    }
+
+    return null;
+  }
 }
