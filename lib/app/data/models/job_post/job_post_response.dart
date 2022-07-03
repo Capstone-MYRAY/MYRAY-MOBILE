@@ -10,12 +10,16 @@ class JobPostResponse{
   @JsonKey(name: 'list_object')
   List<JobPost> listJobPost;
 
+  @JsonKey(name: 'second_object')
+  List<JobPost>? secondObject;
+
   @JsonKey(name: 'paging_metadata')
   PagingMetadata pagingMetadata;
 
   JobPostResponse({
     required this.listJobPost,
-    required this.pagingMetadata  
+    required this.pagingMetadata ,
+    this.secondObject
   });
 
   factory JobPostResponse.fromJson(Map<String, dynamic> json) => _$JobPostResponseFromJson(json);

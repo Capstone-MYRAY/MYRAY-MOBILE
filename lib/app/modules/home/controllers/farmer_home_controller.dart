@@ -1,8 +1,8 @@
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:myray_mobile/app/data/models/auth/job_post_response.dart';
 import 'package:myray_mobile/app/data/models/job_post/get_request_job_post_list.dart';
 import 'package:myray_mobile/app/data/models/job_post/job_post.dart';
+import 'package:myray_mobile/app/data/models/job_post/job_post_response.dart';
 import 'package:myray_mobile/app/modules/job_post/job_post_repository.dart';
 import 'package:myray_mobile/app/routes/app_pages.dart';
 import 'package:myray_mobile/app/shared/constants/common.dart';
@@ -12,6 +12,7 @@ class FarmerHomeController extends GetxController {
   late int page = 1;
   late int page_size = 5;
   var listJobPost = [].obs;
+  var secondJobPost = [].obs;
   var isExpired = false.obs;
   var isLoading = false.obs;
 
@@ -37,7 +38,7 @@ class FarmerHomeController extends GetxController {
   }
 
   GetRequestJobPostList data =
-      GetRequestJobPostList(status: "2", page: "1", pageSize: "5");
+      GetRequestJobPostList(status: "2", page: "1", pageSize: "20");
 
   getListJobPost() async {
     isLoading.value = true;
@@ -46,9 +47,12 @@ class FarmerHomeController extends GetxController {
     if (response != null) {
       print("Số lượng load: " + response.listJobPost.length.toString());
       listJobPost.value = response.listJobPost;
+      secondJobPost.value = response.secondObject!;
       isLoading.value = false;
     }
   }
+  //list Object: các bài đăng thường
+  //second list object: các bài đăng đặc biệt
 
   navigateToDetailPage(Rx<JobPost> jobPost) {
     Get.toNamed(Routes.farmerJobPostDetail,

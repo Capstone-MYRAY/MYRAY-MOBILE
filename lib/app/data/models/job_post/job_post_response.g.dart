@@ -13,10 +13,23 @@ JobPostResponse _$JobPostResponseFromJson(Map<String, dynamic> json) =>
           .toList(),
       pagingMetadata: PagingMetadata.fromJson(
           json['paging_metadata'] as Map<String, dynamic>),
+      secondObject: (json['second_object'] as List<dynamic>?)
+          ?.map((e) => JobPost.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
-Map<String, dynamic> _$JobPostResponseToJson(JobPostResponse instance) =>
-    <String, dynamic>{
-      'list_object': instance.listJobPost,
-      'paging_metadata': instance.pagingMetadata,
-    };
+Map<String, dynamic> _$JobPostResponseToJson(JobPostResponse instance) {
+  final val = <String, dynamic>{
+    'list_object': instance.listJobPost,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('second_object', instance.secondObject);
+  val['paging_metadata'] = instance.pagingMetadata;
+  return val;
+}

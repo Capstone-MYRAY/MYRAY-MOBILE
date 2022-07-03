@@ -4,11 +4,13 @@ class CustomOutlineButton extends StatelessWidget {
   final IconData icon;
   final String text;
   final void Function()? onPressed;
+  final bool? isDisable;
   const CustomOutlineButton({
     Key? key,
     required this.icon,
     required this.text,
-    this.onPressed
+    this.onPressed,
+    this.isDisable = false,
   }) : super(key: key);
 
   @override
