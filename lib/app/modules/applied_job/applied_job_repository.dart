@@ -18,4 +18,11 @@ class AppliedJobRepository{
     }
     return null;
   }
+
+  Future<bool?> cancelAppliedJob(int jobPostId) async {
+    final response = await _apiProvider.patchMethod('$jobPostUrl/cancel/$jobPostId', {'job_post_id': jobPostId});
+    print(response.request!.url);
+    return response.statusCode == HttpStatus.ok;
+  }
+
 }
