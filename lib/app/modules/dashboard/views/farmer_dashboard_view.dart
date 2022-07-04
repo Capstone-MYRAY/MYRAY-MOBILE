@@ -17,7 +17,7 @@ class FarmerDashboardView extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetBuilder<DashboardController>(builder: (controller) {
       return WillPopScope(
-        onWillPop: () async => false,
+        onWillPop: () async => true,//
         child: Scaffold(
           body: IndexedStack(
             index: controller.tabIndex,
