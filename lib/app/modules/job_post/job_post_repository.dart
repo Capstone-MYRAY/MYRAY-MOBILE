@@ -65,10 +65,17 @@ class JobPostRepository {
   }
 
   Future<dynamic> applyJob(int data) async {
-    final response = await _apiProvider.getMethod('/apply/$data');
+    final response = await _apiProvider.getMethod('$JOB_POST_URL/apply/$data');
     if (response.statusCode == HttpStatus.ok) {
       return true;
     }
     return false;
+  }
+
+ //check applied
+ //applied: true, not applied: false
+  Future<bool?> checkFarmerAppliedOrNot(int data) async {
+    final response = await _apiProvider.getMethod('$JOB_POST_URL/checkapplied?jobPostId=$data');
+    return response.statusCode == HttpStatus.ok;
   }
 }

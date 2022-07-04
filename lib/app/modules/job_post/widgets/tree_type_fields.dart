@@ -46,7 +46,7 @@ class TreeTypeFieldState extends State<TreeTypeField> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           GestureDetector(
-            onTap: _openTreeTypeDialog,
+            onTap: () => _openTreeTypeDialog(context),
             child: ListTile(
               leading: _buildIcon(CustomIcons.tree_outline),
               contentPadding: const EdgeInsets.only(
@@ -120,10 +120,10 @@ class TreeTypeFieldState extends State<TreeTypeField> {
     );
   }
 
-  void _openTreeTypeDialog() {
+  void _openTreeTypeDialog(BuildContext context) {
     FilterListDialog.display<TreeType>(Get.context!,
         height: Get.height * 0.8,
-        controlButtons: [ContolButtonType.Reset],
+        controlButtons: [ControlButtonType.Reset],
         resetButtonText: 'Bỏ chọn toàn bộ',
         applyButtonText: 'Chọn',
         listData: widget.treeTypes,
@@ -134,6 +134,7 @@ class TreeTypeFieldState extends State<TreeTypeField> {
             selectedBackgroundColor: AppColors.primaryColor.withOpacity(0.5),
           ),
           controlButtonBarTheme: ControlButtonBarThemeData(
+            context,
             controlButtonTheme: ControlButtonThemeData(
               primaryButtonBackgroundColor: AppColors.primaryColor,
               textStyle: Get.textTheme.bodyText1!.copyWith(
