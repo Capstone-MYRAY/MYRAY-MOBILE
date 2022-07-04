@@ -1,22 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:myray_mobile/app/shared/constants/app_strings.dart';
 import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
-import 'package:myray_mobile/app/shared/widgets/custom_outline_button.dart';
-import 'package:myray_mobile/app/shared/widgets/filled_button.dart';
+import 'package:myray_mobile/app/shared/widgets/buttons/custom_outline_button.dart';
+import 'package:myray_mobile/app/shared/widgets/buttons/filled_button.dart';
 
 class CustomBottomNavigationBar extends StatelessWidget {
   final void Function()? onPressedOutlineButton;
   final void Function()? onPressedFilledButton;
+  final bool? isDisableOutlineButton;
+  final bool? isDisableFilledButton;
+  final bool? isChangedState;
   const CustomBottomNavigationBar({
     Key? key,
     this.onPressedOutlineButton,
     this.onPressedFilledButton,
+    this.isDisableOutlineButton = false,
+    this.isDisableFilledButton = false,
+    this.isChangedState = false,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(left: 20, top: 10, bottom: 10, right: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -29,10 +35,11 @@ class CustomBottomNavigationBar extends StatelessWidget {
             width: 15,
           ),
           Flexible(
-              child: FilledButton(
-            title: AppStrings.applyButton,
-            onPressed: onPressedFilledButton,
-          ))
+            child: FilledButton(
+              title: AppStrings.shortApplyButton,
+              onPressed: onPressedFilledButton,
+            ),
+          ),
         ],
       ),
     );

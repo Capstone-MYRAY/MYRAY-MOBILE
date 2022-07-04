@@ -10,6 +10,7 @@ class CustomIconButton extends StatelessWidget {
   final EdgeInsetsGeometry padding;
   final String? toolTip;
   final double? size;
+  final double elevation;
   const CustomIconButton({
     Key? key,
     required this.icon,
@@ -18,6 +19,7 @@ class CustomIconButton extends StatelessWidget {
     this.shape,
     this.onTap,
     this.size,
+    this.elevation = 0.0,
     this.padding = const EdgeInsets.symmetric(
       horizontal: 0.0,
       vertical: 0.0,
@@ -30,6 +32,8 @@ class CustomIconButton extends StatelessWidget {
     return Material(
       color: backgroundColor ?? Colors.transparent,
       shape: shape,
+      elevation: elevation,
+      type: MaterialType.button,
       child: InkWell(
         onTap: onTap,
         child: Padding(

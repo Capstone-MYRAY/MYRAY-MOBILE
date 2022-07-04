@@ -3,4 +3,5 @@ enum Activities {
   reset,
   create,
   update,
+  view,
 }

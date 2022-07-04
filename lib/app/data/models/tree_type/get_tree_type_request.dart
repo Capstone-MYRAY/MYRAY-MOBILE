@@ -8,6 +8,9 @@ class GetTreeTypeRequest {
   @JsonKey(name: 'type')
   String? type;
 
+  @JsonKey(name: 'status')
+  String? status;
+
   @JsonKey(name: 'sort-column')
   TreeTypeSortColumn? sortColumn;
 
@@ -22,6 +25,7 @@ class GetTreeTypeRequest {
 
   GetTreeTypeRequest({
     this.type,
+    this.status,
     this.sortColumn,
     this.orderBy,
     this.page,

@@ -7,9 +7,9 @@ import 'package:myray_mobile/app/modules/garden/widgets/upload_image_holder.dart
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
 import 'package:myray_mobile/app/shared/utils/field_validation.dart';
-import 'package:myray_mobile/app/shared/widgets/filled_button.dart';
-import 'package:myray_mobile/app/shared/widgets/input_field.dart';
-import 'package:myray_mobile/app/shared/widgets/my_card.dart';
+import 'package:myray_mobile/app/shared/widgets/buttons/filled_button.dart';
+import 'package:myray_mobile/app/shared/widgets/controls/input_field.dart';
+import 'package:myray_mobile/app/shared/widgets/cards/my_card.dart';
 
 class GardenFormView extends GetView<GardenFormController> {
   const GardenFormView({Key? key}) : super(key: key);
@@ -181,7 +181,6 @@ class GardenFormView extends GetView<GardenFormController> {
                         ),
                       ]),
                 ),
-                const SizedBox(height: 24.0),
                 SizedBox(
                   width: Get.width * 0.9,
                   child: Padding(

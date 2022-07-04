@@ -1,11 +1,10 @@
-
-
 import 'package:json_annotation/json_annotation.dart';
+import 'package:myray_mobile/app/data/enums/sort.dart';
+
 part 'get_request_job_post_list.g.dart';
 
 @JsonSerializable(includeIfNull: false)
-class GetRequestJobPostList{
-
+class GetRequestJobPostList {
   @JsonKey(name: 'title')
   String? title;
 
@@ -13,10 +12,10 @@ class GetRequestJobPostList{
   String? status;
 
   @JsonKey(name: 'sort-column')
-  String? sortColumn;
+  JobPostSortColumn? sortColumn;
 
   @JsonKey(name: 'order-by')
-  String? orderBy;
+  SortOrder? orderBy;
 
   @JsonKey(name: 'page')
   String? page;
@@ -24,7 +23,7 @@ class GetRequestJobPostList{
   @JsonKey(name: 'page-size')
   String? pageSize;
 
-  @JsonKey(name: 'publish-by')
+  @JsonKey(name: 'publishBy')
   String? publishBy;
 
   GetRequestJobPostList({
@@ -34,10 +33,11 @@ class GetRequestJobPostList{
     this.orderBy,
     this.page,
     this.pageSize,
-    this.publishBy
+    this.publishBy,
   });
 
-  factory GetRequestJobPostList.fromJson(Map<String, dynamic> json) => _$GetRequestJobPostListFromJson(json);
-  Map<String, dynamic> toJson() => _$GetRequestJobPostListToJson(this);
+  factory GetRequestJobPostList.fromJson(Map<String, dynamic> json) =>
+      _$GetRequestJobPostListFromJson(json);
 
+  Map<String, dynamic> toJson() => _$GetRequestJobPostListToJson(this);
 }

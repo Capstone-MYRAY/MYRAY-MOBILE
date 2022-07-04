@@ -59,6 +59,11 @@ class Garden {
     this.updatedDate,
   });
 
+  @override
+  String toString() {
+    return name;
+  }
+
   factory Garden.fromJson(Map<String, dynamic> json) => _$GardenFromJson(json);
   Map<String, dynamic> toJson() => _$GardenToJson(this);
 }

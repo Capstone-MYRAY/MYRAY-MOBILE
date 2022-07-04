@@ -6,8 +6,11 @@ class AppMsg {
   static const MSG0001 = 'Không có kết nối internet';
   static const MSG0002 = 'Đây là mục bắt buộc';
   static const MSG0003 = 'Số điện thoại không hợp lệ';
-  static const MSG0005 = 'Vui lòng nhập số lớn hơn 0';
+  static const MSG0005 = 'Vui lòng nhập số thực lớn hơn 0';
   static const MSG0009 = 'Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại';
+  static const MSG0010 = 'Vui lòng nhập số nguyên lớn hơn 0';
+  static const MSG4006 = 'Bạn đã tạo công việc thành công';
+  static const MSG4011 = 'Bạn đã thêm vườn thành công';
   static const MSG6001 = 'Số điện thoại này đã được đăng ký';
   static const MSG6002 = 'Số điện thoại không có trong hệ thống';
   static const MSG6003 = 'Mật khẩu không đúng';
@@ -19,4 +22,6 @@ class AppMsg {
   static const MSG6009 = 'Đăng ký tài khoản thành công!';
 
   static const MSG3005 = 'Bạn muốn ứng tuyển vào công việc này? ';
+  static const MSG3006 = 'Ứng tuyển thành công!';
+  static const MSG3007 = 'Ứng tuyển không thành công!';
 }

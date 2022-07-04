@@ -54,3 +54,14 @@ enum PostTypeSortColumn {
   @JsonValue('Color')
   color,
 }
+
+enum PaymentHistorySortColumn {
+  @JsonValue('ActualPrice')
+  actualPrice,
+  @JsonValue('UsedPoint')
+  usedPoint,
+  @JsonValue('EarnedPoint')
+  earnedPoint,
+  @JsonValue('Status')
+  status,
+}

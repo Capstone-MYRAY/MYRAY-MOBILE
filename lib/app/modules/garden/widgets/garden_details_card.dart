@@ -4,9 +4,9 @@ import 'package:myray_mobile/app/data/models/area/area.dart';
 import 'package:myray_mobile/app/data/models/garden/garden.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
-import 'package:myray_mobile/app/shared/widgets/card_field.dart';
-import 'package:myray_mobile/app/shared/widgets/custom_icon_button.dart';
-import 'package:myray_mobile/app/shared/widgets/my_card.dart';
+import 'package:myray_mobile/app/shared/widgets/cards/card_field.dart';
+import 'package:myray_mobile/app/shared/widgets/buttons/custom_icon_button.dart';
+import 'package:myray_mobile/app/shared/widgets/cards/my_card.dart';
 
 class GardenDetailsCard extends StatelessWidget {
   final Garden garden;
@@ -26,15 +26,16 @@ class GardenDetailsCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Align(
-            alignment: Alignment.centerRight,
-            child: CustomIconButton(
-              icon: CustomIcons.pencil,
-              onTap: onEditTap,
-              toolTip: AppStrings.titleEdit,
-              size: 20,
+          if (onEditTap != null)
+            Align(
+              alignment: Alignment.centerRight,
+              child: CustomIconButton(
+                icon: CustomIcons.pencil,
+                onTap: onEditTap,
+                toolTip: AppStrings.titleEdit,
+                size: 20,
+              ),
             ),
-          ),
           Text(
             'Thông tin vườn',
             style: Get.textTheme.headline6,

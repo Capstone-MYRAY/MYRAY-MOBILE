@@ -171,21 +171,21 @@ class AppTheme {
         iconColor: secondaryColor,
         prefixIconColor: secondaryColor,
         suffixIconColor: secondaryColor,
-        enabledBorder: UnderlineInputBorder(
-          borderSide: BorderSide(
-            color: secondaryColor,
-          ),
-        ),
+        // enabledBorder: UnderlineInputBorder(
+        //   borderSide: BorderSide(
+        //     color: secondaryColor,
+        //   ),
+        // ),
         errorBorder: UnderlineInputBorder(
           borderSide: BorderSide(
             color: errorColor,
           ),
         ),
-        focusedBorder: UnderlineInputBorder(
-          borderSide: BorderSide(
-            color: primaryColor,
-          ),
-        ),
+        // focusedBorder: UnderlineInputBorder(
+        //   borderSide: BorderSide(
+        //     color: primaryColor,
+        //   ),
+        // ),
         focusedErrorBorder: UnderlineInputBorder(
           borderSide: BorderSide(
             color: primaryColor,

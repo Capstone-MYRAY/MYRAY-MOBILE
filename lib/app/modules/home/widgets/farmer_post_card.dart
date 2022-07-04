@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:myray_mobile/app/shared/constants/app_colors.dart';
 import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
-import 'package:myray_mobile/app/shared/widgets/status_chip.dart';
-import 'package:myray_mobile/app/shared/widgets/work_type_chip.dart';
+import 'package:myray_mobile/app/shared/widgets/chips/status_chip.dart';
+import 'package:myray_mobile/app/shared/widgets/chips/work_type_chip.dart';
 
 class FarmerPostCard extends StatelessWidget {
   final Color? backgroundColor;
@@ -17,7 +17,7 @@ class FarmerPostCard extends StatelessWidget {
   final bool? isExpired;
   final String title;
   final String address;
-  final int price;
+  final double price;
   final String treeType;
 
   const FarmerPostCard(
@@ -45,9 +45,10 @@ class FarmerPostCard extends StatelessWidget {
         width: Get.width * 0.8, //indicate length of list
         margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 12),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: borderColor!,)
-        ),
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(
+              color: borderColor!,
+            )),
         child: Card(
           color: backgroundColor,
           child: Padding(
@@ -179,9 +180,8 @@ class FarmerPostCard extends StatelessWidget {
                                 : Text(
                                     "Ngày hết hạn: " + expiredDate!,
                                     style: Get.textTheme.overline!.copyWith(
-                                      fontStyle: FontStyle.italic,
-                                      color: AppColors.warningColor
-                                    ),
+                                        fontStyle: FontStyle.italic,
+                                        color: AppColors.warningColor),
                                   )
                           ]),
                     )

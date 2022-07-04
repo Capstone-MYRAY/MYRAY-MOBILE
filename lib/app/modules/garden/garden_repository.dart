@@ -34,8 +34,18 @@ class GardenRepository {
       return GetGardenResponse.fromJson(response.body);
     }
 
-    if (response.statusCode == HttpStatus.ok) {
+    if (response.statusCode == HttpStatus.noContent) {
       throw CustomException('No content');
+    }
+
+    return null;
+  }
+
+  Future<Garden?> getById(int id) async {
+    final response = await _apiProvider.getMethod('/garden/$id');
+
+    if (response.statusCode == HttpStatus.ok) {
+      return Garden.fromJson(response.body);
     }
 
     return null;

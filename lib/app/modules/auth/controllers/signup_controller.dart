@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:myray_mobile/app/data/enums/enums.dart';
 import 'package:myray_mobile/app/data/models/auth/signup_request.dart';
 import 'package:myray_mobile/app/modules/auth/auth_repository.dart';
@@ -10,8 +9,8 @@ import 'package:myray_mobile/app/routes/app_pages.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/utils/utils.dart';
 import 'package:myray_mobile/app/shared/widgets/custom_snackbar.dart';
-import 'package:myray_mobile/app/shared/widgets/information_dialog.dart';
-import 'package:myray_mobile/app/shared/widgets/my_date_picker.dart';
+import 'package:myray_mobile/app/shared/widgets/dialogs/information_dialog.dart';
+import 'package:myray_mobile/app/shared/widgets/controls/my_date_picker.dart';
 
 class SignupController extends GetxController {
   final AuthRepository _authRepository = Get.find();
@@ -54,7 +53,7 @@ class SignupController extends GetxController {
     selectedDate = await MyDatePicker.show(initDate: selectedDate);
 
     if (selectedDate != null) {
-      dobController.text = DateFormat('dd/MM/yyyy').format(selectedDate!);
+      dobController.text = Utils.formatddMMyyyy(selectedDate!);
     }
   }
 
