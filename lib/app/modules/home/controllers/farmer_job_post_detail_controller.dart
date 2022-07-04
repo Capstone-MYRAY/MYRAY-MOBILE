@@ -12,7 +12,7 @@ class FarmerJobPostDetailController extends GetxController {
   final _jobPostRepository = Get.find<JobPostRepository>();
   final _accountRepository = Get.find<ProfileRepository>();
   final JobPost jobPost;
-  final check = false.obs;
+  final isApplied = false.obs;
   Rx<FarmerJobPostDetailResponse>? detailPost;
   Rx<Account>? landownerAccount;
 
@@ -20,10 +20,9 @@ class FarmerJobPostDetailController extends GetxController {
 
   @override
   void onInit() async {
-    //get job post detail
     super.onInit();
-    // getJobPostDetail();
     _getLanownerAccount(jobPost.publishedBy);
+    _checkFarmerAppliedOrNot(jobPost.id);
   }
 
   Future<FarmerJobPostDetailResponse?> getJobPostDetail() async {
@@ -59,8 +58,15 @@ class FarmerJobPostDetailController extends GetxController {
               }
           },
         );
-    check.value = true;
+    isApplied.value = true;
     update();
     print("Đã apply bài post có id $idJobPost");
+  }
+
+  //applied: true, not applied: false
+  _checkFarmerAppliedOrNot(int jobPostId) async{
+    final result = await _jobPostRepository.checkFarmerAppliedOrNot(jobPostId);
+    isApplied(result);
+    print(isApplied.value ? 'applied':'not applied');
   }
 }

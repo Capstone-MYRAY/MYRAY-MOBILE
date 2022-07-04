@@ -13,7 +13,6 @@ import 'package:myray_mobile/app/modules/garden/views/garden_home_view.dart';
 import 'package:myray_mobile/app/modules/home/bindings/farmer_job_post_detail_binding.dart';
 import 'package:myray_mobile/app/modules/home/views/farmer_job_post_detail.dart';
 import 'package:myray_mobile/app/modules/job_post/bindings/job_post_form_binding.dart';
-import 'package:myray_mobile/app/modules/job_post/bindings/landowner_job_post_binding.dart';
 import 'package:myray_mobile/app/modules/job_post/bindings/landowner_job_post_details_binding.dart';
 import 'package:myray_mobile/app/modules/job_post/views/job_post_form_view.dart';
 import 'package:myray_mobile/app/modules/job_post/views/landowner_job_post_details_view.dart';
