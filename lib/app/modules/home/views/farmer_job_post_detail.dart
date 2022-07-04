@@ -22,12 +22,14 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
         foregroundColor: AppColors.primaryColor,
         centerTitle: true,
       ),
-      bottomNavigationBar: Obx(
+      bottomNavigationBar: 
+      Obx(
         () => controller.isApplied.value
             ? CustomBottomNavigationBar(
                 onPressedOutlineButton: () {},
               )
-            : CustomBottomNavigationBar(
+            :
+             CustomBottomNavigationBar(
                 onPressedOutlineButton: () {},
                 onPressedFilledButton: () {
                   CustomDialog.show(
