@@ -6,6 +6,8 @@ import 'package:myray_mobile/app/data/services/post_type_repository.dart';
 import 'package:myray_mobile/app/data/services/tree_type_repository.dart';
 import 'package:myray_mobile/app/data/services/upload_image_service.dart';
 import 'package:myray_mobile/app/modules/applied_farmer/controllers/applied_farmer_cotnroller.dart';
+import 'package:myray_mobile/app/modules/applied_job/applied_job_repository.dart';
+import 'package:myray_mobile/app/modules/applied_job/controllers/applied_job_controller.dart';
 import 'package:myray_mobile/app/modules/auth/auth_repository.dart';
 import 'package:myray_mobile/app/modules/auth/controllers/auth_controller.dart';
 import 'package:myray_mobile/app/modules/auth/controllers/login_controller.dart';
@@ -46,5 +48,7 @@ class AppBinding extends Bindings {
     Get.lazyPut(() => JobPostRepository());
     Get.lazyPut(() => FarmerJobPostController());
     Get.lazyPut(() => AppliedFarmerController());
+    Get.lazyPut(() => AppliedJobController());
+    Get.lazyPut(() => AppliedJobRepository());
   }
 }
