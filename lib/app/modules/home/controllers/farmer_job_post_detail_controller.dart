@@ -25,6 +25,7 @@ class FarmerJobPostDetailController extends GetxController {
     _checkFarmerAppliedOrNot(jobPost.id);
   }
 
+
   Future<FarmerJobPostDetailResponse?> getJobPostDetail() async {
     //call api
     final FarmerJobPostDetailResponse? post =
@@ -48,7 +49,7 @@ class FarmerJobPostDetailController extends GetxController {
               {
                 CustomSnackbar.show(
                     title: "Thành công", message: AppMsg.MSG3006),
-              }
+              }              
             else
               {
                 CustomSnackbar.show(
@@ -58,12 +59,11 @@ class FarmerJobPostDetailController extends GetxController {
               }
           },
         );
-    isApplied.value = true;
-    update();
+    _checkFarmerAppliedOrNot(idJobPost);
     print("Đã apply bài post có id $idJobPost");
   }
 
-  //applied: true, not applied: false
+  //applied: false, not applied: true (200)
   _checkFarmerAppliedOrNot(int jobPostId) async{
     final result = await _jobPostRepository.checkFarmerAppliedOrNot(jobPostId);
     isApplied(result);
