@@ -9,12 +9,14 @@ class CustomBottomNavigationBar extends StatelessWidget {
   final void Function()? onPressedFilledButton;
   final bool? isDisableOutlineButton;
   final bool? isDisableFilledButton;
+  final bool? isChangedState;
   const CustomBottomNavigationBar({
     Key? key,
     this.onPressedOutlineButton,
     this.onPressedFilledButton,
     this.isDisableOutlineButton = false,
     this.isDisableFilledButton = false,
+    this.isChangedState = false,
   }) : super(key: key);
 
   @override
@@ -34,7 +36,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
           ),
           Flexible(
             child: FilledButton(
-              title: AppStrings.applyButton,
+              title: AppStrings.shortApplyButton,
               onPressed: onPressedFilledButton,
             ),
           ),
