@@ -11,6 +11,9 @@ class CustomIconButton extends StatelessWidget {
   final String? toolTip;
   final double? size;
   final double elevation;
+  final Color? splashColor;
+  final InteractiveInkFeatureFactory? splashFactory;
+
   const CustomIconButton({
     Key? key,
     required this.icon,
@@ -19,12 +22,14 @@ class CustomIconButton extends StatelessWidget {
     this.shape,
     this.onTap,
     this.size,
+    this.splashColor,
+    this.splashFactory,
+    this.toolTip,
     this.elevation = 0.0,
     this.padding = const EdgeInsets.symmetric(
       horizontal: 0.0,
       vertical: 0.0,
     ),
-    this.toolTip,
   }) : super(key: key);
 
   @override
@@ -35,6 +40,8 @@ class CustomIconButton extends StatelessWidget {
       elevation: elevation,
       type: MaterialType.button,
       child: InkWell(
+        splashColor: splashColor,
+        splashFactory: splashFactory,
         onTap: onTap,
         child: Padding(
           padding: padding,

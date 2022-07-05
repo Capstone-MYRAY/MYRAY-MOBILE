@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:myray_mobile/app/data/models/job_post/job_post.dart';
 import 'package:myray_mobile/app/modules/job_post/controllers/landowner_job_post_details_controller.dart';
-import 'package:myray_mobile/app/modules/job_post/widgets/landowner_job_post_details/toggle_controller.dart';
+import 'package:myray_mobile/app/modules/job_post/widgets/landowner_job_post_details/toggle_header.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 
 class LandownerJobPostDetailsBinding extends Bindings {

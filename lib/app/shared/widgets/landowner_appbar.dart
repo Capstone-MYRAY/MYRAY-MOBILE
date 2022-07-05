@@ -4,6 +4,7 @@ import 'package:myray_mobile/app/modules/profile/controllers/landowner_profile_c
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
 import 'package:myray_mobile/app/shared/utils/utils.dart';
+import 'package:myray_mobile/app/shared/widgets/buttons/custom_icon_button.dart';
 
 class LandownerAppbar extends GetView<LandownerProfileController>
     implements PreferredSizeWidget {
@@ -78,6 +79,14 @@ class LandownerAppbar extends GetView<LandownerProfileController>
               ),
             ],
           ),
+        ),
+        CustomIconButton(
+          icon: Icons.sync,
+          toolTip: AppStrings.tooltipUpdateBalance,
+          onTap: controller.getUserInfor,
+          splashColor: Colors.transparent,
+          splashFactory: NoSplash.splashFactory,
+          padding: const EdgeInsets.only(right: 8.0),
         ),
       ],
     );

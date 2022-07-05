@@ -9,7 +9,6 @@ part of 'job_post.dart';
 JobPost _$JobPostFromJson(Map<String, dynamic> json) => JobPost(
       id: json['id'] as int,
       gardenId: json['garden_id'] as int,
-      gardenName: json['garden_name'] as String?,
       title: json['title'] as String,
       type: json['type'] as String,
       jobStartDate: DateTime.parse(json['start_job_date'] as String),
@@ -19,10 +18,11 @@ JobPost _$JobPostFromJson(Map<String, dynamic> json) => JobPost(
       publishedDate: DateTime.parse(json['published_date'] as String),
       createdDate: DateTime.parse(json['created_date'] as String),
       status: json['status'] as int,
-      address: json['address'] as String?,
       treeJobs: (json['tree_jobs'] as List<dynamic>)
           .map((e) => TreeJobs.fromJson(e as Map<String, dynamic>))
           .toList(),
+      gardenName: json['garden_name'] as String?,
+      address: json['address'] as String?,
       approvedBy: json['approved_by'] as int?,
       approvedDate: json['approved_date'] == null
           ? null
@@ -48,6 +48,7 @@ JobPost _$JobPostFromJson(Map<String, dynamic> json) => JobPost(
           ? null
           : DateTime.parse(json['end_job_date'] as String),
       postTypeName: json['post_type_name'] as String?,
+      approvedName: json['approved_name'] as String?,
     );
 
 Map<String, dynamic> _$JobPostToJson(JobPost instance) {
@@ -76,6 +77,7 @@ Map<String, dynamic> _$JobPostToJson(JobPost instance) {
   val['created_date'] = instance.createdDate.toIso8601String();
   writeNotNull('updated_date', instance.updatedDate?.toIso8601String());
   writeNotNull('approved_by', instance.approvedBy);
+  writeNotNull('approved_name', instance.approvedName);
   writeNotNull('approved_date', instance.approvedDate?.toIso8601String());
   writeNotNull('description', instance.description);
   val['status'] = instance.status;

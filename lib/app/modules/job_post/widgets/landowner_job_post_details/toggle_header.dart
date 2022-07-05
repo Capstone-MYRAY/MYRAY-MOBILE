@@ -3,11 +3,22 @@ import 'package:get/get.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
 
+class ToggleController extends GetxController {
+  RxBool isOpen = false.obs;
+
+  void toggle() => isOpen.value = !isOpen.value;
+}
+
 class ToggleHeader extends StatelessWidget {
   final void Function() onTap;
   final bool isOpen;
-  const ToggleHeader({Key? key, required this.onTap, required this.isOpen})
-      : super(key: key);
+  final String title;
+  const ToggleHeader({
+    Key? key,
+    required this.onTap,
+    required this.isOpen,
+    required this.title,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +36,7 @@ class ToggleHeader extends StatelessWidget {
           children: [
             Expanded(
               child: Text(
-                AppStrings.titleWorkInformation.toUpperCase(),
+                title.toUpperCase(),
                 style: Get.textTheme.headline6!.copyWith(
                   color: AppColors.white,
                   fontWeight: FontWeight.w500,
