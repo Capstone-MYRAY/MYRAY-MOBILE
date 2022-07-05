@@ -3,6 +3,12 @@ import 'package:get/get.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
 
+class ToggleController extends GetxController {
+  RxBool isOpen = false.obs;
+
+  void toggle() => isOpen.value = !isOpen.value;
+}
+
 class ToggleHeader extends StatelessWidget {
   final void Function() onTap;
   final bool isOpen;

@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:myray_mobile/app/modules/job_post/widgets/landowner_job_post_details/toggle_controller.dart';
 import 'package:myray_mobile/app/modules/job_post/widgets/landowner_job_post_details/toggle_header.dart';
-import 'package:myray_mobile/app/shared/constants/constants.dart';
-import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
-import 'package:myray_mobile/app/shared/widgets/cards/card_field.dart';
 import 'package:myray_mobile/app/shared/widgets/cards/my_card.dart';
 
 class ToggleInformation extends GetView<ToggleController> {
