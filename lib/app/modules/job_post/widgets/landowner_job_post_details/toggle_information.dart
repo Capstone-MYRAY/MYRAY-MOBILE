@@ -9,7 +9,14 @@ import 'package:myray_mobile/app/shared/widgets/cards/my_card.dart';
 
 class ToggleInformation extends GetView<ToggleController> {
   final String tagName;
-  const ToggleInformation({Key? key, required this.tagName}) : super(key: key);
+  final String title;
+  final Widget child;
+  const ToggleInformation({
+    Key? key,
+    required this.tagName,
+    required this.title,
+    required this.child,
+  }) : super(key: key);
 
   @override
   String? get tag => tagName;
@@ -23,7 +30,11 @@ class ToggleInformation extends GetView<ToggleController> {
   _buildContent(bool isOpen) {
     return Column(
       children: [
-        ToggleHeader(onTap: () => controller.toggle(), isOpen: isOpen),
+        ToggleHeader(
+          title: title,
+          onTap: () => controller.toggle(),
+          isOpen: isOpen,
+        ),
         if (isOpen)
           MyCard(
             margin: const EdgeInsets.all(0.0),
@@ -31,40 +42,11 @@ class ToggleInformation extends GetView<ToggleController> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  AppStrings.titleWorkInformation,
+                  title,
                   style: Get.textTheme.headline6,
                 ),
                 const SizedBox(height: 8.0),
-                CardField(
-                  icon: CustomIcons.briefcase_outline,
-                  title: AppStrings.labelWorkName,
-                  data: 'test data',
-                ),
-                CardField(
-                  icon: CustomIcons.bulletin_board,
-                  title: AppStrings.labelWorkType,
-                  data: 'test data',
-                ),
-                CardField(
-                  icon: CustomIcons.tree_outline,
-                  title: AppStrings.labelTreeType,
-                  data: 'test data',
-                ),
-                CardField(
-                  icon: CustomIcons.lucide_axe,
-                  title: AppStrings.labelEstimateWork,
-                  data: 'test data',
-                ),
-                CardField(
-                  icon: CustomIcons.account_outline,
-                  title: AppStrings.labelEstimateFarmer,
-                  data: 'test data',
-                ),
-                CardField(
-                  icon: CustomIcons.cash,
-                  title: AppStrings.labelHourSalary,
-                  data: 'test data',
-                ),
+                child,
               ],
             ),
           ),

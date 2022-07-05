@@ -161,6 +161,9 @@ class AppStrings {
   static const noData = 'Không có dữ liệu';
   static const noMarkedJobPost = "Không có bài viết nào nổi bật";
 
+  //Tooltip
+  static const tooltipUpdateBalance = 'Cập nhật số dư';
+
   //Status string
   static const jobPostStatusPending = 'Chờ duyệt';
   static const jobPostStatusPosted = 'Đang đăng tải';

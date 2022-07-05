@@ -21,6 +21,7 @@ class LandownerProfileController extends GetxController {
   //balance in account minus balance fluctuation of pending payment histories
   calBalance() async {
     double balance = user.value.balance!;
+    double pendingFee = 0.0;
 
     final data = GetPaymentHistoryRequest(
       page: 1.toString(),
@@ -28,15 +29,21 @@ class LandownerProfileController extends GetxController {
       status: PaymentHistoryStatus.pending.index.toString(),
     );
     int userId = AuthCredentials.instance.user!.id!;
+    print(user.value.balance);
     final _response = await _paymentHistoryRepository.getList(userId, data);
 
-    if (_response == null) return;
+    if (_response == null) {
+      setBalanceWithPending(balance, pendingFee);
+      return;
+    }
 
     final _paymentHistories = _response.paymentHistories;
 
-    double pendingFee = 0.0;
     if (_paymentHistories != null) {
-      if (_paymentHistories.isEmpty) return;
+      if (_paymentHistories.isEmpty) {
+        setBalanceWithPending(balance, pendingFee);
+        return;
+      }
 
       //calculate balance
       for (PaymentHistory payment in _paymentHistories) {
@@ -44,16 +51,24 @@ class LandownerProfileController extends GetxController {
       }
     }
 
+    print(pendingFee);
+
     //pending fee is a negative number
+    setBalanceWithPending(balance, pendingFee);
+  }
+
+  setBalanceWithPending(double balance, double pendingFee) {
     balanceWithPending.value = balance + pendingFee;
   }
 
   getUserInfor() async {
-    Account? user =
+    user = Account().obs;
+    balanceWithPending.value = 0.0;
+    Account? _user =
         await _profileRepository.getUser(AuthCredentials.instance.user!.id!);
 
-    if (user != null) {
-      this.user.value = user;
+    if (_user != null) {
+      user.value = _user;
       await calBalance();
     }
   }
