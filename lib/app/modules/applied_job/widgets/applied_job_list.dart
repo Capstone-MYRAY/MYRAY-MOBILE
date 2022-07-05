@@ -136,7 +136,7 @@ class AppliedJobList extends GetView<AppliedJobController> {
                                           ),
                                           Expanded(
                                             child: Text(
-                                              jobPost.address,
+                                              jobPost.address ?? '',
                                               style: Get.textTheme.bodyText2!
                                                   .copyWith(
                                                 fontSize:

@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -90,7 +88,7 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
                                     backgroundColor:
                                         AppColors.markedBackgroundColor,
                                     title: jobPost.title,
-                                    address: jobPost.address,
+                                    address: jobPost.address?? '',
                                     price: jobPost.payPerHourJob!.salary,
                                     treeType: "Cây cà phê", //no
                                     workType: AppStrings.payPerHour,
@@ -109,7 +107,7 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
                                     backgroundColor:
                                         AppColors.markedBackgroundColor,
                                     title: jobPost.title,
-                                    address: jobPost.address,
+                                    address: jobPost.address ?? '',
                                     price: jobPost.payPerTaskJob!.salary,
                                     treeType: "Cây cà phê", //no
                                     workType: AppStrings.payPerTask,
@@ -131,74 +129,6 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
                             AppStrings.noMarkedJobPost,
                             style: Get.textTheme.bodyMedium!
                                 .copyWith(color: AppColors.grey),
-            Container(
-              decoration: const BoxDecoration(
-                color: AppColors.white,
-              ),
-              child: SizedBox(
-                height: Get.height * 0.35,
-                child: Obx(
-                  () => controller.secondJobPost.isNotEmpty
-                      ? ListView.builder(
-                          padding: const EdgeInsets.only(left: 10),
-                          scrollDirection: Axis.horizontal,
-                          itemCount: controller.secondJobPost.length,
-                          itemBuilder: (context, index) {
-                            JobPost jobPost = controller.secondJobPost[index];
-                            var publishedDate = jobPost.publishedDate;
-                            var numberPublishDate = jobPost.numOfPublishDay;
-                            var expiredDate = controller.getExpiredDate(
-                                publishedDate, numberPublishDate);
-                            if (jobPost.payPerHourJob != null) {
-                              return FarmerPostCard(
-                                backgroundColor:
-                                    AppColors.markedBackgroundColor,
-                                title: jobPost.title,
-                                address: jobPost.address,
-                                price: jobPost.payPerHourJob!.salary,
-                                treeType: "Cây cà phê", //no
-                                workType: AppStrings.payPerHour,
-                                isStatus: true,
-                                expiredDate: DateFormat('dd-MM-yyyy')
-                                    .format(expiredDate),
-                                isExpired:
-                                    controller.checkExpiredDate(expiredDate),
-                                onTap: () => {
-                                  Get.toNamed(Routes.farmerJobPostDetail,
-                                      arguments: {Arguments.item: jobPost})
-                                },
-                              );
-                            } else {
-                              return FarmerPostCard(
-                                backgroundColor:
-                                    AppColors.markedBackgroundColor,
-                                title: jobPost.title,
-                                address: jobPost.address,
-                                price: jobPost.payPerTaskJob!.salary,
-                                treeType: "Cây cà phê", //no
-                                workType: AppStrings.payPerTask,
-                                isStatus: true,
-                                expiredDate: DateFormat('dd-MM-yyyy')
-                                    .format(expiredDate),
-                                onTap: () {
-                                  Get.toNamed(Routes.farmerJobPostDetail,
-                                      arguments: {Arguments.item: jobPost});
-                                },
-                              );
-                            }
-                          })
-                      : Center(
-                          child: Column(
-                            children: [
-                              Text(
-                                AppStrings.noMarkedJobPost,
-                                style: Get.textTheme.bodyMedium!
-                                    .copyWith(color: AppColors.grey),
-                              ),
-                              const SizedBox(height: 10),
-                              const ImageIcon(AssetImage(AppAssets.noJobFound),
-                                  size: 20, color: AppColors.grey)
-                            ],
                           ),
                           const SizedBox(height: 10),
                           const ImageIcon(AssetImage(AppAssets.noJobFound),
@@ -251,7 +181,7 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
                     if (jobPost.payPerHourJob != null) {
                       return FarmerPostCard(
                         title: jobPost.title,
-                        address: jobPost.address,
+                        address: jobPost.address ?? '',
                         price: jobPost.payPerHourJob!.salary,
                         treeType: "Cây cà phê", //no
                         workType: AppStrings.payPerHour,
@@ -266,7 +196,7 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
                     } else {
                       return FarmerPostCard(
                         title: jobPost.title,
-                        address: jobPost.address,
+                        address: jobPost.address ?? '',
                         price: jobPost.payPerTaskJob!.salary,
                         treeType: "Cây cà phê", //no
                         workType: AppStrings.payPerTask,
