@@ -46,30 +46,30 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
             return const LoadingBuilder();
           }
 
-          if (snapshot.hasError || snapshot.data == null) {
-            printError(info: snapshot.error.toString());
-            return SizedBox(
-              width: double.infinity,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const Icon(
-                    Icons.error,
-                    size: 50.0,
-                    color: AppColors.errorColor,
-                  ),
-                  const SizedBox(height: 8.0),
-                  Text(
-                    'Đã có lỗi xảy ra',
-                    style: Get.textTheme.headline6!.copyWith(
-                      color: AppColors.errorColor,
-                    ),
-                  ),
-                ],
-              ),
-            );
-          }
+          // if (snapshot.hasError || snapshot.data == null) {
+          //   printError(info: snapshot.error.toString());
+          //   return SizedBox(
+          //     width: double.infinity,
+          //     child: Column(
+          //       mainAxisAlignment: MainAxisAlignment.center,
+          //       crossAxisAlignment: CrossAxisAlignment.center,
+          //       children: [
+          //         const Icon(
+          //           Icons.error,
+          //           size: 50.0,
+          //           color: AppColors.errorColor,
+          //         ),
+          //         const SizedBox(height: 8.0),
+          //         Text(
+          //           'Đã có lỗi xảy ra',
+          //           style: Get.textTheme.headline6!.copyWith(
+          //             color: AppColors.errorColor,
+          //           ),
+          //         ),
+          //       ],
+          //     ),
+          //   );
+          // }
 
           if (snapshot.hasData) {
             controller.detailPost = snapshot.data!.obs;
@@ -100,9 +100,9 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
       ]);
 
   Widget _buildCardInfoJjob() {
-    String _jobEndDate = controller.jobPost.jobEndDate == null
-        ? 'Chưa xác định'
-        : DateFormat('dd-MM-yyyy').format(controller.jobPost.jobEndDate!);
+    // String _jobEndDate = controller.jobPost.jobEndDate == null
+    //     ? 'Chưa xác định'
+    //     : DateFormat('dd-MM-yyyy').format(controller.jobPost.jobEndDate!);
 
     return SliverToBoxAdapter(
         child: Container(
@@ -215,19 +215,19 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Text("Ngày dự kiến:", style: Get.textTheme.bodyText1),
-                      const SizedBox(
-                        width: 29,
-                      ),
-                      Text(
-                        DateFormat('dd-MM-yyyy')
-                                .format(controller.jobPost.jobStartDate) +
-                            " đến " +
-                            _jobEndDate,
-                        style: TextStyle(
-                          fontSize: Get.textScaleFactor * 15,
-                        ),
-                      ),
+                      Text("Ngày bắt đầu:", style: Get.textTheme.bodyText1),
+                      // const SizedBox(
+                      //   width: 29,
+                      // ),
+                      // Text(
+                      //   DateFormat('dd-MM-yyyy')
+                      //           .format(controller.jobPost.jobStartDate) +
+                      //       " đến " +
+                      //       _jobEndDate,
+                      //   style: TextStyle(
+                      //     fontSize: Get.textScaleFactor * 15,
+                      //   ),
+                      // ),
                     ],
                   ),
                   const SizedBox(

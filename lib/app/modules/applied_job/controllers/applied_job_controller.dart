@@ -118,7 +118,7 @@ class AppliedJobController extends GetxController
                   title: "Thành công", message: "Hủy yêu cầu thành công"),
               isRefresh(true),
               // appliedJobPostResponse.clear(),
-              onRefresh(),
+              // onRefresh(),
             }
           else
             {

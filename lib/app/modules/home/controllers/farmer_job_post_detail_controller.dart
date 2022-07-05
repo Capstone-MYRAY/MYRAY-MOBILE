@@ -30,6 +30,7 @@ class FarmerJobPostDetailController extends GetxController {
     //call api
     final FarmerJobPostDetailResponse? post =
         await _jobPostRepository.getFarmerJobPostdDetail(jobPost.id);
+        print("object: ${post!.type}");
     return post;
   }
 
