@@ -156,7 +156,7 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
                       ),
                       Flexible(
                         child: Text(
-                          controller.jobPost.address,
+                          controller.jobPost.address ?? '',
                           softWrap: true,
                           maxLines: 5,
                           textAlign: TextAlign.left,

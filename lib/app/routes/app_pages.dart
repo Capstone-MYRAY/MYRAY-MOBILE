@@ -13,7 +13,10 @@ import 'package:myray_mobile/app/modules/garden/views/garden_home_view.dart';
 import 'package:myray_mobile/app/modules/home/bindings/farmer_job_post_detail_binding.dart';
 import 'package:myray_mobile/app/modules/home/views/farmer_job_post_detail.dart';
 import 'package:myray_mobile/app/modules/job_post/bindings/job_post_form_binding.dart';
+import 'package:myray_mobile/app/modules/job_post/bindings/landowner_job_post_binding.dart';
+import 'package:myray_mobile/app/modules/job_post/bindings/landowner_job_post_details_binding.dart';
 import 'package:myray_mobile/app/modules/job_post/views/job_post_form_view.dart';
+import 'package:myray_mobile/app/modules/job_post/views/landowner_job_post_details_view.dart';
 import 'package:myray_mobile/app/modules/profile/views/farmer_profile_detail.dart';
 import 'package:myray_mobile/app/modules/profile/views/landowner_profile_details_view.dart';
 import 'package:myray_mobile/init_view.dart';
@@ -100,6 +103,11 @@ class AppPages {
       page: () => const JobPostFormView(),
       binding: JobPostFormBinding(),
     ),
+    GetPage(
+      name: _Paths.landownerJobPostDetails,
+      page: () => const LandownerJobPostDetailsView(),
+      binding: LandownerJobPostDetailsBinding(),
+    ),
 
     //farmer
     GetPage(
@@ -108,9 +116,9 @@ class AppPages {
       binding: DashboardBinding(),
     ),
     GetPage(
-        name: _Paths.farmerProfile,
-        page: () => const FarmerProfileDetailView(),
-        transition: Transition.downToUp,
+      name: _Paths.farmerProfile,
+      page: () => const FarmerProfileDetailView(),
+      transition: Transition.downToUp,
     ),
     GetPage(
       name: _Paths.farmerJobPostDetail,
