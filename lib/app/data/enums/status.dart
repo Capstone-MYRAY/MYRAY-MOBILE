@@ -2,9 +2,9 @@ enum JobPostStatus {
   deleted,
   pending,
   posted,
-  reject,
-  expired,
-  outOfDate,
+  rejected,
+  expired, // Hết hạn đăng bài
+  outOfDate, // Quá hạn duyệt
   cancel,
   approved,
 }
