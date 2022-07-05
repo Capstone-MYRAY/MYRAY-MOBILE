@@ -16,12 +16,11 @@ class InputField extends StatelessWidget {
   final TextInputType keyBoardType;
   final TextEditingController? controller;
   final FocusNode? focusNode;
-  final TextInputAction? inputAction;
+  final TextInputAction inputAction;
   final AutovalidateMode autovalidateMode;
   final String? Function(String?)? validator;
   final void Function()? onTap;
   final void Function(String)? onChanged;
-  final void Function()? onEditingComplete;
   final List<TextInputFormatter>? inputFormatters;
 
   const InputField({
@@ -33,7 +32,6 @@ class InputField extends StatelessWidget {
     this.focusNode,
     this.onTap,
     this.onChanged,
-    this.onEditingComplete,
     this.placeholder = '',
     this.isPassword = false,
     this.autoFocus = false,
@@ -44,7 +42,7 @@ class InputField extends StatelessWidget {
     this.maxLines = 1,
     this.suffix,
     this.keyBoardType = TextInputType.text,
-    this.inputAction,
+    this.inputAction = TextInputAction.done,
     this.autovalidateMode = AutovalidateMode.onUserInteraction,
     this.inputFormatters,
   }) : super(key: key);
@@ -72,7 +70,6 @@ class InputField extends StatelessWidget {
       enabled: enabled,
       readOnly: readOnly,
       onTap: onTap,
-      onEditingComplete: onEditingComplete,
       onChanged: onChanged,
       inputFormatters: inputFormatters,
     );

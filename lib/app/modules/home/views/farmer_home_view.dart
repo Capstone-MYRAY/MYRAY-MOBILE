@@ -154,7 +154,7 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
                                 backgroundColor:
                                     AppColors.markedBackgroundColor,
                                 title: jobPost.title,
-                                address: jobPost.address ?? '',
+                                address: jobPost.address,
                                 price: jobPost.payPerHourJob!.salary,
                                 treeType: "Cây cà phê", //no
                                 workType: AppStrings.payPerHour,
@@ -173,7 +173,7 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
                                 backgroundColor:
                                     AppColors.markedBackgroundColor,
                                 title: jobPost.title,
-                                address: jobPost.address ?? '',
+                                address: jobPost.address,
                                 price: jobPost.payPerTaskJob!.salary,
                                 treeType: "Cây cà phê", //no
                                 workType: AppStrings.payPerTask,
@@ -251,7 +251,7 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
                     if (jobPost.payPerHourJob != null) {
                       return FarmerPostCard(
                         title: jobPost.title,
-                        address: jobPost.address ?? '',
+                        address: jobPost.address,
                         price: jobPost.payPerHourJob!.salary,
                         treeType: "Cây cà phê", //no
                         workType: AppStrings.payPerHour,
@@ -266,7 +266,7 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
                     } else {
                       return FarmerPostCard(
                         title: jobPost.title,
-                        address: jobPost.address ?? '',
+                        address: jobPost.address,
                         price: jobPost.payPerTaskJob!.salary,
                         treeType: "Cây cà phê", //no
                         workType: AppStrings.payPerTask,

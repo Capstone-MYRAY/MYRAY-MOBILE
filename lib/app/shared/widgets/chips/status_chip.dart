@@ -4,39 +4,36 @@ import 'package:myray_mobile/app/shared/constants/constants.dart';
 
 class StatusChip extends StatelessWidget {
   final String statusName;
-  final double? borderRadius;
-  final Color? backgroundColor;
-  final Color? foregroundColor;
-  final EdgeInsetsGeometry? padding;
+  final Color backgroundColor;
+  final Color foregroundColor;
+  final EdgeInsetsGeometry padding;
 
   const StatusChip({
     Key? key,
     required this.statusName,
-    this.borderRadius,
-    this.backgroundColor,
-    this.foregroundColor,
-    this.padding,
+    this.backgroundColor = AppColors.grey,
+    this.foregroundColor = AppColors.white,
+    this.padding = const EdgeInsets.symmetric(
+      horizontal: 10.0,
+      vertical: 6.0,
+    ),
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(borderRadius ?? 10),
-        color: backgroundColor ?? AppColors.grey,
+        borderRadius: BorderRadius.circular(10),
+        color: backgroundColor,
       ),
-      padding: padding ??
-          const EdgeInsets.symmetric(
-            horizontal: 10.0,
-            vertical: 6.0,
-          ),
+      padding: padding,
       child: Text(
         statusName,
         textAlign: TextAlign.center,
         style: Get.textTheme.bodyText2!.copyWith(
           fontWeight: FontWeight.w600,
           letterSpacing: 0.45,
-          color: foregroundColor ?? AppColors.white,
+          color: foregroundColor,
         ),
       ),
     );

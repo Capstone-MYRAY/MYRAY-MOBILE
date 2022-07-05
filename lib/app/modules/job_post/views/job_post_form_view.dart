@@ -41,7 +41,7 @@ class JobPostFormView extends GetView<JobPostFormController> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        AppStrings.titleWorkInformation,
+                        'Thông tin công việc',
                         style: Get.textTheme.headline6,
                       ),
                       const SizedBox(height: 16.0),
@@ -161,7 +161,7 @@ class JobPostFormView extends GetView<JobPostFormController> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        AppStrings.titlePostInformation,
+                        'Thông tin bài đăng',
                         style: Get.textTheme.headline6,
                       ),
                       const SizedBox(height: 16.0),
@@ -238,6 +238,7 @@ class JobPostFormView extends GetView<JobPostFormController> {
                             icon: const Icon(CustomIcons.gift_open_outline),
                             labelText: 'Dùng điểm',
                             placeholder: '0',
+                            inputAction: TextInputAction.next,
                             keyBoardType: TextInputType.number,
                             onChanged: controller.onChangeUsingPoint,
                             inputFormatters: [
@@ -368,17 +369,14 @@ class JobPostFormView extends GetView<JobPostFormController> {
           placeholder: AppStrings.placeholderNumOfUpgradeDay,
           inputAction: TextInputAction.next,
           keyBoardType: TextInputType.number,
-          onChanged: controller.onChangeNumOfUpgradeDay,
           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-          onEditingComplete: () {},
+          onChanged: controller.onChangeNumOfUpgradeDay,
           validator: controller.validateNumOfUpgradeDay,
         ),
         const SizedBox(height: 8.0),
-        Obx(
-          () => _buildEquationDisplay(
-              equation: controller.upgradeEquation,
-              cost: controller.totalUpgrade),
-        ),
+        _buildEquationDisplay(
+            equation: controller.upgradeEquation,
+            cost: controller.totalUpgrade),
       ],
     );
   }

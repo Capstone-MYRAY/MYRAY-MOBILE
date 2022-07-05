@@ -16,11 +16,12 @@ class LandownerProfileController extends GetxController {
   void onInit() async {
     super.onInit();
     await getUserInfor();
+    await calBalance();
   }
 
   //balance in account minus balance fluctuation of pending payment histories
   calBalance() async {
-    double balance = user.value.balance!;
+    balanceWithPending.value = user.value.balance!;
 
     final data = GetPaymentHistoryRequest(
       page: 1.toString(),
@@ -34,18 +35,17 @@ class LandownerProfileController extends GetxController {
 
     final _paymentHistories = _response.paymentHistories;
 
-    double pendingFee = 0.0;
     if (_paymentHistories != null) {
       if (_paymentHistories.isEmpty) return;
 
+      double pendingFee = 0.0;
       //calculate balance
       for (PaymentHistory payment in _paymentHistories) {
         pendingFee += payment.balanceFluctuation ?? 0;
       }
-    }
 
-    //pending fee is a negative number
-    balanceWithPending.value = balance + pendingFee;
+      balanceWithPending.value -= -pendingFee;
+    }
   }
 
   getUserInfor() async {
@@ -54,7 +54,6 @@ class LandownerProfileController extends GetxController {
 
     if (user != null) {
       this.user.value = user;
-      await calBalance();
     }
   }
 }

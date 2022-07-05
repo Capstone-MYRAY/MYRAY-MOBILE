@@ -48,7 +48,6 @@ class JobPostFormController extends GetxController {
   final _postTypeRepository = Get.find<PostTypeRepository>();
   final _jobPostRepository = Get.find<JobPostRepository>();
   final _feeDataService = Get.find<FeeDataService>();
-  final _profile = Get.find<LandownerProfileController>();
 
   final RxList<Garden> gardens = RxList<Garden>();
   Rx<Garden?> selectedGarden = Rx(null);
@@ -145,7 +144,7 @@ class JobPostFormController extends GetxController {
     maxFarmerController = TextEditingController();
     hourSalaryController = MoneyMaskedTextController(
       thousandSeparator: '.',
-      rightSymbol: 'đ/công',
+      rightSymbol: 'đ/ngày',
       precision: 0,
       decimalSeparator: '',
     );
@@ -188,6 +187,7 @@ class JobPostFormController extends GetxController {
     if (!isTreeTypeValid || !isFormFieldsValid) return;
 
     //check balance
+    final _profile = Get.find<LandownerProfileController>();
     if (_totalFee.value > _profile.balanceWithPending.value) {
       InformationDialog.showDialog(
         msg: 'Bạn không đủ tiền trong tài khoản.',
@@ -208,43 +208,32 @@ class JobPostFormController extends GetxController {
     //get data from controller
     JobPostCru data = _createData();
 
-    try {
-      final JobPost? _newJobPost = await _jobPostRepository.create(data);
-      EasyLoading.dismiss();
+    final JobPost? _newJobPost = await _jobPostRepository.create(data);
 
-      print(_newJobPost == null);
+    EasyLoading.dismiss();
 
-      if (_newJobPost == null) {
-        //show error
-        CustomSnackbar.show(
-          title: AppStrings.titleError,
-          message: 'Có lỗi xảy ra',
-          backgroundColor: AppColors.errorColor,
-        );
-        return;
-      }
+    print(_newJobPost == null);
 
-      //refresh job post list
-      final _jobPostController = Get.find<LandownerJobPostController>();
-      _jobPostController.onRefresh();
-
-      //refresh balance
-      _profile.calBalance();
-
-      Get.back();
-
-      CustomSnackbar.show(
-        title: AppStrings.titleSuccess,
-        message: AppMsg.MSG4006,
-      );
-    } on Exception {
-      EasyLoading.dismiss();
+    if (_newJobPost == null) {
+      //show error
       CustomSnackbar.show(
         title: AppStrings.titleError,
         message: 'Có lỗi xảy ra',
         backgroundColor: AppColors.errorColor,
       );
+      return;
     }
+
+    //refresh job post list
+    final _jobPostController = Get.find<LandownerJobPostController>();
+    _jobPostController.onRefresh();
+
+    Get.back();
+
+    CustomSnackbar.show(
+      title: AppStrings.titleSuccess,
+      message: AppMsg.MSG4006,
+    );
   }
 
   JobPostCru _createData() {
@@ -562,7 +551,6 @@ class JobPostFormController extends GetxController {
     } else {
       numOfPublishDay.value = int.parse(value);
     }
-
     totalPostingMoney.value =
         _feeConfig.value.postingFeePerDay * numOfPublishDay.value;
     calTotalFee();
@@ -580,7 +568,7 @@ class JobPostFormController extends GetxController {
   }
 
   void onChangeNumOfUpgradeDay(String value) {
-    if (value.isEmpty || !Utils.isPositiveInteger(value)) {
+    if (value.isEmpty) {
       numOfUpgradeDay.value = 0;
     } else {
       numOfUpgradeDay.value = int.parse(value);
@@ -828,10 +816,6 @@ class JobPostFormController extends GetxController {
 
     if (!Utils.isPositiveInteger(value!)) {
       return AppMsg.MSG0010;
-    }
-
-    if (int.parse(value) < 3) {
-      return AppMsg.MSG4004;
     }
 
     return null;

@@ -43,11 +43,6 @@ class AppStrings {
   static const titleCreateJobPost = 'Tạo công việc';
   static const titleJobPostDetail = 'Chi tiết công việc';
   static const titleEditJobPost = 'Chỉnh sửa công việc';
-  static const titleJobPostDetails = 'Chi tiết công việc';
-  static const titleWorkInformation = 'Thông tin công việc';
-  static const titleWorkPlace = 'Địa điểm làm việc';
-  static const titlePostInformation = 'Thông tin bài đăng';
-  static const titlePaymentInformation = 'Thông tin thanh toán';
 
   //Subtitle
   static const subtitleMyGarden = 'Danh sách vườn đã tạo';
@@ -104,9 +99,6 @@ class AppStrings {
   static const labelWorkingTime = 'Giờ làm việc';
   static const labelPresentDate = 'Ngày hiện tại';
   static const labelShortJobEndDate = 'Ngày kết thúc';
-  static const labelPostStatus = 'Trạng thái bài đăng';
-  static const labelWorkStatus = 'Trạng thái công việc';
-  static const labelEstimateFarmer = 'Số người ước lượng';
 
   //Placeholder
   static const placeholderPhone = 'Nhập số điện thoại';
@@ -160,18 +152,6 @@ class AppStrings {
   static const payPerHour = 'Làm công';
   static const noData = 'Không có dữ liệu';
   static const noMarkedJobPost = "Không có bài viết nào nổi bật";
-
-  //Status string
-  static const jobPostStatusPending = 'Chờ duyệt';
-  static const jobPostStatusPosted = 'Đang đăng tải';
-  static const jobPostStatusRejected = 'Bị từ chối';
-  static const jobPostStatusExpired = 'Đã hết hạn';
-  static const jobPostStatusOutOfDate = 'Quá hạn duyệt';
-  static const jobPostStatusCancel = 'Đã hủy';
-  static const jobPostStatusApproved = 'Đã duyệt';
-  static const jobPostWorkStatusPending = 'Chưa bắt đầu';
-  static const jobPostWorkStatusStarted = 'Đã bắt đầu';
-  static const jobPostWorkStatusDone = 'Đã kết thúc';
 
   //Replaced String
   static const nullFullName = "Người dùng";
