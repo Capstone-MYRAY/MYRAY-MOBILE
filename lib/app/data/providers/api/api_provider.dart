@@ -19,7 +19,7 @@ class ApiProvider extends BaseProvider {
   }
 
    Future<Response> patchMethod(String path, Map<String, dynamic>? data) {
-    return patch(path, {query: data});
+    return patch(path, data);
   }
 
   Future<Response> multipartFile(String path, dynamic body) {

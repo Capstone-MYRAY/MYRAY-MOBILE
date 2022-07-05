@@ -99,7 +99,7 @@ class AppStrings {
   static const labelInprogress = 'Đang làm';
   static const labelNotStartJob = 'Chưa bắt đầu';
   static const labelJobVerify = 'Công việc';
-  static const labelExtendEndDateVerify = 'Gia hạn ngày kết thúc';
+  static const labelExtendEndDateVerify = 'Gia hạn kết thúc';
   static const labelOnLeave = 'Nghỉ phép';
   static const labelWorkingTime = 'Giờ làm việc';
   static const labelPresentDate = 'Ngày hiện tại';

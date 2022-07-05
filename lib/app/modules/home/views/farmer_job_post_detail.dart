@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:myray_mobile/app/data/enums/job_type.dart';
 import 'package:myray_mobile/app/modules/home/controllers/farmer_job_post_detail_controller.dart';
 import 'package:myray_mobile/app/modules/home/widgets/custom_bottom_navigation_bar.dart';
 import 'package:myray_mobile/app/modules/home/widgets/custom_sliver_app_bar.dart';
@@ -9,7 +8,6 @@ import 'package:myray_mobile/app/shared/constants/app_colors.dart';
 import 'package:myray_mobile/app/shared/constants/app_msg.dart';
 import 'package:myray_mobile/app/shared/constants/app_strings.dart';
 import 'package:myray_mobile/app/shared/widgets/builders/loading_builder.dart';
-import 'package:myray_mobile/app/shared/widgets/bullet.dart';
 import 'package:myray_mobile/app/shared/widgets/custom_confirm_dialog.dart';
 import 'package:myray_mobile/app/data/models/job_post/farmer_job_post_detail_response.dart';
 
@@ -24,12 +22,14 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
         foregroundColor: AppColors.primaryColor,
         centerTitle: true,
       ),
-      bottomNavigationBar: Obx(
-        () => controller.check.value
+      bottomNavigationBar: 
+      Obx(
+        () => controller.isApplied.value
             ? CustomBottomNavigationBar(
                 onPressedOutlineButton: () {},
               )
-            : CustomBottomNavigationBar(
+            :
+             CustomBottomNavigationBar(
                 onPressedOutlineButton: () {},
                 onPressedFilledButton: () {
                   CustomDialog.show(
@@ -73,7 +73,7 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
 
           if (snapshot.hasData) {
             controller.detailPost = snapshot.data!.obs;
-            return detailList();
+            return detailList(controller.isApplied.value);
           }
 
           return const SizedBox();
@@ -82,19 +82,20 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
     );
   }
 
-  Widget detailList() => CustomScrollView(slivers: [
+  Widget detailList(bool isChangedState) => CustomScrollView(slivers: [
         SliverPersistentHeader(
           delegate: CustomSliverAppBarDelegate(
             expandedHeight: Get.height * 0.2,
-            heightOfScreen: Get.height * 0.1,
+            heightOfScreen: Get.height * 0.35,
             titleFloatingCard: controller.jobPost.title,
+            isChangedState: isChangedState,
           ),
         ),
         _buildCardInfoJjob(),
         _buildCardDescriptionJob(),
         const SliverToBoxAdapter(
             child: Padding(
-          padding: EdgeInsets.only(bottom: 50),
+          padding: EdgeInsets.symmetric(vertical: 30),
         ))
       ]);
 
@@ -105,7 +106,7 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
 
     return SliverToBoxAdapter(
         child: Container(
-            padding: const EdgeInsets.only(top: 100, left: 20, right: 20),
+            padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
             child: Card(
               color: AppColors.white,
               child: Padding(
