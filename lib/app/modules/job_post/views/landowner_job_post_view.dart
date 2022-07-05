@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:myray_mobile/app/data/models/job_post/job_post.dart';
 import 'package:myray_mobile/app/modules/job_post/controllers/landowner_job_post_controller.dart';
 import 'package:myray_mobile/app/modules/job_post/widgets/landowner_job_post_item.dart';
+import 'package:myray_mobile/app/routes/app_pages.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/utils/hex_color_extension.dart';
 import 'package:myray_mobile/app/shared/widgets/builders/list_empty_builder.dart';
@@ -70,17 +71,33 @@ class LandownerJobPostView extends GetView<LandownerJobPostController> {
                 return LandownerJobPostItem(
                   key: ValueKey(jobPost.id),
                   title: jobPost.title,
-                  address: jobPost.address,
+                  address: jobPost.address ?? '',
                   publishedDate: jobPost.publishedDate,
-                  backgroundColor: jobPost.backgroundColor != null
+                  postTypeBackground: jobPost.backgroundColor != null
                       ? HexColor.fromHex(jobPost.backgroundColor!)
                       : null,
-                  foregroundColor: jobPost.foregroundColor != null
+                  postTypeForeground: jobPost.foregroundColor != null
                       ? HexColor.fromHex(jobPost.foregroundColor!)
                       : null,
-                  treeTypes: jobPost.treeJobs,
+                  treeTypes: jobPost.treeTypes,
                   workType: jobPost.workType,
-                  onDetailsPress: () {},
+                  expiredDate: jobPost.publishedDate.add(
+                    Duration(days: jobPost.numOfPublishDay - 1),
+                  ),
+                  pinType: jobPost.postTypeName,
+                  postStatusBackground: jobPost.jobPostStatusColor,
+                  workStatusBackground: jobPost.jobPostWorkStatusColor,
+                  postStatusString: jobPost.jobPostStatusString,
+                  workStatusString: jobPost.jobPostWorkStatusString,
+                  onDetailsPress: () {
+                    Get.toNamed(
+                      Routes.landownerJobPostDetails,
+                      arguments: {
+                        Arguments.tag: jobPost.id.toString(),
+                        Arguments.item: jobPost,
+                      },
+                    );
+                  },
                 );
               }),
             ),
