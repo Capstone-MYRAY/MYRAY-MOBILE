@@ -26,7 +26,9 @@ class LandownerFeatureOptions extends StatelessWidget {
           icon: CustomIcons.credit_card_outline,
           title: AppStrings.titlePaymentHistory,
           subtitle: AppStrings.subtitlePaymentHistory,
-          onTap: () {},
+          onTap: () {
+            Get.toNamed(Routes.paymentHistoryHome);
+          },
         ),
         _buildDevider(),
         FeatureOption(
