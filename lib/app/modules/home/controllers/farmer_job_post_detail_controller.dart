@@ -5,6 +5,7 @@ import 'package:myray_mobile/app/modules/job_post/job_post_repository.dart';
 import 'package:myray_mobile/app/modules/profile/profile_repository.dart';
 import 'package:myray_mobile/app/shared/constants/app_colors.dart';
 import 'package:myray_mobile/app/shared/constants/app_msg.dart';
+import 'package:myray_mobile/app/shared/widgets/builders/loading_builder.dart';
 import 'package:myray_mobile/app/shared/widgets/custom_snackbar.dart';
 import 'package:myray_mobile/app/data/models/job_post/farmer_job_post_detail_response.dart';
 
@@ -48,6 +49,7 @@ class FarmerJobPostDetailController extends GetxController {
           (result) => {
             if (result)
               {
+                const LoadingBuilder(),
                 CustomSnackbar.show(
                     title: "Thành công", message: AppMsg.MSG3006),
               }              

@@ -28,7 +28,7 @@ class FarmerJobPostDetailResponse {
   DateTime startJobDate;
 
   @JsonKey(name: 'end_job_date')
-  DateTime endJobDate;
+  DateTime? endJobDate;
 
   @JsonKey(name: 'num_publish_day')
   int numPublishDay;

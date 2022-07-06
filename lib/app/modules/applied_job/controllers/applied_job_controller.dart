@@ -4,7 +4,6 @@ import 'package:myray_mobile/app/data/models/applied_job/get_applied_job_respons
 import 'package:myray_mobile/app/data/models/job_post/get_request_job_post_list.dart';
 import 'package:myray_mobile/app/modules/applied_job/applied_job_repository.dart';
 import 'package:myray_mobile/app/shared/constants/app_colors.dart';
-import 'package:myray_mobile/app/shared/constants/app_msg.dart';
 import 'package:myray_mobile/app/shared/constants/app_strings.dart';
 import 'package:myray_mobile/app/shared/utils/custom_exception.dart';
 import 'package:myray_mobile/app/shared/widgets/custom_snackbar.dart';
@@ -35,6 +34,7 @@ class AppliedJobController extends GetxController
 
     appliedJobPostResponse.clear();
     await getAppliedJobList();
+    
   }
 
   TabBar get tabBar => TabBar(
@@ -92,6 +92,7 @@ class AppliedJobController extends GetxController
     try {
       if (_hasNextPage) {
         list = await _appliedRepository.getAppliedJobList(data);
+        isRefresh(true);
         if (list == null || list.listObject!.isEmpty) {
           isLoading.value = false;
           return null;
@@ -100,11 +101,14 @@ class AppliedJobController extends GetxController
         _hasNextPage = list.pagingMetadata!.hasNextPage;
       }
       isLoading.value = false;
+      isRefresh(false);
       return true;
     } on CustomException catch (e) {
+      print(e);
       isLoading.value = false;
       _hasNextPage = false;
     }
+    return null;
     // print("applied list: ${list!.listObject!.length}");
     // return list;
   }
@@ -117,8 +121,7 @@ class AppliedJobController extends GetxController
               CustomSnackbar.show(
                   title: "Thành công", message: "Hủy yêu cầu thành công"),
               isRefresh(true),
-              // appliedJobPostResponse.clear(),
-              // onRefresh(),
+              appliedJobPostResponse.removeWhere((appliedJob) => appliedJob.jobPost.id == jobPostId),            
             }
           else
             {
@@ -128,6 +131,7 @@ class AppliedJobController extends GetxController
                   backgroundColor: AppColors.errorColor),
             }
         });
+    
     isRefresh(false);
   }
 }

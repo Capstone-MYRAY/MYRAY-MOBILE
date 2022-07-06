@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:myray_mobile/app/shared/constants/app_colors.dart';
 import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
+import 'package:myray_mobile/app/shared/utils/utils.dart';
 import 'package:myray_mobile/app/shared/widgets/chips/status_chip.dart';
 import 'package:myray_mobile/app/shared/widgets/chips/work_type_chip.dart';
 
@@ -117,7 +118,7 @@ class FarmerPostCard extends StatelessWidget {
                       ),
                       Flexible(
                         child: Text(
-                          price.toString() + " đ/ngày",
+                          Utils.vietnameseCurrencyFormat.format(price),
                           style: Get.textTheme.bodyText2,
                           softWrap: true,
                           overflow: TextOverflow.ellipsis,
