@@ -15,13 +15,16 @@ PaymentHistory _$PaymentHistoryFromJson(Map<String, dynamic> json) =>
       balance: (json['balance'] as num?)?.toDouble(),
       balanceFluctuation: (json['balance_fluctuation'] as num?)?.toDouble(),
       usedPoint: json['used_point'] as int?,
-    )
-      ..earnedPoint = json['earned_point'] as int?
-      ..message = json['message'] as String?
-      ..createdBy = json['created_by'] as int?
-      ..status = json['status'] as int?
-      ..jobPostPrice = (json['job_post_price'] as num?)?.toDouble()
-      ..pointPrice = (json['point_price'] as num?)?.toDouble();
+      createdBy: json['created_by'] as int?,
+      createdDate: json['created_date'] == null
+          ? null
+          : DateTime.parse(json['created_date'] as String),
+      earnedPoint: json['earned_point'] as int?,
+      jobPostPrice: (json['job_post_price'] as num?)?.toDouble(),
+      message: json['message'] as String?,
+      pointPrice: (json['point_price'] as num?)?.toDouble(),
+      status: json['status'] as int?,
+    );
 
 Map<String, dynamic> _$PaymentHistoryToJson(PaymentHistory instance) {
   final val = <String, dynamic>{
@@ -43,6 +46,7 @@ Map<String, dynamic> _$PaymentHistoryToJson(PaymentHistory instance) {
   writeNotNull('earned_point', instance.earnedPoint);
   writeNotNull('message', instance.message);
   writeNotNull('created_by', instance.createdBy);
+  writeNotNull('created_date', instance.createdDate?.toIso8601String());
   writeNotNull('status', instance.status);
   writeNotNull('job_post_price', instance.jobPostPrice);
   writeNotNull('point_price', instance.pointPrice);
