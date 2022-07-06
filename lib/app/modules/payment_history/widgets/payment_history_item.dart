@@ -2,9 +2,30 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
+import 'package:myray_mobile/app/shared/utils/utils.dart';
 
 class PaymentHistoryItem extends StatelessWidget {
-  const PaymentHistoryItem({Key? key}) : super(key: key);
+  /// HH:mm - dd/MM/yyyy
+  final DateTime issuedDate;
+  final String title;
+  final double balance;
+  final int point;
+  final double balanceFructuation;
+  final Color iconColor;
+
+  const PaymentHistoryItem({
+    Key? key,
+    required this.issuedDate,
+    required this.title,
+    required this.balance,
+    required this.point,
+    required this.balanceFructuation,
+    required this.iconColor,
+  }) : super(key: key);
+
+  String get _pointSign => point.isNegative ? '' : '+';
+  String get _balanceFructuationSign =>
+      balanceFructuation.isNegative ? '' : '+';
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +51,7 @@ class PaymentHistoryItem extends StatelessWidget {
               Align(
                 alignment: Alignment.centerRight,
                 child: Text(
-                  '09:30 - 27/05/2022',
+                  Utils.formatHHmmddMMyyyy(issuedDate),
                   style: Get.textTheme.caption!.copyWith(
                     fontSize: 11 * Get.textScaleFactor,
                   ),
@@ -48,12 +69,12 @@ class PaymentHistoryItem extends StatelessWidget {
                       borderRadius: BorderRadius.circular(100),
                       border: Border.all(
                         width: 1,
-                        color: AppColors.successColor,
+                        color: iconColor,
                       ),
                     ),
-                    child: const Icon(
+                    child: Icon(
                       CustomIcons.currency_usd,
-                      color: AppColors.successColor,
+                      color: iconColor,
                       size: 24.0,
                     ),
                   ),
@@ -63,14 +84,14 @@ class PaymentHistoryItem extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Trả tiền cho bài đăng dài dài này nè dài lắm',
+                          title,
                           style: Get.textTheme.bodyText1,
                           softWrap: false,
                           overflow: TextOverflow.ellipsis,
                         ),
                         const SizedBox(height: 2),
                         Text(
-                          'Số dư: 120.000đ',
+                          'Số dư: ${Utils.vietnameseCurrencyFormat.format(balance)}',
                           style: Get.textTheme.caption!.copyWith(
                             fontSize: 11 * Get.textScaleFactor,
                           ),
@@ -89,17 +110,22 @@ class PaymentHistoryItem extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Text(
-                '+15 điểm',
-                style: Get.textTheme.bodyText1!.copyWith(
-                  color: AppColors.errorColor,
-                  fontSize: 11 * Get.textScaleFactor,
+              if (point != 0)
+                Text(
+                  '$_pointSign$point điểm',
+                  style: Get.textTheme.bodyText1!.copyWith(
+                    color: point.isNegative
+                        ? AppColors.errorColor
+                        : AppColors.successColor,
+                    fontSize: 11 * Get.textScaleFactor,
+                  ),
                 ),
-              ),
               Text(
-                '-15.0000đ',
+                '$_balanceFructuationSign ${Utils.vietnameseCurrencyFormat.format(balanceFructuation)}',
                 style: Get.textTheme.headline6!.copyWith(
-                  color: AppColors.primaryColor,
+                  color: balanceFructuation.isNegative
+                      ? AppColors.errorColor
+                      : AppColors.primaryColor,
                   fontSize: 13 * Get.textScaleFactor,
                 ),
               ),

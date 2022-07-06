@@ -59,6 +59,10 @@ class Utils {
     return DateFormat('dd/MM/yyyy').format(date);
   }
 
+  static String formatHHmmddMMyyyy(DateTime date) {
+    return DateFormat('HH:mm - dd/MM/yyyy').format(date);
+  }
+
   static toLowerCaseNonAccentVietnamese(String str) {
     str = str.toLowerCase();
     str = str.replaceAll(RegExp(r'à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ'), "a");
