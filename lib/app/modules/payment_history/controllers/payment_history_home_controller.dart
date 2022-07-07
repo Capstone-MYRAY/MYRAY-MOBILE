@@ -18,8 +18,8 @@ class PaymentHistoryHomeController extends GetxController {
     final _data = GetPaymentHistoryRequest(
       page: (++_currentPage).toString(),
       pageSize: (_pageSize).toString(),
-      // sortColumn: PaymentHistorySortColumn.usedPoint,
-      // orderBy: SortOrder.descending,
+      sortColumn: PaymentHistorySortColumn.createdDate,
+      orderBy: SortOrder.descending,
     );
 
     //load job post

@@ -49,6 +49,7 @@ class AppStrings {
   static const titleWorkPlace = 'Địa điểm làm việc';
   static const titlePostInformation = 'Thông tin bài đăng';
   static const titlePaymentInformation = 'Thông tin thanh toán';
+  static const titlePaymentHistoryDetails = 'Chi tiết giao dịch';
 
   //Subtitle
   static const subtitleMyGarden = 'Danh sách vườn đã tạo';
@@ -115,6 +116,10 @@ class AppStrings {
   static const labelApprovedDate = 'Ngày duyệt';
   static const labelRejectedDate = 'Ngày từ chối';
   static const labelRejectedReason = 'Lý do';
+  static const labelIssuedDate = 'Ngày giao dịch';
+  static const labelIssuedPerson = 'Người thực hiện';
+  static const labelBalance = 'Số dư';
+  static const labelCurrentPoint = 'Điểm hiện tại';
 
   //Placeholder
   static const placeholderPhone = 'Nhập số điện thoại';
@@ -183,6 +188,10 @@ class AppStrings {
   static const jobPostWorkStatusPending = 'Chưa bắt đầu';
   static const jobPostWorkStatusStarted = 'Đã bắt đầu';
   static const jobPostWorkStatusDone = 'Đã kết thúc';
+
+  static const paymentHistorySuccess = 'Giao dịch thành công';
+  static const paymentHistoryPending = 'Đang xử lý';
+  static const paymentHistoryFailed = 'Giao dịch thất bại';
 
   //Replaced String
   static const nullFullName = "Người dùng";

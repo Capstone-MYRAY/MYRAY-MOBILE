@@ -37,6 +37,9 @@ class PaymentHistory {
   @JsonKey(name: 'created_by')
   int? createdBy;
 
+  @JsonKey(name: 'create_by_name')
+  String? createdByName;
+
   @JsonKey(name: 'created_date')
   DateTime? createdDate;
 
@@ -64,6 +67,7 @@ class PaymentHistory {
     this.message,
     this.pointPrice,
     this.status,
+    this.createdByName,
   });
 
   factory PaymentHistory.fromJson(Map<String, dynamic> json) =>
@@ -72,10 +76,18 @@ class PaymentHistory {
   Map<String, dynamic> toJson() => _$PaymentHistoryToJson(this);
 
   Color get statusColor => _statusColor[status]!;
+
+  String get statusString => _statusString[status]!;
 }
 
 Map<int, Color> _statusColor = {
   PaymentHistoryStatus.rejected.index: AppColors.errorColor,
   PaymentHistoryStatus.pending.index: AppColors.warningColor,
   PaymentHistoryStatus.paid.index: AppColors.successColor,
+};
+
+Map<int, String> _statusString = {
+  PaymentHistoryStatus.rejected.index: AppStrings.paymentHistoryFailed,
+  PaymentHistoryStatus.pending.index: AppStrings.paymentHistoryPending,
+  PaymentHistoryStatus.paid.index: AppStrings.paymentHistorySuccess,
 };

@@ -11,6 +11,7 @@ class LandownerProfileController extends GetxController {
   final _paymentHistoryRepository = Get.find<PaymentHistoryRepository>();
   var user = Account().obs;
   var balanceWithPending = 0.0.obs;
+  var pointWithPending = 0.obs;
 
   @override
   void onInit() async {
@@ -22,6 +23,8 @@ class LandownerProfileController extends GetxController {
   calBalance() async {
     double balance = user.value.balance!;
     double pendingFee = 0.0;
+    int point = user.value.point!;
+    int pendingPoint = 0;
 
     final data = GetPaymentHistoryRequest(
       page: 1.toString(),
@@ -29,11 +32,12 @@ class LandownerProfileController extends GetxController {
       status: PaymentHistoryStatus.pending.index.toString(),
     );
     int userId = AuthCredentials.instance.user!.id!;
-    print(user.value.balance);
+
     final _response = await _paymentHistoryRepository.getList(userId, data);
 
     if (_response == null) {
       setBalanceWithPending(balance, pendingFee);
+      setPointWithPending(point, pendingPoint);
       return;
     }
 
@@ -42,23 +46,28 @@ class LandownerProfileController extends GetxController {
     if (_paymentHistories != null) {
       if (_paymentHistories.isEmpty) {
         setBalanceWithPending(balance, pendingFee);
+        setPointWithPending(point, pendingPoint);
         return;
       }
 
       //calculate balance
       for (PaymentHistory payment in _paymentHistories) {
         pendingFee += payment.balanceFluctuation ?? 0;
+        pendingPoint += payment.usedPoint ?? 0;
       }
     }
 
-    print(pendingFee);
-
-    //pending fee is a negative number
     setBalanceWithPending(balance, pendingFee);
+    setPointWithPending(point, pendingPoint);
   }
 
   setBalanceWithPending(double balance, double pendingFee) {
+    //pending fee is a negative number
     balanceWithPending.value = balance + pendingFee;
+  }
+
+  setPointWithPending(int point, int pendingPoint) {
+    pointWithPending.value = point - pendingPoint;
   }
 
   getUserInfor() async {
