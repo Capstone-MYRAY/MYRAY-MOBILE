@@ -74,7 +74,7 @@ class LandownerAppbar extends GetView<LandownerProfileController>
                 title: 'Điểm',
                 details: controller.user.value.point != null
                     ? Utils.threeDigitsFormat
-                        .format(controller.user.value.point)
+                        .format(controller.pointWithPending.value)
                     : AppStrings.loading,
               ),
             ],

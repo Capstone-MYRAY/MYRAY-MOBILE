@@ -14,13 +14,13 @@ JobPost _$JobPostFromJson(Map<String, dynamic> json) => JobPost(
       jobStartDate: DateTime.parse(json['start_job_date'] as String),
       numOfPublishDay: json['num_publish_day'] as int,
       publishedBy: json['published_by'] as int,
-      publishedName: json['published_name'] as String,
       publishedDate: DateTime.parse(json['published_date'] as String),
       createdDate: DateTime.parse(json['created_date'] as String),
       status: json['status'] as int,
       treeJobs: (json['tree_jobs'] as List<dynamic>)
           .map((e) => TreeJobs.fromJson(e as Map<String, dynamic>))
           .toList(),
+      publishedName: json['published_name'] as String?,
       gardenName: json['garden_name'] as String?,
       address: json['address'] as String?,
       approvedBy: json['approved_by'] as int?,
@@ -72,7 +72,7 @@ Map<String, dynamic> _$JobPostToJson(JobPost instance) {
   writeNotNull('end_job_date', instance.jobEndDate?.toIso8601String());
   val['num_publish_day'] = instance.numOfPublishDay;
   val['published_by'] = instance.publishedBy;
-  val['published_name'] = instance.publishedName;
+  writeNotNull('published_name', instance.publishedName);
   val['published_date'] = instance.publishedDate.toIso8601String();
   val['created_date'] = instance.createdDate.toIso8601String();
   writeNotNull('updated_date', instance.updatedDate?.toIso8601String());

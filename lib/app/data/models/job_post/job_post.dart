@@ -44,7 +44,7 @@ class JobPost {
   int publishedBy;
 
   @JsonKey(name: 'published_name')
-  String publishedName;
+  String? publishedName;
 
   @JsonKey(name: 'published_date')
   DateTime publishedDate;
@@ -102,11 +102,11 @@ class JobPost {
     required this.jobStartDate,
     required this.numOfPublishDay,
     required this.publishedBy,
-    required this.publishedName,
     required this.publishedDate,
     required this.createdDate,
     required this.status,
     required this.treeJobs,
+    this.publishedName,
     this.gardenName,
     this.address,
     this.approvedBy,

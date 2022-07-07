@@ -7,7 +7,7 @@ import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
 class FeatureOption extends StatelessWidget {
   final IconData icon;
   final String title;
-  final String subtitle;
+  final String? subtitle;
   final double widthFactor;
   final double borderRadius;
   final void Function()? onTap;
@@ -16,7 +16,7 @@ class FeatureOption extends StatelessWidget {
     Key? key,
     required this.icon,
     required this.title,
-    this.subtitle = '',
+    this.subtitle,
     this.widthFactor = 1.0,
     this.borderRadius = 0.0,
     this.onTap,
@@ -32,12 +32,12 @@ class FeatureOption extends StatelessWidget {
         child: InkWell(
           onTap: onTap,
           borderRadius: BorderRadius.circular(borderRadius),
-          highlightColor: AppColors.greyOtp.withOpacity(0.5),
-          splashColor: AppColors.successColor.withOpacity(0.2),
+          // highlightColor: AppColors.greyOtp.withOpacity(0.5),
+          // splashColor: AppColors.successColor.withOpacity(0.2),
           child: Container(
-            padding: const EdgeInsets.symmetric(
+            padding: EdgeInsets.symmetric(
               horizontal: 24.0,
-              vertical: 12.0,
+              vertical: subtitle != null ? 12.0 : 20.0,
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -57,13 +57,14 @@ class FeatureOption extends StatelessWidget {
                         children: [
                           Text(title, style: Get.textTheme.headline6),
                           const SizedBox(height: 2),
-                          Text(
-                            subtitle,
-                            style: Get.textTheme.subtitle2!.copyWith(
-                              color: AppColors.grey,
-                              fontWeight: FontWeight.w300,
+                          if (subtitle != null)
+                            Text(
+                              subtitle!,
+                              style: Get.textTheme.subtitle2!.copyWith(
+                                color: AppColors.grey,
+                                fontWeight: FontWeight.w300,
+                              ),
                             ),
-                          ),
                         ],
                       )
                     ],

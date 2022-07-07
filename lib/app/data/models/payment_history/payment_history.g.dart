@@ -24,6 +24,7 @@ PaymentHistory _$PaymentHistoryFromJson(Map<String, dynamic> json) =>
       message: json['message'] as String?,
       pointPrice: (json['point_price'] as num?)?.toDouble(),
       status: json['status'] as int?,
+      createdByName: json['create_by_name'] as String?,
     );
 
 Map<String, dynamic> _$PaymentHistoryToJson(PaymentHistory instance) {
@@ -46,6 +47,7 @@ Map<String, dynamic> _$PaymentHistoryToJson(PaymentHistory instance) {
   writeNotNull('earned_point', instance.earnedPoint);
   writeNotNull('message', instance.message);
   writeNotNull('created_by', instance.createdBy);
+  writeNotNull('create_by_name', instance.createdByName);
   writeNotNull('created_date', instance.createdDate?.toIso8601String());
   writeNotNull('status', instance.status);
   writeNotNull('job_post_price', instance.jobPostPrice);
