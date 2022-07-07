@@ -36,7 +36,7 @@ class PayByHourWidget extends StatelessWidget {
         CardField(
           icon: CustomIcons.cash,
           title: AppStrings.labelHourSalary,
-          data: Utils.vietnameseCurrencyFormat.format(salary),
+          data: '${Utils.vietnameseCurrencyFormat.format(salary)}/công',
         ),
         const SizedBox(height: 8.0),
         CardField(

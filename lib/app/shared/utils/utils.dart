@@ -63,6 +63,13 @@ class Utils {
     return DateFormat('HH:mm - dd/MM/yyyy').format(date.toLocal());
   }
 
+  static String getHHmmddMMyyyy(String time) {
+    final List<String> times = time.split(':');
+    if (times.length < 2) return '';
+
+    return '${times[0]}:${times[1]}';
+  }
+
   static String getPaymentId(String id) {
     return 'MYRAY-${id.padLeft(7, '0')}';
   }

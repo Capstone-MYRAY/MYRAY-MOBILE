@@ -52,6 +52,15 @@ class PaymentHistory {
   @JsonKey(name: 'point_price')
   double? pointPrice;
 
+  @JsonKey(name: 'post_type_price')
+  double? postTypePrice;
+
+  @JsonKey(name: 'total_pin_day')
+  int? totalPinDay;
+
+  @JsonKey(name: 'number_published_day')
+  int? numOfPublishDay;
+
   PaymentHistory({
     required this.id,
     this.jobPostId,
@@ -68,6 +77,9 @@ class PaymentHistory {
     this.pointPrice,
     this.status,
     this.createdByName,
+    this.postTypePrice,
+    this.totalPinDay,
+    this.numOfPublishDay,
   });
 
   factory PaymentHistory.fromJson(Map<String, dynamic> json) =>

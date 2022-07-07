@@ -49,6 +49,10 @@ JobPost _$JobPostFromJson(Map<String, dynamic> json) => JobPost(
           : DateTime.parse(json['end_job_date'] as String),
       postTypeName: json['post_type_name'] as String?,
       approvedName: json['approved_name'] as String?,
+      totalPinDay: json['total_pin_day'] as int?,
+      pinStartDate: json['start_pin_date'] == null
+          ? null
+          : DateTime.parse(json['start_pin_date'] as String),
     );
 
 Map<String, dynamic> _$JobPostToJson(JobPost instance) {
@@ -85,6 +89,8 @@ Map<String, dynamic> _$JobPostToJson(JobPost instance) {
   writeNotNull('reason_reject', instance.rejectedReason);
   writeNotNull('post_type_id', instance.postTypeId);
   writeNotNull('post_type_name', instance.postTypeName);
+  writeNotNull('total_pin_day', instance.totalPinDay);
+  writeNotNull('start_pin_date', instance.pinStartDate?.toIso8601String());
   writeNotNull('color', instance.foregroundColor);
   writeNotNull('background', instance.backgroundColor);
   writeNotNull('pay_per_hour_job', instance.payPerHourJob);
