@@ -6,19 +6,21 @@ import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
 import 'package:myray_mobile/app/shared/widgets/buttons/custom_text_button.dart';
 import 'package:myray_mobile/app/shared/widgets/custom_confirm_dialog.dart';
 
-class FarmerNotStartJobCard extends StatelessWidget {
+class FarmerExtendJobCard extends StatelessWidget {
   final String title;
   final String address;
-  final DateTime startDate;
+  final DateTime startOldDate;
+  final DateTime startNewDate;
   final void Function() confirm;
   final String? message;
   final String? buttonLabel;
 
-  const FarmerNotStartJobCard(
+  const FarmerExtendJobCard(
       {Key? key,
       required this.title,
       required this.address,
-      required this.startDate,
+      required this.startOldDate,
+      required this.startNewDate,
       required this.confirm,
       this.buttonLabel = 'Hủy',
       this.message = 'Bạn muốn thực hiện thao tác này'})
@@ -31,7 +33,7 @@ class FarmerNotStartJobCard extends StatelessWidget {
       child: Card(
         color: AppColors.white,
         child: Padding(
-          padding: const EdgeInsets.only(left: 15.0, right: 11, top: 10, bottom: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10),
           child: Column(
             children: [
               SizedBox(
@@ -48,9 +50,9 @@ class FarmerNotStartJobCard extends StatelessWidget {
                     overflow: TextOverflow.ellipsis),
               ]),
               SizedBox(
-                height: Get.height * 0.015,
+                height: Get.height * 0.01,
               ),
-               Row(
+              Row(
                 children: [
                 Stack(
                   children: [
@@ -90,7 +92,41 @@ class FarmerNotStartJobCard extends StatelessWidget {
                     width: 10,
                   ),
                   Text(
-                    "Ngày bắt đầu:",
+                    "Ngày bắt đầu cũ:",
+                    style: Get.textTheme.labelMedium!.copyWith(
+                      fontWeight: FontWeight.w500,
+                      fontSize: Get.textScaleFactor * 15,
+                    ),
+                  ),
+                  SizedBox(
+                    width: Get.width * 0.045,
+                  ),
+                  Text(
+                    // startOldDate.toString(), //bỏ ngày sau
+                    "07/07/2022",
+                    style: Get.textTheme.bodyText2!.copyWith(
+                        color: AppColors.primaryColor,
+                        fontSize: Get.textScaleFactor * 15,
+                        fontWeight: FontWeight.w500),
+                    softWrap: true,
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.left,
+                    maxLines: 10,
+                  ),
+                ]),
+              ),
+              SizedBox(
+                height: Get.height * 0.010,
+              ),
+              Padding(
+                padding: EdgeInsets.all(0),
+                child: Row(children: [
+                  const Icon(CustomIcons.calendar_star, size: 20),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    "Ngày bắt đầu mới:",
                     style: Get.textTheme.labelMedium!.copyWith(
                       fontWeight: FontWeight.w500,
                       fontSize: Get.textScaleFactor * 15,
@@ -100,7 +136,8 @@ class FarmerNotStartJobCard extends StatelessWidget {
                     width: Get.width * 0.02,
                   ),
                   Text(
-                    "07/07/2022", //bỏ ngày sau
+                    // startNewDate.toString(), //bỏ ngày sau
+                    "08/07/2022",
                     style: Get.textTheme.bodyText2!.copyWith(
                         color: AppColors.primaryColor,
                         fontSize: Get.textScaleFactor * 15,

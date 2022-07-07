@@ -83,23 +83,27 @@ class FarmerPostCard extends StatelessWidget {
                 ),
                 const SizedBox(
                   height: 10,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 5, left: 15),
-                  child: Row(
+                ),               
+                Container(
+                  padding: const EdgeInsets.only(top: 5, left: 15, right: 15),
+                  child:  Stack(
                     children: [
                       const Icon(CustomIcons.map_marker_outline, size: 20),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      Flexible(
-                        child: Text(
-                          address,
-                          style: Get.textTheme.bodyText2,
-                          softWrap: true,
-                          overflow: TextOverflow.ellipsis,
-                          textAlign: TextAlign.left,
-                          maxLines: 10,
+                      Padding(
+                        padding: EdgeInsets.only(left: 30),
+                        child: SizedBox(
+                          width: Get.width * 0.65,
+                          child: Text.rich(
+                            TextSpan(
+                              text: address,
+                            ),
+                            style: Get.textTheme.bodyText2!
+                                .copyWith(fontSize: Get.textScaleFactor * 14),
+                            softWrap: true,
+                            overflow: TextOverflow.ellipsis,
+                            textAlign: TextAlign.justify,
+                            maxLines: 10,
+                          ),
                         ),
                       ),
                     ],
@@ -119,7 +123,7 @@ class FarmerPostCard extends StatelessWidget {
                       Flexible(
                         child: Text(
                           Utils.vietnameseCurrencyFormat.format(price),
-                          style: Get.textTheme.bodyText2,
+                          style: Get.textTheme.bodyText2!.copyWith(fontSize: Get.textScaleFactor * 14),
                           softWrap: true,
                           overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.left,
@@ -143,7 +147,7 @@ class FarmerPostCard extends StatelessWidget {
                       Flexible(
                         child: Text(
                           treeType,
-                          style: Get.textTheme.bodyText2,
+                          style: Get.textTheme.bodyText2!.copyWith(fontSize: Get.textScaleFactor * 14),
                           softWrap: true,
                           overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.left,
