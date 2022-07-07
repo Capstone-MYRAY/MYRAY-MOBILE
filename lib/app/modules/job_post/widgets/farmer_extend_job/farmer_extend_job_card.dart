@@ -4,6 +4,7 @@ import 'package:myray_mobile/app/shared/constants/app_colors.dart';
 import 'package:myray_mobile/app/shared/constants/app_strings.dart';
 import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
 import 'package:myray_mobile/app/shared/widgets/buttons/custom_text_button.dart';
+import 'package:myray_mobile/app/shared/widgets/chips/status_chip.dart';
 import 'package:myray_mobile/app/shared/widgets/custom_confirm_dialog.dart';
 
 class FarmerExtendJobCard extends StatelessWidget {
@@ -39,7 +40,7 @@ class FarmerExtendJobCard extends StatelessWidget {
               SizedBox(
                 height: Get.height * 0.01,
               ),
-              Row(children: [
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                 Text(title,
                     style: Get.textTheme.headline3?.copyWith(
                       color: AppColors.brown,
@@ -48,22 +49,24 @@ class FarmerExtendJobCard extends StatelessWidget {
                     maxLines: 3,
                     textAlign: TextAlign.justify,
                     overflow: TextOverflow.ellipsis),
+                const StatusChip(
+                  statusName: "Chờ duyệt",
+                  backgroundColor: Colors.red,
+                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                ),
               ]),
               SizedBox(
-                height: Get.height * 0.01,
+                height: Get.height * 0.02,
               ),
-              Row(
-                children: [
+              Row(children: [
                 Stack(
                   children: [
                     const Icon(CustomIcons.map_marker_outline, size: 20),
-                    
                     Padding(
                       padding: EdgeInsets.only(left: 30),
-                      child: SizedBox(                        
+                      child: SizedBox(
                         width: Get.width * 0.65,
                         child: Text.rich(
-                          
                           TextSpan(
                             text: address,
                           ),
@@ -73,19 +76,17 @@ class FarmerExtendJobCard extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.justify,
                           maxLines: 10,
-                      
                         ),
                       ),
                     ),
                   ],
                 ),
-                ]
-              ),
+              ]),
               SizedBox(
                 height: Get.height * 0.010,
               ),
               Padding(
-                padding: EdgeInsets.all(0),
+                padding: const EdgeInsets.all(0),
                 child: Row(children: [
                   const Icon(CustomIcons.calendar_star, size: 20),
                   const SizedBox(
