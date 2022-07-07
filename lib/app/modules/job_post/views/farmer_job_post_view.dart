@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:myray_mobile/app/modules/job_post/controllers/farmer_job_post_controller.dart';
 import 'package:myray_mobile/app/modules/job_post/widgets/farmer_inprogress_job_list.dart';
 import 'package:myray_mobile/app/modules/job_post/widgets/farmer_not_start_job/farmer_not_start_job_list.dart';
-import 'package:myray_mobile/app/shared/constants/app_assets.dart';
 import 'package:myray_mobile/app/shared/constants/app_colors.dart';
 import 'package:myray_mobile/app/shared/constants/app_strings.dart';
 

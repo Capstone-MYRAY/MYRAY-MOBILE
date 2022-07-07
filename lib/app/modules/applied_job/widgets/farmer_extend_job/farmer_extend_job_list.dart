@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:myray_mobile/app/modules/job_post/widgets/farmer_extend_job/farmer_extend_job_card.dart';
+import 'package:myray_mobile/app/modules/applied_job/widgets/farmer_extend_job/farmer_extend_job_card.dart';
 import 'package:myray_mobile/app/shared/utils/utils.dart';
 
 class FarmerExtendJobList extends StatelessWidget {
@@ -9,7 +9,7 @@ class FarmerExtendJobList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      padding: EdgeInsets.all(20),
+      padding: const EdgeInsets.all(20),
       itemCount: 1,
       itemBuilder: ((context, index) {
         return FarmerExtendJobCard(

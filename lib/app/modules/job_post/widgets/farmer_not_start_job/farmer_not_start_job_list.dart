@@ -9,7 +9,7 @@ class FarmerNotStartJobList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      padding: EdgeInsets.all(20),
+      padding: const EdgeInsets.all(20),
       itemCount: 1,
       itemBuilder: ((context, index) {
         return FarmerNotStartJobCard(

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:myray_mobile/app/modules/applied_job/controllers/applied_job_controller.dart';
 import 'package:myray_mobile/app/modules/applied_job/widgets/applied_job_list.dart';
-import 'package:myray_mobile/app/modules/job_post/widgets/farmer_extend_job/farmer_extend_job_list.dart';
+import 'package:myray_mobile/app/modules/applied_job/widgets/farmer_extend_job/farmer_extend_job_list.dart';
 import 'package:myray_mobile/app/shared/constants/app_assets.dart';
 import 'package:myray_mobile/app/shared/constants/app_colors.dart';
 import 'package:myray_mobile/app/shared/constants/app_strings.dart';
