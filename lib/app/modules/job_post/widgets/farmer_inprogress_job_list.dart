@@ -27,8 +27,7 @@ class FarmerInprogressJobList extends StatelessWidget {
                     child: Row(
                       children: [
                         Expanded(
-                          child: Text(
-                              "Thu hoạch cà phê vào năm tới + Thu hoạch hồ tiêu, mắc ca, hột điều",
+                          child: Text("Thu hoạch cà phê ",
                               style: Get.textTheme.headline3?.copyWith(
                                 color: AppColors.brown,
                               ),
@@ -39,29 +38,35 @@ class FarmerInprogressJobList extends StatelessWidget {
                         ),
                       ],
                     ),
-                  ),
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(top: 10, left: 15, right: 15),
-                    child: Row(
-                      children: [
-                        const Icon(CustomIcons.map_marker_outline, size: 20),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Expanded(
-                          child: Text(
-                            "144 Dương Đình Hội, lô 17 - D11, phường Phước Long B, thành phố Thủ Đức, thành phố Hồ Chí Minh",
-                            style: Get.textTheme.bodyText2,
-                            softWrap: true,
-                            overflow: TextOverflow.ellipsis,
-                            textAlign: TextAlign.left,
-                            maxLines: 10,
+                  ),             
+                  Row(children: [
+                    Container(
+                      padding: const EdgeInsets.only(left: 20, right: 15, top: 10),
+                      child: Stack(
+                        children: [
+                          const Icon(CustomIcons.map_marker_outline, size: 20),
+                          Padding(
+                            padding: EdgeInsets.only(left: 30),
+                            child: SizedBox(
+                              width: Get.width * 0.65,
+                              child: Text.rich(
+                                TextSpan(
+                                  text:
+                                      "144 Dương Đình Hội, lô 17 - D11, phường Phước Long B, thành phố Thủ Đức, thành phố Hồ Chí Minh",
+                                ),
+                                style: Get.textTheme.bodyText2!
+                                    .copyWith(fontSize: Get.textScaleFactor * 14),
+                                softWrap: true,
+                                overflow: TextOverflow.ellipsis,
+                                textAlign: TextAlign.justify,
+                                maxLines: 10,
+                              ),
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
+                  ]),
                   Padding(
                     padding: const EdgeInsets.only(top: 20),
                     child: Row(

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:myray_mobile/app/modules/applied_job/controllers/applied_job_controller.dart';
 import 'package:myray_mobile/app/modules/applied_job/widgets/applied_job_list.dart';
+import 'package:myray_mobile/app/modules/applied_job/widgets/farmer_extend_job/farmer_extend_job_list.dart';
+import 'package:myray_mobile/app/modules/applied_job/widgets/farmer_onLeave/farmer_onLeave_list.dart';
 import 'package:myray_mobile/app/shared/constants/app_assets.dart';
 import 'package:myray_mobile/app/shared/constants/app_colors.dart';
 import 'package:myray_mobile/app/shared/constants/app_strings.dart';
@@ -50,34 +52,8 @@ class AppliedJobView extends GetView<AppliedJobController> {
                     controller: controller.tabController,
                     children: <Widget>[
                       AppliedJobList(),
-                      Center(
-                        child: Column(
-                          children: [
-                            Text(
-                              AppStrings.noMarkedJobPost,
-                              style: Get.textTheme.bodyMedium!
-                                  .copyWith(color: AppColors.grey),
-                            ),
-                            const SizedBox(height: 10),
-                            const ImageIcon(AssetImage(AppAssets.noJobFound),
-                                size: 20, color: AppColors.grey),
-                          ],
-                        ),
-                      ),
-                      Center(
-                        child: Column(
-                          children: [
-                            Text(
-                              AppStrings.noMarkedJobPost,
-                              style: Get.textTheme.bodyMedium!
-                                  .copyWith(color: AppColors.grey),
-                            ),
-                            const SizedBox(height: 10),
-                            const ImageIcon(AssetImage(AppAssets.noJobFound),
-                                size: 20, color: AppColors.grey),
-                          ],
-                        ),
-                      ),
+                      FarmerExtendJobList(),
+                      FarmerOnLeaveList(),
                     ],
                   ),
                 )
