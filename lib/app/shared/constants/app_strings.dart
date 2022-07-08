@@ -21,6 +21,8 @@ class AppStrings {
   static const titleLogout = 'Đăng xuất';
   static const titleClose = 'Đóng';
   static const titleViewProfile = 'Xem hồ sơ';
+  static const titleFarmerList = 'Danh sách nông dân';
+  static const titleFeedbackList = 'Danh sách đánh giá';
   static const titleMyGarden = 'Vườn của tôi';
   static const titleCreateGarden = 'Thêm mới vườn';
   static const titleEditGarden = 'Chỉnh sửa vườn';
@@ -43,11 +45,11 @@ class AppStrings {
   static const titleCreateJobPost = 'Tạo công việc';
   static const titleJobPostDetail = 'Chi tiết công việc';
   static const titleEditJobPost = 'Chỉnh sửa công việc';
-  static const titleJobPostDetails = 'Chi tiết công việc';
   static const titleWorkInformation = 'Thông tin công việc';
   static const titleWorkPlace = 'Địa điểm làm việc';
   static const titlePostInformation = 'Thông tin bài đăng';
   static const titlePaymentInformation = 'Thông tin thanh toán';
+  static const titlePaymentHistoryDetails = 'Chi tiết giao dịch';
 
   //Subtitle
   static const subtitleMyGarden = 'Danh sách vườn đã tạo';
@@ -90,6 +92,7 @@ class AppStrings {
   static const labelJobStartDate = 'Ngày bắt đầu công việc';
   static const labelJobEndDate = 'Ngày kết thúc công việc';
   static const labelToolAvailable = 'Có sẵn nông cụ';
+  static const labelTool = 'Nông cụ';
   static const labelJobDescription = 'Mô tả công việc';
   static const labelNumOfPublishDay = 'Số ngày đăng';
   static const labelUpgradePost = 'Nâng cấp bài đăng';
@@ -107,6 +110,16 @@ class AppStrings {
   static const labelPostStatus = 'Trạng thái bài đăng';
   static const labelWorkStatus = 'Trạng thái công việc';
   static const labelEstimateFarmer = 'Số người ước lượng';
+  static const labelCreatedDate = 'Ngày tạo';
+  static const labelApprovedBy = 'Người duyệt';
+  static const labelRejectedBy = 'Người từ chối';
+  static const labelApprovedDate = 'Ngày duyệt';
+  static const labelRejectedDate = 'Ngày từ chối';
+  static const labelRejectedReason = 'Lý do';
+  static const labelIssuedDate = 'Ngày giao dịch';
+  static const labelIssuedPerson = 'Người thực hiện';
+  static const labelBalance = 'Số dư';
+  static const labelCurrentPoint = 'Điểm hiện tại';
 
   //Placeholder
   static const placeholderPhone = 'Nhập số điện thoại';
@@ -161,6 +174,9 @@ class AppStrings {
   static const noData = 'Không có dữ liệu';
   static const noMarkedJobPost = "Không có bài viết nào nổi bật";
 
+  //Tooltip
+  static const tooltipUpdateBalance = 'Cập nhật số dư';
+
   //Status string
   static const jobPostStatusPending = 'Chờ duyệt';
   static const jobPostStatusPosted = 'Đang đăng tải';
@@ -172,6 +188,10 @@ class AppStrings {
   static const jobPostWorkStatusPending = 'Chưa bắt đầu';
   static const jobPostWorkStatusStarted = 'Đã bắt đầu';
   static const jobPostWorkStatusDone = 'Đã kết thúc';
+
+  static const paymentHistorySuccess = 'Giao dịch thành công';
+  static const paymentHistoryPending = 'Đang xử lý';
+  static const paymentHistoryFailed = 'Giao dịch thất bại';
 
   //Replaced String
   static const nullFullName = "Người dùng";

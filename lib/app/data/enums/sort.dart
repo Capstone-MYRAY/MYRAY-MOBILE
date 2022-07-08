@@ -64,4 +64,6 @@ enum PaymentHistorySortColumn {
   earnedPoint,
   @JsonValue('Status')
   status,
+  @JsonValue('CreatedDate')
+  createdDate,
 }

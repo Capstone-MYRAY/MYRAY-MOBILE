@@ -56,7 +56,15 @@ class Utils {
   }
 
   static String formatddMMyyyy(DateTime date) {
-    return DateFormat('dd/MM/yyyy').format(date);
+    return DateFormat('dd/MM/yyyy').format(date.toLocal());
+  }
+
+  static String formatHHmmddMMyyyy(DateTime date) {
+    return DateFormat('HH:mm - dd/MM/yyyy').format(date.toLocal());
+  }
+
+  static String getPaymentId(String id) {
+    return 'MYRAY-${id.padLeft(7, '0')}';
   }
 
   static toLowerCaseNonAccentVietnamese(String str) {

@@ -38,7 +38,8 @@ class JobPostFormController extends GetxController {
       : AppStrings.titleUpdate;
 
   final Rx<FeeData> _feeConfig = Rx(FeeData());
-  final _userPoint = Get.find<LandownerProfileController>().user.value.point!;
+  final _userPoint =
+      Get.find<LandownerProfileController>().pointWithPending.value;
 
   var postTypeCost = 0.0.obs;
   final _totalFee = 0.0.obs;

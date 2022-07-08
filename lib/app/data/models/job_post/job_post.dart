@@ -44,7 +44,7 @@ class JobPost {
   int publishedBy;
 
   @JsonKey(name: 'published_name')
-  String publishedName;
+  String? publishedName;
 
   @JsonKey(name: 'published_date')
   DateTime publishedDate;
@@ -57,6 +57,9 @@ class JobPost {
 
   @JsonKey(name: 'approved_by')
   int? approvedBy;
+
+  @JsonKey(name: 'approved_name')
+  String? approvedName;
 
   @JsonKey(name: 'approved_date')
   DateTime? approvedDate;
@@ -94,18 +97,18 @@ class JobPost {
   JobPost({
     required this.id,
     required this.gardenId,
-    required this.gardenName,
     required this.title,
     required this.type,
     required this.jobStartDate,
     required this.numOfPublishDay,
     required this.publishedBy,
-    required this.publishedName,
     required this.publishedDate,
     required this.createdDate,
     required this.status,
-    required this.address,
     required this.treeJobs,
+    this.publishedName,
+    this.gardenName,
+    this.address,
     this.approvedBy,
     this.approvedDate,
     this.updatedDate,
@@ -119,6 +122,7 @@ class JobPost {
     this.foregroundColor,
     this.jobEndDate,
     this.postTypeName,
+    this.approvedName,
   });
 
   factory JobPost.fromJson(Map<String, dynamic> json) =>

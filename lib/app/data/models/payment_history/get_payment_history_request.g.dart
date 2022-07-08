@@ -50,4 +50,5 @@ const _$PaymentHistorySortColumnEnumMap = {
   PaymentHistorySortColumn.usedPoint: 'UsedPoint',
   PaymentHistorySortColumn.earnedPoint: 'EarnedPoint',
   PaymentHistorySortColumn.status: 'Status',
+  PaymentHistorySortColumn.createdDate: 'CreatedDate',
 };

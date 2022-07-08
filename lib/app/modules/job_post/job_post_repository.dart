@@ -16,8 +16,9 @@ class JobPostRepository {
 
   //Get list of job post
   Future<JobPostResponse?> getJobPostList(GetRequestJobPostList data) async {
-    final response = await _apiProvider.getMethod(JOB_POST_URL, data: data.toJson());
-    if(response.statusCode == HttpStatus.ok){
+    final response =
+        await _apiProvider.getMethod(JOB_POST_URL, data: data.toJson());
+    if (response.statusCode == HttpStatus.ok) {
       return JobPostResponse.fromJson(response.body);
     }
     if (response.statusCode == HttpStatus.badRequest) {
@@ -30,11 +31,13 @@ class JobPostRepository {
     }
     return null;
   }
+
   //Get job post detail
-  Future<FarmerJobPostDetailResponse?> getFarmerJobPostdDetail(int jobPostId) async {
-    final response =  await _apiProvider.getMethod(JOB_POST_URL + "/$jobPostId");
+  Future<FarmerJobPostDetailResponse?> getFarmerJobPostdDetail(
+      int jobPostId) async {
+    final response = await _apiProvider.getMethod(JOB_POST_URL + "/$jobPostId");
     print("Link:  ${response.request!.url}");
-    if(response.statusCode == HttpStatus.ok){
+    if (response.statusCode == HttpStatus.ok) {
       return FarmerJobPostDetailResponse.fromJson(response.body);
     }
     return null;
@@ -55,8 +58,16 @@ class JobPostRepository {
   Future<JobPost?> create(JobPostCru data) async {
     final response = await _apiProvider.postMethod('/jobpost', data.toJson());
 
-    print(response.bodyString);
+    if (response.isOk) {
+      return JobPost.fromJson(response.body);
+    }
 
+    return null;
+  }
+
+  Future<JobPost?> getById(int jobPostId) async {
+    final response = await _apiProvider.getMethod('/jobpost/$jobPostId');
+    print(response.bodyString);
     if (response.isOk) {
       return JobPost.fromJson(response.body);
     }
@@ -65,7 +76,8 @@ class JobPostRepository {
   }
 
   Future<dynamic> applyJob(int data) async {
-    final response = await _apiProvider.patchMethod('$JOB_POST_URL/apply/$data', {'jobPostId': data});
+    final response = await _apiProvider
+        .patchMethod('$JOB_POST_URL/apply/$data', {'jobPostId': data});
     print(response.request!.url);
     if (response.statusCode == HttpStatus.ok) {
       return true;
@@ -73,10 +85,11 @@ class JobPostRepository {
     return false;
   }
 
- //check applied
- //applied: true, not applied: true (200)
+  //check applied
+  //applied: true, not applied: true (200)
   Future<bool?> checkFarmerAppliedOrNot(int data) async {
-    final response = await _apiProvider.getMethod('$JOB_POST_URL/checkapplied?jobPostId=$data');
+    final response = await _apiProvider
+        .getMethod('$JOB_POST_URL/checkapplied?jobPostId=$data');
     return response.statusCode != HttpStatus.ok;
   }
 }
