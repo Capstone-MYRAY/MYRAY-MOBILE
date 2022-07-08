@@ -7,6 +7,7 @@ import 'package:myray_mobile/app/modules/home/widgets/custom_sliver_app_bar.dart
 import 'package:myray_mobile/app/shared/constants/app_colors.dart';
 import 'package:myray_mobile/app/shared/constants/app_msg.dart';
 import 'package:myray_mobile/app/shared/constants/app_strings.dart';
+import 'package:myray_mobile/app/shared/utils/utils.dart';
 import 'package:myray_mobile/app/shared/widgets/builders/loading_builder.dart';
 import 'package:myray_mobile/app/shared/widgets/custom_confirm_dialog.dart';
 import 'package:myray_mobile/app/data/models/job_post/farmer_job_post_detail_response.dart';
@@ -100,10 +101,6 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
       ]);
 
   Widget _buildCardInfoJjob() {
-    String _jobEndDate = controller.jobPost.jobEndDate == null
-        ? 'Chưa xác định'
-        : DateFormat('dd-MM-yyyy').format(controller.jobPost.jobEndDate!);
-
     return SliverToBoxAdapter(
         child: Container(
             padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
@@ -201,8 +198,8 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
                       ),
                       Text(
                         controller.jobPost.type == 'PayPerHourJob'
-                            ? "${controller.jobPost.payPerHourJob!.salary} đ/công"
-                            : "${controller.jobPost.payPerTaskJob!.salary} đ",
+                            ? "${Utils.vietnameseCurrencyFormat.format(controller.jobPost.payPerHourJob!.salary)} /công"
+                            : "${Utils.vietnameseCurrencyFormat.format(controller.jobPost.payPerTaskJob!.salary)} đ",
                         style: TextStyle(
                           fontSize: Get.textScaleFactor * 15,
                         ),
@@ -215,15 +212,13 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Text("Ngày dự kiến:", style: Get.textTheme.bodyText1),
+                      Text("Ngày bắt đầu:", style: Get.textTheme.bodyText1),
                       const SizedBox(
                         width: 29,
                       ),
                       Text(
                         DateFormat('dd-MM-yyyy')
-                                .format(controller.jobPost.jobStartDate) +
-                            " đến " +
-                            _jobEndDate,
+                                .format(controller.jobPost.jobStartDate),
                         style: TextStyle(
                           fontSize: Get.textScaleFactor * 15,
                         ),
@@ -261,8 +256,9 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
                   children: [
                     Flexible(
                         child: Text(
-                      controller.detailPost?.value.description ??
-                          "Không có mô tả",
+                      controller.detailPost!.value.description.isEmpty
+                        ?  "Không có mô tả"
+                        : controller.detailPost!.value.description,
                       maxLines: 10,
                       softWrap: true,
                       style: Get.textTheme.bodyText2?.copyWith(
