@@ -6,6 +6,7 @@ class MyDatePicker {
     DateTime? initDate,
     DateTime? firstDate,
     DateTime? lastDate,
+    bool Function(DateTime)? selectableDayPredicate,
   }) {
     return showDatePicker(
       context: Get.context!,
@@ -13,6 +14,7 @@ class MyDatePicker {
       firstDate: firstDate ?? DateTime(1900),
       lastDate: lastDate ?? DateTime.now(),
       locale: const Locale('vi'),
+      selectableDayPredicate: selectableDayPredicate,
     );
   }
 }
