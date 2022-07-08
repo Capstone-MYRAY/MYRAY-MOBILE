@@ -1,6 +1,7 @@
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_spinbox/flutter_spinbox.dart';
 import 'package:get/get.dart';
 import 'package:myray_mobile/app/data/models/garden/garden_models.dart';
 import 'package:myray_mobile/app/data/models/post_type/post_type.dart';
@@ -179,19 +180,32 @@ class JobPostFormView extends GetView<JobPostFormController> {
                       const SizedBox(height: 16.0),
                       Column(
                         children: [
-                          InputField(
-                            key: UniqueKey(),
-                            controller: controller.numOfPublishDayController,
-                            icon: const Icon(CustomIcons.calendar_range),
-                            labelText: '${AppStrings.labelNumOfPublishDay}*',
-                            placeholder: AppStrings.placeholderNumOfPublishDay,
-                            inputAction: TextInputAction.next,
-                            keyBoardType: TextInputType.number,
-                            onChanged: controller.onChangeNumOfPublishDay,
-                            inputFormatters: [
-                              FilteringTextInputFormatter.digitsOnly
+                          Row(
+                            children: [
+                              const Icon(
+                                CustomIcons.calendar_range,
+                                size: 24.0,
+                              ),
+                              const SizedBox(width: 16.0),
+                              Expanded(
+                                child: SpinBox(
+                                  key: UniqueKey(),
+                                  min: 3,
+                                  max: 100,
+                                  keyboardType: TextInputType.number,
+                                  showButtons: true,
+                                  onChanged: controller.onChangeNumOfPublishDay,
+                                  value: controller.numOfPublishDay.value
+                                      .toDouble(),
+                                  decoration: const InputDecoration(
+                                    label: Text(
+                                        '${AppStrings.labelNumOfPublishDay}*'),
+                                  ),
+                                  validator: controller.validateNumOfPublishDay,
+                                  afterChange: controller.resetUpgradeData,
+                                ),
+                              ),
                             ],
-                            validator: controller.validateNumOfPublishDay,
                           ),
                           const SizedBox(height: 8.0),
                           Obx(
@@ -214,8 +228,7 @@ class JobPostFormView extends GetView<JobPostFormController> {
                           Obx(
                             () => MyCheckBox(
                               value: controller.isUpgrade.value,
-                              onChanged: (value) =>
-                                  controller.isUpgrade.value = value!,
+                              onChanged: controller.onChangeUpgradePost,
                             ),
                           ),
                         ],
@@ -356,22 +369,35 @@ class JobPostFormView extends GetView<JobPostFormController> {
           placeholder: AppStrings.placeholderUpgradeDate,
           inputAction: TextInputAction.next,
           readOnly: true,
-          onTap: controller.onChooseUpgradeDate,
+          onTap: controller.isUpgradeDateAvailable()
+              ? controller.onChooseUpgradeDate
+              : null,
           validator: controller.validateUpgradeDate,
         ),
         const SizedBox(height: 16.0),
-        InputField(
-          key: UniqueKey(),
-          controller: controller.numOfUpgradeDateController,
-          icon: const Icon(CustomIcons.calendar_range),
-          labelText: '${AppStrings.labelNumOfUpgradeDay}*',
-          placeholder: AppStrings.placeholderNumOfUpgradeDay,
-          inputAction: TextInputAction.next,
-          keyBoardType: TextInputType.number,
-          onChanged: controller.onChangeNumOfUpgradeDay,
-          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-          onEditingComplete: () {},
-          validator: controller.validateNumOfUpgradeDay,
+        Row(
+          children: [
+            const Icon(
+              CustomIcons.calendar_range,
+              size: 24.0,
+            ),
+            const SizedBox(width: 16.0),
+            Expanded(
+              child: SpinBox(
+                key: UniqueKey(),
+                min: controller.maxDay.value == 0 ? 0 : 1,
+                max: controller.maxDay.value.toDouble(),
+                keyboardType: TextInputType.number,
+                showButtons: true,
+                onChanged: controller.onChangeNumOfUpgradeDay,
+                enabled: controller.isEnableDayEdit.value,
+                value: controller.numOfUpgradeDay.value.toDouble(),
+                decoration: const InputDecoration(
+                  label: Text('${AppStrings.labelNumOfUpgradeDay}*'),
+                ),
+              ),
+            ),
+          ],
         ),
         const SizedBox(height: 8.0),
         Obx(

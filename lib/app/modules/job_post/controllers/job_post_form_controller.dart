@@ -5,6 +5,8 @@ import 'package:get/get.dart';
 import 'package:myray_mobile/app/data/enums/enums.dart';
 import 'package:myray_mobile/app/data/models/fee_data.dart';
 import 'package:myray_mobile/app/data/models/garden/garden_models.dart';
+import 'package:myray_mobile/app/data/models/job_post/check_pin_date_request.dart';
+import 'package:myray_mobile/app/data/models/job_post/get_max_pin_day_request.dart';
 import 'package:myray_mobile/app/data/models/job_post/job_post.dart';
 import 'package:myray_mobile/app/data/models/job_post/job_post_cru.dart';
 import 'package:myray_mobile/app/data/models/job_post/pay_per_hour_job/pay_per_hour_job.dart';
@@ -51,6 +53,8 @@ class JobPostFormController extends GetxController {
   final _feeDataService = Get.find<FeeDataService>();
   final _profile = Get.find<LandownerProfileController>();
 
+  final List<DateTime> availablePinDates = [];
+
   final RxList<Garden> gardens = RxList<Garden>();
   Rx<Garden?> selectedGarden = Rx(null);
 
@@ -64,13 +68,15 @@ class JobPostFormController extends GetxController {
   var isToolAvailable = false.obs;
   var isUpgrade = false.obs;
 
-  var numOfPublishDay = 0.obs;
+  var numOfPublishDay = 3.obs;
   var totalPostingMoney = 0.0.obs;
   var usingPoint = 0.obs;
   var totalDiscountByPoint = 0.0.obs;
 
   var numOfUpgradeDay = 0.obs;
   var upgradeCost = 0.0.obs;
+  var isEnableDayEdit = false.obs;
+  var maxDay = 0.obs;
 
   late GlobalKey<FormState> formKey;
   late GlobalKey<TreeTypeFieldState> treeTypeFieldKey;
@@ -80,7 +86,7 @@ class JobPostFormController extends GetxController {
   late TextEditingController jobStartDateController;
   late TextEditingController descriptionController;
   late TextEditingController publishDateController;
-  late TextEditingController numOfPublishDayController;
+  // late TextEditingController numOfPublishDayController;
   late TextEditingController usingPointController;
 
   //controllers for pay per hour job
@@ -97,7 +103,7 @@ class JobPostFormController extends GetxController {
 
   //controllers for upgrade job
   late TextEditingController upgradeDateController;
-  late TextEditingController numOfUpgradeDateController;
+  // late TextEditingController numOfUpgradeDateController;
 
   String get numOfPublishDayEquation =>
       '${Utils.vietnameseCurrencyFormat.format(_feeConfig.value.postingFeePerDay)} x '
@@ -137,7 +143,7 @@ class JobPostFormController extends GetxController {
     jobStartDateController = TextEditingController();
     descriptionController = TextEditingController();
     publishDateController = TextEditingController();
-    numOfPublishDayController = TextEditingController();
+    // numOfPublishDayController = TextEditingController();
     usingPointController = TextEditingController();
 
     //create controller for pay per hour job
@@ -164,7 +170,7 @@ class JobPostFormController extends GetxController {
 
     //create controller for upgrade job post
     upgradeDateController = TextEditingController();
-    numOfUpgradeDateController = TextEditingController();
+    // numOfUpgradeDateController = TextEditingController();
 
     //get fee config
     await getFeeConfig();
@@ -213,8 +219,6 @@ class JobPostFormController extends GetxController {
       final JobPost? _newJobPost = await _jobPostRepository.create(data);
       EasyLoading.dismiss();
 
-      print(_newJobPost == null);
-
       if (_newJobPost == null) {
         //show error
         CustomSnackbar.show(
@@ -255,7 +259,7 @@ class JobPostFormController extends GetxController {
         .toList();
     String _title = workNameController.text;
     DateTime _jobStartDate = Utils.fromddMMyyyy(jobStartDateController.text);
-    int _numOfPublishDay = int.parse(numOfPublishDayController.text);
+    int _numOfPublishDay = numOfPublishDay.value;
     String _description = descriptionController.text;
     DateTime _publishedDate = Utils.fromddMMyyyy(publishDateController.text);
     DateTime? _jobEndDate;
@@ -289,7 +293,7 @@ class JobPostFormController extends GetxController {
     int? _numberOfPinDay;
     if (_postTypeId != null) {
       _pinDate = Utils.fromddMMyyyy(upgradeDateController.text);
-      _numberOfPinDay = int.parse(numOfUpgradeDateController.text);
+      _numberOfPinDay = numOfUpgradeDay.value;
     }
 
     return JobPostCru(
@@ -371,6 +375,47 @@ class JobPostFormController extends GetxController {
     }
   }
 
+  bool isUpgradeDateAvailable() {
+    if (publishDateController.text.isEmpty || selectedPostType.value == null) {
+      return false;
+    }
+
+    return true;
+  }
+
+  void isNumOfUpgradeDateAvailable() {
+    if (isUpgradeDateAvailable() && upgradeDateController.text.isNotEmpty) {
+      isEnableDayEdit.value = true;
+    } else {
+      isEnableDayEdit.value = false;
+    }
+  }
+
+  resetUpgradeData() {
+    selectedPostType.value = null;
+    upgradeDateController.text = '';
+    numOfUpgradeDay.value = 0;
+  }
+
+  getAvailablePinDates() async {
+    if (!isUpgradeDateAvailable() || !isUpgrade.value) return;
+
+    //clear current list
+    availablePinDates.clear();
+
+    final data = CheckPinDateRequest(
+      publishedDate: Utils.fromddMMyyyy(publishDateController.text),
+      numOfPublishDay: numOfPublishDay.value.toString(),
+      postTypeId: selectedPostType.value!.id.toString(),
+    );
+
+    List<DateTime>? _pinDates =
+        await _jobPostRepository.getAvailablePinDates(data);
+    if (_pinDates != null) {
+      availablePinDates.addAll(_pinDates);
+    }
+  }
+
   viewGardenDetails() {
     //get garden by id
     Garden garden =
@@ -421,6 +466,8 @@ class JobPostFormController extends GetxController {
     selectedPostType.value = postType;
     postTypeCost.value = postType == null ? 0.0 : postType.price;
     calUpgradeCost();
+    getAvailablePinDates();
+    getMaxPinDay();
   }
 
   calTotalFee() {
@@ -512,27 +559,30 @@ class JobPostFormController extends GetxController {
 
   //choose job end date
   void onChooseUpgradeDate() async {
-    DateTime now = DateTime.now();
-    DateTime _firstDate = publishDateController.text.isNotEmpty
-        ? Utils.fromddMMyyyy(publishDateController.text)
-        : now;
-    DateTime? _initDate = !_firstDate.isAtSameMomentAs(now)
-        ? _firstDate
-        : upgradeDateController.text.isNotEmpty
-            ? Utils.fromddMMyyyy(upgradeDateController.text)
-            : null;
-    DateTime? _lastDate = numOfPublishDayController.text.isNotEmpty &&
-            publishDateController.text.isNotEmpty
-        ? _firstDate
-            .add(Duration(days: int.parse(numOfPublishDayController.text) - 1))
-        : DateTime.now().add(const Duration(days: 365 * 10));
+    if (availablePinDates.isEmpty) {
+      InformationDialog.showDialog(
+        msg:
+            'Không có ngày pin phù hợp cho gói nâng cấp này vào những ngày bạn chọn',
+        confirmTitle: AppStrings.titleClose,
+      );
+      return;
+    }
+
+    DateTime _firstDate = availablePinDates[0];
+    DateTime _initDate = upgradeDateController.text.isNotEmpty
+        ? Utils.fromddMMyyyy(upgradeDateController.text)
+        : _firstDate;
+    DateTime _lastDate = availablePinDates[availablePinDates.length - 1];
     DateTime? _pickedDate = await MyDatePicker.show(
       firstDate: _firstDate,
       initDate: _initDate,
       lastDate: _lastDate,
+      selectableDayPredicate: (date) => availablePinDates.contains(date),
     );
     if (_pickedDate != null) {
       upgradeDateController.text = Utils.formatddMMyyyy(_pickedDate);
+      isNumOfUpgradeDateAvailable();
+      await getMaxPinDay();
     }
   }
 
@@ -557,16 +607,13 @@ class JobPostFormController extends GetxController {
   }
 
   //handle onChange number of publish day
-  void onChangeNumOfPublishDay(String value) {
-    if (value.isEmpty || !Utils.isPositiveInteger(value)) {
-      numOfPublishDay.value = 0;
-    } else {
-      numOfPublishDay.value = int.parse(value);
-    }
+  void onChangeNumOfPublishDay(double value) {
+    numOfPublishDay.value = value.toInt();
 
     totalPostingMoney.value =
         _feeConfig.value.postingFeePerDay * numOfPublishDay.value;
     calTotalFee();
+    getAvailablePinDates();
   }
 
   void onChangeUsingPoint(String value) {
@@ -580,13 +627,31 @@ class JobPostFormController extends GetxController {
     calTotalFee();
   }
 
-  void onChangeNumOfUpgradeDay(String value) {
-    if (value.isEmpty || !Utils.isPositiveInteger(value)) {
-      numOfUpgradeDay.value = 0;
-    } else {
-      numOfUpgradeDay.value = int.parse(value);
-    }
+  void onChangeNumOfUpgradeDay(double value) {
+    numOfUpgradeDay.value = value.toInt();
     calUpgradeCost();
+  }
+
+  getMaxPinDay() async {
+    if (upgradeDateController.text.isEmpty) return;
+    final data = GetMaxPinDayRequest(
+      pinDate: Utils.fromddMMyyyy(upgradeDateController.text),
+      numOfPublishDay: numOfPublishDay.value.toString(),
+      postTypeId: selectedPostType.value!.id.toString(),
+    );
+    print(data.toJson());
+    maxDay.value = await _jobPostRepository.getMaxPinDay(data);
+  }
+
+  void onChangeUpgradePost(bool? value) {
+    if (!isUpgrade.value && publishDateController.text.isEmpty) {
+      InformationDialog.showDialog(
+        msg: 'Vui lòng nhập ngày đăng trước',
+        confirmTitle: AppStrings.titleClose,
+      );
+      return;
+    }
+    isUpgrade.value = value!;
   }
 
   //fields validation
@@ -788,13 +853,12 @@ class JobPostFormController extends GetxController {
 
     //check upgrade date
     if (upgradeDateController.text.isNotEmpty &&
-        numOfPublishDayController.text.isNotEmpty &&
         publishDateController.text.isNotEmpty &&
         isUpgrade.value) {
       DateTime endUpradeDate = Utils.fromddMMyyyy(upgradeDateController.text)
           .add(Duration(days: int.parse(value!)));
       DateTime endPublishDate = Utils.fromddMMyyyy(publishDateController.text)
-          .add(Duration(days: int.parse(numOfPublishDayController.text)));
+          .add(Duration(days: numOfPublishDay.value));
       Duration difference = endPublishDate.difference(endUpradeDate);
       if (difference.inDays < 0) {
         return 'Ngày nâng cấp không hợp lệ';

@@ -305,6 +305,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.6"
+  flutter_spinbox:
+    dependency: "direct main"
+    description:
+      name: flutter_spinbox
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.9.0"
   flutter_spinkit:
     dependency: transitive
     description:

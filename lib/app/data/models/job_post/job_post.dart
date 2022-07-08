@@ -82,6 +82,12 @@ class JobPost {
   @JsonKey(name: 'post_type_name')
   String? postTypeName;
 
+  @JsonKey(name: 'total_pin_day')
+  int? totalPinDay;
+
+  @JsonKey(name: 'start_pin_date')
+  DateTime? pinStartDate;
+
   @JsonKey(name: 'color')
   String? foregroundColor;
 
@@ -123,6 +129,8 @@ class JobPost {
     this.jobEndDate,
     this.postTypeName,
     this.approvedName,
+    this.totalPinDay,
+    this.pinStartDate,
   });
 
   factory JobPost.fromJson(Map<String, dynamic> json) =>
