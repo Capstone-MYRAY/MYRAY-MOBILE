@@ -44,11 +44,13 @@ class PaymentHistoryDetailsView
               PaymentDetailsInfoCard(
                 title: AppStrings.titlePaymentHistoryDetails,
                 postingFee: payment.jobPostPrice ?? 0,
-                numOfPostingDay: 0, //TODO: calling API to get posting day
+                numOfPostingDay: payment.numOfPublishDay ?? 0,
                 pointFee: payment.pointPrice ?? 0,
                 usedPoint: payment.usedPoint ?? 0,
                 earnedPoint: payment.earnedPoint ?? 0,
                 total: payment.balanceFluctuation ?? 0,
+                numOfUpgradingDay: payment.totalPinDay,
+                upgradingFee: payment.postTypePrice,
               ),
               const SizedBox(height: 8.0),
               FeatureOption(

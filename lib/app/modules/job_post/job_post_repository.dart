@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/status/http_status.dart';
-import 'package:json_annotation/json_annotation.dart';
+import 'package:myray_mobile/app/data/models/job_post/check_pin_date_request.dart';
+import 'package:myray_mobile/app/data/models/job_post/get_max_pin_day_request.dart';
 import 'package:myray_mobile/app/data/models/job_post/get_request_job_post_list.dart';
 import 'package:myray_mobile/app/data/models/job_post/job_post.dart';
 import 'package:myray_mobile/app/data/models/job_post/job_post_cru.dart';
@@ -68,12 +69,32 @@ class JobPostRepository {
 
   Future<JobPost?> getById(int jobPostId) async {
     final response = await _apiProvider.getMethod('/jobpost/$jobPostId');
-    print(response.bodyString);
+
     if (response.isOk) {
       return JobPost.fromJson(response.body);
     }
 
     return null;
+  }
+
+  Future<List<DateTime>?> getAvailablePinDates(CheckPinDateRequest data) async {
+    final response = await _apiProvider.getMethod('/jobpost/checkpindate',
+        data: data.toJson());
+
+    if (response.isOk) {
+      final List<dynamic> dates = response.body;
+      if (dates.isEmpty) return null;
+      return dates.map((date) => DateTime.parse(date).toLocal()).toList();
+    }
+
+    return null;
+  }
+
+  Future<int> getMaxPinDay(GetMaxPinDayRequest data) async {
+    final response = await _apiProvider.getMethod('/jobpost/getmaxpinday',
+        data: data.toJson());
+
+    return response.body;
   }
 
   Future<dynamic> applyJob(int data) async {
