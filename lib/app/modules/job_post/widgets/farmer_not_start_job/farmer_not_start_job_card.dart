@@ -4,7 +4,7 @@ import 'package:myray_mobile/app/shared/constants/app_colors.dart';
 import 'package:myray_mobile/app/shared/constants/app_strings.dart';
 import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
 import 'package:myray_mobile/app/shared/widgets/buttons/custom_text_button.dart';
-import 'package:myray_mobile/app/shared/widgets/custom_confirm_dialog.dart';
+import 'package:myray_mobile/app/shared/widgets/dialogs/custom_confirm_dialog.dart';
 
 class FarmerNotStartJobCard extends StatelessWidget {
   final String title;

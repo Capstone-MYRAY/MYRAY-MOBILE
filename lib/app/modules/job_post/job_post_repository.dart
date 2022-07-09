@@ -7,6 +7,7 @@ import 'package:myray_mobile/app/data/models/job_post/job_post.dart';
 import 'package:myray_mobile/app/data/models/job_post/job_post_cru.dart';
 import 'package:myray_mobile/app/data/models/job_post/job_post_response.dart';
 import 'package:myray_mobile/app/data/models/job_post/landowner_get_job_post_response.dart';
+import 'package:myray_mobile/app/data/models/report/report.dart';
 import 'package:myray_mobile/app/data/providers/api/api_provider.dart';
 import 'package:myray_mobile/app/shared/utils/custom_exception.dart';
 import 'package:myray_mobile/app/data/models/job_post/farmer_job_post_detail_response.dart';
@@ -113,4 +114,8 @@ class JobPostRepository {
         .getMethod('$JOB_POST_URL/checkapplied?jobPostId=$data');
     return response.statusCode != HttpStatus.ok;
   }
+
+  // Future<Report?> reportJob(int jobId){
+  //   final response = await _apiProvider.getMethod('$JOB_POST_URL/report');
+  // }
 }

@@ -9,7 +9,7 @@ import 'package:myray_mobile/app/shared/constants/app_msg.dart';
 import 'package:myray_mobile/app/shared/constants/app_strings.dart';
 import 'package:myray_mobile/app/shared/utils/utils.dart';
 import 'package:myray_mobile/app/shared/widgets/builders/loading_builder.dart';
-import 'package:myray_mobile/app/shared/widgets/custom_confirm_dialog.dart';
+import 'package:myray_mobile/app/shared/widgets/dialogs/custom_confirm_dialog.dart';
 import 'package:myray_mobile/app/data/models/job_post/farmer_job_post_detail_response.dart';
 
 class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {

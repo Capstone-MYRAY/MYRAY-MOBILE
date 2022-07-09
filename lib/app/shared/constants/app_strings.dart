@@ -50,6 +50,7 @@ class AppStrings {
   static const titlePostInformation = 'Thông tin bài đăng';
   static const titlePaymentInformation = 'Thông tin thanh toán';
   static const titlePaymentHistoryDetails = 'Chi tiết giao dịch';
+  static const titleReason = 'Lý do';
 
   //Subtitle
   static const subtitleMyGarden = 'Danh sách vườn đã tạo';
@@ -120,6 +121,10 @@ class AppStrings {
   static const labelIssuedPerson = 'Người thực hiện';
   static const labelBalance = 'Số dư';
   static const labelCurrentPoint = 'Điểm hiện tại';
+  static const labelOnLeaveStartDate = 'Ngày nghỉ bắt đầu';
+  static const labelOnLeaveEndDate = 'Ngày nghỉ kết thúc';
+  static const labelNewExtendJobDate = 'Ngày kết thúc mới';
+  static const labelOldExtendJobDate = 'Ngày kết thúc cũ';
 
   //Placeholder
   static const placeholderPhone = 'Nhập số điện thoại';
@@ -150,6 +155,10 @@ class AppStrings {
   static const placeholderUpgradeDate = 'Bấm chọn ngày nâng cấp';
   static const placeholderNumOfUpgradeDay = 'Nhập số ngày nâng cấp';
   static const placeholderSearch = 'Tìm kiếm...';
+  static const placeholderReport = 'Nhập lý do...';
+  static const placeholderOnleaveStartDate = 'Ngày nghỉ bắt đầu...';
+  static const placeholderOnleaveEndDate = 'Ngày nghỉ kết thúc...';
+  static const placeholderNewExtendJobDate = 'Ngày kết thúc mới...';
 
   //Caption
   static const captionChooseRole =
@@ -204,6 +213,6 @@ class AppStrings {
   static const cancel = "Hủy";
   static const back = "Quay lại";
   static const shortApplyButton = "Ứng tuyển";
-
   static const buttonOnLeave = 'Nghỉ phép';
+  static const submit = 'Nộp đơn';
 }
