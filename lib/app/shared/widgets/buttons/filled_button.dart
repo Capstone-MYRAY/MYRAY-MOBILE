@@ -21,14 +21,16 @@ class FilledButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: onPressed,
-      style: ElevatedButton.styleFrom(
-        minimumSize: Size(minWidth, minHeight),
-        padding: padding,
-        primary: color,
+    return FractionallySizedBox(
+      child: ElevatedButton(
+        onPressed: onPressed,
+        style: ElevatedButton.styleFrom(
+          minimumSize: Size(minWidth, minHeight),
+          padding: padding,
+          primary: color,
+        ),
+        child: Text(title),
       ),
-      child: Text(title),
     );
   }
 }

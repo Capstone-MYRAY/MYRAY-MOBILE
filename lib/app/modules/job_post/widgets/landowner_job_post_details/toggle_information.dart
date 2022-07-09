@@ -7,11 +7,13 @@ class ToggleInformation extends GetView<ToggleController> {
   final String tagName;
   final String title;
   final Widget child;
+  final bool isOpen;
   const ToggleInformation({
     Key? key,
     required this.tagName,
     required this.title,
     required this.child,
+    this.isOpen = false,
   }) : super(key: key);
 
   @override
@@ -19,6 +21,7 @@ class ToggleInformation extends GetView<ToggleController> {
 
   @override
   Widget build(BuildContext context) {
+    controller.isOpen.value = isOpen;
     return ObxValue<RxBool>(
         (isOpen) => _buildContent(isOpen.value), controller.isOpen);
   }
