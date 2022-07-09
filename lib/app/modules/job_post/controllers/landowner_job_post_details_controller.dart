@@ -21,6 +21,8 @@ class LandownerJobPostDetailsController extends GetxController {
   navigateToUpdateForm() {
     Get.toNamed(Routes.jobPostForm, arguments: {
       Arguments.action: Activities.update,
+      Arguments.item: jobPost.value,
+      Arguments.tag: Get.arguments[Arguments.tag],
     });
   }
 

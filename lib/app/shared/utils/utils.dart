@@ -63,7 +63,7 @@ class Utils {
     return DateFormat('HH:mm - dd/MM/yyyy').format(date.toLocal());
   }
 
-  static String getHHmmddMMyyyy(String time) {
+  static String getHHmm(String time) {
     final List<String> times = time.split(':');
     if (times.length < 2) return '';
 

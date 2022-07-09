@@ -77,7 +77,7 @@ class LandownerJobPostDetailsView
           widthFactor: 0.8,
           child: FilledButton(
             title: AppStrings.titleEdit,
-            onPressed: controller.navigateToUpdateForm(),
+            onPressed: controller.navigateToUpdateForm,
           ),
         );
         widgets.add(button);
@@ -236,7 +236,7 @@ class LandownerJobPostDetailsView
           ? '${hourJob.maxFarmer} người'
           : '${hourJob.minFarmer} - ${hourJob.maxFarmer} người';
       String workingTime =
-          '${Utils.getHHmmddMMyyyy(hourJob.startTime)} - ${Utils.getHHmmddMMyyyy(hourJob.finishTime)}';
+          '${Utils.getHHmm(hourJob.startTime)} - ${Utils.getHHmm(hourJob.finishTime)}';
 
       return PayByHourWidget(
           estimateFarmer: estimateFarmer,

@@ -119,22 +119,25 @@ class JobPostFormView extends GetView<JobPostFormController> {
                         validator: controller.validateJobStartDate,
                       ),
                       const SizedBox(height: 16.0),
-                      DropdownSearch<String>(
-                        key: UniqueKey(),
-                        mode: Mode.MENU,
-                        dropdownSearchDecoration: const InputDecoration(
-                          icon: Icon(CustomIcons.bulletin_board),
-                          labelText: '${AppStrings.labelWorkType}*',
+                      Obx(
+                        () => DropdownSearch<String>(
+                          key: UniqueKey(),
+                          mode: Mode.MENU,
+                          dropdownSearchDecoration: const InputDecoration(
+                            icon: Icon(CustomIcons.bulletin_board),
+                            labelText: '${AppStrings.labelWorkType}*',
+                          ),
+                          selectedItem: controller.selectedWorkType.value,
+                          items: const [
+                            AppStrings.payPerHour,
+                            AppStrings.payPerTask,
+                          ],
+                          compareFn: controller.compareWorkType,
+                          onChanged: controller.onWorkTypeChange,
+                          showSelectedItems: true,
+                          autoValidateMode: AutovalidateMode.onUserInteraction,
+                          validator: controller.validateWorkType,
                         ),
-                        items: const [
-                          AppStrings.payPerHour,
-                          AppStrings.payPerTask,
-                        ],
-                        compareFn: controller.compareWorkType,
-                        onChanged: controller.onWorkTypeChange,
-                        showSelectedItems: true,
-                        autoValidateMode: AutovalidateMode.onUserInteraction,
-                        validator: controller.validateWorkType,
                       ),
                       Obx(
                         () => Column(
