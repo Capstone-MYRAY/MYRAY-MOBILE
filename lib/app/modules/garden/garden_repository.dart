@@ -9,9 +9,10 @@ import 'package:myray_mobile/app/shared/utils/custom_exception.dart';
 
 class GardenRepository {
   final _apiProvider = Get.find<ApiProvider>();
+  final path = '/garden';
 
   Future<Garden?> create(PostGardenRequest data) async {
-    final response = await _apiProvider.postMethod('/Garden', data.toJson());
+    final response = await _apiProvider.postMethod(path, data.toJson());
     if (response.isOk) {
       return Garden.fromJson(response.body);
     }
@@ -19,7 +20,7 @@ class GardenRepository {
   }
 
   Future<Garden?> update(Garden data) async {
-    final response = await _apiProvider.putMethod('/Garden', data.toJson());
+    final response = await _apiProvider.putMethod(path, data.toJson());
     if (response.isOk) {
       return Garden.fromJson(response.body);
     }
@@ -27,8 +28,7 @@ class GardenRepository {
   }
 
   Future<GetGardenResponse?> getGardens(GetGardenRequest data) async {
-    final response =
-        await _apiProvider.getMethod('/Garden', data: data.toJson());
+    final response = await _apiProvider.getMethod(path, data: data.toJson());
 
     if (response.statusCode == HttpStatus.ok) {
       return GetGardenResponse.fromJson(response.body);
@@ -42,11 +42,28 @@ class GardenRepository {
   }
 
   Future<Garden?> getById(int id) async {
-    final response = await _apiProvider.getMethod('/garden/$id');
+    final response = await _apiProvider.getMethod('$path/$id');
     if (response.isOk) {
       return Garden.fromJson(response.body);
     }
 
     return null;
+  }
+
+  Future<bool> canDelete(int gardenId) async {
+    final response =
+        await _apiProvider.getMethod('$path/noavailable/$gardenId');
+
+    return response.body;
+  }
+
+  Future<bool> delete(int gardenId) async {
+    final response = await _apiProvider.deleteMethod('$path/$gardenId');
+
+    if (response.isOk) {
+      return true;
+    }
+
+    return false;
   }
 }
