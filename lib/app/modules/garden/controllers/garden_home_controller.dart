@@ -2,8 +2,12 @@ import 'package:get/get.dart';
 import 'package:myray_mobile/app/data/enums/sort.dart';
 import 'package:myray_mobile/app/data/models/garden/garden_models.dart';
 import 'package:myray_mobile/app/modules/garden/garden_repository.dart';
+import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/utils/auth_credentials.dart';
 import 'package:myray_mobile/app/shared/utils/custom_exception.dart';
+import 'package:myray_mobile/app/shared/widgets/custom_snackbar.dart';
+import 'package:myray_mobile/app/shared/widgets/dialogs/custom_confirm_dialog.dart';
+import 'package:myray_mobile/app/shared/widgets/dialogs/information_dialog.dart';
 
 class GardenHomeController extends GetxController {
   final _gardenRepository = Get.find<GardenRepository>();
@@ -13,12 +17,6 @@ class GardenHomeController extends GetxController {
   bool _hasNextPage = true;
 
   final isLoading = false.obs;
-
-  // @override
-  // void onInit() async {
-  //   await getGardens();
-  //   super.onInit();
-  // }
 
   Future<bool?> getGardens() async {
     final int _accountId = AuthCredentials.instance.user!.id!;
@@ -48,7 +46,7 @@ class GardenHomeController extends GetxController {
       }
       isLoading.value = false;
       return true;
-    } on CustomException catch (e) {
+    } on CustomException {
       isLoading.value = false;
       _hasNextPage = false;
       return null;
@@ -64,5 +62,43 @@ class GardenHomeController extends GetxController {
     gardens.clear();
 
     await getGardens();
+  }
+
+  onDeleteGarden(Garden garden) async {
+    bool canDelete = await _gardenRepository.canDelete(garden.id);
+    if (!canDelete) {
+      // show error
+      InformationDialog.showDialog(
+        msg: 'Vườn có công việc đang tiến hành, không thể xóa',
+        confirmTitle: AppStrings.titleClose,
+      );
+      return;
+    }
+
+    CustomDialog.show(
+      message: AppMsg.MSG4013,
+      confirm: () async {
+        final success = await _gardenRepository.delete(garden.id);
+        if (!success) {
+          CustomSnackbar.show(
+            title: AppStrings.titleError,
+            message: 'Có lỗi xảy ra',
+            backgroundColor: AppColors.errorColor,
+          );
+          return;
+        }
+
+        //update garden list
+        gardens.remove(garden);
+
+        //close confirm dialog
+        Get.back();
+
+        CustomSnackbar.show(
+          title: AppStrings.titleSuccess,
+          message: AppMsg.MSG4014,
+        );
+      },
+    );
   }
 }

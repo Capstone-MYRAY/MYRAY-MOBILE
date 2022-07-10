@@ -63,7 +63,7 @@ class GardenHomeView extends GetView<GardenHomeController> {
                         Arguments.item: garden,
                       });
                     },
-                    onDeleteTap: () {},
+                    onDeleteTap: () => controller.onDeleteGarden(garden),
                   );
                 }),
               ),

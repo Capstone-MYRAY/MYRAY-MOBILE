@@ -64,6 +64,14 @@ class Garden {
     return name;
   }
 
+  @override
+  bool operator ==(Object other) {
+    return other is Garden && id == other.id;
+  }
+
+  @override
+  int get hashCode => id.hashCode;
+
   factory Garden.fromJson(Map<String, dynamic> json) => _$GardenFromJson(json);
   Map<String, dynamic> toJson() => _$GardenToJson(this);
 }

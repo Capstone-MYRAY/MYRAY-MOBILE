@@ -12,6 +12,8 @@ class AppMsg {
   static const MSG4004 = 'Số ngày đăng tối thiểu là 3 ngày';
   static const MSG4006 = 'Bạn đã tạo công việc thành công';
   static const MSG4011 = 'Bạn đã thêm vườn thành công';
+  static const MSG4013 = 'Bạn có muốn xóa mảnh vườn này không?';
+  static const MSG4014 = 'Bạn đã xóa mảnh vườn thành công';
   static const MSG6001 = 'Số điện thoại này đã được đăng ký';
   static const MSG6002 = 'Số điện thoại không có trong hệ thống';
   static const MSG6003 = 'Mật khẩu không đúng';

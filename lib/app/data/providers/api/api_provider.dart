@@ -14,11 +14,15 @@ class ApiProvider extends BaseProvider {
     return put(path, data);
   }
 
+  Future<Response> deleteMethod(String path) {
+    return delete(path);
+  }
+
   Future<Response> deleteImage(String path, dynamic data) {
     return post(path, data);
   }
 
-   Future<Response> patchMethod(String path, Map<String, dynamic>? data) {
+  Future<Response> patchMethod(String path, Map<String, dynamic>? data) {
     return patch(path, data);
   }
 
