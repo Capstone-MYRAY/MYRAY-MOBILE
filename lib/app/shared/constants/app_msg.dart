@@ -11,6 +11,10 @@ class AppMsg {
   static const MSG0010 = 'Vui lòng nhập số nguyên lớn hơn 0';
   static const MSG4004 = 'Số ngày đăng tối thiểu là 3 ngày';
   static const MSG4006 = 'Bạn đã tạo công việc thành công';
+  static const MSG4007 = 'Bạn có muốn xóa công việc này không?';
+  static const MSG4008 = 'Bạn đã xóa công việc thành công';
+  static const MSG4009 = 'Bạn có muốn hủy công việc này không?';
+  static const MSG4010 = 'Bạn đã hủy công việc thành công';
   static const MSG4011 = 'Bạn đã thêm vườn thành công';
   static const MSG4013 = 'Bạn có muốn xóa mảnh vườn này không?';
   static const MSG4014 = 'Bạn đã xóa mảnh vườn thành công';

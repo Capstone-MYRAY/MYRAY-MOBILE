@@ -17,11 +17,12 @@ class LandownerJobPostController extends GetxController {
 
   final isLoading = false.obs;
 
-  // @override
-  // void onInit() async {
-  //   await getJobPosts();
-  //   super.onInit();
-  // }
+  void updateJobPosts(JobPost jobPost) {
+    int index = jobPosts.indexWhere((e) => e.id == jobPost.id);
+    if (index >= 0) {
+      jobPosts[index] = jobPost;
+    }
+  }
 
   Future<bool?> getJobPosts() async {
     final int _accountId = AuthCredentials.instance.user!.id!;

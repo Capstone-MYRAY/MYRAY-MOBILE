@@ -133,6 +133,14 @@ class JobPost {
     this.pinStartDate,
   });
 
+  @override
+  bool operator ==(Object other) {
+    return other is JobPost && id == other.id;
+  }
+
+  @override
+  int get hashCode => id.hashCode;
+
   factory JobPost.fromJson(Map<String, dynamic> json) =>
       _$JobPostFromJson(json);
 

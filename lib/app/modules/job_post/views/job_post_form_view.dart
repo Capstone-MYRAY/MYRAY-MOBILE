@@ -398,6 +398,7 @@ class JobPostFormView extends GetView<JobPostFormController> {
                 decoration: const InputDecoration(
                   label: Text('${AppStrings.labelNumOfUpgradeDay}*'),
                 ),
+                validator: controller.validateNumOfUpgradeDay,
               ),
             ),
           ],

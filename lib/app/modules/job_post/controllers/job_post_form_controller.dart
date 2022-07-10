@@ -57,8 +57,6 @@ class JobPostFormController extends GetxController {
   final _jobPostRepository = Get.find<JobPostRepository>();
   final _feeDataService = Get.find<FeeDataService>();
   final _profile = Get.find<LandownerProfileController>();
-  final _detailsController = Get.find<LandownerJobPostDetailsController>(
-      tag: Get.arguments[Arguments.tag]);
 
   final List<DateTime> availablePinDates = [];
 
@@ -189,6 +187,9 @@ class JobPostFormController extends GetxController {
     //get post type list
     await getPostTypes();
 
+    calPostingFee();
+    calTotalFee();
+
     if (_jobPost != null) {
       loadData();
     }
@@ -233,6 +234,9 @@ class JobPostFormController extends GetxController {
     numOfPublishDay.value = _jobPost?.numOfPublishDay ?? 3;
 
     //get payment history from job post details controller
+
+    final _detailsController = Get.find<LandownerJobPostDetailsController>(
+        tag: Get.arguments[Arguments.tag]);
 
     usingPointController.text =
         _detailsController.paymentHistories.first.usedPoint?.toString() ?? '0';
@@ -318,6 +322,8 @@ class JobPostFormController extends GetxController {
       }
 
       //refresh job post details screen
+      final _detailsController = Get.find<LandownerJobPostDetailsController>(
+          tag: Get.arguments[Arguments.tag]);
       _detailsController.jobPost.value = _updatedJobPost;
 
       //Update job post list
@@ -993,8 +999,8 @@ class JobPostFormController extends GetxController {
   }
 
   String? validateNumOfUpgradeDay(String? value) {
-    if (Utils.isEmpty(value)) {
-      return AppMsg.MSG0002;
+    if (!Utils.isPositiveInteger(value!)) {
+      return AppMsg.MSG0010;
     }
 
     //check upgrade date
@@ -1002,7 +1008,7 @@ class JobPostFormController extends GetxController {
         publishDateController.text.isNotEmpty &&
         isUpgrade.value) {
       DateTime endUpradeDate = Utils.fromddMMyyyy(upgradeDateController.text)
-          .add(Duration(days: int.parse(value!)));
+          .add(Duration(days: int.parse(value)));
       DateTime endPublishDate = Utils.fromddMMyyyy(publishDateController.text)
           .add(Duration(days: numOfPublishDay.value));
       Duration difference = endPublishDate.difference(endUpradeDate);
