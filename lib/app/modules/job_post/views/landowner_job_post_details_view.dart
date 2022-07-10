@@ -32,11 +32,15 @@ class LandownerJobPostDetailsView
   Activities? get action => Get.arguments[Arguments.action];
 
   bool get _isFeatureNotDisplay =>
-      jobPost.status != JobPostStatus.pending.index ||
-      jobPost.status != JobPostStatus.outOfDate.index ||
-      jobPost.status != JobPostStatus.rejected.index;
+      jobPost.status == JobPostStatus.pending.index ||
+      jobPost.status == JobPostStatus.outOfDate.index ||
+      jobPost.status == JobPostStatus.rejected.index;
 
   bool get _isStartJob => jobPost.workStatus == JobPostWorkStatus.started.index;
+
+  bool get _isApproved =>
+      jobPost.status == JobPostStatus.approved.index ||
+      jobPost.status == JobPostStatus.posted.index;
 
   @override
   Widget build(BuildContext context) {
@@ -78,14 +82,40 @@ class LandownerJobPostDetailsView
     List<Widget> widgets = [];
     if (action == null) {
       if (jobPost.status == JobPostStatus.pending.index) {
-        final button = FractionallySizedBox(
-          widthFactor: 0.8,
-          child: FilledButton(
-            title: AppStrings.titleEdit,
-            onPressed: controller.navigateToUpdateForm,
+        final buttons = [
+          FractionallySizedBox(
+            widthFactor: 0.8,
+            child: FilledButton(
+              title: AppStrings.titleEdit,
+              onPressed: controller.navigateToUpdateForm,
+            ),
           ),
-        );
-        widgets.add(button);
+          const SizedBox(height: 16.0),
+          FractionallySizedBox(
+            widthFactor: 0.8,
+            child: FilledButton(
+              title: AppStrings.titleDelete,
+              onPressed: controller.deleteJob,
+              color: AppColors.errorColor,
+            ),
+          ),
+        ];
+        widgets.addAll(buttons);
+      }
+
+      if (_isApproved) {
+        final buttons = [
+          FractionallySizedBox(
+            widthFactor: 0.8,
+            child: FilledButton(
+              title: AppStrings.cancel,
+              color: AppColors.errorColor,
+              onPressed: controller.cancelJob,
+            ),
+          ),
+        ];
+
+        widgets.addAll(buttons);
       }
 
       if (_isStartJob) {

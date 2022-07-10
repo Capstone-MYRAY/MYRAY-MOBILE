@@ -106,6 +106,27 @@ class JobPostRepository {
     return response.body;
   }
 
+  Future<bool> deleteJob(int jobPostId) async {
+    final response = await _apiProvider.deleteMethod('/jobpost/$jobPostId');
+
+    if (response.isOk) {
+      return true;
+    }
+
+    return false;
+  }
+
+  Future<bool> cancelJob(int jobPostId) async {
+    final response =
+        await _apiProvider.deleteMethod('/jobpost/cancel/$jobPostId');
+
+    if (response.isOk) {
+      return true;
+    }
+
+    return false;
+  }
+
   Future<dynamic> applyJob(int data) async {
     final response = await _apiProvider
         .patchMethod('$JOB_POST_URL/apply/$data', {'jobPostId': data});
