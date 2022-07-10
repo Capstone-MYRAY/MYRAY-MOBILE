@@ -326,6 +326,9 @@ class JobPostFormController extends GetxController {
       int index = _jobPosts.indexWhere((job) => job.id == _updatedJobPost.id);
       _jobPosts[index] = _updatedJobPost;
 
+      //update payment history
+      await _detailsController.getPaymentHistory();
+
       //refresh balance
       _profile.calBalance();
 

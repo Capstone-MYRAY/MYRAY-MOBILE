@@ -12,7 +12,7 @@ import 'package:myray_mobile/app/shared/widgets/custom_snackbar.dart';
 
 class LandownerJobPostDetailsController extends GetxController {
   final Rx<JobPost> jobPost;
-  final List<PaymentHistory> paymentHistories = [];
+  final RxList<PaymentHistory> paymentHistories = RxList([]);
   final _gardenRepository = Get.find<GardenRepository>();
   final _paymentHistoryRepository = Get.find<PaymentHistoryRepository>();
 
