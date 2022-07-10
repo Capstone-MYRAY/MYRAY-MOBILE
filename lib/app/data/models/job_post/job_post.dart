@@ -157,7 +157,7 @@ class JobPost {
     }
 
     if (treeJobs.length == 1) {
-      return treeJobs.first.type!;
+      return treeJobs.first.type ?? '';
     }
 
     final buffer = StringBuffer();

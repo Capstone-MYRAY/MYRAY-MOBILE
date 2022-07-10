@@ -18,11 +18,12 @@ class LandownerJobPostDetailsController extends GetxController {
 
   LandownerJobPostDetailsController({required this.jobPost});
 
-  @override
-  void onInit() {
-    print('init');
-
-    super.onInit();
+  navigateToUpdateForm() {
+    Get.toNamed(Routes.jobPostForm, arguments: {
+      Arguments.action: Activities.update,
+      Arguments.item: jobPost.value,
+      Arguments.tag: Get.arguments[Arguments.tag],
+    });
   }
 
   viewGardenDetails() async {

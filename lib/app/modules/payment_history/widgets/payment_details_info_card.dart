@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:myray_mobile/app/modules/payment_history/widgets/payment_details_info.dart';
-import 'package:myray_mobile/app/modules/payment_history/widgets/payment_field.dart';
-import 'package:myray_mobile/app/shared/constants/constants.dart';
-import 'package:myray_mobile/app/shared/utils/utils.dart';
 import 'package:myray_mobile/app/shared/widgets/cards/my_card.dart';
 
 class PaymentDetailsInfoCard extends StatelessWidget {

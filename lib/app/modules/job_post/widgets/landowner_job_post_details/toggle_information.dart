@@ -7,11 +7,15 @@ class ToggleInformation extends GetView<ToggleController> {
   final String tagName;
   final String title;
   final Widget child;
+  final bool isOpen;
+  final bool isCustom;
   const ToggleInformation({
     Key? key,
     required this.tagName,
     required this.title,
     required this.child,
+    this.isOpen = false,
+    this.isCustom = false,
   }) : super(key: key);
 
   @override
@@ -19,6 +23,7 @@ class ToggleInformation extends GetView<ToggleController> {
 
   @override
   Widget build(BuildContext context) {
+    controller.isOpen.value = isOpen;
     return ObxValue<RxBool>(
         (isOpen) => _buildContent(isOpen.value), controller.isOpen);
   }
@@ -31,22 +36,26 @@ class ToggleInformation extends GetView<ToggleController> {
           onTap: () => controller.toggle(),
           isOpen: isOpen,
         ),
-        if (isOpen)
-          MyCard(
-            margin: const EdgeInsets.all(0.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: Get.textTheme.headline6,
-                ),
-                const SizedBox(height: 8.0),
-                child,
-              ],
-            ),
-          ),
+        if (isOpen && !isCustom) _buildNormal(),
+        if (isOpen && isCustom) child,
       ],
+    );
+  }
+
+  _buildNormal() {
+    return MyCard(
+      margin: const EdgeInsets.all(0.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            style: Get.textTheme.headline6,
+          ),
+          const SizedBox(height: 8.0),
+          child,
+        ],
+      ),
     );
   }
 }

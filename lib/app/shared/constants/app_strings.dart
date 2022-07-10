@@ -51,6 +51,8 @@ class AppStrings {
   static const titlePaymentInformation = 'Thông tin thanh toán';
   static const titlePaymentHistoryDetails = 'Chi tiết giao dịch';
   static const titleReason = 'Lý do';
+  static const titleUpdateJobEndDate = 'Cập nhật ngày kết thúc';
+  static const titleExtendPostEndDate = 'Gia hạn bài đăng';
 
   //Subtitle
   static const subtitleMyGarden = 'Danh sách vườn đã tạo';

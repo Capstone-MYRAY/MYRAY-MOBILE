@@ -7,6 +7,9 @@ part 'job_post_cru.g.dart';
 
 @JsonSerializable(includeIfNull: false, explicitToJson: true)
 class JobPostCru {
+  @JsonKey(name: 'id')
+  int? id;
+
   @JsonKey(name: 'garden_id')
   int gardenId;
 
@@ -64,6 +67,7 @@ class JobPostCru {
     this.pinDate,
     this.postTypeId,
     this.usedPoint,
+    this.id,
   });
 
   factory JobPostCru.fromJson(Map<String, dynamic> json) =>

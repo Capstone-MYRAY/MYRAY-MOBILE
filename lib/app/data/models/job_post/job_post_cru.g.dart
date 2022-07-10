@@ -33,15 +33,11 @@ JobPostCru _$JobPostCruFromJson(Map<String, dynamic> json) => JobPostCru(
           : DateTime.parse(json['pin_date'] as String),
       postTypeId: json['post_type_id'] as int?,
       usedPoint: json['use_point'] as int?,
+      id: json['id'] as int?,
     );
 
 Map<String, dynamic> _$JobPostCruToJson(JobPostCru instance) {
-  final val = <String, dynamic>{
-    'garden_id': instance.gardenId,
-    'tree_jobs': instance.treeJobs.map((e) => e.toJson()).toList(),
-    'title': instance.title,
-    'start_job_date': instance.jobStartDate.toIso8601String(),
-  };
+  final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -49,6 +45,11 @@ Map<String, dynamic> _$JobPostCruToJson(JobPostCru instance) {
     }
   }
 
+  writeNotNull('id', instance.id);
+  val['garden_id'] = instance.gardenId;
+  val['tree_jobs'] = instance.treeJobs.map((e) => e.toJson()).toList();
+  val['title'] = instance.title;
+  val['start_job_date'] = instance.jobStartDate.toIso8601String();
   writeNotNull('end_job_date', instance.jobEndDate?.toIso8601String());
   val['num_publish_day'] = instance.numOfPublishDay;
   writeNotNull('description', instance.description);

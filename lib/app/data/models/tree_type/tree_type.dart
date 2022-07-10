@@ -27,4 +27,12 @@ class TreeType {
       _$TreeTypeFromJson(json);
 
   Map<String, dynamic> toJson() => _$TreeTypeToJson(this);
+
+  @override
+  bool operator ==(Object other) {
+    return other is TreeType && id == other.id;
+  }
+
+  @override
+  int get hashCode => id.hashCode;
 }

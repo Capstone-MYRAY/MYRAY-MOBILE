@@ -1,19 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:myray_mobile/app/data/enums/enums.dart';
 import 'package:myray_mobile/app/data/models/job_post/job_post.dart';
 import 'package:myray_mobile/app/data/models/job_post/pay_per_hour_job/pay_per_hour_job.dart';
 import 'package:myray_mobile/app/data/models/job_post/pay_per_task_job/pay_per_task_job.dart';
+import 'package:myray_mobile/app/data/models/payment_history/payment_history_models.dart';
 import 'package:myray_mobile/app/modules/job_post/controllers/landowner_job_post_details_controller.dart';
 import 'package:myray_mobile/app/modules/job_post/widgets/landowner_job_post_details/landowner_job_post_details.dart';
 import 'package:myray_mobile/app/modules/payment_history/widgets/payment_details_info.dart';
+import 'package:myray_mobile/app/routes/app_pages.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
 import 'package:myray_mobile/app/shared/utils/hex_color_extension.dart';
 import 'package:myray_mobile/app/shared/utils/utils.dart';
 import 'package:myray_mobile/app/shared/widgets/builders/list_empty_builder.dart';
 import 'package:myray_mobile/app/shared/widgets/builders/loading_builder.dart';
+import 'package:myray_mobile/app/shared/widgets/buttons/filled_button.dart';
 import 'package:myray_mobile/app/shared/widgets/cards/card_status_field.dart';
 import 'package:myray_mobile/app/shared/widgets/cards/feature_option.dart';
+import 'package:myray_mobile/app/shared/widgets/cards/my_card.dart';
 
 class LandownerJobPostDetailsView
     extends GetView<LandownerJobPostDetailsController> {
@@ -23,6 +28,15 @@ class LandownerJobPostDetailsView
   String get tag => Get.arguments[Arguments.tag];
 
   JobPost get jobPost => controller.jobPost.value;
+
+  Activities? get action => Get.arguments[Arguments.action];
+
+  bool get _isFeatureNotDisplay =>
+      jobPost.status != JobPostStatus.pending.index ||
+      jobPost.status != JobPostStatus.outOfDate.index ||
+      jobPost.status != JobPostStatus.rejected.index;
+
+  bool get _isStartJob => jobPost.workStatus == JobPostWorkStatus.started.index;
 
   @override
   Widget build(BuildContext context) {
@@ -41,58 +55,127 @@ class LandownerJobPostDetailsView
               return ListEmptyBuilder(onRefresh: controller.onRefresh);
             }
 
-            return ListView(
-              shrinkWrap: true,
-              padding: const EdgeInsets.only(bottom: 16.0),
-              children: [
-                _buildWorkInformation(),
-                _buildWorkPlaceInformation(),
-                _buildPostInformation(),
-                _buildPaymentHistoryInformation(),
-                const SizedBox(height: 16.0),
-                FeatureOption(
-                  icon: CustomIcons.account_cowboy_hat_outline,
-                  title: AppStrings.titleFarmerList,
-                  borderRadius: CommonConstants.borderRadius,
-                  widthFactor: 0.9,
-                  onTap: () {},
-                ),
-                const SizedBox(height: 12.0),
-                FeatureOption(
-                  icon: CustomIcons.feedback_outline,
-                  title: AppStrings.titleFeedbackList,
-                  borderRadius: CommonConstants.borderRadius,
-                  widthFactor: 0.9,
-                  onTap: () {},
-                ),
-              ],
+            return Obx(
+              () => ListView(
+                shrinkWrap: true,
+                padding: const EdgeInsets.only(bottom: 16.0),
+                children: [
+                  _buildWorkInformation(),
+                  _buildWorkPlaceInformation(),
+                  _buildPostInformation(),
+                  _buildPaymentHistoryInformation(),
+                  if (!_isFeatureNotDisplay) ..._buildFeatures(),
+                  const SizedBox(height: 16.0),
+                  ..._buildButtons(),
+                ],
+              ),
             );
           }),
     );
+  }
+
+  List<Widget> _buildButtons() {
+    List<Widget> widgets = [];
+    if (action == null) {
+      if (jobPost.status == JobPostStatus.pending.index) {
+        final button = FractionallySizedBox(
+          widthFactor: 0.8,
+          child: FilledButton(
+            title: AppStrings.titleEdit,
+            onPressed: controller.navigateToUpdateForm,
+          ),
+        );
+        widgets.add(button);
+      }
+
+      if (_isStartJob) {
+        final buttons = [
+          FractionallySizedBox(
+            widthFactor: 0.8,
+            child: FilledButton(
+              title: AppStrings.titleUpdateJobEndDate,
+              onPressed: () {},
+            ),
+          ),
+          const SizedBox(height: 16.0),
+          FractionallySizedBox(
+            widthFactor: 0.8,
+            child: FilledButton(
+              title: AppStrings.titleExtendPostEndDate,
+              onPressed: () {},
+            ),
+          ),
+        ];
+        widgets.addAll(buttons);
+      }
+    }
+
+    return widgets;
+  }
+
+  List<Widget> _buildFeatures() {
+    return [
+      const SizedBox(height: 16.0),
+      FeatureOption(
+        icon: CustomIcons.account_cowboy_hat_outline,
+        title: AppStrings.titleFarmerList,
+        borderRadius: CommonConstants.borderRadius,
+        widthFactor: 0.9,
+        onTap: () {},
+      ),
+      const SizedBox(height: 12.0),
+      FeatureOption(
+        icon: CustomIcons.feedback_outline,
+        title: AppStrings.titleFeedbackList,
+        borderRadius: CommonConstants.borderRadius,
+        widthFactor: 0.9,
+        onTap: () {},
+      ),
+    ];
   }
 
   _buildPaymentHistoryInformation() {
     return ToggleInformation(
       tagName: 'PaymentInformation',
       title: AppStrings.titlePaymentInformation,
+      isCustom: true,
       child: Column(
-        children: controller.paymentHistories
-            .map(
-              (payment) => PaymentDetailsInfo(
-                postingFee: payment.jobPostPrice ?? 0,
-                numOfPostingDay: payment.numOfPublishDay ?? 0,
-                pointFee: payment.pointPrice ?? 0,
-                usedPoint: payment.usedPoint ?? 0,
-                earnedPoint: payment.earnedPoint ?? 0,
-                total: payment.balanceFluctuation ?? 0,
-                paymentId: payment.id.toString(),
-                numOfUpgradingDay: payment.totalPinDay ?? 0,
-                upgradingFee: payment.postTypePrice ?? 0,
-              ),
-            )
-            .toList(),
+        children: _buildPaymentHistoryItem(controller.paymentHistories),
       ),
     );
+  }
+
+  List<Widget> _buildPaymentHistoryItem(List<PaymentHistory> list) {
+    List<Widget> items = [];
+    for (int i = 0; i < list.length; i++) {
+      PaymentHistory payment = list[i];
+      bool hasBorder = i < list.length - 1;
+      items.add(
+        MyCard(
+          onTap: () {
+            Get.toNamed(Routes.paymentHistoryDetails, arguments: {
+              Arguments.tag: payment.id.toString(),
+              Arguments.item: payment,
+              Arguments.action: Activities.view,
+            });
+          },
+          margin: const EdgeInsets.all(0.0),
+          child: PaymentDetailsInfo(
+            postingFee: payment.jobPostPrice ?? 0,
+            numOfPostingDay: payment.numOfPublishDay ?? 0,
+            pointFee: payment.pointPrice ?? 0,
+            usedPoint: payment.usedPoint ?? 0,
+            earnedPoint: payment.earnedPoint ?? 0,
+            total: payment.balanceFluctuation ?? 0,
+            paymentId: payment.id.toString(),
+            numOfUpgradingDay: payment.totalPinDay ?? 0,
+            upgradingFee: payment.postTypePrice ?? 0,
+          ),
+        ),
+      );
+      if (hasBorder) items.add(const SizedBox(height: 8.0));
+    }
+    return items;
   }
 
   CardStatusField? _buildPostType() {
@@ -100,8 +183,12 @@ class LandownerJobPostDetailsView
       return CardStatusField(
         statusName: jobPost.postTypeName ?? '',
         title: 'Gói nâng cấp',
-        backgroundColor: HexColor.fromHex(jobPost.backgroundColor!),
-        foregroundColor: HexColor.fromHex(jobPost.foregroundColor!),
+        backgroundColor: jobPost.backgroundColor != null
+            ? HexColor.fromHex(jobPost.backgroundColor!)
+            : null,
+        foregroundColor: jobPost.foregroundColor != null
+            ? HexColor.fromHex(jobPost.foregroundColor!)
+            : null,
       );
     }
 
@@ -152,6 +239,7 @@ class LandownerJobPostDetailsView
     return ToggleInformation(
       tagName: 'WorkInformation',
       title: AppStrings.titleWorkInformation,
+      isOpen: true,
       child: ToggleContentWorkInfo(
         workName: jobPost.title,
         jobStartDate: jobPost.jobStartDate,
@@ -177,7 +265,7 @@ class LandownerJobPostDetailsView
           ? '${hourJob.maxFarmer} người'
           : '${hourJob.minFarmer} - ${hourJob.maxFarmer} người';
       String workingTime =
-          '${Utils.getHHmmddMMyyyy(hourJob.startTime)} - ${Utils.getHHmmddMMyyyy(hourJob.finishTime)}';
+          '${Utils.getHHmm(hourJob.startTime)} - ${Utils.getHHmm(hourJob.finishTime)}';
 
       return PayByHourWidget(
           estimateFarmer: estimateFarmer,
