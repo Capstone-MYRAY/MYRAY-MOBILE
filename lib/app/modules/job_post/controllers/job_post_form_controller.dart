@@ -45,6 +45,9 @@ class JobPostFormController extends GetxController {
   int _userPoint =
       Get.find<LandownerProfileController>().pointWithPending.value;
 
+  double _userBalance =
+      Get.find<LandownerProfileController>().balanceWithPending.value;
+
   var postTypeCost = 0.0.obs;
   final _totalFee = 0.0.obs;
 
@@ -54,6 +57,8 @@ class JobPostFormController extends GetxController {
   final _jobPostRepository = Get.find<JobPostRepository>();
   final _feeDataService = Get.find<FeeDataService>();
   final _profile = Get.find<LandownerProfileController>();
+  final _detailsController = Get.find<LandownerJobPostDetailsController>(
+      tag: Get.arguments[Arguments.tag]);
 
   final List<DateTime> availablePinDates = [];
 
@@ -199,7 +204,7 @@ class JobPostFormController extends GetxController {
     if (!isTreeTypeValid || !isFormFieldsValid) return;
 
     //check balance
-    if (_totalFee.value > _profile.balanceWithPending.value) {
+    if (_totalFee.value > _userBalance) {
       InformationDialog.showDialog(
         msg: 'Bạn không đủ tiền trong tài khoản.',
         confirmTitle: AppStrings.titleClose,
@@ -217,7 +222,6 @@ class JobPostFormController extends GetxController {
 
   //load data for update form
   loadData() async {
-    print(_jobPost!.toJson());
     workNameController.text = _jobPost?.title ?? '';
     jobStartDateController.text = _jobPost?.jobStartDate != null
         ? Utils.formatddMMyyyy(_jobPost!.jobStartDate)
@@ -229,11 +233,13 @@ class JobPostFormController extends GetxController {
     numOfPublishDay.value = _jobPost?.numOfPublishDay ?? 3;
 
     //get payment history from job post details controller
-    final _detailsController = Get.find<LandownerJobPostDetailsController>(
-        tag: Get.arguments[Arguments.tag]);
+
     usingPointController.text =
         _detailsController.paymentHistories.first.usedPoint?.toString() ?? '0';
     usingPoint.value = _detailsController.paymentHistories.first.usedPoint ?? 0;
+
+    _userPoint += _detailsController.paymentHistories.first.usedPoint!;
+    _userBalance += _detailsController.paymentHistories.first.actualPrice!;
 
     //pay per hour job
     if (_jobPost!.payPerHourJob != null) {
@@ -286,13 +292,58 @@ class JobPostFormController extends GetxController {
       await getMaxPinDay();
     }
 
-    _userPoint += _detailsController.paymentHistories.first.usedPoint!;
     calPoint();
     calPostingFee();
     calUpgradeCost();
   }
 
-  onUpdate() {}
+  onUpdate() async {
+    EasyLoading.show(status: AppStrings.loading);
+
+    //get data from controller
+    JobPostCru data = _createData()..id = _jobPost!.id;
+
+    try {
+      final JobPost? _updatedJobPost = await _jobPostRepository.update(data);
+      EasyLoading.dismiss();
+
+      if (_updatedJobPost == null) {
+        //show error
+        CustomSnackbar.show(
+          title: AppStrings.titleError,
+          message: 'Có lỗi xảy ra',
+          backgroundColor: AppColors.errorColor,
+        );
+        return;
+      }
+
+      //refresh job post details screen
+      _detailsController.jobPost.value = _updatedJobPost;
+
+      //Update job post list
+      final _jobPostController = Get.find<LandownerJobPostController>();
+      final _jobPosts = _jobPostController.jobPosts;
+      int index = _jobPosts.indexWhere((job) => job.id == _updatedJobPost.id);
+      _jobPosts[index] = _updatedJobPost;
+
+      //refresh balance
+      _profile.calBalance();
+
+      Get.back();
+
+      CustomSnackbar.show(
+        title: AppStrings.titleSuccess,
+        message: 'Cập nhật thành công',
+      );
+    } on Exception {
+      EasyLoading.dismiss();
+      CustomSnackbar.show(
+        title: AppStrings.titleError,
+        message: 'Có lỗi xảy ra',
+        backgroundColor: AppColors.errorColor,
+      );
+    }
+  }
 
   onCreate() async {
     EasyLoading.show(status: AppStrings.loading);
@@ -732,7 +783,6 @@ class JobPostFormController extends GetxController {
       numOfPublishDay: numOfPublishDay.value.toString(),
       postTypeId: selectedPostType.value!.id.toString(),
     );
-    print(data.toJson());
     maxDay.value = await _jobPostRepository.getMaxPinDay(data);
   }
 

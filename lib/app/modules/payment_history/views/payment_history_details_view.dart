@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:myray_mobile/app/data/enums/enums.dart';
 import 'package:myray_mobile/app/data/models/payment_history/payment_history_models.dart';
 import 'package:myray_mobile/app/modules/payment_history/payment_history_module.dart';
 import 'package:myray_mobile/app/modules/payment_history/widgets/payment_basic_info.dart';
@@ -23,6 +24,8 @@ class PaymentHistoryDetailsView
   PaymentHistory get payment => controller.paymentHistory.value;
 
   bool get isMe => payment.createdBy == AuthCredentials.instance.user!.id;
+
+  Activities? get _action => Get.arguments[Arguments.action];
 
   @override
   Widget build(BuildContext context) {
@@ -53,13 +56,14 @@ class PaymentHistoryDetailsView
                 upgradingFee: payment.postTypePrice,
               ),
               const SizedBox(height: 8.0),
-              FeatureOption(
-                icon: CustomIcons.post,
-                title: AppStrings.titlePostInformation,
-                onTap: controller.viewJobPostDetails,
-                widthFactor: 0.9,
-                borderRadius: CommonConstants.borderRadius,
-              ),
+              if (_action == null || _action != Activities.view)
+                FeatureOption(
+                  icon: CustomIcons.post,
+                  title: AppStrings.titlePostInformation,
+                  onTap: controller.viewJobPostDetails,
+                  widthFactor: 0.9,
+                  borderRadius: CommonConstants.borderRadius,
+                ),
             ]
           ],
         ),

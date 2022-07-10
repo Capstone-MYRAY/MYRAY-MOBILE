@@ -4,9 +4,11 @@ import 'package:myray_mobile/app/data/enums/enums.dart';
 import 'package:myray_mobile/app/data/models/job_post/job_post.dart';
 import 'package:myray_mobile/app/data/models/job_post/pay_per_hour_job/pay_per_hour_job.dart';
 import 'package:myray_mobile/app/data/models/job_post/pay_per_task_job/pay_per_task_job.dart';
+import 'package:myray_mobile/app/data/models/payment_history/payment_history_models.dart';
 import 'package:myray_mobile/app/modules/job_post/controllers/landowner_job_post_details_controller.dart';
 import 'package:myray_mobile/app/modules/job_post/widgets/landowner_job_post_details/landowner_job_post_details.dart';
 import 'package:myray_mobile/app/modules/payment_history/widgets/payment_details_info.dart';
+import 'package:myray_mobile/app/routes/app_pages.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
 import 'package:myray_mobile/app/shared/utils/hex_color_extension.dart';
@@ -16,6 +18,7 @@ import 'package:myray_mobile/app/shared/widgets/builders/loading_builder.dart';
 import 'package:myray_mobile/app/shared/widgets/buttons/filled_button.dart';
 import 'package:myray_mobile/app/shared/widgets/cards/card_status_field.dart';
 import 'package:myray_mobile/app/shared/widgets/cards/feature_option.dart';
+import 'package:myray_mobile/app/shared/widgets/cards/my_card.dart';
 
 class LandownerJobPostDetailsView
     extends GetView<LandownerJobPostDetailsController> {
@@ -52,18 +55,20 @@ class LandownerJobPostDetailsView
               return ListEmptyBuilder(onRefresh: controller.onRefresh);
             }
 
-            return ListView(
-              shrinkWrap: true,
-              padding: const EdgeInsets.only(bottom: 16.0),
-              children: [
-                _buildWorkInformation(),
-                _buildWorkPlaceInformation(),
-                _buildPostInformation(),
-                _buildPaymentHistoryInformation(),
-                if (!_isFeatureNotDisplay) ..._buildFeatures(),
-                const SizedBox(height: 16.0),
-                ..._buildButtons(),
-              ],
+            return Obx(
+              () => ListView(
+                shrinkWrap: true,
+                padding: const EdgeInsets.only(bottom: 16.0),
+                children: [
+                  _buildWorkInformation(),
+                  _buildWorkPlaceInformation(),
+                  _buildPostInformation(),
+                  _buildPaymentHistoryInformation(),
+                  if (!_isFeatureNotDisplay) ..._buildFeatures(),
+                  const SizedBox(height: 16.0),
+                  ..._buildButtons(),
+                ],
+              ),
             );
           }),
     );
@@ -133,24 +138,44 @@ class LandownerJobPostDetailsView
     return ToggleInformation(
       tagName: 'PaymentInformation',
       title: AppStrings.titlePaymentInformation,
+      isCustom: true,
       child: Column(
-        children: controller.paymentHistories
-            .map(
-              (payment) => PaymentDetailsInfo(
-                postingFee: payment.jobPostPrice ?? 0,
-                numOfPostingDay: payment.numOfPublishDay ?? 0,
-                pointFee: payment.pointPrice ?? 0,
-                usedPoint: payment.usedPoint ?? 0,
-                earnedPoint: payment.earnedPoint ?? 0,
-                total: payment.balanceFluctuation ?? 0,
-                paymentId: payment.id.toString(),
-                numOfUpgradingDay: payment.totalPinDay ?? 0,
-                upgradingFee: payment.postTypePrice ?? 0,
-              ),
-            )
-            .toList(),
+        children: _buildPaymentHistoryItem(controller.paymentHistories),
       ),
     );
+  }
+
+  List<Widget> _buildPaymentHistoryItem(List<PaymentHistory> list) {
+    List<Widget> items = [];
+    for (int i = 0; i < list.length; i++) {
+      PaymentHistory payment = list[i];
+      bool hasBorder = i < list.length - 1;
+      items.add(
+        MyCard(
+          onTap: () {
+            Get.toNamed(Routes.paymentHistoryDetails, arguments: {
+              Arguments.tag: payment.id.toString(),
+              Arguments.item: payment,
+              Arguments.action: Activities.view,
+            });
+          },
+          margin: const EdgeInsets.all(0.0),
+          child: PaymentDetailsInfo(
+            postingFee: payment.jobPostPrice ?? 0,
+            numOfPostingDay: payment.numOfPublishDay ?? 0,
+            pointFee: payment.pointPrice ?? 0,
+            usedPoint: payment.usedPoint ?? 0,
+            earnedPoint: payment.earnedPoint ?? 0,
+            total: payment.balanceFluctuation ?? 0,
+            paymentId: payment.id.toString(),
+            numOfUpgradingDay: payment.totalPinDay ?? 0,
+            upgradingFee: payment.postTypePrice ?? 0,
+          ),
+        ),
+      );
+      if (hasBorder) items.add(const SizedBox(height: 8.0));
+    }
+    return items;
   }
 
   CardStatusField? _buildPostType() {
@@ -158,8 +183,12 @@ class LandownerJobPostDetailsView
       return CardStatusField(
         statusName: jobPost.postTypeName ?? '',
         title: 'Gói nâng cấp',
-        backgroundColor: HexColor.fromHex(jobPost.backgroundColor!),
-        foregroundColor: HexColor.fromHex(jobPost.foregroundColor!),
+        backgroundColor: jobPost.backgroundColor != null
+            ? HexColor.fromHex(jobPost.backgroundColor!)
+            : null,
+        foregroundColor: jobPost.foregroundColor != null
+            ? HexColor.fromHex(jobPost.foregroundColor!)
+            : null,
       );
     }
 
