@@ -11,6 +11,7 @@ import 'package:myray_mobile/app/modules/profile/controllers/landowner_profile_c
 import 'package:myray_mobile/app/routes/app_pages.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/utils/auth_credentials.dart';
+import 'package:myray_mobile/app/shared/utils/custom_exception.dart';
 import 'package:myray_mobile/app/shared/widgets/custom_snackbar.dart';
 import 'package:myray_mobile/app/shared/widgets/dialogs/custom_confirm_dialog.dart';
 
@@ -35,23 +36,33 @@ class LandownerJobPostDetailsController extends GetxController {
 
   viewGardenDetails() async {
     //get garden by id
-    Garden? garden = await _gardenRepository.getById(jobPost.value.gardenId);
+    try {
+      Garden? garden = await _gardenRepository.getById(jobPost.value.gardenId);
 
-    if (garden == null) {
-      CustomSnackbar.show(
-        title: AppStrings.titleError,
-        message: 'Có lỗi xảy ra',
-        backgroundColor: AppColors.errorColor,
-      );
+      if (garden == null) {
+        CustomSnackbar.show(
+          title: AppStrings.titleError,
+          message: 'Có lỗi xảy ra',
+          backgroundColor: AppColors.errorColor,
+        );
 
-      return;
+        return;
+      }
+
+      Get.toNamed(Routes.gardenDetails, arguments: {
+        Arguments.tag: garden.id.toString(),
+        Arguments.item: garden,
+        Arguments.action: Activities.view,
+      });
+    } on CustomException catch (e) {
+      if (e.message.contains('No content')) {
+        CustomSnackbar.show(
+          title: AppStrings.titleError,
+          message: 'Vườn này đã bị xóa nên không thể xem chi tiết',
+          backgroundColor: AppColors.errorColor,
+        );
+      }
     }
-
-    Get.toNamed(Routes.gardenDetails, arguments: {
-      Arguments.tag: garden.id.toString(),
-      Arguments.item: garden,
-      Arguments.action: Activities.view,
-    });
   }
 
   Future<bool?> getPaymentHistory() async {
@@ -132,6 +143,9 @@ class LandownerJobPostDetailsController extends GetxController {
 
           //update jobpost list
           _jobPostController.updateJobPosts(jobPost.value);
+
+          //update balance
+          _profile.calBalance();
 
           CustomSnackbar.show(
             title: AppStrings.titleSuccess,

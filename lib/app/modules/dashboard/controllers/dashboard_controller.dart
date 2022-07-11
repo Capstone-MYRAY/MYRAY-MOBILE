@@ -7,4 +7,10 @@ class DashboardController extends GetxController {
     tabIndex = index;
     update();
   }
+
+  @override
+  onClose() {
+    Get.deleteAll();
+    super.onClose();
+  }
 }

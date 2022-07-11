@@ -13,7 +13,6 @@ import 'package:myray_mobile/app/data/services/services.dart';
 import 'package:myray_mobile/app/modules/garden/controllers/garden_controllers.dart';
 import 'package:myray_mobile/app/modules/garden/garden_repository.dart';
 import 'package:myray_mobile/app/modules/garden/widgets/upload_image_holder.dart';
-import 'package:myray_mobile/app/modules/profile/controllers/landowner_profile_controller.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/utils/auth_credentials.dart';
 import 'package:myray_mobile/app/shared/utils/utils.dart';
@@ -306,10 +305,6 @@ class GardenFormController extends GetxController {
     //refresh garden list
     final _gardenHomeController = Get.find<GardenHomeController>();
     _gardenHomeController.onRefresh();
-
-    //update balance
-    final _profileController = Get.find<LandownerProfileController>();
-    _profileController.calBalance();
 
     Get.back();
     CustomSnackbar.show(

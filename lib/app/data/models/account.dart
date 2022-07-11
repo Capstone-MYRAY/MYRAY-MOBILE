@@ -31,6 +31,9 @@ class Account {
   @JsonKey(name: 'email')
   String? email;
 
+  @JsonKey(name: 'rating')
+  double? rating;
+
   @JsonKey(name: 'balance', defaultValue: 0)
   double? balance;
 
@@ -53,6 +56,7 @@ class Account {
     this.balance,
     this.point,
     this.aboutMe,
+    this.rating,
   });
 
   factory Account.fromJson(Map<String, dynamic> json) =>

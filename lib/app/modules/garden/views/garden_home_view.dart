@@ -29,49 +29,51 @@ class GardenHomeView extends GetView<GardenHomeController> {
               arguments: {Arguments.action: Activities.create});
         },
       ),
-      body: FutureBuilder(
-        future: controller.getGardens(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const LoadingBuilder();
-          }
+      body: GetBuilder<GardenHomeController>(
+        builder: (controller) => FutureBuilder(
+          future: controller.getGardens(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const LoadingBuilder();
+            }
 
-          if (snapshot.data == null) {
-            return ListEmptyBuilder(onRefresh: controller.onRefresh);
-          }
+            if (snapshot.data == null || controller.gardens.isEmpty) {
+              return ListEmptyBuilder(onRefresh: controller.onRefresh);
+            }
 
-          if (snapshot.hasData) {
-            return Obx(
-              () => LazyLoadingList(
-                onEndOfPage: controller.getGardens,
-                isLoading: controller.isLoading.value,
-                onRefresh: controller.onRefresh,
-                itemCount: controller.gardens.length,
-                itemBuilder: ((context, index) {
-                  Garden garden = controller.gardens[index];
-                  return GardenCard(
-                    key: ValueKey(garden.id),
-                    address: garden.address,
-                    gardenName: garden.name,
-                    landArea: garden.landArea,
-                    thumbnail: garden.imageUrl
-                        .split(CommonConstants.imageDelimiter)
-                        .first,
-                    onDetailsTap: () {
-                      Get.toNamed(Routes.gardenDetails, arguments: {
-                        Arguments.tag: garden.id.toString(),
-                        Arguments.item: garden,
-                      });
-                    },
-                    onDeleteTap: () => controller.onDeleteGarden(garden),
-                  );
-                }),
-              ),
-            );
-          }
+            if (snapshot.hasData && controller.gardens.isNotEmpty) {
+              return Obx(
+                () => LazyLoadingList(
+                  onEndOfPage: controller.getGardens,
+                  isLoading: controller.isLoading.value,
+                  onRefresh: controller.onRefresh,
+                  itemCount: controller.gardens.length,
+                  itemBuilder: ((context, index) {
+                    Garden garden = controller.gardens[index];
+                    return GardenCard(
+                      key: ValueKey(garden.id),
+                      address: garden.address,
+                      gardenName: garden.name,
+                      landArea: garden.landArea,
+                      thumbnail: garden.imageUrl
+                          .split(CommonConstants.imageDelimiter)
+                          .first,
+                      onDetailsTap: () {
+                        Get.toNamed(Routes.gardenDetails, arguments: {
+                          Arguments.tag: garden.id.toString(),
+                          Arguments.item: garden,
+                        });
+                      },
+                      onDeleteTap: () => controller.onDeleteGarden(garden),
+                    );
+                  }),
+                ),
+              );
+            }
 
-          return const SizedBox();
-        },
+            return const SizedBox();
+          },
+        ),
       ),
     );
   }

@@ -33,23 +33,25 @@ class LandownerJobPostView extends GetView<LandownerJobPostController> {
           controller.navigateToCreateForm();
         },
       ),
-      body: FutureBuilder(
-        future: controller.getJobPosts(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const LoadingBuilder();
-          }
+      body: GetBuilder<LandownerJobPostController>(
+        builder: (controller) => FutureBuilder(
+          future: controller.getJobPosts(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const LoadingBuilder();
+            }
 
-          if (snapshot.data == null) {
-            return ListEmptyBuilder(onRefresh: controller.onRefresh);
-          }
+            if (snapshot.data == null) {
+              return ListEmptyBuilder(onRefresh: controller.onRefresh);
+            }
 
-          if (snapshot.hasData) {
-            return _buildContent();
-          }
+            if (snapshot.hasData) {
+              return _buildContent();
+            }
 
-          return const SizedBox();
-        },
+            return const SizedBox();
+          },
+        ),
       ),
     );
   }

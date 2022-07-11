@@ -127,6 +127,7 @@ class AppStrings {
   static const labelOnLeaveEndDate = 'Ngày nghỉ kết thúc';
   static const labelNewExtendJobDate = 'Ngày kết thúc mới';
   static const labelOldExtendJobDate = 'Ngày kết thúc cũ';
+  static const labelAppliedDate = 'Ngày ứng tuyển';
 
   //Placeholder
   static const placeholderPhone = 'Nhập số điện thoại';
