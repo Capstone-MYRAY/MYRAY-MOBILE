@@ -8,7 +8,7 @@ part of 'applied_job_request.dart';
 
 AppliedJobRequest _$AppliedJobRequestFromJson(Map<String, dynamic> json) =>
     AppliedJobRequest(
-      status: $enumDecodeNullable(_$AppliedJobStatusEnumMap, json['status']),
+      status: $enumDecodeNullable(_$AppliedFarmerStatusEnumMap, json['status']),
       startWork: json['startWork'] as String?,
       page: json['page'] as String,
       pageSize: json['page-size'] as String,
@@ -23,16 +23,16 @@ Map<String, dynamic> _$AppliedJobRequestToJson(AppliedJobRequest instance) {
     }
   }
 
-  writeNotNull('status', _$AppliedJobStatusEnumMap[instance.status]);
+  writeNotNull('status', _$AppliedFarmerStatusEnumMap[instance.status]);
   val['page'] = instance.page;
   val['page-size'] = instance.pageSize;
   writeNotNull('startWork', instance.startWork);
   return val;
 }
 
-const _$AppliedJobStatusEnumMap = {
-  AppliedJobStatus.pending: 'pending',
-  AppliedJobStatus.approve: 'approve',
-  AppliedJobStatus.reject: 'reject',
-  AppliedJobStatus.end: 'end',
+const _$AppliedFarmerStatusEnumMap = {
+  AppliedFarmerStatus.pending: 'Pending',
+  AppliedFarmerStatus.approved: 'Approve',
+  AppliedFarmerStatus.rejected: 'Reject',
+  AppliedFarmerStatus.end: 'End',
 };
