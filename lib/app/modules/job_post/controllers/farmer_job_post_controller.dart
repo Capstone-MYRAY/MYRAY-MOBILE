@@ -41,6 +41,7 @@ class FarmerJobPostController extends GetxController
             ),
           ]);
 
+  
   @override
   void onInit() {
     super.onInit();

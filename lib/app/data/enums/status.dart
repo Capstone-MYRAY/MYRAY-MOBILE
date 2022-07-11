@@ -30,3 +30,10 @@ enum GardenStatus {
   inActive,
   active,
 }
+
+enum AppliedJobStatus{
+  pending,
+  approve,
+  reject,
+  end
+}

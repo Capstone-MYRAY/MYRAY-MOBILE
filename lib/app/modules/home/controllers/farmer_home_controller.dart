@@ -49,12 +49,13 @@ class FarmerHomeController extends GetxController {
 
   getListJobPost() async {
     GetRequestJobPostList data = GetRequestJobPostList(
-      status: "2",
-      page: (++_currentPage).toString(),
-      pageSize: (_pageSize).toString(),
-      sortColumn: JobPostSortColumn.createdDate,
-      orderBy: SortOrder.descending
-    );
+        status: "4",
+        page: (++_currentPage).toString(),
+        pageSize: (_pageSize).toString(),
+        // sortColumn: JobPostSortColumn.createdDate,
+        // page: "1",
+        orderBy: SortOrder.descending
+        );
 
     isLoading.value = true;
     JobPostResponse? response = await _repository.getJobPostList(data);
@@ -66,20 +67,21 @@ class FarmerHomeController extends GetxController {
     //   isLoading.value = false;
     // }
 
-    try{
-      if(_hasNextpage){
+    try {
+      if (_hasNextpage) {
         final _response = await _repository.getJobPostList(data);
-        if(_response == null || _response.listJobPost.isEmpty){
+        if (_response == null || _response.listJobPost.isEmpty) {
           isLoading(false);
           return null;
         }
         listObject.addAll(_response.listJobPost);
         secondObject.addAll(_response.secondObject!);
-        _hasNextpage = _response.pagingMetadata.hasNextPage;    
+        _hasNextpage = _response.pagingMetadata.hasNextPage;
+        print('second object: ${secondObject.length}');
       }
       isLoading.value = false;
       return true;
-    }on CustomException catch (e){
+    } on CustomException catch (e) {
       isLoading.value = false;
       _hasNextpage = false;
       return null;
