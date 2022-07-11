@@ -111,8 +111,7 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
                                                                 .type ??
                                                             "Không phân loại", //no
                                                     workType:
-                                                        AppStrings.payPerHour +
-                                                            '/ngày',
+                                                        AppStrings.payPerHour,
                                                     isStatus: true,
                                                     expiredDate: DateFormat(
                                                             'dd-MM-yyyy')

@@ -10,6 +10,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
   final bool? isDisableOutlineButton;
   final bool? isDisableFilledButton;
   final bool? isChangedState;
+  final bool? isExpired;
   const CustomBottomNavigationBar({
     Key? key,
     this.onPressedOutlineButton,
@@ -17,6 +18,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
     this.isDisableOutlineButton = false,
     this.isDisableFilledButton = false,
     this.isChangedState = false,
+    this.isExpired = false,
   }) : super(key: key);
 
   @override
@@ -36,7 +38,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
           ),
           Flexible(
             child: FilledButton(
-              title: AppStrings.shortApplyButton,
+              title: isExpired! ? 'Hết hạn' : AppStrings.shortApplyButton,
               onPressed: onPressedFilledButton,
             ),
           ),

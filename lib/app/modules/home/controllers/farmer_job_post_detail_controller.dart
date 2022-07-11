@@ -14,6 +14,7 @@ class FarmerJobPostDetailController extends GetxController {
   final _accountRepository = Get.find<ProfileRepository>();
   final JobPost jobPost;
   final isApplied = false.obs;
+  final isAppliedHourJob = false.obs;
   Rx<FarmerJobPostDetailResponse>? detailPost;
   Rx<Account>? landownerAccount;
 
@@ -24,6 +25,7 @@ class FarmerJobPostDetailController extends GetxController {
     super.onInit();
     _getLanownerAccount(jobPost.publishedBy);
     _checkFarmerAppliedOrNot(jobPost.id);
+    checkAppliedHourJob();
   }
 
 
@@ -41,6 +43,28 @@ class FarmerJobPostDetailController extends GetxController {
         landownerAccount = value.obs,       
       },        
     },); 
+  }
+
+  //Check farmer apply to hour job or not
+  checkAppliedHourJob() async {
+    final isApplied =  await _jobPostRepository.checkAppliedHourJob();
+    isAppliedHourJob(isApplied);
+    isAppliedHourJob.value ? print("Đã ứng tuyển một job công khác ? ") : print ('Chưa ứng tuyển');
+  }
+
+  getExpiredDate(DateTime publishedDate, int numberPublishDate) {
+    var publishDate = publishedDate.toLocal();
+    var expiredDate = DateTime(publishDate.year, publishDate.month,
+        publishDate.day + numberPublishDate - 1);
+    return expiredDate;
+  }
+
+  checkExpiredDate(DateTime expiredDate) {
+    var now = DateTime.now().toLocal();
+    if (now.compareTo(expiredDate) > 0) {
+      return true;
+    }
+    return false;
   }
 
   applyJob(int idJobPost) async {

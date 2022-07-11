@@ -11,28 +11,43 @@ import 'package:myray_mobile/app/shared/utils/utils.dart';
 import 'package:myray_mobile/app/shared/widgets/builders/loading_builder.dart';
 import 'package:myray_mobile/app/shared/widgets/dialogs/custom_confirm_dialog.dart';
 import 'package:myray_mobile/app/data/models/job_post/farmer_job_post_detail_response.dart';
+import 'package:myray_mobile/app/shared/widgets/dialogs/information_dialog.dart';
 
 class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
   const FarmerJobPostDetail({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final isExpired = controller.checkExpiredDate(controller.getExpiredDate(
+        controller.jobPost.publishedDate, controller.jobPost.numOfPublishDay));
     return Scaffold(
       appBar: AppBar(
         title: const Text(AppStrings.titleJobPostDetail),
         foregroundColor: AppColors.primaryColor,
         centerTitle: true,
       ),
-      bottomNavigationBar: 
-      Obx(
-        () => controller.isApplied.value
+      bottomNavigationBar: Obx(
+        () => controller.isApplied.value || isExpired
             ? CustomBottomNavigationBar(
+                isExpired: isExpired,
                 onPressedOutlineButton: () {},
               )
-            :
-             CustomBottomNavigationBar(
+            : CustomBottomNavigationBar(
+                isExpired: isExpired,
+                // isExpired: false,
                 onPressedOutlineButton: () {},
                 onPressedFilledButton: () {
+                  if (controller.jobPost.type == 'PayPerHourJob') {
+                    controller.checkAppliedHourJob();
+                    if (controller.isAppliedHourJob.value) {
+                      InformationDialog.showDialog(
+                        msg:
+                            ' Bạn đã ứng tuyển một công việc có loại hình là làm công',
+                        confirmTitle: "Đóng",
+                      );
+                      return;
+                    }
+                  }
                   CustomDialog.show(
                       confirm: () => controller.applyJob(controller.jobPost.id),
                       message:
@@ -218,7 +233,7 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
                       ),
                       Text(
                         DateFormat('dd-MM-yyyy')
-                                .format(controller.jobPost.jobStartDate),
+                            .format(controller.jobPost.jobStartDate),
                         style: TextStyle(
                           fontSize: Get.textScaleFactor * 15,
                         ),
@@ -257,8 +272,8 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
                     Flexible(
                         child: Text(
                       controller.detailPost!.value.description.isEmpty
-                        ?  "Không có mô tả"
-                        : controller.detailPost!.value.description,
+                          ? "Không có mô tả"
+                          : controller.detailPost!.value.description,
                       maxLines: 10,
                       softWrap: true,
                       style: Get.textTheme.bodyText2?.copyWith(

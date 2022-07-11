@@ -148,4 +148,10 @@ class JobPostRepository {
   // Future<Report?> reportJob(int jobId){
   //   final response = await _apiProvider.getMethod('$JOB_POST_URL/report');
   // }
+  Future<bool?> checkAppliedHourJob() async {
+    final response = await _apiProvider.getMethod('$JOB_POST_URL/checkappliedhourjob');
+    print("applied hour job or not: ${response.body}");
+    return response.body;
+    
+  }
 }

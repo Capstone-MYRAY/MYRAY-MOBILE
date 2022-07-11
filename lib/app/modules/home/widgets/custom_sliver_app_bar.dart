@@ -7,12 +7,14 @@ class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   final double heightOfScreen;
   final String? titleFloatingCard;
   final bool? isChangedState;
+  final bool? isExpired;
 
   const CustomSliverAppBarDelegate({
     required this.expandedHeight,
     required this.heightOfScreen,
     this.titleFloatingCard = "Tiêu đề bài đăng",
     this.isChangedState,
+    this.isExpired = false,
   });
 
   @override
@@ -63,7 +65,7 @@ class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
                   child: Column(children: [
                     buildButton(
                       text: titleFloatingCard!,
-                      isChangedState: isChangedState!,
+                      // isChangedState: isChangedState!,
                     ),
                   ]),
                 ),
@@ -73,7 +75,7 @@ class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
         ),
       );
 
-  Widget buildButton({required String text, required bool isChangedState}) {    
+  Widget buildButton({required String text}) {    
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -103,28 +105,28 @@ class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
             // SizedBox(height: 10),
           ]),
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(
-              Icons.history,
-              size: 15,
-              color: AppColors.primaryColor,
-            ),
-            const SizedBox(
-              width: 10,
-            ),
-            Text(
-              isChangedState ? 'Đã ứng tuyển' : "Ngày hết hạn",
-              style: Get.textTheme.caption!.copyWith(
-                color: AppColors.primaryColor,
-                fontStyle: FontStyle.italic,
-                fontWeight: FontWeight.bold
-              ),
-            )
-          ],
-        ),
-        const SizedBox(height: 10),
+        // Row(
+        //   mainAxisAlignment: MainAxisAlignment.center,
+        //   children: [
+        //     const Icon(
+        //       Icons.history,
+        //       size: 15,
+        //       color: AppColors.primaryColor,
+        //     ),
+        //     const SizedBox(
+        //       width: 10,
+        //     ),
+        //     Text(
+        //       isChangedState ? 'Đã ứng tuyển' : "Ngày hết hạn",
+        //       style: Get.textTheme.caption!.copyWith(
+        //         color: AppColors.primaryColor,
+        //         fontStyle: FontStyle.italic,
+        //         fontWeight: FontWeight.bold
+        //       ),
+        //     )
+        //   ],
+        // ),
+        // const SizedBox(height: 10),
       ],
     );
   }

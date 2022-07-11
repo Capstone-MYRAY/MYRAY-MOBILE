@@ -10,6 +10,8 @@ class UploadImageService {
     final formData = FormData({'formFiles': images});
     final response = await _apiProvider.multipartFile('/File', formData);
     print('Upload: ${response.body}');
+    print('Status code: ${response.request!.url}');
+    
     if (response.statusCode == HttpStatus.ok) {
       return UploadImageResponse.fromJson(response.body);
     }
