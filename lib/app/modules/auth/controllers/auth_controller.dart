@@ -9,6 +9,8 @@ class AuthController extends GetxController with StorageProvider {
     isLogged.value = false;
     removeToken();
     AuthCredentials.instance.clearUserInfor();
+
+    //
   }
 
   Future<void> login(String token, String refreshToken) async {

@@ -1,3 +1,5 @@
+import 'package:json_annotation/json_annotation.dart';
+
 enum JobPostStatus {
   deleted,
   pending,
@@ -31,9 +33,13 @@ enum GardenStatus {
   active,
 }
 
-enum AppliedJobStatus{
+enum AppliedFarmerStatus {
+  @JsonValue('Pending')
   pending,
-  approve,
-  reject,
-  end
+  @JsonValue('Approve')
+  approved,
+  @JsonValue('Reject')
+  rejected,
+  @JsonValue('End')
+  end,
 }

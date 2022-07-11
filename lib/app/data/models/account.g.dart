@@ -21,6 +21,7 @@ Account _$AccountFromJson(Map<String, dynamic> json) => Account(
       balance: (json['balance'] as num?)?.toDouble() ?? 0,
       point: json['point'] as int? ?? 0,
       aboutMe: json['about_me'] as String?,
+      rating: (json['rating'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$AccountToJson(Account instance) {
@@ -41,6 +42,7 @@ Map<String, dynamic> _$AccountToJson(Account instance) {
   writeNotNull('address', instance.address);
   writeNotNull('phone_number', instance.phoneNumber);
   writeNotNull('email', instance.email);
+  writeNotNull('rating', instance.rating);
   writeNotNull('balance', instance.balance);
   writeNotNull('point', instance.point);
   writeNotNull('about_me', instance.aboutMe);

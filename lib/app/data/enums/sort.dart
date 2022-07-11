@@ -67,3 +67,14 @@ enum PaymentHistorySortColumn {
   @JsonValue('CreatedDate')
   createdDate,
 }
+
+enum AppliedFarmerSortColumn {
+  @JsonValue('AppliedDate')
+  appliedDate,
+  @JsonValue('ApprovedDate')
+  approvedDate,
+  @JsonValue('StartDate')
+  startDate,
+  @JsonValue('EndDate')
+  endDate,
+}

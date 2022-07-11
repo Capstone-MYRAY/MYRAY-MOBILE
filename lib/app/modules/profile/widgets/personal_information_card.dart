@@ -48,7 +48,7 @@ class PersonalInformation extends StatelessWidget {
                   const SizedBox(height: 24.0),
                   CardFieldNoIcon(
                     title: 'Giới tính',
-                    data: user.value.gender.toString(),
+                    data: user.value.genderString,
                   ),
                   const SizedBox(height: 24.0),
                   CardFieldNoIcon(

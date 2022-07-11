@@ -22,6 +22,7 @@ abstract class Routes {
   static const landownerJobPostDetails = _Paths.landownerJobPostDetails;
   static const paymentHistoryHome = _Paths.paymentHistoryHome;
   static const paymentHistoryDetails = _Paths.paymentHistoryDetails;
+  static const appliedFarmerDetails = _Paths.appliedFarmerDetails;
 
   //farmer
   static const farmerDashboard = _Paths.farmerDashboard;
@@ -52,6 +53,7 @@ abstract class _Paths {
   static const landownerJobPostDetails = '$_landowner/job_post_details';
   static const paymentHistoryHome = '$_landowner/payment_history_home';
   static const paymentHistoryDetails = '$_landowner/payment_history_details';
+  static const appliedFarmerDetails = '$_landowner/applied_farmer_details';
 
   //farmer views
   static const farmerDashboard = '$_farmer/dashboard';

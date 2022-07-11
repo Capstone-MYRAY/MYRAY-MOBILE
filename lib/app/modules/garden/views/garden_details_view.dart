@@ -91,7 +91,7 @@ class GardenDetailsView extends GetView<GardenDetailsController> {
                   if (controller.action == null)
                     FilledButton(
                       title: AppStrings.titleDelete,
-                      onPressed: () {},
+                      onPressed: controller.onDeleteGarden,
                       color: AppColors.errorColor,
                     ),
                 ]),

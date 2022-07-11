@@ -8,6 +8,8 @@ class StatusChip extends StatelessWidget {
   final Color? backgroundColor;
   final Color? foregroundColor;
   final EdgeInsetsGeometry? padding;
+  final BoxBorder? border;
+  final double? fontSize;
 
   const StatusChip({
     Key? key,
@@ -16,6 +18,8 @@ class StatusChip extends StatelessWidget {
     this.backgroundColor,
     this.foregroundColor,
     this.padding,
+    this.border,
+    this.fontSize,
   }) : super(key: key);
 
   @override
@@ -23,6 +27,7 @@ class StatusChip extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(borderRadius ?? 10),
+        border: border,
         color: backgroundColor ?? AppColors.grey,
       ),
       padding: padding ??
@@ -36,6 +41,7 @@ class StatusChip extends StatelessWidget {
         style: Get.textTheme.bodyText2!.copyWith(
           fontWeight: FontWeight.w600,
           letterSpacing: 0.45,
+          fontSize: fontSize,
           color: foregroundColor ?? AppColors.white,
         ),
       ),
