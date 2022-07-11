@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:myray_mobile/app/data/enums/sort.dart';
 import 'package:myray_mobile/app/data/enums/status.dart';
 import 'package:myray_mobile/app/data/models/applied_farmer/applied_farmer_models.dart';
 import 'package:myray_mobile/app/modules/applied_farmer/applied_farmer_repository.dart';
@@ -20,6 +21,8 @@ class AppliedFarmerController extends GetxController {
       status: AppliedFarmerStatus.pending,
       page: (++_currentPage).toString(),
       pageSize: (_pageSize).toString(),
+      sortColumn: AppliedFarmerSortColumn.appliedDate,
+      orderBy: SortOrder.descending,
     );
 
     //load applied farmer
@@ -55,5 +58,9 @@ class AppliedFarmerController extends GetxController {
     appliedFarmers.clear();
 
     update();
+  }
+
+  removeItem(AppliedFarmer appliedFarmer) {
+    appliedFarmers.remove(appliedFarmer);
   }
 }

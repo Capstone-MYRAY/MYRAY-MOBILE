@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:myray_mobile/app/data/models/applied_farmer/applied_farmer.dart';
 import 'package:myray_mobile/app/modules/applied_farmer/controllers/applied_farmer_controller.dart';
 import 'package:myray_mobile/app/modules/applied_farmer/widgets/applied_farmer_card.dart';
+import 'package:myray_mobile/app/routes/app_pages.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/widgets/builders/list_empty_builder.dart';
 import 'package:myray_mobile/app/shared/widgets/builders/loading_builder.dart';
@@ -49,6 +50,15 @@ class AppliedFarmerView extends StatelessWidget {
                       avatar: appliedFarmer.userInfo.imageUrl,
                       workTitle: appliedFarmer.jobPost.title,
                       appliedDate: appliedFarmer.appliedDate,
+                      onDetailsPress: () {
+                        Get.toNamed(
+                          Routes.appliedFarmerDetails,
+                          arguments: {
+                            Arguments.tag: appliedFarmer.id.toString(),
+                            Arguments.item: appliedFarmer,
+                          },
+                        );
+                      },
                     );
                   }),
                 ),

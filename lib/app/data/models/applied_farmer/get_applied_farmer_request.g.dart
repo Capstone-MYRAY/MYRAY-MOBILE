@@ -13,6 +13,9 @@ GetAppliedFarmerRequest _$GetAppliedFarmerRequestFromJson(
       pageSize: json['page-size'] as String,
       status: $enumDecodeNullable(_$AppliedFarmerStatusEnumMap, json['status']),
       jobPostId: json['startWork'] as String?,
+      sortColumn: $enumDecodeNullable(
+          _$AppliedFarmerSortColumnEnumMap, json['sort-column']),
+      orderBy: $enumDecodeNullable(_$SortOrderEnumMap, json['order-by']),
     );
 
 Map<String, dynamic> _$GetAppliedFarmerRequestToJson(
@@ -29,12 +32,27 @@ Map<String, dynamic> _$GetAppliedFarmerRequestToJson(
   val['page'] = instance.page;
   val['page-size'] = instance.pageSize;
   writeNotNull('startWork', instance.jobPostId);
+  writeNotNull(
+      'sort-column', _$AppliedFarmerSortColumnEnumMap[instance.sortColumn]);
+  writeNotNull('order-by', _$SortOrderEnumMap[instance.orderBy]);
   return val;
 }
 
 const _$AppliedFarmerStatusEnumMap = {
   AppliedFarmerStatus.pending: 'Pending',
-  AppliedFarmerStatus.approve: 'Approve',
-  AppliedFarmerStatus.reject: 'Reject',
+  AppliedFarmerStatus.approved: 'Approve',
+  AppliedFarmerStatus.rejected: 'Reject',
   AppliedFarmerStatus.end: 'End',
+};
+
+const _$AppliedFarmerSortColumnEnumMap = {
+  AppliedFarmerSortColumn.appliedDate: 'AppliedDate',
+  AppliedFarmerSortColumn.approvedDate: 'ApprovedDate',
+  AppliedFarmerSortColumn.startDate: 'StartDate',
+  AppliedFarmerSortColumn.endDate: 'EndDate',
+};
+
+const _$SortOrderEnumMap = {
+  SortOrder.ascending: 'ASC',
+  SortOrder.descending: 'DESC',
 };

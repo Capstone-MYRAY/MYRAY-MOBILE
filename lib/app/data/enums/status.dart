@@ -37,9 +37,9 @@ enum AppliedFarmerStatus {
   @JsonValue('Pending')
   pending,
   @JsonValue('Approve')
-  approve,
+  approved,
   @JsonValue('Reject')
-  reject,
+  rejected,
   @JsonValue('End')
   end,
 }

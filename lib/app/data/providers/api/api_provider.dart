@@ -22,7 +22,7 @@ class ApiProvider extends BaseProvider {
     return post(path, data);
   }
 
-  Future<Response> patchMethod(String path, Map<String, dynamic>? data) {
+  Future<Response> patchMethod(String path, {Map<String, dynamic>? data}) {
     return patch(path, data);
   }
 

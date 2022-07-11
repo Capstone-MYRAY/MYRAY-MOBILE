@@ -14,7 +14,7 @@ class RatingStar extends StatelessWidget {
   const RatingStar({
     Key? key,
     this.itemCount = 5,
-    this.rating = 5,
+    this.rating = 5.0,
     this.itemSize = 24.0,
     this.padding = EdgeInsets.zero,
     this.full = const Icon(

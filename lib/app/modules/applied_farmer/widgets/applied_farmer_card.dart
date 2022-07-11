@@ -6,6 +6,7 @@ import 'package:myray_mobile/app/shared/utils/utils.dart';
 import 'package:myray_mobile/app/shared/widgets/buttons/filled_button.dart';
 import 'package:myray_mobile/app/shared/widgets/cards/card_field.dart';
 import 'package:myray_mobile/app/shared/widgets/cards/my_card.dart';
+import 'package:myray_mobile/app/shared/widgets/custom_circle_avatar.dart';
 import 'package:myray_mobile/app/shared/widgets/rating_star.dart';
 
 class AppliedFarmerCard extends StatelessWidget {
@@ -14,12 +15,17 @@ class AppliedFarmerCard extends StatelessWidget {
   final String phone;
   final String workTitle;
   final DateTime appliedDate;
+  final double? rating;
+  final void Function()? onDetailsPress;
+
   const AppliedFarmerCard({
     Key? key,
     required this.fullName,
     required this.phone,
     required this.workTitle,
     required this.appliedDate,
+    this.rating,
+    this.onDetailsPress,
     this.avatar,
   }) : super(key: key);
 
@@ -34,13 +40,7 @@ class AppliedFarmerCard extends StatelessWidget {
               flex: 4,
               child: Column(
                 children: [
-                  CircleAvatar(
-                    backgroundImage: avatar != null
-                        ? NetworkImage(avatar!)
-                        : const AssetImage(AppAssets.tempAvatar)
-                            as ImageProvider,
-                    radius: 24,
-                  ),
+                  CustomCircleAvatar(url: avatar, radius: 28),
                   const SizedBox(height: 4.0),
                   Text(
                     fullName,
@@ -54,9 +54,10 @@ class AppliedFarmerCard extends StatelessWidget {
                       fontWeight: FontWeight.w400,
                     ),
                   ),
-                  const RatingStar(
+                  const SizedBox(height: 2),
+                  RatingStar(
                     itemCount: 5,
-                    rating: 1.5,
+                    rating: rating ?? 0.0,
                   ),
                 ],
               ),
@@ -80,7 +81,7 @@ class AppliedFarmerCard extends StatelessWidget {
                   const SizedBox(height: 16.0),
                   FilledButton(
                     title: AppStrings.titleDetails,
-                    onPressed: () {},
+                    onPressed: onDetailsPress,
                     minWidth: Get.width * 0.3,
                     padding: const EdgeInsets.symmetric(
                       vertical: 4.0,

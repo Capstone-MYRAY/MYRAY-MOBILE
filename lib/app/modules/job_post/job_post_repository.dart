@@ -129,7 +129,7 @@ class JobPostRepository {
 
   Future<dynamic> applyJob(int data) async {
     final response = await _apiProvider
-        .patchMethod('$JOB_POST_URL/apply/$data', {'jobPostId': data});
+        .patchMethod('$JOB_POST_URL/apply/$data', data: {'jobPostId': data});
     print(response.request!.url);
     if (response.statusCode == HttpStatus.ok) {
       return true;

@@ -23,4 +23,22 @@ class AppliedFarmerRepository {
 
     return null;
   }
+
+  Future<bool> approveFarmer(int appliedId) async {
+    final response =
+        await _apiProvider.patchMethod('/jobpost/approve/$appliedId');
+
+    if (response.isOk) return true;
+
+    return false;
+  }
+
+  Future<bool> rejectFarmer(int appliedId) async {
+    final response =
+        await _apiProvider.patchMethod('/jobpost/reject/$appliedId');
+
+    if (response.isOk) return true;
+
+    return false;
+  }
 }

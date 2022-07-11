@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:myray_mobile/app/data/enums/sort.dart';
 import 'package:myray_mobile/app/data/enums/status.dart';
 
 part 'get_applied_farmer_request.g.dart';
@@ -17,11 +18,19 @@ class GetAppliedFarmerRequest {
   @JsonKey(name: 'startWork')
   String? jobPostId;
 
+  @JsonKey(name: 'sort-column')
+  AppliedFarmerSortColumn? sortColumn;
+
+  @JsonKey(name: 'order-by')
+  SortOrder? orderBy;
+
   GetAppliedFarmerRequest({
     required this.page,
     required this.pageSize,
     this.status,
     this.jobPostId,
+    this.sortColumn,
+    this.orderBy,
   });
 
   factory GetAppliedFarmerRequest.fromJson(Map<String, dynamic> json) =>

@@ -53,6 +53,8 @@ class AppStrings {
   static const titleReason = 'Lý do';
   static const titleUpdateJobEndDate = 'Cập nhật ngày kết thúc';
   static const titleExtendPostEndDate = 'Gia hạn bài đăng';
+  static const titleHire = 'Thuê';
+  static const titleRefuse = 'Từ chối';
 
   //Subtitle
   static const subtitleMyGarden = 'Danh sách vườn đã tạo';
@@ -185,6 +187,9 @@ class AppStrings {
   static const payPerHour = 'Làm công';
   static const noData = 'Không có dữ liệu';
   static const noMarkedJobPost = "Không có bài viết nào nổi bật";
+  static const male = 'Nam';
+  static const female = 'Nữ';
+  static const other = 'Khác';
 
   //Tooltip
   static const tooltipUpdateBalance = 'Cập nhật số dư';
@@ -204,6 +209,11 @@ class AppStrings {
   static const paymentHistorySuccess = 'Giao dịch thành công';
   static const paymentHistoryPending = 'Đang xử lý';
   static const paymentHistoryFailed = 'Giao dịch thất bại';
+
+  static const appliedFarmerPending = 'Chờ duyệt';
+  static const appliedFarmerApproved = 'Đã thuê';
+  static const appliedFarmerRejected = 'Đã từ chối';
+  static const appliedFarmerEnd = 'Đã kết thúc';
 
   //Replaced String
   static const nullFullName = "Người dùng";
