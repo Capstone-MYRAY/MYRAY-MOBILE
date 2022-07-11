@@ -1,4 +1,7 @@
 import 'package:get/get.dart';
+import 'package:myray_mobile/app/modules/applied_farmer/bindings/applied_farmer_binding.dart';
+import 'package:myray_mobile/app/modules/applied_farmer/bindings/applied_farmer_details_binding.dart';
+import 'package:myray_mobile/app/modules/applied_farmer/views/applied_farmer_details_view.dart';
 import 'package:myray_mobile/app/modules/auth/auth.dart';
 import 'package:myray_mobile/app/modules/auth/views/enter_password_view.dart';
 import 'package:myray_mobile/app/modules/dashboard/bindings/dashboard_binding.dart';
@@ -117,6 +120,11 @@ class AppPages {
       name: _Paths.paymentHistoryDetails,
       page: () => const PaymentHistoryDetailsView(),
       binding: PaymentHistoryDetailsBinding(),
+    ),
+    GetPage(
+      name: _Paths.appliedFarmerDetails,
+      page: () => const AppliedFarmerDetailsView(),
+      binding: AppliedFarmerDetailsBinding(),
     ),
 
     //farmer

@@ -38,9 +38,7 @@ class LandownerJobPostDetailsView
 
   bool get _isStartJob => jobPost.workStatus == JobPostWorkStatus.started.index;
 
-  bool get _isApproved =>
-      jobPost.status == JobPostStatus.approved.index ||
-      jobPost.status == JobPostStatus.posted.index;
+  bool get _isApproved => jobPost.status == JobPostStatus.approved.index;
 
   @override
   Widget build(BuildContext context) {

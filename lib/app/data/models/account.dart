@@ -1,4 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:myray_mobile/app/data/enums/genders.dart';
+import 'package:myray_mobile/app/shared/constants/constants.dart';
 
 part 'account.g.dart';
 
@@ -31,6 +33,9 @@ class Account {
   @JsonKey(name: 'email')
   String? email;
 
+  @JsonKey(name: 'rating')
+  double? rating;
+
   @JsonKey(name: 'balance', defaultValue: 0)
   double? balance;
 
@@ -53,9 +58,23 @@ class Account {
     this.balance,
     this.point,
     this.aboutMe,
+    this.rating,
   });
 
   factory Account.fromJson(Map<String, dynamic> json) =>
       _$AccountFromJson(json);
+
   Map<String, dynamic> toJson() => _$AccountToJson(this);
+
+  String get roleName => roleId == CommonConstants.landownerRoleId
+      ? AppStrings.landowner
+      : AppStrings.farmer;
+
+  String get genderString => _genders[gender] ?? AppStrings.other;
 }
+
+Map<int, String> _genders = {
+  Genders.male.index: AppStrings.male,
+  Genders.female.index: AppStrings.female,
+  Genders.other.index: AppStrings.other,
+};
