@@ -1,13 +1,13 @@
 
 import 'package:json_annotation/json_annotation.dart';
-import 'package:myray_mobile/app/data/enums/enums.dart';
+import 'package:myray_mobile/app/data/enums/status.dart';
 part 'applied_job_request.g.dart';
 
 @JsonSerializable(includeIfNull: false)
 class AppliedJobRequest{
 
   @JsonKey(name: 'status')
-  AppliedJobStatus? status;
+  AppliedFarmerStatus? status;
 
   @JsonKey(name: 'page')
   String page;
