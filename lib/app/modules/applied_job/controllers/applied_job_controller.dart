@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:myray_mobile/app/data/enums/enums.dart';
+import 'package:myray_mobile/app/data/models/applied_job/get_applied_job_request.dart';
 import 'package:myray_mobile/app/data/models/applied_job/get_applied_job_response.dart';
 import 'package:myray_mobile/app/data/models/job_post/get_request_job_post_list.dart';
 import 'package:myray_mobile/app/modules/applied_job/applied_job_repository.dart';
@@ -87,11 +89,16 @@ class AppliedJobController extends GetxController
       page: (++_currentPage).toString(),
       pageSize: (_pageSize).toString(),
     );
+    GetAppliedJobRequest data1 = GetAppliedJobRequest(
+      status: AppliedFarmerStatus.pending,
+      page: (++_currentPage).toString(),
+      pageSize: (_pageSize).toString(),
+    );
 
     isLoading.value = true;
     try {
       if (_hasNextPage) {
-        list = await _appliedRepository.getAppliedJobList(data);
+        list = await _appliedRepository.getAppliedJobList(data1);
         isRefresh(true);
         if (list == null || list.listObject!.isEmpty) {
           isLoading.value = false;

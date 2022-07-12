@@ -1,20 +1,23 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'applied_job_request.dart';
+part of 'get_applied_job_request.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-AppliedJobRequest _$AppliedJobRequestFromJson(Map<String, dynamic> json) =>
-    AppliedJobRequest(
+GetAppliedJobRequest _$AppliedJobRequestFromJson(Map<String, dynamic> json) =>
+    GetAppliedJobRequest(
       status: $enumDecodeNullable(_$AppliedFarmerStatusEnumMap, json['status']),
       startWork: json['startWork'] as String?,
+      sortColumn: $enumDecodeNullable(
+          _$AppliedFarmerSortColumnEnumMap, json['sort-column']),
+      orderBy: $enumDecodeNullable(_$SortOrderEnumMap, json['order-by']),
       page: json['page'] as String,
       pageSize: json['page-size'] as String,
     );
 
-Map<String, dynamic> _$AppliedJobRequestToJson(AppliedJobRequest instance) {
+Map<String, dynamic> _$AppliedJobRequestToJson(GetAppliedJobRequest instance) {
   final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {
@@ -26,6 +29,9 @@ Map<String, dynamic> _$AppliedJobRequestToJson(AppliedJobRequest instance) {
   writeNotNull('status', _$AppliedFarmerStatusEnumMap[instance.status]);
   val['page'] = instance.page;
   val['page-size'] = instance.pageSize;
+  writeNotNull(
+      'sort-column', _$AppliedFarmerSortColumnEnumMap[instance.sortColumn]);
+  writeNotNull('order-by', _$SortOrderEnumMap[instance.orderBy]);
   writeNotNull('startWork', instance.startWork);
   return val;
 }
@@ -35,4 +41,16 @@ const _$AppliedFarmerStatusEnumMap = {
   AppliedFarmerStatus.approved: 'Approve',
   AppliedFarmerStatus.rejected: 'Reject',
   AppliedFarmerStatus.end: 'End',
+};
+
+const _$AppliedFarmerSortColumnEnumMap = {
+  AppliedFarmerSortColumn.appliedDate: 'AppliedDate',
+  AppliedFarmerSortColumn.approvedDate: 'ApprovedDate',
+  AppliedFarmerSortColumn.startDate: 'StartDate',
+  AppliedFarmerSortColumn.endDate: 'EndDate',
+};
+
+const _$SortOrderEnumMap = {
+  SortOrder.ascending: 'ASC',
+  SortOrder.descending: 'DESC',
 };

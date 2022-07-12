@@ -1,10 +1,10 @@
 
 import 'package:json_annotation/json_annotation.dart';
-import 'package:myray_mobile/app/data/enums/status.dart';
-part 'applied_job_request.g.dart';
+import 'package:myray_mobile/app/data/enums/enums.dart';
+part 'get_applied_job_request.g.dart';
 
 @JsonSerializable(includeIfNull: false)
-class AppliedJobRequest{
+class GetAppliedJobRequest{
 
   @JsonKey(name: 'status')
   AppliedFarmerStatus? status;
@@ -15,16 +15,24 @@ class AppliedJobRequest{
   @JsonKey(name: 'page-size')
   String pageSize;
 
+  @JsonKey(name: 'sort-column')
+  AppliedFarmerSortColumn? sortColumn;
+
+  @JsonKey(name: 'order-by')
+  SortOrder? orderBy;
+
   @JsonKey(name: 'startWork')
   String? startWork;
    
-   AppliedJobRequest({
+   GetAppliedJobRequest({
     this.status,
     this.startWork,
+    this.sortColumn,
+    this.orderBy,
     required this.page,
     required this.pageSize,
    });
 
-   factory AppliedJobRequest.fromJson(Map<String, dynamic> json) => _$AppliedJobRequestFromJson(json);
+   factory GetAppliedJobRequest.fromJson(Map<String, dynamic> json) => _$AppliedJobRequestFromJson(json);
    Map<String, dynamic> toJson() => _$AppliedJobRequestToJson(this);
 }

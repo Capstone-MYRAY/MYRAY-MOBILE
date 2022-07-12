@@ -736,9 +736,10 @@ class JobPostFormController extends GetxController {
     DateTime now = DateTime.now();
 
     //the publish date cannot be today if created time after 4 p.m. in the same date
-    DateTime _firstDate = now.hour >= 16 && now.hour <= 23
-        ? now.add(const Duration(days: 1))
-        : now;
+    // DateTime _firstDate = now.hour >= 16 && now.hour <= 23
+    //     ? now.add(const Duration(days: 1))
+    //     : now;
+        DateTime _firstDate = now;
     DateTime? _initDate = publishDateController.text.isNotEmpty
         ? Utils.fromddMMyyyy(publishDateController.text)
         : _firstDate;

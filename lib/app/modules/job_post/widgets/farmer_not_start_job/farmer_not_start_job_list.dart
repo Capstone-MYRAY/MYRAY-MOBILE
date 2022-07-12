@@ -1,27 +1,93 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+import 'package:myray_mobile/app/data/models/job_post/job_post.dart';
+import 'package:myray_mobile/app/modules/job_post/controllers/farmer_not_start_job_controller.dart';
 import 'package:myray_mobile/app/modules/job_post/widgets/farmer_not_start_job/farmer_not_start_job_card.dart';
-import 'package:myray_mobile/app/shared/utils/utils.dart';
+import 'package:myray_mobile/app/shared/constants/app_assets.dart';
+import 'package:myray_mobile/app/shared/constants/app_colors.dart';
+import 'package:myray_mobile/app/shared/widgets/builders/loading_builder.dart';
+import 'package:myray_mobile/app/shared/widgets/lazy_loading_list.dart';
 
-class FarmerNotStartJobList extends StatelessWidget {
-  const FarmerNotStartJobList({ Key? key }) : super(key: key);
+class FarmerNotStartJobList extends GetView<FarmerNotStartJobController> {
+  const FarmerNotStartJobList({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      padding: const EdgeInsets.all(20),
-      itemCount: 1,
-      itemBuilder: ((context, index) {
-        return FarmerNotStartJobCard(
-          title: "Thu hoạch cà phê",
-          address: "144 Dương Đình Hội, lô 17-D11, phường Phước Long B, thành phố Thủ Đức, thành phố Hồ Chí Minh",
-          startDate: Utils.fromddMMyyyy("07/07/2022"),
-          buttonLabel: 'Xin hủy',
-          confirm: (){
-            print("Xác nhận hủy");
-            Get.back();
-          },
-        );
-      }),);
+    return FutureBuilder(
+        future: controller.getNotStartJobList(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const LoadingBuilder();
+          }
+           if (snapshot.hasError) {
+          printError(info: snapshot.error.toString());
+          return SizedBox(
+            width: double.infinity,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const Icon(
+                  Icons.error,
+                  size: 50.0,
+                  color: AppColors.errorColor,
+                ),
+                const SizedBox(height: 8.0),
+                Text(
+                  'Đã có lỗi xảy ra',
+                  style: Get.textTheme.headline6!.copyWith(
+                    color: AppColors.errorColor,
+                  ),
+                ),
+              ],
+            ),
+          );
+        }
+          return Obx(() => LazyLoadingList(
+                onEndOfPage: controller.getNotStartJobList,
+                onRefresh: controller.onRefresh,
+                itemCount: controller.notStartJobPostList.isEmpty
+                    ? 1
+                    : controller.notStartJobPostList.length,
+                itemBuilder: (context, index) {
+                  if (snapshot.data == null ||
+                      controller.notStartJobPostList.isEmpty) {
+                    return Container(
+                      padding: EdgeInsets.symmetric(vertical: Get.height * 0.3),
+                      child: Center(
+                        child: Column(
+                          children: [
+                            Text(
+                              "Không có công việc nào.",
+                              style: Get.textTheme.bodyLarge!.copyWith(
+                                color: AppColors.grey,
+                                fontSize: Get.textScaleFactor * 20,
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                            const ImageIcon(AssetImage(AppAssets.noJobFound),
+                                size: 30, color: AppColors.grey),
+                          ],
+                        ),
+                      ),
+                    );
+                  }
+                  JobPost jobPost =
+                      controller.notStartJobPostList[index].jobPost;
+                  return Padding(
+                    padding: const EdgeInsets.only(top: 10),
+                    child: FarmerNotStartJobCard(
+                      title: jobPost.title,
+                      address: jobPost.address ?? 'Không xác định',
+                      startDate:
+                          DateFormat('dd/MM/yyyy').format(jobPost.jobStartDate),
+                      confirm: () => controller.cancelAppliedJob(jobPost.id),
+                      message: 'Bạn muốn hủy công việc đã được tuyển ?',
+                    ),
+                  );
+                },
+              ));
+        });
   }
 }

@@ -214,7 +214,7 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
                       Text(
                         controller.jobPost.type == 'PayPerHourJob'
                             ? "${Utils.vietnameseCurrencyFormat.format(controller.jobPost.payPerHourJob!.salary)} /công"
-                            : "${Utils.vietnameseCurrencyFormat.format(controller.jobPost.payPerTaskJob!.salary)} đ",
+                            : "${Utils.vietnameseCurrencyFormat.format(controller.jobPost.payPerTaskJob!.salary)} ",
                         style: TextStyle(
                           fontSize: Get.textScaleFactor * 15,
                         ),
