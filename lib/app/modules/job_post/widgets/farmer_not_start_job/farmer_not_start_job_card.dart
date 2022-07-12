@@ -9,7 +9,7 @@ import 'package:myray_mobile/app/shared/widgets/dialogs/custom_confirm_dialog.da
 class FarmerNotStartJobCard extends StatelessWidget {
   final String title;
   final String address;
-  final DateTime startDate;
+  final String startDate;
   final void Function() confirm;
   final String? message;
   final String? buttonLabel;
@@ -100,7 +100,7 @@ class FarmerNotStartJobCard extends StatelessWidget {
                     width: Get.width * 0.02,
                   ),
                   Text(
-                    "07/07/2022", //bỏ ngày sau
+                    startDate, //bỏ ngày sau
                     style: Get.textTheme.bodyText2!.copyWith(
                         color: AppColors.primaryColor,
                         fontSize: Get.textScaleFactor * 15,

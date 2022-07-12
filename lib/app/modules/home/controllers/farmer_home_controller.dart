@@ -49,7 +49,7 @@ class FarmerHomeController extends GetxController {
 
   getListJobPost() async {
     GetRequestJobPostList data = GetRequestJobPostList(
-        status: "4",
+        status: "2",
         page: (++_currentPage).toString(),
         pageSize: (_pageSize).toString(),
         // sortColumn: JobPostSortColumn.createdDate,

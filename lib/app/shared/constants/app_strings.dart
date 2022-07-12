@@ -108,7 +108,7 @@ class AppStrings {
   static const labelNotStartJob = 'Chưa bắt đầu';
   static const labelJobVerify = 'Công việc';
   static const labelExtendEndDateVerify = 'Gia hạn kết thúc';
-  static const labelOnLeave = 'Nghỉ phép';
+  static const labelOnLeave = 'Báo nghỉ';
   static const labelWorkingTime = 'Giờ làm việc';
   static const labelPresentDate = 'Ngày hiện tại';
   static const labelShortJobEndDate = 'Ngày kết thúc';
@@ -226,6 +226,6 @@ class AppStrings {
   static const cancel = "Hủy";
   static const back = "Quay lại";
   static const shortApplyButton = "Ứng tuyển";
-  static const buttonOnLeave = 'Nghỉ phép';
+  static const buttonOnLeave = 'Báo nghỉ';
   static const submit = 'Nộp đơn';
 }
