@@ -71,6 +71,8 @@ class LoginController extends GetxController {
         errorMsg = AppMsg.MSG6002;
       } else if (e.message.contains('Invalid Password')) {
         errorMsg = AppMsg.MSG6003;
+      } else if (e.message.contains('Account has been locked')) {
+        errorMsg = AppMsg.MSG6010;
       }
       EasyLoading.dismiss();
       InformationDialog.showDialog(
