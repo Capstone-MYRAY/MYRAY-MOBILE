@@ -8,6 +8,7 @@ class MyCard extends StatelessWidget {
   final EdgeInsetsGeometry margin;
   final double elevation;
   final Color color;
+  final bool isForm;
   final void Function()? onTap;
 
   const MyCard({
@@ -18,7 +19,15 @@ class MyCard extends StatelessWidget {
     this.elevation = 1.0,
     this.color = AppColors.white,
     this.onTap,
+    this.isForm = false,
   }) : super(key: key);
+
+  _buildChild() {
+    return Padding(
+      padding: padding,
+      child: child,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,16 +37,15 @@ class MyCard extends StatelessWidget {
         elevation: elevation,
         margin: margin,
         color: color,
-        child: Material(
-          color: color,
-          child: InkWell(
-            onTap: onTap,
-            child: Padding(
-              padding: padding,
-              child: child,
-            ),
-          ),
-        ),
+        child: isForm
+            ? _buildChild()
+            : Material(
+                color: color,
+                child: InkWell(
+                  onTap: onTap,
+                  child: _buildChild(),
+                ),
+              ),
       ),
     );
   }
