@@ -26,303 +26,315 @@ class JobPostFormView extends GetView<JobPostFormController> {
       appBar: AppBar(
         title: Text(controller.screenTitle),
       ),
-      body: Container(
-        padding: const EdgeInsets.symmetric(
-          vertical: 16.0,
-        ),
-        width: double.infinity,
+      body: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).requestFocus(FocusNode());
+        },
         child: SingleChildScrollView(
-          child: Form(
-            key: controller.formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                MyCard(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        AppStrings.titleWorkInformation,
-                        style: Get.textTheme.headline6,
-                      ),
-                      const SizedBox(height: 16.0),
-                      InputField(
-                        key: UniqueKey(),
-                        controller: controller.workNameController,
-                        icon: const Icon(CustomIcons.briefcase_outline),
-                        labelText: AppStrings.labelWorkName + '*',
-                        placeholder: AppStrings.placeholderWorkName,
-                        inputAction: TextInputAction.next,
-                        keyBoardType: TextInputType.text,
-                        validator: controller.validateWorkName,
-                        minLines: 1,
-                        maxLines: 4,
-                      ),
-                      const SizedBox(height: 16.0),
-                      Obx(
-                        () => Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Expanded(
-                              child: DropdownSearch<Garden>(
-                                key: UniqueKey(),
-                                mode: Mode.MENU,
-                                dropdownSearchDecoration: const InputDecoration(
-                                  icon: Icon(CustomIcons.sprout_outline),
-                                  labelText: '${AppStrings.labelGardenName}*',
-                                ),
-                                items: controller.gardens,
-                                showSelectedItems: true,
-                                compareFn: controller.compareGarden,
-                                selectedItem: controller.selectedGarden.value,
-                                onChanged: controller.onGardenChange,
-                                autoValidateMode:
-                                    AutovalidateMode.onUserInteraction,
-                                validator: controller.validateGardenSelection,
-                                emptyBuilder: (_, __) =>
-                                    const DropdownEmptyBuilder(
-                                        msg: AppStrings.noData),
-                              ),
-                            ),
-                            if (controller.selectedGarden.value != null) ...[
-                              const SizedBox(width: 8.0),
-                              CustomIconButton(
-                                icon: Icons.remove_red_eye,
-                                onTap: controller.viewGardenDetails,
-                                toolTip: 'Xem chi tiết',
-                                size: 25,
-                              ),
-                            ],
-                          ],
+          child: Container(
+            padding: const EdgeInsets.symmetric(
+              vertical: 16.0,
+            ),
+            width: double.infinity,
+            child: Form(
+              key: controller.formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  MyCard(
+                    isForm: true,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          AppStrings.titleWorkInformation,
+                          style: Get.textTheme.headline6,
                         ),
-                      ),
-                      const SizedBox(height: 16.0),
-                      GetBuilder<JobPostFormController>(
-                        builder: (controller) => TreeTypeField(
-                          key: controller.treeTypeFieldKey,
-                          treeTypes: controller.treeTypes != null
-                              ? controller.treeTypes!
-                              : [],
-                          selectedTreeTypes: controller.selectedTreeTypes,
-                        ),
-                      ),
-                      const SizedBox(height: 16.0),
-                      InputField(
-                        key: UniqueKey(),
-                        controller: controller.jobStartDateController,
-                        icon: const Icon(CustomIcons.calendar_range),
-                        labelText: '${AppStrings.labelJobStartDate}*',
-                        placeholder: AppStrings.placeholderJobStartDate,
-                        inputAction: TextInputAction.next,
-                        readOnly: true,
-                        onTap: controller.onChooseStartDate,
-                        validator: controller.validateJobStartDate,
-                      ),
-                      const SizedBox(height: 16.0),
-                      Obx(
-                        () => DropdownSearch<String>(
+                        const SizedBox(height: 16.0),
+                        InputField(
                           key: UniqueKey(),
-                          mode: Mode.MENU,
-                          dropdownSearchDecoration: const InputDecoration(
-                            icon: Icon(CustomIcons.bulletin_board),
-                            labelText: '${AppStrings.labelWorkType}*',
-                          ),
-                          selectedItem: controller.selectedWorkType.value,
-                          items: const [
-                            AppStrings.payPerHour,
-                            AppStrings.payPerTask,
-                          ],
-                          compareFn: controller.compareWorkType,
-                          onChanged: controller.onWorkTypeChange,
-                          showSelectedItems: true,
-                          autoValidateMode: AutovalidateMode.onUserInteraction,
-                          validator: controller.validateWorkType,
+                          controller: controller.workNameController,
+                          icon: const Icon(CustomIcons.briefcase_outline),
+                          labelText: AppStrings.labelWorkName + '*',
+                          placeholder: AppStrings.placeholderWorkName,
+                          inputAction: TextInputAction.next,
+                          keyBoardType: TextInputType.text,
+                          validator: controller.validateWorkName,
+                          minLines: 1,
+                          maxLines: 4,
                         ),
-                      ),
-                      Obx(
-                        () => Column(
-                          children: _buildFieldsByWorkType(
-                              controller.selectedWorkType.value),
-                        ),
-                      ),
-                      const SizedBox(height: 16.0),
-                      InputField(
-                        key: UniqueKey(),
-                        controller: controller.descriptionController,
-                        icon: const Icon(Icons.paste_outlined),
-                        labelText: AppStrings.labelJobDescription,
-                        placeholder: AppStrings.placeholderDescription,
-                        keyBoardType: TextInputType.multiline,
-                        minLines: 3,
-                        maxLines: 10,
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 16.0),
-                MyCard(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        AppStrings.titlePostInformation,
-                        style: Get.textTheme.headline6,
-                      ),
-                      const SizedBox(height: 16.0),
-                      InputField(
-                        key: UniqueKey(),
-                        controller: controller.publishDateController,
-                        icon: const Icon(CustomIcons.calendar_range),
-                        labelText: '${AppStrings.labelPublishDate}*',
-                        placeholder: AppStrings.placeholderPublishDate,
-                        inputAction: TextInputAction.next,
-                        readOnly: true,
-                        validator: controller.validatePublishDate,
-                        onTap: controller.onChoosePublishDate,
-                      ),
-                      const SizedBox(height: 16.0),
-                      Column(
-                        children: [
-                          Row(
+                        const SizedBox(height: 16.0),
+                        Obx(
+                          () => Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              const Icon(
-                                CustomIcons.calendar_range,
-                                size: 24.0,
-                              ),
-                              const SizedBox(width: 16.0),
                               Expanded(
-                                child: SpinBox(
+                                child: DropdownSearch<Garden>(
                                   key: UniqueKey(),
-                                  min: 3,
-                                  max: 100,
-                                  keyboardType: TextInputType.number,
-                                  showButtons: true,
-                                  onChanged: controller.onChangeNumOfPublishDay,
-                                  value: controller.numOfPublishDay.value
-                                      .toDouble(),
-                                  decoration: const InputDecoration(
-                                    label: Text(
-                                        '${AppStrings.labelNumOfPublishDay}*'),
+                                  mode: Mode.MENU,
+                                  dropdownSearchDecoration:
+                                      const InputDecoration(
+                                    icon: Icon(CustomIcons.sprout_outline),
+                                    labelText: '${AppStrings.labelGardenName}*',
                                   ),
-                                  validator: controller.validateNumOfPublishDay,
-                                  afterChange: controller.resetUpgradeData,
+                                  items: controller.gardens,
+                                  showSelectedItems: true,
+                                  compareFn: controller.compareGarden,
+                                  selectedItem: controller.selectedGarden.value,
+                                  onChanged: controller.onGardenChange,
+                                  autoValidateMode:
+                                      AutovalidateMode.onUserInteraction,
+                                  validator: controller.validateGardenSelection,
+                                  emptyBuilder: (_, __) =>
+                                      const DropdownEmptyBuilder(
+                                          msg: AppStrings.noData),
                                 ),
                               ),
+                              if (controller.selectedGarden.value != null) ...[
+                                const SizedBox(width: 8.0),
+                                CustomIconButton(
+                                  icon: Icons.remove_red_eye,
+                                  onTap: controller.viewGardenDetails,
+                                  toolTip: 'Xem chi tiết',
+                                  size: 25,
+                                ),
+                              ],
                             ],
                           ),
-                          const SizedBox(height: 8.0),
-                          Obx(
-                            () => _buildEquationDisplay(
-                                equation: controller.numOfPublishDayEquation,
-                                cost: controller.publishFee),
+                        ),
+                        const SizedBox(height: 16.0),
+                        GetBuilder<JobPostFormController>(
+                          builder: (controller) => TreeTypeField(
+                            key: controller.treeTypeFieldKey,
+                            treeTypes: controller.treeTypes != null
+                                ? controller.treeTypes!
+                                : [],
+                            selectedTreeTypes: controller.selectedTreeTypes,
                           ),
-                        ],
-                      ),
-                      const SizedBox(height: 16.0),
-                      Row(
-                        children: [
-                          Text(
-                            AppStrings.labelUpgradePost,
-                            style: Get.textTheme.headline6!.copyWith(
-                              color: AppColors.black,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          Obx(
-                            () => MyCheckBox(
-                              value: controller.isUpgrade.value,
-                              onChanged: controller.onChangeUpgradePost,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Obx(() => _buildUpgradePost(controller.isUpgrade.value)),
-                      const SizedBox(height: 16.0),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Điểm hiện tại: ${controller.userPoint} điểm',
-                            style: Get.textTheme.bodyText2!.copyWith(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 14.0 * Get.textScaleFactor,
-                            ),
-                          ),
-                          InputField(
+                        ),
+                        const SizedBox(height: 16.0),
+                        InputField(
+                          key: UniqueKey(),
+                          controller: controller.jobStartDateController,
+                          icon: const Icon(CustomIcons.calendar_range),
+                          labelText: '${AppStrings.labelJobStartDate}*',
+                          placeholder: AppStrings.placeholderJobStartDate,
+                          inputAction: TextInputAction.next,
+                          readOnly: true,
+                          onTap: controller.onChooseStartDate,
+                          validator: controller.validateJobStartDate,
+                        ),
+                        const SizedBox(height: 16.0),
+                        Obx(
+                          () => DropdownSearch<String>(
                             key: UniqueKey(),
-                            controller: controller.usingPointController,
-                            icon: const Icon(CustomIcons.gift_open_outline),
-                            labelText: 'Dùng điểm',
-                            placeholder: '0',
-                            keyBoardType: TextInputType.number,
-                            onChanged: controller.onChangeUsingPoint,
-                            inputFormatters: [
-                              FilteringTextInputFormatter.digitsOnly
+                            mode: Mode.MENU,
+                            dropdownSearchDecoration: const InputDecoration(
+                              icon: Icon(CustomIcons.bulletin_board),
+                              labelText: '${AppStrings.labelWorkType}*',
+                            ),
+                            selectedItem: controller.selectedWorkType.value,
+                            items: const [
+                              AppStrings.payPerHour,
+                              AppStrings.payPerTask,
                             ],
-                            validator: controller.validateUsingPoint,
+                            maxHeight: 120.0,
+                            compareFn: controller.compareWorkType,
+                            onChanged: controller.onWorkTypeChange,
+                            showSelectedItems: true,
+                            autoValidateMode:
+                                AutovalidateMode.onUserInteraction,
+                            validator: controller.validateWorkType,
                           ),
-                          const SizedBox(height: 8.0),
-                          Obx(
-                            () => _buildEquationDisplay(
-                              equation: controller.usingPointEquation,
-                              cost: controller.totalReduce,
-                              isReduce: false,
-                            ),
+                        ),
+                        Obx(
+                          () => Column(
+                            children: _buildFieldsByWorkType(
+                                controller.selectedWorkType.value),
                           ),
-                        ],
-                      ),
-                    ],
+                        ),
+                        const SizedBox(height: 16.0),
+                        InputField(
+                          key: UniqueKey(),
+                          controller: controller.descriptionController,
+                          icon: const Icon(Icons.paste_outlined),
+                          labelText: AppStrings.labelJobDescription,
+                          placeholder: AppStrings.placeholderDescription,
+                          keyBoardType: TextInputType.multiline,
+                          minLines: 3,
+                          maxLines: 10,
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                const SizedBox(height: 8.0),
-                MyCard(
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Tổng cộng',
-                            style: Get.textTheme.bodyText1,
-                          ),
-                          Obx(
-                            () => Text(
-                              controller.totalFee,
-                              style: Get.textTheme.bodyText2!.copyWith(
-                                color: AppColors.errorColor,
+                  const SizedBox(height: 16.0),
+                  MyCard(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          AppStrings.titlePostInformation,
+                          style: Get.textTheme.headline6,
+                        ),
+                        const SizedBox(height: 16.0),
+                        InputField(
+                          key: UniqueKey(),
+                          controller: controller.publishDateController,
+                          icon: const Icon(CustomIcons.calendar_range),
+                          labelText: '${AppStrings.labelPublishDate}*',
+                          placeholder: AppStrings.placeholderPublishDate,
+                          inputAction: TextInputAction.next,
+                          readOnly: true,
+                          validator: controller.validatePublishDate,
+                          onTap: controller.onChoosePublishDate,
+                        ),
+                        const SizedBox(height: 16.0),
+                        Column(
+                          children: [
+                            Row(
+                              children: [
+                                const Icon(
+                                  CustomIcons.calendar_range,
+                                  size: 24.0,
+                                ),
+                                const SizedBox(width: 16.0),
+                                Expanded(
+                                  child: SpinBox(
+                                    key: UniqueKey(),
+                                    min: 3,
+                                    max: 100,
+                                    keyboardType: TextInputType.number,
+                                    showButtons: true,
+                                    onChanged:
+                                        controller.onChangeNumOfPublishDay,
+                                    value: controller.numOfPublishDay.value
+                                        .toDouble(),
+                                    decoration: const InputDecoration(
+                                      label: Text(
+                                          '${AppStrings.labelNumOfPublishDay}*'),
+                                    ),
+                                    validator:
+                                        controller.validateNumOfPublishDay,
+                                    afterChange: controller.resetUpgradeData,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 8.0),
+                            Obx(
+                              () => _buildEquationDisplay(
+                                  equation: controller.numOfPublishDayEquation,
+                                  cost: controller.publishFee),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 16.0),
+                        Row(
+                          children: [
+                            Text(
+                              AppStrings.labelUpgradePost,
+                              style: Get.textTheme.headline6!.copyWith(
+                                color: AppColors.black,
+                                fontWeight: FontWeight.w500,
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 8.0),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Điểm tích lũy',
-                            style: Get.textTheme.bodyText1,
-                          ),
-                          Obx(
-                            () => Text(
-                              '+${controller.bonusPoint}',
-                              style: Get.textTheme.bodyText2!.copyWith(
-                                color: AppColors.primaryColor,
+                            Obx(
+                              () => MyCheckBox(
+                                value: controller.isUpgrade.value,
+                                onChanged: controller.onChangeUpgradePost,
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ],
+                          ],
+                        ),
+                        Obx(() =>
+                            _buildUpgradePost(controller.isUpgrade.value)),
+                        const SizedBox(height: 16.0),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Điểm hiện tại: ${controller.userPoint} điểm',
+                              style: Get.textTheme.bodyText2!.copyWith(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 14.0 * Get.textScaleFactor,
+                              ),
+                            ),
+                            InputField(
+                              key: UniqueKey(),
+                              controller: controller.usingPointController,
+                              icon: const Icon(CustomIcons.gift_open_outline),
+                              labelText: 'Dùng điểm',
+                              placeholder: '0',
+                              keyBoardType: TextInputType.number,
+                              onChanged: controller.onChangeUsingPoint,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly
+                              ],
+                              validator: controller.validateUsingPoint,
+                            ),
+                            const SizedBox(height: 8.0),
+                            Obx(
+                              () => _buildEquationDisplay(
+                                equation: controller.usingPointEquation,
+                                cost: controller.totalReduce,
+                                isReduce: false,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                const SizedBox(height: 16.0),
-                FilledButton(
-                  title: controller.buttonTitle,
-                  minWidth: Get.width * 0.7,
-                  onPressed: controller.onSubmitForm,
-                )
-              ],
+                  const SizedBox(height: 8.0),
+                  MyCard(
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Tổng cộng',
+                              style: Get.textTheme.bodyText1,
+                            ),
+                            Obx(
+                              () => Text(
+                                controller.totalFee,
+                                style: Get.textTheme.bodyText2!.copyWith(
+                                  color: AppColors.errorColor,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 8.0),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Điểm tích lũy',
+                              style: Get.textTheme.bodyText1,
+                            ),
+                            Obx(
+                              () => Text(
+                                '+${controller.bonusPoint}',
+                                style: Get.textTheme.bodyText2!.copyWith(
+                                  color: AppColors.primaryColor,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 16.0),
+                  FilledButton(
+                    title: controller.buttonTitle,
+                    minWidth: Get.width * 0.7,
+                    onPressed: controller.onSubmitForm,
+                  )
+                ],
+              ),
             ),
           ),
         ),
