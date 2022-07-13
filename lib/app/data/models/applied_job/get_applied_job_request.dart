@@ -33,6 +33,6 @@ class GetAppliedJobRequest{
     required this.pageSize,
    });
 
-   factory GetAppliedJobRequest.fromJson(Map<String, dynamic> json) => _$AppliedJobRequestFromJson(json);
-   Map<String, dynamic> toJson() => _$AppliedJobRequestToJson(this);
+   factory GetAppliedJobRequest.fromJson(Map<String, dynamic> json) => _$GetAppliedJobRequestFromJson(json);
+   Map<String, dynamic> toJson() => _$GetAppliedJobRequestToJson(this);
 }

@@ -1,9 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:myray_mobile/app/data/enums/enums.dart';
+import 'package:myray_mobile/app/data/models/applied_job/applied_job_response.dart';
+import 'package:myray_mobile/app/data/models/applied_job/get_applied_job_request.dart';
+import 'package:myray_mobile/app/data/models/applied_job/get_applied_job_response.dart';
+import 'package:myray_mobile/app/data/models/report/post_report_request.dart';
+import 'package:myray_mobile/app/data/models/report/report.dart';
+import 'package:myray_mobile/app/modules/applied_job/applied_job_repository.dart';
+import 'package:myray_mobile/app/shared/constants/app_colors.dart';
+import 'package:myray_mobile/app/shared/utils/auth_credentials.dart';
+import 'package:myray_mobile/app/shared/utils/custom_exception.dart';
 import 'package:myray_mobile/app/shared/utils/utils.dart';
 import 'package:myray_mobile/app/shared/widgets/controls/my_date_picker.dart';
+import 'package:myray_mobile/app/shared/widgets/custom_snackbar.dart';
 
 class FarmerInprogressJobController extends GetxController {
+  final _appliedRepository = Get.find<AppliedJobRepository>();
+  Rx<GetAppliedJobPostList>? inProgressJobList;
+  RxList<AppliedJobResponse> inProgressJobPostList =
+      RxList<AppliedJobResponse>();
+  int _currentPage = 0;
+  final int _pageSize = 5;
+  bool _hasNextPage = true;
+  final isLoading = false.obs;
+
   late GlobalKey<FormState> formKey;
 
   late TextEditingController reportContentController;
@@ -28,6 +49,47 @@ class FarmerInprogressJobController extends GetxController {
     extendJobDateController = TextEditingController();
     extendJobReasonController = TextEditingController();
     super.onInit();
+  }
+
+  Future<bool?> getInProgressJobList() async {
+    GetAppliedJobPostList? list;
+    GetAppliedJobRequest data = GetAppliedJobRequest(
+      status: AppliedFarmerStatus.approved,
+      startWork: "1",
+      page: (++_currentPage).toString(),
+      pageSize: (_pageSize).toString(),
+    );
+
+    isLoading.value = true;
+    try {
+      if (_hasNextPage) {
+        list = await _appliedRepository.getAppliedJobList(data);
+        // isRefresh(true);
+        print(list == null);
+        if (list == null) {
+          isLoading.value = false;
+          return null;
+        }
+        inProgressJobPostList.addAll(list.listObject ?? []);
+        _hasNextPage = list.pagingMetadata!.hasNextPage;
+      }
+      isLoading.value = false;
+      // isRefresh(false);
+      return true;
+    } on CustomException catch (e) {
+      print(e.message);
+      isLoading.value = false;
+      _hasNextPage = false;
+    }
+    return null;
+  }
+
+  Future<void> onRefresh() async {
+    _currentPage = 0;
+    _hasNextPage = true;
+
+    inProgressJobPostList.clear();
+    await getInProgressJobList();
   }
 
   String? validateReason(String? value) {
@@ -63,7 +125,7 @@ class FarmerInprogressJobController extends GetxController {
       return 'Vui lòng chọn ngày kết thúc mới';
     }
     //Valid just only extend end job date once
-    
+
     return null;
   }
 
@@ -142,13 +204,34 @@ class FarmerInprogressJobController extends GetxController {
     Get.back();
   }
 
-  onSubmitReportForm() {
+  onSubmitReportForm(int jobPostId) async {
     bool isFormValid = formKey.currentState!.validate();
     print(isFormValid ? reportContentController.value : 'no valid');
     if (isFormValid) {
-      // do some code here
+      EasyLoading.show();
+      PostReportRequest data = PostReportRequest(
+          content: reportContentController.text,
+          jobPostId: jobPostId,
+          reportedId: AuthCredentials.instance.user!.id!);
+      Report? result = await _reportJob(data);
       onCloseReportDialog();
+       EasyLoading.dismiss();
+       if (result == null) {
+          CustomSnackbar.show(
+              title: "Thất bại",
+              message: "Gửi báo cáo không thành công",
+              backgroundColor: AppColors.errorColor);
+        } else {
+          CustomSnackbar.show(
+              title: "Thành công", message: "Gửi báo cáo thành công");
+        }
+       
+        
     }
+  }
+
+  Future<Report?> _reportJob(PostReportRequest reportData) async {
+    return await _appliedRepository.reportJob(reportData);
   }
 
   onSubmitOnleaveForm() {

@@ -15,4 +15,5 @@ class AppAssets {
 
   //icon
   static const noJobFound = _imgPath + 'job_seeker.png';
+  static const cultivation = _imgPath + 'cultivation.png';
 }

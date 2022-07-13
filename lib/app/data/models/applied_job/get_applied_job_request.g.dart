@@ -6,7 +6,8 @@ part of 'get_applied_job_request.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-GetAppliedJobRequest _$AppliedJobRequestFromJson(Map<String, dynamic> json) =>
+GetAppliedJobRequest _$GetAppliedJobRequestFromJson(
+        Map<String, dynamic> json) =>
     GetAppliedJobRequest(
       status: $enumDecodeNullable(_$AppliedFarmerStatusEnumMap, json['status']),
       startWork: json['startWork'] as String?,
@@ -17,7 +18,8 @@ GetAppliedJobRequest _$AppliedJobRequestFromJson(Map<String, dynamic> json) =>
       pageSize: json['page-size'] as String,
     );
 
-Map<String, dynamic> _$AppliedJobRequestToJson(GetAppliedJobRequest instance) {
+Map<String, dynamic> _$GetAppliedJobRequestToJson(
+    GetAppliedJobRequest instance) {
   final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {

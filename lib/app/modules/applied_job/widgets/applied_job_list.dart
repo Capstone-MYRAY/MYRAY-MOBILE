@@ -106,10 +106,10 @@ class AppliedJobList extends GetView<AppliedJobController> {
                                 ),
                               ],
                             ),
-                          ),                        
-                         Container(
-                          padding: const EdgeInsets.only(top: 10, right: 15),
-                          child: Stack(
+                          ),
+                          Container(
+                            padding: const EdgeInsets.only(top: 10, right: 15),
+                            child: Stack(
                               children: [
                                 const Icon(CustomIcons.map_marker_outline,
                                     size: 20),
@@ -132,7 +132,7 @@ class AppliedJobList extends GetView<AppliedJobController> {
                                 ),
                               ],
                             ),
-                         ),
+                          ),
 
                           // const SizedBox(height: 15),
                           Padding(
@@ -147,15 +147,15 @@ class AppliedJobList extends GetView<AppliedJobController> {
                                 Expanded(
                                   child: Row(children: [
                                     Text(
-                                      "Ngày bắt đầu:",
+                                      "Ngày ứng tuyển:",
                                       style:
                                           Get.textTheme.labelMedium!.copyWith(
                                         fontWeight: FontWeight.w500,
                                         fontSize: Get.textScaleFactor * 15,
                                       ),
                                     ),
-                                    const SizedBox(
-                                      width: 52,
+                                    SizedBox(
+                                      width: Get.width * 0.09,
                                     ),
                                     Text(
                                       DateFormat('dd-MM-yyyy').format(controller

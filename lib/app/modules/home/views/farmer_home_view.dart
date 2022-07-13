@@ -33,6 +33,7 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
                 return LazyLoadingList(
                       onEndOfPage: controller.getListJobPost,
                       onRefresh: controller.onRefresh,
+                      isLoading: controller.isLoading.value,
                       itemCount: 1,
                       itemBuilder: ((context, index) {
                         return SingleChildScrollView(
