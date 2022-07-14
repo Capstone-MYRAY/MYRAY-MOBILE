@@ -5,7 +5,7 @@ import 'package:myray_mobile/app/modules/applied_farmer/views/applied_farmer_vie
 import 'package:myray_mobile/app/modules/dashboard/controllers/dashboard_controller.dart';
 import 'package:myray_mobile/app/modules/home/views/landowner_home_view.dart';
 import 'package:myray_mobile/app/modules/job_post/views/landowner_job_post_view.dart';
-import 'package:myray_mobile/app/modules/message/views/landowner_message_view.dart.dart';
+import 'package:myray_mobile/app/modules/message/views/landowner_message_view.dart';
 import 'package:myray_mobile/app/modules/profile/views/landowner_profile_view.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
