@@ -210,9 +210,9 @@ class FarmerInprogressJobCard extends StatelessWidget {
                   textFields: [
                     _buildSimpleIcon(),
                     _buildTabDialog(
-                      function: report,
-                      label: AppStrings.reportJobProblem,
-                      iconData: Icons.report_problem_outlined,
+                      function: onLeave,
+                      label: AppStrings.buttonOnLeave,
+                      iconData: CustomIcons.calendar_minus,
                     ),
                     isPayPerHourJob!
                         ? _buildTabDialog(
@@ -232,9 +232,9 @@ class FarmerInprogressJobCard extends StatelessWidget {
                             iconData: Icons.edit_calendar_outlined,
                           ),
                     _buildTabDialog(
-                      function: onLeave,
-                      label: AppStrings.buttonOnLeave,
-                      iconData: CustomIcons.calendar_minus,
+                      function: report,
+                      label: AppStrings.reportJobProblem,
+                      iconData: Icons.report_problem_outlined,
                     ),
                   ],
                   cancel: () {
@@ -249,7 +249,7 @@ class FarmerInprogressJobCard extends StatelessWidget {
               foreground: AppColors.primaryColor,
               background: AppColors.white,
             ),
-             const SizedBox(
+            const SizedBox(
               height: 8,
             ),
           ],
@@ -300,7 +300,7 @@ class FarmerInprogressJobCard extends StatelessWidget {
   Widget _buildSimpleIcon() {
     return Center(
       child: Column(
-        children: [          
+        children: [
           Image.asset(AppAssets.cultivation, scale: 25),
         ],
       ),

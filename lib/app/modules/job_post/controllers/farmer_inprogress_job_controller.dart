@@ -5,6 +5,9 @@ import 'package:myray_mobile/app/data/enums/enums.dart';
 import 'package:myray_mobile/app/data/models/applied_job/applied_job_response.dart';
 import 'package:myray_mobile/app/data/models/applied_job/get_applied_job_request.dart';
 import 'package:myray_mobile/app/data/models/applied_job/get_applied_job_response.dart';
+import 'package:myray_mobile/app/data/models/extend_end_date_job/extend_end_date_job.dart';
+import 'package:myray_mobile/app/data/models/extend_end_date_job/get_extend_end_date_job_list_response.dart';
+import 'package:myray_mobile/app/data/models/extend_end_date_job/post_extend_end_date_job_request.dart';
 import 'package:myray_mobile/app/data/models/report/post_report_request.dart';
 import 'package:myray_mobile/app/data/models/report/report.dart';
 import 'package:myray_mobile/app/modules/applied_job/applied_job_repository.dart';
@@ -17,11 +20,17 @@ import 'package:myray_mobile/app/shared/widgets/custom_snackbar.dart';
 
 class FarmerInprogressJobController extends GetxController {
   final _appliedRepository = Get.find<AppliedJobRepository>();
+
   Rx<GetAppliedJobPostList>? inProgressJobList;
   RxList<AppliedJobResponse> inProgressJobPostList =
       RxList<AppliedJobResponse>();
-  int _currentPage = 0;
+
+  Rx<GetExtendEndDateJobList>? extendEndDateList;
+  RxList<ExtendEndDateJob> listObject = RxList<ExtendEndDateJob>();
+
   final int _pageSize = 5;
+  //paging progress list
+  int _currentPage = 0;
   bool _hasNextPage = true;
   final isLoading = false.obs;
 
@@ -91,7 +100,7 @@ class FarmerInprogressJobController extends GetxController {
     inProgressJobPostList.clear();
     await getInProgressJobList();
   }
-
+  
   String? validateReason(String? value) {
     if (Utils.isEmpty(value)) {
       return 'Vui lòng nhập lý do';
@@ -169,14 +178,18 @@ class FarmerInprogressJobController extends GetxController {
     }
   }
 
-  void onChooseNewEndDate(DateTime oldDate) async {
-    // DateTime now = DateTime.now();
+  void onChooseNewEndDate(DateTime? oldDate) async {
+    DateTime now = DateTime.now();
+    //if end date null, now + (365 days *10) -> update end date
+    DateTime _initDate = oldDate != null
+        ? oldDate.add(const Duration(days: 1))
+        : now.add(const Duration(days: 365 * 10));
     DateTime _firstDate = onLeaveStartDateController.text.isNotEmpty
         ? Utils.fromddMMyyyy(onLeaveStartDateController.text)
-        : oldDate.add(const Duration(days: 1));
+        : _initDate;
     DateTime? _pickedDate = await MyDatePicker.show(
         firstDate: _firstDate,
-        initDate: oldDate.add(const Duration(days: 1)),
+        initDate: _initDate,
         lastDate: _firstDate.add(
             const Duration(days: 6))); // not include the first day; max = 7
     print('_pickedDate: $_pickedDate');
@@ -215,23 +228,17 @@ class FarmerInprogressJobController extends GetxController {
           reportedId: AuthCredentials.instance.user!.id!);
       Report? result = await _reportJob(data);
       onCloseReportDialog();
-       EasyLoading.dismiss();
-       if (result == null) {
-          CustomSnackbar.show(
-              title: "Thất bại",
-              message: "Gửi báo cáo không thành công",
-              backgroundColor: AppColors.errorColor);
-        } else {
-          CustomSnackbar.show(
-              title: "Thành công", message: "Gửi báo cáo thành công");
-        }
-       
-        
+      EasyLoading.dismiss();
+      if (result == null) {
+        CustomSnackbar.show(
+            title: "Thất bại",
+            message: "Gửi báo cáo không thành công",
+            backgroundColor: AppColors.errorColor);
+      } else {
+        CustomSnackbar.show(
+            title: "Thành công", message: "Gửi báo cáo thành công");
+      }
     }
-  }
-
-  Future<Report?> _reportJob(PostReportRequest reportData) async {
-    return await _appliedRepository.reportJob(reportData);
   }
 
   onSubmitOnleaveForm() {
@@ -245,11 +252,50 @@ class FarmerInprogressJobController extends GetxController {
     }
   }
 
-  onSubmitExtendJobForm() {
+  onSubmitExtendJobForm(int jobPostId) async {
     bool isFormValid = formKey.currentState!.validate();
     if (isFormValid) {
-      //do some code here
-      onCloseExtendJobDialog();
+      // EasyLoading.show();
+
+      PostExtendEndDateJobRequest data = PostExtendEndDateJobRequest(
+          extendEndDate: extendJobDateController.text,
+          jobPostId: jobPostId,
+          reason: extendJobReasonController.text);
+
+      try {
+        ExtendEndDateJob? result = await _extendEndDateJob(data);
+        onCloseExtendJobDialog();
+        if (result == null) {
+          CustomSnackbar.show(
+              title: "Thất bại",
+              message: "Gửi yêu cầu không thành công",
+              backgroundColor: AppColors.errorColor);
+        } else {
+          CustomSnackbar.show(
+              title: "Thành công", message: "Gửi yêu cầu thành công");
+        }
+      } on CustomException catch (e) {
+        CustomSnackbar.show(
+            title: "Thất bại",
+            message: "Gửi báo cáo không thành công",
+            backgroundColor: AppColors.errorColor);
+        print('lỗi: $e');
+      } finally {
+        // EasyLoading.dismiss();
+      }
     }
+  }
+
+  Future<Report?> _reportJob(PostReportRequest reportData) async {
+    return await _appliedRepository.reportJob(reportData);
+  }
+
+  Future<ExtendEndDateJob?> _extendEndDateJob(
+      PostExtendEndDateJobRequest data) async {
+    return await _appliedRepository.extendEndDateJob(data);
+  }
+
+  Future<ExtendEndDateJob?> getExtendEndDateJob(int jobPostId) async {
+    return await _appliedRepository.getExtendEndDateJob(jobPostId);
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:myray_mobile/app/data/models/extend_end_date_job/extend_end_date_job.dart';
 import 'package:myray_mobile/app/data/models/job_post/job_post.dart';
 import 'package:myray_mobile/app/modules/job_post/controllers/farmer_inprogress_job_controller.dart';
 import 'package:myray_mobile/app/modules/job_post/widgets/farmer_inprogress_job/farmer_inprogress_job_card.dart';
@@ -106,7 +107,7 @@ class FarmerInprogressJobList extends GetView<FarmerInprogressJobController> {
                         _showOnLeaveDialog();
                       },
                       extendJob: () =>
-                          {Get.back(), _showExtendJobDialog(DateTime.now())},
+                          {Get.back(), _showExtendJobDialog(jobPost.jobEndDate, jobPost.id)},
                     ));
               }));
         }));
@@ -212,13 +213,18 @@ class FarmerInprogressJobList extends GetView<FarmerInprogressJobController> {
     );
   }
 
-  Future _showExtendJobDialog(DateTime oldDate) {
+  Future _showExtendJobDialog(DateTime? oldDate, int jobPostId) async {
     DateTime endJobDate = DateTime.now().add(const Duration(days: 1));
     DateTime today = DateTime.now();
     // print(endJobDate.difference(today).inDays  >= 1);
-    if (endJobDate.difference(today).inDays < 1) {
-      return InformationDialog.showDialog(
-          confirmTitle: 'Đóng', msg: 'Không thể gia hạn');
+    // if (endJobDate.difference(today).inDays < 1) {
+    //   return InformationDialog.showDialog(
+    //       confirmTitle: 'Đóng', msg: 'Không thể gia hạn');
+    // }
+    ExtendEndDateJob? job = await controller.getExtendEndDateJob(jobPostId);
+    if(job != null){
+         return InformationDialog.showDialog(
+          confirmTitle: 'Đóng', msg: 'Bạn đã gia hạn ngày kết thúc.');
     }
     return CustomFormDialog.showDialog(
       formKey: controller.formKey,
@@ -248,7 +254,7 @@ class FarmerInprogressJobList extends GetView<FarmerInprogressJobController> {
         Padding(
           padding: EdgeInsets.only(left: Get.width * 0.1),
           child: Text(
-            DateFormat('dd/MM/yyyy').format(oldDate),
+            oldDate != null ? DateFormat('dd/MM/yyyy').format(oldDate) : 'Chưa cập nhật',
             style: TextStyle(
               fontSize: Get.textScaleFactor * 16,
             ),
@@ -265,7 +271,9 @@ class FarmerInprogressJobList extends GetView<FarmerInprogressJobController> {
           placeholder: AppStrings.placeholderNewExtendJobDate,
           inputAction: TextInputAction.next,
           readOnly: true,
-          onTap: () => controller.onChooseNewEndDate(oldDate),
+          onTap: () => {            
+            controller.onChooseNewEndDate(oldDate),
+          },
           validator: controller.validateChooseNewEndDate,
         ),
         SizedBox(
@@ -283,7 +291,7 @@ class FarmerInprogressJobList extends GetView<FarmerInprogressJobController> {
           validator: controller.validateReason,
         ),
       ],
-      submit: controller.onSubmitExtendJobForm,
+      submit: () => {controller.onSubmitExtendJobForm(jobPostId)},
       cancel: controller.onCloseExtendJobDialog,
     );
   }

@@ -2,6 +2,10 @@ import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/status/http_status.dart';
 import 'package:myray_mobile/app/data/models/applied_job/get_applied_job_request.dart';
 import 'package:myray_mobile/app/data/models/applied_job/get_applied_job_response.dart';
+import 'package:myray_mobile/app/data/models/extend_end_date_job/extend_end_date_job.dart';
+import 'package:myray_mobile/app/data/models/extend_end_date_job/get_extend_end_date_job_list_response.dart';
+import 'package:myray_mobile/app/data/models/extend_end_date_job/get_extend_end_date_job_request.dart';
+import 'package:myray_mobile/app/data/models/extend_end_date_job/post_extend_end_date_job_request.dart';
 import 'package:myray_mobile/app/data/models/job_post/get_request_job_post_list.dart';
 import 'package:myray_mobile/app/data/models/report/post_report_request.dart';
 import 'package:myray_mobile/app/data/models/report/report.dart';
@@ -39,4 +43,31 @@ class AppliedJobRepository {
     } 
     return null; 
   }
+
+  // Extend end date task job
+  Future<ExtendEndDateJob?> extendEndDateJob(PostExtendEndDateJobRequest data) async {
+    final response = await _apiProvider.postMethod('/extendtaskjob', data.toJson());
+    print('extend status: ${response.statusCode}');
+    if(response.isOk){
+      return ExtendEndDateJob.fromJson(response.body);
+    }
+    return null;
+  }
+
+  Future<ExtendEndDateJob?> getExtendEndDateJob (int idJobPost) async{
+    final response = await _apiProvider.getMethod('/extendtaskjob/$idJobPost');
+    if(response.statusCode == HttpStatus.ok){
+      return ExtendEndDateJob.fromJson(response.body);
+    }
+    return null;
+  }
+
+  Future<GetExtendEndDateJobList?> getExtendEndDateJobList(GetExtendEndDateJobRequest data) async{
+    final response = await _apiProvider.getMethod('/extendtaskjob', data: data.toJson());
+    if(response.statusCode == HttpStatus.ok){
+      return GetExtendEndDateJobList.fromJson(response.body);
+    }
+    return null;
+  }
+
 }
