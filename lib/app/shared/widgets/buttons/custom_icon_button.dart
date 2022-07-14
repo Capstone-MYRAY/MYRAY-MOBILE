@@ -11,8 +11,7 @@ class CustomIconButton extends StatelessWidget {
   final String? toolTip;
   final double? size;
   final double elevation;
-  final Color? splashColor;
-  final InteractiveInkFeatureFactory? splashFactory;
+  final bool isSplash;
 
   const CustomIconButton({
     Key? key,
@@ -22,10 +21,9 @@ class CustomIconButton extends StatelessWidget {
     this.shape,
     this.onTap,
     this.size,
-    this.splashColor,
-    this.splashFactory,
     this.toolTip,
     this.elevation = 0.0,
+    this.isSplash = true,
     this.padding = const EdgeInsets.symmetric(
       horizontal: 0.0,
       vertical: 0.0,
@@ -39,20 +37,33 @@ class CustomIconButton extends StatelessWidget {
       shape: shape,
       elevation: elevation,
       type: MaterialType.button,
-      child: InkWell(
-        splashColor: splashColor,
-        splashFactory: splashFactory,
-        onTap: onTap,
-        child: Padding(
-          padding: padding,
-          child: Tooltip(
-            message: toolTip ?? '',
-            child: Icon(
-              icon,
-              color: foregroundColor ?? AppColors.iconColor,
-              size: size,
-            ),
-          ),
+      child: isSplash ? _buildSplashButton() : _buildUnsplashButton(),
+    );
+  }
+
+  Widget _buildSplashButton() {
+    return InkWell(
+      onTap: onTap,
+      child: _buildChild(),
+    );
+  }
+
+  Widget _buildUnsplashButton() {
+    return GestureDetector(
+      onTap: onTap,
+      child: _buildChild(),
+    );
+  }
+
+  Widget _buildChild() {
+    return Padding(
+      padding: padding,
+      child: Tooltip(
+        message: toolTip ?? '',
+        child: Icon(
+          icon,
+          color: foregroundColor ?? AppColors.iconColor,
+          size: size,
         ),
       ),
     );

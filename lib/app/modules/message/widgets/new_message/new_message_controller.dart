@@ -23,7 +23,7 @@ class NewMessageController extends GetxController {
     super.onInit();
   }
 
-  sendMessage() {
+  sendMessage() async {
     final msg = messageController.text.trim();
     final message = NewMessageRequest(
       fromId: fromId,
@@ -34,13 +34,20 @@ class NewMessageController extends GetxController {
 
     if (SignalRProvider.instance.hubConnection?.state ==
         HubConnectionState.Connected) {
-      SignalRProvider.instance.hubConnection
-          ?.invoke('SendMessage', args: [message]);
-      _p2pMessageController.addNewMessage({
-        'content': msg,
-        'isMe': true,
-        'avatar': AppAssets.tempAvatar,
-      });
+      try {
+        //TODO: invoke send message (chathub)
+        // await SignalRProvider.instance.hubConnection
+        //     ?.invoke('SendMessage', args: [message]);
+
+        _p2pMessageController.addNewMessage({
+          'content': msg,
+          'isMe': true,
+          'avatar': AppAssets.tempAvatar,
+        });
+        messageController.clear();
+      } catch (e) {
+        print('Send msg error: ${e.toString()}');
+      }
     }
   }
 

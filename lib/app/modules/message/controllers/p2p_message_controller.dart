@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:myray_mobile/app/data/providers/signalR_provider.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 
 class P2PMessageController extends GetxController {
@@ -29,8 +30,21 @@ class P2PMessageController extends GetxController {
     },
   ];
 
+  @override
+  void onInit() async {
+    //TODO: listen change (chathub)
+    // SignalRProvider.instance.hubConnection!.on('chat', _onChatConnect);
+    print('P2PMC: on chat');
+    super.onInit();
+  }
+
+  void _onChatConnect(List<Object>? arguments) {
+    print('Arguments: $arguments');
+  }
+
   addNewMessage(message) {
-    messages.add(message);
+    print('add message');
+    messages.insert(0, message);
     update();
   }
 }

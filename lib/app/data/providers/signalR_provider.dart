@@ -1,5 +1,4 @@
 import 'package:logging/logging.dart';
-import 'package:myray_mobile/app/data/environment.dart';
 import 'package:myray_mobile/app/data/providers/storage_provider.dart';
 import 'package:myray_mobile/app/shared/utils/custom_exception.dart';
 import 'package:signalr_netcore/signalr_client.dart';
@@ -57,14 +56,8 @@ class SignalRProvider with StorageProvider {
     try {
       await hubConnection!.start();
       print('Start hub');
-      hubConnection!.on('chat', _onChatConnect);
     } catch (e) {
       print('Error: ${e.toString()}');
     }
-  }
-
-  void _onChatConnect(List<Object>? arguments) {
-    print(arguments?[0]);
-    print(arguments?[1]);
   }
 }

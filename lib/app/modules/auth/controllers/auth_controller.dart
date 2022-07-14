@@ -14,8 +14,8 @@ class AuthController extends GetxController with StorageProvider {
 
   Future<void> login(String token, String refreshToken) async {
     await saveToken(token, refreshToken);
-    //connect to hub
-    await SignalRProvider.instance.connectToHub();
+    //TODO: connect to hub
+    // await SignalRProvider.instance.connectToHub();
     AuthCredentials.instance.updateUserInfor();
     isLogged.value = true;
   }
@@ -23,8 +23,8 @@ class AuthController extends GetxController with StorageProvider {
   Future<void> checkLoginStatus() async {
     final token = getToken();
     if (token != null) {
-      //connect to hub
-      await SignalRProvider.instance.connectToHub();
+      //TODO: connect to hub
+      // await SignalRProvider.instance.connectToHub();
       AuthCredentials.instance.updateUserInfor();
       isLogged.value = true;
     } else {

@@ -20,12 +20,14 @@ class NewMessage extends GetView<NewMessageController> {
             onTap: () {},
             padding: const EdgeInsets.symmetric(horizontal: 12.0),
             foregroundColor: Theme.of(context).primaryColor,
+            isSplash: false,
           ),
           CustomIconButton(
             icon: CustomIcons.gallery,
             onTap: () {},
             padding: const EdgeInsets.symmetric(horizontal: 12.0),
             foregroundColor: Theme.of(context).primaryColor,
+            isSplash: false,
           ),
           Expanded(
             child: TextField(
@@ -92,6 +94,7 @@ class NewMessage extends GetView<NewMessageController> {
                     onTap: controller.sendMessage,
                     padding: const EdgeInsets.symmetric(horizontal: 12.0),
                     foregroundColor: Theme.of(context).primaryColor,
+                    isSplash: false,
                   )
                 : const SizedBox(),
           ),
