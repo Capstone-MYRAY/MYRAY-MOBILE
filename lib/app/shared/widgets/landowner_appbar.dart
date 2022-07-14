@@ -84,8 +84,6 @@ class LandownerAppbar extends GetView<LandownerProfileController>
           icon: Icons.sync,
           toolTip: AppStrings.tooltipUpdateBalance,
           onTap: controller.getUserInfor,
-          splashColor: Colors.transparent,
-          splashFactory: NoSplash.splashFactory,
           padding: const EdgeInsets.only(right: 8.0),
         ),
       ],

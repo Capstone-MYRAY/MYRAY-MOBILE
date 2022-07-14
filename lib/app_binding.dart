@@ -20,6 +20,8 @@ import 'package:myray_mobile/app/modules/job_post/controllers/farmer_job_post_co
 import 'package:myray_mobile/app/modules/job_post/controllers/farmer_not_start_job_controller.dart';
 import 'package:myray_mobile/app/modules/job_post/controllers/landowner_job_post_controller.dart';
 import 'package:myray_mobile/app/modules/job_post/job_post_repository.dart';
+import 'package:myray_mobile/app/modules/message/controllers/farmer_message_controller.dart';
+import 'package:myray_mobile/app/modules/message/controllers/landowner_message_controller.dart';
 import 'package:myray_mobile/app/modules/payment_history/payment_history_repository.dart';
 import 'package:myray_mobile/app/modules/profile/controllers/farmer_profile_controller.dart';
 import 'package:myray_mobile/app/modules/profile/controllers/landowner_profile_controller.dart';
@@ -48,6 +50,8 @@ class AppBinding extends Bindings {
     Get.lazyPut(() => AppliedFarmerRepository(), fenix: true);
     Get.lazyPut(() => LandownerProfileController(), fenix: true);
     Get.lazyPut(() => LandownerJobPostController(), fenix: true);
+    Get.lazyPut(() => LandownerMessageController(), fenix: true);
+    Get.lazyPut(() => FarmerMessageController(), fenix: true);
     Get.lazyPut(() => AppliedFarmerController(), fenix: true);
     Get.lazyPut(() => FarmerProfileController(), fenix: true);
     Get.lazyPut(() => FarmerHomeController(), fenix: true);
@@ -56,6 +60,6 @@ class AppBinding extends Bindings {
     Get.lazyPut(() => AppliedJobController(), fenix: true);
     Get.lazyPut(() => AppliedJobRepository(), fenix: true);
     Get.lazyPut(() => FarmerInprogressJobController(), fenix: true);
-    Get.lazyPut(() => FarmerNotStartJobController(),  fenix: true);
+    Get.lazyPut(() => FarmerNotStartJobController(), fenix: true);
   }
 }

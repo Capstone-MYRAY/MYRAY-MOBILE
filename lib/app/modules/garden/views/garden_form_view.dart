@@ -2,7 +2,6 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:myray_mobile/app/modules/garden/controllers/garden_form_controller.dart';
-import 'package:myray_mobile/app/modules/garden/views/search_places_view.dart';
 import 'package:myray_mobile/app/modules/garden/widgets/upload_image_holder.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
@@ -47,13 +46,20 @@ class GardenFormView extends GetView<GardenFormController> {
                           const SizedBox(height: 16.0),
                           Obx(() {
                             return DropdownSearch(
-                              mode: Mode.MENU,
-                              dropdownSearchDecoration: const InputDecoration(
-                                icon: Icon(CustomIcons.map_marker_outline),
-                                labelText: '${AppStrings.labelProvince}*',
-                                hintText: AppStrings.placeholderProvince,
+                              popupProps: PopupProps.menu(
+                                showSelectedItems: true,
+                                emptyBuilder: ((_, __) {
+                                  return _buildError('Không có dữ liệu');
+                                }),
                               ),
-                              showSelectedItems: true,
+                              dropdownDecoratorProps:
+                                  const DropDownDecoratorProps(
+                                dropdownSearchDecoration: InputDecoration(
+                                  icon: Icon(CustomIcons.map_marker_outline),
+                                  labelText: '${AppStrings.labelProvince}*',
+                                  hintText: AppStrings.placeholderProvince,
+                                ),
+                              ),
                               compareFn: controller.compareString,
                               items: controller.provinces,
                               selectedItem: controller.selectedProvince.isEmpty
@@ -64,21 +70,26 @@ class GardenFormView extends GetView<GardenFormController> {
                                   FieldValidation.instance.validateProvince,
                               autoValidateMode:
                                   AutovalidateMode.onUserInteraction,
-                              emptyBuilder: ((_, __) {
-                                return _buildError('Không có dữ liệu');
-                              }),
                             );
                           }),
                           const SizedBox(height: 16.0),
                           Obx(() {
                             return DropdownSearch(
-                              mode: Mode.MENU,
-                              dropdownSearchDecoration: const InputDecoration(
-                                icon: Icon(CustomIcons.map_marker_outline),
-                                labelText: '${AppStrings.labelDistrict}*',
-                                hintText: AppStrings.placeholderDistrict,
+                              dropdownDecoratorProps:
+                                  const DropDownDecoratorProps(
+                                dropdownSearchDecoration: InputDecoration(
+                                  icon: Icon(CustomIcons.map_marker_outline),
+                                  labelText: '${AppStrings.labelDistrict}*',
+                                  hintText: AppStrings.placeholderDistrict,
+                                ),
                               ),
-                              showSelectedItems: true,
+                              popupProps: PopupProps.menu(
+                                showSelectedItems: true,
+                                emptyBuilder: ((_, __) {
+                                  return _buildError(
+                                      'Không có dữ liệu\nVui lòng chọn tỉnh trước.');
+                                }),
+                              ),
                               compareFn: controller.compareString,
                               items: controller.districts,
                               selectedItem: controller.selectedDistrict.isEmpty
@@ -89,23 +100,27 @@ class GardenFormView extends GetView<GardenFormController> {
                                   FieldValidation.instance.validateDistrict,
                               autoValidateMode:
                                   AutovalidateMode.onUserInteraction,
-                              emptyBuilder: ((_, __) {
-                                return _buildError(
-                                    'Không có dữ liệu\nVui lòng chọn tỉnh trước.');
-                              }),
                             );
                           }),
                           const SizedBox(height: 16.0),
                           Obx(() {
                             return DropdownSearch(
-                              mode: Mode.MENU,
-                              dropdownSearchDecoration: const InputDecoration(
-                                icon: Icon(CustomIcons.map_marker_outline),
-                                labelText: '${AppStrings.labelCommune}*',
-                                hintText: AppStrings.placeholderCommune,
+                              dropdownDecoratorProps:
+                                  const DropDownDecoratorProps(
+                                dropdownSearchDecoration: InputDecoration(
+                                  icon: Icon(CustomIcons.map_marker_outline),
+                                  labelText: '${AppStrings.labelCommune}*',
+                                  hintText: AppStrings.placeholderCommune,
+                                ),
+                              ),
+                              popupProps: PopupProps.menu(
+                                showSelectedItems: true,
+                                emptyBuilder: ((_, __) {
+                                  return _buildError(
+                                      'Không có dữ liệu\nVui lòng chọn tỉnh và huyện trước');
+                                }),
                               ),
                               items: controller.communes,
-                              showSelectedItems: true,
                               compareFn: controller.compareCommune,
                               itemAsString: controller.getCommuneString,
                               selectedItem:
@@ -117,10 +132,6 @@ class GardenFormView extends GetView<GardenFormController> {
                                   FieldValidation.instance.validateCommune,
                               autoValidateMode:
                                   AutovalidateMode.onUserInteraction,
-                              emptyBuilder: ((_, __) {
-                                return _buildError(
-                                    'Không có dữ liệu\nVui lòng chọn tỉnh và huyện trước');
-                              }),
                             );
                           }),
                           const SizedBox(height: 16.0),
@@ -130,7 +141,7 @@ class GardenFormView extends GetView<GardenFormController> {
                                 child: InputField(
                                   controller: controller.addressController,
                                   icon: const Icon(Icons.map_outlined),
-                                  labelText: AppStrings.labelAddress + '*',
+                                  labelText: '${AppStrings.labelAddress}*',
                                   placeholder: AppStrings.placeholderAddress,
                                   inputAction: TextInputAction.next,
                                   keyBoardType: TextInputType.text,
@@ -139,9 +150,7 @@ class GardenFormView extends GetView<GardenFormController> {
                                   readOnly: true,
                                   validator:
                                       FieldValidation.instance.validateAddress,
-                                  onTap: () {
-                                    Get.to(() => SearchPlacesView());
-                                  },
+                                  onTap: () {},
                                 ),
                               ),
                               IconButton(
@@ -156,7 +165,7 @@ class GardenFormView extends GetView<GardenFormController> {
                           InputField(
                             controller: controller.landAreaController,
                             icon: const Icon(CustomIcons.mountain),
-                            labelText: AppStrings.labelLandArea + ' (ha)*',
+                            labelText: '${AppStrings.labelLandArea} (ha)*',
                             placeholder: AppStrings.placeholderLandArea,
                             inputAction: TextInputAction.next,
                             keyBoardType: TextInputType.number,
@@ -168,7 +177,7 @@ class GardenFormView extends GetView<GardenFormController> {
                           InputField(
                             controller: controller.gardenNameController,
                             icon: const Icon(CustomIcons.sprout_outline),
-                            labelText: AppStrings.labelGardenName + '*',
+                            labelText: '${AppStrings.labelGardenName}*',
                             placeholder: AppStrings.placeholderGardenName,
                             inputAction: TextInputAction.next,
                             keyBoardType: TextInputType.text,
@@ -181,7 +190,7 @@ class GardenFormView extends GetView<GardenFormController> {
                           InputField(
                             controller: controller.descriptionController,
                             icon: const Icon(Icons.paste_outlined),
-                            labelText: AppStrings.labelDescription + '*',
+                            labelText: '${AppStrings.labelDescription}*',
                             placeholder: AppStrings.placeholderDescription,
                             keyBoardType: TextInputType.text,
                             minLines: 3,

@@ -12,6 +12,8 @@ abstract class Routes {
   static const resetPassword = _Paths.resetPassword;
   static const enterPassword = _Paths.enterPassword;
 
+  static const p2pMessages = _Paths.p2pMessages;
+
   //landowner
   static const landownerDashboard = _Paths.landownerDashboard;
   static const landownerProfile = _Paths.landownerProfile;
@@ -42,6 +44,8 @@ abstract class _Paths {
   static const enterOtp = '/enter_otp';
   static const resetPassword = '/reset_password';
   static const enterPassword = '/enter_password';
+
+  static const p2pMessages = '/p2pMessages';
 
   //Landowner views
   static const landownerDashboard = '$_landowner/dashboard';

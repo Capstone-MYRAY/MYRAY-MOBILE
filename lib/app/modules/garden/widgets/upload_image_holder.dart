@@ -60,6 +60,7 @@ class UploadImageHolderState extends State<UploadImageHolder> {
       count: maxImage,
       pickType: PickType.image,
       language: Language.System,
+      quality: 0.6,
     );
   }
 

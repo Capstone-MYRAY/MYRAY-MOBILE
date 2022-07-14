@@ -71,23 +71,28 @@ class JobPostFormView extends GetView<JobPostFormController> {
                               Expanded(
                                 child: DropdownSearch<Garden>(
                                   key: UniqueKey(),
-                                  mode: Mode.MENU,
-                                  dropdownSearchDecoration:
-                                      const InputDecoration(
-                                    icon: Icon(CustomIcons.sprout_outline),
-                                    labelText: '${AppStrings.labelGardenName}*',
+                                  popupProps: PopupProps.menu(
+                                    showSelectedItems: true,
+                                    emptyBuilder: (_, __) =>
+                                        const DropdownEmptyBuilder(
+                                      msg: AppStrings.noData,
+                                    ),
+                                  ),
+                                  dropdownDecoratorProps:
+                                      const DropDownDecoratorProps(
+                                    dropdownSearchDecoration: InputDecoration(
+                                      icon: Icon(CustomIcons.sprout_outline),
+                                      labelText:
+                                          '${AppStrings.labelGardenName}*',
+                                    ),
                                   ),
                                   items: controller.gardens,
-                                  showSelectedItems: true,
                                   compareFn: controller.compareGarden,
                                   selectedItem: controller.selectedGarden.value,
                                   onChanged: controller.onGardenChange,
                                   autoValidateMode:
                                       AutovalidateMode.onUserInteraction,
                                   validator: controller.validateGardenSelection,
-                                  emptyBuilder: (_, __) =>
-                                      const DropdownEmptyBuilder(
-                                          msg: AppStrings.noData),
                                 ),
                               ),
                               if (controller.selectedGarden.value != null) ...[
@@ -128,20 +133,36 @@ class JobPostFormView extends GetView<JobPostFormController> {
                         Obx(
                           () => DropdownSearch<String>(
                             key: UniqueKey(),
-                            mode: Mode.MENU,
-                            dropdownSearchDecoration: const InputDecoration(
-                              icon: Icon(CustomIcons.bulletin_board),
-                              labelText: '${AppStrings.labelWorkType}*',
+                            popupProps: const PopupProps.menu(
+                              showSelectedItems: true,
+                              constraints: BoxConstraints(
+                                maxHeight: 120.0,
+                              ),
                             ),
+                            // maxHeight: 120.0,
+                            dropdownDecoratorProps:
+                                const DropDownDecoratorProps(
+                              dropdownSearchDecoration: InputDecoration(
+                                icon: Icon(CustomIcons.bulletin_board),
+                                labelText: '${AppStrings.labelWorkType}*',
+                                isDense: true,
+                              ),
+                            ),
+                            // dropdownBuilder: (_, s) {
+                            //   return ConstrainedBox(
+                            //     constraints: BoxConstraints(
+                            //       maxHeight: 120,
+                            //     ),
+                            //     child: Text(s ?? ''),
+                            //   );
+                            // },
                             selectedItem: controller.selectedWorkType.value,
                             items: const [
                               AppStrings.payPerHour,
                               AppStrings.payPerTask,
                             ],
-                            maxHeight: 120.0,
                             compareFn: controller.compareWorkType,
                             onChanged: controller.onWorkTypeChange,
-                            showSelectedItems: true,
                             autoValidateMode:
                                 AutovalidateMode.onUserInteraction,
                             validator: controller.validateWorkType,
@@ -348,27 +369,30 @@ class JobPostFormView extends GetView<JobPostFormController> {
       children: [
         DropdownSearch<PostType>(
           key: UniqueKey(),
-          mode: Mode.MENU,
-          dropdownSearchDecoration: const InputDecoration(
-            icon: Icon(CustomIcons.box),
-            labelText: '${AppStrings.labelPostType}*',
-          ),
-          showSelectedItems: true,
-          emptyBuilder: (_, __) =>
-              const DropdownEmptyBuilder(msg: AppStrings.noData),
-          popupItemBuilder: (_, postType, isSelected) => ListTile(
-            title: Text(
-              postType.name,
-              style: Get.textTheme.bodyText1!.copyWith(
-                color: isSelected ? AppColors.primaryColor : AppColors.black,
+          popupProps: PopupProps.menu(
+            showSelectedItems: true,
+            emptyBuilder: (_, __) =>
+                const DropdownEmptyBuilder(msg: AppStrings.noData),
+            itemBuilder: (_, postType, isSelected) => ListTile(
+              title: Text(
+                postType.name,
+                style: Get.textTheme.bodyText1!.copyWith(
+                  color: isSelected ? AppColors.primaryColor : AppColors.black,
+                ),
+              ),
+              trailing: Text(
+                Utils.vietnameseCurrencyFormat.format(postType.price),
+                style: Get.textTheme.caption,
               ),
             ),
-            trailing: Text(
-              Utils.vietnameseCurrencyFormat.format(postType.price),
-              style: Get.textTheme.caption,
+          ),
+          dropdownDecoratorProps: const DropDownDecoratorProps(
+            dropdownSearchDecoration: InputDecoration(
+              icon: Icon(CustomIcons.box),
+              labelText: '${AppStrings.labelPostType}*',
             ),
           ),
-          items: controller.postTypes,
+          items: controller.postTypes ?? [],
           selectedItem: controller.selectedPostType.value,
           compareFn: controller.comparePostType,
           onChanged: controller.onPostTypeChange,

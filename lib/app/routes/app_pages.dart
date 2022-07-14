@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:myray_mobile/app/modules/applied_farmer/bindings/applied_farmer_binding.dart';
 import 'package:myray_mobile/app/modules/applied_farmer/bindings/applied_farmer_details_binding.dart';
 import 'package:myray_mobile/app/modules/applied_farmer/views/applied_farmer_details_view.dart';
 import 'package:myray_mobile/app/modules/auth/auth.dart';
@@ -19,6 +18,9 @@ import 'package:myray_mobile/app/modules/job_post/bindings/job_post_form_binding
 import 'package:myray_mobile/app/modules/job_post/bindings/landowner_job_post_details_binding.dart';
 import 'package:myray_mobile/app/modules/job_post/views/job_post_form_view.dart';
 import 'package:myray_mobile/app/modules/job_post/views/landowner_job_post_details_view.dart';
+import 'package:myray_mobile/app/modules/message/bindings/p2p_message_binding.dart';
+import 'package:myray_mobile/app/modules/message/views/p2p_message_view.dart';
+import 'package:myray_mobile/app/modules/message/widgets/new_message/new_message_binding.dart';
 import 'package:myray_mobile/app/modules/payment_history/payment_history_module.dart';
 import 'package:myray_mobile/app/modules/profile/views/farmer_profile_detail.dart';
 import 'package:myray_mobile/app/modules/profile/views/landowner_profile_details_view.dart';
@@ -73,6 +75,12 @@ class AppPages {
       name: _Paths.enterPassword,
       page: () => const EnterPasswordView(),
       binding: SignupBinding(),
+      transition: Transition.rightToLeft,
+    ),
+    GetPage(
+      name: _Paths.p2pMessages,
+      page: () => const P2PMessageView(),
+      bindings: [NewMessageBinding(), P2PMessageBinding()],
       transition: Transition.rightToLeft,
     ),
 

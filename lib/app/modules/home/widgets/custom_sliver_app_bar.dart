@@ -25,7 +25,7 @@ class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
     print("state: $isChangedState");
     return Stack(
       fit: StackFit.expand,
-      overflow: Overflow.visible,
+      // overflow: Overflow.visible,
       children: [
         buildBackground(shrinkOffset),
         // SizedBox(height: 100,),
@@ -75,7 +75,7 @@ class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
         ),
       );
 
-  Widget buildButton({required String text}) {    
+  Widget buildButton({required String text}) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -92,10 +92,9 @@ class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
               child: Text(
                 text,
                 style: TextStyle(
-                  fontSize: Get.textScaleFactor * 20,
-                  color: AppColors.brown,
-                  fontWeight: FontWeight.w500
-                ),
+                    fontSize: Get.textScaleFactor * 20,
+                    color: AppColors.brown,
+                    fontWeight: FontWeight.w500),
                 softWrap: true,
                 maxLines: 3,
                 overflow: TextOverflow.fade,
