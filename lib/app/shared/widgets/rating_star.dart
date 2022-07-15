@@ -24,12 +24,10 @@ class RatingStar extends StatelessWidget {
     this.empty = const Icon(
       CustomIcons.star_outline,
       color: AppColors.starColor,
-      size: 22.0,
     ),
     this.half = const Icon(
       CustomIcons.star_half,
       color: AppColors.starColor,
-      size: 22.0,
     ),
   }) : super(key: key);
 

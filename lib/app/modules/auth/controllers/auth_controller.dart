@@ -6,16 +6,16 @@ import 'package:myray_mobile/app/shared/utils/auth_credentials.dart';
 class AuthController extends GetxController with StorageProvider {
   final isLogged = false.obs;
 
-  void logOut() {
+  void logOut() async {
     isLogged.value = false;
     removeToken();
     AuthCredentials.instance.clearUserInfor();
+    //disconnect from hub when logout
+    SignalRProvider.instance.stopHub();
   }
 
   Future<void> login(String token, String refreshToken) async {
     await saveToken(token, refreshToken);
-    //TODO: connect to hub
-    // await SignalRProvider.instance.connectToHub();
     AuthCredentials.instance.updateUserInfor();
     isLogged.value = true;
   }
@@ -23,8 +23,6 @@ class AuthController extends GetxController with StorageProvider {
   Future<void> checkLoginStatus() async {
     final token = getToken();
     if (token != null) {
-      //TODO: connect to hub
-      // await SignalRProvider.instance.connectToHub();
       AuthCredentials.instance.updateUserInfor();
       isLogged.value = true;
     } else {

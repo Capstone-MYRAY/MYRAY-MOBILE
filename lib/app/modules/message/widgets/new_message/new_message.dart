@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:myray_mobile/app/data/enums/activities.dart';
 import 'package:myray_mobile/app/modules/message/widgets/new_message/new_message_controller.dart';
 import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
 import 'package:myray_mobile/app/shared/widgets/buttons/custom_icon_button.dart';
@@ -17,14 +18,14 @@ class NewMessage extends GetView<NewMessageController> {
         children: [
           CustomIconButton(
             icon: CustomIcons.photo,
-            onTap: () {},
+            onTap: () => controller.sendImage(Activities.photo),
             padding: const EdgeInsets.symmetric(horizontal: 12.0),
             foregroundColor: Theme.of(context).primaryColor,
             isSplash: false,
           ),
           CustomIconButton(
             icon: CustomIcons.gallery,
-            onTap: () {},
+            onTap: () => controller.sendImage(Activities.gallery),
             padding: const EdgeInsets.symmetric(horizontal: 12.0),
             foregroundColor: Theme.of(context).primaryColor,
             isSplash: false,

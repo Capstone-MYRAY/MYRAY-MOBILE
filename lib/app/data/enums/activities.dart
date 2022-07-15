@@ -4,4 +4,6 @@ enum Activities {
   create,
   update,
   view,
+  photo,
+  gallery,
 }

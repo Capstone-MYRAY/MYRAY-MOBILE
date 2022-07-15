@@ -23,10 +23,10 @@ class AppliedFarmerDetailsView extends StatelessWidget {
       body: GetBuilder<AppliedFarmerDetailsController>(
         tag: Get.arguments[Arguments.tag],
         builder: (controller) {
-          final _user = controller.appliedFarmer.value.userInfo;
-          final _avatar = _user.imageUrl == null
+          final user = controller.appliedFarmer.value.userInfo;
+          final avatar = user.imageUrl == null
               ? const AssetImage(AppAssets.tempAvatar) as ImageProvider
-              : NetworkImage(_user.imageUrl!);
+              : NetworkImage(user.imageUrl!);
           return SizedBox(
             width: double.infinity,
             child: SingleChildScrollView(
@@ -37,7 +37,7 @@ class AppliedFarmerDetailsView extends StatelessWidget {
                   CircleAvatar(
                     radius: Get.width * 0.2,
                     backgroundColor: Colors.transparent,
-                    backgroundImage: _avatar,
+                    backgroundImage: avatar,
                   ),
                   const SizedBox(height: 16.0),
                   ConstrainedBox(
@@ -45,14 +45,14 @@ class AppliedFarmerDetailsView extends StatelessWidget {
                       maxWidth: Get.width * 0.9,
                     ),
                     child: Text(
-                      _user.fullName ?? '',
+                      user.fullName ?? '',
                       style: Get.textTheme.headline4,
                       textAlign: TextAlign.center,
                     ),
                   ),
                   const SizedBox(height: 8.0),
                   Text(
-                    _user.roleName,
+                    user.roleName,
                     style: Get.textTheme.subtitle1!.copyWith(
                       color: AppColors.primaryColor,
                       fontWeight: FontWeight.w300,
@@ -62,7 +62,7 @@ class AppliedFarmerDetailsView extends StatelessWidget {
                   const SizedBox(height: 2.0),
                   RatingStar(
                     itemSize: 28.0,
-                    rating: _user.rating ?? 0.0,
+                    rating: user.rating ?? 0.0,
                   ),
                   const SizedBox(height: 16.0),
                   FractionallySizedBox(
@@ -75,11 +75,11 @@ class AppliedFarmerDetailsView extends StatelessWidget {
                           vertical: 8.0,
                         ),
                       ),
-                      onPressed: () {},
+                      onPressed: controller.navigateToChatScreen,
                     ),
                   ),
                   const SizedBox(height: 16.0),
-                  PersonalInformation(user: Rx(_user)),
+                  PersonalInformation(user: Rx(user)),
                   const SizedBox(height: 16.0),
                   _buildBottom(
                     controller.appliedFarmer.value,
@@ -108,13 +108,13 @@ class AppliedFarmerDetailsView extends StatelessWidget {
           children: [
             Expanded(
               child: OutlinedButton(
-                child: const Text(AppStrings.titleRefuse),
                 onPressed: controller.reject,
                 style: OutlinedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(
                     vertical: 8.0,
                   ),
                 ),
+                child: const Text(AppStrings.titleRefuse),
               ),
             ),
             const SizedBox(width: 16.0),

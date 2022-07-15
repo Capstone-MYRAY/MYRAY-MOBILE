@@ -1,15 +1,17 @@
 import 'package:get/get.dart';
 import 'package:myray_mobile/app/data/models/account.dart';
 import 'package:myray_mobile/app/data/models/job_post/job_post.dart';
+import 'package:myray_mobile/app/data/services/message_service.dart';
 import 'package:myray_mobile/app/modules/job_post/job_post_repository.dart';
 import 'package:myray_mobile/app/modules/profile/profile_repository.dart';
 import 'package:myray_mobile/app/shared/constants/app_colors.dart';
 import 'package:myray_mobile/app/shared/constants/app_msg.dart';
+import 'package:myray_mobile/app/shared/utils/auth_credentials.dart';
 import 'package:myray_mobile/app/shared/widgets/builders/loading_builder.dart';
 import 'package:myray_mobile/app/shared/widgets/custom_snackbar.dart';
 import 'package:myray_mobile/app/data/models/job_post/farmer_job_post_detail_response.dart';
 
-class FarmerJobPostDetailController extends GetxController {
+class FarmerJobPostDetailController extends GetxController with MessageService {
   final _jobPostRepository = Get.find<JobPostRepository>();
   final _accountRepository = Get.find<ProfileRepository>();
   final JobPost jobPost;
@@ -28,28 +30,46 @@ class FarmerJobPostDetailController extends GetxController {
     checkAppliedHourJob();
   }
 
+  void navigateToChatScreen() {
+    print('Im here');
+    final fromId = AuthCredentials.instance.user?.id ?? 0;
+    final toId = landownerAccount?.value.id ?? 0;
+    final jobPostId = jobPost.id;
+
+    navigateToP2PMessageScreen(
+      fromId,
+      toId,
+      jobPostId,
+      toAvatar: landownerAccount?.value.imageUrl,
+    );
+  }
 
   Future<FarmerJobPostDetailResponse?> getJobPostDetail() async {
     //call api
     final FarmerJobPostDetailResponse? post =
         await _jobPostRepository.getFarmerJobPostdDetail(jobPost.id);
-        print("object: ${post!.type}");
+    print("object: ${post!.type}");
     return post;
   }
 
-   _getLanownerAccount(int landownerId) async {
-    await _accountRepository.getUser(landownerId).then((value) => {
-      if(value != null){
-        landownerAccount = value.obs,       
-      },        
-    },); 
+  _getLanownerAccount(int landownerId) async {
+    await _accountRepository.getUser(landownerId).then(
+          (value) => {
+            if (value != null)
+              {
+                landownerAccount = value.obs,
+              },
+          },
+        );
   }
 
   //Check farmer apply to hour job or not
   checkAppliedHourJob() async {
-    final isApplied =  await _jobPostRepository.checkAppliedHourJob();
+    final isApplied = await _jobPostRepository.checkAppliedHourJob();
     isAppliedHourJob(isApplied);
-    isAppliedHourJob.value ? print("Đã ứng tuyển một job công khác ? ") : print ('Chưa ứng tuyển');
+    isAppliedHourJob.value
+        ? print("Đã ứng tuyển một job công khác ? ")
+        : print('Chưa ứng tuyển');
   }
 
   getExpiredDate(DateTime publishedDate, int numberPublishDate) {
@@ -76,7 +96,7 @@ class FarmerJobPostDetailController extends GetxController {
                 const LoadingBuilder(),
                 CustomSnackbar.show(
                     title: "Thành công", message: AppMsg.MSG3006),
-              }              
+              }
             else
               {
                 CustomSnackbar.show(
@@ -91,9 +111,9 @@ class FarmerJobPostDetailController extends GetxController {
   }
 
   //applied: false, not applied: true (200)
-  _checkFarmerAppliedOrNot(int jobPostId) async{
+  _checkFarmerAppliedOrNot(int jobPostId) async {
     final result = await _jobPostRepository.checkFarmerAppliedOrNot(jobPostId);
     isApplied(result);
-    print(isApplied.value ? 'applied':'not applied');
+    print(isApplied.value ? 'applied' : 'not applied');
   }
 }

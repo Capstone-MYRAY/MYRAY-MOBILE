@@ -2,6 +2,7 @@ import 'package:logging/logging.dart';
 import 'package:myray_mobile/app/data/providers/storage_provider.dart';
 import 'package:myray_mobile/app/shared/utils/custom_exception.dart';
 import 'package:signalr_netcore/signalr_client.dart';
+import 'dart:developer' as developer;
 
 class SignalRProvider with StorageProvider {
   SignalRProvider._();
@@ -11,6 +12,7 @@ class SignalRProvider with StorageProvider {
   final String _connectionUrl = 'https://api.myray.site/chathub';
 
   HubConnection? hubConnection;
+  bool isConnectionOpen = false;
 
   void _getConnection() {
     //get user token
@@ -20,11 +22,11 @@ class SignalRProvider with StorageProvider {
       throw CustomException('Unauthorized');
     }
 
-    // Configer the logging
+    // Config the logging
     Logger.root.level = Level.ALL;
     // Writes the log messages to the console
     Logger.root.onRecord.listen((LogRecord rec) {
-      print('${rec.level.name}: ${rec.time}: ${rec.message}');
+      developer.log('${rec.level.name}: ${rec.time}: ${rec.message}');
     });
 
     final hubProtLogger = Logger("SignalR - hub");
@@ -55,9 +57,20 @@ class SignalRProvider with StorageProvider {
 
     try {
       await hubConnection!.start();
+      isConnectionOpen = true;
       print('Start hub');
     } catch (e) {
       print('Error: ${e.toString()}');
+    }
+  }
+
+  Future<void> stopHub() async {
+    try {
+      await SignalRProvider.instance.hubConnection!.stop();
+      isConnectionOpen = false;
+      print('Stop hub');
+    } catch (e) {
+      print('Stop hub error: ${e.toString()}');
     }
   }
 }

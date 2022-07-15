@@ -123,16 +123,16 @@ class GardenFormController extends GetxController {
   }
 
   List<MultipartFile> generateMultipart(List<UploadImage> images) {
-    List<MultipartFile> _uploadImages = <MultipartFile>[];
+    List<MultipartFile> uploadImages = <MultipartFile>[];
     for (UploadImage image in images) {
       if (!Utils.isNetworkImage(image.path)) {
         File imageFile = File(image.path);
         var fileName = image.path.split('/').last;
         var multipleFile = MultipartFile(imageFile, filename: fileName);
-        _uploadImages.add(multipleFile);
+        uploadImages.add(multipleFile);
       }
     }
-    return _uploadImages;
+    return uploadImages;
   }
 
   onUpdate() async {
