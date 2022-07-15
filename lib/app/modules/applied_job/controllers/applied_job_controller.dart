@@ -57,6 +57,13 @@ class AppliedJobController extends GetxController
     tabController = TabController(vsync: this, length: 3);
   }
 
+   String? validateReason(String? value) {
+    if (Utils.isEmpty(value)) {
+      return 'Vui lòng nhập lý do';
+    }
+    return null;
+  }
+
   Future<void> onRefresh() async {
     _currentPage = 0;
     _hasNextPage = true;

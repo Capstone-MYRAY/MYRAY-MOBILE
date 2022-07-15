@@ -108,7 +108,6 @@ class FarmerExtendJobList extends GetView<AppliedJobController> {
           inputAction: TextInputAction.next,
           readOnly: true,
           onTap: () => {controller.onChooseNewEndDate(appliedJob.oldEndDate)},
-          // validator: controller.validateChooseNewEndDate,
         ),
         SizedBox(
           height: Get.height * 0.04,
@@ -122,7 +121,7 @@ class FarmerExtendJobList extends GetView<AppliedJobController> {
           keyBoardType: TextInputType.multiline,
           minLines: 1,
           maxLines: 10,
-          // validator: controller.validateReason,
+          validator: controller.validateReason,
         ),
       ],
       submit: () => {controller.onSubmitExtendJobForm(appliedJob)},
