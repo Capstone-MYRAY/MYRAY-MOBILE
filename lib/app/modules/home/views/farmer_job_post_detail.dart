@@ -30,12 +30,12 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
         () => controller.isApplied.value || isExpired
             ? CustomBottomNavigationBar(
                 isExpired: isExpired,
-                onPressedOutlineButton: () {},
+                onPressedOutlineButton: controller.navigateToChatScreen,
               )
             : CustomBottomNavigationBar(
                 isExpired: isExpired,
                 // isExpired: false,
-                onPressedOutlineButton: () {},
+                onPressedOutlineButton: controller.navigateToChatScreen,
                 onPressedFilledButton: () {
                   if (controller.jobPost.type == 'PayPerHourJob') {
                     controller.checkAppliedHourJob();

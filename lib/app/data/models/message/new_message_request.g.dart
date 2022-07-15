@@ -8,11 +8,11 @@ part of 'new_message_request.dart';
 
 NewMessageRequest _$NewMessageRequestFromJson(Map<String, dynamic> json) =>
     NewMessageRequest(
-      fromId: json['from_id'] as int,
-      toId: json['to_id'] as int,
-      jobPostId: json['job_post_id'] as int,
+      fromId: json['fromId'] as int,
+      toId: json['toId'] as int,
+      jobPostId: json['jobPostId'] as int,
       message: json['content'] as String?,
-      imgUrl: json['image_url'] as String?,
+      imgUrl: json['imgUrl'] as String?,
     );
 
 Map<String, dynamic> _$NewMessageRequestToJson(NewMessageRequest instance) {
@@ -25,9 +25,9 @@ Map<String, dynamic> _$NewMessageRequestToJson(NewMessageRequest instance) {
   }
 
   writeNotNull('content', instance.message);
-  val['from_id'] = instance.fromId;
-  val['to_id'] = instance.toId;
-  val['job_post_id'] = instance.jobPostId;
-  writeNotNull('image_url', instance.imgUrl);
+  val['fromId'] = instance.fromId;
+  val['toId'] = instance.toId;
+  val['jobPostId'] = instance.jobPostId;
+  writeNotNull('imgUrl', instance.imgUrl);
   return val;
 }

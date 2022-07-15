@@ -50,6 +50,7 @@ class AppliedFarmerView extends StatelessWidget {
                       avatar: appliedFarmer.userInfo.imageUrl,
                       workTitle: appliedFarmer.jobPost.title,
                       appliedDate: appliedFarmer.appliedDate,
+                      rating: appliedFarmer.userInfo.rating,
                       onDetailsPress: () {
                         Get.toNamed(
                           Routes.appliedFarmerDetails,

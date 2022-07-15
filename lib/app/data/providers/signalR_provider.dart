@@ -2,6 +2,7 @@ import 'package:logging/logging.dart';
 import 'package:myray_mobile/app/data/providers/storage_provider.dart';
 import 'package:myray_mobile/app/shared/utils/custom_exception.dart';
 import 'package:signalr_netcore/signalr_client.dart';
+import 'dart:developer' as developer;
 
 class SignalRProvider with StorageProvider {
   SignalRProvider._();
@@ -24,7 +25,7 @@ class SignalRProvider with StorageProvider {
     Logger.root.level = Level.ALL;
     // Writes the log messages to the console
     Logger.root.onRecord.listen((LogRecord rec) {
-      print('${rec.level.name}: ${rec.time}: ${rec.message}');
+      developer.log('${rec.level.name}: ${rec.time}: ${rec.message}');
     });
 
     final hubProtLogger = Logger("SignalR - hub");

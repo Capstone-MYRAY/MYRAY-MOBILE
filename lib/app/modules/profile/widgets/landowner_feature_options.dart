@@ -21,7 +21,7 @@ class LandownerFeatureOptions extends StatelessWidget {
             Get.toNamed(Routes.gardenHome);
           },
         ),
-        _buildDevider(),
+        _buildDivider(),
         FeatureOption(
           icon: CustomIcons.credit_card_outline,
           title: AppStrings.titlePaymentHistory,
@@ -30,42 +30,42 @@ class LandownerFeatureOptions extends StatelessWidget {
             Get.toNamed(Routes.paymentHistoryHome);
           },
         ),
-        _buildDevider(),
+        _buildDivider(),
         FeatureOption(
           icon: CustomIcons.account_heart_outline,
           title: AppStrings.titleFavorite,
           subtitle: AppStrings.subtitleLandownerFavorite,
           onTap: () {},
         ),
-        _buildDevider(),
+        _buildDivider(),
         FeatureOption(
           icon: CustomIcons.shield_alert,
           title: AppStrings.titleReport,
           subtitle: AppStrings.subtitleLandownerReport,
           onTap: () {},
         ),
-        _buildDevider(),
+        _buildDivider(),
         FeatureOption(
           icon: CustomIcons.post_outline,
           title: AppStrings.titleGuidepost,
           subtitle: AppStrings.subtitleGuidepost,
           onTap: () {},
         ),
-        _buildDevider(),
+        _buildDivider(),
         FeatureOption(
           icon: CustomIcons.lock_outline,
           title: AppStrings.labelPassword,
           subtitle: AppStrings.subtitleChangePassword,
           onTap: () {},
         ),
-        _buildDevider(),
+        _buildDivider(),
         FeatureOption(
           icon: CustomIcons.logout,
           title: AppStrings.titleLogout,
           subtitle: AppStrings.subtitleLogout,
           onTap: () {
-            final AuthController _authController = Get.find<AuthController>();
-            _authController.logOut();
+            final AuthController authController = Get.find<AuthController>();
+            authController.logOut();
           },
         ),
         const SizedBox(height: 8.0),
@@ -73,7 +73,7 @@ class LandownerFeatureOptions extends StatelessWidget {
     );
   }
 
-  Widget _buildDevider() {
+  Widget _buildDivider() {
     return const Divider(
       thickness: 0.1,
       color: AppColors.backgroundColor,

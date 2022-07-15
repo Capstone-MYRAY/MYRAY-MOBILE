@@ -3,14 +3,14 @@ import 'package:myray_mobile/app/shared/widgets/custom_circle_avatar.dart';
 
 class MessageBubble extends StatelessWidget {
   final bool isMe;
-  final String message;
-  final String avatar;
-  const MessageBubble(
-      {Key? key,
-      required this.message,
-      required this.avatar,
-      this.isMe = false})
-      : super(key: key);
+  final String? message;
+  final String? avatar;
+  const MessageBubble({
+    Key? key,
+    this.message,
+    this.avatar,
+    this.isMe = false,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -32,21 +32,22 @@ class MessageBubble extends StatelessWidget {
             ),
           ),
           constraints: BoxConstraints(
-            maxWidth: MediaQuery.of(context).size.width * 0.8,
+            maxWidth: MediaQuery.of(context).size.width * 0.7,
           ),
-          margin: const EdgeInsets.symmetric(
-            vertical: 4.0,
+          margin: EdgeInsets.only(
+            top: 4.0,
+            bottom: 4.0,
+            right: isMe ? 8.0 : 0,
           ),
           padding: const EdgeInsets.symmetric(
             vertical: 10.0,
             horizontal: 12.0,
           ),
           child: Text(
-            message,
-            textAlign: isMe ? TextAlign.right : TextAlign.left,
+            message ?? '',
+            textAlign: TextAlign.left,
           ),
         ),
-        if (isMe) _buildAvatar(),
       ],
     );
   }
@@ -55,7 +56,8 @@ class MessageBubble extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 4.0),
       child: CustomCircleAvatar(
-        radius: 12,
+        radius: 14,
+        url: avatar,
       ),
     );
   }

@@ -148,14 +148,6 @@ class JobPostFormView extends GetView<JobPostFormController> {
                                 isDense: true,
                               ),
                             ),
-                            // dropdownBuilder: (_, s) {
-                            //   return ConstrainedBox(
-                            //     constraints: BoxConstraints(
-                            //       maxHeight: 120,
-                            //     ),
-                            //     child: Text(s ?? ''),
-                            //   );
-                            // },
                             selectedItem: controller.selectedWorkType.value,
                             items: const [
                               AppStrings.payPerHour,

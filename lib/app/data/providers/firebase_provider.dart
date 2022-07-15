@@ -2,12 +2,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 
 class FirebaseProvider {
-  String verificationId;
+  String verificationId = '';
   PhoneAuthCredential? phoneAuthCredential;
   UserCredential? user;
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
-  FirebaseProvider._({this.verificationId = ''});
+  FirebaseProvider._();
   static final FirebaseProvider _instance = FirebaseProvider._();
   static FirebaseProvider get instance => _instance;
 

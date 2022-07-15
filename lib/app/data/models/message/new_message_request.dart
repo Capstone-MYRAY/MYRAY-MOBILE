@@ -7,16 +7,16 @@ class NewMessageRequest {
   @JsonKey(name: 'content')
   String? message;
 
-  @JsonKey(name: 'from_id')
+  // @JsonKey(name: 'from_id')
   int fromId;
 
-  @JsonKey(name: 'to_id')
+  // @JsonKey(name: 'to_id')
   int toId;
 
-  @JsonKey(name: 'job_post_id')
+  // @JsonKey(name: 'job_post_id')
   int jobPostId;
 
-  @JsonKey(name: 'image_url')
+  // @JsonKey(name: 'image_url')
   String? imgUrl;
 
   NewMessageRequest({

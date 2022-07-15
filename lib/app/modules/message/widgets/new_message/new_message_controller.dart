@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:myray_mobile/app/data/models/message/message.dart';
 import 'package:myray_mobile/app/data/models/message/new_message_request.dart';
 import 'package:myray_mobile/app/data/providers/signalR_provider.dart';
 import 'package:myray_mobile/app/modules/message/controllers/p2p_message_controller.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/utils/utils.dart';
+import 'package:myray_mobile/app/shared/widgets/custom_snackbar.dart';
 import 'package:signalr_netcore/hub_connection.dart';
 
 class NewMessageController extends GetxController {
@@ -25,7 +27,7 @@ class NewMessageController extends GetxController {
 
   sendMessage() async {
     final msg = messageController.text.trim();
-    final message = NewMessageRequest(
+    final newMessage = NewMessageRequest(
       fromId: fromId,
       toId: toId,
       jobPostId: jobPostId,
@@ -34,18 +36,29 @@ class NewMessageController extends GetxController {
 
     if (SignalRProvider.instance.hubConnection?.state ==
         HubConnectionState.Connected) {
-      try {
-        //TODO: invoke send message (chathub)
-        // await SignalRProvider.instance.hubConnection
-        //     ?.invoke('SendMessage', args: [message]);
+      //create message
+      final message = Message(
+        fromId: fromId,
+        toId: toId,
+        jobPostId: jobPostId,
+        message: msg,
+        conventionId: '',
+      );
 
-        _p2pMessageController.addNewMessage({
-          'content': msg,
-          'isMe': true,
-          'avatar': AppAssets.tempAvatar,
-        });
+      try {
+        SignalRProvider.instance.hubConnection
+            ?.invoke('SendMessage', args: [newMessage]);
+
+        //display message on screen
+        _p2pMessageController.addNewMessage(message);
         messageController.clear();
       } catch (e) {
+        _p2pMessageController.removeNewMessage(message);
+        CustomSnackbar.show(
+          title: AppStrings.titleError,
+          message: 'Có lỗi xảy ra',
+          backgroundColor: AppColors.errorColor,
+        );
         print('Send msg error: ${e.toString()}');
       }
     }
