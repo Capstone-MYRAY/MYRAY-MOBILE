@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:myray_mobile/app/shared/constants/common.dart';
 import 'package:myray_mobile/app/shared/utils/utils.dart';
 import 'package:myray_mobile/app/shared/widgets/custom_circle_avatar.dart';
+import 'package:myray_mobile/app/shared/widgets/image/round_image.dart';
 
 class MessageBubble extends StatelessWidget {
   final bool isMe;
@@ -75,31 +76,11 @@ class MessageBubble extends StatelessWidget {
         bottom: 4.0,
         right: isMe ? 8.0 : 0,
       ),
-      width: 150,
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(CommonConstants.borderRadius),
-        child: AspectRatio(
-          aspectRatio: 1 / 1,
-          child: Utils.isNetworkImage(imageUrl!)
-              ? Image.network(
-                  imageUrl!,
-                  fit: BoxFit.fill,
-                )
-              : Image.file(
-                  File(imageUrl!),
-                  fit: BoxFit.fill,
-                ),
-        ),
+      child: RoundImage(
+        width: 150,
+        imageUrl: imageUrl,
       ),
     );
-  }
-
-  Widget _buildImage() {
-    if (Utils.isNetworkImage(imageUrl!)) {
-      return Image.network(imageUrl!);
-    } else {
-      return Image.file(File(imageUrl!));
-    }
   }
 
   Widget _buildAvatar() {

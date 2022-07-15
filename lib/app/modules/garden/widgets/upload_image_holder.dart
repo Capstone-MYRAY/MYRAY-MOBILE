@@ -8,6 +8,7 @@ import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
 import 'package:myray_mobile/app/shared/utils/utils.dart';
 import 'package:myray_mobile/app/shared/widgets/buttons/filled_button.dart';
+import 'package:myray_mobile/app/shared/widgets/image/round_image.dart';
 
 class UploadImage {
   int id;
@@ -209,20 +210,8 @@ class UploadImageHolderState extends State<UploadImageHolder> {
       child: Column(
         mainAxisSize: MainAxisSize.max,
         children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(CommonConstants.borderRadius),
-            child: AspectRatio(
-              aspectRatio: 1 / 1,
-              child: Utils.isNetworkImage(path)
-                  ? Image.network(
-                      path,
-                      fit: BoxFit.fill,
-                    )
-                  : Image.file(
-                      File(path),
-                      fit: BoxFit.fill,
-                    ),
-            ),
+          RoundImage(
+            imageUrl: path,
           ),
           const SizedBox(height: 16.0),
           FilledButton(
