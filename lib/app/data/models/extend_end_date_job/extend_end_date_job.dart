@@ -21,7 +21,7 @@ class ExtendEndDateJob{
   int? approvedBy;
 
   @JsonKey(name: 'created_date')
-  DateTime createdDate;
+  DateTime? createdDate;
 
   @JsonKey(name: 'approved_date')
   DateTime? approvedDate;
@@ -42,11 +42,11 @@ class ExtendEndDateJob{
     required this.id,
     required this.jobPostId,
     required this.requestBy,
-    required this.createdDate,
     required this.oldEndDate,
     required this.extendEndDate,
     required this.reason,
     required this.status,
+    this.createdDate,
     this.jobTitle,
     this.approvedBy,
     this.approvedDate,

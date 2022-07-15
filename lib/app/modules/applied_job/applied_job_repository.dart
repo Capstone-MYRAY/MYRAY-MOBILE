@@ -6,7 +6,8 @@ import 'package:myray_mobile/app/data/models/extend_end_date_job/extend_end_date
 import 'package:myray_mobile/app/data/models/extend_end_date_job/get_extend_end_date_job_list_response.dart';
 import 'package:myray_mobile/app/data/models/extend_end_date_job/get_extend_end_date_job_request.dart';
 import 'package:myray_mobile/app/data/models/extend_end_date_job/post_extend_end_date_job_request.dart';
-import 'package:myray_mobile/app/data/models/job_post/get_request_job_post_list.dart';
+import 'package:myray_mobile/app/data/models/extend_end_date_job/put_extend_end_date_request.dart';
+import 'package:myray_mobile/app/data/models/extend_end_date_job/update_end_date_job_response.dart';
 import 'package:myray_mobile/app/data/models/report/post_report_request.dart';
 import 'package:myray_mobile/app/data/models/report/report.dart';
 import 'package:myray_mobile/app/data/providers/api/api_provider.dart';
@@ -70,4 +71,21 @@ class AppliedJobRepository {
     return null;
   }
 
+  //cancel request extend end date job
+  Future<bool?> canceExtendEndDate (int extendTaskId) async {
+    final response = await _apiProvider.delete('/extendtaskjob/$extendTaskId');
+    print('cancel extend date has error: ${response.hasError}');
+    return response.isOk;
+  }
+
+  //update extend end date job
+  Future<bool?> updateExtendEndDate(PutExtendEndDateRequest data) async {
+    print('data: ${data.extendEndDate}');
+    final response = await _apiProvider.putMethod('/extendtaskjob', data.toJson());
+    if(response.isOk){
+      print('ngay ket thuc moi: ${UpdateEndDateJobResponse.fromJson(response.body).extendEndDate}');
+      return true;
+    }
+    return false;
+  }
 }
