@@ -12,7 +12,7 @@ NewMessageRequest _$NewMessageRequestFromJson(Map<String, dynamic> json) =>
       toId: json['toId'] as int,
       jobPostId: json['jobPostId'] as int,
       message: json['content'] as String?,
-      imgUrl: json['imgUrl'] as String?,
+      imgUrl: json['imageUrl'] as String?,
     );
 
 Map<String, dynamic> _$NewMessageRequestToJson(NewMessageRequest instance) {
@@ -28,6 +28,6 @@ Map<String, dynamic> _$NewMessageRequestToJson(NewMessageRequest instance) {
   val['fromId'] = instance.fromId;
   val['toId'] = instance.toId;
   val['jobPostId'] = instance.jobPostId;
-  writeNotNull('imgUrl', instance.imgUrl);
+  writeNotNull('imageUrl', instance.imgUrl);
   return val;
 }

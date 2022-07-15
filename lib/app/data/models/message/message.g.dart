@@ -14,7 +14,7 @@ Message _$MessageFromJson(Map<String, dynamic> json) => Message(
       createdDate: json['created_date'] == null
           ? null
           : DateTime.parse(json['created_date'] as String),
-      conventionId: json['convention_id'] as String,
+      conventionId: json['convention_id'] as String?,
       isRead: json['is_read'] as bool? ?? true,
       imgUrl: json['image_url'] as String?,
       message: json['content'] as String?,
@@ -34,7 +34,7 @@ Map<String, dynamic> _$MessageToJson(Message instance) {
   val['to_id'] = instance.toId;
   val['job_post_id'] = instance.jobPostId;
   writeNotNull('content', instance.message);
-  val['convention_id'] = instance.conventionId;
+  writeNotNull('convention_id', instance.conventionId);
   writeNotNull('created_date', instance.createdDate?.toIso8601String());
   writeNotNull('image_url', instance.imgUrl);
   val['is_read'] = instance.isRead;

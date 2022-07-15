@@ -20,9 +20,10 @@ class P2PMessages extends StatelessWidget {
         final messageInfo = messages[index];
         return MessageBubble(
           // key: to do later,
-          message: messageInfo.message ?? '',
+          message: messageInfo.message,
           isMe: messageInfo.isMe,
           avatar: toAvatar,
+          imageUrl: messageInfo.imgUrl,
         );
       },
     );

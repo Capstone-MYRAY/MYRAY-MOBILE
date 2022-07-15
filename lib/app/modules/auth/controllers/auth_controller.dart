@@ -11,13 +11,7 @@ class AuthController extends GetxController with StorageProvider {
     removeToken();
     AuthCredentials.instance.clearUserInfor();
     //disconnect from hub when logout
-    try {
-      SignalRProvider.instance.hubConnection!
-          .stop()
-          .then((value) => print('stop nè'));
-    } catch (e) {
-      print('Stop error nè: ${e.toString()}');
-    }
+    SignalRProvider.instance.stopHub();
   }
 
   Future<void> login(String token, String refreshToken) async {

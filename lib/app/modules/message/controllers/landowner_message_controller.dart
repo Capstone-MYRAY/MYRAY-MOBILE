@@ -6,7 +6,9 @@ import 'package:myray_mobile/app/shared/utils/auth_credentials.dart';
 class LandownerMessageController extends GetxController with MessageService {
   @override
   void onInit() async {
-    await SignalRProvider.instance.connectToHub();
+    if (!SignalRProvider.instance.isConnectionOpen) {
+      await SignalRProvider.instance.connectToHub();
+    }
     super.onInit();
   }
 

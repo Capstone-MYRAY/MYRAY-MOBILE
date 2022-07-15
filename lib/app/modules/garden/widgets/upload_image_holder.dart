@@ -65,9 +65,9 @@ class UploadImageHolderState extends State<UploadImageHolder> {
   }
 
   _addImage({int maxImage = CommonConstants.maxImage}) async {
-    List<Media>? _tempImages = await _showImageDialog(maxImage: maxImage);
-    if (_tempImages != null) {
-      for (var image in _tempImages) {
+    List<Media>? tempImages = await _showImageDialog(maxImage: maxImage);
+    if (tempImages != null) {
+      for (var image in tempImages) {
         int id = _selectedImages.length + 1;
         _selectedImages.add(UploadImage(id: id, path: image.path));
       }
@@ -142,8 +142,8 @@ class UploadImageHolderState extends State<UploadImageHolder> {
   }
 
   _editImage(int id) async {
-    final _tempImage = await _showImageDialog(maxImage: 1);
-    if (_tempImage != null) {
+    final tempImage = await _showImageDialog(maxImage: 1);
+    if (tempImage != null) {
       final UploadImage? found =
           _selectedImages.firstWhere((image) => image.id == id);
       if (found != null) {
@@ -151,7 +151,7 @@ class UploadImageHolderState extends State<UploadImageHolder> {
         _addTempDeletImg(found.path);
 
         //Update image
-        found.path = _tempImage[0].path;
+        found.path = tempImage[0].path;
         setState(() {});
       }
     }

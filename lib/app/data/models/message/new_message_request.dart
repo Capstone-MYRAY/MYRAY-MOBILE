@@ -16,7 +16,7 @@ class NewMessageRequest {
   // @JsonKey(name: 'job_post_id')
   int jobPostId;
 
-  // @JsonKey(name: 'image_url')
+  @JsonKey(name: 'imageUrl')
   String? imgUrl;
 
   NewMessageRequest({
