@@ -229,4 +229,5 @@ class AppStrings {
   static const buttonOnLeave = 'Báo nghỉ phép';
   static const submit = 'Nộp đơn';
   static const reportJobProblem = 'Báo cáo vấn đề công việc';
+  static const feedbackJob = 'Đánh giá công việc';
 }

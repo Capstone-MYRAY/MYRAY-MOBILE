@@ -18,6 +18,7 @@ class FarmerInprogressJobCard extends StatelessWidget {
   final void Function()? extendJob;
   final void Function()? checkAttendance;
   final void Function() onLeave;
+  final void Function() feedback;
   final void Function() report;
 
   const FarmerInprogressJobCard({
@@ -27,6 +28,7 @@ class FarmerInprogressJobCard extends StatelessWidget {
     required this.startTime,
     required this.endTime,
     required this.report,
+    required this.feedback,
     required this.onLeave,
     this.jobEndDate,
     this.isPayPerHourJob = true,
@@ -232,6 +234,11 @@ class FarmerInprogressJobCard extends StatelessWidget {
                             iconData: Icons.edit_calendar_outlined,
                           ),
                     _buildTabDialog(
+                      function: feedback,
+                      label: AppStrings.feedbackJob,
+                      iconData: Icons.feedback_outlined
+                    ),
+                    _buildTabDialog(
                       function: report,
                       label: AppStrings.reportJobProblem,
                       iconData: Icons.report_problem_outlined,
@@ -301,7 +308,7 @@ class FarmerInprogressJobCard extends StatelessWidget {
     return Center(
       child: Column(
         children: [
-          Image.asset(AppAssets.cultivation, scale: 25),
+          Image.asset(AppAssets.cultivation, width: Get.width * 0.3),
         ],
       ),
     );
