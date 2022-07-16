@@ -1,7 +1,5 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:myray_mobile/app/shared/constants/common.dart';
+import 'package:get/get.dart';
 import 'package:myray_mobile/app/shared/utils/utils.dart';
 import 'package:myray_mobile/app/shared/widgets/custom_circle_avatar.dart';
 import 'package:myray_mobile/app/shared/widgets/image/round_image.dart';
@@ -11,6 +9,8 @@ class MessageBubble extends StatelessWidget {
   final String? message;
   final String? avatar;
   final String? imageUrl;
+  final DateTime? createdDate;
+  final bool isSameTime;
 
   const MessageBubble({
     Key? key,
@@ -18,19 +18,40 @@ class MessageBubble extends StatelessWidget {
     this.avatar,
     this.imageUrl,
     this.isMe = false,
+    this.createdDate,
+    this.isSameTime = false,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.end,
+    return Column(
       children: [
-        if (!isMe) _buildAvatar(),
-        Column(
+        Row(
+          mainAxisAlignment:
+              isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            if (message != null) _buildTextMsg(context),
-            if (imageUrl != null) _buildImageMsg(),
+            if (!isMe) _buildAvatar(),
+            Column(
+              crossAxisAlignment:
+                  isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+              children: [
+                Container(
+                  margin: const EdgeInsets.only(
+                    top: 8.0,
+                    right: 8.0,
+                  ),
+                  child: Text(
+                    Utils.formatMessageDateTime(createdDate ?? DateTime.now()),
+                    style: Get.textTheme.caption!.copyWith(
+                      fontSize: 11 * Get.textScaleFactor,
+                    ),
+                  ),
+                ),
+                if (message != null) _buildTextMsg(context),
+                if (imageUrl != null) _buildImageMsg(),
+              ],
+            ),
           ],
         ),
       ],

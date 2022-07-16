@@ -24,6 +24,8 @@ class P2PMessages extends StatelessWidget {
           isMe: messageInfo.isMe,
           avatar: toAvatar,
           imageUrl: messageInfo.imgUrl,
+          createdDate: messageInfo.createdDate,
+          // isSameTime: isSameTime,
         );
       },
     );

@@ -45,6 +45,7 @@ class P2PMessageController extends GetxController {
         jobPostId: msg['jobPostId'],
         message: msg['content'],
         imgUrl: msg['imageUrl'],
+        createdDate: DateTime.now(),
       );
       addNewMessage(comingMsg);
       update();

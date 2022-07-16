@@ -8,9 +8,13 @@ class LandownerMessageController extends GetxController with MessageService {
   void onInit() async {
     if (!SignalRProvider.instance.isConnectionOpen) {
       await SignalRProvider.instance.connectToHub();
+      SignalRProvider.instance.hubConnection?.on('convention', _getMessages);
     }
+
     super.onInit();
   }
+
+  _getMessages(List<Object>? arguments) {}
 
   navigateToChatScreen(int toId, int jobPostId) {
     final fromId = AuthCredentials.instance.user?.id ?? 0;

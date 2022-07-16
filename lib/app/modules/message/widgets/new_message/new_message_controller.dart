@@ -60,6 +60,7 @@ class NewMessageController extends GetxController with UploadImageService {
         toId: toId,
         jobPostId: jobPostId,
         imgUrl: selectedImage.path,
+        createdDate: DateTime.now(),
       );
 
       try {
