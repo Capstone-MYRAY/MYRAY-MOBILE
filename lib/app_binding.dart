@@ -13,6 +13,8 @@ import 'package:myray_mobile/app/modules/auth/auth_repository.dart';
 import 'package:myray_mobile/app/modules/auth/controllers/auth_controller.dart';
 import 'package:myray_mobile/app/modules/auth/controllers/login_controller.dart';
 import 'package:myray_mobile/app/modules/dashboard/controllers/dashboard_controller.dart';
+import 'package:myray_mobile/app/modules/feedback/controllers/feedback_controller.dart';
+import 'package:myray_mobile/app/modules/feedback/feedback_repository.dart';
 import 'package:myray_mobile/app/modules/garden/garden_repository.dart';
 import 'package:myray_mobile/app/modules/home/controllers/farmer_home_controller.dart';
 import 'package:myray_mobile/app/modules/job_post/controllers/farmer_inprogress_job_controller.dart';
@@ -63,5 +65,7 @@ class AppBinding extends Bindings {
     Get.lazyPut(() => AppliedJobRepository(), fenix: true);
     Get.lazyPut(() => FarmerInprogressJobController(), fenix: true);
     Get.lazyPut(() => FarmerNotStartJobController(), fenix: true);
+    Get.lazyPut(() => FeedBackRepository(),fenix: true);
+    Get.lazyPut(() => FeedBackController(), fenix: true);
   }
 }

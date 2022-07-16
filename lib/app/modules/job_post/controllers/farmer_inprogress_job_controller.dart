@@ -5,12 +5,16 @@ import 'package:myray_mobile/app/data/enums/enums.dart';
 import 'package:myray_mobile/app/data/models/applied_job/applied_job_response.dart';
 import 'package:myray_mobile/app/data/models/applied_job/get_applied_job_request.dart';
 import 'package:myray_mobile/app/data/models/applied_job/get_applied_job_response.dart';
+import 'package:myray_mobile/app/data/models/attendance/farmer_post_attendance_request.dart';
 import 'package:myray_mobile/app/data/models/extend_end_date_job/extend_end_date_job.dart';
 import 'package:myray_mobile/app/data/models/extend_end_date_job/get_extend_end_date_job_list_response.dart';
 import 'package:myray_mobile/app/data/models/extend_end_date_job/post_extend_end_date_job_request.dart';
+import 'package:myray_mobile/app/data/models/feedback/feedback.dart';
+import 'package:myray_mobile/app/data/models/feedback/post_feedback_request.dart';
 import 'package:myray_mobile/app/data/models/report/post_report_request.dart';
 import 'package:myray_mobile/app/data/models/report/report.dart';
 import 'package:myray_mobile/app/modules/applied_job/applied_job_repository.dart';
+import 'package:myray_mobile/app/modules/feedback/controllers/feedback_controllers.dart';
 import 'package:myray_mobile/app/shared/constants/app_colors.dart';
 import 'package:myray_mobile/app/shared/utils/auth_credentials.dart';
 import 'package:myray_mobile/app/shared/utils/custom_exception.dart';
@@ -20,6 +24,7 @@ import 'package:myray_mobile/app/shared/widgets/custom_snackbar.dart';
 
 class FarmerInprogressJobController extends GetxController {
   final _appliedRepository = Get.find<AppliedJobRepository>();
+  FeedBackController feedBackController = Get.find<FeedBackController>();
 
   Rx<GetAppliedJobPostList>? inProgressJobList;
   RxList<AppliedJobResponse> inProgressJobPostList =
@@ -34,16 +39,21 @@ class FarmerInprogressJobController extends GetxController {
   bool _hasNextPage = true;
   final isLoading = false.obs;
 
+  late DateTime currentOnleaveDate;
+  late DateTime currentExtendDate;
+
   late GlobalKey<FormState> formKey;
 
   late TextEditingController reportContentController;
 
-  late TextEditingController onLeaveStartDateController;
-  late TextEditingController onLeaveEndDateController;
+  late TextEditingController onLeaveDateController;
   late TextEditingController onLeaveReasonController;
 
   late TextEditingController extendJobDateController;
   late TextEditingController extendJobReasonController;
+
+  late TextEditingController feedbackContentController;
+  late TextEditingController feedbackRatingController;
 
   @override
   void onInit() async {
@@ -51,12 +61,14 @@ class FarmerInprogressJobController extends GetxController {
 
     reportContentController = TextEditingController();
 
-    onLeaveStartDateController = TextEditingController();
+    onLeaveDateController = TextEditingController();
     onLeaveReasonController = TextEditingController();
-    onLeaveEndDateController = TextEditingController();
 
     extendJobDateController = TextEditingController();
     extendJobReasonController = TextEditingController();
+
+    feedbackContentController = TextEditingController();
+    feedbackRatingController = TextEditingController();
     super.onInit();
   }
 
@@ -100,7 +112,7 @@ class FarmerInprogressJobController extends GetxController {
     inProgressJobPostList.clear();
     await getInProgressJobList();
   }
-  
+
   String? validateReason(String? value) {
     if (Utils.isEmpty(value)) {
       return 'Vui lòng nhập lý do';
@@ -108,23 +120,9 @@ class FarmerInprogressJobController extends GetxController {
     return null;
   }
 
-  String? validateChooseOnleaveEndDate(String? value) {
-    if (Utils.isEmpty(value)) {
-      return 'Vui lòng chọn ngày kết thúc nghỉ';
-    }
-    return null;
-  }
-
-  String? validateChooseOnleaveStartDate(String? value) {
+  String? validateChooseOnleaveDate(String? value) {
     if (Utils.isEmpty(value)) {
       return 'Vui lòng chọn ngày bắt đầu nghỉ';
-    }
-    if (onLeaveEndDateController.text.isNotEmpty) {
-      DateTime startDate = Utils.fromddMMyyyy(onLeaveStartDateController.text);
-      DateTime endDate = Utils.fromddMMyyyy(onLeaveEndDateController.text);
-      if (startDate.isAfter(endDate)) {
-        return 'Ngày bắt đầu nghỉ phải trước ngày kết thúc nghỉ';
-      }
     }
     return null;
   }
@@ -138,43 +136,18 @@ class FarmerInprogressJobController extends GetxController {
     return null;
   }
 
-  void onChooseOnLeaveStartDate() async {
-    DateTime? _initDate = onLeaveStartDateController.text.isEmpty
+  void onChooseOnLeaveDate() async {
+    DateTime? _initDate = onLeaveDateController.text.isEmpty
         ? DateTime.now().add(const Duration(days: 1))
-        : Utils.fromddMMyyyy(onLeaveStartDateController.text);
+        : Utils.fromddMMyyyy(onLeaveDateController.text);
     DateTime? _pickedDate = await MyDatePicker.show(
         initDate: _initDate,
         firstDate: _initDate,
         lastDate: DateTime.now()
             .add(const Duration(days: 365 * 10))); //check ngày end job
     if (_pickedDate != null) {
-      onLeaveStartDateController.text = Utils.formatddMMyyyy(_pickedDate);
-    }
-    if (onLeaveEndDateController.text.isEmpty) {
-      onLeaveEndDateController.text = onLeaveStartDateController.text;
-    }
-  }
-
-  void onChooseOnLeaveEndDate() async {
-    DateTime now = DateTime.now();
-    DateTime _firstDate = onLeaveStartDateController.text.isNotEmpty
-        ? Utils.fromddMMyyyy(onLeaveStartDateController.text)
-        : now;
-    DateTime? _initDate = !_firstDate.isAtSameMomentAs(now)
-        ? _firstDate
-        : onLeaveEndDateController.text.isNotEmpty
-            ? Utils.fromddMMyyyy(onLeaveEndDateController.text)
-            : null;
-
-    DateTime? _pickedDate = await MyDatePicker.show(
-        firstDate: _firstDate,
-        initDate: _initDate,
-        lastDate: _firstDate.add(
-            const Duration(days: 29))); // not include the first day; max = 30
-    print('_pickedDate: $_pickedDate');
-
-    if (_pickedDate != null) {
-      onLeaveEndDateController.text = Utils.formatddMMyyyy(_pickedDate);
+      currentOnleaveDate = _pickedDate;
+      onLeaveDateController.text = Utils.formatddMMyyyy(_pickedDate);
     }
   }
 
@@ -184,8 +157,8 @@ class FarmerInprogressJobController extends GetxController {
     DateTime _initDate = oldDate != null
         ? oldDate.add(const Duration(days: 1))
         : now.add(const Duration(days: 365 * 10));
-    DateTime _firstDate = onLeaveStartDateController.text.isNotEmpty
-        ? Utils.fromddMMyyyy(onLeaveStartDateController.text)
+    DateTime _firstDate = onLeaveDateController.text.isNotEmpty
+        ? Utils.fromddMMyyyy(onLeaveDateController.text)
         : _initDate;
     DateTime? _pickedDate = await MyDatePicker.show(
         firstDate: _firstDate,
@@ -195,6 +168,7 @@ class FarmerInprogressJobController extends GetxController {
     print('_pickedDate: $_pickedDate');
 
     if (_pickedDate != null) {
+      currentExtendDate =_pickedDate;
       extendJobDateController.text = Utils.formatddMMyyyy(_pickedDate);
     }
   }
@@ -205,8 +179,7 @@ class FarmerInprogressJobController extends GetxController {
   }
 
   onCloseOnLeaveDialog() {
-    onLeaveStartDateController.clear();
-    onLeaveEndDateController.clear();
+    onLeaveDateController.clear();
     onLeaveReasonController.clear();
     Get.back();
   }
@@ -217,7 +190,13 @@ class FarmerInprogressJobController extends GetxController {
     Get.back();
   }
 
-  onSubmitReportForm(int jobPostId) async {
+   onCloseFeedBackDialog() {
+    feedbackContentController.clear();
+    feedbackRatingController.clear();
+    Get.back();
+  }
+ 
+ onSubmitReportForm(int jobPostId) async {
     bool isFormValid = formKey.currentState!.validate();
     print(isFormValid ? reportContentController.value : 'no valid');
     if (isFormValid) {
@@ -241,14 +220,43 @@ class FarmerInprogressJobController extends GetxController {
     }
   }
 
-  onSubmitOnleaveForm() {
+  onSubmitOnleaveForm(int jobPostId) async {
     bool isFormValid = formKey.currentState!.validate();
     print(isFormValid);
-    print(onLeaveEndDateController.text);
 
     if (isFormValid) {
-      //do some code here
+      FarmerPostAttendanceRequest data = FarmerPostAttendanceRequest(
+        jobPostId: jobPostId,
+        dayOff: DateTime.parse('${currentOnleaveDate}Z'),
+        reason: onLeaveReasonController.text,
+      );
       onCloseOnLeaveDialog();
+      try {
+        EasyLoading.show();
+        Future.delayed(const Duration(milliseconds: 1500), () {
+          EasyLoading.dismiss();
+        });
+        await _requestDayOff(data).then((result) => {
+              if (result!)
+                {
+                  CustomSnackbar.show(
+                      title: "Thành công", message: "Gửi yêu cầu thành công")
+                }
+              else
+                {
+                  CustomSnackbar.show(
+                      title: "Lỗi",
+                      message: "Gửi yêu cầu không thành công",
+                      backgroundColor: AppColors.errorColor)
+                }
+            });
+      } on CustomException catch (e) {
+        CustomSnackbar.show(
+            title: "Lỗi",
+            message: "Gửi yêu cầu không thành công",
+            backgroundColor: AppColors.errorColor);
+        print('lỗi: $e');
+      }
     }
   }
 
@@ -256,9 +264,8 @@ class FarmerInprogressJobController extends GetxController {
     bool isFormValid = formKey.currentState!.validate();
     if (isFormValid) {
       // EasyLoading.show();
-
       PostExtendEndDateJobRequest data = PostExtendEndDateJobRequest(
-          extendEndDate: extendJobDateController.text,
+          extendEndDate: '${currentExtendDate}Z',
           jobPostId: jobPostId,
           reason: extendJobReasonController.text);
 
@@ -271,8 +278,11 @@ class FarmerInprogressJobController extends GetxController {
               message: "Gửi yêu cầu không thành công",
               backgroundColor: AppColors.errorColor);
         } else {
-          CustomSnackbar.show(
+          Future.delayed(const Duration(milliseconds: 1200), () {
+          EasyLoading.dismiss();
+           CustomSnackbar.show(
               title: "Thành công", message: "Gửi yêu cầu thành công");
+        });
         }
       } on CustomException catch (e) {
         CustomSnackbar.show(
@@ -286,16 +296,60 @@ class FarmerInprogressJobController extends GetxController {
     }
   }
 
+  onSubmitFeedBackForm(int jobPostId) async {
+    bool isFormValid = formKey.currentState!.validate();
+
+    if (isFormValid) {    
+      PostFeedbackRequest data = PostFeedbackRequest(
+        content: feedbackContentController.text,
+        numStart: feedbackRatingController.text != '5'
+         ? int.parse(feedbackRatingController.text)
+         : 5,
+        jobPostId: jobPostId,
+        belongedId: AuthCredentials.instance.user!.id!,
+      );      
+      try {
+        FeedBack? feedback = await feedBackController.sendFeedBack(data);
+        EasyLoading.show();
+        
+        if (feedback != null) {
+          Future.delayed(const Duration(milliseconds: 1000), () {
+          EasyLoading.dismiss();
+           CustomSnackbar.show(
+              title: "Thành công", message: "Gửi đánh giá thành công");
+        });
+         
+          return;
+        }
+
+        CustomSnackbar.show(
+            title: "Thất bại",
+            message: "Gửi đánh giá không thành công",
+            backgroundColor: AppColors.errorColor);
+      } on CustomException catch (e) {
+        print('Đánh giá xảy ra lỗi: $e');
+        CustomSnackbar.show(
+            title: "Thất bại",
+            message: "Gửi đánh giá không thành công",
+            backgroundColor: AppColors.errorColor);
+      }
+    }
+  }
+
   Future<Report?> _reportJob(PostReportRequest reportData) async {
     return await _appliedRepository.reportJob(reportData);
   }
 
   Future<ExtendEndDateJob?> _extendEndDateJob(
       PostExtendEndDateJobRequest data) async {
-    return await _appliedRepository.extendEndDateJob(data);
+     return await _appliedRepository.extendEndDateJob(data);
   }
 
   Future<ExtendEndDateJob?> getExtendEndDateJob(int jobPostId) async {
     return await _appliedRepository.getExtendEndDateJob(jobPostId);
+  }
+
+  Future<bool?> _requestDayOff(FarmerPostAttendanceRequest data) async {
+    return await _appliedRepository.requestDayOff(data);
   }
 }
