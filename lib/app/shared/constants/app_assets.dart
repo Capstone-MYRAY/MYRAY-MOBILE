@@ -15,5 +15,6 @@ class AppAssets {
   static const placeholderImage = '${_imgPath}placeholder_image.png';
 
   //icon
+  static const cultivation = _imgPath + 'cultivation.png';
   static const noJobFound = '${_imgPath}job_seeker.png';
 }

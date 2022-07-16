@@ -30,7 +30,7 @@ class Report{
   DateTime? resolvedDate;
 
   @JsonKey(name: 'resolved_by')
-  int resolvedBy;
+  int? resolvedBy;
 
   @JsonKey(name: 'status')
   int status;

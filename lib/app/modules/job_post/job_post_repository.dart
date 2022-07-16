@@ -7,6 +7,8 @@ import 'package:myray_mobile/app/data/models/job_post/job_post.dart';
 import 'package:myray_mobile/app/data/models/job_post/job_post_cru.dart';
 import 'package:myray_mobile/app/data/models/job_post/job_post_response.dart';
 import 'package:myray_mobile/app/data/models/job_post/landowner_get_job_post_response.dart';
+import 'package:myray_mobile/app/data/models/report/post_report_request.dart';
+import 'package:myray_mobile/app/data/models/report/report.dart';
 import 'package:myray_mobile/app/data/providers/api/api_provider.dart';
 import 'package:myray_mobile/app/shared/utils/custom_exception.dart';
 import 'package:myray_mobile/app/data/models/job_post/farmer_job_post_detail_response.dart';
@@ -145,13 +147,11 @@ class JobPostRepository {
     return response.statusCode != HttpStatus.ok;
   }
 
-  // Future<Report?> reportJob(int jobId){
-  //   final response = await _apiProvider.getMethod('$JOB_POST_URL/report');
-  // }
   Future<bool?> checkAppliedHourJob() async {
     final response = await _apiProvider.getMethod('$JOB_POST_URL/checkappliedhourjob');
     print("applied hour job or not: ${response.body}");
     return response.body;
     
   }
+
 }

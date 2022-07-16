@@ -7,13 +7,14 @@ import 'package:myray_mobile/app/shared/widgets/buttons/custom_text_button.dart'
 class CustomFormDialog {
   CustomFormDialog._();
 
-  static Future<dynamic> showDialog({
-    required final String title,
-    required List<Widget> textFields,
-    required void Function() submit,
-    required void Function() cancel,
-    GlobalKey<FormState>? formKey,
-  }) {
+  static Future<dynamic> showDialog(
+      {required final String title,
+      required List<Widget> textFields,
+      required void Function() cancel,
+      void Function()? submit,
+      GlobalKey<FormState>? formKey,
+      String cancelButtonTitle = AppStrings.cancel,
+      String submitButtonTitle = AppStrings.submit}) {
     return Get.defaultDialog(
         barrierDismissible: false,
         radius: 10,
@@ -27,46 +28,51 @@ class CustomFormDialog {
         content: Form(
           key: formKey,
           child: Flexible(
-              child: SingleChildScrollView(
+            child: SingleChildScrollView(
               reverse: true,
               padding: const EdgeInsets.all(10),
-                child: Column(
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: textFields,
-                    ),
-                    SizedBox(
-                      height: Get.height * 0.05,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        CustomTextButton(
-                          onPressed: submit,
-                          title: AppStrings.submit,
-                        ),
-                        SizedBox(
-                          width: Get.width * 0.03,
-                        ),
-                        CustomTextButton(
-                            onPressed: cancel,
-                            title: AppStrings.cancel,
-                            border: Border.all(
-                              color: AppColors.primaryColor,
-                            ),
-                            foreground: AppColors.primaryColor,
-                            background: AppColors.white,
-                            padding: EdgeInsets.symmetric(
-                                horizontal: Get.width * 0.08, vertical: 9))
-                      ],
-                    )
-                  ],
-                ),
+              child: Column(
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: textFields,
+                  ),
+                  SizedBox(
+                    height: Get.height * 0.05,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      submit != null
+                          ? Row(
+                              children: [
+                                CustomTextButton(
+                                  onPressed: submit,
+                                  title: submitButtonTitle,
+                                ),
+                                SizedBox(
+                                  width: Get.width * 0.03,
+                                ),
+                              ],
+                            )
+                          : const SizedBox(),
+                      CustomTextButton(
+                          onPressed: cancel,
+                          title: cancelButtonTitle,
+                          border: Border.all(
+                            color: AppColors.primaryColor,
+                          ),
+                          foreground: AppColors.primaryColor,
+                          background: AppColors.white,
+                          padding: EdgeInsets.symmetric(
+                              horizontal: Get.width * 0.08, vertical: 9))
+                    ],
+                  )
+                ],
               ),
             ),
-          
+          ),
         ));
   }
 }

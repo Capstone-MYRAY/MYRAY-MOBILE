@@ -221,11 +221,12 @@ class AppStrings {
   //Button
   static const messageButton = "Nhắn tin";
   static const applyButton = "Ứng tuyển ngay";
-  static const extendButton = "Gia hạn";
+  static const extendButton = "Gia hạn ngày kết thúc";
   static const buttonCheckAttendance = 'Điểm danh';
   static const cancel = "Hủy";
   static const back = "Quay lại";
   static const shortApplyButton = "Ứng tuyển";
-  static const buttonOnLeave = 'Báo nghỉ';
+  static const buttonOnLeave = 'Báo nghỉ phép';
   static const submit = 'Nộp đơn';
+  static const reportJobProblem = 'Báo cáo vấn đề công việc';
 }
