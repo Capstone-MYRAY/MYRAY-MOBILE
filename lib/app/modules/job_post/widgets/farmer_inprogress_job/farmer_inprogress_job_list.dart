@@ -108,6 +108,7 @@ class FarmerInprogressJobList extends GetView<FarmerInprogressJobController> {
                       },
                       extendJob: () =>
                           {Get.back(), _showExtendJobDialog(jobPost.jobEndDate, jobPost.id)},
+                      feedback: (){print('return form feedback');},
                     ));
               }));
         }));
@@ -154,20 +155,20 @@ class FarmerInprogressJobList extends GetView<FarmerInprogressJobController> {
               onTap: controller.onChooseOnLeaveStartDate,
               validator: controller.validateChooseOnleaveStartDate,
             ),
-            SizedBox(
-              height: Get.height * 0.04,
-            ),
-            InputField(
-              key: UniqueKey(),
-              controller: controller.onLeaveEndDateController,
-              icon: const Icon(CustomIcons.calendar_range),
-              labelText: '${AppStrings.labelOnLeaveEndDate}*',
-              placeholder: AppStrings.placeholderOnleaveEndDate,
-              inputAction: TextInputAction.next,
-              readOnly: true,
-              onTap: controller.onChooseOnLeaveEndDate,
-              // validator: controller.validateChooseOnleaveEndDate,
-            ),
+            // SizedBox(
+            //   height: Get.height * 0.04,
+            // ),
+            // InputField(
+            //   key: UniqueKey(),
+            //   controller: controller.onLeaveEndDateController,
+            //   icon: const Icon(CustomIcons.calendar_range),
+            //   labelText: '${AppStrings.labelOnLeaveEndDate}*',
+            //   placeholder: AppStrings.placeholderOnleaveEndDate,
+            //   inputAction: TextInputAction.next,
+            //   readOnly: true,
+            //   onTap: controller.onChooseOnLeaveEndDate,
+            //   // validator: controller.validateChooseOnleaveEndDate,
+            // ),
             SizedBox(
               height: Get.height * 0.04,
             ),
