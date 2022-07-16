@@ -125,8 +125,7 @@ class AppStrings {
   static const labelIssuedPerson = 'Người thực hiện';
   static const labelBalance = 'Số dư';
   static const labelCurrentPoint = 'Điểm hiện tại';
-  static const labelOnLeaveStartDate = 'Ngày nghỉ bắt đầu';
-  static const labelOnLeaveEndDate = 'Ngày nghỉ kết thúc';
+  static const labelOnLeaveDate = 'Ngày nghỉ';
   static const labelNewExtendJobDate = 'Ngày kết thúc mới';
   static const labelOldExtendJobDate = 'Ngày kết thúc cũ';
   static const labelAppliedDate = 'Ngày ứng tuyển';

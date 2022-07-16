@@ -1,4 +1,7 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:myray_mobile/app/data/models/extend_end_date_job/extend_end_date_job.dart';
@@ -104,11 +107,16 @@ class FarmerInprogressJobList extends GetView<FarmerInprogressJobController> {
                       },
                       onLeave: () {
                         Get.back();
-                        _showOnLeaveDialog();
+                        _showOnLeaveDialog(jobPost.id);
                       },
-                      extendJob: () =>
-                          {Get.back(), _showExtendJobDialog(jobPost.jobEndDate, jobPost.id)},
-                      feedback: (){print('return form feedback');},
+                      extendJob: () => {
+                        Get.back(),
+                        _showExtendJobDialog(jobPost.jobEndDate, jobPost.id)
+                      },
+                      feedback: () {
+                        Get.back();
+                        _showFeedBackDialog(jobPost.id);
+                      },
                     ));
               }));
         }));
@@ -131,11 +139,13 @@ class FarmerInprogressJobList extends GetView<FarmerInprogressJobController> {
             validator: controller.validateReason,
           ),
         ],
-        submit: () {controller.onSubmitReportForm(jobPostId);},
+        submit: () {
+          controller.onSubmitReportForm(jobPostId);
+        },
         cancel: controller.onCloseReportDialog);
   }
 
-  Future _showOnLeaveDialog() {
+  Future _showOnLeaveDialog(int jobPostId) {
     return CustomFormDialog.showDialog(
       title: 'Nghỉ phép',
       formKey: controller.formKey,
@@ -146,29 +156,15 @@ class FarmerInprogressJobList extends GetView<FarmerInprogressJobController> {
           children: [
             InputField(
               key: UniqueKey(),
-              controller: controller.onLeaveStartDateController,
+              controller: controller.onLeaveDateController,
               icon: const Icon(CustomIcons.calendar_range),
-              labelText: '${AppStrings.labelOnLeaveStartDate}*',
+              labelText: '${AppStrings.labelOnLeaveDate}*',
               placeholder: AppStrings.placeholderOnleaveStartDate,
               inputAction: TextInputAction.next,
               readOnly: true,
-              onTap: controller.onChooseOnLeaveStartDate,
-              validator: controller.validateChooseOnleaveStartDate,
+              onTap: controller.onChooseOnLeaveDate,
+              validator: controller.validateChooseOnleaveDate,
             ),
-            // SizedBox(
-            //   height: Get.height * 0.04,
-            // ),
-            // InputField(
-            //   key: UniqueKey(),
-            //   controller: controller.onLeaveEndDateController,
-            //   icon: const Icon(CustomIcons.calendar_range),
-            //   labelText: '${AppStrings.labelOnLeaveEndDate}*',
-            //   placeholder: AppStrings.placeholderOnleaveEndDate,
-            //   inputAction: TextInputAction.next,
-            //   readOnly: true,
-            //   onTap: controller.onChooseOnLeaveEndDate,
-            //   // validator: controller.validateChooseOnleaveEndDate,
-            // ),
             SizedBox(
               height: Get.height * 0.04,
             ),
@@ -209,7 +205,7 @@ class FarmerInprogressJobList extends GetView<FarmerInprogressJobController> {
           ],
         ))
       ],
-      submit: controller.onSubmitOnleaveForm,
+      submit: () => controller.onSubmitOnleaveForm(jobPostId),
       cancel: controller.onCloseOnLeaveDialog,
     );
   }
@@ -223,8 +219,8 @@ class FarmerInprogressJobList extends GetView<FarmerInprogressJobController> {
     //       confirmTitle: 'Đóng', msg: 'Không thể gia hạn');
     // }
     ExtendEndDateJob? job = await controller.getExtendEndDateJob(jobPostId);
-    if(job != null){
-         return InformationDialog.showDialog(
+    if (job != null) {
+      return InformationDialog.showDialog(
           confirmTitle: 'Đóng', msg: 'Bạn đã gia hạn ngày kết thúc.');
     }
     return CustomFormDialog.showDialog(
@@ -255,7 +251,9 @@ class FarmerInprogressJobList extends GetView<FarmerInprogressJobController> {
         Padding(
           padding: EdgeInsets.only(left: Get.width * 0.1),
           child: Text(
-            oldDate != null ? DateFormat('dd/MM/yyyy').format(oldDate) : 'Chưa cập nhật',
+            oldDate != null
+                ? DateFormat('dd/MM/yyyy').format(oldDate)
+                : 'Chưa cập nhật',
             style: TextStyle(
               fontSize: Get.textScaleFactor * 16,
             ),
@@ -272,7 +270,7 @@ class FarmerInprogressJobList extends GetView<FarmerInprogressJobController> {
           placeholder: AppStrings.placeholderNewExtendJobDate,
           inputAction: TextInputAction.next,
           readOnly: true,
-          onTap: () => {            
+          onTap: () => {
             controller.onChooseNewEndDate(oldDate),
           },
           validator: controller.validateChooseNewEndDate,
@@ -295,5 +293,69 @@ class FarmerInprogressJobList extends GetView<FarmerInprogressJobController> {
       submit: () => {controller.onSubmitExtendJobForm(jobPostId)},
       cancel: controller.onCloseExtendJobDialog,
     );
+  }
+
+  Future _showFeedBackDialog(int jobPostId) {
+    return CustomFormDialog.showDialog(
+        title: 'Đánh giá',
+        formKey: controller.formKey,
+        textFields: [
+          RatingBar.builder(
+            initialRating: 1,
+            minRating: 1,
+            direction: Axis.horizontal,
+            itemSize: Get.textScaleFactor * 35,
+            itemCount: 5,
+            itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+            itemBuilder: (context, _) => Icon(
+              Icons.star,
+              color: Colors.amber,
+            ),
+            onRatingUpdate: (rating) {
+              controller.feedbackRatingController.text = rating.toInt().toString();
+              print(controller.feedbackRatingController.text);
+            },
+          ),
+          SizedBox(
+            height: Get.height * 0.01,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text.rich(
+                TextSpan(
+                  children: [                    
+                    TextSpan(
+                        text: "Chạm vào sao để đánh giá.",
+                        style: Get.textTheme.caption),
+                  ],
+                ),
+                style: TextStyle(
+                  fontSize: Get.textScaleFactor * 17,
+                  fontStyle: FontStyle.italic,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: Get.height * 0.01,
+          ),
+          InputField(
+            key: UniqueKey(),
+            controller: controller.feedbackContentController,
+            icon: const Icon(Icons.feedback_outlined),
+            labelText: "Ý kiến",
+            placeholder: 'Nhập ý kiến',
+            keyBoardType: TextInputType.multiline,
+            minLines: 1,
+            maxLines: 10,
+            validator: controller.validateReason,
+          ),
+        ],
+        submit: () {
+          Get.back();
+          controller.onSubmitFeedBackForm(jobPostId);
+        },
+        cancel: controller.onCloseFeedBackDialog);
   }
 }
