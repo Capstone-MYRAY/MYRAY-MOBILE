@@ -301,7 +301,7 @@ class FarmerInprogressJobList extends GetView<FarmerInprogressJobController> {
         formKey: controller.formKey,
         textFields: [
           RatingBar.builder(
-            initialRating: 1,
+            initialRating: 5,
             minRating: 1,
             direction: Axis.horizontal,
             itemSize: Get.textScaleFactor * 35,
