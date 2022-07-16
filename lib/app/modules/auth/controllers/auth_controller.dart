@@ -1,16 +1,17 @@
 import 'package:get/get.dart';
+import 'package:myray_mobile/app/data/providers/signalR_provider.dart';
 import 'package:myray_mobile/app/data/providers/storage_provider.dart';
 import 'package:myray_mobile/app/shared/utils/auth_credentials.dart';
 
 class AuthController extends GetxController with StorageProvider {
   final isLogged = false.obs;
 
-  void logOut() {
+  void logOut() async {
     isLogged.value = false;
     removeToken();
     AuthCredentials.instance.clearUserInfor();
-
-    //
+    //disconnect from hub when logout
+    SignalRProvider.instance.stopHub();
   }
 
   Future<void> login(String token, String refreshToken) async {
@@ -19,9 +20,8 @@ class AuthController extends GetxController with StorageProvider {
     isLogged.value = true;
   }
 
-  void checkLoginStatus() {
+  Future<void> checkLoginStatus() async {
     final token = getToken();
-
     if (token != null) {
       AuthCredentials.instance.updateUserInfor();
       isLogged.value = true;

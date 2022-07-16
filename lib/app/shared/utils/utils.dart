@@ -9,7 +9,7 @@ class Utils {
   Utils._();
 
   static bool isEmpty(value) {
-    return value == null || value.isEmpty;
+    return value == null || value.trim().isEmpty;
   }
 
   static bool equalsIgnoreCase(String s1, String s2) {
@@ -50,9 +50,7 @@ class Utils {
   }
 
   static String formatHHmm(TimeOfDay time) {
-    return time.hour.toString().padLeft(2, '0') +
-        ':' +
-        time.minute.toString().padLeft(2, '0');
+    return '${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}';
   }
 
   static String formatddMMyyyy(DateTime date) {

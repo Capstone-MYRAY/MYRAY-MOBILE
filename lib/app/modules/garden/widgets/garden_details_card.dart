@@ -7,6 +7,7 @@ import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
 import 'package:myray_mobile/app/shared/widgets/cards/card_field.dart';
 import 'package:myray_mobile/app/shared/widgets/buttons/custom_icon_button.dart';
 import 'package:myray_mobile/app/shared/widgets/cards/my_card.dart';
+import 'package:myray_mobile/app/shared/widgets/image/round_image.dart';
 
 class GardenDetailsCard extends StatelessWidget {
   final Garden garden;
@@ -97,24 +98,16 @@ class GardenDetailsCard extends StatelessWidget {
             children: [
               ...garden.imageUrl
                   .split(CommonConstants.imageDelimiter)
-                  .map((path) => _buildImage(path))
+                  .map(
+                    (path) => RoundImage(
+                      imageUrl: path,
+                      width: 120,
+                    ),
+                  )
                   .toList(),
             ],
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildImage(String path) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(CommonConstants.borderRadius),
-      child: AspectRatio(
-        aspectRatio: 1 / 1,
-        child: Image.network(
-          path,
-          fit: BoxFit.fill,
-        ),
       ),
     );
   }

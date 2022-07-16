@@ -8,8 +8,8 @@ import 'package:myray_mobile/app/shared/widgets/dialogs/information_dialog.dart'
 
 mixin GardenService {
   Future<bool?> deleteGarden(Garden garden, RxList<Garden> gardens) async {
-    final _gardenRepository = Get.find<GardenRepository>();
-    bool canDelete = await _gardenRepository.canDelete(garden.id);
+    final gardenRepository = Get.find<GardenRepository>();
+    bool canDelete = await gardenRepository.canDelete(garden.id);
     if (!canDelete) {
       // show error
       InformationDialog.showDialog(
@@ -29,7 +29,7 @@ mixin GardenService {
 
     if (isDeleteConfirm == null || !isDeleteConfirm) return false;
 
-    final success = await _gardenRepository.delete(garden.id);
+    final success = await gardenRepository.delete(garden.id);
     if (!success) {
       CustomSnackbar.show(
         title: AppStrings.titleError,
