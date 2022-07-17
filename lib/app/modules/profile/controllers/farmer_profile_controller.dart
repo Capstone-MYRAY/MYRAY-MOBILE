@@ -27,5 +27,9 @@ class FarmerProfileController extends GetxController{
     Get.toNamed(Routes.farmerProfile);
   }
 
+  void navigateToBookmarkPage(){
+    Get.toNamed(Routes.farmerBookmarkAccount);
+  }
+
  
 }

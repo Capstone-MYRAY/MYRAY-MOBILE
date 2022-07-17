@@ -30,6 +30,7 @@ abstract class Routes {
   static const farmerDashboard = _Paths.farmerDashboard;
   static const farmerProfile = _Paths.farmerProfile;
   static const farmerJobPostDetail = _Paths.farmerJobPostDetail;
+  static const farmerBookmarkAccount = _Paths.farmerBookmarkAccount;
 }
 
 abstract class _Paths {
@@ -63,4 +64,5 @@ abstract class _Paths {
   static const farmerDashboard = '$_farmer/dashboard';
   static const farmerProfile = '$_farmer/profile';
   static const farmerJobPostDetail = '$_farmer/job_post_detail';
+  static const farmerBookmarkAccount = '$_farmer/bookmark';
 }
