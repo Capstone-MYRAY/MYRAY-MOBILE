@@ -6,7 +6,21 @@ import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
 import 'package:myray_mobile/app/shared/widgets/cards/feature_option.dart';
 
 class FarmerFeatureOptions extends StatelessWidget {
-  const FarmerFeatureOptions({Key? key}) : super(key: key);
+
+  final void Function()? attendnace;
+  final void Function()? history;
+  final void Function()? bookmark;
+  final void Function()? password;
+  final void Function()? logout;
+
+  const FarmerFeatureOptions({
+    Key? key,
+    this.attendnace,
+    this.history,
+    this.bookmark,
+    this.password,
+    this.logout,
+  }) : super(key: key);
 
   _logout() {
     final AuthController _authController = Get.find<AuthController>();
@@ -33,7 +47,7 @@ class FarmerFeatureOptions extends StatelessWidget {
           icon: CustomIcons.account_heart_outline,
           title: AppStrings.titleFavorite,
           subtitle: AppStrings.subtitleFarmerFavorite,
-          onTap: () {},
+          onTap: bookmark,
         ),
         FeatureOption(
           icon: CustomIcons.lock_outline,

@@ -3,6 +3,8 @@ import 'package:myray_mobile/app/modules/applied_farmer/bindings/applied_farmer_
 import 'package:myray_mobile/app/modules/applied_farmer/views/applied_farmer_details_view.dart';
 import 'package:myray_mobile/app/modules/auth/auth.dart';
 import 'package:myray_mobile/app/modules/auth/views/enter_password_view.dart';
+import 'package:myray_mobile/app/modules/bookmark/bindings/farmer_bookmark_binding.dart';
+import 'package:myray_mobile/app/modules/bookmark/views/famer_bookmark.dart';
 import 'package:myray_mobile/app/modules/dashboard/bindings/dashboard_binding.dart';
 import 'package:myray_mobile/app/modules/dashboard/views/farmer_dashboard_view.dart';
 import 'package:myray_mobile/app/modules/dashboard/views/landowner_dashboard_view.dart';
@@ -150,6 +152,11 @@ class AppPages {
       name: _Paths.farmerJobPostDetail,
       page: () => const FarmerJobPostDetail(),
       binding: FarmerJobPostDetailBinding(),
-    )
+    ),
+    GetPage(
+      name: _Paths.farmerBookmarkAccount,
+      page: () => const FarmerBookmark(),
+      binding: FarmerBookmarkBinding(),
+    ),
   ];
 }
