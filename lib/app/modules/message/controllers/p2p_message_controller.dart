@@ -45,6 +45,7 @@ class P2PMessageController extends GetxController {
         jobPostId: msg['jobPostId'],
         message: msg['content'],
         imgUrl: msg['imageUrl'],
+        createdDate: DateTime.now(),
       );
       addNewMessage(comingMsg);
       update();
@@ -59,7 +60,7 @@ class P2PMessageController extends GetxController {
 
   removeNewMessage(Message message) {
     print('remove message');
-    messages.removeAt(0);
+    messages.remove(message);
     update();
   }
 }

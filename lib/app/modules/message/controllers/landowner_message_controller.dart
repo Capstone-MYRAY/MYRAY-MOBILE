@@ -6,11 +6,15 @@ import 'package:myray_mobile/app/shared/utils/auth_credentials.dart';
 class LandownerMessageController extends GetxController with MessageService {
   @override
   void onInit() async {
-    if (!SignalRProvider.instance.isConnectionOpen) {
-      await SignalRProvider.instance.connectToHub();
-    }
+    // if (!SignalRProvider.instance.isConnectionOpen) {
+    //   await SignalRProvider.instance.connectToHub();
+    //   SignalRProvider.instance.hubConnection?.on('convention', _getMessages);
+    // }
+
     super.onInit();
   }
+
+  _getMessages(List<Object>? arguments) {}
 
   navigateToChatScreen(int toId, int jobPostId) {
     final fromId = AuthCredentials.instance.user?.id ?? 0;
