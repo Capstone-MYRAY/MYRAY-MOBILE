@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:myray_mobile/app/data/models/bookmark/bookmark_response.dart';
 import 'package:myray_mobile/app/data/models/bookmark/get_bookmark_request.dart';
