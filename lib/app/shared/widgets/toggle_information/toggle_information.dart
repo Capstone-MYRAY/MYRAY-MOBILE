@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:myray_mobile/app/modules/job_post/widgets/landowner_job_post_details/toggle_header.dart';
 import 'package:myray_mobile/app/shared/widgets/cards/my_card.dart';
+import 'package:myray_mobile/app/shared/widgets/toggle_information/toggle_header.dart';
 
 class ToggleInformation extends GetView<ToggleController> {
   final String tagName;
@@ -9,14 +9,27 @@ class ToggleInformation extends GetView<ToggleController> {
   final Widget child;
   final bool isOpen;
   final bool isCustom;
-  const ToggleInformation({
+  final double? headerWidth;
+  final EdgeInsetsGeometry? headerMargin;
+  final EdgeInsetsGeometry? headerPadding;
+  final BorderRadiusGeometry? headerBorderRadius;
+  final BoxBorder? headerBorder;
+
+  ToggleInformation({
     Key? key,
     required this.tagName,
     required this.title,
     required this.child,
     this.isOpen = false,
     this.isCustom = false,
-  }) : super(key: key);
+    this.headerWidth,
+    this.headerMargin,
+    this.headerPadding,
+    this.headerBorderRadius,
+    this.headerBorder,
+  }) : super(key: key) {
+    Get.put(ToggleController(), tag: tagName);
+  }
 
   @override
   String? get tag => tagName;
@@ -35,6 +48,11 @@ class ToggleInformation extends GetView<ToggleController> {
           title: title,
           onTap: () => controller.toggle(),
           isOpen: isOpen,
+          width: headerWidth ?? Get.width * 0.9,
+          margin: headerMargin,
+          padding: headerPadding,
+          borderRadius: headerBorderRadius,
+          border: headerBorder,
         ),
         if (isOpen && !isCustom) _buildNormal(),
         if (isOpen && isCustom) child,

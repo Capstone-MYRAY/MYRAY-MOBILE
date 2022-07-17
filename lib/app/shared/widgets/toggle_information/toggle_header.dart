@@ -13,11 +13,22 @@ class ToggleHeader extends StatelessWidget {
   final void Function() onTap;
   final bool isOpen;
   final String title;
+  final double? width;
+  final EdgeInsetsGeometry? margin;
+  final EdgeInsetsGeometry? padding;
+  final BorderRadiusGeometry? borderRadius;
+  final BoxBorder? border;
+
   const ToggleHeader({
     Key? key,
     required this.onTap,
     required this.isOpen,
     required this.title,
+    required this.width,
+    this.margin,
+    this.padding,
+    this.borderRadius,
+    this.border,
   }) : super(key: key);
 
   @override
@@ -25,13 +36,15 @@ class ToggleHeader extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 32.0),
-        margin: const EdgeInsets.only(top: 16.0, bottom: 8.0),
+        padding: padding ??
+            const EdgeInsets.symmetric(vertical: 16.0, horizontal: 32.0),
+        margin: margin ?? const EdgeInsets.only(top: 16.0, bottom: 8.0),
         decoration: BoxDecoration(
           color: AppColors.primaryColor,
-          borderRadius: BorderRadius.circular(CommonConstants.borderRadius),
+          borderRadius: borderRadius,
+          border: border,
         ),
-        width: Get.width * 0.9,
+        width: width,
         child: Row(
           children: [
             Expanded(

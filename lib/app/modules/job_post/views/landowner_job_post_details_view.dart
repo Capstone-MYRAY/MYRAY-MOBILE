@@ -167,6 +167,7 @@ class LandownerJobPostDetailsView
       tagName: 'PaymentInformation',
       title: AppStrings.titlePaymentInformation,
       isCustom: true,
+      headerBorderRadius: BorderRadius.circular(CommonConstants.borderRadius),
       child: Column(
         children: _buildPaymentHistoryItem(controller.paymentHistories),
       ),
@@ -224,13 +225,14 @@ class LandownerJobPostDetailsView
   }
 
   Widget _buildPostInformation() {
-    DateTime? _expiryDate = jobPost.pinStartDate == null
+    DateTime? expiryDate = jobPost.pinStartDate == null
         ? null
         : jobPost.pinStartDate!.add(Duration(days: jobPost.totalPinDay! - 1));
 
     return ToggleInformation(
       tagName: 'PostInformation',
       title: AppStrings.titlePostInformation,
+      headerBorderRadius: BorderRadius.circular(CommonConstants.borderRadius),
       child: ToggleContentPostInfo(
         createdDate: jobPost.createdDate,
         publishedDate: jobPost.publishedDate,
@@ -246,7 +248,7 @@ class LandownerJobPostDetailsView
         rejectedReason: jobPost.rejectedReason,
         postType: _buildPostType(),
         upgradedDate: jobPost.pinStartDate,
-        upgradeExpiryDate: _expiryDate,
+        upgradeExpiryDate: expiryDate,
       ),
     );
   }
@@ -255,6 +257,7 @@ class LandownerJobPostDetailsView
     return ToggleInformation(
       tagName: 'WorkPlaceInformation',
       title: AppStrings.titleWorkPlace,
+      headerBorderRadius: BorderRadius.circular(CommonConstants.borderRadius),
       child: ToggleContentWorkPlaceInfo(
         gardenName: jobPost.gardenName ?? '',
         address: jobPost.address ?? '',
@@ -268,6 +271,7 @@ class LandownerJobPostDetailsView
       tagName: 'WorkInformation',
       title: AppStrings.titleWorkInformation,
       isOpen: true,
+      headerBorderRadius: BorderRadius.circular(CommonConstants.borderRadius),
       child: ToggleContentWorkInfo(
         workName: jobPost.title,
         jobStartDate: jobPost.jobStartDate,

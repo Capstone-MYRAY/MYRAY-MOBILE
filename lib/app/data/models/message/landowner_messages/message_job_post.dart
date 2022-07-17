@@ -7,6 +7,7 @@ part 'message_job_post.g.dart';
 class MessageJobPost {
   @JsonKey(name: 'jobPostId')
   int id;
+
   @JsonKey(name: 'jobPostTitle')
   String title;
 

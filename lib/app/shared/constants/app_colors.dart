@@ -22,4 +22,5 @@ class AppColors {
   static const Color brown = Color(0xff825823);
   static const Color markedBackgroundColor = Color(0xffE0F3E1);
   static const Color starColor = Color(0xFFFFD801);
+  static const Color toggleBottomBorder = Color(0xFFBAD162);
 }

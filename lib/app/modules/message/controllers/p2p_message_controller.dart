@@ -60,7 +60,7 @@ class P2PMessageController extends GetxController {
 
   removeNewMessage(Message message) {
     print('remove message');
-    messages.removeAt(0);
+    messages.remove(message);
     update();
   }
 }
