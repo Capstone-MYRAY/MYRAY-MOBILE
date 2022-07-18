@@ -43,4 +43,15 @@ class BookmarkRepository{
     return null;
   }
 
+  Future<bool?> checkBookmark(int accountId) async {
+    final response = await _apiProvider.getMethod('/bookmark/$accountId');
+    if(response.statusCode == HttpStatus.noContent){
+      return false;
+    }
+    if(response.statusCode == HttpStatus.ok){
+      return true;
+    }
+    return null;
+  }
+
 }

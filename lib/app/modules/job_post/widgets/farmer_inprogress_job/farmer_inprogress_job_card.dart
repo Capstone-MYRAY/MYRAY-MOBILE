@@ -151,7 +151,7 @@ class FarmerInprogressJobCard extends StatelessWidget {
                         width: 10,
                       ),
                       Text(
-                        AppStrings.labelPresentDate + ":",
+                        "${AppStrings.labelPresentDate}:",
                         style: Get.textTheme.labelMedium!.copyWith(
                           fontWeight: FontWeight.w500,
                           fontSize: Get.textScaleFactor * 15,

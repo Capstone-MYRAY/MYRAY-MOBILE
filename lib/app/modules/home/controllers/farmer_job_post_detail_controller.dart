@@ -143,48 +143,15 @@ class FarmerJobPostDetailController extends GetxController with MessageService {
     //chưa có check bookmark or not
   }
 
-  //temp check is like
-    final int _pageSize = 5;
-    bool _hasNextPage = true;
-  _getAllBookmark(int? currentPage) async {
-    //1. Load danh dách các tài khoản đã like
-    //2. So sánh id từng tài khoản với ID chủ đất bài post
-    //3. Đúng -> isBookmark = true, Sai -> isBookmark = false
-    //gọi hàm này khi onInit
-    currentPage ??= 0;
-    
-    GetBookmarkResponse? list; 
-    List<BookmarkResponse> listBookmark = RxList<BookmarkResponse>();
-    GetBookmarkRequest data = GetBookmarkRequest(
-      page: (++currentPage).toString(),
-      pageSize: _pageSize.toString(),
-      accountId: AuthCredentials.instance.user!.id!.toString());
-
-    try{
-      if(_hasNextPage){
-        print('in load bookmark');
-        list = await _bookmarkRepository.getAllBookmarkAccount(data);
-        if(list == null){
-          return;
-        }
-        listBookmark.addAll(list.listObject);
-        _hasNextPage = list.pagingMetadata.hasNextPage;
-        if(_hasNextPage){
-          _getAllBookmark(currentPage);
-        }
-      }
-    }on CustomException catch(e){
-      print('Error in load bookmark to check: $e');
-    }
-    return listBookmark;
-  }
+  //check is like
   checkBookmark(int accountId) async{
-    List<BookmarkResponse> listBookmark = RxList<BookmarkResponse>();
-    listBookmark = await _getAllBookmark(0);
-    if(listBookmark.isEmpty){
+    final result = await _bookmarkRepository.checkBookmark(accountId);
+    if(result == null){
+      isBookmark.value = false;
+    }else if(result){
+      isBookmark.value = true;
+    }else{
       isBookmark.value = false;
     }
-    // print('lenght: ${listBookmark.length}');
-    isBookmark.value = listBookmark.where((element) => element.bookmarkId == accountId).isNotEmpty;
   }
 }
