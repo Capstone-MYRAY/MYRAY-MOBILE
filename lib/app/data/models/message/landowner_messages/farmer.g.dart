@@ -10,8 +10,8 @@ Farmer _$FarmerFromJson(Map<String, dynamic> json) => Farmer(
       id: json['id'] as int,
       name: json['name'] as String,
       conventionId: json['conventionId'] as String,
-      latMessage:
-          MessageDetails.fromJson(json['latMessage'] as Map<String, dynamic>),
+      lastMessage:
+          MessageDetails.fromJson(json['lastMessage'] as Map<String, dynamic>),
       avatar: json['image'] as String?,
     );
 
@@ -29,6 +29,6 @@ Map<String, dynamic> _$FarmerToJson(Farmer instance) {
 
   writeNotNull('image', instance.avatar);
   val['conventionId'] = instance.conventionId;
-  val['latMessage'] = instance.latMessage.toJson();
+  val['lastMessage'] = instance.lastMessage.toJson();
   return val;
 }

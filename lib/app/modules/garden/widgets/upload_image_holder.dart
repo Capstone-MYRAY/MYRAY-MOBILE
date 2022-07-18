@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -118,13 +116,7 @@ class UploadImageHolderState extends State<UploadImageHolder> {
     );
   }
 
-  //clear all images when click on "x" button
-  _clearImages() {
-    _selectedImages.clear();
-    setState(() {});
-  }
-
-  _addTempDeletImg(String path) {
+  _addTempDeleteImg(String path) {
     if (Utils.isNetworkImage(path)) {
       _tempDelete.add(path);
     }
@@ -135,7 +127,7 @@ class UploadImageHolderState extends State<UploadImageHolder> {
     final index = _selectedImages.indexWhere((image) => image.id == id);
     if (index >= 0) {
       //add image to temp delete
-      _addTempDeletImg(_selectedImages[index].path);
+      _addTempDeleteImg(_selectedImages[index].path);
 
       _selectedImages.removeAt(index);
       setState(() {});
@@ -149,7 +141,7 @@ class UploadImageHolderState extends State<UploadImageHolder> {
           _selectedImages.firstWhere((image) => image.id == id);
       if (found != null) {
         //add image to temp delete
-        _addTempDeletImg(found.path);
+        _addTempDeleteImg(found.path);
 
         //Update image
         found.path = tempImage[0].path;

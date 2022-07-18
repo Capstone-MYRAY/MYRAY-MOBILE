@@ -4,24 +4,25 @@ part 'farmer_message.g.dart';
 
 @JsonSerializable(includeIfNull: false)
 class FarmerMessage {
-  @JsonKey(name: 'Id')
+  @JsonKey(name: 'id')
   int jobPostId;
 
-  @JsonKey(name: 'Title')
+  @JsonKey(name: 'title')
   String title;
 
-  @JsonKey(name: 'PublishedId')
+  @JsonKey(name: 'publishedId')
   int publishedId;
 
-  @JsonKey(name: 'PublishedBy')
+  @JsonKey(name: 'publishedBy')
   String publishedName;
 
-  @JsonKey(name: 'AvatarUrl')
+  @JsonKey(name: 'avatarUrl')
   String? avatar;
 
-  @JsonKey(name: 'LastMessageTime')
+  @JsonKey(name: 'lastMessageTime')
   DateTime? createdDate;
 
+  @JsonKey(name: 'isRead')
   bool isRead;
 
   FarmerMessage({

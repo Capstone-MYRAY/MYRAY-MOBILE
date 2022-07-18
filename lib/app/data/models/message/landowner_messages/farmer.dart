@@ -12,13 +12,13 @@ class Farmer {
   String? avatar;
 
   String conventionId;
-  MessageDetails latMessage;
+  MessageDetails lastMessage;
 
   Farmer({
     required this.id,
     required this.name,
     required this.conventionId,
-    required this.latMessage,
+    required this.lastMessage,
     this.avatar,
   });
 

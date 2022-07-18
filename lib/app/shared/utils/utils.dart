@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:myray_mobile/app/data/enums/enums.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 
 class Utils {
@@ -163,4 +164,18 @@ class Utils {
   );
 
   static final isAlphabet = RegExp(r'[a-zA-z]');
+
+  static String generateConventionId(
+      int fromId, int toId, int jobPostId, String roleName) {
+    final conventionIdBuffer = StringBuffer();
+
+    conventionIdBuffer.write(jobPostId.toString());
+    if (Utils.equalsIgnoreCase(Roles.landowner.name, roleName)) {
+      conventionIdBuffer.write('$fromId$toId');
+    } else {
+      conventionIdBuffer.write('$toId$fromId');
+    }
+
+    return conventionIdBuffer.toString();
+  }
 }

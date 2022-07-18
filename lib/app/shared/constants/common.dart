@@ -10,6 +10,8 @@ class Arguments {
   static const String jobPostId = 'jobPostId';
   static const String conventionId = 'conventionId';
   static const String toAvatar = 'toAvatar';
+  static const String toName = 'toName';
+  static const String jobTitle = 'jobTitle';
 }
 
 class CommonConstants {
