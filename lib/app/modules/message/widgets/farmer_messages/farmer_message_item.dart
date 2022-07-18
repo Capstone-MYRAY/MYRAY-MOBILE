@@ -26,8 +26,8 @@ class FarmerMessageItem extends StatelessWidget {
       margin: const EdgeInsets.symmetric(vertical: 1.0),
       child: Material(
         color: isRead
-            ? Get.theme.primaryColor.withOpacity(0.2)
-            : Get.theme.cardColor,
+            ? Get.theme.cardColor
+            : Get.theme.primaryColor.withOpacity(0.2),
         child: InkWell(
           onTap: onTap,
           child: Padding(

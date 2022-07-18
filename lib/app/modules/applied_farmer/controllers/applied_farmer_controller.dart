@@ -30,15 +30,15 @@ class AppliedFarmerController extends GetxController {
     isLoading.value = true;
     try {
       if (_hasNextPage) {
-        final _response = await _appliedFarmerRepository.getList(data);
-        if (_response == null || _response.appliedFarmers!.isEmpty) {
+        final response = await _appliedFarmerRepository.getList(data);
+        if (response == null || response.appliedFarmers!.isEmpty) {
           isLoading.value = false;
           return null;
         }
 
-        appliedFarmers.addAll(_response.appliedFarmers!);
+        appliedFarmers.addAll(response.appliedFarmers!);
         //update hasNext
-        _hasNextPage = _response.metadata!.hasNextPage;
+        _hasNextPage = response.metadata!.hasNextPage;
       }
       isLoading.value = false;
       return true;

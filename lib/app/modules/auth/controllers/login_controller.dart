@@ -67,7 +67,7 @@ class LoginController extends GetxController {
       }
       EasyLoading.dismiss();
     } on CustomException catch (e) {
-      String errorMsg = '';
+      String errorMsg = e.message;
       if (e.message.contains('Invalid Login Information')) {
         errorMsg = AppMsg.MSG6002;
       } else if (e.message.contains('Invalid Password')) {

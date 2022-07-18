@@ -235,15 +235,15 @@ class JobPostFormController extends GetxController {
 
     //get payment history from job post details controller
 
-    final _detailsController = Get.find<LandownerJobPostDetailsController>(
+    final detailsController = Get.find<LandownerJobPostDetailsController>(
         tag: Get.arguments[Arguments.tag]);
 
     usingPointController.text =
-        _detailsController.paymentHistories.first.usedPoint?.toString() ?? '0';
-    usingPoint.value = _detailsController.paymentHistories.first.usedPoint ?? 0;
+        detailsController.paymentHistories.first.usedPoint?.toString() ?? '0';
+    usingPoint.value = detailsController.paymentHistories.first.usedPoint ?? 0;
 
-    _userPoint += _detailsController.paymentHistories.first.usedPoint!;
-    _userBalance += _detailsController.paymentHistories.first.actualPrice!;
+    _userPoint += detailsController.paymentHistories.first.usedPoint!;
+    _userBalance += detailsController.paymentHistories.first.actualPrice!;
 
     //pay per hour job
     if (_jobPost!.payPerHourJob != null) {
@@ -291,7 +291,7 @@ class JobPostFormController extends GetxController {
       numOfUpgradeDay.value = _jobPost?.totalPinDay ?? 0;
       isEnableDayEdit.value = true;
       postTypeCost.value =
-          _detailsController.paymentHistories.first.postTypePrice!;
+          detailsController.paymentHistories.first.postTypePrice!;
       await getAvailablePinDates();
       await getMaxPinDay();
     }
@@ -308,10 +308,10 @@ class JobPostFormController extends GetxController {
     JobPostCru data = _createData()..id = _jobPost!.id;
 
     try {
-      final JobPost? _updatedJobPost = await _jobPostRepository.update(data);
+      final JobPost? updatedJobPost = await _jobPostRepository.update(data);
       EasyLoading.dismiss();
 
-      if (_updatedJobPost == null) {
+      if (updatedJobPost == null) {
         //show error
         CustomSnackbar.show(
           title: AppStrings.titleError,
@@ -322,18 +322,18 @@ class JobPostFormController extends GetxController {
       }
 
       //refresh job post details screen
-      final _detailsController = Get.find<LandownerJobPostDetailsController>(
+      final detailsController = Get.find<LandownerJobPostDetailsController>(
           tag: Get.arguments[Arguments.tag]);
-      _detailsController.jobPost.value = _updatedJobPost;
+      detailsController.jobPost.value = updatedJobPost;
 
       //Update job post list
-      final _jobPostController = Get.find<LandownerJobPostController>();
-      final _jobPosts = _jobPostController.jobPosts;
-      int index = _jobPosts.indexWhere((job) => job.id == _updatedJobPost.id);
-      _jobPosts[index] = _updatedJobPost;
+      final jobPostController = Get.find<LandownerJobPostController>();
+      final jobPosts = jobPostController.jobPosts;
+      int index = jobPosts.indexWhere((job) => job.id == updatedJobPost.id);
+      jobPosts[index] = updatedJobPost;
 
       //update payment history
-      await _detailsController.getPaymentHistory();
+      await detailsController.getPaymentHistory();
 
       //refresh balance
       _profile.calBalance();
@@ -361,10 +361,10 @@ class JobPostFormController extends GetxController {
     JobPostCru data = _createData();
 
     try {
-      final JobPost? _newJobPost = await _jobPostRepository.create(data);
+      final JobPost? newJobPost = await _jobPostRepository.create(data);
       EasyLoading.dismiss();
 
-      if (_newJobPost == null) {
+      if (newJobPost == null) {
         //show error
         CustomSnackbar.show(
           title: AppStrings.titleError,
@@ -375,8 +375,8 @@ class JobPostFormController extends GetxController {
       }
 
       //refresh job post list
-      final _jobPostController = Get.find<LandownerJobPostController>();
-      _jobPostController.onRefresh();
+      final jobPostController = Get.find<LandownerJobPostController>();
+      jobPostController.onRefresh();
 
       //refresh balance
       _profile.calBalance();
@@ -478,11 +478,11 @@ class JobPostFormController extends GetxController {
       orderBy: SortOrder.descending,
     );
 
-    final GetGardenResponse? _response =
+    final GetGardenResponse? response =
         await _gardenRepository.getGardens(data);
 
-    if (_response != null && _response.gardens != null) {
-      gardens.addAll(_response.gardens!);
+    if (response != null && response.gardens != null) {
+      gardens.addAll(response.gardens!);
     }
   }
 
@@ -493,11 +493,11 @@ class JobPostFormController extends GetxController {
       status: TreeTypeStatus.active.index.toString(),
     );
 
-    final GetTreeTypeResponse? _response =
+    final GetTreeTypeResponse? response =
         await _treeTypeRepository.getList(data);
 
-    if (_response != null && _response.treeTypes != null) {
-      final List<TreeType> _treeTypes = _response.treeTypes!;
+    if (response != null && response.treeTypes != null) {
+      final List<TreeType> _treeTypes = response.treeTypes!;
       treeTypes = _treeTypes.obs;
       update();
     }
@@ -511,10 +511,10 @@ class JobPostFormController extends GetxController {
       orderBy: SortOrder.ascending,
     );
 
-    final GetPostTypeResponse? _response =
+    final GetPostTypeResponse? response =
         await _postTypeRepository.getList(data);
-    if (_response != null && _response.postTypes != null) {
-      final List<PostType> _postTypes = _response.postTypes!;
+    if (response != null && response.postTypes != null) {
+      final List<PostType> _postTypes = response.postTypes!;
       postTypes = _postTypes.obs;
       update();
     }
@@ -739,7 +739,7 @@ class JobPostFormController extends GetxController {
     // DateTime _firstDate = now.hour >= 16 && now.hour <= 23
     //     ? now.add(const Duration(days: 1))
     //     : now;
-        DateTime _firstDate = now;
+    DateTime _firstDate = now;
     DateTime? _initDate = publishDateController.text.isNotEmpty
         ? Utils.fromddMMyyyy(publishDateController.text)
         : _firstDate;

@@ -20,10 +20,10 @@ class GardenHomeController extends GetxController with GardenService {
   final isBuildFuture = false.obs;
 
   Future<bool?> getGardens() async {
-    final int _accountId = AuthCredentials.instance.user!.id!;
+    final int accountId = AuthCredentials.instance.user!.id!;
 
     GetGardenRequest data = GetGardenRequest(
-      accountId: _accountId.toString(),
+      accountId: accountId.toString(),
       page: (++_currentPage).toString(),
       pageSize: (_pageSize).toString(),
       sortColumn: GardenSortColumn.createdDate,
@@ -35,15 +35,15 @@ class GardenHomeController extends GetxController with GardenService {
     isLoading.value = true;
     try {
       if (_hasNextPage) {
-        final _response = await _gardenRepository.getGardens(data);
-        if (_response == null || _response.gardens!.isEmpty) {
+        final response = await _gardenRepository.getGardens(data);
+        if (response == null || response.gardens!.isEmpty) {
           isLoading.value = false;
           return null;
         }
 
-        gardens.addAll(_response.gardens!);
+        gardens.addAll(response.gardens!);
         //update hasNext
-        _hasNextPage = _response.metadata!.hasNextPage;
+        _hasNextPage = response.metadata!.hasNextPage;
       }
       isLoading.value = false;
       return true;

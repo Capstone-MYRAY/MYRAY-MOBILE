@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:myray_mobile/app/modules/message/controllers/landowner_message_controller.dart';
 import 'package:myray_mobile/app/modules/message/widgets/landowner_messages/landowner_message_list.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
+import 'package:myray_mobile/app/shared/widgets/builders/list_empty_builder.dart';
+import 'package:myray_mobile/app/shared/widgets/builders/loading_builder.dart';
 import 'package:myray_mobile/app/shared/widgets/landowner_appbar.dart';
 
 class LandownerMessageView extends StatelessWidget {
@@ -15,7 +19,27 @@ class LandownerMessageView extends StatelessWidget {
           textScaleFactor: 1,
         ),
       ),
-      body: LandownerMessageList(),
+      body: GetBuilder<LandownerMessageController>(
+        builder: (controller) {
+          return FutureBuilder(
+            future: controller.loadInitMessages(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const LoadingBuilder();
+              }
+
+              if (snapshot.data == null) {
+                return ListEmptyBuilder(onRefresh: () async {});
+              }
+
+              return LandownerMessageList(
+                messages: controller.messages,
+                onTap: controller.navigateToChatScreen,
+              );
+            },
+          );
+        },
+      ),
     );
   }
 }

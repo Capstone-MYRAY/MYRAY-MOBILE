@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:myray_mobile/app/shared/utils/auth_credentials.dart';
 
 part 'message_details.g.dart';
 
@@ -42,6 +43,8 @@ class MessageDetails {
     this.imgUrl,
     this.message,
   });
+
+  bool get isMe => AuthCredentials.instance.user!.id == fromId;
 
   factory MessageDetails.fromJson(Map<String, dynamic> json) =>
       _$MessageDetailsFromJson(json);
