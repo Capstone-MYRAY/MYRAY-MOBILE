@@ -3,6 +3,7 @@ import 'package:myray_mobile/app/data/enums/sort.dart';
 import 'package:myray_mobile/app/data/enums/status.dart';
 import 'package:myray_mobile/app/data/models/applied_farmer/applied_farmer_models.dart';
 import 'package:myray_mobile/app/modules/applied_farmer/applied_farmer_repository.dart';
+import 'package:myray_mobile/app/modules/profile/controllers/landowner_profile_controller.dart';
 import 'package:myray_mobile/app/shared/utils/custom_exception.dart';
 
 class AppliedFarmerController extends GetxController {
@@ -56,6 +57,10 @@ class AppliedFarmerController extends GetxController {
 
     //clear applied farmer list
     appliedFarmers.clear();
+
+    //load user info
+    final profile = Get.find<LandownerProfileController>();
+    profile.getUserInfo();
 
     update();
   }

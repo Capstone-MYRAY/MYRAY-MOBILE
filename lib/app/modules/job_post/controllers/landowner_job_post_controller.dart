@@ -6,6 +6,7 @@ import 'package:myray_mobile/app/data/models/job_post/get_request_job_post_list.
 import 'package:myray_mobile/app/data/models/job_post/job_post.dart';
 import 'package:myray_mobile/app/modules/garden/garden_repository.dart';
 import 'package:myray_mobile/app/modules/job_post/job_post_repository.dart';
+import 'package:myray_mobile/app/modules/profile/controllers/landowner_profile_controller.dart';
 import 'package:myray_mobile/app/routes/app_pages.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/utils/auth_credentials.dart';
@@ -86,7 +87,9 @@ class LandownerJobPostController extends GetxController {
     //clear job post list
     jobPosts.clear();
 
-    // await getJobPosts();
+    //load user info
+    final profile = Get.find<LandownerProfileController>();
+    profile.getUserInfo();
 
     update();
   }
