@@ -19,7 +19,13 @@ class AppliedFarmerDetailsController extends GetxController
     final toId = appliedFarmer.value.userInfo.id ?? 0;
     final jobPostId = appliedFarmer.value.jobPost.id;
     final toAvatar = appliedFarmer.value.userInfo.imageUrl;
-    navigateToP2PMessageScreen(fromId, toId, jobPostId, toAvatar: toAvatar);
+    navigateToP2PMessageScreen(
+        fromId,
+        toId,
+        jobPostId,
+        appliedFarmer.value.userInfo.fullName ?? '',
+        appliedFarmer.value.jobPost.title,
+        toAvatar: toAvatar);
   }
 
   approve() async {

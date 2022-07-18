@@ -16,7 +16,7 @@ class LandownerProfileController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
-    await getUserInfor();
+    await getUserInfo();
   }
 
   //balance in account minus balance fluctuation of pending payment histories
@@ -33,25 +33,25 @@ class LandownerProfileController extends GetxController {
     );
     int userId = AuthCredentials.instance.user!.id!;
 
-    final _response = await _paymentHistoryRepository.getList(userId, data);
+    final response = await _paymentHistoryRepository.getList(userId, data);
 
-    if (_response == null) {
+    if (response == null) {
       setBalanceWithPending(balance, pendingFee);
       setPointWithPending(point, pendingPoint);
       return;
     }
 
-    final _paymentHistories = _response.paymentHistories;
+    final paymentHistories = response.paymentHistories;
 
-    if (_paymentHistories != null) {
-      if (_paymentHistories.isEmpty) {
+    if (paymentHistories != null) {
+      if (paymentHistories.isEmpty) {
         setBalanceWithPending(balance, pendingFee);
         setPointWithPending(point, pendingPoint);
         return;
       }
 
       //calculate balance
-      for (PaymentHistory payment in _paymentHistories) {
+      for (PaymentHistory payment in paymentHistories) {
         pendingFee += payment.balanceFluctuation ?? 0;
         pendingPoint += payment.usedPoint ?? 0;
       }
@@ -70,15 +70,19 @@ class LandownerProfileController extends GetxController {
     pointWithPending.value = point - pendingPoint;
   }
 
-  getUserInfor() async {
-    user = Account().obs;
-    balanceWithPending.value = 0.0;
-    Account? _user =
+  getUserInfo() async {
+    if (user.value.id != null) {
+      user = Account().obs;
+      update(['AppBar']);
+    }
+
+    Account? userInfo =
         await _profileRepository.getUser(AuthCredentials.instance.user!.id!);
 
-    if (_user != null) {
-      user.value = _user;
+    if (userInfo != null) {
+      user.value = userInfo;
       await calBalance();
+      update(['AppBar']);
     }
   }
 }

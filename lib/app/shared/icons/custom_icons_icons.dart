@@ -75,12 +75,14 @@ class CustomIcons {
       IconData(0xe818, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData schedule =
       IconData(0xe819, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData send =
+  static const IconData person =
       IconData(0xe81a, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData shield_alert =
       IconData(0xe81b, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData sprout_outline =
       IconData(0xe81c, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData send =
+      IconData(0xe81d, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData tree_outline =
       IconData(0xe81f, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData wallet_outline =

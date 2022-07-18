@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:myray_mobile/app/data/enums/activities.dart';
+import 'package:myray_mobile/app/data/enums/enums.dart';
 import 'package:myray_mobile/app/data/models/message/message.dart';
 import 'package:myray_mobile/app/data/models/message/new_message_request.dart';
 import 'package:myray_mobile/app/data/providers/signalR_provider.dart';
@@ -60,6 +61,7 @@ class NewMessageController extends GetxController with UploadImageService {
         toId: toId,
         jobPostId: jobPostId,
         imgUrl: selectedImage.path,
+        createdDate: DateTime.now(),
       );
 
       try {
@@ -79,6 +81,7 @@ class NewMessageController extends GetxController with UploadImageService {
 
         await SignalRProvider.instance.hubConnection
             ?.invoke('SendMessage', args: [newMessage]);
+        _p2pMessageController.isChanged = true;
       } catch (e) {
         _p2pMessageController.removeNewMessage(message);
         CustomSnackbar.show(
@@ -114,6 +117,7 @@ class NewMessageController extends GetxController with UploadImageService {
         //display message on screen
         _p2pMessageController.addNewMessage(message);
         messageController.clear();
+        _p2pMessageController.isChanged = true;
         await SignalRProvider.instance.hubConnection
             ?.invoke('SendMessage', args: [newMessage]);
       } catch (e) {

@@ -49,6 +49,8 @@ class FarmerJobPostDetailController extends GetxController with MessageService {
       fromId,
       toId,
       jobPostId,
+      landownerAccount?.value.fullName ?? '',
+      jobPost.title,
       toAvatar: landownerAccount?.value.imageUrl,
     );
   }

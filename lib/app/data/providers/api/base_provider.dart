@@ -52,7 +52,7 @@ class BaseProvider extends GetConnect {
     });
 
     httpClient.addResponseModifier((request, response) async {
-      print('status: ${response.statusCode}');
+      print('status from ${request.url}: ${response.statusCode}');
 
       return response;
     });

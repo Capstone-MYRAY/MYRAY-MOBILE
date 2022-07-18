@@ -3,6 +3,7 @@ import 'package:myray_mobile/app/data/enums/sort.dart';
 import 'package:myray_mobile/app/data/enums/status.dart';
 import 'package:myray_mobile/app/data/models/applied_farmer/applied_farmer_models.dart';
 import 'package:myray_mobile/app/modules/applied_farmer/applied_farmer_repository.dart';
+import 'package:myray_mobile/app/modules/profile/controllers/landowner_profile_controller.dart';
 import 'package:myray_mobile/app/shared/utils/custom_exception.dart';
 
 class AppliedFarmerController extends GetxController {
@@ -30,15 +31,15 @@ class AppliedFarmerController extends GetxController {
     isLoading.value = true;
     try {
       if (_hasNextPage) {
-        final _response = await _appliedFarmerRepository.getList(data);
-        if (_response == null || _response.appliedFarmers!.isEmpty) {
+        final response = await _appliedFarmerRepository.getList(data);
+        if (response == null || response.appliedFarmers!.isEmpty) {
           isLoading.value = false;
           return null;
         }
 
-        appliedFarmers.addAll(_response.appliedFarmers!);
+        appliedFarmers.addAll(response.appliedFarmers!);
         //update hasNext
-        _hasNextPage = _response.metadata!.hasNextPage;
+        _hasNextPage = response.metadata!.hasNextPage;
       }
       isLoading.value = false;
       return true;
@@ -56,6 +57,10 @@ class AppliedFarmerController extends GetxController {
 
     //clear applied farmer list
     appliedFarmers.clear();
+
+    //load user info
+    final profile = Get.find<LandownerProfileController>();
+    profile.getUserInfo();
 
     update();
   }

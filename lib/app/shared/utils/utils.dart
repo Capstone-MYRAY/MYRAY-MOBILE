@@ -3,10 +3,16 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:myray_mobile/app/data/enums/enums.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 
 class Utils {
-  Utils._();
+  Utils._() {
+    initializeDateFormatting();
+  }
+
+  static const vietnameseLocale = 'vi_VN';
 
   static bool isEmpty(value) {
     return value == null || value.trim().isEmpty;
@@ -59,6 +65,31 @@ class Utils {
 
   static String formatHHmmddMMyyyy(DateTime date) {
     return DateFormat('HH:mm - dd/MM/yyyy').format(date.toLocal());
+  }
+
+  static String formatMessageDateTime(DateTime date) {
+    DateTime now = DateTime.now();
+
+    //convert time to local
+    date = date.toLocal();
+    String formattedDate = '';
+
+    if (now.year != date.year) {
+      return formattedDate =
+          DateFormat('dd/MM/yyyy HH:mm', vietnameseLocale).format(date);
+    }
+
+    Duration d = now.difference(date);
+
+    if (d.inDays == 0) {
+      formattedDate = DateFormat('HH:mm', vietnameseLocale).format(date);
+    } else if (d.inDays < 7) {
+      formattedDate = DateFormat('EEEE HH:mm', vietnameseLocale).format(date);
+    } else {
+      formattedDate = DateFormat('dd/MM HH:mm', vietnameseLocale).format(date);
+    }
+
+    return formattedDate;
   }
 
   static String getHHmm(String time) {
@@ -122,9 +153,10 @@ class Utils {
   }
 
   static final vietnameseCurrencyFormat =
-      NumberFormat.currency(locale: 'vi_VN', symbol: 'đ');
+      NumberFormat.currency(locale: vietnameseLocale, symbol: 'đ');
 
-  static final threeDigitsFormat = NumberFormat.decimalPattern('vi_VN');
+  static final threeDigitsFormat =
+      NumberFormat.decimalPattern(vietnameseLocale);
 
   static final vietnamesePhone = RegExp(
     r'(\+84|84)+([0-9]{9})|(0[3|5|7|8|9])+([0-9]{8})\b',
@@ -132,4 +164,18 @@ class Utils {
   );
 
   static final isAlphabet = RegExp(r'[a-zA-z]');
+
+  static String generateConventionId(
+      int fromId, int toId, int jobPostId, String roleName) {
+    final conventionIdBuffer = StringBuffer();
+
+    conventionIdBuffer.write(jobPostId.toString());
+    if (Utils.equalsIgnoreCase(Roles.landowner.name, roleName)) {
+      conventionIdBuffer.write('$fromId$toId');
+    } else {
+      conventionIdBuffer.write('$toId$fromId');
+    }
+
+    return conventionIdBuffer.toString();
+  }
 }

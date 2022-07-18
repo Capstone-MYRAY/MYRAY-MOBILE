@@ -6,6 +6,7 @@ import 'package:myray_mobile/app/data/models/job_post/get_request_job_post_list.
 import 'package:myray_mobile/app/data/models/job_post/job_post.dart';
 import 'package:myray_mobile/app/modules/garden/garden_repository.dart';
 import 'package:myray_mobile/app/modules/job_post/job_post_repository.dart';
+import 'package:myray_mobile/app/modules/profile/controllers/landowner_profile_controller.dart';
 import 'package:myray_mobile/app/routes/app_pages.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/utils/auth_credentials.dart';
@@ -28,9 +29,9 @@ class LandownerJobPostController extends GetxController {
   }
 
   Future<bool?> getJobPosts() async {
-    final int _accountId = AuthCredentials.instance.user!.id!;
-    final _data = GetRequestJobPostList(
-      publishBy: _accountId.toString(),
+    final int accountId = AuthCredentials.instance.user!.id!;
+    final data = GetRequestJobPostList(
+      publishBy: accountId.toString(),
       page: (++_currentPage).toString(),
       pageSize: (_pageSize).toString(),
       sortColumn: JobPostSortColumn.createdDate,
@@ -41,15 +42,15 @@ class LandownerJobPostController extends GetxController {
     isLoading.value = true;
 
     if (_hasNextPage) {
-      final _response = await _jobPostRepository.getLandownerJobPostList(_data);
-      if (_response == null || _response.jobPosts!.isEmpty) {
+      final response = await _jobPostRepository.getLandownerJobPostList(data);
+      if (response == null || response.jobPosts!.isEmpty) {
         isLoading.value = false;
         return null;
       }
 
-      jobPosts.addAll(_response.jobPosts!);
+      jobPosts.addAll(response.jobPosts!);
       //update hasNext
-      _hasNextPage = _response.metadata!.hasNextPage;
+      _hasNextPage = response.metadata!.hasNextPage;
     }
     isLoading.value = false;
     return true;
@@ -57,15 +58,14 @@ class LandownerJobPostController extends GetxController {
 
   navigateToCreateForm() async {
     //check if there is any garden or not
-    final _gardenRepository = Get.find<GardenRepository>();
+    final gardenRepository = Get.find<GardenRepository>();
     final data = GetGardenRequest(
       accountId: AuthCredentials.instance.user!.id.toString(),
       page: 1.toString(),
       pageSize: 1.toString(),
     );
-    final GetGardenResponse? _response =
-        await _gardenRepository.getGardens(data);
-    if (_response != null && _response.gardens!.isNotEmpty) {
+    final GetGardenResponse? response = await gardenRepository.getGardens(data);
+    if (response != null && response.gardens!.isNotEmpty) {
       Get.toNamed(Routes.jobPostForm, arguments: {
         Arguments.action: Activities.create,
       });
@@ -87,7 +87,9 @@ class LandownerJobPostController extends GetxController {
     //clear job post list
     jobPosts.clear();
 
-    // await getJobPosts();
+    //load user info
+    final profile = Get.find<LandownerProfileController>();
+    profile.getUserInfo();
 
     update();
   }
