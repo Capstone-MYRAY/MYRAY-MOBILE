@@ -7,6 +7,7 @@ import 'package:myray_mobile/app/modules/home/widgets/custom_sliver_app_bar.dart
 import 'package:myray_mobile/app/shared/constants/app_colors.dart';
 import 'package:myray_mobile/app/shared/constants/app_msg.dart';
 import 'package:myray_mobile/app/shared/constants/app_strings.dart';
+import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
 import 'package:myray_mobile/app/shared/utils/utils.dart';
 import 'package:myray_mobile/app/shared/widgets/builders/loading_builder.dart';
 import 'package:myray_mobile/app/shared/widgets/dialogs/custom_confirm_dialog.dart';
@@ -42,7 +43,7 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
                     if (controller.isAppliedHourJob.value) {
                       InformationDialog.showDialog(
                         msg:
-                            ' Bạn đã ứng tuyển một công việc có loại hình là làm công',
+                            ' Bạn đã ứng tuyển một công việc có loại hình làm công',
                         confirmTitle: "Đóng",
                       );
                       return;
@@ -50,8 +51,7 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
                   }
                   CustomDialog.show(
                       confirm: () => controller.applyJob(controller.jobPost.id),
-                      message:
-                          "${AppMsg.MSG3005} Lưu ý: bạn chỉ có 1 lần hủy ứng tuyển, hãy cân nhắc");
+                      message: "${AppMsg.MSG3005}");
                 },
               ),
       ),
@@ -107,6 +107,7 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
             isChangedState: isChangedState,
           ),
         ),
+        _buildLandownerCard(),
         _buildCardInfoJjob(),
         _buildCardDescriptionJob(),
         const SliverToBoxAdapter(
@@ -114,6 +115,112 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
           padding: EdgeInsets.symmetric(vertical: 30),
         ))
       ]);
+
+  Widget _buildLandownerCard() {
+    return SliverToBoxAdapter(
+        child: Container(
+            padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
+            child: Card(
+              color: AppColors.white,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 15, top: 20),
+                child: Column(children: [
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Chủ đất",
+                          style: Get.textTheme.displayMedium?.copyWith(
+                            color: AppColors.brown,
+                          ),
+                        ),
+                        Obx(
+                          () => Container(
+                            padding: EdgeInsets.only(right: Get.width * 0.05),
+                            child: IconButton(
+                                onPressed: () {
+                                  // print('${controller.landownerAccount!.value.id}');
+                                  controller.bookmarkAccount(
+                                      controller.landownerAccount!.value.id ?? -1);
+                                },
+                                icon: controller.isBookmark.value
+                                ? Icon(
+                                  CustomIcons.heart,
+                                  color: Colors.red,
+                                  size: Get.textScaleFactor * 30,
+                                )
+                                : Icon(
+                                  CustomIcons.heart_outline,
+                                  color: Colors.red,
+                                  size: Get.textScaleFactor * 30,
+                                )),
+                          ),
+                        )
+                      ]),
+                  Divider(
+                    color: AppColors.primaryColor.withOpacity(0.5),
+                    height: 10,
+                    endIndent: 15,
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text("Họ và tên:", style: Get.textTheme.bodyText1),
+                      SizedBox(
+                        width: Get.width * 0.03,
+                      ),
+                      Text(
+                        controller.landownerAccount != null
+                            ? controller.landownerAccount!.value.fullName!
+                            : "Tên chủ rẫy đang cập nhật",
+                        style: TextStyle(
+                          fontSize: Get.textScaleFactor * 15,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Row(children: [
+                    Stack(
+                      children: [
+                        // const Icon(CustomIcons.map_marker_outline, size: 20),
+                        Text("Địa chỉ:", style: Get.textTheme.bodyText1),
+                        // SizedBox(
+                        //   width: Get.width * 30,
+                        // ),
+                        Padding(
+                          padding: EdgeInsets.only(
+                              left: Get.width * 0.15, right: Get.width * 0.05),
+                          child: SizedBox(
+                            width: Get.width * 0.65,
+                            child: Text.rich(
+                              TextSpan(
+                                text: controller.jobPost.address ?? '',
+                              ),
+                              style: Get.textTheme.bodyText2!
+                                  .copyWith(fontSize: Get.textScaleFactor * 14),
+                              softWrap: true,
+                              overflow: TextOverflow.ellipsis,
+                              textAlign: TextAlign.justify,
+                              maxLines: 3,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ]),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                ]),
+              ),
+            )));
+  }
 
   Widget _buildCardInfoJjob() {
     return SliverToBoxAdapter(
@@ -140,49 +247,49 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
                   const SizedBox(
                     height: 20,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text("Chủ đất:", style: Get.textTheme.bodyText1),
-                      const SizedBox(
-                        width: 15,
-                      ),
-                      Text(
-                        controller.landownerAccount != null
-                            ? controller.landownerAccount!.value.fullName!
-                            : "Tên chủ rẫy đang cập nhật",
-                        style: TextStyle(
-                          fontSize: Get.textScaleFactor * 15,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text("Địa chỉ:", style: Get.textTheme.bodyText1),
-                      const SizedBox(
-                        width: 20,
-                      ),
-                      Flexible(
-                        child: Text(
-                          controller.jobPost.address ?? '',
-                          softWrap: true,
-                          maxLines: 5,
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                            fontSize: Get.textScaleFactor * 15,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.start,
+                  //   children: [
+                  //     Text("Chủ đất:", style: Get.textTheme.bodyText1),
+                  //     const SizedBox(
+                  //       width: 15,
+                  //     ),
+                  //     Text(
+                  //       controller.landownerAccount != null
+                  //           ? controller.landownerAccount!.value.fullName!
+                  //           : "Tên chủ rẫy đang cập nhật",
+                  //       style: TextStyle(
+                  //         fontSize: Get.textScaleFactor * 15,
+                  //       ),
+                  //     ),
+                  //   ],
+                  // ),
+                  // const SizedBox(
+                  //   height: 15,
+                  // ),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.start,
+                  //   children: [
+                  //     Text("Địa chỉ:", style: Get.textTheme.bodyText1),
+                  //     const SizedBox(
+                  //       width: 20,
+                  //     ),
+                  //     Flexible(
+                  //       child: Text(
+                  //         controller.jobPost.address ?? '',
+                  //         softWrap: true,
+                  //         maxLines: 5,
+                  //         textAlign: TextAlign.left,
+                  //         style: TextStyle(
+                  //           fontSize: Get.textScaleFactor * 15,
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ],
+                  // ),
+                  // const SizedBox(
+                  //   height: 15,
+                  // ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
@@ -264,23 +371,31 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
                     ),
                   ),
                 ]),
+                Divider(
+                  color: AppColors.primaryColor.withOpacity(0.5),
+                  height: 10,
+                  endIndent: 15,
+                ),
                 const SizedBox(
                   height: 10,
                 ),
-                Row(
-                  children: [
-                    Flexible(
-                        child: Text(
-                      controller.detailPost!.value.description.isEmpty
-                          ? "Không có mô tả"
-                          : controller.detailPost!.value.description,
-                      maxLines: 10,
-                      softWrap: true,
-                      style: Get.textTheme.bodyText2?.copyWith(
-                        fontSize: Get.textScaleFactor * 15,
-                      ),
-                    ))
-                  ],
+                Container(
+                  padding: EdgeInsets.only(right: Get.width * 0.025),
+                  child: Row(
+                    children: [
+                      Flexible(
+                          child: Text(
+                        controller.detailPost!.value.description.isEmpty
+                            ? "Không có mô tả"
+                            : controller.detailPost!.value.description,
+                        maxLines: 10,
+                        softWrap: true,
+                        style: Get.textTheme.bodyText2?.copyWith(
+                          fontSize: Get.textScaleFactor * 15,
+                        ),
+                      ))
+                    ],
+                  ),
                 ),
                 const SizedBox(
                   height: 10,

@@ -27,11 +27,6 @@ class FarmerBookmarkController extends GetxController {
     super.onInit();
   }
 
-  bookmarkAccount(int accountId) async {
-    bool? result = await _bookmarkRepository.bookmarkAccount(accountId);
-    if (result != null && result) {}
-  }
-
   getAllBookmarkAccount() async {
     GetBookmarkResponse? list;
     GetBookmarkRequest data = GetBookmarkRequest(
