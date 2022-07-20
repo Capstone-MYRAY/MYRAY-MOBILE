@@ -4,7 +4,11 @@ import 'package:myray_mobile/app/modules/applied_farmer/views/applied_farmer_det
 import 'package:myray_mobile/app/modules/auth/auth.dart';
 import 'package:myray_mobile/app/modules/auth/views/enter_password_view.dart';
 import 'package:myray_mobile/app/modules/bookmark/bindings/farmer_bookmark_binding.dart';
+import 'package:myray_mobile/app/modules/bookmark/bindings/landowner_bookmark_binding.dart';
+import 'package:myray_mobile/app/modules/bookmark/bindings/landowner_bookmark_details_binding.dart';
 import 'package:myray_mobile/app/modules/bookmark/views/famer_bookmark.dart';
+import 'package:myray_mobile/app/modules/bookmark/views/landowner_bookmark_details_view.dart';
+import 'package:myray_mobile/app/modules/bookmark/views/landowner_bookmark_view.dart';
 import 'package:myray_mobile/app/modules/dashboard/bindings/dashboard_binding.dart';
 import 'package:myray_mobile/app/modules/dashboard/views/farmer_dashboard_view.dart';
 import 'package:myray_mobile/app/modules/dashboard/views/landowner_dashboard_view.dart';
@@ -143,6 +147,16 @@ class AppPages {
       page: () => const JobPostAttendanceView(),
       binding: JobPostAttendanceBinding(),
       transition: Transition.leftToRightWithFade,
+    ),
+    GetPage(
+      name: _Paths.landownerBookmark,
+      page: () => const LandownerBookmarkView(),
+      binding: LandownerBookmarkBinding(),
+    ),
+    GetPage(
+      name: _Paths.landownerBookmarkDetails,
+      page: () => const LandownerBookmarkDetailsView(),
+      binding: LandownerBookmarkDetailsBinding(),
     ),
 
     //farmer

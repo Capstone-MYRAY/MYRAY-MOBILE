@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:myray_mobile/app/data/models/account.dart';
-import 'package:myray_mobile/app/data/models/bookmark/bookmark_response.dart';
+import 'package:myray_mobile/app/data/models/bookmark/bookmark.dart';
 import 'package:myray_mobile/app/data/models/bookmark/get_bookmark_request.dart';
 import 'package:myray_mobile/app/data/models/bookmark/get_bookmark_response.dart';
 import 'package:myray_mobile/app/data/models/job_post/job_post.dart';
@@ -144,13 +144,13 @@ class FarmerJobPostDetailController extends GetxController with MessageService {
   }
 
   //check is like
-  checkBookmark(int accountId) async{
+  checkBookmark(int accountId) async {
     final result = await _bookmarkRepository.checkBookmark(accountId);
-    if(result == null){
+    if (result == null) {
       isBookmark.value = false;
-    }else if(result){
+    } else if (result) {
       isBookmark.value = true;
-    }else{
+    } else {
       isBookmark.value = false;
     }
   }

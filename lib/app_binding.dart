@@ -13,6 +13,7 @@ import 'package:myray_mobile/app/modules/attendance/attendance_repository.dart';
 import 'package:myray_mobile/app/modules/auth/auth_repository.dart';
 import 'package:myray_mobile/app/modules/auth/controllers/auth_controller.dart';
 import 'package:myray_mobile/app/modules/auth/controllers/login_controller.dart';
+import 'package:myray_mobile/app/modules/bookmark/bookmark_repository.dart';
 import 'package:myray_mobile/app/modules/dashboard/controllers/dashboard_controller.dart';
 import 'package:myray_mobile/app/modules/feedback/controllers/feedback_controller.dart';
 import 'package:myray_mobile/app/modules/feedback/feedback_repository.dart';
@@ -50,6 +51,7 @@ class AppBinding extends Bindings {
     Get.lazyPut(() => PostTypeRepository(), fenix: true);
     Get.lazyPut(() => UploadImageService(), fenix: true);
     Get.lazyPut(() => JobPostRepository(), fenix: true);
+    Get.lazyPut(() => BookmarkRepository(), fenix: true);
     Get.lazyPut(() => PaymentHistoryRepository(), fenix: true);
     Get.lazyPut(() => FeeDataService(), fenix: true);
     Get.lazyPut(() => AppliedFarmerRepository(), fenix: true);

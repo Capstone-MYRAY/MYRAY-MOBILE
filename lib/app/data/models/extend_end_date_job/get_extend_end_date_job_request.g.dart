@@ -42,7 +42,7 @@ Map<String, dynamic> _$GetExtendEndDateJobRequestToJson(
 }
 
 const _$ExtendTaskJobSortColumnEnumMap = {
-  ExtendTaskJobSortColumn.createDate: 'CreatedDate',
+  ExtendTaskJobSortColumn.createdDate: 'CreatedDate',
 };
 
 const _$SortOrderEnumMap = {
