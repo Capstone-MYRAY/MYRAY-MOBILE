@@ -79,7 +79,12 @@ enum AppliedFarmerSortColumn {
   endDate,
 }
 
-enum ExtendTaskJobSortColumn{
+enum ExtendTaskJobSortColumn {
+  @JsonValue('CreatedDate')
+  createDate
+}
+
+enum BookmarkSortColumn {
   @JsonValue('CreatedDate')
   createDate
 }

@@ -4,6 +4,7 @@ import 'package:myray_mobile/app/data/enums/enums.dart';
 import 'package:myray_mobile/app/data/models/applied_farmer/applied_farmer_models.dart';
 import 'package:myray_mobile/app/modules/applied_farmer/controllers/applied_farmer_details_controller.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
+import 'package:myray_mobile/app/shared/widgets/builders/loading_builder.dart';
 import 'package:myray_mobile/app/shared/widgets/buttons/filled_button.dart';
 import 'package:myray_mobile/app/shared/widgets/chips/status_chip.dart';
 import 'package:myray_mobile/app/shared/widgets/farmer_details/farmer_details.dart';
@@ -40,31 +41,39 @@ class AppliedFarmerDetailsView extends GetView<AppliedFarmerDetailsController> {
           ],
         ),
       ),
-      body: GetBuilder<AppliedFarmerDetailsController>(
-        tag: Get.arguments[Arguments.tag],
-        id: 'F-${controller.appliedFarmer.value.userInfo.id}',
-        builder: (controller) {
+      body: FutureBuilder(
+        future:
+            controller.isBookMark(controller.appliedFarmer.value.userInfo.id!),
+        builder: (_, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const LoadingBuilder();
+          }
+
+          controller.isBookmarked.value = snapshot.data as bool;
           final user = controller.appliedFarmer.value.userInfo;
-          return SizedBox(
-            width: double.infinity,
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.only(top: 8.0, bottom: 16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  FarmerDetails(
-                    role: user.roleName,
-                    user: Rx(user),
-                    avatar: user.imageUrl,
-                    rating: user.rating,
-                    onFavoriteToggle: () {},
-                    navigateToChatScreen: controller.navigateToChatScreen,
-                  ),
-                  const SizedBox(height: 16.0),
-                  _buildBottom(
-                    controller.appliedFarmer.value,
-                  ),
-                ],
+          return Obx(
+            () => SizedBox(
+              width: double.infinity,
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.only(top: 8.0, bottom: 16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    FarmerDetails(
+                      role: user.roleName,
+                      user: Rx(user),
+                      avatar: user.imageUrl,
+                      rating: user.rating,
+                      isBookmarked: controller.isBookmarked.value,
+                      onFavoriteToggle: () => controller.onToggleBookmark(),
+                      navigateToChatScreen: controller.navigateToChatScreen,
+                    ),
+                    const SizedBox(height: 16.0),
+                    _buildBottom(
+                      controller.appliedFarmer.value,
+                    ),
+                  ],
+                ),
               ),
             ),
           );
