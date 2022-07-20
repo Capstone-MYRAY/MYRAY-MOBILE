@@ -8,6 +8,7 @@ import 'package:myray_mobile/app/shared/widgets/builders/loading_builder.dart';
 import 'package:myray_mobile/app/shared/widgets/buttons/filled_button.dart';
 import 'package:myray_mobile/app/shared/widgets/chips/status_chip.dart';
 import 'package:myray_mobile/app/shared/widgets/farmer_details/farmer_details.dart';
+import 'package:myray_mobile/app/shared/widgets/farmer_details/farmer_details_appbar.dart';
 
 class AppliedFarmerDetailsView extends GetView<AppliedFarmerDetailsController> {
   const AppliedFarmerDetailsView({Key? key}) : super(key: key);
@@ -18,28 +19,8 @@ class AppliedFarmerDetailsView extends GetView<AppliedFarmerDetailsController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: AppColors.backgroundColor,
-        elevation: 0.0,
-        automaticallyImplyLeading: false,
-        title: Row(
-          children: [
-            GestureDetector(
-              onTap: () => Get.back(),
-              child: Container(
-                padding: const EdgeInsets.only(right: 8.0),
-                child: const Icon(
-                  Icons.chevron_left,
-                  size: 24,
-                ),
-              ),
-            ),
-            Expanded(
-              child:
-                  Text(controller.appliedFarmer.value.userInfo.fullName ?? ''),
-            ),
-          ],
-        ),
+      appBar: FarmerDetailsAppbar(
+        title: controller.appliedFarmer.value.userInfo.fullName ?? '',
       ),
       body: FutureBuilder(
         future:

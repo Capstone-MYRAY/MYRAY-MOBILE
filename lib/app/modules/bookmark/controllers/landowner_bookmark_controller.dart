@@ -73,14 +73,18 @@ class LandownerBookmarkController extends GetxController with BookmarkService {
         isBookmarked = true;
       }
 
-      //update bookmark in list
-      bookmarks
-          .firstWhere((bookmark) => bookmark.bookmarkId == bookmarkId)
-          .isBookmarked = isBookmarked;
-
-      bookmarks.refresh();
+      refreshList(isBookmarked, bookmarkId);
     } catch (e) {
       print('Bookmark error: ${e.toString()}');
     }
+  }
+
+  refreshList(bool isBookmarked, int bookmarkId) {
+    //update bookmark in list
+    bookmarks
+        .firstWhere((bookmark) => bookmark.bookmarkId == bookmarkId)
+        .isBookmarked = isBookmarked;
+
+    bookmarks.refresh();
   }
 }
