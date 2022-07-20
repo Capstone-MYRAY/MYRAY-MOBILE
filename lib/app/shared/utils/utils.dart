@@ -178,4 +178,18 @@ class Utils {
 
     return conventionIdBuffer.toString();
   }
+
+  static bool isTheSameDate(DateTime d1, DateTime d2) {
+    return DateUtils.dateOnly(d1.toLocal())
+        .isAtSameMomentAs(DateUtils.dateOnly(d2.toLocal()));
+  }
+
+  static String getWeekdayStr(DateTime date) {
+    String weekday = DateFormat('EE', vietnameseLocale).format(date);
+    weekday = weekday.replaceFirst(
+      'Th',
+      'Thứ',
+    );
+    return weekday;
+  }
 }

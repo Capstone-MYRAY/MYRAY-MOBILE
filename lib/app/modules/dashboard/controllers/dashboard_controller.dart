@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:myray_mobile/app/modules/auth/controllers/auth_controller.dart';
 
 class DashboardController extends GetxController {
   var tabIndex = 0;
@@ -10,7 +11,9 @@ class DashboardController extends GetxController {
 
   @override
   onClose() {
-    Get.deleteAll();
+    if (!Get.find<AuthController>().isLogged.value) {
+      Get.deleteAll();
+    }
     super.onClose();
   }
 }

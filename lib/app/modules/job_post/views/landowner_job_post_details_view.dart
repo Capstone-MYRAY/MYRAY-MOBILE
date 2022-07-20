@@ -101,7 +101,7 @@ class LandownerJobPostDetailsView
         widgets.addAll(buttons);
       }
 
-      if (_isApproved) {
+      if (_isApproved && !_isStartJob) {
         final buttons = [
           FractionallySizedBox(
             widthFactor: 0.8,
@@ -278,7 +278,9 @@ class LandownerJobPostDetailsView
         jobEndDate: jobPost.jobEndDate,
         treeTypes: jobPost.treeTypes,
         workType: jobPost.workType,
-        description: jobPost.description,
+        description: jobPost.description?.contains('\n') != null
+            ? '\n${jobPost.description}'
+            : jobPost.description,
         workStatus: CardStatusField(
           statusName: jobPost.jobPostWorkStatusString,
           title: AppStrings.labelWorkStatus,

@@ -12,15 +12,15 @@ class LazyLoadingList extends StatelessWidget {
   final Future<void> Function() onRefresh;
   final Widget Function(BuildContext, int) itemBuilder;
 
-  const LazyLoadingList(
-      {Key? key,
-      required this.onEndOfPage,
-      required this.onRefresh,
-      required this.itemCount,
-      required this.itemBuilder,
-      this.isLoading = false,
-      this.width})
-      : super(key: key);
+  const LazyLoadingList({
+    Key? key,
+    required this.onEndOfPage,
+    required this.onRefresh,
+    required this.itemCount,
+    required this.itemBuilder,
+    this.isLoading = false,
+    this.width,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

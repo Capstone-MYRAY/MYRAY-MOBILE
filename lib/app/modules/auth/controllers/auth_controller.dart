@@ -7,11 +7,11 @@ class AuthController extends GetxController with StorageProvider {
   final isLogged = false.obs;
 
   void logOut() async {
-    isLogged.value = false;
     removeToken();
     AuthCredentials.instance.clearUserInfor();
     //disconnect from hub when logout
     SignalRProvider.instance.stopHub();
+    isLogged.value = false;
   }
 
   Future<void> login(String token, String refreshToken) async {

@@ -34,17 +34,15 @@ class LandownerMessageList extends StatelessWidget {
           jobMessages: message.farmers.map(
             (farmerMsg) {
               final lastMessage = farmerMsg.lastMessage;
-              final msg = lastMessage.message ?? '';
-              final displayMsg = lastMessage.isMe ? 'Bạn: $msg' : msg;
               return GetBuilder<LandownerMessageController>(
                 id: farmerMsg.conventionId,
                 builder: (_) => LandownerMessageItem(
                   key: ValueKey(farmerMsg.conventionId),
                   name: farmerMsg.name,
-                  message: displayMsg,
+                  message: farmerMsg.msgDisplay,
                   isRead: lastMessage.isRead,
                   createdDate: lastMessage.createdDate,
-                  avatar: lastMessage.imgUrl,
+                  avatar: farmerMsg.avatar,
                   onTap: () {
                     onTap(
                       toId: farmerMsg.id,

@@ -214,6 +214,12 @@ class AppStrings {
   static const appliedFarmerRejected = 'Đã từ chối';
   static const appliedFarmerEnd = 'Đã kết thúc';
 
+  static const absent = 'Vắng mặt';
+  static const present = 'Có mặt';
+  static const end = 'Hoàn thành';
+  static const dayOff = 'Xin nghỉ';
+  static const fired = 'Sa thải';
+
   //Replaced String
   static const nullFullName = "Người dùng";
 

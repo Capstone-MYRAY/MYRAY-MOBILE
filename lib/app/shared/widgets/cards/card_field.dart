@@ -6,18 +6,21 @@ class CardField extends StatelessWidget {
   final IconData icon;
   final String title;
   final String data;
+  final bool isCenter;
 
   const CardField({
     Key? key,
     required this.icon,
     required this.title,
     required this.data,
+    this.isCenter = false,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment:
+          isCenter ? CrossAxisAlignment.center : CrossAxisAlignment.start,
       children: [
         Icon(
           icon,
@@ -31,7 +34,7 @@ class CardField extends StatelessWidget {
             text: TextSpan(
               children: [
                 TextSpan(
-                  text: title + ': ',
+                  text: '$title: ',
                   style: Get.textTheme.bodyText2!.copyWith(
                     fontWeight: FontWeight.w500,
                   ),
