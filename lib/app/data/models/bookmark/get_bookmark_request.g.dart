@@ -8,7 +8,8 @@ part of 'get_bookmark_request.dart';
 
 GetBookmarkRequest _$GetBookmarkRequestFromJson(Map<String, dynamic> json) =>
     GetBookmarkRequest(
-      sortColumn: json['sort-column'] as int?,
+      sortColumn:
+          $enumDecodeNullable(_$BookmarkSortColumnEnumMap, json['sort-column']),
       orderBy: $enumDecodeNullable(_$SortOrderEnumMap, json['order-by']),
       page: json['page'] as String,
       pageSize: json['page-size'] as String,
@@ -24,13 +25,17 @@ Map<String, dynamic> _$GetBookmarkRequestToJson(GetBookmarkRequest instance) {
     }
   }
 
-  writeNotNull('sort-column', instance.sortColumn);
+  writeNotNull('sort-column', _$BookmarkSortColumnEnumMap[instance.sortColumn]);
   writeNotNull('order-by', _$SortOrderEnumMap[instance.orderBy]);
   val['page'] = instance.page;
   val['page-size'] = instance.pageSize;
   val['accountId'] = instance.accountId;
   return val;
 }
+
+const _$BookmarkSortColumnEnumMap = {
+  BookmarkSortColumn.createdDate: 'CreatedDate',
+};
 
 const _$SortOrderEnumMap = {
   SortOrder.ascending: 'ASC',

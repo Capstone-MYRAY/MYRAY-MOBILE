@@ -9,7 +9,7 @@ part of 'get_bookmark_response.dart';
 GetBookmarkResponse _$GetBookmarkResponseFromJson(Map<String, dynamic> json) =>
     GetBookmarkResponse(
       listObject: (json['list_object'] as List<dynamic>)
-          .map((e) => BookmarkResponse.fromJson(e as Map<String, dynamic>))
+          .map((e) => Bookmark.fromJson(e as Map<String, dynamic>))
           .toList(),
       pagingMetadata: PagingMetadata.fromJson(
           json['paging_metadata'] as Map<String, dynamic>),

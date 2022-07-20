@@ -98,7 +98,7 @@ class MessageBubble extends StatelessWidget {
         right: isMe ? 8.0 : 0,
       ),
       child: RoundImage(
-        width: 150,
+        width: Get.width * 0.7,
         imageUrl: imageUrl,
       ),
     );

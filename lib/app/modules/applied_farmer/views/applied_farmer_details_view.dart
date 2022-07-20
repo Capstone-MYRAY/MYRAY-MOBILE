@@ -3,89 +3,58 @@ import 'package:get/get.dart';
 import 'package:myray_mobile/app/data/enums/enums.dart';
 import 'package:myray_mobile/app/data/models/applied_farmer/applied_farmer_models.dart';
 import 'package:myray_mobile/app/modules/applied_farmer/controllers/applied_farmer_details_controller.dart';
-import 'package:myray_mobile/app/modules/profile/widgets/personal_information_card.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
-import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
+import 'package:myray_mobile/app/shared/widgets/builders/loading_builder.dart';
 import 'package:myray_mobile/app/shared/widgets/buttons/filled_button.dart';
 import 'package:myray_mobile/app/shared/widgets/chips/status_chip.dart';
-import 'package:myray_mobile/app/shared/widgets/rating_star.dart';
+import 'package:myray_mobile/app/shared/widgets/farmer_details/farmer_details.dart';
+import 'package:myray_mobile/app/shared/widgets/farmer_details/farmer_details_appbar.dart';
 
-class AppliedFarmerDetailsView extends StatelessWidget {
+class AppliedFarmerDetailsView extends GetView<AppliedFarmerDetailsController> {
   const AppliedFarmerDetailsView({Key? key}) : super(key: key);
+
+  @override
+  String get tag => Get.arguments[Arguments.tag];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: AppColors.backgroundColor,
-        elevation: 0.0,
+      appBar: FarmerDetailsAppbar(
+        title: controller.appliedFarmer.value.userInfo.fullName ?? '',
       ),
-      body: GetBuilder<AppliedFarmerDetailsController>(
-        tag: Get.arguments[Arguments.tag],
-        builder: (controller) {
+      body: FutureBuilder(
+        future:
+            controller.isBookMark(controller.appliedFarmer.value.userInfo.id!),
+        builder: (_, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const LoadingBuilder();
+          }
+
+          controller.isBookmarked.value = snapshot.data as bool;
           final user = controller.appliedFarmer.value.userInfo;
-          final avatar = user.imageUrl == null
-              ? const AssetImage(AppAssets.tempAvatar) as ImageProvider
-              : NetworkImage(user.imageUrl!);
-          return SizedBox(
-            width: double.infinity,
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.only(top: 8.0, bottom: 16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  CircleAvatar(
-                    radius: Get.width * 0.2,
-                    backgroundColor: Colors.transparent,
-                    backgroundImage: avatar,
-                  ),
-                  const SizedBox(height: 16.0),
-                  ConstrainedBox(
-                    constraints: BoxConstraints(
-                      maxWidth: Get.width * 0.9,
+          return Obx(
+            () => SizedBox(
+              width: double.infinity,
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.only(top: 8.0, bottom: 16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    FarmerDetails(
+                      role: user.roleName,
+                      user: Rx(user),
+                      avatar: user.imageUrl,
+                      rating: user.rating,
+                      isBookmarked: controller.isBookmarked.value,
+                      onFavoriteToggle: () => controller.onToggleBookmark(),
+                      navigateToChatScreen: controller.navigateToChatScreen,
                     ),
-                    child: Text(
-                      user.fullName ?? '',
-                      style: Get.textTheme.headline4,
-                      textAlign: TextAlign.center,
+                    const SizedBox(height: 16.0),
+                    _buildBottom(
+                      controller.appliedFarmer.value,
                     ),
-                  ),
-                  const SizedBox(height: 8.0),
-                  Text(
-                    user.roleName,
-                    style: Get.textTheme.subtitle1!.copyWith(
-                      color: AppColors.primaryColor,
-                      fontWeight: FontWeight.w300,
-                      fontSize: 16 * Get.textScaleFactor,
-                    ),
-                  ),
-                  const SizedBox(height: 2.0),
-                  RatingStar(
-                    itemSize: 28.0,
-                    rating: user.rating ?? 0.0,
-                  ),
-                  const SizedBox(height: 16.0),
-                  FractionallySizedBox(
-                    widthFactor: 0.3,
-                    child: ElevatedButton.icon(
-                      icon: const Icon(CustomIcons.chat, size: 24.0),
-                      label: const Text(AppStrings.messageButton),
-                      style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 8.0,
-                        ),
-                      ),
-                      onPressed: controller.navigateToChatScreen,
-                    ),
-                  ),
-                  const SizedBox(height: 16.0),
-                  PersonalInformation(user: Rx(user)),
-                  const SizedBox(height: 16.0),
-                  _buildBottom(
-                    controller.appliedFarmer.value,
-                    controller,
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           );
@@ -94,8 +63,7 @@ class AppliedFarmerDetailsView extends StatelessWidget {
     );
   }
 
-  _buildBottom(
-      AppliedFarmer appliedFarmer, AppliedFarmerDetailsController controller) {
+  _buildBottom(AppliedFarmer appliedFarmer) {
     bool isPending = appliedFarmer.status == AppliedFarmerStatus.pending.index;
 
     bool isApproved =

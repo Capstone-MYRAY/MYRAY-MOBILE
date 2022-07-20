@@ -3,7 +3,6 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:myray_mobile/app/data/models/auth/auth_request.dart';
 import 'package:myray_mobile/app/data/models/auth/auth_response.dart';
-import 'package:myray_mobile/app/data/providers/signalR_provider.dart';
 import 'package:myray_mobile/app/modules/auth/auth_repository.dart';
 import 'package:myray_mobile/app/modules/auth/controllers/auth_controller.dart';
 import 'package:myray_mobile/app/routes/app_pages.dart';
@@ -18,14 +17,14 @@ class LoginController extends GetxController {
 
   LoginController({required this.authRepository});
 
-  late GlobalKey<FormState> formKey;
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
   late TextEditingController phoneController;
   late TextEditingController passwordController;
 
   @override
   void onInit() {
     super.onInit();
-    formKey = GlobalKey<FormState>();
+
     phoneController = TextEditingController();
     passwordController = TextEditingController();
   }

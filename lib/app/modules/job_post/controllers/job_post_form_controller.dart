@@ -45,8 +45,7 @@ class JobPostFormController extends GetxController {
   int _userPoint =
       Get.find<LandownerProfileController>().pointWithPending.value;
 
-  double _userBalance =
-      Get.find<LandownerProfileController>().balanceWithPending.value;
+  late double _userBalance;
 
   var postTypeCost = 0.0.obs;
   final _totalFee = 0.0.obs;
@@ -142,6 +141,9 @@ class JobPostFormController extends GetxController {
   void onInit() async {
     formKey = GlobalKey<FormState>();
     treeTypeFieldKey = GlobalKey<TreeTypeFieldState>();
+
+    _userBalance =
+        Get.find<LandownerProfileController>().balanceWithPending.value;
 
     //create controller for text fields
     workNameController = TextEditingController();
@@ -336,7 +338,7 @@ class JobPostFormController extends GetxController {
       await detailsController.getPaymentHistory();
 
       //refresh balance
-      _profile.calBalance();
+      await _profile.calBalance();
 
       Get.back();
 
@@ -847,8 +849,8 @@ class JobPostFormController extends GetxController {
     if (selectedWorkType.value == AppStrings.payPerTask &&
         jobEndDateController.text.isNotEmpty) {
       DateTime endDate = Utils.fromddMMyyyy(jobEndDateController.text);
-      if (startDate.compareTo(endDate) >= 0) {
-        return 'Ngày bắt đầu phải trước ngày kết thúc';
+      if (startDate.compareTo(endDate) > 0) {
+        return 'Ngày bắt đầu phải trước hoặc giống ngày kết thúc';
       }
     }
 
@@ -969,8 +971,8 @@ class JobPostFormController extends GetxController {
     DateTime endDate = Utils.fromddMMyyyy(value!);
     if (jobStartDateController.text.isNotEmpty) {
       DateTime startDate = Utils.fromddMMyyyy(jobStartDateController.text);
-      if (startDate.compareTo(endDate) >= 0) {
-        return 'Ngày kết thúc công việc phải sau ngày bắt đầu';
+      if (startDate.compareTo(endDate) > 0) {
+        return 'Ngày kết thúc công việc phải sau hoặc giống ngày bắt đầu';
       }
     }
 

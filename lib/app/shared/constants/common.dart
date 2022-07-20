@@ -12,6 +12,7 @@ class Arguments {
   static const String toAvatar = 'toAvatar';
   static const String toName = 'toName';
   static const String jobTitle = 'jobTitle';
+  static const String isBookmarked = 'isBookmarked';
 }
 
 class CommonConstants {

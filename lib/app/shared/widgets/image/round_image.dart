@@ -20,33 +20,32 @@ class RoundImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: width,
+    return ConstrainedBox(
+      constraints: BoxConstraints(
+        maxWidth: width,
+      ),
       child: GestureDetector(
         onTap: () => _onTap(context),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(borderRadius),
-          child: AspectRatio(
-            aspectRatio: 1 / 1,
-            child: imageUrl == null
-                ? Image.asset(AppAssets.placeholderImage)
-                : Utils.isNetworkImage(imageUrl!)
-                    ? Image.network(
-                        imageUrl!,
-                        fit: BoxFit.fill,
-                        loadingBuilder: (_, child, chunk) {
-                          if (chunk != null) {
-                            return Image.asset(AppAssets.placeholderImage);
-                          }
+          child: imageUrl == null
+              ? Image.asset(AppAssets.placeholderImage)
+              : Utils.isNetworkImage(imageUrl!)
+                  ? Image.network(
+                      imageUrl!,
+                      fit: BoxFit.fill,
+                      loadingBuilder: (_, child, chunk) {
+                        if (chunk != null) {
+                          return Image.asset(AppAssets.placeholderImage);
+                        }
 
-                          return child;
-                        },
-                      )
-                    : Image.file(
-                        File(imageUrl!),
-                        fit: BoxFit.fill,
-                      ),
-          ),
+                        return child;
+                      },
+                    )
+                  : Image.file(
+                      File(imageUrl!),
+                      fit: BoxFit.fill,
+                    ),
         ),
       ),
     );

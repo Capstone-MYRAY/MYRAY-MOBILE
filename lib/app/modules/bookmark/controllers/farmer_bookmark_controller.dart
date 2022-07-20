@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:myray_mobile/app/data/models/bookmark/bookmark_response.dart';
+import 'package:myray_mobile/app/data/models/bookmark/bookmark.dart';
 import 'package:myray_mobile/app/data/models/bookmark/get_bookmark_request.dart';
 import 'package:myray_mobile/app/data/models/bookmark/get_bookmark_response.dart';
 import 'package:myray_mobile/app/modules/bookmark/bookmark_repository.dart';
@@ -15,7 +15,7 @@ class FarmerBookmarkController extends GetxController {
   final BookmarkRepository _bookmarkRepository = Get.find<BookmarkRepository>();
   int test = 3;
   RxList<GetBookmarkResponse?> bookmarkResponse = RxList<GetBookmarkResponse>();
-  RxList<BookmarkResponse> listBookmark = RxList<BookmarkResponse>();
+  RxList<Bookmark> listBookmark = RxList<Bookmark>();
   final int _pageSize = 5;
   //paging bookmark list
   int _currentPage = 0;

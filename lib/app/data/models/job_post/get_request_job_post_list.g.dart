@@ -10,6 +10,7 @@ GetRequestJobPostList _$GetRequestJobPostListFromJson(
         Map<String, dynamic> json) =>
     GetRequestJobPostList(
       status: json['status'] as String?,
+      workStatus: json['statusWork'] as String?,
       title: json['title'] as String?,
       sortColumn:
           $enumDecodeNullable(_$JobPostSortColumnEnumMap, json['sort-column']),
@@ -31,6 +32,7 @@ Map<String, dynamic> _$GetRequestJobPostListToJson(
 
   writeNotNull('title', instance.title);
   writeNotNull('status', instance.status);
+  writeNotNull('statusWork', instance.workStatus);
   writeNotNull('sort-column', _$JobPostSortColumnEnumMap[instance.sortColumn]);
   writeNotNull('order-by', _$SortOrderEnumMap[instance.orderBy]);
   writeNotNull('page', instance.page);

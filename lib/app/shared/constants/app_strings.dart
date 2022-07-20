@@ -55,11 +55,12 @@ class AppStrings {
   static const titleExtendPostEndDate = 'Gia hạn bài đăng';
   static const titleHire = 'Thuê';
   static const titleRefuse = 'Từ chối';
+  static const titleFavoriteList = 'Danh sách yêu thích';
 
   //Subtitle
   static const subtitleMyGarden = 'Danh sách vườn đã tạo';
   static const subtitlePaymentHistory = 'Danh sách giao dịch đã thực hiện';
-  static const subtitleLandownerFavorite = 'Danh sách nông dân tôi yêu thích';
+  static const subtitleLandownerFavorite = 'Danh sách nông dân yêu thích';
   static const subtitleLandownerReport = 'Dach sách nông dân đã báo cáo';
   static const subtitleGuidepost = 'Hướng dẫn kỹ thuật làm nông';
   static const subtitleChangePassword = 'Đổi mật khẩu';
@@ -213,6 +214,12 @@ class AppStrings {
   static const appliedFarmerApproved = 'Đã thuê';
   static const appliedFarmerRejected = 'Đã từ chối';
   static const appliedFarmerEnd = 'Đã kết thúc';
+
+  static const absent = 'Vắng mặt';
+  static const present = 'Có mặt';
+  static const end = 'Hoàn thành';
+  static const dayOff = 'Xin nghỉ';
+  static const fired = 'Sa thải';
 
   //Replaced String
   static const nullFullName = "Người dùng";

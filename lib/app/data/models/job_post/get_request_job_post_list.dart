@@ -11,6 +11,9 @@ class GetRequestJobPostList {
   @JsonKey(name: 'status')
   String? status;
 
+  @JsonKey(name: 'statusWork')
+  String? workStatus;
+
   @JsonKey(name: 'sort-column')
   JobPostSortColumn? sortColumn;
 
@@ -28,6 +31,7 @@ class GetRequestJobPostList {
 
   GetRequestJobPostList({
     this.status,
+    this.workStatus,
     this.title,
     this.sortColumn,
     this.orderBy,

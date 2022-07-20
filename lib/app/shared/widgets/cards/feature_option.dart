@@ -11,6 +11,7 @@ class FeatureOption extends StatelessWidget {
   final double widthFactor;
   final double borderRadius;
   final void Function()? onTap;
+  final EdgeInsetsGeometry? margin;
 
   const FeatureOption({
     Key? key,
@@ -20,62 +21,66 @@ class FeatureOption extends StatelessWidget {
     this.widthFactor = 1.0,
     this.borderRadius = 0.0,
     this.onTap,
+    this.margin,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return FractionallySizedBox(
-      widthFactor: widthFactor,
-      child: Material(
-        borderRadius: BorderRadius.circular(borderRadius),
-        color: AppColors.white,
-        child: InkWell(
-          onTap: onTap,
+    return Container(
+      margin: margin,
+      child: FractionallySizedBox(
+        widthFactor: widthFactor,
+        child: Material(
           borderRadius: BorderRadius.circular(borderRadius),
-          // highlightColor: AppColors.greyOtp.withOpacity(0.5),
-          // splashColor: AppColors.successColor.withOpacity(0.2),
-          child: Container(
-            padding: EdgeInsets.symmetric(
-              horizontal: 24.0,
-              vertical: subtitle != null ? 12.0 : 20.0,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                SizedBox(
-                  child: Row(
-                    children: [
-                      Icon(
-                        icon,
-                        color: AppColors.featureColor,
-                        size: 24.0,
-                      ),
-                      const SizedBox(width: 8.0),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(title, style: Get.textTheme.headline6),
-                          const SizedBox(height: 2),
-                          if (subtitle != null)
-                            Text(
-                              subtitle!,
-                              style: Get.textTheme.subtitle2!.copyWith(
-                                color: AppColors.grey,
-                                fontWeight: FontWeight.w300,
+          color: AppColors.white,
+          child: InkWell(
+            onTap: onTap,
+            borderRadius: BorderRadius.circular(borderRadius),
+            // highlightColor: AppColors.greyOtp.withOpacity(0.5),
+            // splashColor: AppColors.successColor.withOpacity(0.2),
+            child: Container(
+              padding: EdgeInsets.symmetric(
+                horizontal: 24.0,
+                vertical: subtitle != null ? 12.0 : 20.0,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SizedBox(
+                    child: Row(
+                      children: [
+                        Icon(
+                          icon,
+                          color: AppColors.featureColor,
+                          size: 24.0,
+                        ),
+                        const SizedBox(width: 8.0),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(title, style: Get.textTheme.headline6),
+                            const SizedBox(height: 2),
+                            if (subtitle != null)
+                              Text(
+                                subtitle!,
+                                style: Get.textTheme.subtitle2!.copyWith(
+                                  color: AppColors.grey,
+                                  fontWeight: FontWeight.w300,
+                                ),
                               ),
-                            ),
-                        ],
-                      )
-                    ],
+                          ],
+                        )
+                      ],
+                    ),
                   ),
-                ),
-                Icon(
-                  CustomIcons.chevron_right,
-                  color: AppColors.featureColor,
-                  size: 24.0,
-                ),
-              ],
+                  Icon(
+                    CustomIcons.chevron_right,
+                    color: AppColors.featureColor,
+                    size: 24.0,
+                  ),
+                ],
+              ),
             ),
           ),
         ),

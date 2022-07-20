@@ -1,13 +1,11 @@
-
 import 'package:json_annotation/json_annotation.dart';
 import 'package:myray_mobile/app/data/enums/enums.dart';
 part 'get_bookmark_request.g.dart';
 
 @JsonSerializable(includeIfNull: false)
-class GetBookmarkRequest{
-
+class GetBookmarkRequest {
   @JsonKey(name: 'sort-column')
-  int? sortColumn;
+  BookmarkSortColumn? sortColumn;
 
   @JsonKey(name: 'order-by')
   SortOrder? orderBy;
@@ -29,9 +27,7 @@ class GetBookmarkRequest{
     required this.accountId,
   });
 
-  factory GetBookmarkRequest.fromJson(Map<String, dynamic> json) => _$GetBookmarkRequestFromJson(json);
+  factory GetBookmarkRequest.fromJson(Map<String, dynamic> json) =>
+      _$GetBookmarkRequestFromJson(json);
   Map<String, dynamic> toJson() => _$GetBookmarkRequestToJson(this);
-
-  
-
 }
