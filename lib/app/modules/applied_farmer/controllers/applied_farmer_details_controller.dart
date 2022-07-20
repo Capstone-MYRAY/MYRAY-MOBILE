@@ -51,7 +51,7 @@ class AppliedFarmerDetailsController extends GetxController
     appliedFarmerController.removeItem(appliedFarmer.value);
 
     //update UI
-    update();
+    update(['F-${appliedFarmer.value.userInfo.id}']);
   }
 
   reject() async {
