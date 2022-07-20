@@ -88,3 +88,14 @@ enum BookmarkSortColumn {
   @JsonValue('CreatedDate')
   createdDate
 }
+
+enum ReportSortColumn{
+  @JsonValue('CreatedDate')
+  createdDate,
+
+  @JsonValue('ReportedId')
+  reportedId,
+
+  @JsonValue('JobPostId')
+  jobPostId,
+}

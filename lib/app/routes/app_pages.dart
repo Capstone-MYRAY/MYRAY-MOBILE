@@ -21,11 +21,14 @@ import 'package:myray_mobile/app/modules/garden/views/garden_home_view.dart';
 import 'package:myray_mobile/app/modules/home/bindings/farmer_job_post_detail_binding.dart';
 import 'package:myray_mobile/app/modules/attendance/bindings/job_post_attendance_binding.dart';
 import 'package:myray_mobile/app/modules/home/views/farmer_job_post_detail.dart';
+import 'package:myray_mobile/app/modules/job_post/bindings/farmer_inprogress_job_binding.dart';
+import 'package:myray_mobile/app/modules/job_post/bindings/farmer_inprogress_job_detail_binding.dart';
 import 'package:myray_mobile/app/modules/attendance/views/job_post_attendance_view.dart';
 import 'package:myray_mobile/app/modules/job_post/bindings/job_post_form_binding.dart';
 import 'package:myray_mobile/app/modules/job_post/bindings/landowner_job_post_details_binding.dart';
 import 'package:myray_mobile/app/modules/job_post/views/job_post_form_view.dart';
 import 'package:myray_mobile/app/modules/job_post/views/landowner_job_post_details_view.dart';
+import 'package:myray_mobile/app/modules/job_post/widgets/farmer_inprogress_job/farmer_inprogress_job_detail.dart';
 import 'package:myray_mobile/app/modules/message/bindings/p2p_message_binding.dart';
 import 'package:myray_mobile/app/modules/message/views/p2p_message_view.dart';
 import 'package:myray_mobile/app/modules/message/widgets/new_message/new_message_binding.dart';
@@ -179,6 +182,12 @@ class AppPages {
       name: _Paths.farmerBookmarkAccount,
       page: () => const FarmerBookmark(),
       binding: FarmerBookmarkBinding(),
+    ),
+    GetPage(
+      name: _Paths.farmerInprogressJobDetail,
+      page: () => FarmerInProgressJobDetail(),
+      transition: Transition.rightToLeftWithFade,
+      binding: FarmerInprogressJobDetailBinding(),
     ),
   ];
 }

@@ -6,7 +6,7 @@ part 'report.g.dart';
 class Report{
 
   @JsonKey(name: 'id')
-  int id;
+  int? id;
 
   @JsonKey(name: 'job_post_id')
   int? jobPostId;
@@ -33,7 +33,7 @@ class Report{
   int? resolvedBy;
 
   @JsonKey(name: 'status')
-  int status;
+  int? status;
 
 
 
@@ -43,7 +43,7 @@ class Report{
     required this.createdby,
     required this.createdDate,
     required this.resolvedBy,
-    required this.status,
+    this.status,
     this.jobPostId,
     this.resolveContent,
     this.reportedId,

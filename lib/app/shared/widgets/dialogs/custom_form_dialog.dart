@@ -20,12 +20,10 @@ class CustomFormDialog {
         radius: 10,
         title: title,
         titleStyle: Get.textTheme.headline3!.copyWith(),
-        // titlePadding: EdgeInsets.only(bottom: 10),
         contentPadding: const EdgeInsets.symmetric(horizontal: 30),
         titlePadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-
-        // titlePadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
-        content: Form(
+        content: 
+        Form(
           key: formKey,
           child: Flexible(
             child: SingleChildScrollView(
@@ -39,7 +37,7 @@ class CustomFormDialog {
                     children: textFields,
                   ),
                   SizedBox(
-                    height: Get.height * 0.05,
+                    height: Get.height * 0.03,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -73,6 +71,7 @@ class CustomFormDialog {
               ),
             ),
           ),
-        ));
+        ),
+        );
   }
 }
