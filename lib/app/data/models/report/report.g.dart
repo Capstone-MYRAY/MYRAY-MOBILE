@@ -7,12 +7,12 @@ part of 'report.dart';
 // **************************************************************************
 
 Report _$ReportFromJson(Map<String, dynamic> json) => Report(
-      id: json['id'] as int,
+      id: json['id'] as int?,
       content: json['content'] as String,
       createdby: json['created_by'] as int,
       createdDate: DateTime.parse(json['created_date'] as String),
       resolvedBy: json['resolved_by'] as int?,
-      status: json['status'] as int,
+      status: json['status'] as int?,
       jobPostId: json['job_post_id'] as int?,
       resolveContent: json['resolve_content'] as String?,
       reportedId: json['reported_id'] as int?,
@@ -22,9 +22,7 @@ Report _$ReportFromJson(Map<String, dynamic> json) => Report(
     );
 
 Map<String, dynamic> _$ReportToJson(Report instance) {
-  final val = <String, dynamic>{
-    'id': instance.id,
-  };
+  final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -32,6 +30,7 @@ Map<String, dynamic> _$ReportToJson(Report instance) {
     }
   }
 
+  writeNotNull('id', instance.id);
   writeNotNull('job_post_id', instance.jobPostId);
   val['content'] = instance.content;
   writeNotNull('resolve_content', instance.resolveContent);
@@ -40,6 +39,6 @@ Map<String, dynamic> _$ReportToJson(Report instance) {
   val['created_date'] = instance.createdDate.toIso8601String();
   writeNotNull('resolved_date', instance.resolvedDate?.toIso8601String());
   writeNotNull('resolved_by', instance.resolvedBy);
-  val['status'] = instance.status;
+  writeNotNull('status', instance.status);
   return val;
 }

@@ -83,3 +83,14 @@ enum ExtendTaskJobSortColumn{
   @JsonValue('CreatedDate')
   createDate
 }
+
+enum ReportSortColumn{
+  @JsonValue('CreatedDate')
+  createdDate,
+
+  @JsonValue('ReportedId')
+  reportedId,
+
+  @JsonValue('JobPostId')
+  jobPostId,
+}
