@@ -10,6 +10,7 @@ class FarmerAvatarInfo extends StatelessWidget {
   final String role;
   final double? rating;
   final bool isBookmarked;
+  final bool isChatButtonDisplayed;
   final void Function()? navigateToChatScreen;
   final void Function()? onFavoriteToggle;
 
@@ -19,6 +20,7 @@ class FarmerAvatarInfo extends StatelessWidget {
     this.avatar,
     this.rating,
     this.isBookmarked = false,
+    this.isChatButtonDisplayed = true,
     this.navigateToChatScreen,
     this.onFavoriteToggle,
   }) : super(key: key);
@@ -46,19 +48,20 @@ class FarmerAvatarInfo extends StatelessWidget {
           rating: rating ?? 0.0,
         ),
         const SizedBox(height: 16.0),
-        FractionallySizedBox(
-          widthFactor: 0.3,
-          child: ElevatedButton.icon(
-            icon: const Icon(CustomIcons.chat, size: 24.0),
-            label: const Text(AppStrings.messageButton),
-            style: ElevatedButton.styleFrom(
-              padding: const EdgeInsets.symmetric(
-                vertical: 8.0,
+        if (isChatButtonDisplayed)
+          FractionallySizedBox(
+            widthFactor: 0.3,
+            child: ElevatedButton.icon(
+              icon: const Icon(CustomIcons.chat, size: 24.0),
+              label: const Text(AppStrings.messageButton),
+              style: ElevatedButton.styleFrom(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 8.0,
+                ),
               ),
+              onPressed: navigateToChatScreen,
             ),
-            onPressed: navigateToChatScreen,
           ),
-        ),
         const SizedBox(height: 8.0),
         _buildBookmarkButtons(),
       ],
@@ -91,7 +94,7 @@ class FarmerAvatarInfo extends StatelessWidget {
       widthFactor: 0.3,
       child: ElevatedButton.icon(
         icon: const Icon(CustomIcons.heart, size: 24.0),
-        label: const Text('Yêu thích'),
+        label: const Text(AppStrings.titleFavorite),
         style: ElevatedButton.styleFrom(
           padding: const EdgeInsets.symmetric(
             vertical: 8.0,

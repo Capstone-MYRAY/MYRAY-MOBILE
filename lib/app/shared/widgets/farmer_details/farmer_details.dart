@@ -9,6 +9,7 @@ class FarmerDetails extends StatelessWidget {
   final String role;
   final double? rating;
   final bool isBookmarked;
+  final bool isChatButtonDisplayed;
   final void Function()? navigateToChatScreen;
   final void Function()? onFavoriteToggle;
   final Rx<Account> user;
@@ -20,6 +21,7 @@ class FarmerDetails extends StatelessWidget {
     this.avatar,
     this.rating,
     this.isBookmarked = false,
+    this.isChatButtonDisplayed = true,
     this.navigateToChatScreen,
     this.onFavoriteToggle,
   }) : super(key: key);
@@ -32,6 +34,7 @@ class FarmerDetails extends StatelessWidget {
           role: role,
           avatar: avatar,
           rating: rating,
+          isChatButtonDisplayed: isChatButtonDisplayed,
           onFavoriteToggle: onFavoriteToggle,
           navigateToChatScreen: navigateToChatScreen,
           isBookmarked: isBookmarked,

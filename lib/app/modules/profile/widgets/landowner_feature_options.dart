@@ -17,25 +17,21 @@ class LandownerFeatureOptions extends StatelessWidget {
           icon: CustomIcons.sprout_outline,
           title: AppStrings.titleMyGarden,
           subtitle: AppStrings.subtitleMyGarden,
-          onTap: () {
-            Get.toNamed(Routes.gardenHome);
-          },
+          onTap: () => Get.toNamed(Routes.gardenHome),
         ),
         _buildDivider(),
         FeatureOption(
           icon: CustomIcons.credit_card_outline,
           title: AppStrings.titlePaymentHistory,
           subtitle: AppStrings.subtitlePaymentHistory,
-          onTap: () {
-            Get.toNamed(Routes.paymentHistoryHome);
-          },
+          onTap: () => Get.toNamed(Routes.paymentHistoryHome),
         ),
         _buildDivider(),
         FeatureOption(
           icon: CustomIcons.account_heart_outline,
           title: AppStrings.titleFavorite,
           subtitle: AppStrings.subtitleLandownerFavorite,
-          onTap: () {},
+          onTap: () => Get.toNamed(Routes.landownerBookmark),
         ),
         _buildDivider(),
         FeatureOption(

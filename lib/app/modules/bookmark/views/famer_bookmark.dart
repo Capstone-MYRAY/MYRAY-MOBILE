@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:myray_mobile/app/data/models/bookmark/bookmark_response.dart';
+import 'package:myray_mobile/app/data/models/bookmark/bookmark.dart';
 import 'package:myray_mobile/app/modules/bookmark/controllers/farmer_bookmark_controller.dart';
 import 'package:myray_mobile/app/modules/bookmark/widgets/bookmark_card.dart';
 import 'package:myray_mobile/app/shared/constants/app_colors.dart';
@@ -15,14 +15,13 @@ class FarmerBookmark extends GetView<FarmerBookmarkController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Yêu thích'),
+        title: const Text('Yêu thích'),
         centerTitle: true,
       ),
-      body: 
-      FutureBuilder(
+      body: FutureBuilder(
         future: controller.getAllBookmarkAccount(),
         builder: ((context, snapshot) {
-          if(snapshot.connectionState == ConnectionState.waiting){
+          if (snapshot.connectionState == ConnectionState.waiting) {
             return const LoadingBuilder();
           }
           if (snapshot.hasError) {
@@ -58,8 +57,7 @@ class FarmerBookmark extends GetView<FarmerBookmarkController> {
                   ? controller.listBookmark.length
                   : 1,
               itemBuilder: (context, index) {
-                if (snapshot.data == null ||
-                    controller.listBookmark.isEmpty) {
+                if (snapshot.data == null || controller.listBookmark.isEmpty) {
                   return Container(
                     padding: EdgeInsets.symmetric(vertical: Get.height * 0.3),
                     child: Center(
@@ -74,7 +72,7 @@ class FarmerBookmark extends GetView<FarmerBookmarkController> {
                           ),
                           const SizedBox(height: 10),
                           const Icon(
-                            CustomIcons.account_heart_outline, 
+                            CustomIcons.account_heart_outline,
                             size: 25,
                             color: AppColors.grey,
                           ),
@@ -83,16 +81,17 @@ class FarmerBookmark extends GetView<FarmerBookmarkController> {
                     ),
                   );
                 }
-                BookmarkResponse bookmark = controller.listBookmark[index];
+                Bookmark bookmark = controller.listBookmark[index];
                 return Container(
                   padding: EdgeInsets.only(top: Get.height * 0.02),
                   child: BookmarkCard(
                     fullName: bookmark.bookmarkNavigation.fullName,
-                    onTap: (){
+                    onViewDetails: () {
                       print('show detail');
                     },
-                    unBookmark: (){
-                      controller.unBookmarkAccount(bookmark.bookmarkNavigation.id!);
+                    onToggleBookmark: () {
+                      controller
+                          .unBookmarkAccount(bookmark.bookmarkNavigation.id!);
                       print('unbookmark, remove from list');
                     },
                   ),

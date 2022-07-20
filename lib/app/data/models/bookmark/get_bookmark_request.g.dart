@@ -34,7 +34,7 @@ Map<String, dynamic> _$GetBookmarkRequestToJson(GetBookmarkRequest instance) {
 }
 
 const _$BookmarkSortColumnEnumMap = {
-  BookmarkSortColumn.createDate: 'CreatedDate',
+  BookmarkSortColumn.createdDate: 'CreatedDate',
 };
 
 const _$SortOrderEnumMap = {

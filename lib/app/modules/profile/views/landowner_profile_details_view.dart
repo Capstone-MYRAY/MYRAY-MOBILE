@@ -18,7 +18,7 @@ class LandownerProfileDetailsView extends StatelessWidget {
         title: const Text(AppStrings.profile),
       ),
       body: GetBuilder<LandownerProfileController>(builder: (controller) {
-        final _user = controller.user.value;
+        final user = controller.user.value;
         return SizedBox(
           width: double.infinity,
           child: SingleChildScrollView(
@@ -26,7 +26,7 @@ class LandownerProfileDetailsView extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 CustomCircleAvatar(
-                  url: _user.imageUrl,
+                  url: user.imageUrl,
                   radius: Get.width * 0.2,
                 ),
                 const SizedBox(height: 16.0),
@@ -35,14 +35,14 @@ class LandownerProfileDetailsView extends StatelessWidget {
                     maxWidth: Get.width * 0.9,
                   ),
                   child: Text(
-                    _user.fullName ?? '',
+                    user.fullName ?? '',
                     style: Get.textTheme.headline4,
                     textAlign: TextAlign.center,
                   ),
                 ),
                 const SizedBox(height: 8.0),
                 Text(
-                  _user.roleName,
+                  user.roleName,
                   style: Get.textTheme.subtitle1!.copyWith(
                     color: AppColors.primaryColor,
                     fontWeight: FontWeight.w300,
