@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:myray_mobile/app/modules/message/controllers/farmer_message_controller.dart';
 import 'package:myray_mobile/app/modules/message/widgets/farmer_messages/farmer_message_list.dart';
+import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/widgets/builders/list_empty_builder.dart';
 import 'package:myray_mobile/app/shared/widgets/builders/loading_builder.dart';
 
@@ -12,7 +13,7 @@ class FarmerMessageView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('MessageView'),
+        title: const Text(AppStrings.message),
         centerTitle: true,
       ),
       body: GetBuilder<FarmerMessageController>(

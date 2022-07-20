@@ -9,6 +9,7 @@ import 'package:myray_mobile/app/modules/applied_farmer/applied_farmer_repositor
 import 'package:myray_mobile/app/modules/applied_farmer/controllers/applied_farmer_controller.dart';
 import 'package:myray_mobile/app/modules/applied_job/applied_job_repository.dart';
 import 'package:myray_mobile/app/modules/applied_job/controllers/applied_job_controller.dart';
+import 'package:myray_mobile/app/modules/attendance/attendance_repository.dart';
 import 'package:myray_mobile/app/modules/auth/auth_repository.dart';
 import 'package:myray_mobile/app/modules/auth/controllers/auth_controller.dart';
 import 'package:myray_mobile/app/modules/auth/controllers/login_controller.dart';
@@ -17,6 +18,7 @@ import 'package:myray_mobile/app/modules/feedback/controllers/feedback_controlle
 import 'package:myray_mobile/app/modules/feedback/feedback_repository.dart';
 import 'package:myray_mobile/app/modules/garden/garden_repository.dart';
 import 'package:myray_mobile/app/modules/home/controllers/farmer_home_controller.dart';
+import 'package:myray_mobile/app/modules/home/controllers/landowner_home_controller.dart';
 import 'package:myray_mobile/app/modules/job_post/controllers/farmer_inprogress_job_controller.dart';
 import 'package:myray_mobile/app/modules/job_post/controllers/farmer_job_post_controller.dart';
 import 'package:myray_mobile/app/modules/job_post/controllers/farmer_not_start_job_controller.dart';
@@ -52,6 +54,8 @@ class AppBinding extends Bindings {
     Get.lazyPut(() => FeeDataService(), fenix: true);
     Get.lazyPut(() => AppliedFarmerRepository(), fenix: true);
     Get.lazyPut(() => MessageRepository(), fenix: true);
+    Get.lazyPut(() => AttendanceRepository(), fenix: true);
+    Get.lazyPut(() => LandownerHomeController(), fenix: true);
     Get.lazyPut(() => LandownerProfileController(), fenix: true);
     Get.lazyPut(() => LandownerJobPostController(), fenix: true);
     Get.lazyPut(() => LandownerMessageController(), fenix: true);
@@ -60,12 +64,11 @@ class AppBinding extends Bindings {
     Get.lazyPut(() => FarmerProfileController(), fenix: true);
     Get.lazyPut(() => FarmerHomeController(), fenix: true);
     Get.lazyPut(() => FarmerJobPostController(), fenix: true);
-    Get.lazyPut(() => AppliedFarmerController(), fenix: true);
     Get.lazyPut(() => AppliedJobController(), fenix: true);
     Get.lazyPut(() => AppliedJobRepository(), fenix: true);
     Get.lazyPut(() => FarmerInprogressJobController(), fenix: true);
     Get.lazyPut(() => FarmerNotStartJobController(), fenix: true);
-    Get.lazyPut(() => FeedBackRepository(),fenix: true);
+    Get.lazyPut(() => FeedBackRepository(), fenix: true);
     Get.lazyPut(() => FeedBackController(), fenix: true);
   }
 }

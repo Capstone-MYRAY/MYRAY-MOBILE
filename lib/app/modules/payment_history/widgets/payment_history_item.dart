@@ -26,7 +26,7 @@ class PaymentHistoryItem extends StatelessWidget {
   }) : super(key: key);
 
   String get _pointSign => point.isNegative ? '' : '+';
-  String get _balanceFructuationSign =>
+  String get _balanceFluctuationSign =>
       balanceFructuation.isNegative ? '' : '+';
 
   @override
@@ -108,7 +108,7 @@ class PaymentHistoryItem extends StatelessWidget {
                       ),
                     ),
                   Text(
-                    '$_balanceFructuationSign ${Utils.vietnameseCurrencyFormat.format(balanceFructuation)}',
+                    '$_balanceFluctuationSign${Utils.vietnameseCurrencyFormat.format(balanceFructuation)}',
                     style: Get.textTheme.headline6!.copyWith(
                       color: balanceFructuation.isNegative
                           ? AppColors.errorColor

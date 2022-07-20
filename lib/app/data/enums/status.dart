@@ -43,3 +43,18 @@ enum AppliedFarmerStatus {
   @JsonValue('End')
   end,
 }
+
+enum AttendanceStatus {
+  @JsonValue('UnexcusedAbsent')
+  absent,
+  @JsonValue('Present')
+  present,
+  @JsonValue('Future')
+  noAttendance,
+  @JsonValue('End')
+  end,
+  @JsonValue('DayOff')
+  dayOff,
+  @JsonValue('Dismissed')
+  fired,
+}
