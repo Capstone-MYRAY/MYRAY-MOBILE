@@ -1,0 +1,43 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:myray_mobile/app/data/models/account.dart';
+import 'package:myray_mobile/app/modules/profile/widgets/personal_information_card.dart';
+import 'package:myray_mobile/app/shared/widgets/farmer_details/farmer_avatar_info.dart';
+
+class FarmerDetails extends StatelessWidget {
+  final String? avatar;
+  final String role;
+  final double? rating;
+  final bool isBookmarked;
+  final void Function()? navigateToChatScreen;
+  final void Function()? onFavoriteToggle;
+  final Rx<Account> user;
+
+  const FarmerDetails({
+    Key? key,
+    required this.role,
+    required this.user,
+    this.avatar,
+    this.rating,
+    this.isBookmarked = false,
+    this.navigateToChatScreen,
+    this.onFavoriteToggle,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        FarmerAvatarInfo(
+          role: role,
+          avatar: avatar,
+          rating: rating,
+          onFavoriteToggle: () {},
+          navigateToChatScreen: navigateToChatScreen,
+        ),
+        const SizedBox(height: 16.0),
+        PersonalInformation(user: user),
+      ],
+    );
+  }
+}
