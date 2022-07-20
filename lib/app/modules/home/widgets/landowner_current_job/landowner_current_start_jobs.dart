@@ -4,6 +4,7 @@ import 'package:myray_mobile/app/modules/home/widgets/landowner_current_job/land
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
 import 'package:myray_mobile/app/shared/widgets/builders/loading_builder.dart';
+import 'package:myray_mobile/app/shared/widgets/buttons/filled_button.dart';
 import 'package:myray_mobile/app/shared/widgets/cards/feature_option.dart';
 import 'package:myray_mobile/app/shared/widgets/lazy_loading_list.dart';
 
@@ -15,6 +16,7 @@ class LandownerCurrentStartJobs extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<LandownerCurrentStartJobsController>(
+      id: 'CurrentStartJobPost',
       builder: (controller) => FutureBuilder(
           future: controller.getCurrentStartJobs(),
           builder: (context, snapshot) {
@@ -23,9 +25,29 @@ class LandownerCurrentStartJobs extends StatelessWidget {
             }
 
             if (snapshot.data == null) {
-              return Text(
-                'Không có công việc nào',
-                style: Get.textTheme.bodyText2,
+              return Container(
+                margin: const EdgeInsets.only(top: 20.0),
+                width: double.infinity,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Image.asset(AppAssets.noJobFound),
+                    const SizedBox(height: 4.0),
+                    Text(
+                      'Không có công việc nào',
+                      style: Get.textTheme.bodyText1,
+                    ),
+                    const SizedBox(height: 8.0),
+                    FractionallySizedBox(
+                      widthFactor: 0.3,
+                      child: FilledButton(
+                        title: 'Tải lại',
+                        onPressed: () => controller.onRefresh(),
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      ),
+                    )
+                  ],
+                ),
               );
             }
 

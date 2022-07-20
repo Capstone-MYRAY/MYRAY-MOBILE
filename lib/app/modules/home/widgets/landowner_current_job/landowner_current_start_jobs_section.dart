@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:myray_mobile/app/modules/home/widgets/landowner_current_job/landowner_current_start_jobs.dart';
+import 'package:myray_mobile/app/shared/constants/constants.dart';
 
 class LandownerCurrentStartJobsSection extends StatelessWidget {
   const LandownerCurrentStartJobsSection({Key? key}) : super(key: key);
@@ -15,7 +16,9 @@ class LandownerCurrentStartJobsSection extends StatelessWidget {
         children: [
           Text(
             'Công việc đang bắt đầu',
-            style: Get.textTheme.headline6,
+            style: Get.textTheme.headline5!.copyWith(
+              color: AppColors.primaryColor,
+            ),
           ),
           LandownerCurrentStartJobs(),
         ],

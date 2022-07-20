@@ -5,10 +5,12 @@ import 'package:get/get.dart';
 import 'package:myray_mobile/app/data/models/attendance/get_attendance_by_date_request.dart';
 import 'package:myray_mobile/app/data/models/attendance/get_attendance_by_date_response.dart';
 import 'package:myray_mobile/app/modules/attendance/attendance_repository.dart';
+import 'package:myray_mobile/app/modules/attendance/widgets/check_attendance_dialog.dart';
 import 'package:myray_mobile/app/shared/utils/datetime_extension.dart';
 import 'package:myray_mobile/app/data/models/job_post/job_post.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/utils/utils.dart';
+import 'package:signature/signature.dart';
 
 class JobPostAttendanceController extends GetxController {
   final _attendanceRepository = Get.find<AttendanceRepository>();
@@ -19,6 +21,8 @@ class JobPostAttendanceController extends GetxController {
   late DateTime startDate;
   late DateTime endDate;
   var selectedDate = DateTime(1900).obs;
+
+  String get jobTitle => _jobPost.title;
 
   RxList<GetAttendanceByDateResponse> selectedAttendances = RxList([]);
 
@@ -70,5 +74,15 @@ class JobPostAttendanceController extends GetxController {
     //table_calendar use utc => do not have to convert data receive from sever
     selectedDate.value = selectedDay;
     update(['Attendances']);
+  }
+
+  onPresent(int accountId, int jobPostId, DateTime date) {
+    final signatureController = SignatureController(
+      penColor: AppColors.black,
+      penStrokeWidth: 3.0,
+      exportBackgroundColor: AppColors.white,
+    );
+
+    CheckAttendanceDialog.show(100000, signatureController);
   }
 }

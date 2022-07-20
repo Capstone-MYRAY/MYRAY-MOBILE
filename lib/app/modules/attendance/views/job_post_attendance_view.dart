@@ -14,7 +14,7 @@ class JobPostAttendanceView extends GetView<JobPostAttendanceController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('tên công việc'),
+        title: Text(controller.jobTitle),
       ),
       body: Column(
         children: [
@@ -54,6 +54,8 @@ class JobPostAttendanceView extends GetView<JobPostAttendanceController> {
                       phone: item.farmer.phoneNumber ?? '',
                       avatar: item.farmer.imageUrl,
                       isControlDisplayed: item.attendance.isEmpty,
+                      onPresent: () => controller.onPresent(item.farmer.id!,
+                          item.id, controller.selectedDate.value),
                     ),
                   );
                 },

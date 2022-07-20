@@ -58,7 +58,7 @@ class LandownerCurrentStartJobsController extends GetxController {
     // final profile = Get.find<LandownerProfileController>();
     // profile.getUserInfo();
 
-    update();
+    update(['CurrentStartJobPost']);
   }
 
   navigateToCheckAttendanceScreen(JobPost jobPost) {

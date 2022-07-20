@@ -15,10 +15,13 @@ class CheckAttendanceCard extends StatelessWidget {
   final String? statusName;
   final bool isControlDisplayed;
   final String? reason;
+  final void Function() onPresent;
+
   const CheckAttendanceCard({
     Key? key,
     required this.fullName,
     required this.phone,
+    required this.onPresent,
     this.avatar,
     this.statusName,
     this.isControlDisplayed = false,
@@ -84,7 +87,9 @@ class CheckAttendanceCard extends StatelessWidget {
                     ),
                     FilledButton(
                       title: 'Có mặt',
-                      onPressed: () {},
+                      onPressed: () {
+                        onPresent();
+                      },
                     ),
                     FilledButton(
                       title: 'Kết thúc',
