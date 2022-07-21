@@ -295,9 +295,6 @@ class FarmerInProgressJobDetail extends GetView<InprogressJobDetailController> {
                               controller.onUpdaetReportForm(report);
                             },
                             closeDialog: controller.onCloseReportDialog,
-                            delete: () {  
-                              controller.deleteReport(report.id!);
-                            },
                           );
                           return;
                         }
