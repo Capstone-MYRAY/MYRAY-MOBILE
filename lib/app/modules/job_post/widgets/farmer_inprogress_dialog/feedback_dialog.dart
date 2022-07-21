@@ -1,42 +1,51 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
+import 'package:myray_mobile/app/shared/constants/app_colors.dart';
+import 'package:myray_mobile/app/shared/widgets/buttons/custom_text_button.dart';
 import 'package:myray_mobile/app/shared/widgets/controls/input_field.dart';
 import 'package:myray_mobile/app/shared/widgets/dialogs/custom_form_dialog.dart';
 
-class FeedbackDialog{
- FeedbackDialog._();
-
- static show({
-  required int jobPostId,
-  required GlobalKey<FormState> formKey,
-  required TextEditingController feedbackRatingController,
-  required TextEditingController feedbackContentController,
-  required void Function(int?) submit,
-  required String? Function(String?) validateReason,
-  required void Function() closeDialog,
- }){
+class FeedbackDialog {
+  FeedbackDialog._();
+  static int size = 17;
+  static show({
+    required int jobPostId,
+    required GlobalKey<FormState> formKey,
+    required TextEditingController feedbackRatingController,
+    required TextEditingController feedbackContentController,
+    required void Function(int?) submit,
+    required String? Function(String?) validateReason,
+    required void Function() closeDialog,
+    required bool isReported,
+    required double initialRating,
+    void Function()? delete,
+  }) {
     return CustomFormDialog.showDialog(
         title: 'Đánh giá',
         formKey: formKey,
+        contentPadding: const EdgeInsets.only(left: 20, right: 20),
         textFields: [
-          RatingBar.builder(
-            initialRating: 1,
-            minRating: 1,
-            direction: Axis.horizontal,
-            itemSize: Get.textScaleFactor * 35,
-            itemCount: 5,
-            itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
-            itemBuilder: (context, _) => const Icon(
-              Icons.star,
-              color: Colors.amber,
-            ),
-            onRatingUpdate: (rating) {
-              feedbackRatingController.text =
-                  rating.toInt().toString();
-              print(feedbackRatingController.text);
-            },
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              RatingBar.builder(
+                initialRating: initialRating,
+                minRating: 1,
+                direction: Axis.horizontal,
+                itemSize: Get.textScaleFactor * 35,
+                itemCount: 5,
+                itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+                itemBuilder: (context, _) => const Icon(
+                  Icons.star,
+                  color: Colors.amber,
+                ),
+                onRatingUpdate: (rating) {
+                  feedbackRatingController.text = rating.toInt().toString();
+                  print(feedbackRatingController.text);
+                },
+              ),
+            ],
           ),
           SizedBox(
             height: Get.height * 0.01,
@@ -74,11 +83,76 @@ class FeedbackDialog{
             validator: validateReason,
           ),
         ],
-        onSubmit: () {
-          submit(jobPostId);
-        },
-        submitButtonTitle: 'Đánh giá',
-        onCancel: closeDialog);
+        widget: isReported
+            ? Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  IntrinsicHeight(
+                    child: Row(
+                      children: [
+                        CustomTextButton(
+                          onPressed: () {
+                            submit(jobPostId);
+                          },
+                          title: 'Cập nhật',
+                        ),
+                      ],
+                    ),
+                  ),
+                  delete != null
+                      ? IntrinsicHeight(
+                          child: Row(
+                            children: [
+                              const SizedBox(
+                                width: 5,
+                              ),
+                              CustomTextButton(
+                                  onPressed: delete,
+                                  title: 'Xóa',
+                                  background: AppColors.white,
+                                  foreground: AppColors.errorColor,
+                                  textStyle:
+                                      Get.textTheme.displayMedium!.copyWith(
+                                    color: AppColors.errorColor,
+                                    fontSize: Get.textScaleFactor * size,
+                                  ),
+                                  padding: EdgeInsets.zero),
+                              const SizedBox(
+                                width: 5,
+                              ),
+                              const VerticalDivider(
+                                  color: AppColors.errorColor,
+                                  indent: 10,
+                                  endIndent: 10),
+                              const SizedBox(
+                                width: 5,
+                              ),
+                            ],
+                          ),
+                        )
+                      : const Text(''),
+                  const SizedBox(
+                    width: 5,
+                  ),
+                  CustomTextButton(
+                    onPressed: closeDialog,
+                    title: 'Quay lại',
+                    background: AppColors.white,
+                    border: Border.all(
+                      color: AppColors.primaryColor,
+                    ),
+                    textStyle: Get.textTheme.button!.copyWith(
+                      color: AppColors.primaryColor,
+                    ),
+                  )
+                ],
+              )
+            : null,
+        onSubmit: isReported
+            ? null
+            : () {
+                submit(jobPostId);
+              },
+        onCancel: isReported ? null : closeDialog);
   }
- }
-  
+}

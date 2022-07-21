@@ -99,3 +99,17 @@ enum ReportSortColumn{
   @JsonValue('JobPostId')
   jobPostId,
 }
+
+enum FeedbackSortColumn{
+  @JsonValue('BelongedId')
+  belongedId,
+
+  @JsonValue('JobPostId')
+  jobPostId,
+
+  @JsonValue('NumStar')
+  numStar,
+
+  @JsonValue('CreatedDate')
+  createdDate
+}
