@@ -5,7 +5,10 @@ import 'package:myray_mobile/app/data/models/attendance/farmer_post_attendance_r
 import 'package:myray_mobile/app/data/models/extend_end_date_job/extend_end_date_job.dart';
 import 'package:myray_mobile/app/data/models/extend_end_date_job/post_extend_end_date_job_request.dart';
 import 'package:myray_mobile/app/data/models/feedback/feedback.dart';
+import 'package:myray_mobile/app/data/models/feedback/get_feedback_request.dart';
+import 'package:myray_mobile/app/data/models/feedback/get_feedback_response.dart';
 import 'package:myray_mobile/app/data/models/feedback/post_feedback_request.dart';
+import 'package:myray_mobile/app/data/models/feedback/put_feedback_request.dart';
 import 'package:myray_mobile/app/data/models/job_post/job_post.dart';
 import 'package:myray_mobile/app/data/models/report/get_report_request.dart';
 import 'package:myray_mobile/app/data/models/report/get_report_response.dart';
@@ -171,6 +174,7 @@ class InprogressJobDetailController extends GetxController {
   }
 
   onUpdaetReportForm(Report report) async {
+    bool isFormValid = formKey.currentState!.validate();
     PutUpdateReportRequest data = PutUpdateReportRequest(
       id: report.id,
       jobPostId: report.jobPostId!,
@@ -178,99 +182,107 @@ class InprogressJobDetailController extends GetxController {
       reportedId: report.reportedId!,
     );
 
-    Report? newReport = await _updateReport(data);
-    if (newReport != null) {
-      EasyLoading.show();
-      Future.delayed(const Duration(milliseconds: 1200), () {
-        onCloseReportDialog();
-        EasyLoading.dismiss();
-        Get.defaultDialog(
-          title: 'Cập nhật báo cáo',
-          titlePadding: const EdgeInsets.only(top: 10),
-          contentPadding: const EdgeInsets.all(20),
-          titleStyle: Get.textTheme.headline3,
-          content: Stack(
-            children: [
-              SizedBox(
-                width: Get.width * 0.7,
-                child: Text.rich(
-                  TextSpan(
-                    text: 'Nội dung cập nhật:  ',
-                    children: [
+    if (isFormValid) {
+      try {
+        Report? newReport = await _updateReport(data);
+        if (newReport != null) {
+          EasyLoading.show();
+          Future.delayed(const Duration(milliseconds: 1200), () {
+            onCloseFeedBackDialog();
+            EasyLoading.dismiss();
+            Get.defaultDialog(
+              title: 'Cập nhật báo cáo',
+              titlePadding: const EdgeInsets.only(top: 10),
+              contentPadding: const EdgeInsets.all(20),
+              titleStyle: Get.textTheme.headline3,
+              content: Stack(
+                children: [
+                  SizedBox(
+                    width: Get.width * 0.7,
+                    child: Text.rich(
                       TextSpan(
-                        text: newReport.content,
-                        style: Get.textTheme.bodyText2!
-                            .copyWith(fontSize: Get.textScaleFactor * 17),
-                      ),
-                    ],
-                    style: Get.textTheme.labelMedium!.copyWith(
-                      fontWeight: FontWeight.w500,
-                      fontSize: Get.textScaleFactor * 17,
-                    ),
-                  ),
-                  softWrap: true,
-                  overflow: TextOverflow.ellipsis,
-                  textAlign: TextAlign.start,
-                  maxLines: 3,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 50.0),
-                child: SizedBox(
-                  width: Get.width * 0.7,
-                  child: Text.rich(
-                    TextSpan(
-                      text: 'Ngày cập nhật:  ',
-                      children: [
-                        TextSpan(
-                          text: Utils.formatHHmmddMMyyyy(DateTime.now()),
-                          style: Get.textTheme.bodyText2!
-                              .copyWith(fontSize: Get.textScaleFactor * 17),
-                        ),
-                      ],
-                      style: Get.textTheme.labelMedium!.copyWith(
-                        fontWeight: FontWeight.w500,
-                        fontSize: Get.textScaleFactor * 17,
-                      ),
-                    ),
-                    softWrap: true,
-                    overflow: TextOverflow.ellipsis,
-                    textAlign: TextAlign.start,
-                    maxLines: 3,
-                  ),
-                ),
-              ),
-              Padding(
-                  padding: const EdgeInsets.only(top: 80.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      CustomTextButton(
-                          onPressed: () {
-                            Get.back();
-                          },
-                          title: 'Đóng',
-                          border: Border.all(
-                            color: AppColors.primaryColor,
+                        text: 'Nội dung cập nhật:  ',
+                        children: [
+                          TextSpan(
+                            text: newReport.content,
+                            style: Get.textTheme.bodyText2!
+                                .copyWith(fontSize: Get.textScaleFactor * 17),
                           ),
-                          foreground: AppColors.primaryColor,
-                          background: AppColors.white,
-                          padding: EdgeInsets.symmetric(
-                              horizontal: Get.width * 0.08, vertical: 9)),
-                    ],
-                  ))
-            ],
-          ),
-        );
-        
-      });
-
-      return;
+                        ],
+                        style: Get.textTheme.labelMedium!.copyWith(
+                          fontWeight: FontWeight.w500,
+                          fontSize: Get.textScaleFactor * 17,
+                        ),
+                      ),
+                      softWrap: true,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.start,
+                      maxLines: 3,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 50.0),
+                    child: SizedBox(
+                      width: Get.width * 0.7,
+                      child: Text.rich(
+                        TextSpan(
+                          text: 'Ngày cập nhật:  ',
+                          children: [
+                            TextSpan(
+                              text: Utils.formatHHmmddMMyyyy(DateTime.now()),
+                              style: Get.textTheme.bodyText2!
+                                  .copyWith(fontSize: Get.textScaleFactor * 17),
+                            ),
+                          ],
+                          style: Get.textTheme.labelMedium!.copyWith(
+                            fontWeight: FontWeight.w500,
+                            fontSize: Get.textScaleFactor * 17,
+                          ),
+                        ),
+                        softWrap: true,
+                        overflow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.start,
+                        maxLines: 3,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                      padding: const EdgeInsets.only(top: 80.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          CustomTextButton(
+                              onPressed: () {
+                                Get.back();
+                              },
+                              title: 'Đóng',
+                              border: Border.all(
+                                color: AppColors.primaryColor,
+                              ),
+                              foreground: AppColors.primaryColor,
+                              background: AppColors.white,
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: Get.width * 0.08, vertical: 9)),
+                        ],
+                      ))
+                ],
+              ),
+            );
+          });
+          return;
+        }
+        CustomSnackbar.show(
+            title: "Thất bại",
+            message: "Gửi báo cáo không thành công",
+            backgroundColor: AppColors.errorColor);
+      } on CustomException catch (e) {
+        print(e);
+        CustomSnackbar.show(
+            title: "Thất bại",
+            message: "Không thể gửi báo cáo",
+            backgroundColor: AppColors.errorColor);
+      }
     }
-    CustomSnackbar.show(
-        title: "Thất bại",
-        message: "Gửi báo cáo không thành công",
-        backgroundColor: AppColors.errorColor);
   }
 
   onSubmitOnleaveForm(int jobPostId) async {
@@ -355,7 +367,7 @@ class InprogressJobDetailController extends GetxController {
     if (isFormValid) {
       PostFeedbackRequest data = PostFeedbackRequest(
         content: feedbackContentController.text,
-        numStart: feedbackRatingController.text != '5'
+        numStar: feedbackRatingController.text != '5'
             ? int.parse(feedbackRatingController.text)
             : 5,
         jobPostId: jobPostId,
@@ -389,6 +401,114 @@ class InprogressJobDetailController extends GetxController {
     }
   }
 
+  onUpdateFeedBackForm(FeedBack feedBack) async {
+    bool isFormValid = formKey.currentState!.validate();
+    if (isFormValid) {
+      PutFeedbackRequest data = PutFeedbackRequest(
+        id: feedBack.id,
+        content: feedbackContentController.text,
+        numStar: num.parse(feedbackRatingController.text),
+        jobPostId: feedBack.jobPostId,
+        belongedId: feedBack.belongedId,
+      );
+      try {
+        FeedBack? newFeedBack = await feedBackController.updateFeedback(data);
+        if (newFeedBack != null) {
+          EasyLoading.show();
+          Future.delayed(const Duration(milliseconds: 1200), () {
+            onCloseReportDialog();
+            EasyLoading.dismiss();
+            Get.defaultDialog(
+              title: 'Cập nhật đánh giá',
+              titlePadding: const EdgeInsets.only(top: 10),
+              contentPadding: const EdgeInsets.all(20),
+              titleStyle: Get.textTheme.headline3,
+              content: Stack(
+                children: [
+                  SizedBox(
+                    width: Get.width * 0.7,
+                    child: Text.rich(
+                      TextSpan(
+                        text: 'Nội dung cập nhật:  ',
+                        children: [
+                          TextSpan(
+                            text: newFeedBack.content,
+                            style: Get.textTheme.bodyText2!
+                                .copyWith(fontSize: Get.textScaleFactor * 17),
+                          ),
+                        ],
+                        style: Get.textTheme.labelMedium!.copyWith(
+                          fontWeight: FontWeight.w500,
+                          fontSize: Get.textScaleFactor * 17,
+                        ),
+                      ),
+                      softWrap: true,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.start,
+                      maxLines: 3,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 50.0),
+                    child: SizedBox(
+                      width: Get.width * 0.7,
+                      child: Text.rich(
+                        TextSpan(
+                          text: 'Ngày cập nhật:  ',
+                          children: [
+                            TextSpan(
+                              text: Utils.formatHHmmddMMyyyy(DateTime.now()),
+                              style: Get.textTheme.bodyText2!
+                                  .copyWith(fontSize: Get.textScaleFactor * 17),
+                            ),
+                          ],
+                          style: Get.textTheme.labelMedium!.copyWith(
+                            fontWeight: FontWeight.w500,
+                            fontSize: Get.textScaleFactor * 17,
+                          ),
+                        ),
+                        softWrap: true,
+                        overflow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.start,
+                        maxLines: 3,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                      padding: const EdgeInsets.only(top: 80.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          CustomTextButton(
+                              onPressed: () {
+                                Get.back();
+                              },
+                              title: 'Đóng',
+                              border: Border.all(
+                                color: AppColors.primaryColor,
+                              ),
+                              foreground: AppColors.primaryColor,
+                              background: AppColors.white,
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: Get.width * 0.08, vertical: 9)),
+                        ],
+                      ))
+                ],
+              ),
+            );
+          });
+          return;
+        }
+      } on CustomException catch (e) {
+        print('$e');
+        CustomSnackbar.show(
+            title: "Thất bại",
+            message: "Gửi đánh giá không thành công",
+            backgroundColor: AppColors.errorColor);
+      }
+    }
+  }
+
   checkDoReport(int jobPostId) async {
     GetReportRequest data = GetReportRequest(
         createdBy: AuthCredentials.instance.user!.id!.toString(),
@@ -403,6 +523,33 @@ class InprogressJobDetailController extends GetxController {
         print(report.listObject!.length);
         return report.listObject![0];
       }
+    }
+    return null;
+  }
+
+  checkDoFeedBack(int jobPostId) async {
+    GetFeedbackRequest data = GetFeedbackRequest(
+        jobPostId: jobPostId.toString(),
+        createdBy: AuthCredentials.instance.user!.id!.toString(),
+        page: '1',
+        pageSize: '20');
+
+    try {
+      GetFeedBackResponse? feedBack =
+          await feedBackController.getFeedback(data);
+      if (feedBack != null) {
+        if (feedBack.listobject!.isNotEmpty) {
+          print("feedback: ${feedBack.listobject!.length}");
+          return feedBack.listobject![0];
+        }
+      }
+      return;
+    } on CustomException catch (e) {
+      print(e);
+      CustomSnackbar.show(
+          title: "Thất bại",
+          message: "Lỗi khi load đánh giá",
+          backgroundColor: AppColors.errorColor);
     }
     return null;
   }
@@ -431,5 +578,4 @@ class InprogressJobDetailController extends GetxController {
   Future<Report?> _updateReport(PutUpdateReportRequest data) async {
     return await _reportRepository.updateReport(data);
   }
-
 }

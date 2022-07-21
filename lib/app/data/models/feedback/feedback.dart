@@ -18,12 +18,12 @@ class FeedBack extends PostFeedbackRequest {
     required this.createdDate,
     required this.createdBy,
     required String content,
-    required int numStart,
+    required int numStar,
     required int jobPostId,
     required int belongedId,
   }) : super(
           content: content,
-          numStart: numStart,
+          numStar: numStar,
           jobPostId: jobPostId,
           belongedId: belongedId,
         );

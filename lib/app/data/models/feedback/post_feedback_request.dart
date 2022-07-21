@@ -9,7 +9,7 @@ class PostFeedbackRequest{
   String content;
 
   @JsonKey(name: 'num_star')
-  int numStart;
+  int numStar;
 
   @JsonKey(name: 'job_post_id')
   int jobPostId;
@@ -19,7 +19,7 @@ class PostFeedbackRequest{
 
   PostFeedbackRequest({
     required this.content,
-    required this.numStart,
+    required this.numStar,
     required this.jobPostId,
     required this.belongedId
   });

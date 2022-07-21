@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:myray_mobile/app/data/models/feedback/feedback.dart';
 import 'package:myray_mobile/app/data/models/report/report.dart';
 import 'package:myray_mobile/app/modules/job_post/controllers/farmer_inprogress_job_detail.controller.dart';
 import 'package:myray_mobile/app/modules/job_post/widgets/farmer_inprogress_dialog/card_function.dart';
@@ -259,10 +260,35 @@ class FarmerInProgressJobDetail extends GetView<InprogressJobDetailController> {
                     CardFunction(
                       title: AppStrings.feedbackJob,
                       icon: Icons.feedback_outlined,
-                      onTap: () {
+                      onTap: () async {
+                        FeedBack? feedBack = await controller
+                            .checkDoFeedBack(controller.jobpost.id);
+                        if (feedBack != null) {
+                          controller.feedbackContentController.text =
+                              feedBack.content;
+                          controller.feedbackRatingController.text =
+                              feedBack.numStar.toString();
+                          FeedbackDialog.show(
+                            jobPostId: controller.jobpost.id,
+                            formKey: controller.formKey,
+                            isReported: true,
+                            initialRating: double.parse(controller.feedbackRatingController.text),
+                            feedbackRatingController:
+                                controller.feedbackRatingController,
+                            feedbackContentController:
+                                controller.feedbackContentController,
+                            submit: (_) => controller
+                                .onUpdateFeedBackForm(feedBack),
+                            validateReason: controller.validateReason,
+                            closeDialog: controller.onCloseFeedBackDialog,
+                          );
+                          return;
+                        }
                         FeedbackDialog.show(
                           jobPostId: controller.jobpost.id,
                           formKey: controller.formKey,
+                          isReported: false,
+                          initialRating: 5,
                           feedbackRatingController:
                               controller.feedbackRatingController,
                           feedbackContentController:
