@@ -62,6 +62,7 @@ dependencies:
   flutter_rating_bar: ^4.0.1
   table_calendar: ^3.0.6
   signature: ^5.1.0
+  mapbox_gl: ^0.16.0
 
 
 dev_dependencies:
@@ -90,6 +91,7 @@ flutter:
   assets:
     - assets/logo/logo.png
     - assets/images/
+    - assets/symbols/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

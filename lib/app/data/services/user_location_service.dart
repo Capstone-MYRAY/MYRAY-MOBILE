@@ -31,13 +31,15 @@ class UserLocationService {
         desiredAccuracy: LocationAccuracy.high);
   }
 
+  //TODO: call geocode of goong api to get full address
+
   static Future<String> getAddressFromLatLong(Position position) async {
     List<Placemark> placemarks = await placemarkFromCoordinates(
         position.latitude, position.longitude,
         localeIdentifier: 'vi_VN');
     String? locality;
     for (int i = 0; i < placemarks.length; i++) {
-      if (placemarks[i].locality!.isNotEmpty) {
+      if (placemarks[i].locality?.isNotEmpty != null) {
         locality = placemarks[i].locality;
         break;
       }

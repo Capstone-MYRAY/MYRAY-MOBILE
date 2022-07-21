@@ -135,31 +135,23 @@ class GardenFormView extends GetView<GardenFormController> {
                             );
                           }),
                           const SizedBox(height: 16.0),
-                          Row(
-                            children: [
-                              Flexible(
-                                child: InputField(
-                                  controller: controller.addressController,
-                                  icon: const Icon(Icons.map_outlined),
-                                  labelText: '${AppStrings.labelAddress}*',
-                                  placeholder: AppStrings.placeholderAddress,
-                                  inputAction: TextInputAction.next,
-                                  keyBoardType: TextInputType.text,
-                                  minLines: 1,
-                                  maxLines: 8,
-                                  readOnly: true,
-                                  validator:
-                                      FieldValidation.instance.validateAddress,
-                                  onTap: () {},
-                                ),
-                              ),
-                              IconButton(
-                                icon:
-                                    const Icon(CustomIcons.map_marker_outline),
-                                tooltip: 'Lấy vị trí hiện tại',
-                                onPressed: controller.getCurrentPosition,
-                              ),
-                            ],
+                          InputField(
+                            controller: controller.addressController,
+                            icon: const Icon(Icons.map_outlined),
+                            labelText: '${AppStrings.labelAddress}*',
+                            placeholder: AppStrings.placeholderAddress,
+                            inputAction: TextInputAction.next,
+                            keyBoardType: TextInputType.text,
+                            minLines: 1,
+                            maxLines: 8,
+                            readOnly: true,
+                            validator: FieldValidation.instance.validateAddress,
+                            onTap: controller.navigateToMap,
+                            suffixIcon: IconButton(
+                              icon: const Icon(CustomIcons.map_marker_outline),
+                              tooltip: 'Lấy vị trí hiện tại',
+                              onPressed: controller.getCurrentPosition,
+                            ),
                           ),
                           const SizedBox(height: 16.0),
                           InputField(

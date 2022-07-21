@@ -85,4 +85,7 @@ flutter {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation ('com.mapbox.maps:android:10.6.2') {
+        exclude group: 'com.mapbox.mapboxsdk', module:'mapbox-android-telemetry'
+    }
 }

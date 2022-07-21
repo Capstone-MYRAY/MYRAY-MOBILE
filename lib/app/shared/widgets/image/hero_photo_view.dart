@@ -33,6 +33,14 @@ class _HeroPhotoViewState extends State<HeroPhotoView> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: AppColors.featureColor,
+    ));
+  }
+
+  @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       sized: true,

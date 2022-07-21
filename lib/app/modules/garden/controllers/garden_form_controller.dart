@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:mapbox_gl/mapbox_gl.dart';
 import 'package:myray_mobile/app/data/enums/enums.dart';
 import 'package:myray_mobile/app/data/models/area/area_models.dart';
 import 'package:myray_mobile/app/data/models/garden/garden_models.dart';
@@ -16,6 +17,7 @@ import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/utils/auth_credentials.dart';
 import 'package:myray_mobile/app/shared/utils/utils.dart';
 import 'package:myray_mobile/app/shared/widgets/custom_snackbar.dart';
+import 'package:myray_mobile/app/modules/garden/views/search_places_view.dart';
 
 class Commune {
   int id;
@@ -39,8 +41,8 @@ class GardenFormController extends GetxController {
   var selectedDistrict = ''.obs;
   var selectedCommune = Commune().obs;
 
-  double latitude = 0;
-  double longitude = 0;
+  double latitude = 91;
+  double longitude = 181;
 
   late TextEditingController landAreaController;
   late TextEditingController gardenNameController;
@@ -323,9 +325,11 @@ class GardenFormController extends GetxController {
           await UserLocationService.getAddressFromLatLong(position);
       EasyLoading.dismiss();
       addressController.text = address;
+      latitude = position.latitude;
+      longitude = position.longitude;
     } catch (e) {
       EasyLoading.dismiss();
-      print('Get position error:L ${e.toString()}');
+      print('Get position error: ${e.toString()}');
     }
   }
 
@@ -427,6 +431,37 @@ class GardenFormController extends GetxController {
     if (action == Activities.create) {
       gardenNameController.text =
           '${selectedCommune.value.commune} - ${landAreaController.text}';
+    }
+  }
+
+  bool get latitudeRange => latitude >= -90 && latitude <= 90;
+  bool get longitudeRange => longitude >= -180 && longitude < 180;
+
+  navigateToMap() async {
+    LatLng? selectedLocation;
+
+    if (latitudeRange && longitudeRange) {
+      selectedLocation = LatLng(latitude, longitude);
+    }
+
+    try {
+      EasyLoading.show();
+      Position location = await UserLocationService.getGeoLocationPosition();
+      EasyLoading.dismiss();
+      Get.to(
+        () => SearchPlacesView(
+          currentLocation: LatLng(
+            location.latitude,
+            location.longitude,
+          ),
+          selectedLocation: selectedLocation,
+          address:
+              addressController.text.isEmpty ? null : addressController.text,
+        ),
+      );
+    } catch (e) {
+      EasyLoading.dismiss();
+      print('GardenForm-navigateToMap: ${e.toString()}');
     }
   }
 }
