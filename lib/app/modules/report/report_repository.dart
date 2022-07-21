@@ -28,16 +28,4 @@ class ReportRepository{
     }
     return null;
   }
-  
-  Future<bool?> deleteReport(int reportId) async {
-    final response = await _apiProvider.deleteMethod('$_url/$reportId');
-    if(response.isOk){
-      return true;
-    }
-    if(response.unauthorized || response.statusCode == HttpStatus.badRequest || response.statusCode == HttpStatus.internalServerError){
-      printError();
-      return false;
-    }
-    return null;
-  }
 }

@@ -171,7 +171,6 @@ class InprogressJobDetailController extends GetxController {
   }
 
   onUpdaetReportForm(Report report) async {
-    Get.back();
     PutUpdateReportRequest data = PutUpdateReportRequest(
       id: report.id,
       jobPostId: report.jobPostId!,
@@ -181,46 +180,25 @@ class InprogressJobDetailController extends GetxController {
 
     Report? newReport = await _updateReport(data);
     if (newReport != null) {
-      Get.defaultDialog(
-        title: 'Cập nhật báo cáo',
-        titlePadding: const EdgeInsets.only(top: 10),
-        contentPadding: const EdgeInsets.all(20),
-        titleStyle: Get.textTheme.headline3,
-        content: Stack(
-          children: [
-            SizedBox(
-              width: Get.width * 0.7,
-              child: Text.rich(
-                TextSpan(
-                  text: 'Nội dung cập nhật:  ',
-                  children: [
-                    TextSpan(
-                      text: newReport.content,
-                      style: Get.textTheme.bodyText2!
-                          .copyWith(fontSize: Get.textScaleFactor * 17),
-                    ),
-                  ],
-                  style: Get.textTheme.labelMedium!.copyWith(
-                    fontWeight: FontWeight.w500,
-                    fontSize: Get.textScaleFactor * 17,
-                  ),
-                ),
-                softWrap: true,
-                overflow: TextOverflow.ellipsis,
-                textAlign: TextAlign.start,
-                maxLines: 3,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 50.0),
-              child: SizedBox(
+      EasyLoading.show();
+      Future.delayed(const Duration(milliseconds: 1200), () {
+        onCloseReportDialog();
+        EasyLoading.dismiss();
+        Get.defaultDialog(
+          title: 'Cập nhật báo cáo',
+          titlePadding: const EdgeInsets.only(top: 10),
+          contentPadding: const EdgeInsets.all(20),
+          titleStyle: Get.textTheme.headline3,
+          content: Stack(
+            children: [
+              SizedBox(
                 width: Get.width * 0.7,
                 child: Text.rich(
                   TextSpan(
-                    text: 'Ngày cập nhật:  ',
+                    text: 'Nội dung cập nhật:  ',
                     children: [
                       TextSpan(
-                        text: Utils.formatHHmmddMMyyyy(DateTime.now()),
+                        text: newReport.content,
                         style: Get.textTheme.bodyText2!
                             .copyWith(fontSize: Get.textScaleFactor * 17),
                       ),
@@ -236,29 +214,57 @@ class InprogressJobDetailController extends GetxController {
                   maxLines: 3,
                 ),
               ),
-            ),
-            Padding(
-                padding: const EdgeInsets.only(top: 80.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    CustomTextButton(
-                        onPressed: () {
-                          Get.back();
-                        },
-                        title: 'Đóng',
-                        border: Border.all(
-                          color: AppColors.primaryColor,
+              Padding(
+                padding: const EdgeInsets.only(top: 50.0),
+                child: SizedBox(
+                  width: Get.width * 0.7,
+                  child: Text.rich(
+                    TextSpan(
+                      text: 'Ngày cập nhật:  ',
+                      children: [
+                        TextSpan(
+                          text: Utils.formatHHmmddMMyyyy(DateTime.now()),
+                          style: Get.textTheme.bodyText2!
+                              .copyWith(fontSize: Get.textScaleFactor * 17),
                         ),
-                        foreground: AppColors.primaryColor,
-                        background: AppColors.white,
-                        padding: EdgeInsets.symmetric(
-                            horizontal: Get.width * 0.08, vertical: 9)),
-                  ],
-                ))
-          ],
-        ),
-      );
+                      ],
+                      style: Get.textTheme.labelMedium!.copyWith(
+                        fontWeight: FontWeight.w500,
+                        fontSize: Get.textScaleFactor * 17,
+                      ),
+                    ),
+                    softWrap: true,
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.start,
+                    maxLines: 3,
+                  ),
+                ),
+              ),
+              Padding(
+                  padding: const EdgeInsets.only(top: 80.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      CustomTextButton(
+                          onPressed: () {
+                            Get.back();
+                          },
+                          title: 'Đóng',
+                          border: Border.all(
+                            color: AppColors.primaryColor,
+                          ),
+                          foreground: AppColors.primaryColor,
+                          background: AppColors.white,
+                          padding: EdgeInsets.symmetric(
+                              horizontal: Get.width * 0.08, vertical: 9)),
+                    ],
+                  ))
+            ],
+          ),
+        );
+        
+      });
+
       return;
     }
     CustomSnackbar.show(
@@ -401,30 +407,6 @@ class InprogressJobDetailController extends GetxController {
     return null;
   }
 
-  deleteReport(int reportId) async {
-    bool? result = await _deleteReport(reportId);
-    if (result != null) {
-      if (result) {
-        EasyLoading.show();
-        Future.delayed(const Duration(milliseconds: 1200), () {
-          onCloseReportDialog();
-          EasyLoading.dismiss();
-          CustomSnackbar.show(title: "Thành công", message: "Đã xóa báo cáo");
-        });
-        return;
-      }
-      CustomSnackbar.show(
-          title: "Thất bại",
-          message: "Không xóa được.",
-          backgroundColor: AppColors.errorColor);
-      return;
-    }
-    CustomSnackbar.show(
-        title: "Thất bại",
-        message: "Không xóa được.",
-        backgroundColor: AppColors.errorColor);
-  }
-
   Future<Report?> _reportJob(PostReportRequest reportData) async {
     return await _appliedRepository.reportJob(reportData);
   }
@@ -450,7 +432,4 @@ class InprogressJobDetailController extends GetxController {
     return await _reportRepository.updateReport(data);
   }
 
-  Future<bool?> _deleteReport(int reportId) async {
-    return await _reportRepository.deleteReport(reportId);
-  }
 }

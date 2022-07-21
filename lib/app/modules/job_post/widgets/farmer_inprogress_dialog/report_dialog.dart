@@ -39,75 +39,75 @@ class ReportDialog {
         ],
         submitButtonTitle: 'Báo cáo',
         widget: isReported
-        ? Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            IntrinsicHeight(
-              child: Row(
+            ? Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  CustomTextButton(
-                      background: AppColors.white,
-                      onPressed: () {
-                        submit(jobPostId);
-                      },
-                      title: 'Cập nhật',
-                      textStyle: Get.textTheme.button!.copyWith(
-                        color: AppColors.primaryColor,
-                        fontSize: Get.textScaleFactor * size,
-                      ),
-                      padding: EdgeInsets.zero),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  const VerticalDivider(
-                      color: AppColors.errorColor, indent: 10, endIndent: 10),
-                ],
-              ),
-            ),
-            delete != null
-                ? IntrinsicHeight(
+                  IntrinsicHeight(
                     child: Row(
                       children: [
-                         const SizedBox(
-                          width: 5,
-                        ),
                         CustomTextButton(
-                            onPressed: delete,
-                            title: 'Xóa',
-                            background: AppColors.white,
-                            foreground: AppColors.errorColor,
-                            textStyle: Get.textTheme.displayMedium!.copyWith(
-                              color: AppColors.errorColor,
-                              fontSize: Get.textScaleFactor * size,
-                            ),
-                            padding: EdgeInsets.zero),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        const VerticalDivider(
-                            color: AppColors.errorColor,
-                            indent: 10,
-                            endIndent: 10),
-                        const SizedBox(
-                          width: 5,
+                          onPressed: () {
+                            submit(jobPostId);
+                          },
+                          title: 'Cập nhật',
                         ),
                       ],
                     ),
+                  ),
+                  delete != null
+                      ? IntrinsicHeight(
+                          child: Row(
+                            children: [
+                              const SizedBox(
+                                width: 5,
+                              ),
+                              CustomTextButton(
+                                  onPressed: delete,
+                                  title: 'Xóa',
+                                  background: AppColors.white,
+                                  foreground: AppColors.errorColor,
+                                  textStyle:
+                                      Get.textTheme.displayMedium!.copyWith(
+                                    color: AppColors.errorColor,
+                                    fontSize: Get.textScaleFactor * size,
+                                  ),
+                                  padding: EdgeInsets.zero),
+                              const SizedBox(
+                                width: 5,
+                              ),
+                              const VerticalDivider(
+                                  color: AppColors.errorColor,
+                                  indent: 10,
+                                  endIndent: 10),
+                              const SizedBox(
+                                width: 5,
+                              ),
+                            ],
+                          ),
+                        )
+                      : const Text(''),
+                  const SizedBox(
+                    width: 5,
+                  ),
+                  CustomTextButton(
+                    onPressed: closeDialog,
+                    title: 'Quay lại',
+                    background: AppColors.white,
+                    border: Border.all(
+                      color: AppColors.primaryColor,
+                    ),
+                    textStyle: Get.textTheme.button!.copyWith(
+                      color: AppColors.primaryColor,
+                    ),
                   )
-                : const Text(''),
-            CustomTextButton(
-                onPressed: closeDialog,
-                title: 'Quay lại',
-                background: AppColors.white,
-                textStyle: Get.textTheme.button!.copyWith(
-                  color: AppColors.primaryColor,
-                  fontSize: Get.textScaleFactor * size,
-                ),
-                padding: EdgeInsets.zero)
-          ],
-        ): null,
-        onSubmit: isReported ? null : (){submit(jobPostId);},
-        onCancel: isReported ? null : closeDialog
-        );
+                ],
+              )
+            : null,
+        onSubmit: isReported
+            ? null
+            : () {
+                submit(jobPostId);
+              },
+        onCancel: isReported ? null : closeDialog);
   }
 }
