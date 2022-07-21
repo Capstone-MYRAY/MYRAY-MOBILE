@@ -181,7 +181,6 @@ class InprogressJobDetailController extends GetxController {
 
     Report? newReport = await _updateReport(data);
     if (newReport != null) {
-      bool isClose = false;
       Get.defaultDialog(
         title: 'Cập nhật báo cáo',
         titlePadding: const EdgeInsets.only(top: 10),
@@ -239,34 +238,27 @@ class InprogressJobDetailController extends GetxController {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 80.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  CustomTextButton(
-                      onPressed: () {
-                        // isClose = true;
-                        Get.back();
-                      },
-                      title: 'Đóng',
-                      border: Border.all(
-                        color: AppColors.primaryColor,
-                      ),
-                      foreground: AppColors.primaryColor,
-                      background: AppColors.white,
-                      padding: EdgeInsets.symmetric(
-                          horizontal: Get.width * 0.08, vertical: 9)),
-                ],
-              ),
-            )
+                padding: const EdgeInsets.only(top: 80.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CustomTextButton(
+                        onPressed: () {
+                          Get.back();
+                        },
+                        title: 'Đóng',
+                        border: Border.all(
+                          color: AppColors.primaryColor,
+                        ),
+                        foreground: AppColors.primaryColor,
+                        background: AppColors.white,
+                        padding: EdgeInsets.symmetric(
+                            horizontal: Get.width * 0.08, vertical: 9)),
+                  ],
+                ))
           ],
         ),
       );
-      // if (!isClose) {
-      //   Future.delayed(const Duration(milliseconds: 3000), () {
-      //     Get.back();
-      //   });
-      // }
       return;
     }
     CustomSnackbar.show(
@@ -409,6 +401,30 @@ class InprogressJobDetailController extends GetxController {
     return null;
   }
 
+  deleteReport(int reportId) async {
+    bool? result = await _deleteReport(reportId);
+    if (result != null) {
+      if (result) {
+        EasyLoading.show();
+        Future.delayed(const Duration(milliseconds: 1200), () {
+          onCloseReportDialog();
+          EasyLoading.dismiss();
+          CustomSnackbar.show(title: "Thành công", message: "Đã xóa báo cáo");
+        });
+        return;
+      }
+      CustomSnackbar.show(
+          title: "Thất bại",
+          message: "Không xóa được.",
+          backgroundColor: AppColors.errorColor);
+      return;
+    }
+    CustomSnackbar.show(
+        title: "Thất bại",
+        message: "Không xóa được.",
+        backgroundColor: AppColors.errorColor);
+  }
+
   Future<Report?> _reportJob(PostReportRequest reportData) async {
     return await _appliedRepository.reportJob(reportData);
   }
@@ -432,5 +448,9 @@ class InprogressJobDetailController extends GetxController {
 
   Future<Report?> _updateReport(PutUpdateReportRequest data) async {
     return await _reportRepository.updateReport(data);
+  }
+
+  Future<bool?> _deleteReport(int reportId) async {
+    return await _reportRepository.deleteReport(reportId);
   }
 }

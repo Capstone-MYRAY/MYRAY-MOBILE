@@ -81,9 +81,9 @@ class OnLeaveDialog{
           ],
         ))
       ],
-      submit: () {submit(jobPostId);},
+      onSubmit: () {submit(jobPostId);},
       submitButtonTitle: 'Báo nghỉ',
-      cancel:closeDialog,
+      onCancel:closeDialog,
     );
   }
   }

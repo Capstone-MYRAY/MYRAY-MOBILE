@@ -124,8 +124,8 @@ class FarmerExtendJobList extends GetView<AppliedJobController> {
           validator: controller.validateReason,
         ),
       ],
-      submit: () => {controller.onSubmitExtendJobForm(appliedJob)},
-      cancel: controller.onCloseExtendJobDialog,
+      onSubmit: () => {controller.onSubmitExtendJobForm(appliedJob)},
+      onCancel: controller.onCloseExtendJobDialog,
     );
   }
 }

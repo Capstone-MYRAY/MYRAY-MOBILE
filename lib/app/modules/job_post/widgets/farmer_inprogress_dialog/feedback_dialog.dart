@@ -74,11 +74,11 @@ class FeedbackDialog{
             validator: validateReason,
           ),
         ],
-        submit: () {
+        onSubmit: () {
           submit(jobPostId);
         },
         submitButtonTitle: 'Đánh giá',
-        cancel: closeDialog);
+        onCancel: closeDialog);
   }
  }
   

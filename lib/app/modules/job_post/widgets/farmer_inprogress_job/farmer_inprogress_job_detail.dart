@@ -283,18 +283,33 @@ class FarmerInProgressJobDetail extends GetView<InprogressJobDetailController> {
                         if (report != null) {
                           controller.reportContentController.text =
                               report.content;
+                          ReportDialog.show(
+                            isResovled: report.status != 1,
+                            isReported: true,
+                            jobPostId: controller.jobpost.id,
+                            formKey: controller.formKey,
+                            reportContentController:
+                                controller.reportContentController,
+                            validateReason: controller.validateReason,
+                            submit: (_) {
+                              controller.onUpdaetReportForm(report);
+                            },
+                            closeDialog: controller.onCloseReportDialog,
+                            delete: () {  
+                              controller.deleteReport(report.id!);
+                            },
+                          );
+                          return;
                         }
                         ReportDialog.show(
+                          isResovled: report != null && report.status != 1,
+                          isReported: false,
                           jobPostId: controller.jobpost.id,
                           formKey: controller.formKey,
                           reportContentController:
                               controller.reportContentController,
                           validateReason: controller.validateReason,
                           submit: (_) {
-                            if (report != null) {
-                              controller.onUpdaetReportForm(report);
-                              return;
-                            }
                             controller
                                 .onSubmitReportForm(controller.jobpost.id);
                           },

@@ -9,16 +9,20 @@ class CustomTextButton extends StatelessWidget {
   final EdgeInsetsGeometry? padding;
   final void Function() onPressed;
   final String title;
+  final num? titleSize;
+  TextStyle? textStyle;
 
-  const CustomTextButton({
-    Key? key,
-    this.foreground = AppColors.white,
-    this.background = AppColors.primaryColor,
-    this.border,
-    this.padding = const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-    required this.onPressed,
-    required this.title
-  }) : super(key: key);
+  CustomTextButton(
+      {Key? key,
+      this.foreground = AppColors.white,
+      this.background = AppColors.primaryColor,
+      this.border,
+      this.padding = const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+      this.titleSize,
+      this.textStyle,
+      required this.onPressed,
+      required this.title})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +43,7 @@ class CustomTextButton extends StatelessWidget {
               Text(
                 title,
                 textAlign: TextAlign.center,
-                style: Get.textTheme.labelLarge!.copyWith(
+                style: textStyle ?? Get.textTheme.labelLarge!.copyWith(
                   color: foreground,
                 ),
               ),
