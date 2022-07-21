@@ -10,17 +10,20 @@ class CustomFormDialog {
   static Future<dynamic> showDialog(
       {required final String title,
       required List<Widget> textFields,
-      required void Function() cancel,
-      void Function()? submit,
+      Widget? widget,
+      void Function()? onCancel,
+      void Function()? onSubmit,
       GlobalKey<FormState>? formKey,
       String cancelButtonTitle = AppStrings.cancel,
-      String submitButtonTitle = AppStrings.submit}) {
+      String submitButtonTitle = AppStrings.submit,
+      EdgeInsetsGeometry? contentPadding,
+      }) {
     return Get.defaultDialog(
         barrierDismissible: false,
         radius: 10,
         title: title,
         titleStyle: Get.textTheme.headline3!.copyWith(),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 30),
+        contentPadding: contentPadding ?? const EdgeInsets.symmetric(horizontal: 30),
         titlePadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
         content: 
         Form(
@@ -42,11 +45,11 @@ class CustomFormDialog {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      submit != null
+                      onSubmit != null
                           ? Row(
                               children: [
                                 CustomTextButton(
-                                  onPressed: submit,
+                                  onPressed: onSubmit,
                                   title: submitButtonTitle,
                                 ),
                                 SizedBox(
@@ -55,8 +58,9 @@ class CustomFormDialog {
                               ],
                             )
                           : const SizedBox(),
-                      CustomTextButton(
-                          onPressed: cancel,
+                      onCancel != null 
+                      ? CustomTextButton(
+                          onPressed: onCancel,
                           title: cancelButtonTitle,
                           border: Border.all(
                             color: AppColors.primaryColor,
@@ -65,6 +69,8 @@ class CustomFormDialog {
                           background: AppColors.white,
                           padding: EdgeInsets.symmetric(
                               horizontal: Get.width * 0.08, vertical: 9))
+                      : const SizedBox(),
+                      widget ?? const SizedBox(),
                     ],
                   )
                 ],

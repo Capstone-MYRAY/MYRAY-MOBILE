@@ -10,9 +10,10 @@ import 'package:myray_mobile/app/data/providers/api/api_provider.dart';
 class ReportRepository{
 
   ApiProvider _apiProvider = Get.find<ApiProvider>();
+  final String _url = '/report';
 
   Future<GetReportResponse?> getReport(GetReportRequest data) async {
-    final response = await _apiProvider.getMethod('/report', data: data.toJson());
+    final response = await _apiProvider.getMethod(_url, data: data.toJson());
     print('url: ${response.request!.url}');
     if(response.statusCode == HttpStatus.ok){
       return GetReportResponse.fromJson(response.body);
@@ -21,11 +22,22 @@ class ReportRepository{
   }
 
   Future<Report?> updateReport(PutUpdateReportRequest data) async{
-    final response = await _apiProvider.putMethod('/report', data.toJson()); 
+    final response = await _apiProvider.putMethod(_url, data.toJson()); 
     if(response.statusCode == HttpStatus.ok){
       return Report.fromJson(response.body);
     }
     return null;
   }
   
+  Future<bool?> deleteReport(int reportId) async {
+    final response = await _apiProvider.deleteMethod('$_url/$reportId');
+    if(response.isOk){
+      return true;
+    }
+    if(response.unauthorized || response.statusCode == HttpStatus.badRequest || response.statusCode == HttpStatus.internalServerError){
+      printError();
+      return false;
+    }
+    return null;
+  }
 }
