@@ -44,7 +44,7 @@ class FarmerPostCard extends StatelessWidget {
       onTap: onTap,
       child: Container(
         width: Get.width * 0.8, //indicate length of list
-        margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 12),
+        // margin: const EdgeInsets.symmetric(vertical: 10.0),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             border: Border.all(
@@ -83,10 +83,10 @@ class FarmerPostCard extends StatelessWidget {
                 ),
                 const SizedBox(
                   height: 10,
-                ),               
+                ),
                 Container(
                   padding: const EdgeInsets.only(top: 5, left: 15, right: 15),
-                  child:  Stack(
+                  child: Stack(
                     children: [
                       const Icon(CustomIcons.map_marker_outline, size: 20),
                       Padding(
@@ -123,7 +123,8 @@ class FarmerPostCard extends StatelessWidget {
                       Flexible(
                         child: Text(
                           Utils.vietnameseCurrencyFormat.format(price),
-                          style: Get.textTheme.bodyText2!.copyWith(fontSize: Get.textScaleFactor * 14),
+                          style: Get.textTheme.bodyText2!
+                              .copyWith(fontSize: Get.textScaleFactor * 14),
                           softWrap: true,
                           overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.left,
@@ -147,7 +148,8 @@ class FarmerPostCard extends StatelessWidget {
                       Flexible(
                         child: Text(
                           treeType,
-                          style: Get.textTheme.bodyText2!.copyWith(fontSize: Get.textScaleFactor * 14),
+                          style: Get.textTheme.bodyText2!
+                              .copyWith(fontSize: Get.textScaleFactor * 14),
                           softWrap: true,
                           overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.left,
@@ -178,15 +180,16 @@ class FarmerPostCard extends StatelessWidget {
                                 ? Text(
                                     "Đã hết hạn",
                                     style: Get.textTheme.caption!.copyWith(
-                                      fontWeight: FontWeight.bold,
-                                      fontStyle: FontStyle.italic,
-                                    ),
+                                        fontWeight: FontWeight.bold,
+                                        fontStyle: FontStyle.italic,
+                                        fontSize: Get.textScaleFactor * 10),
                                   )
                                 : Text(
-                                    "Ngày hết hạn: " + expiredDate!,
+                                    "Ngày hết hạn: ${expiredDate!}",
                                     style: Get.textTheme.overline!.copyWith(
                                         fontStyle: FontStyle.italic,
-                                        color: AppColors.warningColor),
+                                        color: AppColors.warningColor,
+                                        fontSize: Get.textScaleFactor * 10),
                                   )
                           ]),
                     )

@@ -17,6 +17,7 @@ class CustomFormDialog {
       String cancelButtonTitle = AppStrings.cancel,
       String submitButtonTitle = AppStrings.submit,
       EdgeInsetsGeometry? contentPadding,
+      EdgeInsetsGeometry? titlePadding,
       }) {
     return Get.defaultDialog(
         barrierDismissible: false,
@@ -24,7 +25,7 @@ class CustomFormDialog {
         title: title,
         titleStyle: Get.textTheme.headline3!.copyWith(),
         contentPadding: contentPadding ?? const EdgeInsets.symmetric(horizontal: 30),
-        titlePadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+        titlePadding: titlePadding ?? const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
         content: 
         Form(
           key: formKey,

@@ -141,19 +141,20 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
                                 onPressed: () {
                                   // print('${controller.landownerAccount!.value.id}');
                                   controller.bookmarkAccount(
-                                      controller.landownerAccount!.value.id ?? -1);
+                                      controller.landownerAccount!.value.id ??
+                                          -1);
                                 },
                                 icon: controller.isBookmark.value
-                                ? Icon(
-                                  CustomIcons.heart,
-                                  color: Colors.red,
-                                  size: Get.textScaleFactor * 30,
-                                )
-                                : Icon(
-                                  CustomIcons.heart_outline,
-                                  color: Colors.red,
-                                  size: Get.textScaleFactor * 30,
-                                )),
+                                    ? Icon(
+                                        CustomIcons.heart,
+                                        color: Colors.red,
+                                        size: Get.textScaleFactor * 30,
+                                      )
+                                    : Icon(
+                                        CustomIcons.heart_outline,
+                                        color: Colors.red,
+                                        size: Get.textScaleFactor * 30,
+                                      )),
                           ),
                         )
                       ]),
@@ -185,35 +186,29 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
                   const SizedBox(
                     height: 10,
                   ),
-                  Row(children: [
-                    Stack(
-                      children: [
-                        // const Icon(CustomIcons.map_marker_outline, size: 20),
-                        Text("Địa chỉ:", style: Get.textTheme.bodyText1),
-                        // SizedBox(
-                        //   width: Get.width * 30,
-                        // ),
-                        Padding(
-                          padding: EdgeInsets.only(
-                              left: Get.width * 0.15, right: Get.width * 0.05),
-                          child: SizedBox(
-                            width: Get.width * 0.65,
-                            child: Text.rich(
-                              TextSpan(
-                                text: controller.jobPost.address ?? '',
-                              ),
-                              style: Get.textTheme.bodyText2!
-                                  .copyWith(fontSize: Get.textScaleFactor * 14),
-                              softWrap: true,
-                              overflow: TextOverflow.ellipsis,
-                              textAlign: TextAlign.justify,
-                              maxLines: 3,
-                            ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Địa chỉ:", style: Get.textTheme.bodyText1),
+                      SizedBox(
+                        width: Get.width * 0.025 
+                      ),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 15),
+                          child: Text(
+                            controller.jobPost.address ?? 'Đang cập nhật',
+                            style: Get.textTheme.bodyText2!
+                                .copyWith(fontSize: Get.textScaleFactor * 14),
+                            softWrap: true,
+                            overflow: TextOverflow.ellipsis,
+                            textAlign: TextAlign.justify,
+                            maxLines: 3,
                           ),
                         ),
-                      ],
-                    ),
-                  ]),
+                      ),
+                    ],
+                  ),
                   const SizedBox(
                     height: 20,
                   ),
@@ -247,49 +242,6 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
                   const SizedBox(
                     height: 20,
                   ),
-                  // Row(
-                  //   mainAxisAlignment: MainAxisAlignment.start,
-                  //   children: [
-                  //     Text("Chủ đất:", style: Get.textTheme.bodyText1),
-                  //     const SizedBox(
-                  //       width: 15,
-                  //     ),
-                  //     Text(
-                  //       controller.landownerAccount != null
-                  //           ? controller.landownerAccount!.value.fullName!
-                  //           : "Tên chủ rẫy đang cập nhật",
-                  //       style: TextStyle(
-                  //         fontSize: Get.textScaleFactor * 15,
-                  //       ),
-                  //     ),
-                  //   ],
-                  // ),
-                  // const SizedBox(
-                  //   height: 15,
-                  // ),
-                  // Row(
-                  //   mainAxisAlignment: MainAxisAlignment.start,
-                  //   children: [
-                  //     Text("Địa chỉ:", style: Get.textTheme.bodyText1),
-                  //     const SizedBox(
-                  //       width: 20,
-                  //     ),
-                  //     Flexible(
-                  //       child: Text(
-                  //         controller.jobPost.address ?? '',
-                  //         softWrap: true,
-                  //         maxLines: 5,
-                  //         textAlign: TextAlign.left,
-                  //         style: TextStyle(
-                  //           fontSize: Get.textScaleFactor * 15,
-                  //         ),
-                  //       ),
-                  //     ),
-                  //   ],
-                  // ),
-                  // const SizedBox(
-                  //   height: 15,
-                  // ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
