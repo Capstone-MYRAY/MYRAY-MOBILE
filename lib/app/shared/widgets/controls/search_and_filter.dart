@@ -4,13 +4,15 @@ import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
 import 'package:myray_mobile/app/shared/widgets/buttons/custom_icon_button.dart';
 
+import './search_textfield.dart';
+
 class SearchAndFilter extends StatelessWidget {
-  final TextEditingController? searchController;
+  final TextEditingController searchController;
   final void Function() onFilterTap;
   const SearchAndFilter({
     Key? key,
     required this.onFilterTap,
-    this.searchController,
+    required this.searchController,
   }) : super(key: key);
 
   @override
@@ -25,21 +27,8 @@ class SearchAndFilter extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Expanded(
-                child: TextField(
-                  controller: searchController,
-                  decoration: InputDecoration(
-                    contentPadding: const EdgeInsets.symmetric(
-                        vertical: 8.0, horizontal: 8.0),
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide.none,
-                      borderRadius:
-                          BorderRadius.circular(CommonConstants.borderRadius),
-                    ),
-                    hintText: AppStrings.placeholderSearch,
-                    filled: true,
-                    fillColor: AppColors.white,
-                    prefixIcon: const Icon(CustomIcons.magnify),
-                  ),
+                child: SearchTextField(
+                  searchController: searchController,
                 ),
               ),
               const SizedBox(width: 16.0),

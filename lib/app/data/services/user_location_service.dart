@@ -1,5 +1,6 @@
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:mapbox_gl/mapbox_gl.dart';
 
 class UserLocationService {
   static Future<Position> getGeoLocationPosition() async {
@@ -30,8 +31,6 @@ class UserLocationService {
     return await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
   }
-
-  //TODO: call geocode of goong api to get full address
 
   static Future<String> getAddressFromLatLong(Position position) async {
     List<Placemark> placemarks = await placemarkFromCoordinates(

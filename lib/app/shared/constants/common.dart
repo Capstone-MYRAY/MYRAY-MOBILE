@@ -15,6 +15,7 @@ class Arguments {
   static const String isBookmarked = 'isBookmarked';
   static const String address = 'address';
   static const String laLng = 'laLng';
+  static const String placeId = 'placeId';
 }
 
 class CommonConstants {

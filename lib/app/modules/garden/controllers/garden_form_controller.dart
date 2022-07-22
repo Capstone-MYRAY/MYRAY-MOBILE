@@ -17,7 +17,7 @@ import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/utils/auth_credentials.dart';
 import 'package:myray_mobile/app/shared/utils/utils.dart';
 import 'package:myray_mobile/app/shared/widgets/custom_snackbar.dart';
-import 'package:myray_mobile/app/modules/garden/views/search_places_view.dart';
+import 'package:myray_mobile/app/modules/garden/views/my_map_view.dart';
 
 class Commune {
   int id;
@@ -283,6 +283,8 @@ class GardenFormController extends GetxController {
       name: gardenName,
     );
 
+    print(data.toJson());
+
     print('===Create garden');
     try {
       Garden? newGarden = await _gardenRepository.create(data);
@@ -448,8 +450,8 @@ class GardenFormController extends GetxController {
       EasyLoading.show();
       Position location = await UserLocationService.getGeoLocationPosition();
       EasyLoading.dismiss();
-      Get.to(
-        () => SearchPlacesView(
+      final result = await Get.to(
+        () => MyMapView(
           currentLocation: LatLng(
             location.latitude,
             location.longitude,
@@ -459,6 +461,13 @@ class GardenFormController extends GetxController {
               addressController.text.isEmpty ? null : addressController.text,
         ),
       );
+
+      if (result != null) {
+        addressController.text = result[Arguments.address] as String;
+
+        latitude = (result[Arguments.laLng] as LatLng).latitude;
+        longitude = (result[Arguments.laLng] as LatLng).longitude;
+      }
     } catch (e) {
       EasyLoading.dismiss();
       print('GardenForm-navigateToMap: ${e.toString()}');

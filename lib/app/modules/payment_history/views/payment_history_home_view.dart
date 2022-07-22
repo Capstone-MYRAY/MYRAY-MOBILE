@@ -46,7 +46,8 @@ class PaymentHistoryHomeView extends GetView<PaymentHistoryHomeController> {
   Widget _buildContent() {
     return Column(
       children: [
-        SearchAndFilter(onFilterTap: () {}),
+        SearchAndFilter(
+            searchController: TextEditingController(), onFilterTap: () {}),
         Obx(
           () => Expanded(
             child: LazyLoadingList(

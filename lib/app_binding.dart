@@ -1,5 +1,7 @@
 import 'package:get/instance_manager.dart';
 import 'package:myray_mobile/app/data/providers/api/api_provider.dart';
+import 'package:myray_mobile/app/data/providers/goong_map/goong_map_provider.dart';
+import 'package:myray_mobile/app/data/services/goong_map_service.dart';
 import 'package:myray_mobile/app/data/services/area_repository.dart';
 import 'package:myray_mobile/app/data/services/fee_data_service.dart';
 import 'package:myray_mobile/app/data/services/post_type_repository.dart';
@@ -38,6 +40,8 @@ class AppBinding extends Bindings {
   void dependencies() {
     Get.put(AuthController(), permanent: true);
     Get.put(ApiProvider(), permanent: true);
+    Get.put(GoongMapProvider(), permanent: true);
+    Get.put(GoongMapService(), permanent: true);
     Get.put(AuthRepository(), permanent: true);
     Get.lazyPut(
       () => LoginController(authRepository: Get.find()),

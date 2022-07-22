@@ -2,18 +2,23 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
 import 'package:myray_mobile/app/data/environment.dart';
+import 'package:myray_mobile/app/data/services/goong_map_service.dart';
+import 'package:myray_mobile/app/data/services/services.dart';
+import 'package:myray_mobile/app/modules/garden/widgets/search_place/search_place.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
+import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
 import 'package:myray_mobile/app/shared/widgets/buttons/custom_icon_button.dart';
 import 'package:myray_mobile/app/shared/widgets/buttons/filled_button.dart';
 
-class SearchPlacesView extends StatefulWidget {
+class MyMapView extends StatefulWidget {
   final LatLng currentLocation;
   final LatLng? selectedLocation;
   final String? address;
-  const SearchPlacesView({
+  const MyMapView({
     Key? key,
     required this.currentLocation,
     this.selectedLocation,
@@ -21,10 +26,11 @@ class SearchPlacesView extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<SearchPlacesView> createState() => _SearchPlacesViewState();
+  State<MyMapView> createState() => _MyMapViewState();
 }
 
-class _SearchPlacesViewState extends State<SearchPlacesView> {
+class _MyMapViewState extends State<MyMapView> {
+  final _goongService = Get.find<GoongMapService>();
   MapboxMapController? _controller;
   Symbol? _selectedSymbol;
   late LatLng _currentLocation;
@@ -38,11 +44,6 @@ class _SearchPlacesViewState extends State<SearchPlacesView> {
     _currentLocation = widget.currentLocation;
     _selectedLocation = widget.selectedLocation;
     _selectedAddress = widget.address;
-
-    print('init');
-    _controller?.animateCamera(
-      CameraUpdate.newLatLng(_selectedLocation ?? _currentLocation),
-    );
   }
 
   @override
@@ -54,15 +55,15 @@ class _SearchPlacesViewState extends State<SearchPlacesView> {
   }
 
   void _onMapCreated(MapboxMapController controller) {
-    print('created map');
     _controller = controller;
-    _controller?.symbolManager = SymbolManager(
-      _controller!,
-      iconAllowOverlap: true,
-    );
+  }
+
+  void _onStyleLoadedCallBack() {
     if (_selectedLocation != null) {
       _addSymbol(AppAssets.marker, _selectedLocation!);
     }
+
+    _setCameraPosition(_selectedLocation ?? _currentLocation);
   }
 
   void _onMapClick(Point<double> point, LatLng coordinates) {
@@ -96,28 +97,66 @@ class _SearchPlacesViewState extends State<SearchPlacesView> {
             myLocationEnabled: true,
             onMapClick: _onMapClick,
             onUserLocationUpdated: _onUserLocationUpdate,
+            onStyleLoadedCallback: _onStyleLoadedCallBack,
           ),
-          _buildBackButton(),
+          _buildBackButtonAndSearch(),
           _buildPositionDisplay(),
         ],
       ),
     );
   }
 
-  Widget _buildBackButton() {
+  Widget _buildBackButtonAndSearch() {
     return Positioned(
       top: 24.0,
       left: 16.0,
-      child: CustomIconButton(
-        icon: Icons.chevron_left,
-        shape: const CircleBorder(),
-        backgroundColor: AppColors.white,
-        foregroundColor: AppColors.black,
-        size: 20.0,
-        padding: const EdgeInsets.all(4.0),
-        onTap: () => Get.back(),
+      right: 16.0,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          CustomIconButton(
+            elevation: 1.0,
+            icon: Icons.chevron_left,
+            shape: const CircleBorder(),
+            backgroundColor: AppColors.white,
+            foregroundColor: AppColors.black,
+            size: 24.0,
+            toolTip: 'Trở về',
+            padding: const EdgeInsets.all(4.0),
+            onTap: () => Get.back(),
+          ),
+          CustomIconButton(
+            elevation: 1.0,
+            icon: CustomIcons.magnify,
+            shape: const CircleBorder(),
+            backgroundColor: AppColors.primaryColor,
+            foregroundColor: AppColors.white,
+            size: 24.0,
+            toolTip: 'Tìm kiếm',
+            padding: const EdgeInsets.all(4.0),
+            onTap: _onSearchPlaceCallBack,
+          ),
+        ],
       ),
     );
+  }
+
+  _onSearchPlaceCallBack() async {
+    String placeId = await Get.to(() => SearchPlace());
+    EasyLoading.show();
+    try {
+      //get place by id
+      final placeDetails = await _goongService.getPlaceDetails(placeId);
+      _selectedAddress = placeDetails.address;
+      _addSymbol(AppAssets.marker, placeDetails.location);
+      //move camera to selected location
+      _controller?.animateCamera(CameraUpdate.newLatLng(_selectedLocation!));
+
+      EasyLoading.dismiss();
+    } catch (e) {
+      EasyLoading.dismiss();
+      print('_onSearchPlaceCallBack: ${e.toString()}');
+    }
   }
 
   Widget _buildPositionDisplay() {
@@ -128,6 +167,7 @@ class _SearchPlacesViewState extends State<SearchPlacesView> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.end,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
             margin: const EdgeInsets.only(right: 8.0),
@@ -136,7 +176,7 @@ class _SearchPlacesViewState extends State<SearchPlacesView> {
               backgroundColor: AppColors.white,
               foregroundColor: AppColors.grey,
               shape: const CircleBorder(),
-              size: 20.0,
+              size: 22.0,
               padding: const EdgeInsets.all(4.0),
               onTap: () {
                 _setCameraPosition(_currentLocation);
@@ -181,11 +221,6 @@ class _SearchPlacesViewState extends State<SearchPlacesView> {
   }
 
   void _onConfirmButton() {
-    if (_selectedSymbol != null) {
-      _selectedLocation = _selectedSymbol?.options.geometry;
-      _selectedAddress = 'TODO LATER';
-    }
-
     Get.back(result: {
       Arguments.laLng: _selectedLocation,
       Arguments.address: _selectedAddress,
@@ -205,10 +240,18 @@ class _SearchPlacesViewState extends State<SearchPlacesView> {
     _controller?.animateCamera(CameraUpdate.newLatLng(location));
   }
 
-  _addSymbol(String iconImage, LatLng coordinates) async {
+  _addSymbol(String iconImage, LatLng coordinates,
+      {bool isBackFromSearch = false}) async {
     _removeSymbol();
     final SymbolOptions options = _getSymbolOptions(iconImage, coordinates);
     final symbol = await _controller?.addSymbol(options);
+    _selectedLocation = symbol?.options.geometry!;
+
+    //update address
+    if (!isBackFromSearch) {
+      _selectedAddress =
+          await _goongService.getAddressByLatLng(_selectedLocation!);
+    }
     setState(() {
       _selectedSymbol = symbol;
     });
