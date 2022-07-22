@@ -187,22 +187,23 @@ class InprogressJobDetailController extends GetxController {
     );
 
     if (isFormValid) {
+      EasyLoading.show();
       try {
         Report? newReport = await _updateReport(data);
-        if (newReport != null) {
-          EasyLoading.show();
-          Future.delayed(const Duration(milliseconds: 1200), () {
-            onCloseFeedBackDialog();
-            EasyLoading.dismiss();
-            ReportUpdateDialog.show(newReport: newReport);
-          });
-          return;
-        }
-        CustomSnackbar.show(
-            title: "Thất bại",
-            message: "Gửi báo cáo không thành công",
-            backgroundColor: AppColors.errorColor);
+        Future.delayed(const Duration(milliseconds: 1200), () {
+          onCloseReportDialog();
+          EasyLoading.dismiss();
+          if (newReport != null) {           
+              ReportUpdateDialog.show(newReport: newReport);         
+            return;
+          }
+          CustomSnackbar.show(
+              title: "Thất bại",
+              message: "Gửi báo cáo không thành công",
+              backgroundColor: AppColors.errorColor);
+        });
       } on CustomException catch (e) {
+        EasyLoading.dismiss();
         print(e);
         CustomSnackbar.show(
             title: "Thất bại",
@@ -339,22 +340,30 @@ class InprogressJobDetailController extends GetxController {
         jobPostId: feedBack.jobPostId,
         belongedId: feedBack.belongedId,
       );
+      EasyLoading.show();
       try {
         FeedBack? newFeedBack = await feedBackController.updateFeedback(data);
-        if (newFeedBack != null) {
-          EasyLoading.show();
-          Future.delayed(const Duration(milliseconds: 1200), () {
-            onCloseReportDialog();
-            EasyLoading.dismiss();
-            FeedBackUpdateDialog.show(newFeedBack: newFeedBack,);
-          });
-          return;
-        }
+        Future.delayed(const Duration(milliseconds: 1200), () {
+          onCloseFeedBackDialog();
+          EasyLoading.dismiss();
+          if (newFeedBack != null) {
+            FeedBackUpdateDialog.show(
+              newFeedBack: newFeedBack,
+            );
+            return;
+          }
+          CustomSnackbar.show(
+              title: "Thất bại",
+              message: "Gửi đánh giá không thành công",
+              backgroundColor: AppColors.errorColor);
+        });
       } on CustomException catch (e) {
+        EasyLoading.dismiss();
+
         print('$e');
         CustomSnackbar.show(
             title: "Thất bại",
-            message: "Gửi đánh giá không thành công",
+            message: "Không thể gửi đánh giá !",
             backgroundColor: AppColors.errorColor);
       }
     }

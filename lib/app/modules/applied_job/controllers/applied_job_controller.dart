@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:myray_mobile/app/data/enums/enums.dart';
@@ -45,7 +46,7 @@ class AppliedJobController extends GetxController
   bool _hasNextExtendJobPage = true;
   final isLoadingExtendJobPage = false.obs;
 
-  late DateTime currentDate;
+  DateTime? currentDate;
 
   @override
   void onInit() {
@@ -57,7 +58,7 @@ class AppliedJobController extends GetxController
     tabController = TabController(vsync: this, length: 3);
   }
 
-   String? validateReason(String? value) {
+  String? validateReason(String? value) {
     if (Utils.isEmpty(value)) {
       return 'Vui lòng nhập lý do';
     }
@@ -228,12 +229,13 @@ class AppliedJobController extends GetxController
     }
   }
 
-  Future<bool?> updateExtendEndDate(
-      ExtendEndDateJob extendTaskJob) async {
+  Future<bool?> updateExtendEndDate(ExtendEndDateJob extendTaskJob) async {
     PutExtendEndDateRequest data = PutExtendEndDateRequest(
       id: extendTaskJob.id.toString(),
       jobPostId: extendTaskJob.jobPostId,
-      extendEndDate: currentDate != null ? '${currentDate}Z' : extendTaskJob.extendEndDate.toString(),
+      extendEndDate: currentDate != null
+          ? '${currentDate}Z'
+          : extendTaskJob.extendEndDate.toString(),
       reason: reasonExtendEndDateController.text,
     );
     print("ngay moi: " + extendEndDateController.text);
@@ -248,7 +250,7 @@ class AppliedJobController extends GetxController
         ? Utils.fromddMMyyyy(extendEndDateController.text)
         : _initDate;
     DateTime? _pickedDate = await MyDatePicker.show(
-        firstDate: _initDate ,
+        firstDate: _initDate,
         initDate: _firstDate,
         lastDate: _firstDate.add(
             const Duration(days: 6))); // not include the first day; max = 7
@@ -257,8 +259,6 @@ class AppliedJobController extends GetxController
     if (_pickedDate != null) {
       currentDate = _pickedDate;
       extendEndDateController.text = Utils.formatddMMyyyy(_pickedDate);
-    }else{
-      currentDate = oldDate;
     }
   }
 
@@ -276,19 +276,29 @@ class AppliedJobController extends GetxController
     bool isFormValid = formKey.currentState!.validate();
     if (isFormValid) {
       Get.back();
-      bool? result =
-          await updateExtendEndDate(extendTaskJob);     
-      if (result!) {
-        CustomSnackbar.show(
-            title: "Thành công",
-            message: 'Cập nhật yêu cầu gia hạn thành công');
-        Future.delayed(const Duration(milliseconds: 1000), () {
-          onRefreshExtendPage();
+      EasyLoading.show();
+      try {
+        bool? result = await updateExtendEndDate(extendTaskJob);
+
+        Future.delayed(const Duration(milliseconds: 1200), () {
+          if (result!) {
+            EasyLoading.showSuccess('Cập nhật thành công !');
+            Future.delayed(const Duration(milliseconds: 1000), () {
+              onRefreshExtendPage();
+              EasyLoading.dismiss();
+            });
+          } else {
+            CustomSnackbar.show(
+                title: "Thất bại",
+                message: 'Cập nhật yêu cầu gia hạn thất bại',
+                backgroundColor: AppColors.errorColor);
+          }
         });
-      } else {
+      } on CustomException catch (e) {
+        EasyLoading.dismiss();
         CustomSnackbar.show(
             title: "Thất bại",
-            message: 'Cập nhật yêu cầu gia hạn thất bại',
+            message: ' Không thể cập nhật yêu cầu gia hạn.',
             backgroundColor: AppColors.errorColor);
       }
     }

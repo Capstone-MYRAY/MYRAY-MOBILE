@@ -7,6 +7,7 @@ import 'package:myray_mobile/app/shared/constants/app_assets.dart';
 import 'package:myray_mobile/app/shared/constants/app_colors.dart';
 import 'package:myray_mobile/app/shared/constants/app_strings.dart';
 import 'package:myray_mobile/app/shared/widgets/builders/loading_builder.dart';
+import 'package:myray_mobile/app/shared/widgets/buttons/custom_text_button.dart';
 import 'package:myray_mobile/app/shared/widgets/controls/input_field.dart';
 import 'package:myray_mobile/app/shared/widgets/dialogs/custom_form_dialog.dart';
 import 'package:myray_mobile/app/shared/widgets/lazy_loading_list.dart';
@@ -80,12 +81,20 @@ class FarmerExtendJobList extends GetView<AppliedJobController> {
                   title: appliedJob.jobTitle ?? "Công việc hiện tại",
                   startOldDate: appliedJob.oldEndDate,
                   startNewDate: appliedJob.extendEndDate,
-                  createdDate: appliedJob.createdDate ?? DateTime.now(),//ko tra ve ngay tao khi update xong
+                  createdDate: appliedJob.createdDate ??
+                      DateTime.now(), //ko tra ve ngay tao khi update xong
                   status: appliedJob.status,
                   buttonLabel: 'Xin hủy',
-                  confirmButtonLeft: appliedJob.status == 0 ? () => {_showExtendJobDialog(appliedJob)} : () {},
-                  confirmButtonRight: appliedJob.status == 0 ? () {controller.canceExtendEndDate(appliedJob.id);} : () {},
-                  message: 'Bạn muốn hủy yêu cầu gia hạn ngày kết thúc của công việc này ?',
+                  confirmButtonLeft: appliedJob.status == 0
+                      ? () => {_showExtendJobDialog(appliedJob)}
+                      : () {},
+                  confirmButtonRight: appliedJob.status == 0
+                      ? () {
+                          controller.canceExtendEndDate(appliedJob.id);
+                        }
+                      : () {},
+                  message:
+                      'Bạn muốn hủy yêu cầu gia hạn ngày kết thúc của công việc này ?',
                 );
               },
             ));
@@ -93,39 +102,62 @@ class FarmerExtendJobList extends GetView<AppliedJobController> {
     );
   }
 
-    Future _showExtendJobDialog(ExtendEndDateJob appliedJob) async {
+  Future _showExtendJobDialog(ExtendEndDateJob appliedJob) async {
     controller.onInitUpdateExtendEndDateForm(appliedJob);
     return CustomFormDialog.showDialog(
-      formKey: controller.formKey,
-      title: 'Gia hạn ngày kết thúc',
-      textFields: [
-        InputField(
-          key: UniqueKey(),
-          controller: controller.extendEndDateController,
-          icon: const Icon(Icons.edit_calendar_outlined),
-          labelText: 'Ngày gia hạn*',
-          placeholder: AppStrings.placeholderNewExtendJobDate,
-          inputAction: TextInputAction.next,
-          readOnly: true,
-          onTap: () => {controller.onChooseNewEndDate(appliedJob.oldEndDate)},
-        ),
-        SizedBox(
-          height: Get.height * 0.04,
-        ),
-        InputField(
-          key: UniqueKey(),
-          controller: controller.reasonExtendEndDateController,
-          icon: const Icon(Icons.announcement_outlined),
-          labelText: AppStrings.titleReason,
-          placeholder: AppStrings.placeholderReport,
-          keyBoardType: TextInputType.multiline,
-          minLines: 1,
-          maxLines: 10,
-          validator: controller.validateReason,
-        ),
-      ],
-      onSubmit: () => {controller.onSubmitExtendJobForm(appliedJob)},
-      onCancel: controller.onCloseExtendJobDialog,
-    );
+        formKey: controller.formKey,
+        title: 'Thay đổi \nngày kết thúc',
+        contentPadding: const EdgeInsets.only(left: 15, right: 15),
+        titlePadding: const EdgeInsets.only(top: 10),
+        textFields: [
+          InputField(
+            key: UniqueKey(),
+            controller: controller.extendEndDateController,
+            icon: const Icon(Icons.edit_calendar_outlined),
+            labelText: 'Ngày gia hạn*',
+            placeholder: AppStrings.placeholderNewExtendJobDate,
+            inputAction: TextInputAction.next,
+            readOnly: true,
+            onTap: () => {controller.onChooseNewEndDate(appliedJob.oldEndDate)},
+          ),
+          SizedBox(
+            height: Get.height * 0.04,
+          ),
+          InputField(
+            key: UniqueKey(),
+            controller: controller.reasonExtendEndDateController,
+            icon: const Icon(Icons.announcement_outlined),
+            labelText: AppStrings.titleReason,
+            placeholder: AppStrings.placeholderReport,
+            keyBoardType: TextInputType.multiline,
+            minLines: 1,
+            maxLines: 10,
+            validator: controller.validateReason,
+          ),
+        ],
+        widget: Row(
+          children: [
+            CustomTextButton(
+              onPressed: () {
+                controller.onSubmitExtendJobForm(appliedJob);
+              },
+              title: 'Cập nhật',
+            ),
+            const SizedBox(
+              width: 5,
+            ),
+            CustomTextButton(
+              onPressed: controller.onCloseExtendJobDialog,
+              title: 'Quay lại',
+              background: AppColors.white,
+              border: Border.all(
+                color: AppColors.primaryColor,
+              ),
+              textStyle: Get.textTheme.button!.copyWith(
+                color: AppColors.primaryColor,
+              ),
+            )
+          ],
+        ));
   }
 }
