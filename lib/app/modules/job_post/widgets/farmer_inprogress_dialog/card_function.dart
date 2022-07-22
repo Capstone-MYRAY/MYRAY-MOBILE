@@ -21,35 +21,39 @@ class CardFunction extends StatelessWidget {
           color: Colors.white,
           boxShadow: [
             BoxShadow(
-              color: Colors.grey.withOpacity(0.8),
-              spreadRadius: 2,
+              color: Colors.grey.withOpacity(0.2),
+              spreadRadius: 2.5,
               blurRadius: 5,
-              offset: Offset(0, 3),
+              offset: Offset(0, 4),
             ),
           ],
         ),
-        child: Column(
-          children: [
-            Container(
-              padding: const EdgeInsets.only(top: 40, bottom: 12),
-              child: Icon(icon, size: 55, color: AppColors.primaryColor),
-            ),
-            // const Size
-            Expanded(
-              child: Text.rich(
-                TextSpan(text: title),
-                textAlign: TextAlign.center,
-                softWrap: true,
-                maxLines: 3,
-                overflow: TextOverflow.ellipsis,
-                style: Get.textTheme.labelMedium!.copyWith(
-                  fontSize: Get.textScaleFactor * 15,
-                  fontWeight: FontWeight.w800,
-                  color: AppColors.brown
+        child: Container(
+          padding: EdgeInsets.only(left: 10, right: 10),
+          child: Column(
+            children: [
+              Container(
+                padding: const EdgeInsets.only(top: 20, bottom: 9),
+                child: Icon(icon, size: 50, color: AppColors.primaryColor),
+              ),
+              // const Size
+              Expanded(
+                child: Text.rich(
+                  TextSpan(text: title),
+                  textAlign: TextAlign.center,
+                  softWrap: true,
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
+                  style: Get.textTheme.labelMedium!.copyWith(
+                    fontSize: Get.textScaleFactor * 17,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.brown
+                  ),
                 ),
               ),
-            ),
-          ],
+              // SizedBox(height: Get.height * 0.05,),
+            ],
+          ),
         ),
       ),
     );

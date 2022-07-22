@@ -76,7 +76,7 @@ class FarmerExtendJobCard extends StatelessWidget {
                     ),
                   ),
                   SizedBox(
-                    width: Get.width * 0.08,
+                    width: Get.width * 0.09,
                   ),
                   Text(
                     // startOldDate.toString(), //bỏ ngày sau
@@ -110,7 +110,7 @@ class FarmerExtendJobCard extends StatelessWidget {
                     ),
                   ),
                   SizedBox(
-                    width: Get.width * 0.045,
+                    width: Get.width * 0.040,
                   ),
                   Text(
                     // startOldDate.toString(), //bỏ ngày sau

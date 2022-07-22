@@ -24,7 +24,7 @@ class FeedbackDialog {
     return CustomFormDialog.showDialog(
         title: 'Đánh giá',
         formKey: formKey,
-        contentPadding: const EdgeInsets.only(left: 20, right: 20),
+        contentPadding: const EdgeInsets.only(left: 20, right: 10),
         textFields: [
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -71,16 +71,19 @@ class FeedbackDialog {
           SizedBox(
             height: Get.height * 0.01,
           ),
-          InputField(
-            key: UniqueKey(),
-            controller: feedbackContentController,
-            icon: const Icon(Icons.feedback_outlined),
-            labelText: "Ý kiến",
-            placeholder: 'Nhập ý kiến',
-            keyBoardType: TextInputType.multiline,
-            minLines: 1,
-            maxLines: 10,
-            validator: validateReason,
+          Padding(
+            padding: const EdgeInsets.only(right: 20.0),
+            child: InputField(
+              key: UniqueKey(),
+              controller: feedbackContentController,
+              icon: const Icon(Icons.feedback_outlined),
+              labelText: "Ý kiến",
+              placeholder: 'Nhập ý kiến',
+              keyBoardType: TextInputType.multiline,
+              minLines: 1,
+              maxLines: 10,
+              validator: validateReason,
+            ),
           ),
         ],
         widget: isReported

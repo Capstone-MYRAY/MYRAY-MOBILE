@@ -18,7 +18,6 @@ class AppliedJobList extends GetView<AppliedJobController> {
   @override
   Widget build(BuildContext context) {
     return
-        // Obx(() => controller.isRefresh.value ? const LoadingBuilder() :
         FutureBuilder(
       future: controller.getAppliedJobList(),
       builder: ((context, snapshot) {
@@ -65,11 +64,12 @@ class AppliedJobList extends GetView<AppliedJobController> {
                     child: Column(
                       children: [
                         Text(
-                          "Bạn chưa ứng tuyển vào công việc nào.",
+                          "Bạn chưa ứng tuyển\n vào công việc nào.",
                           style: Get.textTheme.bodyLarge!.copyWith(
                             color: AppColors.grey,
                             fontSize: Get.textScaleFactor * 20,
                           ),
+                          textAlign: TextAlign.center
                         ),
                         const SizedBox(height: 10),
                         const ImageIcon(AssetImage(AppAssets.noJobFound),
@@ -79,8 +79,6 @@ class AppliedJobList extends GetView<AppliedJobController> {
                   ),
                 );
               }
-
-              print("here");
               JobPost jobPost =
                   controller.appliedJobPostResponse[index].jobPost;
               return Container(
@@ -114,7 +112,7 @@ class AppliedJobList extends GetView<AppliedJobController> {
                                 const Icon(CustomIcons.map_marker_outline,
                                     size: 20),
                                 Padding(
-                                  padding: EdgeInsets.only(left: 30),
+                                  padding: const EdgeInsets.only(left: 30),
                                   child: SizedBox(
                                     width: Get.width * 0.65,
                                     child: Text.rich(
