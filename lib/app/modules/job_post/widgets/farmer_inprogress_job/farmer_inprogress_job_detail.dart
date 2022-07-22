@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:myray_mobile/app/data/models/feedback/feedback.dart';
 import 'package:myray_mobile/app/data/models/report/report.dart';
 import 'package:myray_mobile/app/modules/job_post/controllers/farmer_inprogress_job_detail.controller.dart';
 import 'package:myray_mobile/app/modules/job_post/widgets/farmer_inprogress_dialog/card_function.dart';
+import 'package:myray_mobile/app/modules/job_post/widgets/farmer_inprogress_dialog/extend_enddate_job_dialog.dart';
 import 'package:myray_mobile/app/modules/job_post/widgets/farmer_inprogress_dialog/feedback_dialog.dart';
 import 'package:myray_mobile/app/modules/job_post/widgets/farmer_inprogress_dialog/onLeave_dialog.dart';
 import 'package:myray_mobile/app/modules/job_post/widgets/farmer_inprogress_dialog/report_dialog.dart';
@@ -33,8 +35,10 @@ class FarmerInProgressJobDetail extends GetView<InprogressJobDetailController> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Chi tiết'),
+          title: const Text('Công việc đang làm'),
           centerTitle: true,
+          backgroundColor: Colors.amber[200],
+          elevation: 0,
         ),
         body: FutureBuilder(
             //get job post
@@ -49,13 +53,20 @@ class FarmerInProgressJobDetail extends GetView<InprogressJobDetailController> {
                 decoration: BoxDecoration(
                   color: Colors.amber[200],
                   borderRadius: const BorderRadius.only(
-                      bottomLeft: Radius.circular(20),
-                      bottomRight: Radius.circular(20)),
+                    bottomLeft: Radius.circular(20),
+                    bottomRight: Radius.circular(20),
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20)
+                  ),
+                  border: Border.all(
+                    color: AppColors.backgroundColor,
+                    width: 10
+                  ),
                 ),
                 child: const Text('Heed not the rabble'),
               ),
               Positioned(
-                top: Get.height * 0.04,
+                top: Get.height * 0.03,
                 left: Get.width * 0.07,
                 right: Get.width * 0.07,
                 child: Container(
@@ -145,7 +156,7 @@ class FarmerInProgressJobDetail extends GetView<InprogressJobDetailController> {
                             decoration: BoxDecoration(
                               color: AppColors.primaryColor,
                               borderRadius:
-                                  BorderRadius.all(Radius.circular(10)),
+                                  const BorderRadius.all(Radius.circular(10)),
                               border: Border.all(color: AppColors.primaryColor),
                               boxShadow: [
                                 BoxShadow(
@@ -204,8 +215,9 @@ class FarmerInProgressJobDetail extends GetView<InprogressJobDetailController> {
                                           text: controller.jobpost.jobEndDate ==
                                                   null
                                               ? 'Chưa xác định'
-                                              : controller.jobpost.jobEndDate
-                                                  .toString(),
+                                              : DateFormat('dd/MM/yyyy').format(
+                                                  controller
+                                                      .jobpost.jobEndDate!),
                                           style:
                                               Get.textTheme.bodyText2!.copyWith(
                                             fontSize: Get.textScaleFactor * 15,
@@ -238,12 +250,12 @@ class FarmerInProgressJobDetail extends GetView<InprogressJobDetailController> {
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(top: Get.height * 0.35),
+                margin: EdgeInsets.only(top: Get.height * 0.33),
                 child: GridView.count(
                   primary: false,
                   padding: const EdgeInsets.all(30),
                   crossAxisSpacing: 25,
-                  mainAxisSpacing: 30,
+                  mainAxisSpacing: 40,
                   crossAxisCount: 2,
                   children: <Widget>[
                     isPayPerHourJob
@@ -255,10 +267,31 @@ class FarmerInProgressJobDetail extends GetView<InprogressJobDetailController> {
                         : CardFunction(
                             title: AppStrings.extendButton,
                             icon: Icons.edit_calendar_outlined,
-                            onTap: () {},
+                            onTap: () async {
+                              ExtendEndDateJobDialog.show(
+                                jobPostId: controller.jobpost.id,
+                                job: await controller
+                                    .getExtendEndDateJob(controller.jobpost.id),
+                                formKey: controller.formKey,
+                                oldDate: controller.jobpost.jobEndDate,
+                                extendJobDateController:
+                                    controller.extendJobDateController,
+                                extendJobReasonController:
+                                    controller.extendJobReasonController,
+                                onTap: controller.onChooseNewEndDate,
+                                validateReason: controller.validateReason,
+                                validateChooseNewEndDate:
+                                    controller.validateChooseNewEndDate,
+                                submit: (_) {
+                                  controller.onSubmitExtendJobForm(
+                                      controller.jobpost.id);
+                                },
+                                closeDialog: controller.onCloseExtendJobDialog,
+                              );
+                            },
                           ),
                     CardFunction(
-                      title: AppStrings.feedbackJob,
+                      title: 'Đánh giá\ncông việc',
                       icon: Icons.feedback_outlined,
                       onTap: () async {
                         FeedBack? feedBack = await controller
@@ -272,13 +305,14 @@ class FarmerInProgressJobDetail extends GetView<InprogressJobDetailController> {
                             jobPostId: controller.jobpost.id,
                             formKey: controller.formKey,
                             isReported: true,
-                            initialRating: double.parse(controller.feedbackRatingController.text),
+                            initialRating: double.parse(
+                                controller.feedbackRatingController.text),
                             feedbackRatingController:
                                 controller.feedbackRatingController,
                             feedbackContentController:
                                 controller.feedbackContentController,
-                            submit: (_) => controller
-                                .onUpdateFeedBackForm(feedBack),
+                            submit: (_) =>
+                                controller.onUpdateFeedBackForm(feedBack),
                             validateReason: controller.validateReason,
                             closeDialog: controller.onCloseFeedBackDialog,
                           );
@@ -301,8 +335,8 @@ class FarmerInProgressJobDetail extends GetView<InprogressJobDetailController> {
                       },
                     ),
                     CardFunction(
-                      title: 'Báo cáo vấn đề',
-                      icon: Icons.report_problem_outlined,
+                      title: 'Báo cáo\nvấn đề',
+                      icon: Icons.flag_outlined,
                       onTap: () async {
                         Report? report = await controller
                             .checkDoReport(controller.jobpost.id);
@@ -366,9 +400,6 @@ class FarmerInProgressJobDetail extends GetView<InprogressJobDetailController> {
                         : const SizedBox(),
                   ],
                 ),
-              ),
-              SizedBox(
-                height: Get.height * 0.03,
               ),
             ],
           );

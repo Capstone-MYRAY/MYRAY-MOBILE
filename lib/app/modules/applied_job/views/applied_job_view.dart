@@ -4,10 +4,8 @@ import 'package:myray_mobile/app/modules/applied_job/controllers/applied_job_con
 import 'package:myray_mobile/app/modules/applied_job/widgets/applied_job_list.dart';
 import 'package:myray_mobile/app/modules/applied_job/widgets/farmer_extend_job/farmer_extend_job_list.dart';
 import 'package:myray_mobile/app/modules/applied_job/widgets/farmer_onLeave/farmer_onLeave_list.dart';
-import 'package:myray_mobile/app/shared/constants/app_assets.dart';
 import 'package:myray_mobile/app/shared/constants/app_colors.dart';
 import 'package:myray_mobile/app/shared/constants/app_strings.dart';
-import 'package:myray_mobile/app/shared/widgets/builders/loading_builder.dart';
 
 class AppliedJobView extends GetView<AppliedJobController> {
   const AppliedJobView({Key? key}) : super(key: key);
@@ -50,7 +48,7 @@ class AppliedJobView extends GetView<AppliedJobController> {
                 Expanded(
                   child: TabBarView(
                     controller: controller.tabController,
-                    children: <Widget>[
+                    children: const <Widget>[
                       AppliedJobList(),
                       FarmerExtendJobList(),
                       FarmerOnLeaveList(),

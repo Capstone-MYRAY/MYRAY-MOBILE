@@ -233,7 +233,7 @@ class AppliedJobController extends GetxController
     PutExtendEndDateRequest data = PutExtendEndDateRequest(
       id: extendTaskJob.id.toString(),
       jobPostId: extendTaskJob.jobPostId,
-      extendEndDate: currentDate.toString()+'Z',
+      extendEndDate: currentDate != null ? '${currentDate}Z' : extendTaskJob.extendEndDate.toString(),
       reason: reasonExtendEndDateController.text,
     );
     print("ngay moi: " + extendEndDateController.text);

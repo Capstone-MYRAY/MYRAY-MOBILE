@@ -83,19 +83,16 @@ class FarmerInprogressJobList extends GetView<FarmerInprogressJobController> {
                     child: FarmerInprogressJobCard(
                         job: jobPost.title,
                         address: jobPost.address ?? 'Cập nhật sau',
+                        isPayPerHourJob: isPayPerHourJob,
                         startTime: isPayPerHourJob
-                            ? jobPost.payPerHourJob!.startTime.toString()
+                            ? jobPost.payPerHourJob!.startTime
                             : "8:00",
                         endTime: isPayPerHourJob
                             ? jobPost.payPerHourJob!.finishTime.toString()
                             : jobPost.payPerTaskJob!.finishTime.toString() ==
                                     'null'
                                 ? "17:00"
-                                : jobPost.payPerTaskJob!.finishTime.toString(),
-                        // extendJob: () => {
-                        //   Get.back(),
-                        //   _showExtendJobDialog(jobPost.jobEndDate, jobPost.id)
-                        // },                        
+                                : jobPost.payPerTaskJob!.finishTime.toString(),                       
                         moreDetail: () {
                           Get.toNamed(Routes.farmerInprogressJobDetail,
                               arguments: {Arguments.item: jobPost});
@@ -104,91 +101,6 @@ class FarmerInprogressJobList extends GetView<FarmerInprogressJobController> {
         }));
   }
 
-  // Future _showExtendJobDialog(DateTime? oldDate, int jobPostId) async {
-  //   DateTime endJobDate = DateTime.now().add(const Duration(days: 1));
-  //   DateTime today = DateTime.now();
-  //   // print(endJobDate.difference(today).inDays  >= 1);
-  //   // if (endJobDate.difference(today).inDays < 1) {
-  //   //   return InformationDialog.showDialog(
-  //   //       confirmTitle: 'Đóng', msg: 'Không thể gia hạn');
-  //   // }
-  //   ExtendEndDateJob? job = await controller.getExtendEndDateJob(jobPostId);
-  //   if (job != null) {
-  //     return InformationDialog.showDialog(
-  //         confirmTitle: 'Đóng', msg: 'Bạn đã gia hạn ngày kết thúc.');
-  //   }
-  //   return CustomFormDialog.showDialog(
-  //     formKey: controller.formKey,
-  //     title: 'Gia hạn ngày kết thúc',
-  //     textFields: [
-  //       Row(
-  //         children: [
-  //           const Icon(
-  //             CustomIcons.calendar_range,
-  //             size: 25,
-  //           ),
-  //           SizedBox(
-  //             width: Get.width * 0.04,
-  //           ),
-  //           Text(
-  //             'Ngày kết thúc cũ*',
-  //             style: Get.textTheme.titleSmall!.copyWith(
-  //               fontSize: Get.textScaleFactor * 16,
-  //               color: AppColors.primaryColor,
-  //             ),
-  //           ),
-  //         ],
-  //       ),
-  //       SizedBox(
-  //         height: Get.height * 0.01,
-  //       ),
-  //       Padding(
-  //         padding: EdgeInsets.only(left: Get.width * 0.1),
-  //         child: Text(
-  //           oldDate != null
-  //               ? DateFormat('dd/MM/yyyy').format(oldDate)
-  //               : 'Chưa cập nhật',
-  //           style: TextStyle(
-  //             fontSize: Get.textScaleFactor * 16,
-  //           ),
-  //         ),
-  //       ),
-  //       SizedBox(
-  //         height: Get.height * 0.01,
-  //       ),
-  //       InputField(
-  //         key: UniqueKey(),
-  //         controller: controller.extendJobDateController,
-  //         icon: const Icon(Icons.edit_calendar_outlined),
-  //         labelText: '${AppStrings.labelNewExtendJobDate}*',
-  //         placeholder: AppStrings.placeholderNewExtendJobDate,
-  //         inputAction: TextInputAction.next,
-  //         readOnly: true,
-  //         onTap: () => {
-  //           controller.onChooseNewEndDate(oldDate),
-  //         },
-  //         validator: controller.validateChooseNewEndDate,
-  //       ),
-  //       SizedBox(
-  //         height: Get.height * 0.04,
-  //       ),
-  //       InputField(
-  //         key: UniqueKey(),
-  //         controller: controller.extendJobReasonController,
-  //         icon: const Icon(Icons.announcement_outlined),
-  //         labelText: AppStrings.titleReason,
-  //         placeholder: AppStrings.placeholderReport,
-  //         keyBoardType: TextInputType.multiline,
-  //         minLines: 1,
-  //         maxLines: 10,
-  //         validator: controller.validateReason,
-  //       ),
-  //     ],
-  //     submit: () => {controller.onSubmitExtendJobForm(jobPostId)},
-  //     submitButtonTitle: 'Gia hạn',
-  //     cancel: controller.onCloseExtendJobDialog,
-  //   );
-  // }
-
+ 
 
 }
