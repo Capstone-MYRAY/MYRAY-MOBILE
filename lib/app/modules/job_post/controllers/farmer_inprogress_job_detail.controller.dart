@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:myray_mobile/app/data/models/attendance/farmer_post_attendance_request.dart';
+import 'package:myray_mobile/app/data/models/attendance/get_attendance_by_date_request.dart';
+import 'package:myray_mobile/app/data/models/attendance/get_attendance_by_date_response.dart';
 import 'package:myray_mobile/app/data/models/extend_end_date_job/extend_end_date_job.dart';
 import 'package:myray_mobile/app/data/models/extend_end_date_job/post_extend_end_date_job_request.dart';
 import 'package:myray_mobile/app/data/models/feedback/feedback.dart';
@@ -18,6 +19,8 @@ import 'package:myray_mobile/app/data/models/report/post_report_request.dart';
 import 'package:myray_mobile/app/data/models/report/put_update_report_request.dart';
 import 'package:myray_mobile/app/data/models/report/report.dart';
 import 'package:myray_mobile/app/modules/applied_job/applied_job_repository.dart';
+import 'package:myray_mobile/app/modules/attendance/attendance_repository.dart';
+import 'package:myray_mobile/app/modules/attendance/widgets/farmer_attendance_detail_dialog.dart';
 import 'package:myray_mobile/app/modules/feedback/controllers/feedback_controller.dart';
 import 'package:myray_mobile/app/modules/job_post/widgets/farmer_inprogress_dialog/feedback_update_dialog.dart';
 import 'package:myray_mobile/app/modules/job_post/widgets/farmer_inprogress_dialog/report_update_dialog.dart';
@@ -26,16 +29,17 @@ import 'package:myray_mobile/app/shared/constants/app_colors.dart';
 import 'package:myray_mobile/app/shared/utils/auth_credentials.dart';
 import 'package:myray_mobile/app/shared/utils/custom_exception.dart';
 import 'package:myray_mobile/app/shared/utils/utils.dart';
-import 'package:myray_mobile/app/shared/widgets/buttons/custom_text_button.dart';
 import 'package:myray_mobile/app/shared/widgets/controls/my_date_picker.dart';
 import 'package:myray_mobile/app/shared/widgets/custom_snackbar.dart';
-import 'package:myray_mobile/app/shared/widgets/dialogs/custom_confirm_dialog.dart';
+import 'package:myray_mobile/app/shared/widgets/dialogs/custom_information.dialog.dart';
+import 'package:myray_mobile/app/shared/widgets/dialogs/information_dialog.dart';
 
 class InprogressJobDetailController extends GetxController {
   final JobPost jobpost;
   FeedBackController feedBackController = Get.find<FeedBackController>();
   final _appliedRepository = Get.find<AppliedJobRepository>();
   final _reportRepository = Get.find<ReportRepository>();
+  final _attendanceRepository = Get.find<AttendanceRepository>();
 
   InprogressJobDetailController({required this.jobpost});
 
@@ -193,8 +197,8 @@ class InprogressJobDetailController extends GetxController {
         Future.delayed(const Duration(milliseconds: 1200), () {
           onCloseReportDialog();
           EasyLoading.dismiss();
-          if (newReport != null) {           
-              ReportUpdateDialog.show(newReport: newReport);         
+          if (newReport != null) {
+            ReportUpdateDialog.show(newReport: newReport);
             return;
           }
           CustomSnackbar.show(
@@ -412,6 +416,49 @@ class InprogressJobDetailController extends GetxController {
           backgroundColor: AppColors.errorColor);
     }
     return null;
+  }
+
+  showAttendance(BuildContext context) async {
+    GetAttendanceByDateRequest data = GetAttendanceByDateRequest(
+      jobPostId: jobpost.id.toString(),
+      date: DateTime.now(),
+    );
+
+    try {
+      List<GetAttendanceByDateResponse>? attendance =
+          await _attendanceRepository.getList(data);
+
+      EasyLoading.show();
+      Future.delayed(const Duration(milliseconds: 1000), () {
+        EasyLoading.dismiss();
+        if (attendance != null && attendance[0].attendance.isEmpty) {
+          CustomInformationDialog.show(
+            title: 'Thông báo',
+            message:
+                'Bạn chưa được điểm danh!\nVui lòng liên hệ chủ đất hoặc người điều hành gần bạn nhất để được hỗ trợ.',
+            icon: const Icon(Icons.pending_actions_outlined,
+                size: 40, color: AppColors.brown),
+          );
+          return;
+        }
+        //when checked attendance
+        if (attendance != null && attendance[0].attendance.isNotEmpty) {
+          //add attendance parameter.
+          FarmerAttendanceDetailDialog.show(context);
+          return;
+        }
+
+        CustomSnackbar.show(
+            title: "Thất bại",
+            message: "Không thể kiểm tra điểm danh !",
+            backgroundColor: AppColors.errorColor);
+      });
+    } on CustomException catch (e) {
+      CustomSnackbar.show(
+          title: "Thất bại",
+          message: "Không thể xem điểm danh !",
+          backgroundColor: AppColors.errorColor);
+    }
   }
 
   Future<Report?> _reportJob(PostReportRequest reportData) async {

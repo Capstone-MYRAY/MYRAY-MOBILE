@@ -10,7 +10,6 @@ class FarmerOnLeaveCard extends StatelessWidget {
   final String reason;
   // final void Function() onTap;
 
-
   const FarmerOnLeaveCard({
     Key? key,
     required this.job,
@@ -45,41 +44,68 @@ class FarmerOnLeaveCard extends StatelessWidget {
                 height: Get.height * 0.02,
               ),
               Row(children: [
-                Stack(
-                  children: [
-                    const Icon(CustomIcons.briefcase_outline, size: 20),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 30),
-                      child: SizedBox(
-                        width: Get.width * 0.7,
-                        child: Text.rich(
-                          TextSpan(children: [
-                            TextSpan(
-                              text: "Công việc:  ",
-                              style: Get.textTheme.labelMedium!.copyWith(
-                                fontWeight: FontWeight.w500,
-                                fontSize: Get.textScaleFactor * 15,
-                              ),
-                            ),
-                            TextSpan(
-                              text: job,
-                              style: Get.textTheme.bodyText2!.copyWith(
-                                fontSize: Get.textScaleFactor * 15,
-                              ),
-                            ),
-                          ]),
-                          style: Get.textTheme.bodyText2!
-                              .copyWith(fontSize: Get.textScaleFactor * 14),
-                          softWrap: true,
-                          overflow: TextOverflow.ellipsis,
-                          textAlign: TextAlign.start,
-                          maxLines: 1,
-                        ),
+                const Icon(CustomIcons.briefcase_outline, size: 20),
+                SizedBox(
+                  width: Get.width * 0.03,
+                ),
+                Text(
+                  "Công việc:",
+                  style: Get.textTheme.labelMedium!.copyWith(
+                    fontWeight: FontWeight.w500,
+                    fontSize: Get.textScaleFactor * 15,
+                  ),
+                ),
+                SizedBox(width: Get.width * 0.025),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 15),
+                    child: Text(
+                      'Thu hoạch cà phê',
+                      style: Get.textTheme.labelMedium!.copyWith(
+                        fontWeight: FontWeight.w500,
+                        fontSize: Get.textScaleFactor * 15,
                       ),
+                      softWrap: true,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.justify,
+                      maxLines: 3,
                     ),
-                  ],
+                  ),
                 ),
               ]),
+              SizedBox(
+                height: Get.height * 0.01,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(0),
+                child: Row(children: [
+                  const Icon(CustomIcons.calendar_minus, size: 20),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    "Ngày nghỉ:",
+                    style: Get.textTheme.labelMedium!.copyWith(
+                      fontWeight: FontWeight.w500,
+                      fontSize: Get.textScaleFactor * 15,
+                    ),
+                  ),
+                  SizedBox(
+                    width: Get.width * 0.06,
+                  ),
+                  Text(
+                    "23/07/2022",
+                    style: Get.textTheme.bodyText2!.copyWith(
+                        color: AppColors.primaryColor,
+                        fontSize: Get.textScaleFactor * 15,
+                        fontWeight: FontWeight.w500),
+                    softWrap: true,
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.left,
+                    maxLines: 10,
+                  ),
+                ]),
+              ),
               SizedBox(
                 height: Get.height * 0.01,
               ),
@@ -117,75 +143,6 @@ class FarmerOnLeaveCard extends StatelessWidget {
               SizedBox(
                 height: Get.height * 0.01,
               ),
-              Padding(
-                padding: const EdgeInsets.all(0),
-                child: Row(children: [
-                  const Icon(CustomIcons.calendar_minus, size: 20),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Text(
-                    "Số ngày nghỉ:",
-                    style: Get.textTheme.labelMedium!.copyWith(
-                      fontWeight: FontWeight.w500,
-                      fontSize: Get.textScaleFactor * 15,
-                    ),
-                  ),
-                  SizedBox(
-                    width: Get.width * 0.06,
-                  ),
-                  Text(
-                    "$numOfOnleaveDays ngày",
-                    style: Get.textTheme.bodyText2!.copyWith(
-                        color: AppColors.primaryColor,
-                        fontSize: Get.textScaleFactor * 15,
-                        fontWeight: FontWeight.w500),
-                    softWrap: true,
-                    overflow: TextOverflow.ellipsis,
-                    textAlign: TextAlign.left,
-                    maxLines: 10,
-                  ),
-                ]),
-              ),
-              SizedBox(
-                height: Get.height * 0.01,
-              ),
-              Row(children: [
-                Stack(
-                  children: [
-                    const Icon(CustomIcons.pencil, size: 20),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 30),
-                      child: SizedBox(
-                        width: Get.width * 0.7,
-                        child: Text.rich(
-                          TextSpan(children: [
-                            TextSpan(
-                              text: "Lý do:  ",
-                              style: Get.textTheme.labelMedium!.copyWith(
-                                fontWeight: FontWeight.w500,
-                                fontSize: Get.textScaleFactor * 15,
-                              ),
-                            ),
-                            TextSpan(
-                              text: reason,
-                              style: Get.textTheme.bodyText2!.copyWith(
-                                fontSize: Get.textScaleFactor * 15,
-                              ),
-                            ),
-                          ]),
-                          style: Get.textTheme.bodyText2!
-                              .copyWith(fontSize: Get.textScaleFactor * 14),
-                          softWrap: true,
-                          overflow: TextOverflow.ellipsis,
-                          textAlign: TextAlign.start,
-                          maxLines: 1,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ]),
             ],
           ),
         ),
