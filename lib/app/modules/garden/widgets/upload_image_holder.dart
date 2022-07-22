@@ -247,7 +247,7 @@ class UploadImageHolderState extends State<UploadImageHolder> {
                 crossAxisSpacing: 16.0,
                 mainAxisSpacing: 16.0,
                 physics: const NeverScrollableScrollPhysics(),
-                childAspectRatio: 5 / 8,
+                childAspectRatio: 5 / 7,
                 children: [
                   ..._selectedImages
                       .map(

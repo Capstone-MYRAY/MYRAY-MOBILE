@@ -1,5 +1,6 @@
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:mapbox_gl/mapbox_gl.dart';
 
 class UserLocationService {
   static Future<Position> getGeoLocationPosition() async {
@@ -37,7 +38,7 @@ class UserLocationService {
         localeIdentifier: 'vi_VN');
     String? locality;
     for (int i = 0; i < placemarks.length; i++) {
-      if (placemarks[i].locality!.isNotEmpty) {
+      if (placemarks[i].locality?.isNotEmpty != null) {
         locality = placemarks[i].locality;
         break;
       }

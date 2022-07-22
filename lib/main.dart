@@ -19,6 +19,10 @@ void main() async {
 
   await FlutterConfig.loadEnvVariables();
 
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    statusBarColor: AppColors.featureColor,
+  ));
+
   runApp(const MyApp());
   configLoading();
 }

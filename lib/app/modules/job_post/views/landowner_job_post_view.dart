@@ -46,7 +46,10 @@ class LandownerJobPostView extends GetView<LandownerJobPostController> {
             }
 
             if (snapshot.hasData) {
-              return _buildContent();
+              return GestureDetector(
+                onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+                child: _buildContent(),
+              );
             }
 
             return const SizedBox();
@@ -60,7 +63,8 @@ class LandownerJobPostView extends GetView<LandownerJobPostController> {
     return Column(
       // mainAxisSize: MainAxisSize.min,
       children: [
-        SearchAndFilter(onFilterTap: () {}),
+        SearchAndFilter(
+            searchController: TextEditingController(), onFilterTap: () {}),
         Obx(
           () => Expanded(
             child: LazyLoadingList(

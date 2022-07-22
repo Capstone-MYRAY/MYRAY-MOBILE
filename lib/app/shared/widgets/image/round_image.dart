@@ -15,7 +15,7 @@ class RoundImage extends StatelessWidget {
     Key? key,
     this.imageUrl,
     this.borderRadius = CommonConstants.borderRadius,
-    this.width = 80,
+    this.width = 120,
   }) : super(key: key);
 
   @override

@@ -13,6 +13,7 @@ class InputField extends StatelessWidget {
   final int? minLines;
   final int maxLines;
   final Widget? suffix;
+  final Widget? suffixIcon;
   final TextInputType keyBoardType;
   final TextEditingController? controller;
   final FocusNode? focusNode;
@@ -43,6 +44,7 @@ class InputField extends StatelessWidget {
     this.minLines,
     this.maxLines = 1,
     this.suffix,
+    this.suffixIcon,
     this.keyBoardType = TextInputType.text,
     this.inputAction,
     this.autovalidateMode = AutovalidateMode.onUserInteraction,
@@ -58,6 +60,7 @@ class InputField extends StatelessWidget {
         hintText: placeholder,
         errorMaxLines: errorMaxLine,
         suffix: suffix,
+        suffixIcon: suffixIcon,
       ),
       minLines: minLines,
       maxLines: maxLines,
