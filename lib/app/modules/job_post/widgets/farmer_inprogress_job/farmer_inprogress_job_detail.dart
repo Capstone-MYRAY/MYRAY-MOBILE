@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:myray_mobile/app/data/models/feedback/feedback.dart';
 import 'package:myray_mobile/app/data/models/report/report.dart';
+import 'package:myray_mobile/app/modules/attendance/widgets/farmer_attendance_detail_dialog.dart';
 import 'package:myray_mobile/app/modules/job_post/controllers/farmer_inprogress_job_detail.controller.dart';
 import 'package:myray_mobile/app/modules/job_post/widgets/farmer_inprogress_dialog/card_function.dart';
 import 'package:myray_mobile/app/modules/job_post/widgets/farmer_inprogress_dialog/extend_enddate_job_dialog.dart';
@@ -53,15 +54,12 @@ class FarmerInProgressJobDetail extends GetView<InprogressJobDetailController> {
                 decoration: BoxDecoration(
                   color: Colors.amber[200],
                   borderRadius: const BorderRadius.only(
-                    bottomLeft: Radius.circular(20),
-                    bottomRight: Radius.circular(20),
-                    topLeft: Radius.circular(20),
-                    topRight: Radius.circular(20)
-                  ),
-                  border: Border.all(
-                    color: AppColors.backgroundColor,
-                    width: 10
-                  ),
+                      bottomLeft: Radius.circular(20),
+                      bottomRight: Radius.circular(20),
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20)),
+                  border:
+                      Border.all(color: AppColors.backgroundColor, width: 10),
                 ),
                 child: const Text('Heed not the rabble'),
               ),
@@ -262,7 +260,10 @@ class FarmerInProgressJobDetail extends GetView<InprogressJobDetailController> {
                         ? CardFunction(
                             title: AppStrings.buttonCheckAttendance,
                             icon: Icons.check_circle_outline,
-                            onTap: () {},
+                            onTap: (){
+                              controller.showAttendance(context);
+                              // FarmerAttendanceDetailDialog.show(context);
+                            },
                           )
                         : CardFunction(
                             title: AppStrings.extendButton,
