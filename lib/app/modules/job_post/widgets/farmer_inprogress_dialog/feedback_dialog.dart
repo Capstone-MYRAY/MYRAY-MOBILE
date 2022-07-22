@@ -17,7 +17,7 @@ class FeedbackDialog {
     required void Function(int?) submit,
     required String? Function(String?) validateReason,
     required void Function() closeDialog,
-    required bool isReported,
+    required bool isFeedbacked,
     required double initialRating,
     void Function()? delete,
   }) {
@@ -86,7 +86,7 @@ class FeedbackDialog {
             ),
           ),
         ],
-        widget: isReported
+        widget: isFeedbacked
             ? Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -151,11 +151,11 @@ class FeedbackDialog {
                 ],
               )
             : null,
-        onSubmit: isReported
+        onSubmit: isFeedbacked
             ? null
             : () {
                 submit(jobPostId);
               },
-        onCancel: isReported ? null : closeDialog);
+        onCancel: isFeedbacked ? null : closeDialog);
   }
 }

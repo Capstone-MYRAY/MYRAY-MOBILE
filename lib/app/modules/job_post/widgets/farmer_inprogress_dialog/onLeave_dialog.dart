@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:myray_mobile/app/shared/constants/app_strings.dart';
@@ -6,8 +5,7 @@ import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
 import 'package:myray_mobile/app/shared/widgets/controls/input_field.dart';
 import 'package:myray_mobile/app/shared/widgets/dialogs/custom_form_dialog.dart';
 
-class OnLeaveDialog{
-
+class OnLeaveDialog {
   OnLeaveDialog._();
 
   static show({
@@ -20,11 +18,11 @@ class OnLeaveDialog{
     required String? Function(String?) validateChooseOnleaveDate,
     required void Function(int?) submit,
     required void Function() closeDialog,
-    
-  }){
-      return CustomFormDialog.showDialog(
+  }) {
+    return CustomFormDialog.showDialog(
       title: 'Nghỉ phép',
       formKey: formKey,
+      contentPadding: const EdgeInsets.only(left: 10, right: 10),
       textFields: [
         SingleChildScrollView(
             // keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.o,
@@ -69,7 +67,7 @@ class OnLeaveDialog{
                   ),
                   TextSpan(
                       text:
-                          "Chỉ được phép nghỉ tối đa 30 ngày, tính từ ngày bắt đầu nghỉ.",
+                          "Hệ thống cho phép nghỉ có báo trước, nghỉ không phép quá 3 ngày sẽ bị đuổi.",
                       style: Get.textTheme.caption),
                 ],
               ),
@@ -81,9 +79,11 @@ class OnLeaveDialog{
           ],
         ))
       ],
-      onSubmit: () {submit(jobPostId);},
+      onSubmit: () {
+        submit(jobPostId);
+      },
       submitButtonTitle: 'Báo nghỉ',
-      onCancel:closeDialog,
+      onCancel: closeDialog,
     );
   }
-  }
+}

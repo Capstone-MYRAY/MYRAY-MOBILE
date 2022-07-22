@@ -19,6 +19,8 @@ import 'package:myray_mobile/app/data/models/report/put_update_report_request.da
 import 'package:myray_mobile/app/data/models/report/report.dart';
 import 'package:myray_mobile/app/modules/applied_job/applied_job_repository.dart';
 import 'package:myray_mobile/app/modules/feedback/controllers/feedback_controller.dart';
+import 'package:myray_mobile/app/modules/job_post/widgets/farmer_inprogress_dialog/feedback_update_dialog.dart';
+import 'package:myray_mobile/app/modules/job_post/widgets/farmer_inprogress_dialog/report_update_dialog.dart';
 import 'package:myray_mobile/app/modules/report/report_repository.dart';
 import 'package:myray_mobile/app/shared/constants/app_colors.dart';
 import 'package:myray_mobile/app/shared/utils/auth_credentials.dart';
@@ -192,84 +194,7 @@ class InprogressJobDetailController extends GetxController {
           Future.delayed(const Duration(milliseconds: 1200), () {
             onCloseFeedBackDialog();
             EasyLoading.dismiss();
-            Get.defaultDialog(
-              title: 'Cập nhật báo cáo',
-              titlePadding: const EdgeInsets.only(top: 10),
-              contentPadding: const EdgeInsets.all(20),
-              titleStyle: Get.textTheme.headline3,
-              content: Stack(
-                children: [
-                  SizedBox(
-                    width: Get.width * 0.7,
-                    child: Text.rich(
-                      TextSpan(
-                        text: 'Nội dung cập nhật:  ',
-                        children: [
-                          TextSpan(
-                            text: newReport.content,
-                            style: Get.textTheme.bodyText2!
-                                .copyWith(fontSize: Get.textScaleFactor * 17),
-                          ),
-                        ],
-                        style: Get.textTheme.labelMedium!.copyWith(
-                          fontWeight: FontWeight.w500,
-                          fontSize: Get.textScaleFactor * 17,
-                        ),
-                      ),
-                      softWrap: true,
-                      overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.start,
-                      maxLines: 3,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 50.0),
-                    child: SizedBox(
-                      width: Get.width * 0.7,
-                      child: Text.rich(
-                        TextSpan(
-                          text: 'Ngày cập nhật:  ',
-                          children: [
-                            TextSpan(
-                              text: Utils.formatHHmmddMMyyyy(DateTime.now()),
-                              style: Get.textTheme.bodyText2!
-                                  .copyWith(fontSize: Get.textScaleFactor * 17),
-                            ),
-                          ],
-                          style: Get.textTheme.labelMedium!.copyWith(
-                            fontWeight: FontWeight.w500,
-                            fontSize: Get.textScaleFactor * 17,
-                          ),
-                        ),
-                        softWrap: true,
-                        overflow: TextOverflow.ellipsis,
-                        textAlign: TextAlign.start,
-                        maxLines: 3,
-                      ),
-                    ),
-                  ),
-                  Padding(
-                      padding: const EdgeInsets.only(top: 80.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          CustomTextButton(
-                              onPressed: () {
-                                Get.back();
-                              },
-                              title: 'Đóng',
-                              border: Border.all(
-                                color: AppColors.primaryColor,
-                              ),
-                              foreground: AppColors.primaryColor,
-                              background: AppColors.white,
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: Get.width * 0.08, vertical: 9)),
-                        ],
-                      ))
-                ],
-              ),
-            );
+            ReportUpdateDialog.show(newReport: newReport);
           });
           return;
         }
@@ -421,144 +346,7 @@ class InprogressJobDetailController extends GetxController {
           Future.delayed(const Duration(milliseconds: 1200), () {
             onCloseReportDialog();
             EasyLoading.dismiss();
-            Get.defaultDialog(
-                title: 'Cập nhật đánh giá',
-                titlePadding: const EdgeInsets.only(top: 20),
-                contentPadding: const EdgeInsets.all(20),
-                titleStyle: Get.textTheme.headline3,
-                content: Column(
-                  // mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        const Icon(
-                          Icons.star_border_rounded,
-                          size: 18,
-                          color: Colors.black,
-                        ),
-                        SizedBox(width: Get.height * 0.01),
-                        Text(
-                          'Mức độ đánh giá:',
-                          style: Get.textTheme.labelMedium!.copyWith(
-                            fontWeight: FontWeight.w500,
-                            fontSize: Get.textScaleFactor * 17,
-                          ),
-                          textAlign: TextAlign.start,
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: Get.height * 0.01),
-                    Row(
-                      children: [
-                        SizedBox(width: Get.width * 0.03),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            RatingBarIndicator(
-                              direction: Axis.horizontal,
-                              itemCount: 5,
-                              itemSize: Get.textScaleFactor * 35,
-                              itemPadding:
-                                  const EdgeInsets.symmetric(horizontal: 4.0),
-                              itemBuilder: (context, _) => const Icon(
-                                Icons.star,
-                                color: Colors.amber,
-                              ),
-                              rating: double.parse(newFeedBack.numStar.toString())
-                            )
-                          ],
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: Get.height * 0.02),
-                    Row(
-                      children: [
-                        const Icon(
-                          Icons.content_copy_rounded,
-                          size: 17,
-                          color: AppColors.black,
-                        ),
-                        SizedBox(width: Get.height * 0.01),
-                        Text(
-                          'Nội dung cập nhật:',
-                          style: Get.textTheme.labelMedium!.copyWith(
-                            fontWeight: FontWeight.w500,
-                            fontSize: Get.textScaleFactor * 17,
-                          ),
-                          textAlign: TextAlign.start,
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: Get.height * 0.01),
-                    Row(
-                      children: [
-                        SizedBox(width: Get.width * 0.07),
-                        Expanded(
-                          //valid giới hạn lại số chữ nhập
-                          child: Text(
-                            newFeedBack.content,
-                            style: Get.textTheme.bodyText2!
-                                .copyWith(fontSize: Get.textScaleFactor * 16),
-                            softWrap: true,
-                            overflow: TextOverflow.ellipsis,
-                            textAlign: TextAlign.start,
-                            maxLines: 10,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: Get.height * 0.02),
-                    Row(
-                      children: [
-                        const Icon(
-                          Icons.date_range_outlined,
-                          size: 17,
-                          color: AppColors.black,
-                        ),
-                        SizedBox(width: Get.height * 0.01),
-                        Text(
-                          'Ngày cập nhật:',
-                          style: Get.textTheme.labelMedium!.copyWith(
-                            fontWeight: FontWeight.w500,
-                            fontSize: Get.textScaleFactor * 17,
-                          ),
-                          textAlign: TextAlign.start,
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: Get.height * 0.01),
-                    Row(
-                      children: [
-                        SizedBox(width: Get.width * 0.07),
-                        Expanded(
-                          child: Text(
-                            Utils.formatHHmmddMMyyyy(DateTime.now()),
-                            style: Get.textTheme.bodyText2!
-                                .copyWith(fontSize: Get.textScaleFactor * 16),
-                            softWrap: true,
-                            overflow: TextOverflow.ellipsis,
-                            textAlign: TextAlign.start,
-                            maxLines: 5,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: Get.height * 0.02),
-                    CustomTextButton(
-                        onPressed: () {
-                          Get.back();
-                        },
-                        title: 'Đóng',
-                        border: Border.all(
-                          color: AppColors.primaryColor,
-                        ),
-                        foreground: AppColors.primaryColor,
-                        background: AppColors.white,
-                        padding: EdgeInsets.symmetric(
-                            horizontal: Get.width * 0.08, vertical: 9)),
-                  ],
-                )                
-                );
+            FeedBackUpdateDialog.show(newFeedBack: newFeedBack,);
           });
           return;
         }

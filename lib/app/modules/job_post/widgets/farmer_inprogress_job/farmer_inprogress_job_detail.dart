@@ -304,7 +304,7 @@ class FarmerInProgressJobDetail extends GetView<InprogressJobDetailController> {
                           FeedbackDialog.show(
                             jobPostId: controller.jobpost.id,
                             formKey: controller.formKey,
-                            isReported: true,
+                            isFeedbacked: true,
                             initialRating: double.parse(
                                 controller.feedbackRatingController.text),
                             feedbackRatingController:
@@ -321,7 +321,7 @@ class FarmerInProgressJobDetail extends GetView<InprogressJobDetailController> {
                         FeedbackDialog.show(
                           jobPostId: controller.jobpost.id,
                           formKey: controller.formKey,
-                          isReported: false,
+                          isFeedbacked: false,
                           initialRating: 5,
                           feedbackRatingController:
                               controller.feedbackRatingController,
