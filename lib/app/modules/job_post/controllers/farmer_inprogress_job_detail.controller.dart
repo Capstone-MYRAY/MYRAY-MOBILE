@@ -436,7 +436,7 @@ class InprogressJobDetailController extends GetxController {
       EasyLoading.show();
       Future.delayed(const Duration(milliseconds: 1000), () {
         EasyLoading.dismiss();
-        if (attendance != null && attendance[0].attendance.isEmpty) {
+        if (attendance != null && attendance.first.attendance.isEmpty) {
           CustomInformationDialog.show(
             title: 'Thông báo',
             message:
@@ -447,9 +447,9 @@ class InprogressJobDetailController extends GetxController {
           return;
         }
         //when checked attendance
-        if (attendance != null && attendance[0].attendance.isNotEmpty) {
+        if (attendance != null && attendance.first.attendance.isNotEmpty) {
           //add attendance parameter.
-          Attendance data = attendance[0].attendance[0];
+          Attendance data = attendance.first.attendance.first;
           FarmerAttendanceDetailDialog.show(context, data, jobpost.title);
           return;
         }
