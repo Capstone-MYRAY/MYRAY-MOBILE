@@ -153,8 +153,6 @@ class LandownerJobPostDetailsController extends GetxController {
         });
   }
 
-  updateJobEndDate() {}
-
   repostJobPost() {
     DateTime now = DateTime.now();
     DateTime publishDate = now.hour >= 16 && now.hour <= 23
