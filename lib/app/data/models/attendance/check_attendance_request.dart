@@ -17,6 +17,9 @@ class CheckAttendanceRequest {
   @JsonKey(name: 'signature')
   String? signature;
 
+  @JsonKey(name: 'reason')
+  String? reason;
+
   @JsonKey(name: 'status')
   AttendanceStatus? status;
 
@@ -25,6 +28,7 @@ class CheckAttendanceRequest {
     required this.dateTime,
     required this.accountId,
     this.signature,
+    this.reason,
     this.status,
   });
 

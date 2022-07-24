@@ -76,9 +76,13 @@ class JobPostAttendanceView extends GetView<JobPostAttendanceController> {
                           statusBackground: item.attendance.isNotEmpty
                               ? item.attendance.first.statusColor
                               : AppColors.grey,
+                          reason: item.attendance.isNotEmpty
+                              ? item.attendance.first.reason
+                              : null,
                           onPresent: () => controller.onPresent(item.farmer),
                           onFinish: () => controller.onFinish(item.farmer),
                           onAbsent: () => controller.onAbsent(item.farmer),
+                          onFired: () => controller.onFired(item.farmer),
                         );
                       });
                 },
@@ -93,7 +97,7 @@ class JobPostAttendanceView extends GetView<JobPostAttendanceController> {
       () => TableCalendar(
         locale: 'vi_VN',
         firstDay: controller.startDate,
-        lastDay: controller.endDate,
+        lastDay: controller.endDate!,
         focusedDay: controller.selectedDate.value,
         calendarFormat: CalendarFormat.week,
         startingDayOfWeek: StartingDayOfWeek.monday,

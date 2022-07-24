@@ -13,6 +13,7 @@ CheckAttendanceRequest _$CheckAttendanceRequestFromJson(
       dateTime: DateTime.parse(json['date_attendance'] as String),
       accountId: json['account_id'] as String,
       signature: json['signature'] as String?,
+      reason: json['reason'] as String?,
       status: $enumDecodeNullable(_$AttendanceStatusEnumMap, json['status']),
     );
 
@@ -31,6 +32,7 @@ Map<String, dynamic> _$CheckAttendanceRequestToJson(
   }
 
   writeNotNull('signature', instance.signature);
+  writeNotNull('reason', instance.reason);
   writeNotNull('status', _$AttendanceStatusEnumMap[instance.status]);
   return val;
 }
