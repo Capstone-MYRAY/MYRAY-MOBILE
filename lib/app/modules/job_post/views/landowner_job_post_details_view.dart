@@ -38,7 +38,11 @@ class LandownerJobPostDetailsView
 
   bool get _isStartJob => jobPost.workStatus == JobPostWorkStatus.started.index;
 
+  bool get _isPosted => jobPost.status == JobPostStatus.posted.index;
+
   bool get _isApproved => jobPost.status == JobPostStatus.approved.index;
+
+  bool get _isRepost => jobPost.status == JobPostStatus.expired.index;
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +92,7 @@ class LandownerJobPostDetailsView
               onPressed: controller.navigateToUpdateForm,
             ),
           ),
-          const SizedBox(height: 16.0),
+          const SizedBox(height: 8.0),
           FractionallySizedBox(
             widthFactor: 0.8,
             child: FilledButton(
@@ -122,10 +126,16 @@ class LandownerJobPostDetailsView
             widthFactor: 0.8,
             child: FilledButton(
               title: AppStrings.titleUpdateJobEndDate,
-              onPressed: () {},
+              onPressed: controller.updateJobEndDate,
             ),
           ),
-          const SizedBox(height: 16.0),
+        ];
+        widgets.addAll(buttons);
+      }
+
+      if (_isPosted) {
+        final buttons = [
+          const SizedBox(height: 8.0),
           FractionallySizedBox(
             widthFactor: 0.8,
             child: FilledButton(
@@ -135,6 +145,20 @@ class LandownerJobPostDetailsView
           ),
         ];
         widgets.addAll(buttons);
+      }
+
+      if (_isRepost) {
+        final button = [
+          const SizedBox(height: 8.0),
+          FractionallySizedBox(
+            widthFactor: 0.8,
+            child: FilledButton(
+              title: AppStrings.titleRepost,
+              onPressed: controller.repostJobPost,
+            ),
+          ),
+        ];
+        widgets.addAll(button);
       }
     }
 

@@ -53,6 +53,7 @@ class AppStrings {
   static const titleReason = 'Lý do';
   static const titleUpdateJobEndDate = 'Cập nhật ngày kết thúc';
   static const titleExtendPostEndDate = 'Gia hạn bài đăng';
+  static const titleRepost = 'Đăng lại';
   static const titleHire = 'Thuê';
   static const titleRefuse = 'Từ chối';
   static const titleFavoriteList = 'Danh sách yêu thích';

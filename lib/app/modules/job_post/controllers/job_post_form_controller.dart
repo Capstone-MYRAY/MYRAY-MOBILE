@@ -648,38 +648,38 @@ class JobPostFormController extends GetxController {
 
   //choose start date
   void onChooseStartDate() async {
-    DateTime? _initDate = jobStartDateController.text.isEmpty
+    DateTime? initDate = jobStartDateController.text.isEmpty
         ? null
         : Utils.fromddMMyyyy(jobStartDateController.text);
-    DateTime? _pickedDate = await MyDatePicker.show(
-        initDate: _initDate,
+    DateTime? pickedDate = await MyDatePicker.show(
+        initDate: initDate,
         firstDate: DateTime.now(),
         lastDate: DateTime.now().add(const Duration(days: 365 * 10)));
-    if (_pickedDate != null) {
-      jobStartDateController.text = Utils.formatddMMyyyy(_pickedDate);
+    if (pickedDate != null) {
+      jobStartDateController.text = Utils.formatddMMyyyy(pickedDate);
     }
   }
 
   //choose start hour
   void onChooseStartHour() async {
-    TimeOfDay? _initTime = startHourController.text.isNotEmpty
+    TimeOfDay? initTime = startHourController.text.isNotEmpty
         ? Utils.fromHHmm(startHourController.text)
         : null;
-    TimeOfDay? _pickedTime = await chooseTime(initTime: _initTime);
-    if (_pickedTime != null) {
-      String timeFormat = Utils.formatHHmm(_pickedTime);
+    TimeOfDay? pickedTime = await chooseTime(initTime: initTime);
+    if (pickedTime != null) {
+      String timeFormat = Utils.formatHHmm(pickedTime);
       startHourController.text = timeFormat;
     }
   }
 
   //choose start hour
   void onChooseEndHour() async {
-    TimeOfDay? _initTime = endHourController.text.isNotEmpty
+    TimeOfDay? initTime = endHourController.text.isNotEmpty
         ? Utils.fromHHmm(endHourController.text)
         : null;
-    TimeOfDay? _pickedTime = await chooseTime(initTime: _initTime);
-    if (_pickedTime != null) {
-      String timeFormat = Utils.formatHHmm(_pickedTime);
+    TimeOfDay? pickedTime = await chooseTime(initTime: initTime);
+    if (pickedTime != null) {
+      String timeFormat = Utils.formatHHmm(pickedTime);
       endHourController.text = timeFormat;
     }
   }
@@ -687,20 +687,20 @@ class JobPostFormController extends GetxController {
   //choose job end date
   void onChooseJobEndDate() async {
     DateTime now = DateTime.now();
-    DateTime _firstDate = jobStartDateController.text.isNotEmpty
+    DateTime firstDate = jobStartDateController.text.isNotEmpty
         ? Utils.fromddMMyyyy(jobStartDateController.text)
         : now;
-    DateTime? _initDate = !_firstDate.isAtSameMomentAs(now)
-        ? _firstDate
+    DateTime? initDate = !firstDate.isAtSameMomentAs(now)
+        ? firstDate
         : jobEndDateController.text.isNotEmpty
             ? Utils.fromddMMyyyy(jobEndDateController.text)
             : null;
-    DateTime? _pickedDate = await MyDatePicker.show(
-        firstDate: _firstDate,
-        initDate: _initDate,
+    DateTime? pickedDate = await MyDatePicker.show(
+        firstDate: firstDate,
+        initDate: initDate,
         lastDate: DateTime.now().add(const Duration(days: 365 * 10)));
-    if (_pickedDate != null) {
-      jobEndDateController.text = Utils.formatddMMyyyy(_pickedDate);
+    if (pickedDate != null) {
+      jobEndDateController.text = Utils.formatddMMyyyy(pickedDate);
     }
   }
 
@@ -715,19 +715,19 @@ class JobPostFormController extends GetxController {
       return;
     }
 
-    DateTime _firstDate = availablePinDates[0];
-    DateTime _initDate = upgradeDateController.text.isNotEmpty
+    DateTime firstDate = availablePinDates[0];
+    DateTime initDate = upgradeDateController.text.isNotEmpty
         ? Utils.fromddMMyyyy(upgradeDateController.text)
-        : _firstDate;
-    DateTime _lastDate = availablePinDates[availablePinDates.length - 1];
-    DateTime? _pickedDate = await MyDatePicker.show(
-      firstDate: _firstDate,
-      initDate: _initDate,
-      lastDate: _lastDate,
+        : firstDate;
+    DateTime lastDate = availablePinDates[availablePinDates.length - 1];
+    DateTime? pickedDate = await MyDatePicker.show(
+      firstDate: firstDate,
+      initDate: initDate,
+      lastDate: lastDate,
       selectableDayPredicate: (date) => availablePinDates.contains(date),
     );
-    if (_pickedDate != null) {
-      upgradeDateController.text = Utils.formatddMMyyyy(_pickedDate);
+    if (pickedDate != null) {
+      upgradeDateController.text = Utils.formatddMMyyyy(pickedDate);
       isNumOfUpgradeDateAvailable();
       await getMaxPinDay();
     }
@@ -737,20 +737,19 @@ class JobPostFormController extends GetxController {
   void onChoosePublishDate() async {
     DateTime now = DateTime.now();
 
-    //the publish date cannot be today if created time after 4 p.m. in the same date
-    // DateTime _firstDate = now.hour >= 16 && now.hour <= 23
-    //     ? now.add(const Duration(days: 1))
-    //     : now;
-    DateTime _firstDate = now;
-    DateTime? _initDate = publishDateController.text.isNotEmpty
+    // the publish date cannot be today if created time after 4 p.m. in the same date
+    DateTime firstDate = now.hour >= 16 && now.hour <= 23
+        ? now.add(const Duration(days: 1))
+        : now;
+    DateTime? initDate = publishDateController.text.isNotEmpty
         ? Utils.fromddMMyyyy(publishDateController.text)
-        : _firstDate;
-    DateTime? _pickedDate = await MyDatePicker.show(
-        initDate: _initDate,
-        firstDate: _firstDate,
+        : firstDate;
+    DateTime? pickedDate = await MyDatePicker.show(
+        initDate: initDate,
+        firstDate: firstDate,
         lastDate: DateTime.now().add(const Duration(days: 365 * 10)));
-    if (_pickedDate != null) {
-      publishDateController.text = Utils.formatddMMyyyy(_pickedDate);
+    if (pickedDate != null) {
+      publishDateController.text = Utils.formatddMMyyyy(pickedDate);
     }
   }
 
