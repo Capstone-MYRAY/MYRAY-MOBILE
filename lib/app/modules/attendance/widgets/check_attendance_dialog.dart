@@ -7,11 +7,15 @@ import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
 import 'package:myray_mobile/app/shared/utils/utils.dart';
 import 'package:myray_mobile/app/shared/widgets/buttons/filled_button.dart';
 import 'package:myray_mobile/app/shared/widgets/cards/card_field.dart';
+import 'package:myray_mobile/app/shared/widgets/dialogs/information_dialog.dart';
 import 'package:signature/signature.dart';
 
 class CheckAttendanceDialog {
   static Future<bool?> show(
-      double salary, SignatureController controller) async {
+    double salary,
+    SignatureController controller,
+    void Function() onSubmit,
+  ) async {
     return await Get.dialog(
       Stack(
         children: [
@@ -93,7 +97,16 @@ class CheckAttendanceDialog {
                 const SizedBox(height: 16.0),
                 FilledButton(
                   title: 'Điểm danh',
-                  onPressed: () => Get.back(result: true),
+                  onPressed: () {
+                    if (controller.isEmpty) {
+                      InformationDialog.showDialog(
+                        msg: 'Vui lòng ký xác nhận trước.',
+                        confirmTitle: AppStrings.titleClose,
+                      );
+                      return;
+                    }
+                    onSubmit();
+                  },
                 ),
               ],
             ),

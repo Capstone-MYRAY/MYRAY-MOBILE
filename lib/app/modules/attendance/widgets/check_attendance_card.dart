@@ -15,17 +15,23 @@ class CheckAttendanceCard extends StatelessWidget {
   final String? statusName;
   final bool isControlDisplayed;
   final String? reason;
+  final Color? statusBackground;
   final void Function() onPresent;
+  final void Function() onFinish;
+  final void Function() onAbsent;
 
   const CheckAttendanceCard({
     Key? key,
     required this.fullName,
     required this.phone,
     required this.onPresent,
+    required this.onFinish,
+    required this.onAbsent,
     this.avatar,
     this.statusName,
     this.isControlDisplayed = false,
     this.reason,
+    this.statusBackground,
   }) : super(key: key);
 
   @override
@@ -82,14 +88,12 @@ class CheckAttendanceCard extends StatelessWidget {
                   children: [
                     FilledButton(
                       title: 'Vắng mặt',
-                      onPressed: () {},
+                      onPressed: onAbsent,
                       color: AppColors.errorColor,
                     ),
                     FilledButton(
                       title: 'Có mặt',
-                      onPressed: () {
-                        onPresent();
-                      },
+                      onPressed: onPresent,
                     ),
                     FilledButton(
                       title: 'Kết thúc',
@@ -98,7 +102,7 @@ class CheckAttendanceCard extends StatelessWidget {
                     ),
                     FilledButton(
                       title: 'Hoàn thành',
-                      onPressed: () {},
+                      onPressed: onFinish,
                     ),
                   ],
                 ),
@@ -112,7 +116,10 @@ class CheckAttendanceCard extends StatelessWidget {
             if (!isControlDisplayed)
               Container(
                 margin: const EdgeInsets.symmetric(vertical: 8.0),
-                child: StatusChip(statusName: statusName ?? ''),
+                child: StatusChip(
+                  statusName: statusName ?? '',
+                  backgroundColor: statusBackground,
+                ),
               ),
           ],
         ),
