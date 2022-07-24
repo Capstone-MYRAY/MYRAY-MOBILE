@@ -67,8 +67,8 @@ class LandownerJobPostDetailsController extends GetxController {
 
   Future<bool?> getPaymentHistory() async {
     paymentHistories.clear();
-    final int _accountId = AuthCredentials.instance.user!.id!;
-    final _data = GetPaymentHistoryRequest(
+    final int accountId = AuthCredentials.instance.user!.id!;
+    final data = GetPaymentHistoryRequest(
       page: 1.toString(),
       pageSize: 10.toString(),
       jobPostId: jobPost.value.id.toString(),
@@ -76,13 +76,12 @@ class LandownerJobPostDetailsController extends GetxController {
       orderBy: SortOrder.descending,
     );
 
-    final _response =
-        await _paymentHistoryRepository.getList(_accountId, _data);
-    if (_response == null || _response.paymentHistories!.isEmpty) {
+    final response = await _paymentHistoryRepository.getList(accountId, data);
+    if (response == null || response.paymentHistories!.isEmpty) {
       return null;
     }
 
-    paymentHistories.addAll(_response.paymentHistories!);
+    paymentHistories.addAll(response.paymentHistories!);
     return true;
   }
 
@@ -90,12 +89,12 @@ class LandownerJobPostDetailsController extends GetxController {
     CustomDialog.show(
         message: AppMsg.MSG4007,
         confirm: () async {
-          final _success = await _jobPostRepository.deleteJob(jobPost.value.id);
+          final success = await _jobPostRepository.deleteJob(jobPost.value.id);
 
           //close dialog
           Get.back();
 
-          if (!_success) {
+          if (!success) {
             CustomSnackbar.show(
               title: AppStrings.titleError,
               message: 'Có lỗi xảy ra',
@@ -124,12 +123,12 @@ class LandownerJobPostDetailsController extends GetxController {
     CustomDialog.show(
         message: AppMsg.MSG4009,
         confirm: () async {
-          final _success = await _jobPostRepository.cancelJob(jobPost.value.id);
+          final success = await _jobPostRepository.cancelJob(jobPost.value.id);
 
           //close dialog
           Get.back();
 
-          if (!_success) {
+          if (!success) {
             CustomSnackbar.show(
               title: AppStrings.titleError,
               message: 'Có lỗi xảy ra',
@@ -152,6 +151,38 @@ class LandownerJobPostDetailsController extends GetxController {
             message: AppMsg.MSG4010,
           );
         });
+  }
+
+  updateJobEndDate() {}
+
+  repostJobPost() {
+    DateTime now = DateTime.now();
+    DateTime publishDate = now.hour >= 16 && now.hour <= 23
+        ? now.add(const Duration(days: 1))
+        : now;
+    final cloneJobPost = JobPost(
+      id: 0,
+      gardenId: jobPost.value.gardenId,
+      title: jobPost.value.title,
+      type: jobPost.value.type,
+      jobStartDate: publishDate.add(const Duration(days: 1)),
+      numOfPublishDay: 3,
+      publishedBy: jobPost.value.publishedBy,
+      publishedDate: publishDate,
+      createdDate: jobPost.value.createdDate,
+      status: jobPost.value.status,
+      treeJobs: jobPost.value.treeJobs,
+      address: jobPost.value.address,
+      description: jobPost.value.description,
+      payPerHourJob: jobPost.value.payPerHourJob,
+      payPerTaskJob: jobPost.value.payPerTaskJob,
+    );
+
+    Get.toNamed(Routes.jobPostForm, arguments: {
+      Arguments.action: Activities.create,
+      Arguments.item: cloneJobPost,
+      Arguments.tag: Get.arguments[Arguments.tag],
+    });
   }
 
   Future<void> onRefresh() async {}

@@ -80,7 +80,7 @@ class ToggleContentPostInfo extends StatelessWidget {
   }
 
   List<Widget> _buildApprovedBy() {
-    bool isRejected = rejectedReason == null;
+    bool isRejected = rejectedReason != null;
     return [
       const SizedBox(height: 8.0),
       CardField(

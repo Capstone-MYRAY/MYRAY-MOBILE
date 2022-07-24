@@ -7,21 +7,22 @@ class BaseDialog {
 
   static Future<dynamic> show(Widget child,
       {EdgeInsetsGeometry? margin, EdgeInsetsGeometry? padding}) async {
+    margin ??= EdgeInsets.symmetric(
+      horizontal: Get.width * 0.1,
+      vertical: Get.height * 0.1,
+    );
+    padding ??= const EdgeInsets.symmetric(
+      vertical: 16.0,
+      horizontal: 40.0,
+    );
+
     return Get.dialog(
       Stack(
         children: [
           Container(
             alignment: Alignment.center,
-            padding: padding ??
-                const EdgeInsets.symmetric(
-                  vertical: 16.0,
-                  horizontal: 40.0,
-                ),
-            margin: margin ??
-                EdgeInsets.symmetric(
-                  horizontal: Get.width * 0.1,
-                  vertical: Get.height * 0.1,
-                ),
+            padding: padding,
+            margin: margin,
             decoration: BoxDecoration(
               color: AppColors.white,
               borderRadius: BorderRadius.circular(CommonConstants.borderRadius),
@@ -29,8 +30,8 @@ class BaseDialog {
             child: child,
           ),
           Positioned(
-            top: Get.height * 0.1 + 16,
-            right: Get.width * 0.1 + 16,
+            top: (margin.vertical + padding.vertical) / 2,
+            right: (margin.horizontal / 2 + padding.horizontal) / 2,
             child: GestureDetector(
               onTap: () => Get.back(),
               child: const Icon(Icons.clear),
