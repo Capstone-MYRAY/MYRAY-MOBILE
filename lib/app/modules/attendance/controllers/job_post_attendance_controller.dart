@@ -36,7 +36,7 @@ class JobPostAttendanceController extends GetxController {
 
   String get jobTitle => _jobPost.title;
 
-  RxList<GetAttendanceByDateResponse> selectedAttendances = RxList([]);
+  List<GetAttendanceByDateResponse> selectedAttendances = [];
 
   @override
   void onInit() {
@@ -63,7 +63,7 @@ class JobPostAttendanceController extends GetxController {
         await _getAttendancesByDate();
       }
 
-      selectedAttendances.value = attendances[selectedDate.value];
+      selectedAttendances = attendances[selectedDate.value];
     } catch (e) {
       print('Attendance error: ${e.toString()}');
     }

@@ -40,6 +40,8 @@ class LandownerJobPostDetailsView
 
   bool get _isApproved => jobPost.status == JobPostStatus.approved.index;
 
+  bool get _isRepost => jobPost.status == JobPostStatus.expired.index;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -135,6 +137,17 @@ class LandownerJobPostDetailsView
           ),
         ];
         widgets.addAll(buttons);
+      }
+
+      if (_isRepost) {
+        final button = FractionallySizedBox(
+          widthFactor: 0.8,
+          child: FilledButton(
+            title: AppStrings.titleRepost,
+            onPressed: () {},
+          ),
+        );
+        widgets.add(button);
       }
     }
 
