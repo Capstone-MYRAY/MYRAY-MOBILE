@@ -1,6 +1,5 @@
 import 'package:get/get.dart';
-import 'package:myray_mobile/app/data/models/attendance/get_attendance_by_date_request.dart';
-import 'package:myray_mobile/app/data/models/attendance/get_attendance_by_date_response.dart';
+import 'package:myray_mobile/app/data/models/attendance/attendance_models.dart';
 import 'package:myray_mobile/app/data/providers/api/api_provider.dart';
 
 class AttendanceRepository {
@@ -18,6 +17,15 @@ class AttendanceRepository {
           .toList();
     }
 
+    return null;
+  }
+
+  Future<Attendance?> checkAttendance(CheckAttendanceRequest data) async {
+    final response = await _apiProvider.postMethod(_url, data.toJson());
+    print(response.bodyString);
+    if (response.isOk) {
+      return Attendance.fromJson(response.body);
+    }
     return null;
   }
 }

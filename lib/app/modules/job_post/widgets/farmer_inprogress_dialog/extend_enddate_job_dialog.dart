@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:json_annotation/json_annotation.dart';
 import 'package:myray_mobile/app/data/models/extend_end_date_job/extend_end_date_job.dart';
 import 'package:myray_mobile/app/shared/constants/app_colors.dart';
 import 'package:myray_mobile/app/shared/constants/app_strings.dart';
@@ -10,7 +9,6 @@ import 'package:myray_mobile/app/shared/widgets/controls/input_field.dart';
 import 'package:myray_mobile/app/shared/widgets/dialogs/custom_form_dialog.dart';
 import 'package:myray_mobile/app/shared/widgets/dialogs/information_dialog.dart';
 
-@JsonSerializable(includeIfNull: false)
 class ExtendEndDateJobDialog {
   ExtendEndDateJobDialog._();
 

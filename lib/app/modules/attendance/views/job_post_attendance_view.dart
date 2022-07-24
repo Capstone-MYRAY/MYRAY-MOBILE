@@ -45,7 +45,7 @@ class JobPostAttendanceView extends GetView<JobPostAttendanceController> {
                 itemBuilder: (_, index) {
                   final item = controller.selectedAttendances[index];
                   return GetBuilder<JobPostAttendanceController>(
-                    id: item.farmer.id,
+                    id: 'CA-${item.farmer.id}',
                     builder: (_) => CheckAttendanceCard(
                       key: ValueKey(
                         '${controller.selectedDate.toString()}-${item.farmer.id}',
@@ -54,8 +54,15 @@ class JobPostAttendanceView extends GetView<JobPostAttendanceController> {
                       phone: item.farmer.phoneNumber ?? '',
                       avatar: item.farmer.imageUrl,
                       isControlDisplayed: item.attendance.isEmpty,
-                      onPresent: () => controller.onPresent(item.farmer.id!,
-                          item.id, controller.selectedDate.value),
+                      statusName: item.attendance.isNotEmpty
+                          ? item.attendance.first.statusString
+                          : null,
+                      statusBackground: item.attendance.isNotEmpty
+                          ? item.attendance.first.statusColor
+                          : null,
+                      onPresent: () => controller.onPresent(item.farmer),
+                      onFinish: () => controller.onFinish(item.farmer),
+                      onAbsent: () => controller.onAbsent(item.farmer),
                     ),
                   );
                 },
