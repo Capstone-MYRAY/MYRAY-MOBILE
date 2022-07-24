@@ -43,6 +43,7 @@ const _$AppliedFarmerStatusEnumMap = {
   AppliedFarmerStatus.approved: 'Approve',
   AppliedFarmerStatus.rejected: 'Reject',
   AppliedFarmerStatus.end: 'End',
+  AppliedFarmerStatus.fired: 'Fired',
 };
 
 const _$AppliedFarmerSortColumnEnumMap = {

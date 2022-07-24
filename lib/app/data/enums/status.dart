@@ -42,6 +42,8 @@ enum AppliedFarmerStatus {
   rejected,
   @JsonValue('End')
   end,
+  @JsonValue('Fired')
+  fired,
 }
 
 enum AttendanceStatus {

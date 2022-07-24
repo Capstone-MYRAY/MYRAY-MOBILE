@@ -14,12 +14,14 @@ GetAttendanceByDateResponse _$GetAttendanceByDateResponseFromJson(
       attendance: (json['attendances'] as List<dynamic>)
           .map((e) => Attendance.fromJson(e as Map<String, dynamic>))
           .toList(),
+      appliedFarmerStatus: json['status'] as int,
     );
 
 Map<String, dynamic> _$GetAttendanceByDateResponseToJson(
         GetAttendanceByDateResponse instance) =>
     <String, dynamic>{
       'job_post_id': instance.id,
+      'status': instance.appliedFarmerStatus,
       'account': instance.farmer.toJson(),
       'attendances': instance.attendance.map((e) => e.toJson()).toList(),
     };

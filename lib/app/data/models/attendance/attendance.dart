@@ -46,8 +46,8 @@ class Attendance {
     this.signature,
   });
 
-  String? get statusString => _statusString[status];
-  Color? get statusColor => _statusColor[status];
+  String get statusString => _statusString[status] ?? AppStrings.noAttendance;
+  Color get statusColor => _statusColor[status] ?? AppColors.grey;
 
   factory Attendance.fromJson(Map<String, dynamic> json) =>
       _$AttendanceFromJson(json);

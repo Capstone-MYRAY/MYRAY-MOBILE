@@ -17,6 +17,7 @@ class CheckAttendanceDialog {
   ) async {
     return await BaseDialog.show(
       Column(
+        mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Align(
@@ -48,7 +49,8 @@ class CheckAttendanceDialog {
             style: Get.textTheme.headline6,
           ),
           const SizedBox(height: 8.0),
-          Expanded(
+          Flexible(
+            fit: FlexFit.loose,
             child: Container(
               constraints: BoxConstraints(
                 maxWidth: Get.width * 0.9 - 40,
@@ -95,6 +97,7 @@ class CheckAttendanceDialog {
           ),
         ],
       ),
+      isFit: false,
     );
   }
 }

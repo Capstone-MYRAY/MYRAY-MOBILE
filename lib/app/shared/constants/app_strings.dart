@@ -221,6 +221,7 @@ class AppStrings {
   static const end = 'Hoàn thành';
   static const dayOff = 'Xin nghỉ';
   static const fired = 'Sa thải';
+  static const noAttendance = 'Chưa điểm danh';
 
   //Replaced String
   static const nullFullName = "Người dùng";

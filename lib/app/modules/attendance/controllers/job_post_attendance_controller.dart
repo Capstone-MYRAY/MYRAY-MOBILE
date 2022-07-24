@@ -10,6 +10,7 @@ import 'package:myray_mobile/app/data/models/attendance/attendance_models.dart';
 import 'package:myray_mobile/app/data/services/services.dart';
 import 'package:myray_mobile/app/modules/attendance/attendance_repository.dart';
 import 'package:myray_mobile/app/modules/attendance/widgets/check_attendance_dialog.dart';
+import 'package:myray_mobile/app/modules/attendance/widgets/fired_confirm_dialog.dart';
 import 'package:myray_mobile/app/shared/utils/datetime_extension.dart';
 import 'package:myray_mobile/app/data/models/job_post/job_post.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
@@ -31,7 +32,7 @@ class JobPostAttendanceController extends GetxController {
   );
   final JobPost _jobPost = Get.arguments[Arguments.item];
   late DateTime startDate;
-  late DateTime endDate;
+  late DateTime? endDate;
   var selectedDate = DateTime(1900).obs;
 
   String get jobTitle => _jobPost.title;
@@ -41,20 +42,22 @@ class JobPostAttendanceController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    startDate = _jobPost.jobStartDate;
+    DateTime now = DateUtils.dateOnly(DateTime.now());
+    startDate = _jobPost.jobStartDate.toLocal();
+    endDate = _jobPost.jobEndDate?.toLocal();
 
-    if (_jobPost.jobEndDate == null) {
-      endDate = DateUtils.dateOnly(DateTime.now()).add(const Duration(days: 7));
-      selectedDate.value = DateUtils.dateOnly(DateTime.now());
+    endDate ??= now.add(const Duration(days: 7));
+
+    if (now.isDateInRange(startDate, endDate!)) {
+      selectedDate.value = now;
     } else {
-      endDate = _jobPost.jobEndDate!;
-      if (DateUtils.dateOnly(DateTime.now())
-          .isDateInRange(startDate, endDate)) {
-        selectedDate.value = DateUtils.dateOnly(DateTime.now());
-      } else {
-        selectedDate.value = startDate;
-      }
+      selectedDate.value = startDate;
     }
+
+    print('Start: ${startDate.toIso8601String()}');
+    print('Now: ${now.toIso8601String()}');
+    print('Focused: ${selectedDate.value.toIso8601String()}');
+    print('End: ${endDate?.toIso8601String()}');
   }
 
   Future<void> loadAttendancesByDate() async {
@@ -83,18 +86,57 @@ class JobPostAttendanceController extends GetxController {
 
   void onDaySelected(DateTime selectedDay, DateTime focusedDay) {
     //rangeSelectionMode is disabled => selectedDay is focusedDay
-    //table_calendar use utc => do not have to convert data receive from sever
-    selectedDate.value = selectedDay;
+    //table_calendar use utc
+    selectedDate.value = DateUtils.dateOnly(selectedDay.toUtc());
     update(['Attendances']);
   }
 
-  void _updateAttendanceList(
-      Account farmer, DateTime date, Attendance attendance) {
+  void _updateAttendanceList(Account farmer, DateTime date,
+      Attendance attendance, AttendanceStatus status) {
     final item =
         selectedAttendances.firstWhere((e) => e.farmer.id == farmer.id);
     item.attendance.add(attendance);
     attendances.update(date, (value) => selectedAttendances);
+    if (status == AttendanceStatus.end || status == AttendanceStatus.fired) {
+      attendances.removeWhere(
+          (key, value) => !key.isAtSameMomentAs(selectedDate.value));
+    }
     update(['CA-${item.farmer.id}']);
+  }
+
+  onFired(Account farmer) {
+    FiredConfirmDialog.show((reason) => _onFired(farmer, reason));
+  }
+
+  _onFired(Account farmer, String? reason) async {
+    EasyLoading.show();
+
+    try {
+      final data = CheckAttendanceRequest(
+        jobPostId: _jobPost.id.toString(),
+        dateTime: selectedDate.value,
+        accountId: farmer.id.toString(),
+        status: AttendanceStatus.fired,
+        reason: reason,
+      );
+
+      print(data.toJson());
+
+      final result = await _attendanceRepository.checkAttendance(data);
+      if (result == null) throw Exception('Có lỗi xảy ra');
+      _updateAttendanceList(
+          farmer, selectedDate.value, result, AttendanceStatus.fired);
+      EasyLoading.dismiss();
+      Get.back(); //close dialog
+    } catch (e) {
+      EasyLoading.dismiss();
+      CustomSnackbar.show(
+        title: AppStrings.titleError,
+        message: 'Có lỗi xảy ra',
+        backgroundColor: AppColors.errorColor,
+      );
+      print('_onFired: ${e.toString()}');
+    }
   }
 
   onAbsent(Account farmer) async {
@@ -109,7 +151,8 @@ class JobPostAttendanceController extends GetxController {
 
       final result = await _attendanceRepository.checkAttendance(data);
       if (result == null) throw Exception('Có lỗi xảy ra');
-      _updateAttendanceList(farmer, selectedDate.value, result);
+      _updateAttendanceList(
+          farmer, selectedDate.value, result, AttendanceStatus.absent);
       EasyLoading.dismiss();
     } catch (e) {
       EasyLoading.dismiss();
@@ -164,7 +207,8 @@ class JobPostAttendanceController extends GetxController {
 
       final result = await _attendanceRepository.checkAttendance(data);
       if (result == null) throw Exception('Có lỗi xảy ra');
-      _updateAttendanceList(farmer, selectedDate.value, result);
+      _updateAttendanceList(farmer, selectedDate.value, result,
+          isOnFinish ? AttendanceStatus.end : AttendanceStatus.present);
       signatureController.clear();
       EasyLoading.dismiss();
       Get.back(); //close dialog
