@@ -120,19 +120,6 @@ class LandownerJobPostDetailsView
         widgets.addAll(buttons);
       }
 
-      if (_isStartJob) {
-        final buttons = [
-          FractionallySizedBox(
-            widthFactor: 0.8,
-            child: FilledButton(
-              title: AppStrings.titleUpdateJobEndDate,
-              onPressed: controller.updateJobEndDate,
-            ),
-          ),
-        ];
-        widgets.addAll(buttons);
-      }
-
       if (_isPosted) {
         final buttons = [
           const SizedBox(height: 8.0),

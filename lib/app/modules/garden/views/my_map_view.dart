@@ -148,7 +148,7 @@ class _MyMapViewState extends State<MyMapView> {
       //get place by id
       final placeDetails = await _goongService.getPlaceDetails(placeId);
       _selectedAddress = placeDetails.address;
-      _addSymbol(AppAssets.marker, placeDetails.location);
+      await _addSymbol(AppAssets.marker, placeDetails.location);
       //move camera to selected location
       _controller?.animateCamera(CameraUpdate.newLatLng(_selectedLocation!));
 
