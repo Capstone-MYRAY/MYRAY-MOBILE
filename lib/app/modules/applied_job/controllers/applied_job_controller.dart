@@ -62,6 +62,10 @@ class AppliedJobController extends GetxController
     if (Utils.isEmpty(value)) {
       return 'Vui lòng nhập lý do';
     }
+
+    if (!Utils.limitString.hasMatch(value!)) {
+      return 'Bạn đã nhập quá 1000 từ';
+    }
     return null;
   }
 

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:myray_mobile/app/data/models/attendance/attendance.dart';
 import 'package:myray_mobile/app/data/models/attendance/farmer_post_attendance_request.dart';
 import 'package:myray_mobile/app/data/models/attendance/get_attendance_by_date_request.dart';
 import 'package:myray_mobile/app/data/models/attendance/get_attendance_by_date_response.dart';
@@ -80,6 +81,10 @@ class InprogressJobDetailController extends GetxController {
     if (Utils.isEmpty(value)) {
       return 'Vui lòng nhập lý do';
     }
+    if (!Utils.limitString.hasMatch(value!)) {
+      return 'Bạn đã nhập quá 1000 từ';
+    }
+
     return null;
   }
 
@@ -345,10 +350,10 @@ class InprogressJobDetailController extends GetxController {
         belongedId: feedBack.belongedId,
       );
       EasyLoading.show();
+      onCloseFeedBackDialog(); //khi show ra nếu ko đóng key board sẽ bị stack overflow
       try {
         FeedBack? newFeedBack = await feedBackController.updateFeedback(data);
         Future.delayed(const Duration(milliseconds: 1200), () {
-          onCloseFeedBackDialog();
           EasyLoading.dismiss();
           if (newFeedBack != null) {
             FeedBackUpdateDialog.show(
@@ -444,7 +449,8 @@ class InprogressJobDetailController extends GetxController {
         //when checked attendance
         if (attendance != null && attendance[0].attendance.isNotEmpty) {
           //add attendance parameter.
-          FarmerAttendanceDetailDialog.show(context);
+          Attendance data = attendance[0].attendance[0];
+          FarmerAttendanceDetailDialog.show(context, data, jobpost.title);
           return;
         }
 
