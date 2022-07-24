@@ -19,6 +19,7 @@ class CheckAttendanceCard extends StatelessWidget {
   final void Function() onPresent;
   final void Function() onFinish;
   final void Function() onAbsent;
+  final void Function() onFired;
 
   const CheckAttendanceCard({
     Key? key,
@@ -27,6 +28,7 @@ class CheckAttendanceCard extends StatelessWidget {
     required this.onPresent,
     required this.onFinish,
     required this.onAbsent,
+    required this.onFired,
     this.avatar,
     this.statusName,
     this.isControlDisplayed = false,
@@ -83,7 +85,7 @@ class CheckAttendanceCard extends StatelessWidget {
                   shrinkWrap: true,
                   crossAxisSpacing: 16.0,
                   mainAxisSpacing: 16.0,
-                  childAspectRatio: 10 / 3,
+                  childAspectRatio: 11 / 4,
                   physics: const NeverScrollableScrollPhysics(),
                   children: [
                     FilledButton(
@@ -96,8 +98,8 @@ class CheckAttendanceCard extends StatelessWidget {
                       onPressed: onPresent,
                     ),
                     FilledButton(
-                      title: 'Kết thúc',
-                      onPressed: () {},
+                      title: 'Sa thải',
+                      onPressed: onFired,
                       color: AppColors.errorColor,
                     ),
                     FilledButton(
