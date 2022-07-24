@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:myray_mobile/app/data/enums/status.dart';
 import 'package:myray_mobile/app/modules/attendance/controllers/job_post_attendance_controller.dart';
 import 'package:myray_mobile/app/modules/attendance/widgets/check_attendance_card.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
@@ -44,27 +45,42 @@ class JobPostAttendanceView extends GetView<JobPostAttendanceController> {
                 itemCount: controller.selectedAttendances.length,
                 itemBuilder: (_, index) {
                   final item = controller.selectedAttendances[index];
+                  final now = DateUtils.dateOnly(DateTime.now());
                   return GetBuilder<JobPostAttendanceController>(
-                    id: 'CA-${item.farmer.id}',
-                    builder: (_) => CheckAttendanceCard(
-                      key: ValueKey(
-                        '${controller.selectedDate.toString()}-${item.farmer.id}',
-                      ),
-                      fullName: item.farmer.fullName ?? '',
-                      phone: item.farmer.phoneNumber ?? '',
-                      avatar: item.farmer.imageUrl,
-                      isControlDisplayed: item.attendance.isEmpty,
-                      statusName: item.attendance.isNotEmpty
-                          ? item.attendance.first.statusString
-                          : null,
-                      statusBackground: item.attendance.isNotEmpty
-                          ? item.attendance.first.statusColor
-                          : null,
-                      onPresent: () => controller.onPresent(item.farmer),
-                      onFinish: () => controller.onFinish(item.farmer),
-                      onAbsent: () => controller.onAbsent(item.farmer),
-                    ),
-                  );
+                      id: 'CA-${item.farmer.id}',
+                      builder: (_) {
+                        bool isNotDisplay = item.attendance.isEmpty &&
+                            controller.selectedDate.value.isAfter(now) &&
+                            (item.appliedFarmerStatus ==
+                                    AppliedFarmerStatus.fired.index ||
+                                item.appliedFarmerStatus ==
+                                    AppliedFarmerStatus.end.index);
+                        if (isNotDisplay) {
+                          return const SizedBox();
+                        }
+
+                        bool isControlDisplayed = item.attendance.isEmpty &&
+                            !controller.selectedDate.value.isAfter(now);
+
+                        return CheckAttendanceCard(
+                          key: ValueKey(
+                            '${controller.selectedDate.toString()}-${item.farmer.id}',
+                          ),
+                          fullName: item.farmer.fullName ?? '',
+                          phone: item.farmer.phoneNumber ?? '',
+                          avatar: item.farmer.imageUrl,
+                          isControlDisplayed: isControlDisplayed,
+                          statusName: item.attendance.isNotEmpty
+                              ? item.attendance.first.statusString
+                              : AppStrings.noAttendance,
+                          statusBackground: item.attendance.isNotEmpty
+                              ? item.attendance.first.statusColor
+                              : AppColors.grey,
+                          onPresent: () => controller.onPresent(item.farmer),
+                          onFinish: () => controller.onFinish(item.farmer),
+                          onAbsent: () => controller.onAbsent(item.farmer),
+                        );
+                      });
                 },
               ),
             );
