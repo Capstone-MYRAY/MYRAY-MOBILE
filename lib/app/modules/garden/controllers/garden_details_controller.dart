@@ -29,8 +29,8 @@ class GardenDetailsController extends GetxController with GardenService {
   }
 
   onDeleteGarden() async {
-    final _gardenController = Get.find<GardenHomeController>();
-    bool? success = await deleteGarden(garden.value, _gardenController.gardens);
+    final gardenController = Get.find<GardenHomeController>();
+    bool? success = await deleteGarden(garden.value, gardenController.gardens);
     if (success != null && success) {
       Get.back();
 

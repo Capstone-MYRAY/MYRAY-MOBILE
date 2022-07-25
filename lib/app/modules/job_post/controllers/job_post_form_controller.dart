@@ -209,7 +209,8 @@ class JobPostFormController extends GetxController {
     //check balance
     if (_totalFee.value > _userBalance) {
       InformationDialog.showDialog(
-        msg: 'Bạn không đủ tiền trong tài khoản.',
+        msg:
+            'Tiền trong tài khoản còn ${Utils.vietnameseCurrencyFormat.format(_userBalance)} không đủ thực hiện giao dịch.',
         confirmTitle: AppStrings.titleClose,
       );
       return;
@@ -332,13 +333,18 @@ class JobPostFormController extends GetxController {
       final jobPostController = Get.find<LandownerJobPostController>();
       final jobPosts = jobPostController.jobPosts;
       int index = jobPosts.indexWhere((job) => job.id == updatedJobPost.id);
-      jobPosts[index] = updatedJobPost;
+      if (index >= 0) {
+        jobPosts[index] = updatedJobPost;
+      }
 
       //update payment history
       await detailsController.getPaymentHistory();
 
       //refresh balance
       await _profile.calBalance();
+
+      //update UI
+      detailsController.updateDetails();
 
       Get.back();
 
@@ -462,18 +468,18 @@ class JobPostFormController extends GetxController {
   }
 
   getFeeConfig() async {
-    final _result = await _feeDataService.getFeeConfig();
-    if (_result != null) {
-      _feeConfig.value = _result;
+    final result = await _feeDataService.getFeeConfig();
+    if (result != null) {
+      _feeConfig.value = result;
       update();
     }
   }
 
   getGardens() async {
-    final int _accountId = AuthCredentials.instance.user!.id!;
+    final int accountId = AuthCredentials.instance.user!.id!;
 
     GetGardenRequest data = GetGardenRequest(
-      accountId: _accountId.toString(),
+      accountId: accountId.toString(),
       page: GardenStatus.active.index.toString(),
       pageSize: 100.toString(),
       sortColumn: GardenSortColumn.createdDate,
@@ -686,15 +692,13 @@ class JobPostFormController extends GetxController {
 
   //choose job end date
   void onChooseJobEndDate() async {
-    DateTime now = DateTime.now();
+    DateTime now = DateUtils.dateOnly(DateTime.now());
     DateTime firstDate = jobStartDateController.text.isNotEmpty
         ? Utils.fromddMMyyyy(jobStartDateController.text)
         : now;
-    DateTime? initDate = !firstDate.isAtSameMomentAs(now)
-        ? firstDate
-        : jobEndDateController.text.isNotEmpty
-            ? Utils.fromddMMyyyy(jobEndDateController.text)
-            : null;
+    DateTime? initDate = jobEndDateController.text.isNotEmpty
+        ? Utils.fromddMMyyyy(jobEndDateController.text)
+        : firstDate;
     DateTime? pickedDate = await MyDatePicker.show(
         firstDate: firstDate,
         initDate: initDate,

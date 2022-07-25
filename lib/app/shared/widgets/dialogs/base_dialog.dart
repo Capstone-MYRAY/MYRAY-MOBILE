@@ -5,10 +5,10 @@ import 'package:myray_mobile/app/shared/constants/constants.dart';
 class BaseDialog {
   BaseDialog._();
 
-  static Future<dynamic> show(
-    Widget child, {
-    EdgeInsetsGeometry? margin,
-    EdgeInsetsGeometry? padding,
+  static Future<dynamic> show({
+    required Widget child,
+    EdgeInsets? margin,
+    EdgeInsets? padding,
     isFit = true,
   }) async {
     margin ??= EdgeInsets.symmetric(
@@ -52,8 +52,8 @@ class BaseDialog {
                   child: child,
                 ),
           Positioned(
-            top: (margin.vertical + padding.vertical) / 2,
-            right: (margin.horizontal / 2 + padding.horizontal) / 2,
+            top: margin.top + padding.top,
+            right: (margin.right + padding.right) / 1.5,
             child: GestureDetector(
               onTap: () => Get.back(),
               child: const Icon(Icons.clear),

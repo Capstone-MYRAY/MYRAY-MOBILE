@@ -20,7 +20,12 @@ class FiredConfirmDialog {
     final reasonController = TextEditingController();
 
     return await BaseDialog.show(
-      StatefulBuilder(
+      margin: EdgeInsets.only(
+        top: Get.height * 0.3,
+        left: Get.width * 0.1,
+        right: Get.width * 0.1,
+      ),
+      child: StatefulBuilder(
         builder: (BuildContext ctx, StateSetter setState) {
           return Column(
             children: [
@@ -39,6 +44,7 @@ class FiredConfirmDialog {
                 child: Column(
                   children: [
                     DropdownButtonFormField<String>(
+                      key: UniqueKey(),
                       items: _firedReasons
                           .map(
                             (e) => DropdownMenuItem(
@@ -65,6 +71,7 @@ class FiredConfirmDialog {
                     ),
                     if (Utils.equalsUtf8String(selectedReason ?? '', 'Khác'))
                       TextFormField(
+                        key: UniqueKey(),
                         controller: reasonController,
                         decoration: const InputDecoration(
                           labelText: 'Lý do sa thải',
@@ -98,8 +105,6 @@ class FiredConfirmDialog {
           );
         },
       ),
-      margin: EdgeInsets.symmetric(
-          horizontal: Get.width * 0.1, vertical: Get.height * 0.2),
     );
   }
 }

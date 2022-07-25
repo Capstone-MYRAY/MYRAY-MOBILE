@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/status/http_status.dart';
 import 'package:myray_mobile/app/data/models/job_post/check_pin_date_request.dart';
+import 'package:myray_mobile/app/data/models/job_post/extend_expired_date_request.dart';
 import 'package:myray_mobile/app/data/models/job_post/get_max_pin_day_request.dart';
 import 'package:myray_mobile/app/data/models/job_post/get_request_job_post_list.dart';
 import 'package:myray_mobile/app/data/models/job_post/job_post.dart';
@@ -127,9 +128,24 @@ class JobPostRepository {
     return false;
   }
 
+  Future<JobPost?> extendExpiredDate(ExtendExpiredDateRequest data) async {
+    final response = await _apiProvider.patchMethod(
+      '/jobpost/extendjob/${data.jobPostId}',
+      query: data.toJson(),
+    );
+
+    print(response.bodyString);
+
+    if (response.isOk) {
+      return JobPost.fromJson(response.body);
+    }
+
+    return null;
+  }
+
   Future<dynamic> applyJob(int data) async {
     final response = await _apiProvider
-        .patchMethod('$_url/apply/$data', data: {'jobPostId': data});
+        .patchMethod('$_url/apply/$data', body: {'jobPostId': data});
     print(response.request!.url);
     if (response.statusCode == HttpStatus.ok) {
       return true;
@@ -149,7 +165,5 @@ class JobPostRepository {
     final response = await _apiProvider.getMethod('$_url/checkappliedhourjob');
     print("applied hour job or not: ${response.body}");
     return response.body;
-    
   }
-
 }
