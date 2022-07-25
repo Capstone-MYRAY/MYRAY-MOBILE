@@ -14,7 +14,6 @@ class FarmerInprogressJobController extends GetxController {
   Rx<GetAppliedJobPostList>? inProgressJobList;
   RxList<AppliedJobResponse> inProgressJobPostList =
       RxList<AppliedJobResponse>();
-
   Rx<GetExtendEndDateJobList>? extendEndDateList;
   RxList<ExtendEndDateJob> listObject = RxList<ExtendEndDateJob>();
 
@@ -37,7 +36,6 @@ class FarmerInprogressJobController extends GetxController {
     try {
       if (_hasNextPage) {
         list = await _appliedRepository.getAppliedJobList(data);
-        // isRefresh(true);
         print(list == null);
         if (list == null) {
           isLoading.value = false;
@@ -47,7 +45,6 @@ class FarmerInprogressJobController extends GetxController {
         _hasNextPage = list.pagingMetadata!.hasNextPage;
       }
       isLoading.value = false;
-      // isRefresh(false);
       return true;
     } on CustomException catch (e) {
       print(e.message);

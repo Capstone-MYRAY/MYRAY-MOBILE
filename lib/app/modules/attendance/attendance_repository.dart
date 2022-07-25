@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
+import 'package:get/get_connect/http/src/status/http_status.dart';
 import 'package:myray_mobile/app/data/models/attendance/attendance_models.dart';
+import 'package:myray_mobile/app/data/models/attendance/attendance_response.dart';
 import 'package:myray_mobile/app/data/providers/api/api_provider.dart';
 
 class AttendanceRepository {
@@ -25,6 +27,16 @@ class AttendanceRepository {
     print(response.bodyString);
     if (response.isOk) {
       return Attendance.fromJson(response.body);
+    }
+    return null;
+  }
+
+  Future<List<AttendanceResponse>?> getAttendanceList(GetAttendanceRequest data) async {
+    final response = await _apiProvider.getMethod(_url, data:data.toJson());
+    if(response.statusCode == HttpStatus.ok){
+      final jsonList = response.body as List;
+      print('length of attendances: ${jsonList.length}');
+      return jsonList.map((json) => AttendanceResponse.fromJson(json)).toList();
     }
     return null;
   }

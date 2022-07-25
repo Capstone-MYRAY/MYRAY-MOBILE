@@ -7,7 +7,7 @@ import 'package:myray_mobile/app/shared/widgets/cards/feature_option.dart';
 
 class FarmerFeatureOptions extends StatelessWidget {
 
-  final void Function()? attendnace;
+  final void Function()? attendance;
   final void Function()? history;
   final void Function()? bookmark;
   final void Function()? password;
@@ -15,7 +15,7 @@ class FarmerFeatureOptions extends StatelessWidget {
 
   const FarmerFeatureOptions({
     Key? key,
-    this.attendnace,
+    this.attendance,
     this.history,
     this.bookmark,
     this.password,
@@ -35,7 +35,7 @@ class FarmerFeatureOptions extends StatelessWidget {
           icon: CustomIcons.calendar_check,
           title: AppStrings.titleCheckattendance,
           subtitle: AppStrings.subtitleCheckattendance,
-          onTap: () {},
+          onTap: attendance,
         ),
         FeatureOption(
           icon: CustomIcons.work_history_outline,

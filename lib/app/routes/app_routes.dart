@@ -35,6 +35,8 @@ abstract class Routes {
   static const farmerJobPostDetail = _Paths.farmerJobPostDetail;
   static const farmerBookmarkAccount = _Paths.farmerBookmarkAccount;
   static const farmerInprogressJobDetail = _Paths.farmerInprogressJobDetail;
+  static const farmerCheckAttendance = _Paths.farmerCheckAttendance;
+  static const farmerAttendanceWorkDay = _Paths.farmerAttendanceWorkDay;
 }
 
 abstract class _Paths {
@@ -73,4 +75,6 @@ abstract class _Paths {
   static const farmerJobPostDetail = '$_farmer/job_post_detail';
   static const farmerBookmarkAccount = '$_farmer/bookmark';
   static const farmerInprogressJobDetail = '$_farmer/inprogres_job_detail';
+  static const farmerCheckAttendance = '$_farmer/check_attendance';
+  static const farmerAttendanceWorkDay = '$_farmer/attendance_work_day';
 }

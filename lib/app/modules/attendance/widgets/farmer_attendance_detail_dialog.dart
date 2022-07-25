@@ -27,7 +27,7 @@ class FarmerAttendanceDetailDialog {
           child: SafeArea(
             child: Container(
               width: Get.width,
-              height: Get.height + Get.height * 0.2,
+              height: Get.height + Get.height * 0.05,
               padding: const EdgeInsets.all(20),
               color: AppColors.backgroundColor,
               child: Column(

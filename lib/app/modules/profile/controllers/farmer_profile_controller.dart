@@ -30,6 +30,9 @@ class FarmerProfileController extends GetxController{
   void navigateToBookmarkPage(){
     Get.toNamed(Routes.farmerBookmarkAccount);
   }
-
+ 
+  void navigateToAttendancePage(){
+    Get.toNamed(Routes.farmerCheckAttendance);
+  }
  
 }
