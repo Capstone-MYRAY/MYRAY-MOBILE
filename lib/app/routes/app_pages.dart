@@ -1,6 +1,9 @@
 import 'package:get/get.dart';
 import 'package:myray_mobile/app/modules/applied_farmer/bindings/applied_farmer_details_binding.dart';
 import 'package:myray_mobile/app/modules/applied_farmer/views/applied_farmer_details_view.dart';
+import 'package:myray_mobile/app/modules/attendance/bindings/farmer_attendance_binding.dart';
+import 'package:myray_mobile/app/modules/attendance/views/farmer_attendance/farmer_attendance_view.dart';
+import 'package:myray_mobile/app/modules/attendance/views/farmer_attendance/farmer_workday_view.dart';
 import 'package:myray_mobile/app/modules/auth/auth.dart';
 import 'package:myray_mobile/app/modules/auth/views/enter_password_view.dart';
 import 'package:myray_mobile/app/modules/bookmark/bindings/farmer_bookmark_binding.dart';
@@ -188,6 +191,18 @@ class AppPages {
       page: () => FarmerInProgressJobDetail(),
       transition: Transition.rightToLeftWithFade,
       binding: FarmerInprogressJobDetailBinding(),
+    ),
+    GetPage(
+      name: _Paths.farmerCheckAttendance,
+      page: () => const FarmerAttendanceView(),
+      transition: Transition.topLevel,
+      binding: FarmerAttendanceBinding(),
+    ),
+    GetPage(
+      name: _Paths.farmerAttendanceWorkDay,
+      page: () => const FarmerWorkDayView(),
+      transition: Transition.rightToLeft,
+      binding: FarmerAttendanceBinding(),
     ),
   ];
 }

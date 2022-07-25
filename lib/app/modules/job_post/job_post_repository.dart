@@ -8,20 +8,18 @@ import 'package:myray_mobile/app/data/models/job_post/job_post.dart';
 import 'package:myray_mobile/app/data/models/job_post/job_post_cru.dart';
 import 'package:myray_mobile/app/data/models/job_post/job_post_response.dart';
 import 'package:myray_mobile/app/data/models/job_post/landowner_get_job_post_response.dart';
-import 'package:myray_mobile/app/data/models/report/post_report_request.dart';
-import 'package:myray_mobile/app/data/models/report/report.dart';
 import 'package:myray_mobile/app/data/providers/api/api_provider.dart';
 import 'package:myray_mobile/app/shared/utils/custom_exception.dart';
 import 'package:myray_mobile/app/data/models/job_post/farmer_job_post_detail_response.dart';
 
 class JobPostRepository {
   final ApiProvider _apiProvider = Get.find<ApiProvider>();
-  final JOB_POST_URL = '/jobpost';
+  final _url = '/jobpost';
 
   //Get list of job post
   Future<JobPostResponse?> getJobPostList(GetRequestJobPostList data) async {
     final response =
-        await _apiProvider.getMethod(JOB_POST_URL, data: data.toJson());
+        await _apiProvider.getMethod(_url, data: data.toJson());
     if (response.statusCode == HttpStatus.ok) {
       return JobPostResponse.fromJson(response.body);
     }
@@ -39,7 +37,7 @@ class JobPostRepository {
   //Get job post detail
   Future<FarmerJobPostDetailResponse?> getFarmerJobPostdDetail(
       int jobPostId) async {
-    final response = await _apiProvider.getMethod("$JOB_POST_URL/$jobPostId");
+    final response = await _apiProvider.getMethod("$_url/$jobPostId");
     print("Link:  ${response.request!.url}");
     if (response.statusCode == HttpStatus.ok) {
       return FarmerJobPostDetailResponse.fromJson(response.body);
@@ -80,7 +78,7 @@ class JobPostRepository {
   }
 
   Future<JobPost?> getById(int jobPostId) async {
-    final response = await _apiProvider.getMethod('/jobpost/$jobPostId');
+    final response = await _apiProvider.getMethod('/jobposts/$jobPostId');
 
     if (response.isOk) {
       return JobPost.fromJson(response.body);
@@ -147,7 +145,7 @@ class JobPostRepository {
 
   Future<dynamic> applyJob(int data) async {
     final response = await _apiProvider
-        .patchMethod('$JOB_POST_URL/apply/$data', body: {'jobPostId': data});
+        .patchMethod('$_url/apply/$data', body: {'jobPostId': data});
     print(response.request!.url);
     if (response.statusCode == HttpStatus.ok) {
       return true;
@@ -159,13 +157,12 @@ class JobPostRepository {
   //applied: true, not applied: true (200)
   Future<bool?> checkFarmerAppliedOrNot(int data) async {
     final response = await _apiProvider
-        .getMethod('$JOB_POST_URL/checkapplied?jobPostId=$data');
+        .getMethod('$_url/checkapplied?jobPostId=$data');
     return response.statusCode != HttpStatus.ok;
   }
 
   Future<bool?> checkAppliedHourJob() async {
-    final response =
-        await _apiProvider.getMethod('$JOB_POST_URL/checkappliedhourjob');
+    final response = await _apiProvider.getMethod('$_url/checkappliedhourjob');
     print("applied hour job or not: ${response.body}");
     return response.body;
   }

@@ -29,6 +29,7 @@ class FarmerProfileView extends GetView<FarmerProfileController> {
             const SizedBox(height: 32),
             FarmerFeatureOptions(
               bookmark: controller.navigateToBookmarkPage,
+              attendance: controller.navigateToAttendancePage,
             ),
           ],
         ),
