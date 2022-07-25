@@ -31,49 +31,53 @@ class AppliedJobRepository {
   Future<bool?> cancelAppliedJob(int jobPostId) async {
     final response = await _apiProvider.patchMethod(
         '$jobPostUrl/cancel/$jobPostId',
-        data: {'job_post_id': jobPostId});
+        body: {'job_post_id': jobPostId});
     print(response.request!.url);
     return response.statusCode == HttpStatus.ok;
   }
 
-   //report job for farmer
+  //report job for farmer
   Future<Report?> reportJob(PostReportRequest data) async {
     final response = await _apiProvider.postMethod('/report', data.toJson());
     print('report status: ${response.statusCode}');
-    if(response.isOk){
+    if (response.isOk) {
       return Report.fromJson(response.body);
-    } 
-    return null; 
+    }
+    return null;
   }
 
   // Extend end date task job
-  Future<ExtendEndDateJob?> extendEndDateJob(PostExtendEndDateJobRequest data) async {
-    final response = await _apiProvider.postMethod('/extendtaskjob', data.toJson());
+  Future<ExtendEndDateJob?> extendEndDateJob(
+      PostExtendEndDateJobRequest data) async {
+    final response =
+        await _apiProvider.postMethod('/extendtaskjob', data.toJson());
     print('extend status: ${response.statusCode}');
-    if(response.isOk){
+    if (response.isOk) {
       return ExtendEndDateJob.fromJson(response.body);
     }
     return null;
   }
 
-  Future<ExtendEndDateJob?> getExtendEndDateJob (int idJobPost) async{
+  Future<ExtendEndDateJob?> getExtendEndDateJob(int idJobPost) async {
     final response = await _apiProvider.getMethod('/extendtaskjob/$idJobPost');
-    if(response.statusCode == HttpStatus.ok){
+    if (response.statusCode == HttpStatus.ok) {
       return ExtendEndDateJob.fromJson(response.body);
     }
     return null;
   }
 
-  Future<GetExtendEndDateJobList?> getExtendEndDateJobList(GetExtendEndDateJobRequest data) async{
-    final response = await _apiProvider.getMethod('/extendtaskjob', data: data.toJson());
-    if(response.statusCode == HttpStatus.ok){
+  Future<GetExtendEndDateJobList?> getExtendEndDateJobList(
+      GetExtendEndDateJobRequest data) async {
+    final response =
+        await _apiProvider.getMethod('/extendtaskjob', data: data.toJson());
+    if (response.statusCode == HttpStatus.ok) {
       return GetExtendEndDateJobList.fromJson(response.body);
     }
     return null;
   }
 
   //cancel request extend end date job
-  Future<bool?> canceExtendEndDate (int extendTaskId) async {
+  Future<bool?> canceExtendEndDate(int extendTaskId) async {
     final response = await _apiProvider.delete('/extendtaskjob/$extendTaskId');
     print('cancel extend date has error: ${response.hasError}');
     return response.isOk;
@@ -82,9 +86,11 @@ class AppliedJobRepository {
   //update extend end date job
   Future<bool?> updateExtendEndDate(PutExtendEndDateRequest data) async {
     print('data: ${data.extendEndDate}');
-    final response = await _apiProvider.putMethod('/extendtaskjob', data.toJson());
-    if(response.isOk){
-      print('ngay ket thuc moi: ${UpdateEndDateJobResponse.fromJson(response.body).extendEndDate}');
+    final response =
+        await _apiProvider.putMethod('/extendtaskjob', data.toJson());
+    if (response.isOk) {
+      print(
+          'ngay ket thuc moi: ${UpdateEndDateJobResponse.fromJson(response.body).extendEndDate}');
       return true;
     }
     return false;
@@ -92,8 +98,9 @@ class AppliedJobRepository {
 
   //request day off
   Future<bool?> requestDayOff(FarmerPostAttendanceRequest data) async {
-    final response = await _apiProvider.post('/attendance/dayoff', data.toJson());
-    if(response.isOk){
+    final response =
+        await _apiProvider.post('/attendance/dayoff', data.toJson());
+    if (response.isOk) {
       return true;
     }
     return false;

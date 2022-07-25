@@ -22,7 +22,7 @@ class AppStrings {
   static const titleClose = 'Đóng';
   static const titleViewProfile = 'Xem hồ sơ';
   static const titleFarmerList = 'Danh sách nông dân';
-  static const titleFeedbackList = 'Danh sách đánh giá';
+  static const titleWorkHistory = 'Lịch sử công việc';
   static const titleMyGarden = 'Vườn của tôi';
   static const titleCreateGarden = 'Thêm mới vườn';
   static const titleEditGarden = 'Chỉnh sửa vườn';

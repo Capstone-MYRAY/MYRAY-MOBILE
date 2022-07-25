@@ -4,6 +4,7 @@ import 'package:myray_mobile/app/data/models/area/area.dart';
 import 'package:myray_mobile/app/modules/garden/controllers/garden_details_controller.dart';
 import 'package:myray_mobile/app/modules/garden/widgets/garden_details_card.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
+import 'package:myray_mobile/app/shared/widgets/builders/details_error_builder.dart';
 import 'package:myray_mobile/app/shared/widgets/builders/loading_builder.dart';
 import 'package:myray_mobile/app/shared/widgets/buttons/filled_button.dart';
 
@@ -27,27 +28,7 @@ class GardenDetailsView extends GetView<GardenDetailsController> {
           }
 
           if (snapshot.hasError || snapshot.data == null) {
-            return SizedBox(
-              width: double.infinity,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const Icon(
-                    Icons.error,
-                    size: 50.0,
-                    color: AppColors.errorColor,
-                  ),
-                  const SizedBox(height: 8.0),
-                  Text(
-                    'Đã có lỗi xảy ra',
-                    style: Get.textTheme.headline6!.copyWith(
-                      color: AppColors.errorColor,
-                    ),
-                  ),
-                ],
-              ),
-            );
+            return const DetailsErrorBuilder();
           }
 
           if (snapshot.hasData) {

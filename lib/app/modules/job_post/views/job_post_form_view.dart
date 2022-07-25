@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:myray_mobile/app/data/models/garden/garden_models.dart';
 import 'package:myray_mobile/app/data/models/post_type/post_type.dart';
 import 'package:myray_mobile/app/modules/job_post/controllers/job_post_form_controller.dart';
+import 'package:myray_mobile/app/modules/job_post/views/equation_display.dart';
 import 'package:myray_mobile/app/modules/job_post/widgets/tree_type_fields.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
@@ -55,7 +56,7 @@ class JobPostFormView extends GetView<JobPostFormController> {
                           key: UniqueKey(),
                           controller: controller.workNameController,
                           icon: const Icon(CustomIcons.briefcase_outline),
-                          labelText: AppStrings.labelWorkName + '*',
+                          labelText: '${AppStrings.labelWorkName}*',
                           placeholder: AppStrings.placeholderWorkName,
                           inputAction: TextInputAction.next,
                           keyBoardType: TextInputType.text,
@@ -235,9 +236,10 @@ class JobPostFormView extends GetView<JobPostFormController> {
                             ),
                             const SizedBox(height: 8.0),
                             Obx(
-                              () => _buildEquationDisplay(
-                                  equation: controller.numOfPublishDayEquation,
-                                  cost: controller.publishFee),
+                              () => EquationDisplay(
+                                equation: controller.numOfPublishDayEquation,
+                                cost: controller.publishFee,
+                              ),
                             ),
                           ],
                         ),
@@ -287,7 +289,7 @@ class JobPostFormView extends GetView<JobPostFormController> {
                             ),
                             const SizedBox(height: 8.0),
                             Obx(
-                              () => _buildEquationDisplay(
+                              () => EquationDisplay(
                                 equation: controller.usingPointEquation,
                                 cost: controller.totalReduce,
                                 isReduce: false,
@@ -433,34 +435,12 @@ class JobPostFormView extends GetView<JobPostFormController> {
         ),
         const SizedBox(height: 8.0),
         Obx(
-          () => _buildEquationDisplay(
-              equation: controller.upgradeEquation,
-              cost: controller.totalUpgrade),
+          () => EquationDisplay(
+            equation: controller.upgradeEquation,
+            cost: controller.totalUpgrade,
+          ),
         ),
       ],
-    );
-  }
-
-  Widget _buildEquationDisplay(
-      {required String equation, required String cost, bool isReduce = true}) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 25 + 15),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            equation,
-            style: Get.textTheme.caption,
-          ),
-          SizedBox(width: Get.width * 0.1),
-          Text(
-            cost,
-            style: Get.textTheme.caption!.copyWith(
-              color: isReduce ? AppColors.errorColor : AppColors.primaryColor,
-            ),
-          ),
-        ],
-      ),
     );
   }
 
