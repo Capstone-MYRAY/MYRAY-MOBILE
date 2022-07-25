@@ -21,6 +21,7 @@ class LandownerProfileController extends GetxController {
 
   //balance in account minus balance fluctuation of pending payment histories
   calBalance() async {
+    print(user.value.toJson());
     double balance = user.value.balance!;
     double pendingFee = 0.0;
     int point = user.value.point!;

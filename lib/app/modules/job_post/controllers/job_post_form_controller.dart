@@ -333,13 +333,18 @@ class JobPostFormController extends GetxController {
       final jobPostController = Get.find<LandownerJobPostController>();
       final jobPosts = jobPostController.jobPosts;
       int index = jobPosts.indexWhere((job) => job.id == updatedJobPost.id);
-      jobPosts[index] = updatedJobPost;
+      if (index >= 0) {
+        jobPosts[index] = updatedJobPost;
+      }
 
       //update payment history
       await detailsController.getPaymentHistory();
 
       //refresh balance
       await _profile.calBalance();
+
+      //update UI
+      detailsController.updateDetails();
 
       Get.back();
 
@@ -687,15 +692,13 @@ class JobPostFormController extends GetxController {
 
   //choose job end date
   void onChooseJobEndDate() async {
-    DateTime now = DateTime.now();
+    DateTime now = DateUtils.dateOnly(DateTime.now());
     DateTime firstDate = jobStartDateController.text.isNotEmpty
         ? Utils.fromddMMyyyy(jobStartDateController.text)
         : now;
-    DateTime? initDate = !firstDate.isAtSameMomentAs(now)
-        ? firstDate
-        : jobEndDateController.text.isNotEmpty
-            ? Utils.fromddMMyyyy(jobEndDateController.text)
-            : null;
+    DateTime? initDate = jobEndDateController.text.isNotEmpty
+        ? Utils.fromddMMyyyy(jobEndDateController.text)
+        : firstDate;
     DateTime? pickedDate = await MyDatePicker.show(
         firstDate: firstDate,
         initDate: initDate,

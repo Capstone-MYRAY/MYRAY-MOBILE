@@ -23,13 +23,19 @@ import 'package:myray_mobile/app/shared/widgets/dialogs/custom_confirm_dialog.da
 
 class LandownerJobPostDetailsController extends GetxController {
   final Rx<JobPost> jobPost;
-  final RxList<PaymentHistory> paymentHistories = RxList([]);
+  final List<PaymentHistory> paymentHistories = [];
   final _gardenRepository = Get.find<GardenRepository>();
   final _paymentHistoryRepository = Get.find<PaymentHistoryRepository>();
   final _jobPostRepository = Get.find<JobPostRepository>();
   final _jobPostController = Get.find<LandownerJobPostController>();
   final _profile = Get.find<LandownerProfileController>();
   final _feeDataService = Get.find<FeeDataService>();
+
+  final String workInformation = 'WorkInformation';
+  final String workPlaceInformation = 'WorkPlaceInformation';
+  final String postInformation = 'PostInformation';
+  final String paymentHistoryInformation = 'PaymentInformation';
+  final String buttonControls = 'ButtonControls';
 
   LandownerJobPostDetailsController({required this.jobPost});
 
@@ -89,6 +95,7 @@ class LandownerJobPostDetailsController extends GetxController {
     }
 
     paymentHistories.addAll(response.paymentHistories!);
+    update([paymentHistoryInformation]);
     return true;
   }
 
@@ -152,6 +159,8 @@ class LandownerJobPostDetailsController extends GetxController {
 
           //update balance
           _profile.calBalance();
+
+          update([buttonControls]);
 
           CustomSnackbar.show(
             title: AppStrings.titleSuccess,
@@ -240,6 +249,8 @@ class LandownerJobPostDetailsController extends GetxController {
       //refresh balance
       await _profile.getUserInfo();
 
+      update([postInformation, paymentHistoryInformation]);
+
       EasyLoading.dismiss();
       Get.back(); //close dialog
 
@@ -256,5 +267,15 @@ class LandownerJobPostDetailsController extends GetxController {
         backgroundColor: AppColors.errorColor,
       );
     }
+  }
+
+  updateDetails() {
+    update([
+      workInformation,
+      workPlaceInformation,
+      postInformation,
+      paymentHistoryInformation,
+      buttonControls,
+    ]);
   }
 }

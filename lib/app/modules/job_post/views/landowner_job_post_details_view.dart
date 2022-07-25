@@ -35,7 +35,8 @@ class LandownerJobPostDetailsView
   bool get _isFeatureNotDisplay =>
       jobPost.status == JobPostStatus.pending.index ||
       jobPost.status == JobPostStatus.outOfDate.index ||
-      jobPost.status == JobPostStatus.rejected.index;
+      jobPost.status == JobPostStatus.rejected.index ||
+      jobPost.status == JobPostStatus.cancel.index;
 
   bool get _isStartJob => jobPost.workStatus == JobPostWorkStatus.started.index;
 
@@ -62,20 +63,24 @@ class LandownerJobPostDetailsView
               return const DetailsErrorBuilder();
             }
 
-            return Obx(
-              () => ListView(
-                shrinkWrap: true,
-                padding: const EdgeInsets.only(bottom: 16.0),
-                children: [
-                  _buildWorkInformation(),
-                  _buildWorkPlaceInformation(),
-                  _buildPostInformation(),
-                  _buildPaymentHistoryInformation(),
-                  if (!_isFeatureNotDisplay) ..._buildFeatures(),
-                  const SizedBox(height: 16.0),
-                  ..._buildButtons(),
-                ],
-              ),
+            return ListView(
+              shrinkWrap: true,
+              padding: const EdgeInsets.only(bottom: 16.0),
+              children: [
+                _buildWorkInformation(),
+                _buildWorkPlaceInformation(),
+                _buildPostInformation(),
+                _buildPaymentHistoryInformation(),
+                if (!_isFeatureNotDisplay) ..._buildFeatures(),
+                const SizedBox(height: 16.0),
+                GetBuilder<LandownerJobPostDetailsController>(
+                  id: 'ButtonControls',
+                  tag: _myTag,
+                  builder: (_) => Column(
+                    children: _buildButtons(),
+                  ),
+                ),
+              ],
             );
           }),
     );
@@ -176,12 +181,16 @@ class LandownerJobPostDetailsView
 
   _buildPaymentHistoryInformation() {
     return ToggleInformation(
-      tagName: 'PaymentInformation',
+      tagName: controller.paymentHistoryInformation,
       title: AppStrings.titlePaymentInformation,
       isCustom: true,
       headerBorderRadius: BorderRadius.circular(CommonConstants.borderRadius),
-      child: Column(
-        children: _buildPaymentHistoryItem(controller.paymentHistories),
+      child: GetBuilder<LandownerJobPostDetailsController>(
+        id: controller.paymentHistoryInformation,
+        tag: _myTag,
+        builder: (_) => Column(
+          children: _buildPaymentHistoryItem(controller.paymentHistories),
+        ),
       ),
     );
   }
@@ -242,63 +251,76 @@ class LandownerJobPostDetailsView
         : jobPost.pinStartDate!.add(Duration(days: jobPost.totalPinDay! - 1));
 
     return ToggleInformation(
-      tagName: 'PostInformation',
+      tagName: controller.postInformation,
       title: AppStrings.titlePostInformation,
       headerBorderRadius: BorderRadius.circular(CommonConstants.borderRadius),
-      child: ToggleContentPostInfo(
-        createdDate: jobPost.createdDate,
-        publishedDate: jobPost.publishedDate,
-        publishExpiryDate: jobPost.publishedDate
-            .add(Duration(days: jobPost.numOfPublishDay - 1)),
-        postStatus: CardStatusField(
-          statusName: jobPost.jobPostStatusString,
-          title: AppStrings.labelPostStatus,
-          backgroundColor: jobPost.jobPostStatusColor,
+      child: GetBuilder<LandownerJobPostDetailsController>(
+        id: controller.postInformation,
+        tag: _myTag,
+        builder: (_) => ToggleContentPostInfo(
+          createdDate: jobPost.createdDate,
+          publishedDate: jobPost.publishedDate,
+          publishExpiryDate: jobPost.publishedDate
+              .add(Duration(days: jobPost.numOfPublishDay - 1)),
+          postStatus: CardStatusField(
+            statusName: jobPost.jobPostStatusString,
+            title: AppStrings.labelPostStatus,
+            backgroundColor: jobPost.jobPostStatusColor,
+          ),
+          approvedBy: jobPost.approvedName,
+          approvedDate: jobPost.approvedDate,
+          rejectedReason: jobPost.rejectedReason,
+          postType: _buildPostType(),
+          upgradedDate: jobPost.pinStartDate,
+          upgradeExpiryDate: expiryDate,
         ),
-        approvedBy: jobPost.approvedName,
-        approvedDate: jobPost.approvedDate,
-        rejectedReason: jobPost.rejectedReason,
-        postType: _buildPostType(),
-        upgradedDate: jobPost.pinStartDate,
-        upgradeExpiryDate: expiryDate,
       ),
     );
   }
 
   Widget _buildWorkPlaceInformation() {
     return ToggleInformation(
-      tagName: 'WorkPlaceInformation',
+      tagName: controller.workPlaceInformation,
       title: AppStrings.titleWorkPlace,
       headerBorderRadius: BorderRadius.circular(CommonConstants.borderRadius),
-      child: ToggleContentWorkPlaceInfo(
-        gardenName: jobPost.gardenName ?? '',
-        address: jobPost.address ?? '',
-        onDetailsTap: controller.viewGardenDetails,
+      child: GetBuilder<LandownerJobPostDetailsController>(
+        id: controller.workPlaceInformation,
+        tag: _myTag,
+        builder: (_) => ToggleContentWorkPlaceInfo(
+          gardenName: jobPost.gardenName ?? '',
+          address: jobPost.address ?? '',
+          onDetailsTap: controller.viewGardenDetails,
+        ),
       ),
     );
   }
 
   Widget _buildWorkInformation() {
+    print(jobPost.toJson());
     return ToggleInformation(
-      tagName: 'WorkInformation',
+      tagName: controller.workInformation,
       title: AppStrings.titleWorkInformation,
       isOpen: true,
       headerBorderRadius: BorderRadius.circular(CommonConstants.borderRadius),
-      child: ToggleContentWorkInfo(
-        workName: jobPost.title,
-        jobStartDate: jobPost.jobStartDate,
-        jobEndDate: jobPost.jobEndDate,
-        treeTypes: jobPost.treeTypes,
-        workType: jobPost.workType,
-        description: jobPost.description?.contains('\n') != null
-            ? '\n${jobPost.description}'
-            : jobPost.description,
-        workStatus: CardStatusField(
-          statusName: jobPost.jobPostWorkStatusString,
-          title: AppStrings.labelWorkStatus,
-          backgroundColor: jobPost.jobPostWorkStatusColor,
+      child: GetBuilder<LandownerJobPostDetailsController>(
+        id: controller.workInformation,
+        tag: _myTag,
+        builder: (_) => ToggleContentWorkInfo(
+          workName: jobPost.title,
+          jobStartDate: jobPost.jobStartDate,
+          jobEndDate: jobPost.jobEndDate,
+          treeTypes: jobPost.treeTypes,
+          workType: jobPost.workType,
+          description: jobPost.description?.contains('\n') != null
+              ? '\n${jobPost.description}'
+              : jobPost.description,
+          workStatus: CardStatusField(
+            statusName: jobPost.jobPostWorkStatusString,
+            title: AppStrings.labelWorkStatus,
+            backgroundColor: jobPost.jobPostWorkStatusColor,
+          ),
+          workContent: _buildWorkContent(),
         ),
-        workContent: _buildWorkContent(),
       ),
     );
   }
