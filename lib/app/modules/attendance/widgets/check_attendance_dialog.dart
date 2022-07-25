@@ -16,7 +16,8 @@ class CheckAttendanceDialog {
     void Function() onSubmit,
   ) async {
     return await BaseDialog.show(
-      Column(
+      isFit: false,
+      child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -97,7 +98,6 @@ class CheckAttendanceDialog {
           ),
         ],
       ),
-      isFit: false,
     );
   }
 }

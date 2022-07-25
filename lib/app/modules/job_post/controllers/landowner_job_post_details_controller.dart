@@ -1,11 +1,17 @@
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:myray_mobile/app/data/enums/enums.dart';
+import 'package:myray_mobile/app/data/models/fee_data.dart';
 import 'package:myray_mobile/app/data/models/garden/garden.dart';
+import 'package:myray_mobile/app/data/models/job_post/extend_expired_date_request.dart';
 import 'package:myray_mobile/app/data/models/job_post/job_post.dart';
 import 'package:myray_mobile/app/data/models/payment_history/payment_history_models.dart';
+import 'package:myray_mobile/app/data/services/services.dart';
 import 'package:myray_mobile/app/modules/garden/garden_repository.dart';
 import 'package:myray_mobile/app/modules/job_post/controllers/landowner_job_post_controller.dart';
 import 'package:myray_mobile/app/modules/job_post/job_post_repository.dart';
+import 'package:myray_mobile/app/modules/job_post/widgets/landowner_job_post_details/extend_expired_date_dialog.dart';
 import 'package:myray_mobile/app/modules/payment_history/payment_history_repository.dart';
 import 'package:myray_mobile/app/modules/profile/controllers/landowner_profile_controller.dart';
 import 'package:myray_mobile/app/routes/app_pages.dart';
@@ -23,6 +29,7 @@ class LandownerJobPostDetailsController extends GetxController {
   final _jobPostRepository = Get.find<JobPostRepository>();
   final _jobPostController = Get.find<LandownerJobPostController>();
   final _profile = Get.find<LandownerProfileController>();
+  final _feeDataService = Get.find<FeeDataService>();
 
   LandownerJobPostDetailsController({required this.jobPost});
 
@@ -183,5 +190,71 @@ class LandownerJobPostDetailsController extends GetxController {
     });
   }
 
-  Future<void> onRefresh() async {}
+  extendExpiredDate() async {
+    //get price config
+    try {
+      FeeData feeData;
+      final result = await _feeDataService.getFeeConfig();
+      if (result == null) throw Exception('Có lỗi xảy ra');
+      feeData = result;
+
+      ExtendExpiredDateDialog.show(
+        jobPost.value.publishedDate
+            .add(Duration(days: jobPost.value.numOfPublishDay - 1)),
+        feeData,
+        _profile,
+        _extendExpiredDate,
+      );
+    } catch (e) {
+      print('extendExpiredDate: ${e.toString()}');
+    }
+  }
+
+  _extendExpiredDate(DateTime expandDate, int? usedPoint) async {
+    try {
+      final data = ExtendExpiredDateRequest(
+        jobPostId: jobPost.value.id.toString(),
+        newExpiredDate: expandDate,
+        usedPoint: usedPoint?.toString(),
+      );
+
+      print('JobPost: ${data.toJson()}');
+
+      EasyLoading.show();
+      final updatedJobPost = await _jobPostRepository.extendExpiredDate(data);
+      if (updatedJobPost == null) throw Exception('Có lỗi xảy ra');
+
+      print('JobPost: ${updatedJobPost.toJson()}');
+
+      //update job post details
+      jobPost.value = updatedJobPost;
+
+      //Update job post list
+      final jobPosts = _jobPostController.jobPosts;
+      int index = jobPosts.indexWhere((job) => job.id == updatedJobPost.id);
+      jobPosts[index] = updatedJobPost;
+
+      //update payment history
+      await getPaymentHistory();
+
+      //refresh balance
+      await _profile.getUserInfo();
+
+      EasyLoading.dismiss();
+      Get.back(); //close dialog
+
+      CustomSnackbar.show(
+        title: AppStrings.titleSuccess,
+        message: 'Gia hạn thành công',
+      );
+    } catch (e) {
+      EasyLoading.dismiss();
+      //show error
+      CustomSnackbar.show(
+        title: AppStrings.titleError,
+        message: 'Có lỗi xảy ra',
+        backgroundColor: AppColors.errorColor,
+      );
+    }
+  }
 }

@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/status/http_status.dart';
 import 'package:myray_mobile/app/data/models/job_post/check_pin_date_request.dart';
+import 'package:myray_mobile/app/data/models/job_post/extend_expired_date_request.dart';
 import 'package:myray_mobile/app/data/models/job_post/get_max_pin_day_request.dart';
 import 'package:myray_mobile/app/data/models/job_post/get_request_job_post_list.dart';
 import 'package:myray_mobile/app/data/models/job_post/job_post.dart';
@@ -38,7 +39,7 @@ class JobPostRepository {
   //Get job post detail
   Future<FarmerJobPostDetailResponse?> getFarmerJobPostdDetail(
       int jobPostId) async {
-    final response = await _apiProvider.getMethod(JOB_POST_URL + "/$jobPostId");
+    final response = await _apiProvider.getMethod("$JOB_POST_URL/$jobPostId");
     print("Link:  ${response.request!.url}");
     if (response.statusCode == HttpStatus.ok) {
       return FarmerJobPostDetailResponse.fromJson(response.body);
@@ -129,9 +130,24 @@ class JobPostRepository {
     return false;
   }
 
+  Future<JobPost?> extendExpiredDate(ExtendExpiredDateRequest data) async {
+    final response = await _apiProvider.patchMethod(
+      '/jobpost/extendjob/${data.jobPostId}',
+      query: data.toJson(),
+    );
+
+    print(response.bodyString);
+
+    if (response.isOk) {
+      return JobPost.fromJson(response.body);
+    }
+
+    return null;
+  }
+
   Future<dynamic> applyJob(int data) async {
     final response = await _apiProvider
-        .patchMethod('$JOB_POST_URL/apply/$data', data: {'jobPostId': data});
+        .patchMethod('$JOB_POST_URL/apply/$data', body: {'jobPostId': data});
     print(response.request!.url);
     if (response.statusCode == HttpStatus.ok) {
       return true;
@@ -148,10 +164,9 @@ class JobPostRepository {
   }
 
   Future<bool?> checkAppliedHourJob() async {
-    final response = await _apiProvider.getMethod('$JOB_POST_URL/checkappliedhourjob');
+    final response =
+        await _apiProvider.getMethod('$JOB_POST_URL/checkappliedhourjob');
     print("applied hour job or not: ${response.body}");
     return response.body;
-    
   }
-
 }

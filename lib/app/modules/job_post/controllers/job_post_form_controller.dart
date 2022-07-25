@@ -209,7 +209,8 @@ class JobPostFormController extends GetxController {
     //check balance
     if (_totalFee.value > _userBalance) {
       InformationDialog.showDialog(
-        msg: 'Bạn không đủ tiền trong tài khoản.',
+        msg:
+            'Tiền trong tài khoản còn ${Utils.vietnameseCurrencyFormat.format(_userBalance)} không đủ thực hiện giao dịch.',
         confirmTitle: AppStrings.titleClose,
       );
       return;
@@ -462,18 +463,18 @@ class JobPostFormController extends GetxController {
   }
 
   getFeeConfig() async {
-    final _result = await _feeDataService.getFeeConfig();
-    if (_result != null) {
-      _feeConfig.value = _result;
+    final result = await _feeDataService.getFeeConfig();
+    if (result != null) {
+      _feeConfig.value = result;
       update();
     }
   }
 
   getGardens() async {
-    final int _accountId = AuthCredentials.instance.user!.id!;
+    final int accountId = AuthCredentials.instance.user!.id!;
 
     GetGardenRequest data = GetGardenRequest(
-      accountId: _accountId.toString(),
+      accountId: accountId.toString(),
       page: GardenStatus.active.index.toString(),
       pageSize: 100.toString(),
       sortColumn: GardenSortColumn.createdDate,

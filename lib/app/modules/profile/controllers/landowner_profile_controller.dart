@@ -71,11 +71,6 @@ class LandownerProfileController extends GetxController {
   }
 
   getUserInfo() async {
-    if (user.value.id != null) {
-      user = Account().obs;
-      update(['AppBar']);
-    }
-
     Account? userInfo =
         await _profileRepository.getUser(AuthCredentials.instance.user!.id!);
 

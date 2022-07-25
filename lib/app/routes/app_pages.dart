@@ -127,7 +127,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.landownerJobPostDetails,
-      page: () => const LandownerJobPostDetailsView(),
+      page: () => LandownerJobPostDetailsView(),
       binding: LandownerJobPostDetailsBinding(),
     ),
     GetPage(

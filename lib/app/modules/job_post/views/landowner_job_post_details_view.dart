@@ -13,7 +13,7 @@ import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
 import 'package:myray_mobile/app/shared/utils/hex_color_extension.dart';
 import 'package:myray_mobile/app/shared/utils/utils.dart';
-import 'package:myray_mobile/app/shared/widgets/builders/list_empty_builder.dart';
+import 'package:myray_mobile/app/shared/widgets/builders/details_error_builder.dart';
 import 'package:myray_mobile/app/shared/widgets/builders/loading_builder.dart';
 import 'package:myray_mobile/app/shared/widgets/buttons/filled_button.dart';
 import 'package:myray_mobile/app/shared/widgets/cards/card_status_field.dart';
@@ -22,14 +22,15 @@ import 'package:myray_mobile/app/shared/widgets/cards/my_card.dart';
 
 class LandownerJobPostDetailsView
     extends GetView<LandownerJobPostDetailsController> {
-  const LandownerJobPostDetailsView({Key? key}) : super(key: key);
+  final String _myTag = Get.arguments[Arguments.tag];
+  LandownerJobPostDetailsView({Key? key}) : super(key: key);
 
   @override
-  String get tag => Get.arguments[Arguments.tag];
+  String get tag => _myTag;
 
   JobPost get jobPost => controller.jobPost.value;
 
-  Activities? get action => Get.arguments[Arguments.action];
+  Activities? get action => Get.arguments?[Arguments.action];
 
   bool get _isFeatureNotDisplay =>
       jobPost.status == JobPostStatus.pending.index ||
@@ -57,8 +58,8 @@ class LandownerJobPostDetailsView
               return const LoadingBuilder();
             }
 
-            if (snapshot.data == null) {
-              return ListEmptyBuilder(onRefresh: controller.onRefresh);
+            if (snapshot.hasError || snapshot.data == null) {
+              return const DetailsErrorBuilder();
             }
 
             return Obx(
@@ -127,7 +128,7 @@ class LandownerJobPostDetailsView
             widthFactor: 0.8,
             child: FilledButton(
               title: AppStrings.titleExtendPostEndDate,
-              onPressed: () {},
+              onPressed: controller.extendExpiredDate,
             ),
           ),
         ];
@@ -164,8 +165,8 @@ class LandownerJobPostDetailsView
       ),
       const SizedBox(height: 12.0),
       FeatureOption(
-        icon: CustomIcons.feedback_outline,
-        title: AppStrings.titleFeedbackList,
+        icon: CustomIcons.work_history_outline,
+        title: AppStrings.titleWorkHistory,
         borderRadius: CommonConstants.borderRadius,
         widthFactor: 0.9,
         onTap: () {},
