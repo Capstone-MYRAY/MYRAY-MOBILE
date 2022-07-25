@@ -192,4 +192,6 @@ class Utils {
     );
     return weekday;
   }
+
+  static final limitString = RegExp(r'(\r?\n?|\r|\n).{1,1000}');
 }

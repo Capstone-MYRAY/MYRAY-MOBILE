@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:myray_mobile/app/data/models/attendance/attendance.dart';
 import 'package:myray_mobile/app/shared/constants/app_colors.dart';
+import 'package:myray_mobile/app/shared/utils/utils.dart';
 import 'package:myray_mobile/app/shared/widgets/buttons/custom_text_button.dart';
 
 class FarmerAttendanceDetailDialog {
   FarmerAttendanceDetailDialog._();
 
-  static show(BuildContext context) {
+  static show(BuildContext context, Attendance attendance, String jobTitle) {
     showGeneralDialog(
       context: context,
       barrierDismissible: false,
-      transitionDuration: Duration(milliseconds: 500),
+      transitionDuration: const Duration(milliseconds: 500),
       transitionBuilder: (context, animation, secondaryAnimation, child) {
         return FadeTransition(
           opacity: animation,
@@ -25,7 +27,7 @@ class FarmerAttendanceDetailDialog {
           child: SafeArea(
             child: Container(
               width: Get.width,
-              height: Get.height + Get.height * 0.1,
+              height: Get.height + Get.height * 0.2,
               padding: const EdgeInsets.all(20),
               color: AppColors.backgroundColor,
               child: Column(
@@ -78,40 +80,38 @@ class FarmerAttendanceDetailDialog {
                           height: Get.height * 0.03,
                         ),
                         _buildRowInformation(
-                            label: 'Chủ đất:', content: 'Hồ Đình Tùng Lâm'),
-                        SizedBox(
-                          height: Get.height * 0.03,
-                        ),
-                        _buildRowInformation(
-                            label: 'Họ và tên:',
-                            content: 'Nguyễn Phan Quỳnh Anh'),
-                        SizedBox(
-                          height: Get.height * 0.03,
-                        ),
-                        _buildRowInformation(
                             label: 'Loại công việc:', content: 'Làm công'),
                         SizedBox(
                           height: Get.height * 0.03,
                         ),
                         _buildRowInformation(
-                            label: 'Công việc:', content: 'Thu hoạch cà phê'),
+                            label: 'Công việc:', content: jobTitle),
                         SizedBox(
                           height: Get.height * 0.03,
                         ),
                         _buildRowInformation(
-                            label: 'Ngày nhận tiền:', content: '23/07/2021'),
+                            label: 'Ngày nhận tiền:',
+                            content: Utils.formatddMMyyyy(attendance.date!)),
                         SizedBox(
                           height: Get.height * 0.03,
                         ),
                         _buildRowInformation(
                             label: 'Số tiền nhận:',
-                            content: '50.000 đ',
+                            content: Utils.vietnameseCurrencyFormat
+                                .format(attendance.salary),
                             contentColor: AppColors.primaryColor),
                         SizedBox(
                           height: Get.height * 0.03,
                         ),
+                         _buildRowInformation(
+                            label: 'Điểm thưởng:', content: '${attendance.bonusPoint} điểm'),
+                        SizedBox(
+                          height: Get.height * 0.03,
+                        ),
                         _buildRowInformation(
-                            label: 'Nội dung:', content: 'Tiền nhận ngày 1'),
+                            label: 'Nội dung:',
+                            content:
+                                'Nhận tiền công ngày ${Utils.formatddMMyyyy(attendance.date!)}'),
                         SizedBox(
                           height: Get.height * 0.03,
                         ),
@@ -141,11 +141,9 @@ class FarmerAttendanceDetailDialog {
                             margin: const EdgeInsets.only(left: 20, right: 20),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
-                              color: AppColors.grey.withOpacity(0.5),
+                              image: DecorationImage(image: NetworkImage('${attendance.signature}')),
                             ),
-                            child: const Center(
-                              child: Text('Đã ký'),
-                            )),
+                        ),
                         SizedBox(
                           height: Get.height * 0.03,
                         ),
