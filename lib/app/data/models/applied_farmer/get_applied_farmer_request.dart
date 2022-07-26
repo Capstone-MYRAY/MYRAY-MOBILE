@@ -15,7 +15,7 @@ class GetAppliedFarmerRequest {
   @JsonKey(name: 'page-size')
   String pageSize;
 
-  @JsonKey(name: 'startWork')
+  @JsonKey(name: 'jobPostId')
   String? jobPostId;
 
   @JsonKey(name: 'sort-column')

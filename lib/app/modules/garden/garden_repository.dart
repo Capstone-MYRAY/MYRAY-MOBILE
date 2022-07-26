@@ -13,7 +13,6 @@ class GardenRepository {
 
   Future<Garden?> create(PostGardenRequest data) async {
     final response = await _apiProvider.postMethod(path, data.toJson());
-    print(response.bodyString);
     if (response.isOk) {
       return Garden.fromJson(response.body);
     }

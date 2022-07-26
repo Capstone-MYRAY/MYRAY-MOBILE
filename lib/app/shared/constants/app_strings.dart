@@ -57,6 +57,7 @@ class AppStrings {
   static const titleHire = 'Thuê';
   static const titleRefuse = 'Từ chối';
   static const titleFavoriteList = 'Danh sách yêu thích';
+  static const titleApproved = 'Đã thuê';
 
   //Subtitle
   static const subtitleMyGarden = 'Danh sách vườn đã tạo';
@@ -212,9 +213,10 @@ class AppStrings {
   static const paymentHistoryFailed = 'Giao dịch thất bại';
 
   static const appliedFarmerPending = 'Chờ duyệt';
-  static const appliedFarmerApproved = 'Đã thuê';
+  static const appliedFarmerApproved = 'Đang làm việc';
   static const appliedFarmerRejected = 'Đã từ chối';
   static const appliedFarmerEnd = 'Đã kết thúc';
+  static const appliedFarmerFired = 'Đã sa thải';
 
   static const absent = 'Vắng mặt';
   static const present = 'Có mặt';

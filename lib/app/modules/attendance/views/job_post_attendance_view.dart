@@ -49,12 +49,22 @@ class JobPostAttendanceView extends GetView<JobPostAttendanceController> {
                   return GetBuilder<JobPostAttendanceController>(
                       id: 'CA-${item.farmer.id}',
                       builder: (_) {
+                        bool isFiredOrEnd = item.appliedFarmerStatus ==
+                                AppliedFarmerStatus.fired.index ||
+                            item.appliedFarmerStatus ==
+                                AppliedFarmerStatus.end.index;
+
+                        bool isSelectedAfterEndDate = false;
+
+                        if (item.endDate != null) {
+                          isSelectedAfterEndDate = controller.selectedDate.value
+                              .isAfter(
+                                  DateUtils.dateOnly(item.endDate!.toLocal()));
+                        }
+
                         bool isNotDisplay = item.attendance.isEmpty &&
-                            controller.selectedDate.value.isAfter(now) &&
-                            (item.appliedFarmerStatus ==
-                                    AppliedFarmerStatus.fired.index ||
-                                item.appliedFarmerStatus ==
-                                    AppliedFarmerStatus.end.index);
+                            // isFiredOrEnd &&
+                            isSelectedAfterEndDate;
                         if (isNotDisplay) {
                           return const SizedBox();
                         }
@@ -69,6 +79,7 @@ class JobPostAttendanceView extends GetView<JobPostAttendanceController> {
                           fullName: item.farmer.fullName ?? '',
                           phone: item.farmer.phoneNumber ?? '',
                           avatar: item.farmer.imageUrl,
+                          isFiredOrEnd: isFiredOrEnd,
                           isControlDisplayed: isControlDisplayed,
                           statusName: item.attendance.isNotEmpty
                               ? item.attendance.first.statusString

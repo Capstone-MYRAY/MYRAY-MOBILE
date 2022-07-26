@@ -43,6 +43,7 @@ class LandownerBookmarkView extends StatelessWidget {
                       fullName: bookmark.bookmarkNavigation.fullName,
                       avatar: bookmark.bookmarkNavigation.imageUrl,
                       isBookmarked: bookmark.isBookmarked,
+                      phone: bookmark.bookmarkNavigation.phoneNumber,
                       onToggleBookmark: () => controller.onToggleBookmark(
                         bookmark.isBookmarked,
                         bookmark.bookmarkId,

@@ -67,8 +67,6 @@ class CustomIcons {
       IconData(0xe814, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData photo =
       IconData(0xe815, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData plus =
-      IconData(0xe816, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData post =
       IconData(0xe817, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData post_outline =
@@ -155,4 +153,8 @@ class CustomIcons {
       IconData(0xe841, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData star_outline =
       IconData(0xe842, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData plus =
+      IconData(0xe843, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData minus =
+      IconData(0xe844, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }

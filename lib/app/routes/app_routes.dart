@@ -28,6 +28,8 @@ abstract class Routes {
   static const checkAttendance = _Paths.checkAttendance;
   static const landownerBookmark = _Paths.landownerBookmark;
   static const landownerBookmarkDetails = _Paths.landownerBookmarkDetails;
+  static const jobFarmerList = _Paths.jobFarmerList;
+  static const jobFarmerDetails = _Paths.jobFarmerDetails;
 
   //farmer
   static const farmerDashboard = _Paths.farmerDashboard;
@@ -68,6 +70,8 @@ abstract class _Paths {
   static const checkAttendance = '$_landowner/check_attendance';
   static const landownerBookmark = '$_landowner/bookmark';
   static const landownerBookmarkDetails = '$_landowner/bookmark_details';
+  static const jobFarmerList = '$_landowner/job_farmer_list';
+  static const jobFarmerDetails = '$_landowner/job_farmer_details';
 
   //farmer views
   static const farmerDashboard = '$_farmer/dashboard';

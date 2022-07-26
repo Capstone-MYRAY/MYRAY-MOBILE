@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:myray_mobile/app/data/enums/status.dart';
 import 'package:myray_mobile/app/data/models/job_post/job_post.dart';
@@ -46,11 +47,21 @@ class AppliedFarmer {
 
   String get statusString =>
       _appliedFarmerStatus[status] ?? AppStrings.appliedFarmerEnd;
+  Color? get statusColor => _appliedFarmerColor[status];
 }
+
+Map<int, Color> _appliedFarmerColor = {
+  AppliedFarmerStatus.pending.index: AppColors.warningColor,
+  AppliedFarmerStatus.approved.index: AppColors.successColor,
+  AppliedFarmerStatus.rejected.index: AppColors.errorColor,
+  AppliedFarmerStatus.end.index: AppColors.grey,
+  AppliedFarmerStatus.fired.index: AppColors.errorColor,
+};
 
 Map<int, String> _appliedFarmerStatus = {
   AppliedFarmerStatus.pending.index: AppStrings.appliedFarmerPending,
   AppliedFarmerStatus.approved.index: AppStrings.appliedFarmerApproved,
   AppliedFarmerStatus.rejected.index: AppStrings.appliedFarmerRejected,
   AppliedFarmerStatus.end.index: AppStrings.appliedFarmerEnd,
+  AppliedFarmerStatus.fired.index: AppStrings.appliedFarmerFired,
 };
