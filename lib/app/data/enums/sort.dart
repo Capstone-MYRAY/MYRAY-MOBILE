@@ -113,3 +113,14 @@ enum FeedbackSortColumn{
   @JsonValue('CreatedDate')
   createdDate
 }
+
+enum GuidepostSortColumn{
+  @JsonValue('Title')
+  title,
+
+  @JsonValue('Content')
+  content,
+
+  @JsonValue('CreatedDate')
+  createdDate
+}
