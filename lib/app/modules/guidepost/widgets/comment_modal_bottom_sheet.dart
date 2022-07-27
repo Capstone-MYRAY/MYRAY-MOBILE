@@ -53,10 +53,8 @@ class CommentModalBottomSheet {
                           Icons.cancel,
                           size: 25,
                         ),
-                        onPressed: () {
-                          Get.back();
-                          controller.commentController.clear();
-                        }),
+                        onPressed: controller.onCloseComment
+                    ),
                   ],
                 ),
                 Divider(

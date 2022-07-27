@@ -68,5 +68,13 @@ class CommentController extends GetxController {
    Future<Comment?> createComment(PostCommentRequest data) async {
     return await _commentRepository.createComment(data);
   }
+
+  onCloseComment(){
+    Get.back();
+    _currentPage = 0;
+    _hasNextPage = true;
+    commentController.clear();
+    commentList.clear();
+  }
   
 }
