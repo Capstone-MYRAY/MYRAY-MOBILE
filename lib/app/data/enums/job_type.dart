@@ -1,4 +1,4 @@
-enum JobType{
-  PayPerHourJob,
-  PayPerTaskJob,
+enum JobType {
+  payPerHourJob,
+  payPerTaskJob,
 }

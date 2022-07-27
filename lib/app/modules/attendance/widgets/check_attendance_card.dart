@@ -16,6 +16,7 @@ class CheckAttendanceCard extends StatelessWidget {
   final bool isControlDisplayed;
   final String? reason;
   final Color? statusBackground;
+  final bool isFiredOrEnd;
   final void Function() onPresent;
   final void Function() onFinish;
   final void Function() onAbsent;
@@ -32,6 +33,7 @@ class CheckAttendanceCard extends StatelessWidget {
     this.avatar,
     this.statusName,
     this.isControlDisplayed = false,
+    this.isFiredOrEnd = false,
     this.reason,
     this.statusBackground,
   }) : super(key: key);
@@ -85,10 +87,11 @@ class CheckAttendanceCard extends StatelessWidget {
                   shrinkWrap: true,
                   crossAxisSpacing: 16.0,
                   mainAxisSpacing: 16.0,
-                  childAspectRatio: 11 / 4,
+                  childAspectRatio: 11 / 3.75,
                   physics: const NeverScrollableScrollPhysics(),
                   children: [
                     FilledButton(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
                       title: 'Vắng mặt',
                       onPressed: onAbsent,
                       color: AppColors.errorColor,
@@ -97,15 +100,17 @@ class CheckAttendanceCard extends StatelessWidget {
                       title: 'Có mặt',
                       onPressed: onPresent,
                     ),
-                    FilledButton(
-                      title: 'Sa thải',
-                      onPressed: onFired,
-                      color: AppColors.errorColor,
-                    ),
-                    FilledButton(
-                      title: 'Hoàn thành',
-                      onPressed: onFinish,
-                    ),
+                    if (!isFiredOrEnd) ...[
+                      FilledButton(
+                        title: 'Sa thải',
+                        onPressed: onFired,
+                        color: AppColors.errorColor,
+                      ),
+                      FilledButton(
+                        title: 'Hoàn thành',
+                        onPressed: onFinish,
+                      ),
+                    ],
                   ],
                 ),
               ),
@@ -121,6 +126,7 @@ class CheckAttendanceCard extends StatelessWidget {
                 child: StatusChip(
                   statusName: statusName ?? '',
                   backgroundColor: statusBackground,
+                  borderRadius: 20.0,
                 ),
               ),
           ],

@@ -1,6 +1,5 @@
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:myray_mobile/app/data/enums/enums.dart';
 import 'package:myray_mobile/app/data/models/fee_data.dart';
 import 'package:myray_mobile/app/data/models/garden/garden.dart';
@@ -227,13 +226,9 @@ class LandownerJobPostDetailsController extends GetxController {
         usedPoint: usedPoint?.toString(),
       );
 
-      print('JobPost: ${data.toJson()}');
-
       EasyLoading.show();
       final updatedJobPost = await _jobPostRepository.extendExpiredDate(data);
       if (updatedJobPost == null) throw Exception('Có lỗi xảy ra');
-
-      print('JobPost: ${updatedJobPost.toJson()}');
 
       //update job post details
       jobPost.value = updatedJobPost;
@@ -241,7 +236,9 @@ class LandownerJobPostDetailsController extends GetxController {
       //Update job post list
       final jobPosts = _jobPostController.jobPosts;
       int index = jobPosts.indexWhere((job) => job.id == updatedJobPost.id);
-      jobPosts[index] = updatedJobPost;
+      if (index >= 0) {
+        jobPosts[index] = updatedJobPost;
+      }
 
       //update payment history
       await getPaymentHistory();
@@ -277,5 +274,10 @@ class LandownerJobPostDetailsController extends GetxController {
       paymentHistoryInformation,
       buttonControls,
     ]);
+  }
+
+  navigateToJobFarmerListScreen() {
+    Get.toNamed(Routes.jobFarmerList,
+        arguments: {Arguments.jobPostId: jobPost.value.id});
   }
 }

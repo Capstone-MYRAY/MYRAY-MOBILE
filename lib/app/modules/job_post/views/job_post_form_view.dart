@@ -80,11 +80,14 @@ class JobPostFormView extends GetView<JobPostFormController> {
                                     ),
                                   ),
                                   dropdownDecoratorProps:
-                                      const DropDownDecoratorProps(
+                                      DropDownDecoratorProps(
                                     dropdownSearchDecoration: InputDecoration(
-                                      icon: Icon(CustomIcons.sprout_outline),
+                                      icon: const Icon(
+                                          CustomIcons.sprout_outline),
                                       labelText:
                                           '${AppStrings.labelGardenName}*',
+                                      labelStyle: Get.theme.inputDecorationTheme
+                                          .labelStyle,
                                     ),
                                   ),
                                   items: controller.gardens,
@@ -140,16 +143,21 @@ class JobPostFormView extends GetView<JobPostFormController> {
                                 maxHeight: 120.0,
                               ),
                             ),
-                            // maxHeight: 120.0,
                             dropdownDecoratorProps:
                                 const DropDownDecoratorProps(
                               dropdownSearchDecoration: InputDecoration(
-                                icon: Icon(CustomIcons.bulletin_board),
+                                icon:
+                                    Icon(CustomIcons.bulletin_board, size: 24),
                                 labelText: '${AppStrings.labelWorkType}*',
                                 isDense: true,
+                                floatingLabelBehavior:
+                                    FloatingLabelBehavior.auto,
                               ),
                             ),
-                            selectedItem: controller.selectedWorkType.value,
+                            selectedItem:
+                                controller.selectedWorkType.value.isEmpty
+                                    ? null
+                                    : controller.selectedWorkType.value,
                             items: const [
                               AppStrings.payPerHour,
                               AppStrings.payPerTask,
@@ -175,7 +183,7 @@ class JobPostFormView extends GetView<JobPostFormController> {
                           labelText: AppStrings.labelJobDescription,
                           placeholder: AppStrings.placeholderDescription,
                           keyBoardType: TextInputType.multiline,
-                          minLines: 3,
+                          minLines: 1,
                           maxLines: 10,
                         ),
                       ],
@@ -226,6 +234,9 @@ class JobPostFormView extends GetView<JobPostFormController> {
                                     decoration: const InputDecoration(
                                       label: Text(
                                           '${AppStrings.labelNumOfPublishDay}*'),
+                                    ),
+                                    toolbarOptions: const ToolbarOptions(
+                                      paste: false,
                                     ),
                                     validator:
                                         controller.validateNumOfPublishDay,

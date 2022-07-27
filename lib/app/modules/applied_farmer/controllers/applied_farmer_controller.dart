@@ -15,8 +15,6 @@ class AppliedFarmerController extends GetxController {
 
   final isLoading = false.obs;
 
-  final isBuildFuture = false.obs;
-
   Future<bool?> getAppliedFarmers() async {
     GetAppliedFarmerRequest data = GetAppliedFarmerRequest(
       status: AppliedFarmerStatus.pending,
@@ -31,7 +29,7 @@ class AppliedFarmerController extends GetxController {
     isLoading.value = true;
     try {
       if (_hasNextPage) {
-        final response = await _appliedFarmerRepository.getList(data);
+        final response = await _appliedFarmerRepository.getAllApplied(data);
         if (response == null || response.appliedFarmers!.isEmpty) {
           isLoading.value = false;
           return null;

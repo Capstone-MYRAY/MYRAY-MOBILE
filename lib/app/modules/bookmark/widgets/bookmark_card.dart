@@ -11,6 +11,7 @@ import 'package:myray_mobile/app/shared/widgets/custom_circle_avatar.dart';
 class BookmarkCard extends StatelessWidget {
   final String? avatar;
   final String? fullName;
+  final String? phone;
   final bool isBookmarked;
   final void Function() onToggleBookmark;
   final void Function()? onViewDetails;
@@ -19,6 +20,7 @@ class BookmarkCard extends StatelessWidget {
     Key? key,
     this.avatar,
     this.fullName,
+    this.phone,
     this.onViewDetails,
     this.isBookmarked = true,
     required this.onToggleBookmark,
@@ -44,9 +46,9 @@ class BookmarkCard extends StatelessWidget {
                   fullName ?? '',
                   style: Get.textTheme.bodyText1,
                 ),
-                const SizedBox(height: 2.0),
+                const SizedBox(height: 4.0),
                 Text(
-                  '093747232',
+                  phone ?? '',
                   style: Get.textTheme.caption,
                 ),
               ],

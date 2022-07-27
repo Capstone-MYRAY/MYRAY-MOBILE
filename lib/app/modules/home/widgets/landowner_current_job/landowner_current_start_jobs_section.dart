@@ -15,7 +15,7 @@ class LandownerCurrentStartJobsSection extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Công việc đang bắt đầu',
+            'Công việc làm công đang bắt đầu',
             style: Get.textTheme.headline5!.copyWith(
               color: AppColors.primaryColor,
             ),

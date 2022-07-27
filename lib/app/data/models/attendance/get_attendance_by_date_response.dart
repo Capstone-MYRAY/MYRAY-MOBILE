@@ -12,6 +12,9 @@ class GetAttendanceByDateResponse {
   @JsonKey(name: 'status')
   int appliedFarmerStatus;
 
+  @JsonKey(name: 'end_date')
+  DateTime? endDate;
+
   @JsonKey(name: 'account')
   Account farmer;
 
@@ -23,6 +26,7 @@ class GetAttendanceByDateResponse {
     required this.id,
     required this.attendance,
     required this.appliedFarmerStatus,
+    this.endDate,
   });
 
   factory GetAttendanceByDateResponse.fromJson(Map<String, dynamic> json) =>

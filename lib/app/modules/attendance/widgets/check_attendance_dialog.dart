@@ -16,7 +16,6 @@ class CheckAttendanceDialog {
     void Function() onSubmit,
   ) async {
     return await BaseDialog.show(
-      isFit: false,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -50,36 +49,34 @@ class CheckAttendanceDialog {
             style: Get.textTheme.headline6,
           ),
           const SizedBox(height: 8.0),
-          Flexible(
-            fit: FlexFit.loose,
-            child: Container(
-              constraints: BoxConstraints(
-                maxWidth: Get.width * 0.9 - 40,
+          Container(
+            constraints: BoxConstraints(
+              maxWidth: Get.width * 0.9 - 40,
+              maxHeight: Get.height * 0.4,
+            ),
+            decoration: BoxDecoration(
+              border: Border.all(color: AppColors.black),
+              borderRadius: BorderRadius.circular(
+                CommonConstants.borderRadius,
               ),
-              decoration: BoxDecoration(
-                border: Border.all(color: AppColors.black),
-                borderRadius: BorderRadius.circular(
-                  CommonConstants.borderRadius,
+            ),
+            child: Stack(
+              children: [
+                ClipRect(
+                  child: Signature(
+                    controller: controller,
+                    backgroundColor: AppColors.white,
+                  ),
                 ),
-              ),
-              child: Stack(
-                children: [
-                  ClipRect(
-                    child: Signature(
-                      controller: controller,
-                      backgroundColor: AppColors.white,
-                    ),
+                Positioned(
+                  top: 2.0,
+                  right: 2.0,
+                  child: GestureDetector(
+                    onTap: () => controller.clear(),
+                    child: const Icon(Icons.clear),
                   ),
-                  Positioned(
-                    top: 2.0,
-                    right: 2.0,
-                    child: GestureDetector(
-                      onTap: () => controller.clear(),
-                      child: const Icon(Icons.clear),
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
           const SizedBox(height: 16.0),

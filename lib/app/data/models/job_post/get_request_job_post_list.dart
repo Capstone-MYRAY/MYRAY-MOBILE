@@ -17,6 +17,9 @@ class GetRequestJobPostList {
   @JsonKey(name: 'sort-column')
   JobPostSortColumn? sortColumn;
 
+  @JsonKey(name: 'type')
+  String? type;
+
   @JsonKey(name: 'order-by')
   SortOrder? orderBy;
 
@@ -34,6 +37,7 @@ class GetRequestJobPostList {
     this.workStatus,
     this.title,
     this.sortColumn,
+    this.type,
     this.orderBy,
     this.page,
     this.pageSize,

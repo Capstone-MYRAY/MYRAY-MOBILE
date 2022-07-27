@@ -12,7 +12,7 @@ GetAppliedFarmerRequest _$GetAppliedFarmerRequestFromJson(
       page: json['page'] as String,
       pageSize: json['page-size'] as String,
       status: $enumDecodeNullable(_$AppliedFarmerStatusEnumMap, json['status']),
-      jobPostId: json['startWork'] as String?,
+      jobPostId: json['jobPostId'] as String?,
       sortColumn: $enumDecodeNullable(
           _$AppliedFarmerSortColumnEnumMap, json['sort-column']),
       orderBy: $enumDecodeNullable(_$SortOrderEnumMap, json['order-by']),
@@ -31,7 +31,7 @@ Map<String, dynamic> _$GetAppliedFarmerRequestToJson(
   writeNotNull('status', _$AppliedFarmerStatusEnumMap[instance.status]);
   val['page'] = instance.page;
   val['page-size'] = instance.pageSize;
-  writeNotNull('startWork', instance.jobPostId);
+  writeNotNull('jobPostId', instance.jobPostId);
   writeNotNull(
       'sort-column', _$AppliedFarmerSortColumnEnumMap[instance.sortColumn]);
   writeNotNull('order-by', _$SortOrderEnumMap[instance.orderBy]);

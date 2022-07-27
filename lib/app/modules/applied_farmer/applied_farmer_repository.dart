@@ -8,10 +8,26 @@ import 'package:myray_mobile/app/shared/utils/custom_exception.dart';
 class AppliedFarmerRepository {
   final _apiProvider = Get.find<ApiProvider>();
 
-  Future<GetAppliedFarmerResponse?> getList(
+  Future<GetAppliedFarmerResponse?> getAllApplied(
       GetAppliedFarmerRequest data) async {
     final response = await _apiProvider.getMethod('/jobpost/allapplied',
         data: data.toJson());
+
+    if (response.statusCode == HttpStatus.ok) {
+      return GetAppliedFarmerResponse.fromJson(response.body);
+    }
+
+    if (response.statusCode == HttpStatus.noContent) {
+      throw CustomException('No content');
+    }
+
+    return null;
+  }
+
+  Future<GetAppliedFarmerResponse?> getAppliedByJob(
+      GetAppliedFarmerRequest data) async {
+    final response =
+        await _apiProvider.getMethod('/jobpost/applied', data: data.toJson());
 
     if (response.statusCode == HttpStatus.ok) {
       return GetAppliedFarmerResponse.fromJson(response.body);
