@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:myray_mobile/app/data/enums/enums.dart';
 import 'package:myray_mobile/app/data/models/feedback/feedback.dart';
 import 'package:myray_mobile/app/data/models/report/report.dart';
 import 'package:myray_mobile/app/modules/job_farmer_list/controllers/controllers.dart';
@@ -58,36 +59,7 @@ class JobFarmerDetailsView extends GetView<JobFarmerDetailsController> {
                     _buildFeedback(),
                     _buildReport(),
                     const SizedBox(height: 16.0),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        if (controller.report.value == null) ...[
-                          SizedBox(
-                            width: Get.width * 0.35,
-                            child: SizedBox(
-                              child: FilledButton(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 12.0),
-                                title: AppStrings.titleReport,
-                                color: AppColors.errorColor,
-                                onPressed: controller.onReport,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 16.0),
-                        ],
-                        if (controller.feedback.value == null)
-                          SizedBox(
-                            width: Get.width * 0.35,
-                            child: FilledButton(
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 12.0),
-                              title: AppStrings.titleFeedback,
-                              onPressed: controller.onFeedback,
-                            ),
-                          ),
-                      ],
-                    ),
+                    _buildBottom(),
                   ],
                 ),
               ),
@@ -95,6 +67,80 @@ class JobFarmerDetailsView extends GetView<JobFarmerDetailsController> {
           );
         },
       ),
+    );
+  }
+
+  Widget _buildBottom() {
+    if (controller.appliedFarmer.value.status ==
+        AppliedFarmerStatus.pending.index) {
+      return _buildApproveAndReject();
+    } else {
+      return _buildReportAndFeedbackButtons();
+    }
+  }
+
+  Widget _buildApproveAndReject() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        SizedBox(
+          width: Get.width * 0.35,
+          child: SizedBox(
+            child: OutlinedButton(
+              onPressed: controller.onReject,
+              style: OutlinedButton.styleFrom(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 12.0,
+                ),
+              ),
+              child: const Text(AppStrings.titleRefuse),
+            ),
+          ),
+        ),
+        const SizedBox(width: 16.0),
+        if (controller.feedback.value == null)
+          SizedBox(
+            width: Get.width * 0.35,
+            child: FilledButton(
+              title: AppStrings.titleHire,
+              padding: const EdgeInsets.symmetric(
+                vertical: 12.0,
+              ),
+              onPressed: controller.onApprove,
+            ),
+          ),
+      ],
+    );
+  }
+
+  Widget _buildReportAndFeedbackButtons() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        if (controller.report.value == null) ...[
+          SizedBox(
+            width: Get.width * 0.35,
+            child: SizedBox(
+              child: FilledButton(
+                padding: const EdgeInsets.symmetric(vertical: 12.0),
+                title: AppStrings.titleReport,
+                color: AppColors.errorColor,
+                onPressed: controller.onReport,
+              ),
+            ),
+          ),
+          const SizedBox(width: 16.0),
+        ],
+        if (controller.feedback.value == null)
+          SizedBox(
+            width: Get.width * 0.35,
+            child: FilledButton(
+              padding: const EdgeInsets.symmetric(vertical: 12.0),
+              title: AppStrings.titleFeedback,
+              onPressed: controller.onFeedback,
+            ),
+          ),
+      ],
     );
   }
 

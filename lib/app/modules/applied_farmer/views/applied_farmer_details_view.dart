@@ -79,7 +79,7 @@ class AppliedFarmerDetailsView extends GetView<AppliedFarmerDetailsController> {
                 onPressed: controller.reject,
                 style: OutlinedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(
-                    vertical: 8.0,
+                    vertical: 12.0,
                   ),
                 ),
                 child: const Text(AppStrings.titleRefuse),
@@ -90,7 +90,7 @@ class AppliedFarmerDetailsView extends GetView<AppliedFarmerDetailsController> {
               child: FilledButton(
                 title: AppStrings.titleHire,
                 padding: const EdgeInsets.symmetric(
-                  vertical: 8.0,
+                  vertical: 12.0,
                 ),
                 onPressed: controller.approve,
               ),
