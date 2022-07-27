@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
-import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:get/get.dart';
 import 'package:myray_mobile/app/data/models/guidepost/guidepost.dart';
 import 'package:myray_mobile/app/modules/guidepost/controllers/guidepost_controller.dart';
