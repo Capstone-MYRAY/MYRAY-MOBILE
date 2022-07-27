@@ -10,7 +10,7 @@ import 'package:myray_mobile/app/shared/utils/custom_exception.dart';
 class JobFarmerListController extends GetxController {
   final _appliedFarmerRepository = Get.find<AppliedFarmerRepository>();
   final _jobPostId = Get.arguments[Arguments.jobPostId];
-  RxList<AppliedFarmer> appliedFarmer = RxList<AppliedFarmer>();
+  RxList<AppliedFarmer> appliedFarmers = RxList<AppliedFarmer>();
   Rxn<AppliedFarmerStatus> selectedFilter = Rxn(null);
   int _currentPage = 0;
   final int _pageSize = 5;
@@ -63,7 +63,7 @@ class JobFarmerListController extends GetxController {
           return null;
         }
 
-        appliedFarmer.addAll(response.appliedFarmers!);
+        appliedFarmers.addAll(response.appliedFarmers!);
         //update hasNext
         _hasNextPage = response.metadata!.hasNextPage;
       }
@@ -82,7 +82,7 @@ class JobFarmerListController extends GetxController {
     _hasNextPage = true;
 
     //clear applied farmer list
-    appliedFarmer.clear();
+    appliedFarmers.clear();
 
     update();
   }
@@ -101,5 +101,12 @@ class JobFarmerListController extends GetxController {
   onChangedFilter(value) {
     selectedFilter.value = value;
     onRefresh();
+  }
+
+  updateList(AppliedFarmer appliedFarmer) {
+    AppliedFarmer farmer =
+        appliedFarmers.firstWhere((element) => element.id == appliedFarmer.id);
+    farmer.status = appliedFarmer.status;
+    appliedFarmers.refresh();
   }
 }

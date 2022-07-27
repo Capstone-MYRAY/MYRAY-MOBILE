@@ -45,50 +45,52 @@ class AppliedFarmerDetailsController extends GetxController
   }
 
   approve() async {
-    bool? success = await approveFarmer(appliedFarmer.value.id);
+    try {
+      bool? success = await approveFarmer(appliedFarmer.value.id);
 
-    //user cancel action
-    if (success == null) return;
+      //user cancel action
+      if (success == null) return;
 
-    if (!success) {
+      if (!success) throw Exception('Có lỗi xảy ra');
+
+      //update status
+      appliedFarmer.value.status = AppliedFarmerStatus.approved.index;
+
+      //remove this farmer from list
+      final appliedFarmerController = Get.find<AppliedFarmerController>();
+      appliedFarmerController.removeItem(appliedFarmer.value);
+      appliedFarmer.refresh();
+    } catch (e) {
       CustomSnackbar.show(
         title: AppStrings.titleError,
         message: 'Có lỗi xảy ra',
         backgroundColor: AppColors.errorColor,
       );
-      return;
     }
-
-    //update status
-    appliedFarmer.value.status = AppliedFarmerStatus.approved.index;
-
-    //remove this farmer from list
-    final appliedFarmerController = Get.find<AppliedFarmerController>();
-    appliedFarmerController.removeItem(appliedFarmer.value);
-    appliedFarmer.refresh();
   }
 
   reject() async {
-    bool? success = await rejectFarmer(appliedFarmer.value.id);
+    try {
+      bool? success = await rejectFarmer(appliedFarmer.value.id);
 
-    //user cancel action
-    if (success == null) return;
+      //user cancel action
+      if (success == null) return;
 
-    if (!success) {
+      if (!success) throw Exception('Có lỗi xảy ra');
+
+      //update status
+      appliedFarmer.value.status = AppliedFarmerStatus.rejected.index;
+
+      //remove this farmer from list
+      final appliedFarmerController = Get.find<AppliedFarmerController>();
+      appliedFarmerController.removeItem(appliedFarmer.value);
+      appliedFarmer.refresh();
+    } catch (e) {
       CustomSnackbar.show(
         title: AppStrings.titleError,
         message: 'Có lỗi xảy ra',
         backgroundColor: AppColors.errorColor,
       );
-      return;
     }
-
-    //update status
-    appliedFarmer.value.status = AppliedFarmerStatus.rejected.index;
-
-    //remove this farmer from list
-    final appliedFarmerController = Get.find<AppliedFarmerController>();
-    appliedFarmerController.removeItem(appliedFarmer.value);
-    appliedFarmer.refresh();
   }
 }
