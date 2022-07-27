@@ -236,7 +236,9 @@ class LandownerJobPostDetailsController extends GetxController {
       //Update job post list
       final jobPosts = _jobPostController.jobPosts;
       int index = jobPosts.indexWhere((job) => job.id == updatedJobPost.id);
-      jobPosts[index] = updatedJobPost;
+      if (index >= 0) {
+        jobPosts[index] = updatedJobPost;
+      }
 
       //update payment history
       await getPaymentHistory();

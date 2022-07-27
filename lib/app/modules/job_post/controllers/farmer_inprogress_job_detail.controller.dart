@@ -311,6 +311,7 @@ class InprogressJobDetailController extends GetxController {
         jobPostId: jobPostId,
         belongedId: AuthCredentials.instance.user!.id!,
       );
+
       try {
         FeedBack? feedback = await feedBackController.sendFeedBack(data);
         EasyLoading.show();

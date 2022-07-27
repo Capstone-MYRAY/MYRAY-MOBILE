@@ -8,6 +8,8 @@ class FarmerDetails extends StatelessWidget {
   final String? avatar;
   final String role;
   final double? rating;
+  final String? statusName;
+  final Color? statusColor;
   final bool isBookmarked;
   final bool isChatButtonDisplayed;
   final void Function()? navigateToChatScreen;
@@ -20,6 +22,8 @@ class FarmerDetails extends StatelessWidget {
     required this.user,
     this.avatar,
     this.rating,
+    this.statusName,
+    this.statusColor,
     this.isBookmarked = false,
     this.isChatButtonDisplayed = true,
     this.navigateToChatScreen,
@@ -34,6 +38,8 @@ class FarmerDetails extends StatelessWidget {
           role: role,
           avatar: avatar,
           rating: rating,
+          statusColor: statusColor,
+          statusName: statusName,
           isChatButtonDisplayed: isChatButtonDisplayed,
           onFavoriteToggle: onFavoriteToggle,
           navigateToChatScreen: navigateToChatScreen,

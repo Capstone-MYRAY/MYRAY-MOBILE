@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:myray_mobile/app/modules/job_farmer_list/controllers/controllers.dart';
+import 'package:myray_mobile/app/routes/app_pages.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
-import 'package:myray_mobile/app/data/enums/enums.dart';
 import 'package:myray_mobile/app/data/models/applied_farmer/applied_farmer.dart';
 import 'package:myray_mobile/app/modules/job_farmer_list/widgets/farmer_info_card.dart';
 import 'package:myray_mobile/app/shared/widgets/builders/list_empty_builder.dart';
@@ -55,15 +55,23 @@ class JobFarmerListView extends GetView<JobFarmerListController> {
                 onRefresh: controller.onRefresh,
                 itemCount: controller.appliedFarmer.length,
                 itemBuilder: ((context, index) {
-                  AppliedFarmer approvedFarmer =
-                      controller.appliedFarmer[index];
+                  AppliedFarmer appliedFarmer = controller.appliedFarmer[index];
                   return FarmerInfoCard(
-                    key: ValueKey(approvedFarmer.id),
-                    fullName: approvedFarmer.userInfo.fullName ?? '',
-                    phone: approvedFarmer.userInfo.phoneNumber ?? '',
-                    avatar: approvedFarmer.userInfo.imageUrl,
-                    statusName: approvedFarmer.statusString,
-                    statusColor: approvedFarmer.statusColor,
+                    key: ValueKey(appliedFarmer.id),
+                    fullName: appliedFarmer.userInfo.fullName ?? '',
+                    phone: appliedFarmer.userInfo.phoneNumber ?? '',
+                    avatar: appliedFarmer.userInfo.imageUrl,
+                    statusName: appliedFarmer.statusString,
+                    statusColor: appliedFarmer.statusColor,
+                    onButtonTap: () {
+                      Get.toNamed(
+                        Routes.jobFarmerDetails,
+                        arguments: {
+                          Arguments.tag: appliedFarmer.id.toString(),
+                          Arguments.item: appliedFarmer,
+                        },
+                      );
+                    },
                   );
                 }),
               ),

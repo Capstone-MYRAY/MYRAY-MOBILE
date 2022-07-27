@@ -48,17 +48,17 @@ class FarmerAvatarInfo extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 2.0),
+        RatingStar(
+          itemSize: 28.0,
+          rating: rating ?? 0.0,
+        ),
+        const SizedBox(height: 16.0),
         if (statusName != null && statusColor != null)
           StatusChip(
             borderRadius: 20.0,
             statusName: statusName ?? '',
             backgroundColor: statusColor,
           ),
-        const SizedBox(height: 2.0),
-        RatingStar(
-          itemSize: 28.0,
-          rating: rating ?? 0.0,
-        ),
         const SizedBox(height: 16.0),
         Container(
           margin: EdgeInsets.symmetric(

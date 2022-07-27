@@ -12,6 +12,7 @@ class FarmerInfoCard extends StatelessWidget {
   final String? statusName;
   final Color? statusColor;
   final String? avatar;
+  final void Function()? onButtonTap;
 
   const FarmerInfoCard({
     Key? key,
@@ -20,6 +21,7 @@ class FarmerInfoCard extends StatelessWidget {
     this.statusName,
     this.statusColor,
     this.avatar,
+    this.onButtonTap,
   }) : super(key: key);
 
   @override
@@ -66,7 +68,7 @@ class FarmerInfoCard extends StatelessWidget {
             child: FilledButton(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
               title: AppStrings.titleDetails,
-              onPressed: () {},
+              onPressed: onButtonTap,
             ),
           )
         ],

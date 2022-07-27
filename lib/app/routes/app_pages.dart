@@ -167,7 +167,7 @@ class AppPages {
     GetPage(
       name: _Paths.jobFarmerList,
       page: () => const JobFarmerListView(),
-      binding: JobFarmerDetailsBinding(),
+      binding: JobFarmerListBinding(),
     ),
     GetPage(
       name: _Paths.jobFarmerDetails,

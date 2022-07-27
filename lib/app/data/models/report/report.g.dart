@@ -9,7 +9,7 @@ part of 'report.dart';
 Report _$ReportFromJson(Map<String, dynamic> json) => Report(
       id: json['id'] as int?,
       content: json['content'] as String,
-      createdby: json['created_by'] as int,
+      createdBy: json['created_by'] as int,
       createdDate: DateTime.parse(json['created_date'] as String),
       resolvedBy: json['resolved_by'] as int?,
       status: json['status'] as int?,
@@ -35,7 +35,7 @@ Map<String, dynamic> _$ReportToJson(Report instance) {
   val['content'] = instance.content;
   writeNotNull('resolve_content', instance.resolveContent);
   writeNotNull('reported_id', instance.reportedId);
-  val['created_by'] = instance.createdby;
+  val['created_by'] = instance.createdBy;
   val['created_date'] = instance.createdDate.toIso8601String();
   writeNotNull('resolved_date', instance.resolvedDate?.toIso8601String());
   writeNotNull('resolved_by', instance.resolvedBy);

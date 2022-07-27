@@ -30,7 +30,7 @@ class LandownerJobPostDetailsView
 
   JobPost get jobPost => controller.jobPost.value;
 
-  Activities? get action => Get.arguments?[Arguments.action];
+  Activities? get action => Get.arguments[Arguments.action];
 
   bool get _isFeatureNotDisplay =>
       jobPost.status == JobPostStatus.pending.index ||
