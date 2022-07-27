@@ -27,7 +27,7 @@ class FilledButton extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           minimumSize: Size(minWidth, minHeight),
           padding: padding,
-          primary: color,
+          backgroundColor: color,
         ),
         child: Text(title),
       ),

@@ -34,6 +34,7 @@ import 'package:myray_mobile/app/modules/payment_history/payment_history_reposit
 import 'package:myray_mobile/app/modules/profile/controllers/farmer_profile_controller.dart';
 import 'package:myray_mobile/app/modules/profile/controllers/landowner_profile_controller.dart';
 import 'package:myray_mobile/app/modules/profile/profile_repository.dart';
+import 'package:myray_mobile/app/modules/report/report_repository.dart';
 
 class AppBinding extends Bindings {
   @override
@@ -76,5 +77,6 @@ class AppBinding extends Bindings {
     Get.lazyPut(() => FarmerNotStartJobController(), fenix: true);
     Get.lazyPut(() => FeedBackRepository(), fenix: true);
     Get.lazyPut(() => FeedBackController(), fenix: true);
+    Get.lazyPut(() => ReportRepository(), fenix: true);
   }
 }

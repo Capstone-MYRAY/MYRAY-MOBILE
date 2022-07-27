@@ -30,7 +30,7 @@ class LandownerJobPostDetailsView
 
   JobPost get jobPost => controller.jobPost.value;
 
-  Activities? get action => Get.arguments?[Arguments.action];
+  Activities? get action => Get.arguments[Arguments.action];
 
   bool get _isFeatureNotDisplay =>
       jobPost.status == JobPostStatus.pending.index ||
@@ -46,6 +46,10 @@ class LandownerJobPostDetailsView
 
   bool get _isRepost => jobPost.status == JobPostStatus.expired.index;
 
+  bool get _isOutOfDate => jobPost.status == JobPostStatus.outOfDate.index;
+
+  bool get _isPending => jobPost.status == JobPostStatus.pending.index;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,7 +63,7 @@ class LandownerJobPostDetailsView
               return const LoadingBuilder();
             }
 
-            if (snapshot.hasError || snapshot.data == null) {
+            if (snapshot.hasError) {
               return const DetailsErrorBuilder();
             }
 
@@ -72,7 +76,6 @@ class LandownerJobPostDetailsView
                 _buildPostInformation(),
                 _buildPaymentHistoryInformation(),
                 if (!_isFeatureNotDisplay) ..._buildFeatures(),
-                const SizedBox(height: 16.0),
                 GetBuilder<LandownerJobPostDetailsController>(
                   id: 'ButtonControls',
                   tag: _myTag,
@@ -89,36 +92,15 @@ class LandownerJobPostDetailsView
   List<Widget> _buildButtons() {
     List<Widget> widgets = [];
     if (action == null) {
-      if (jobPost.status == JobPostStatus.pending.index) {
+      //add edit button
+      if (_isPending) {
         final buttons = [
+          const SizedBox(height: 8.0),
           FractionallySizedBox(
             widthFactor: 0.8,
             child: FilledButton(
               title: AppStrings.titleEdit,
               onPressed: controller.navigateToUpdateForm,
-            ),
-          ),
-          const SizedBox(height: 8.0),
-          FractionallySizedBox(
-            widthFactor: 0.8,
-            child: FilledButton(
-              title: AppStrings.titleDelete,
-              onPressed: controller.deleteJob,
-              color: AppColors.errorColor,
-            ),
-          ),
-        ];
-        widgets.addAll(buttons);
-      }
-
-      if (_isApproved && !_isStartJob) {
-        final buttons = [
-          FractionallySizedBox(
-            widthFactor: 0.8,
-            child: FilledButton(
-              title: AppStrings.cancel,
-              color: AppColors.errorColor,
-              onPressed: controller.cancelJob,
             ),
           ),
         ];
@@ -153,6 +135,38 @@ class LandownerJobPostDetailsView
         ];
         widgets.addAll(button);
       }
+
+      //add delete button
+      if (_isPending || _isOutOfDate) {
+        final buttons = [
+          const SizedBox(height: 8.0),
+          FractionallySizedBox(
+            widthFactor: 0.8,
+            child: FilledButton(
+              title: AppStrings.titleDelete,
+              onPressed: controller.deleteJob,
+              color: AppColors.errorColor,
+            ),
+          ),
+        ];
+        widgets.addAll(buttons);
+      }
+
+      //add cancel button
+      if (_isApproved && !_isStartJob) {
+        final buttons = [
+          FractionallySizedBox(
+            widthFactor: 0.8,
+            child: FilledButton(
+              title: AppStrings.cancel,
+              color: AppColors.errorColor,
+              onPressed: controller.cancelJob,
+            ),
+          ),
+        ];
+
+        widgets.addAll(buttons);
+      }
     }
 
     return widgets;
@@ -166,7 +180,7 @@ class LandownerJobPostDetailsView
         title: AppStrings.titleFarmerList,
         borderRadius: CommonConstants.borderRadius,
         widthFactor: 0.9,
-        onTap: () {},
+        onTap: controller.navigateToJobFarmerListScreen,
       ),
       const SizedBox(height: 12.0),
       FeatureOption(

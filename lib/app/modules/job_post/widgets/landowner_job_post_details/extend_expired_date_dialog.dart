@@ -27,11 +27,6 @@ class ExtendExpiredDateDialog {
     double reduce = 0;
 
     return await BaseDialog.show(
-      margin: EdgeInsets.only(
-        top: Get.height * 0.2,
-        right: Get.width * 0.1,
-        left: Get.width * 0.1,
-      ),
       child: StatefulBuilder(
         builder: (context, setState) => Column(
           children: [

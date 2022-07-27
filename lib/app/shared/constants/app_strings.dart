@@ -57,6 +57,8 @@ class AppStrings {
   static const titleHire = 'Thuê';
   static const titleRefuse = 'Từ chối';
   static const titleFavoriteList = 'Danh sách yêu thích';
+  static const titleApproved = 'Đã thuê';
+  static const titleFeedback = 'Đánh giá';
 
   //Subtitle
   static const subtitleMyGarden = 'Danh sách vườn đã tạo';
@@ -131,6 +133,10 @@ class AppStrings {
   static const labelNewExtendJobDate = 'Ngày kết thúc mới';
   static const labelOldExtendJobDate = 'Ngày kết thúc cũ';
   static const labelAppliedDate = 'Ngày ứng tuyển';
+  static const labelReportDescription = 'Nội dung báo cáo';
+  static const labelResolvedBy = 'Người giải quyết';
+  static const labelResolvedDate = 'Ngày giải quyết';
+  static const labelResolvedContent = 'Hướng giải quyết';
 
   //Placeholder
   static const placeholderPhone = 'Nhập số điện thoại';
@@ -212,9 +218,13 @@ class AppStrings {
   static const paymentHistoryFailed = 'Giao dịch thất bại';
 
   static const appliedFarmerPending = 'Chờ duyệt';
-  static const appliedFarmerApproved = 'Đã thuê';
+  static const appliedFarmerApproved = 'Đang làm việc';
   static const appliedFarmerRejected = 'Đã từ chối';
   static const appliedFarmerEnd = 'Đã kết thúc';
+  static const appliedFarmerFired = 'Đã sa thải';
+
+  static const reportPending = 'Đang giải quyết';
+  static const reportResolved = 'Đã giải quyết';
 
   static const absent = 'Vắng mặt';
   static const present = 'Có mặt';

@@ -24,7 +24,7 @@ import 'package:myray_mobile/app/modules/garden/views/garden_home_view.dart';
 import 'package:myray_mobile/app/modules/home/bindings/farmer_job_post_detail_binding.dart';
 import 'package:myray_mobile/app/modules/attendance/bindings/job_post_attendance_binding.dart';
 import 'package:myray_mobile/app/modules/home/views/farmer_job_post_detail.dart';
-import 'package:myray_mobile/app/modules/job_post/bindings/farmer_inprogress_job_binding.dart';
+import 'package:myray_mobile/app/modules/job_farmer_list/job_farmer_list_module.dart';
 import 'package:myray_mobile/app/modules/job_post/bindings/farmer_inprogress_job_detail_binding.dart';
 import 'package:myray_mobile/app/modules/attendance/views/job_post_attendance_view.dart';
 import 'package:myray_mobile/app/modules/job_post/bindings/job_post_form_binding.dart';
@@ -163,6 +163,16 @@ class AppPages {
       name: _Paths.landownerBookmarkDetails,
       page: () => const LandownerBookmarkDetailsView(),
       binding: LandownerBookmarkDetailsBinding(),
+    ),
+    GetPage(
+      name: _Paths.jobFarmerList,
+      page: () => const JobFarmerListView(),
+      binding: JobFarmerListBinding(),
+    ),
+    GetPage(
+      name: _Paths.jobFarmerDetails,
+      page: () => const JobFarmerDetailsView(),
+      binding: JobFarmerDetailsBinding(),
     ),
 
     //farmer

@@ -58,7 +58,7 @@ class TreeTypeFieldState extends State<TreeTypeField> {
               horizontalTitleGap: 0.0,
               title: Text(
                 AppStrings.labelTreeType,
-                style: Get.textTheme.headline6,
+                style: Get.theme.inputDecorationTheme.labelStyle,
               ),
               trailing: _buildIcon(CustomIcons.menu_down),
             ),
