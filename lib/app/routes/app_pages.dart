@@ -24,6 +24,10 @@ import 'package:myray_mobile/app/modules/garden/views/garden_form_view.dart';
 import 'package:myray_mobile/app/modules/garden/views/garden_home_view.dart';
 import 'package:myray_mobile/app/modules/guidepost/bindings/guidepost_binding.dart';
 import 'package:myray_mobile/app/modules/guidepost/views/guidepost_view.dart';
+import 'package:myray_mobile/app/modules/history_job/bindings/farmer_history_job_binding.dart';
+import 'package:myray_mobile/app/modules/history_job/bindings/farmer_history_job_detail_binding.dart';
+import 'package:myray_mobile/app/modules/history_job/views/farmer_history_job_view.dart';
+import 'package:myray_mobile/app/modules/history_job/views/farmer_hitory_job_detail_view.dart';
 import 'package:myray_mobile/app/modules/home/bindings/farmer_job_post_detail_binding.dart';
 import 'package:myray_mobile/app/modules/attendance/bindings/job_post_attendance_binding.dart';
 import 'package:myray_mobile/app/modules/home/views/farmer_job_post_detail.dart';
@@ -222,6 +226,18 @@ class AppPages {
       page: () => const FarmerWorkDayView(),
       transition: Transition.rightToLeft,
       binding: FarmerAttendanceBinding(),
+    ),
+    GetPage(
+      name: _Paths.farmerHistoryJob,
+      page: () => const FarmerHistoryJobView(),
+      binding: FarmerHistoryJobBinding(),
+      transition: Transition.rightToLeft,
+    ),
+    GetPage(
+      name: _Paths.farmerHistoryJobDetail,
+      page: () => const FarmerHistoryJobDetail(),
+      binding: FarmerHistoryJobDetailBinding(),
+      transition: Transition.rightToLeft,
     ),
   ];
 }

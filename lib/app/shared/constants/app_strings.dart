@@ -138,6 +138,8 @@ class AppStrings {
   static const labelResolvedBy = 'Người giải quyết';
   static const labelResolvedDate = 'Ngày giải quyết';
   static const labelResolvedContent = 'Hướng giải quyết';
+  static const labelHistoryJob = 'Lịch sử công việc';
+  static const labelHistoryJobDetail = 'Chi tiết công việc';
 
   //Placeholder
   static const placeholderPhone = 'Nhập số điện thoại';

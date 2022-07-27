@@ -41,7 +41,7 @@ class FarmerFeatureOptions extends StatelessWidget {
           icon: CustomIcons.work_history_outline,
           title: AppStrings.titleHistoryJob,
           subtitle: AppStrings.subtitleHistoryJob,
-          onTap: () {},
+          onTap: history,
         ),
         FeatureOption(
           icon: CustomIcons.account_heart_outline,
