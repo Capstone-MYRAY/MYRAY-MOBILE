@@ -22,6 +22,22 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
         appBar: AppBar(
           title: const Text(AppStrings.home),
           centerTitle: true,
+          actions: <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(right: 20),
+              child: InkWell(
+                onTap: (){
+                  Get.toNamed(Routes.guidepost);
+                },
+                child: Image.asset(
+                  AppAssets.guidepost,
+                  width: 32,
+                  height: 30,
+                  filterQuality: FilterQuality.high,
+                ),
+              ),
+            ),
+          ],
         ),
         body: FutureBuilder(
             future: controller.getListJobPost(),
@@ -184,7 +200,9 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
                                 ? Flexible(
                                     child: ListView.builder(
                                         padding: const EdgeInsets.only(
-                                            left: 5.0, right: 5.0,),
+                                          left: 5.0,
+                                          right: 5.0,
+                                        ),
                                         itemCount: controller.listObject.length,
                                         physics:
                                             const NeverScrollableScrollPhysics(),
@@ -201,13 +219,17 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
                                                   publishedDate,
                                                   numberPublishDate);
                                           return Padding(
-                                            padding: EdgeInsets.only(top: Get.height * 0.02),
+                                            padding: EdgeInsets.only(
+                                                top: Get.height * 0.02),
                                             child: FarmerPostCard(
                                               title: jobPost.title,
                                               address: jobPost.address ?? '',
-                                              price: jobPost.payPerHourJob != null
-                                                  ? jobPost.payPerHourJob!.salary
-                                                  : jobPost.payPerTaskJob!.salary,
+                                              price:
+                                                  jobPost.payPerHourJob != null
+                                                      ? jobPost
+                                                          .payPerHourJob!.salary
+                                                      : jobPost.payPerTaskJob!
+                                                          .salary,
                                               treeType: jobPost.treeJobs.isEmpty
                                                   ? "Không phân loại"
                                                   : jobPost.treeJobs[0].type ??
@@ -219,8 +241,9 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
                                               expiredDate:
                                                   DateFormat('dd-MM-yyyy')
                                                       .format(expiredDate),
-                                              isExpired: controller
-                                                  .checkExpiredDate(expiredDate),
+                                              isExpired:
+                                                  controller.checkExpiredDate(
+                                                      expiredDate),
                                               onTap: () {
                                                 Get.toNamed(
                                                     Routes.farmerJobPostDetail,

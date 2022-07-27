@@ -12,6 +12,7 @@ import 'package:myray_mobile/app/modules/bookmark/bindings/landowner_bookmark_de
 import 'package:myray_mobile/app/modules/bookmark/views/famer_bookmark.dart';
 import 'package:myray_mobile/app/modules/bookmark/views/landowner_bookmark_details_view.dart';
 import 'package:myray_mobile/app/modules/bookmark/views/landowner_bookmark_view.dart';
+import 'package:myray_mobile/app/modules/comment/bindings/comment_binding.dart';
 import 'package:myray_mobile/app/modules/dashboard/bindings/dashboard_binding.dart';
 import 'package:myray_mobile/app/modules/dashboard/views/farmer_dashboard_view.dart';
 import 'package:myray_mobile/app/modules/dashboard/views/landowner_dashboard_view.dart';
@@ -21,6 +22,8 @@ import 'package:myray_mobile/app/modules/garden/bindings/garden_home_binding.dar
 import 'package:myray_mobile/app/modules/garden/views/garden_details_view.dart';
 import 'package:myray_mobile/app/modules/garden/views/garden_form_view.dart';
 import 'package:myray_mobile/app/modules/garden/views/garden_home_view.dart';
+import 'package:myray_mobile/app/modules/guidepost/bindings/guidepost_binding.dart';
+import 'package:myray_mobile/app/modules/guidepost/views/guidepost_view.dart';
 import 'package:myray_mobile/app/modules/home/bindings/farmer_job_post_detail_binding.dart';
 import 'package:myray_mobile/app/modules/attendance/bindings/job_post_attendance_binding.dart';
 import 'package:myray_mobile/app/modules/home/views/farmer_job_post_detail.dart';
@@ -95,6 +98,12 @@ class AppPages {
       name: _Paths.p2pMessages,
       page: () => const P2PMessageView(),
       bindings: [NewMessageBinding(), P2PMessageBinding()],
+      transition: Transition.rightToLeft,
+    ),
+    GetPage(
+      name: _Paths.guidepost,
+      page: () => const GuidePostView(),
+      bindings: [GuidepostBinding(), CommentBinding()],
       transition: Transition.rightToLeft,
     ),
 
