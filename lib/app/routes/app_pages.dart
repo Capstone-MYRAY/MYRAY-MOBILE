@@ -45,6 +45,10 @@ import 'package:myray_mobile/app/modules/message/widgets/new_message/new_message
 import 'package:myray_mobile/app/modules/payment_history/payment_history_module.dart';
 import 'package:myray_mobile/app/modules/profile/views/farmer_profile_detail.dart';
 import 'package:myray_mobile/app/modules/profile/views/landowner_profile_details_view.dart';
+import 'package:myray_mobile/app/modules/report/bindings/landowner_report_binding.dart';
+import 'package:myray_mobile/app/modules/report/bindings/landowner_report_details_binding.dart';
+import 'package:myray_mobile/app/modules/report/views/landowner_report_details_view.dart';
+import 'package:myray_mobile/app/modules/report/views/landowner_report_view.dart';
 import 'package:myray_mobile/init_view.dart';
 
 part 'app_routes.dart';
@@ -186,6 +190,16 @@ class AppPages {
       name: _Paths.jobFarmerDetails,
       page: () => const JobFarmerDetailsView(),
       binding: JobFarmerDetailsBinding(),
+    ),
+    GetPage(
+      name: _Paths.landownerReportList,
+      page: () => const LandownerReportView(),
+      binding: LandownerReportBinding(),
+    ),
+    GetPage(
+      name: _Paths.landownerReportDetails,
+      page: () => const LandownerReportDetailsView(),
+      binding: LandownerReportDetailsBinding(),
     ),
 
     //farmer

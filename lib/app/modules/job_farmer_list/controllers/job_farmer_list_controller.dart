@@ -2,16 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:myray_mobile/app/data/enums/enums.dart';
 import 'package:myray_mobile/app/data/models/applied_farmer/applied_farmer_models.dart';
+import 'package:myray_mobile/app/data/models/filter_object.dart';
 import 'package:myray_mobile/app/modules/applied_farmer/applied_farmer_repository.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/utils/custom_exception.dart';
-
-class FilterObj {
-  String name;
-  dynamic value;
-
-  FilterObj({required this.name, required this.value});
-}
 
 class JobFarmerListController extends GetxController {
   final _appliedFarmerRepository = Get.find<AppliedFarmerRepository>();

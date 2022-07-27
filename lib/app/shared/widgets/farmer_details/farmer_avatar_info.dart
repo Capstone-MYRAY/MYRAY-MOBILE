@@ -52,13 +52,14 @@ class FarmerAvatarInfo extends StatelessWidget {
           itemSize: 28.0,
           rating: rating ?? 0.0,
         ),
-        const SizedBox(height: 16.0),
-        if (statusName != null && statusColor != null)
+        if (statusName != null && statusColor != null) ...[
+          const SizedBox(height: 16.0),
           StatusChip(
             borderRadius: 20.0,
             statusName: statusName ?? '',
             backgroundColor: statusColor,
           ),
+        ],
         const SizedBox(height: 16.0),
         Container(
           margin: EdgeInsets.symmetric(
@@ -105,7 +106,7 @@ class FarmerAvatarInfo extends StatelessWidget {
               vertical: 8.0,
             ),
             backgroundColor: Colors.transparent,
-            // foregroundColor: AppColors.errorColor,
+            foregroundColor: AppColors.errorColor,
             shape: RoundedRectangleBorder(
               side: const BorderSide(color: AppColors.errorColor),
               borderRadius: BorderRadius.circular(CommonConstants.borderRadius),
@@ -124,9 +125,8 @@ class FarmerAvatarInfo extends StatelessWidget {
           padding: const EdgeInsets.symmetric(
             vertical: 8.0,
           ),
-          primary: AppColors.errorColor,
-          // foregroundColor: AppColors.white,
-          // foregroundColor: AppColors.white,
+          backgroundColor: AppColors.errorColor,
+          foregroundColor: AppColors.white,
         ),
         onPressed: onFavoriteToggle,
       ),

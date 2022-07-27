@@ -37,6 +37,9 @@ class Report {
   @JsonKey(name: 'resolved_name')
   String? resolvedName;
 
+  @JsonKey(name: 'reported_name')
+  String? reportedName;
+
   @JsonKey(name: 'status')
   int? status;
 
@@ -52,6 +55,7 @@ class Report {
     this.reportedId,
     this.resolvedDate,
     this.resolvedName,
+    this.reportedName,
   });
 
   factory Report.fromJson(Map<String, dynamic> json) => _$ReportFromJson(json);

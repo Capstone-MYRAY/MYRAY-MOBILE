@@ -10,10 +10,10 @@ GetReportRequest _$GetReportRequestFromJson(Map<String, dynamic> json) =>
     GetReportRequest(
       jobPostId: json['jobPostId'] as String?,
       content: json['content'] as String?,
-      resolveConent: json['resolveConent'] as String?,
+      resolvedContent: json['resolveContent'] as String?,
       reportedId: json['reportedId'] as String?,
       createdBy: json['createdBy'] as String?,
-      resolveBy: json['resolveBy'] as String?,
+      resolvedBy: json['resolvedBy'] as String?,
       sortColumn:
           $enumDecodeNullable(_$ReportSortColumnEnumMap, json['sort-column']),
       orderBy: $enumDecodeNullable(_$SortOrderEnumMap, json['order-by']),
@@ -32,10 +32,10 @@ Map<String, dynamic> _$GetReportRequestToJson(GetReportRequest instance) {
 
   writeNotNull('jobPostId', instance.jobPostId);
   writeNotNull('content', instance.content);
-  writeNotNull('resolveConent', instance.resolveConent);
+  writeNotNull('resolveContent', instance.resolvedContent);
   writeNotNull('reportedId', instance.reportedId);
   writeNotNull('createdBy', instance.createdBy);
-  writeNotNull('resolveBy', instance.resolveBy);
+  writeNotNull('resolvedBy', instance.resolvedBy);
   writeNotNull('sort-column', _$ReportSortColumnEnumMap[instance.sortColumn]);
   writeNotNull('order-by', _$SortOrderEnumMap[instance.orderBy]);
   writeNotNull('page', instance.page);

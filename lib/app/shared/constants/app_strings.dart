@@ -59,6 +59,8 @@ class AppStrings {
   static const titleFavoriteList = 'Danh sách yêu thích';
   static const titleApproved = 'Đã thuê';
   static const titleFeedback = 'Đánh giá';
+  static const titleReportList = 'Danh sách báo cáo';
+  static const titleReportDetails = 'Chi tiết báo cáo';
 
   //Subtitle
   static const subtitleMyGarden = 'Danh sách vườn đã tạo';
