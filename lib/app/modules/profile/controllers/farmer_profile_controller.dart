@@ -34,5 +34,9 @@ class FarmerProfileController extends GetxController{
   void navigateToAttendancePage(){
     Get.toNamed(Routes.farmerCheckAttendance);
   }
+
+  void navigateToHistoryJob(){
+    Get.toNamed(Routes.farmerHistoryJob);
+  }
  
 }
