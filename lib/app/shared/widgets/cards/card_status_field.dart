@@ -8,6 +8,7 @@ class CardStatusField extends StatelessWidget {
   final Color? backgroundColor;
   final Color? foregroundColor;
   final EdgeInsetsGeometry? padding;
+  final bool isExpanded;
 
   const CardStatusField({
     Key? key,
@@ -16,6 +17,7 @@ class CardStatusField extends StatelessWidget {
     this.backgroundColor,
     this.foregroundColor,
     this.padding,
+    this.isExpanded = false,
   }) : super(key: key);
 
   @override
@@ -24,20 +26,24 @@ class CardStatusField extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(
-          title,
+          '$title:',
           style: Get.textTheme.bodyText2!.copyWith(
             fontWeight: FontWeight.w500,
           ),
         ),
         const SizedBox(width: 8.0),
-        StatusChip(
-          statusName: statusName,
-          borderRadius: 20.0,
-          backgroundColor: backgroundColor,
-          foregroundColor: foregroundColor,
-          padding: padding,
-        ),
+        isExpanded ? Expanded(child: _buildStatus()) : _buildStatus(),
       ],
+    );
+  }
+
+  Widget _buildStatus() {
+    return StatusChip(
+      statusName: statusName,
+      borderRadius: 20.0,
+      backgroundColor: backgroundColor,
+      foregroundColor: foregroundColor,
+      padding: padding,
     );
   }
 }

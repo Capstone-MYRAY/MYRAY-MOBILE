@@ -106,13 +106,13 @@ class LandownerJobPostItem extends StatelessWidget {
             ),
           const SizedBox(height: 8.0),
           CardStatusField(
-            title: '${AppStrings.labelPostStatus}:',
+            title: AppStrings.labelPostStatus,
             statusName: postStatusString,
             backgroundColor: postStatusBackground,
           ),
           const SizedBox(height: 8.0),
           CardStatusField(
-            title: '${AppStrings.labelWorkStatus}:',
+            title: AppStrings.labelWorkStatus,
             statusName: workStatusString,
             backgroundColor: workStatusBackground,
           ),

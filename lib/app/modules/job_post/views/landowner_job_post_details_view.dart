@@ -44,6 +44,8 @@ class LandownerJobPostDetailsView
 
   bool get _isApproved => jobPost.status == JobPostStatus.approved.index;
 
+  bool get _isRejected => jobPost.status == JobPostStatus.rejected.index;
+
   bool get _isRepost => jobPost.status == JobPostStatus.expired.index;
 
   bool get _isOutOfDate => jobPost.status == JobPostStatus.outOfDate.index;
@@ -137,7 +139,7 @@ class LandownerJobPostDetailsView
       }
 
       //add delete button
-      if (_isPending || _isOutOfDate) {
+      if (_isPending || _isOutOfDate || _isRejected) {
         final buttons = [
           const SizedBox(height: 8.0),
           FractionallySizedBox(
@@ -278,7 +280,7 @@ class LandownerJobPostDetailsView
               .add(Duration(days: jobPost.numOfPublishDay - 1)),
           postStatus: CardStatusField(
             statusName: jobPost.jobPostStatusString,
-            title: AppStrings.labelPostStatus,
+            title: '${AppStrings.labelPostStatus}:',
             backgroundColor: jobPost.jobPostStatusColor,
           ),
           approvedBy: jobPost.approvedName,

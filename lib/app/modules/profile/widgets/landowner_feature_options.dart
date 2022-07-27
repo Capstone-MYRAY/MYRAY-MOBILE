@@ -38,7 +38,7 @@ class LandownerFeatureOptions extends StatelessWidget {
           icon: CustomIcons.shield_alert,
           title: AppStrings.titleReport,
           subtitle: AppStrings.subtitleLandownerReport,
-          onTap: () {},
+          onTap: () => Get.toNamed(Routes.landownerReportList),
         ),
         _buildDivider(),
         FeatureOption(
