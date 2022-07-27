@@ -133,6 +133,7 @@ class AppStrings {
   static const labelNewExtendJobDate = 'Ngày kết thúc mới';
   static const labelOldExtendJobDate = 'Ngày kết thúc cũ';
   static const labelAppliedDate = 'Ngày ứng tuyển';
+  static const labelComment = 'Bình luận';
   static const labelReportDescription = 'Nội dung báo cáo';
   static const labelResolvedBy = 'Người giải quyết';
   static const labelResolvedDate = 'Ngày giải quyết';

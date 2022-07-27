@@ -45,7 +45,9 @@ class LandownerFeatureOptions extends StatelessWidget {
           icon: CustomIcons.post_outline,
           title: AppStrings.titleGuidepost,
           subtitle: AppStrings.subtitleGuidepost,
-          onTap: () {},
+          onTap: () {
+            Get.toNamed(Routes.guidepost);
+          },
         ),
         _buildDivider(),
         FeatureOption(
