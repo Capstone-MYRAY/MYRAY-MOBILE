@@ -133,6 +133,10 @@ class AppStrings {
   static const labelNewExtendJobDate = 'Ngày kết thúc mới';
   static const labelOldExtendJobDate = 'Ngày kết thúc cũ';
   static const labelAppliedDate = 'Ngày ứng tuyển';
+  static const labelReportDescription = 'Nội dung báo cáo';
+  static const labelResolvedBy = 'Người giải quyết';
+  static const labelResolvedDate = 'Ngày giải quyết';
+  static const labelResolvedContent = 'Hướng giải quyết';
 
   //Placeholder
   static const placeholderPhone = 'Nhập số điện thoại';
@@ -218,6 +222,9 @@ class AppStrings {
   static const appliedFarmerRejected = 'Đã từ chối';
   static const appliedFarmerEnd = 'Đã kết thúc';
   static const appliedFarmerFired = 'Đã sa thải';
+
+  static const reportPending = 'Đang giải quyết';
+  static const reportResolved = 'Đã giải quyết';
 
   static const absent = 'Vắng mặt';
   static const present = 'Có mặt';

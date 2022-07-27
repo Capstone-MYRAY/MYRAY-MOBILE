@@ -1,15 +1,12 @@
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:myray_mobile/app/data/models/applied_farmer/applied_farmer.dart';
-import 'package:myray_mobile/app/data/models/feedback/feedback.dart';
-import 'package:myray_mobile/app/data/models/feedback/get_specific_feedback_request.dart';
-import 'package:myray_mobile/app/data/models/feedback/post_feedback_request.dart';
-import 'package:myray_mobile/app/data/models/feedback/put_feedback_request.dart';
-import 'package:myray_mobile/app/data/models/report/get_specific_report_request.dart';
-import 'package:myray_mobile/app/data/models/report/report.dart';
+import 'package:myray_mobile/app/data/models/feedback/feedback_models.dart';
+import 'package:myray_mobile/app/data/models/report/report_models.dart';
 import 'package:myray_mobile/app/data/services/services.dart';
 import 'package:myray_mobile/app/modules/feedback/feedback_repository.dart';
 import 'package:myray_mobile/app/modules/job_farmer_list/widgets/feedback_dialog.dart';
+import 'package:myray_mobile/app/modules/job_farmer_list/widgets/report_dialog.dart';
 import 'package:myray_mobile/app/modules/report/report_repository.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/utils/auth_credentials.dart';
@@ -124,13 +121,50 @@ class JobFarmerDetailsController extends GetxController
         message: 'Gửi đánh giá thành công',
       );
     } catch (e) {
+      print('Feedback error: ${e.toString()}');
       EasyLoading.dismiss();
       CustomSnackbar.show(
         title: AppStrings.titleError,
         message: 'Có lỗi xảy ra',
         backgroundColor: AppColors.errorColor,
       );
-      return;
+    }
+  }
+
+  onReport() {
+    ReportDialog.show(_onReport);
+  }
+
+  _onReport(String reportReason) async {
+    final data = PostReportRequest(
+      jobPostId: appliedFarmer.value.jobPost.id,
+      reportedId: appliedFarmer.value.userInfo.id,
+      content: reportReason,
+    );
+
+    try {
+      final submittedReport = await _reportRepository.report(data);
+
+      if (submittedReport == null) throw CustomException('Có lỗi xảy ra');
+
+      //update ui
+      report.value = submittedReport;
+
+      EasyLoading.dismiss();
+      Get.back(); //close dialog
+
+      CustomSnackbar.show(
+        title: AppStrings.titleSuccess,
+        message: 'Gửi báo cáo thành công',
+      );
+    } catch (e) {
+      print('Report error: ${e.toString()}');
+      EasyLoading.dismiss();
+      CustomSnackbar.show(
+        title: AppStrings.titleError,
+        message: 'Có lỗi xảy ra',
+        backgroundColor: AppColors.errorColor,
+      );
     }
   }
 }

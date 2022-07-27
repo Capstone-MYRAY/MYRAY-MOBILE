@@ -18,11 +18,6 @@ class FeedbackDialog {
     double selectedStar = 0.0;
 
     return await BaseDialog.show(
-      margin: EdgeInsets.only(
-        top: Get.width * 0.45,
-        left: Get.width * 0.1,
-        right: Get.width * 0.1,
-      ),
       child: StatefulBuilder(
         builder: (context, setState) => Column(
           children: [
@@ -89,7 +84,7 @@ class FeedbackDialog {
                 hintText: 'Chi tiết đánh giá (không bắt buộc)',
               ),
               minLines: 1,
-              maxLines: 4,
+              maxLines: 5,
             ),
             const SizedBox(height: 24.0),
             FractionallySizedBox(
@@ -110,7 +105,7 @@ class FeedbackDialog {
                   feedbackFn(selectedStar, detailsController.text);
                 },
               ),
-            )
+            ),
           ],
         ),
       ),

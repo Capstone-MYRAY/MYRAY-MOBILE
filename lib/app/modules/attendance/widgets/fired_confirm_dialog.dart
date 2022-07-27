@@ -20,11 +20,6 @@ class FiredConfirmDialog {
     final reasonController = TextEditingController();
 
     return await BaseDialog.show(
-      margin: EdgeInsets.only(
-        top: Get.height * 0.3,
-        left: Get.width * 0.1,
-        right: Get.width * 0.1,
-      ),
       child: StatefulBuilder(
         builder: (BuildContext ctx, StateSetter setState) {
           return Column(

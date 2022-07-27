@@ -1,4 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:myray_mobile/app/data/enums/enums.dart';
+import 'package:myray_mobile/app/shared/constants/constants.dart';
 
 part 'report.g.dart';
 
@@ -31,6 +34,9 @@ class Report {
   @JsonKey(name: 'resolved_by')
   int? resolvedBy;
 
+  @JsonKey(name: 'resolved_name')
+  String? resolvedName;
+
   @JsonKey(name: 'status')
   int? status;
 
@@ -45,8 +51,23 @@ class Report {
     this.resolveContent,
     this.reportedId,
     this.resolvedDate,
+    this.resolvedName,
   });
 
   factory Report.fromJson(Map<String, dynamic> json) => _$ReportFromJson(json);
+
   Map<String, dynamic> toJson() => _$ReportToJson(this);
+
+  String? get statusString => _statusString[status];
+  Color? get statusColor => _statusColor[status];
 }
+
+Map<int, String> _statusString = {
+  ReportStatus.pending.index: AppStrings.reportPending,
+  ReportStatus.resolved.index: AppStrings.reportResolved,
+};
+
+Map<int, Color> _statusColor = {
+  ReportStatus.pending.index: AppColors.warningColor,
+  ReportStatus.resolved.index: AppColors.successColor,
+};

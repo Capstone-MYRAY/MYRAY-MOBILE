@@ -60,3 +60,12 @@ enum AttendanceStatus {
   @JsonValue('Dismissed')
   fired,
 }
+
+enum ReportStatus {
+  @JsonValue('Deleted')
+  deleted,
+  @JsonValue('Pending')
+  pending,
+  @JsonValue('Resolved')
+  resolved,
+}
