@@ -173,6 +173,12 @@ class JobFarmerDetailsController extends GetxController
 
   onApprove() async {
     try {
+      EasyLoading.show();
+      bool approvable = await canApprove(appliedFarmer.value.jobPost);
+      EasyLoading.dismiss();
+
+      if (!approvable) return;
+
       bool? success = await approveFarmer(appliedFarmer.value.id);
 
       //user cancel action
