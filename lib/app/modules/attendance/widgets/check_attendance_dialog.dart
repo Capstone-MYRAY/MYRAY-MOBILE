@@ -11,10 +11,8 @@ import 'package:signature/signature.dart';
 
 class CheckAttendanceDialog {
   static Future<bool?> show(
-    double salary,
-    SignatureController controller,
-    void Function() onSubmit,
-  ) async {
+      double salary, SignatureController controller, void Function() onSubmit,
+      {bool isFinish = false}) async {
     return await BaseDialog.show(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -23,7 +21,7 @@ class CheckAttendanceDialog {
           Align(
             alignment: Alignment.center,
             child: Text(
-              'Điểm danh',
+              'Xác nhận thông tin',
               style: Get.textTheme.headline4!.copyWith(
                 color: AppColors.primaryColor,
               ),
@@ -81,7 +79,7 @@ class CheckAttendanceDialog {
           ),
           const SizedBox(height: 16.0),
           FilledButton(
-            title: 'Điểm danh',
+            title: isFinish ? 'Hoàn Thành' : 'Điểm danh',
             onPressed: () {
               if (controller.isEmpty) {
                 InformationDialog.showDialog(

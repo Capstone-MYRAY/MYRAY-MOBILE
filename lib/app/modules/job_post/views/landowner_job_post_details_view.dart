@@ -191,16 +191,16 @@ class LandownerJobPostDetailsView
           title: AppStrings.titleWorkHistory,
           borderRadius: CommonConstants.borderRadius,
           widthFactor: 0.9,
-          onTap: () {},
+          onTap: controller.navigateToWorkHistory,
         ),
-      if (Utils.equalsIgnoreCase(jobPost.type, JobType.payPerTaskJob.name))
-        FeatureOption(
-          icon: CustomIcons.work_history_outline,
-          title: AppStrings.titleExtendHistory,
-          borderRadius: CommonConstants.borderRadius,
-          widthFactor: 0.9,
-          onTap: () {},
-        ),
+      // if (Utils.equalsIgnoreCase(jobPost.type, JobType.payPerTaskJob.name))
+      //   FeatureOption(
+      //     icon: CustomIcons.work_history_outline,
+      //     title: AppStrings.titleExtendHistory,
+      //     borderRadius: CommonConstants.borderRadius,
+      //     widthFactor: 0.9,
+      //     onTap: () {},
+      //   ),
     ];
   }
 

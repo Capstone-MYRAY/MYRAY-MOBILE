@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:myray_mobile/app/data/services/extend_job_repository.dart';
+import 'package:myray_mobile/app/modules/extend_history/extend_job_repository.dart';
 import 'package:myray_mobile/app/shared/widgets/dialogs/custom_confirm_dialog.dart';
 
 mixin ExtendJobService {

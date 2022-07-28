@@ -175,10 +175,10 @@ class JobPostAttendanceController extends GetxController {
 
   onFinish(Account farmer) {
     CheckAttendanceDialog.show(
-      _jobPost.payPerHourJob?.salary ?? _jobPost.payPerTaskJob?.salary ?? 0,
-      signatureController,
-      () => _onPresentOrFinish(farmer, isOnFinish: true),
-    );
+        _jobPost.payPerHourJob?.salary ?? _jobPost.payPerTaskJob?.salary ?? 0,
+        signatureController,
+        () => _onPresentOrFinish(farmer, isOnFinish: true),
+        isFinish: true);
   }
 
   _onPresentOrFinish(Account farmer, {bool isOnFinish = false}) async {

@@ -1,3 +1,4 @@
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:myray_mobile/app/data/enums/status.dart';
 import 'package:myray_mobile/app/data/models/applied_farmer/applied_farmer_models.dart';
@@ -46,6 +47,12 @@ class AppliedFarmerDetailsController extends GetxController
 
   approve() async {
     try {
+      EasyLoading.show();
+      bool approvable = await canApprove(appliedFarmer.value.jobPost);
+      EasyLoading.dismiss();
+
+      if (!approvable) return;
+
       bool? success = await approveFarmer(appliedFarmer.value.id);
 
       //user cancel action
@@ -61,6 +68,9 @@ class AppliedFarmerDetailsController extends GetxController
       appliedFarmerController.removeItem(appliedFarmer.value);
       appliedFarmer.refresh();
     } catch (e) {
+      if (EasyLoading.isShow) {
+        EasyLoading.dismiss();
+      }
       CustomSnackbar.show(
         title: AppStrings.titleError,
         message: 'Có lỗi xảy ra',

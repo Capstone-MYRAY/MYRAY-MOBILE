@@ -64,6 +64,8 @@ class JobFarmerListView extends GetView<JobFarmerListController> {
                     avatar: appliedFarmer.userInfo.imageUrl,
                     statusName: appliedFarmer.statusString,
                     statusColor: appliedFarmer.statusColor,
+                    onFinish: () => controller.onFinish(appliedFarmer),
+                    onFired: () => controller.onFired(appliedFarmer),
                     onButtonTap: () {
                       Get.toNamed(
                         Routes.jobFarmerDetails,

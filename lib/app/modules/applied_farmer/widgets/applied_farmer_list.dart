@@ -39,6 +39,7 @@ class AppliedFarmerList extends StatelessWidget {
                   return AppliedFarmerCard(
                     fullName: appliedFarmer.userInfo.fullName ?? '',
                     phone: appliedFarmer.userInfo.phoneNumber ?? '',
+                    workType: appliedFarmer.jobPost.workType,
                     avatar: appliedFarmer.userInfo.imageUrl,
                     workTitle: appliedFarmer.jobPost.title,
                     appliedDate: appliedFarmer.appliedDate,
