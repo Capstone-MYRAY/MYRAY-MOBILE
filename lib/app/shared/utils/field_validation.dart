@@ -43,6 +43,26 @@ class FieldValidation {
     return null;
   }
 
+  String? validateAddress(value) {
+    if (value.length > 100) {
+      return 'Địa chỉ tối đa 100 ký tự';
+    }
+
+    return null;
+  }
+
+  String? validateEmail(value) {
+    if (Utils.isEmpty(value)) {
+      return null;
+    }
+
+    if (!Utils.isEmail.hasMatch(value)) {
+      return 'Email không hợp lệ';
+    }
+
+    return null;
+  }
+
   String? validatePassword(value) {
     if (Utils.isEmpty(value)) {
       return AppMsg.MSG0002;
@@ -74,7 +94,7 @@ class FieldValidation {
     return null;
   }
 
-  String? validateAddress(value) {
+  String? validateGardenAddress(value) {
     if (Utils.isEmpty(value)) {
       return AppMsg.MSG0002;
     }

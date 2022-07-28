@@ -8,6 +8,7 @@ import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
 import 'package:myray_mobile/app/shared/widgets/buttons/filled_button.dart';
 import 'package:myray_mobile/app/shared/widgets/cards/my_card.dart';
 import 'package:myray_mobile/app/shared/widgets/controls/input_field.dart';
+import 'package:myray_mobile/app/shared/utils/field_validation.dart';
 
 class UpdateProfileView extends GetView<UpdateProfileController> {
   const UpdateProfileView({Key? key}) : super(key: key);
@@ -53,7 +54,7 @@ class UpdateProfileView extends GetView<UpdateProfileController> {
                 width: Get.width * 0.7,
                 child: FilledButton(
                   title: AppStrings.titleUpdate,
-                  onPressed: () {},
+                  onPressed: controller.updateProfile,
                 ),
               ),
               const SizedBox(height: 8.0),
@@ -76,6 +77,7 @@ class UpdateProfileView extends GetView<UpdateProfileController> {
         icon: const Icon(CustomIcons.account_outline),
         labelText: '${AppStrings.labelFullName}*',
         placeholder: AppStrings.placeholderFullName,
+        validator: FieldValidation.instance.validateFullName,
       ),
       const SizedBox(height: 8.0),
       InputField(
@@ -84,6 +86,8 @@ class UpdateProfileView extends GetView<UpdateProfileController> {
         labelText: '${AppStrings.labelDob}*',
         placeholder: 'dd/MM/yyyy',
         readOnly: true,
+        validator: FieldValidation.instance.validateDob,
+        onTap: controller.onChooseDob,
       ),
       const SizedBox(height: 8.0),
       InputField(
@@ -91,6 +95,7 @@ class UpdateProfileView extends GetView<UpdateProfileController> {
         icon: const Icon(CustomIcons.email_outline),
         labelText: AppStrings.labelEmail,
         placeholder: AppStrings.placeholderEmail,
+        validator: FieldValidation.instance.validateEmail,
       ),
       const SizedBox(height: 8.0),
       InputField(
@@ -98,6 +103,7 @@ class UpdateProfileView extends GetView<UpdateProfileController> {
         icon: const Icon(CustomIcons.map_marker_outline),
         labelText: AppStrings.labelAddress,
         placeholder: 'Nhập địa chỉ',
+        validator: FieldValidation.instance.validateAddress,
       ),
       const SizedBox(height: 8.0),
       _buildGender(),

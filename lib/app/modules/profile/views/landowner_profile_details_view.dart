@@ -7,7 +7,7 @@ import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/widgets/buttons/filled_button.dart';
 import 'package:myray_mobile/app/shared/widgets/custom_circle_avatar.dart';
 
-class LandownerProfileDetailsView extends StatelessWidget {
+class LandownerProfileDetailsView extends GetView<LandownerProfileController> {
   const LandownerProfileDetailsView({Key? key}) : super(key: key);
 
   @override
@@ -19,7 +19,7 @@ class LandownerProfileDetailsView extends StatelessWidget {
         elevation: 0.0,
         title: const Text(AppStrings.profile),
       ),
-      body: GetBuilder<LandownerProfileController>(builder: (controller) {
+      body: Obx(() {
         final user = controller.user.value;
         return SizedBox(
           width: double.infinity,
