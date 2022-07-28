@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:myray_mobile/app/modules/profile/controllers/landowner_profile_controller.dart';
 import 'package:myray_mobile/app/modules/profile/widgets/personal_information_card.dart';
+import 'package:myray_mobile/app/routes/app_pages.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
+import 'package:myray_mobile/app/shared/widgets/buttons/filled_button.dart';
 import 'package:myray_mobile/app/shared/widgets/custom_circle_avatar.dart';
 
 class LandownerProfileDetailsView extends StatelessWidget {
@@ -50,6 +52,17 @@ class LandownerProfileDetailsView extends StatelessWidget {
                 ),
                 const SizedBox(height: 16.0),
                 PersonalInformation(user: controller.user),
+                const SizedBox(height: 16.0),
+                SizedBox(
+                  width: Get.width * 0.8,
+                  child: FilledButton(
+                    title: AppStrings.titleEdit,
+                    onPressed: () => Get.toNamed(
+                      Routes.updateProfile,
+                      arguments: {Arguments.item: user},
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
