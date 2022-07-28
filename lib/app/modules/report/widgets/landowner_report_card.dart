@@ -8,7 +8,7 @@ import 'package:myray_mobile/app/shared/widgets/cards/card_field.dart';
 import 'package:myray_mobile/app/shared/widgets/cards/card_status_field.dart';
 import 'package:myray_mobile/app/shared/widgets/cards/my_card.dart';
 
-import 'reported_user.dart';
+import '../../../shared/widgets/cards/card_user_info.dart';
 
 class LandownerReportCard extends StatelessWidget {
   final String fullName;
@@ -51,7 +51,7 @@ class LandownerReportCard extends StatelessWidget {
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 8.0),
-                    ReportedUser(
+                    CardUserInfo(
                       fullName: fullName,
                       phone: phone,
                       avatar: avatar,

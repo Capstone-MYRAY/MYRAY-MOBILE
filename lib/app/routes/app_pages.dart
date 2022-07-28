@@ -169,7 +169,7 @@ class AppPages {
       name: _Paths.checkAttendance,
       page: () => const JobPostAttendanceView(),
       binding: JobPostAttendanceBinding(),
-      transition: Transition.leftToRightWithFade,
+      transition: Transition.rightToLeftWithFade,
     ),
     GetPage(
       name: _Paths.landownerBookmark,
@@ -185,6 +185,7 @@ class AppPages {
       name: _Paths.jobFarmerList,
       page: () => const JobFarmerListView(),
       binding: JobFarmerListBinding(),
+      transition: Transition.rightToLeftWithFade,
     ),
     GetPage(
       name: _Paths.jobFarmerDetails,

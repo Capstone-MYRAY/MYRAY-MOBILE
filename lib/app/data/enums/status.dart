@@ -69,3 +69,12 @@ enum ReportStatus {
   @JsonValue('Resolved')
   resolved,
 }
+
+enum ExtendJobEndDateStatus {
+  @JsonValue('Pending')
+  pending,
+  @JsonValue('Approve')
+  approved,
+  @JsonValue('Reject')
+  rejected,
+}

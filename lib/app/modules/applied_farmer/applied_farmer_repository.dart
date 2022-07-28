@@ -44,6 +44,8 @@ class AppliedFarmerRepository {
     final response =
         await _apiProvider.patchMethod('/jobpost/approve/$appliedId');
 
+    print('approve: ${response.bodyString}');
+
     if (response.isOk) return true;
 
     return false;

@@ -74,8 +74,11 @@ class JobFarmerDetailsView extends GetView<JobFarmerDetailsController> {
     if (controller.appliedFarmer.value.status ==
         AppliedFarmerStatus.pending.index) {
       return _buildApproveAndReject();
-    } else {
+    } else if (controller.appliedFarmer.value.status !=
+        AppliedFarmerStatus.rejected.index) {
       return _buildReportAndFeedbackButtons();
+    } else {
+      return const SizedBox();
     }
   }
 

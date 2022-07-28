@@ -280,4 +280,9 @@ class LandownerJobPostDetailsController extends GetxController {
     Get.toNamed(Routes.jobFarmerList,
         arguments: {Arguments.jobPostId: jobPost.value.id});
   }
+
+  navigateToWorkHistory() {
+    Get.toNamed(Routes.checkAttendance,
+        arguments: {Arguments.item: jobPost.value});
+  }
 }

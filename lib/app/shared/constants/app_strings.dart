@@ -61,6 +61,7 @@ class AppStrings {
   static const titleFeedback = 'Đánh giá';
   static const titleReportList = 'Danh sách báo cáo';
   static const titleReportDetails = 'Chi tiết báo cáo';
+  static const titleExtendHistory = 'Lịch sử gia hạn';
 
   //Subtitle
   static const subtitleMyGarden = 'Danh sách vườn đã tạo';

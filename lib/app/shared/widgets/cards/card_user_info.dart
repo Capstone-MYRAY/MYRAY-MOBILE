@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:myray_mobile/app/shared/widgets/custom_circle_avatar.dart';
 
-class ReportedUser extends StatelessWidget {
+class CardUserInfo extends StatelessWidget {
   final String fullName;
   final String phone;
   final String? avatar;
   final double? radius;
 
-  const ReportedUser({
+  const CardUserInfo({
     Key? key,
     required this.fullName,
     required this.phone,
@@ -34,6 +34,7 @@ class ReportedUser extends StatelessWidget {
         Text(
           phone,
           style: Get.textTheme.caption,
+          textAlign: TextAlign.center,
         ),
       ],
     );

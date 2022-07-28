@@ -15,6 +15,9 @@ ExtendEndDateJob _$ExtendEndDateJobFromJson(Map<String, dynamic> json) =>
       extendEndDate: DateTime.parse(json['extend_end_date'] as String),
       reason: json['reason'] as String,
       status: json['status'] as int,
+      requestedName: json['fullname_request'] as String?,
+      requestedPhone: json['phone_request'] as String?,
+      requestedAvatar: json['avatar_request'] as String?,
       createdDate: json['created_date'] == null
           ? null
           : DateTime.parse(json['created_date'] as String),
@@ -46,5 +49,8 @@ Map<String, dynamic> _$ExtendEndDateJobToJson(ExtendEndDateJob instance) {
   val['extend_end_date'] = instance.extendEndDate.toIso8601String();
   val['reason'] = instance.reason;
   val['status'] = instance.status;
+  writeNotNull('fullname_request', instance.requestedName);
+  writeNotNull('phone_request', instance.requestedPhone);
+  writeNotNull('avatar_request', instance.requestedAvatar);
   return val;
 }
