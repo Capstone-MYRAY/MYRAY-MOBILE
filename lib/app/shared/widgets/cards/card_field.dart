@@ -7,6 +7,7 @@ class CardField extends StatelessWidget {
   final String title;
   final String data;
   final bool isCenter;
+  final Color? dataColor;
 
   const CardField({
     Key? key,
@@ -14,6 +15,7 @@ class CardField extends StatelessWidget {
     required this.title,
     required this.data,
     this.isCenter = false,
+    this.dataColor,
   }) : super(key: key);
 
   @override
@@ -41,7 +43,9 @@ class CardField extends StatelessWidget {
                 ),
                 TextSpan(
                   text: data,
-                  style: Get.textTheme.bodyText2,
+                  style: Get.textTheme.bodyText2!.copyWith(
+                    color: dataColor ?? AppColors.black,
+                  ),
                 ),
               ],
             ),

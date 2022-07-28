@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:myray_mobile/app/data/models/report/report.dart';
 import 'package:myray_mobile/app/modules/report/controllers/landowner_report_details_controller.dart';
-import 'package:myray_mobile/app/modules/report/widgets/reported_user.dart';
+import 'package:myray_mobile/app/shared/widgets/cards/card_user_info.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
 import 'package:myray_mobile/app/shared/utils/utils.dart';
@@ -38,7 +38,7 @@ class LandownerReportDetailsView
                       style: Get.textTheme.headline6,
                     ),
                     const SizedBox(height: 8.0),
-                    ReportedUser(
+                    CardUserInfo(
                       phone: 'wait for Lâm',
                       fullName: report.reportedName ?? '',
                       radius: 36.0,
