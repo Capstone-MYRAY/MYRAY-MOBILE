@@ -43,8 +43,10 @@ import 'package:myray_mobile/app/modules/message/bindings/p2p_message_binding.da
 import 'package:myray_mobile/app/modules/message/views/p2p_message_view.dart';
 import 'package:myray_mobile/app/modules/message/widgets/new_message/new_message_binding.dart';
 import 'package:myray_mobile/app/modules/payment_history/payment_history_module.dart';
+import 'package:myray_mobile/app/modules/profile/bindings/update_profile_binding.dart';
 import 'package:myray_mobile/app/modules/profile/views/farmer_profile_detail.dart';
 import 'package:myray_mobile/app/modules/profile/views/landowner_profile_details_view.dart';
+import 'package:myray_mobile/app/modules/profile/views/update_profile_view.dart';
 import 'package:myray_mobile/app/modules/report/bindings/landowner_report_binding.dart';
 import 'package:myray_mobile/app/modules/report/bindings/landowner_report_details_binding.dart';
 import 'package:myray_mobile/app/modules/report/views/landowner_report_details_view.dart';
@@ -113,6 +115,11 @@ class AppPages {
       page: () => const GuidePostView(),
       bindings: [GuidepostBinding(), CommentBinding()],
       transition: Transition.rightToLeft,
+    ),
+    GetPage(
+      name: _Paths.updateProfile,
+      page: () => const UpdateProfileView(),
+      binding: UpdateProfileBinding(),
     ),
 
     //landowner

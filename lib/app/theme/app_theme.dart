@@ -161,6 +161,12 @@ class AppTheme {
           fontFamily: 'Roboto',
           fontWeight: FontWeight.w500,
           fontSize: textScaleFactor(16.0),
+          color: disabled,
+        ),
+        floatingLabelStyle: TextStyle(
+          fontFamily: 'Roboto',
+          fontWeight: FontWeight.w500,
+          fontSize: textScaleFactor(16.0),
           color: primaryColor,
         ),
         hintStyle: TextStyle(

@@ -145,7 +145,8 @@ class GardenFormView extends GetView<GardenFormController> {
                             minLines: 1,
                             maxLines: 8,
                             readOnly: true,
-                            validator: FieldValidation.instance.validateAddress,
+                            validator:
+                                FieldValidation.instance.validateGardenAddress,
                             onTap: controller.navigateToMap,
                             suffixIcon: IconButton(
                               icon: const Icon(CustomIcons.map_marker_outline),
