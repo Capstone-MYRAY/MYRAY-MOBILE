@@ -21,6 +21,10 @@ Report _$ReportFromJson(Map<String, dynamic> json) => Report(
           : DateTime.parse(json['resolved_date'] as String),
       resolvedName: json['resolved_name'] as String?,
       reportedName: json['reported_name'] as String?,
+      createdName: json['created_name'] as String?,
+      reportedAvatar: json['reported_avatar'] as String?,
+      reportedPhone: json['reported_phone'] as String?,
+      jobPostTitle: json['job_post_title'] as String?,
     );
 
 Map<String, dynamic> _$ReportToJson(Report instance) {
@@ -34,15 +38,19 @@ Map<String, dynamic> _$ReportToJson(Report instance) {
 
   writeNotNull('id', instance.id);
   writeNotNull('job_post_id', instance.jobPostId);
+  writeNotNull('job_post_title', instance.jobPostTitle);
   val['content'] = instance.content;
   writeNotNull('resolve_content', instance.resolveContent);
   writeNotNull('reported_id', instance.reportedId);
+  writeNotNull('reported_name', instance.reportedName);
+  writeNotNull('reported_phone', instance.reportedPhone);
+  writeNotNull('reported_avatar', instance.reportedAvatar);
+  writeNotNull('created_name', instance.createdName);
   val['created_by'] = instance.createdBy;
   val['created_date'] = instance.createdDate.toIso8601String();
   writeNotNull('resolved_date', instance.resolvedDate?.toIso8601String());
   writeNotNull('resolved_by', instance.resolvedBy);
   writeNotNull('resolved_name', instance.resolvedName);
-  writeNotNull('reported_name', instance.reportedName);
   writeNotNull('status', instance.status);
   return val;
 }

@@ -35,6 +35,7 @@ class LandownerReportController extends GetxController {
 
     final data = GetReportRequest(
       createdBy: accountId.toString(),
+      status: selectedFilter.value?.index.toString(),
       page: (++_currentPage).toString(),
       pageSize: (_pageSize).toString(),
       sortColumn: ReportSortColumn.createdDate,

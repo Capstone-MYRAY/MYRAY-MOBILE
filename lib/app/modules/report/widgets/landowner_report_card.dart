@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:myray_mobile/app/modules/report/widgets/card_status_field_no_wrap.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
 import 'package:myray_mobile/app/shared/utils/utils.dart';
@@ -77,11 +78,10 @@ class LandownerReportCard extends StatelessWidget {
                       isCenter: true,
                     ),
                     const SizedBox(height: 8.0),
-                    CardStatusField(
+                    CardStatusFieldNoWrap(
                       title: 'Trạng thái',
                       statusName: statusName ?? '',
                       backgroundColor: statusColor,
-                      isExpanded: true,
                     ),
                   ],
                 ),

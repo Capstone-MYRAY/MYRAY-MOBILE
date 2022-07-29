@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:myray_mobile/app/shared/widgets/chips/status_chip.dart';
 
-class CardStatusField extends StatelessWidget {
+class CardStatusFieldNoWrap extends StatelessWidget {
   final String title;
   final String statusName;
   final Color? backgroundColor;
   final Color? foregroundColor;
   final EdgeInsetsGeometry? padding;
 
-  const CardStatusField({
+  const CardStatusFieldNoWrap({
     Key? key,
     required this.title,
     required this.statusName,
@@ -20,10 +20,7 @@ class CardStatusField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Wrap(
-      alignment: WrapAlignment.start,
-      runSpacing: 4.0,
-      crossAxisAlignment: WrapCrossAlignment.center,
+    return Row(
       children: [
         Text(
           '$title:',
@@ -32,7 +29,7 @@ class CardStatusField extends StatelessWidget {
           ),
         ),
         const SizedBox(width: 8.0),
-        _buildStatus(),
+        Expanded(child: _buildStatus()),
       ],
     );
   }

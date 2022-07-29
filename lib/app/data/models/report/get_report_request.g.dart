@@ -19,6 +19,7 @@ GetReportRequest _$GetReportRequestFromJson(Map<String, dynamic> json) =>
       orderBy: $enumDecodeNullable(_$SortOrderEnumMap, json['order-by']),
       page: json['page'] as String?,
       pageSize: json['page-size'] as String?,
+      status: json['status'] as String?,
     );
 
 Map<String, dynamic> _$GetReportRequestToJson(GetReportRequest instance) {
@@ -36,6 +37,7 @@ Map<String, dynamic> _$GetReportRequestToJson(GetReportRequest instance) {
   writeNotNull('reportedId', instance.reportedId);
   writeNotNull('createdBy', instance.createdBy);
   writeNotNull('resolvedBy', instance.resolvedBy);
+  writeNotNull('status', instance.status);
   writeNotNull('sort-column', _$ReportSortColumnEnumMap[instance.sortColumn]);
   writeNotNull('order-by', _$SortOrderEnumMap[instance.orderBy]);
   writeNotNull('page', instance.page);
