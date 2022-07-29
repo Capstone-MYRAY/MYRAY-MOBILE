@@ -7,14 +7,18 @@ import 'package:myray_mobile/app/shared/utils/debouncer.dart';
 class SearchTextField extends StatelessWidget {
   final TextEditingController searchController;
   final void Function(String)? onChanged;
+  final bool refreshOnClear;
 
   SearchTextField({
     Key? key,
     required this.searchController,
     this.onChanged,
+    this.refreshOnClear = false,
   }) : super(key: key);
 
   final _debouncer = Debouncer(milliseconds: 500);
+
+  String lastInput = '';
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +37,9 @@ class SearchTextField extends StatelessWidget {
                   onTap: () {
                     searchController.clear();
                     isEmpty.value = true;
+                    if (refreshOnClear && onChanged != null) {
+                      onChanged!('');
+                    }
                   },
                   child: const Icon(Icons.clear),
                 )
@@ -48,13 +55,14 @@ class SearchTextField extends StatelessWidget {
         onChanged: (String value) {
           _debouncer.run(() {
             isEmpty.value = searchController.text.isEmpty;
-            if (onChanged != null) {
+            if (onChanged != null && lastInput != searchController.text) {
+              lastInput = searchController.text;
               onChanged!(value);
             }
           });
         },
       ),
-      true.obs,
+      searchController.text.isEmpty.obs,
     );
   }
 }

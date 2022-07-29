@@ -52,7 +52,7 @@ class LandownerJobPostItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return MyCard(
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           if (pinType != null) ...[
             Align(
@@ -117,13 +117,16 @@ class LandownerJobPostItem extends StatelessWidget {
             backgroundColor: workStatusBackground,
           ),
           const SizedBox(height: 16.0),
-          FilledButton(
-            minWidth: CommonConstants.buttonWidthSmall,
-            title: AppStrings.titleDetails,
-            onPressed: onDetailsPress,
-            padding: const EdgeInsets.symmetric(
-              vertical: 8.0,
-              horizontal: 4.0,
+          Align(
+            alignment: Alignment.center,
+            child: FilledButton(
+              minWidth: CommonConstants.buttonWidthSmall,
+              title: AppStrings.titleDetails,
+              onPressed: onDetailsPress,
+              padding: const EdgeInsets.symmetric(
+                vertical: 8.0,
+                horizontal: 4.0,
+              ),
             ),
           ),
         ],

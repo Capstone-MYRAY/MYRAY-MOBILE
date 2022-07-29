@@ -32,6 +32,9 @@ class GetRequestJobPostList {
   @JsonKey(name: 'publishBy')
   String? publishBy;
 
+  @JsonKey(name: 'postTypeId')
+  String? postTypeId;
+
   GetRequestJobPostList({
     this.status,
     this.workStatus,
@@ -42,6 +45,7 @@ class GetRequestJobPostList {
     this.page,
     this.pageSize,
     this.publishBy,
+    this.postTypeId,
   });
 
   factory GetRequestJobPostList.fromJson(Map<String, dynamic> json) =>
