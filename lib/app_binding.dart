@@ -11,6 +11,7 @@ import 'package:myray_mobile/app/modules/applied_farmer/applied_farmer_repositor
 import 'package:myray_mobile/app/modules/applied_farmer/controllers/wating_approve_tab_controller.dart';
 import 'package:myray_mobile/app/modules/applied_job/applied_job_repository.dart';
 import 'package:myray_mobile/app/modules/applied_job/controllers/applied_job_controller.dart';
+import 'package:myray_mobile/app/modules/applied_job/controllers/day_off_controller.dart';
 import 'package:myray_mobile/app/modules/attendance/attendance_repository.dart';
 import 'package:myray_mobile/app/modules/auth/auth_repository.dart';
 import 'package:myray_mobile/app/modules/auth/controllers/auth_controller.dart';
@@ -80,5 +81,7 @@ class AppBinding extends Bindings {
     Get.lazyPut(() => FeedBackController(), fenix: true);
     Get.lazyPut(() => ReportRepository(), fenix: true);
     Get.lazyPut(() => ExtendJobRepository(), fenix: true);
+    Get.lazyPut(() => DayOffController());
+
   }
 }
