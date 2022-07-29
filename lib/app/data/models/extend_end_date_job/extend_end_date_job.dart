@@ -1,10 +1,11 @@
-
+import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:myray_mobile/app/data/enums/enums.dart';
+import 'package:myray_mobile/app/shared/constants/constants.dart';
 part 'extend_end_date_job.g.dart';
 
 @JsonSerializable(includeIfNull: false)
-class ExtendEndDateJob{
-
+class ExtendEndDateJob {
   @JsonKey(name: 'id')
   int id;
 
@@ -38,6 +39,15 @@ class ExtendEndDateJob{
   @JsonKey(name: 'status')
   int status;
 
+  @JsonKey(name: 'fullname_request')
+  String? requestedName;
+
+  @JsonKey(name: 'phone_request')
+  String? requestedPhone;
+
+  @JsonKey(name: 'avatar_request')
+  String? requestedAvatar;
+
   ExtendEndDateJob({
     required this.id,
     required this.jobPostId,
@@ -46,25 +56,30 @@ class ExtendEndDateJob{
     required this.extendEndDate,
     required this.reason,
     required this.status,
+    this.requestedName,
+    this.requestedPhone,
+    this.requestedAvatar,
     this.createdDate,
     this.jobTitle,
     this.approvedBy,
     this.approvedDate,
   });
 
-  factory ExtendEndDateJob.fromJson(Map<String, dynamic> json) => _$ExtendEndDateJobFromJson(json);
+  factory ExtendEndDateJob.fromJson(Map<String, dynamic> json) =>
+      _$ExtendEndDateJobFromJson(json);
+
   Map<String, dynamic> toJson() => _$ExtendEndDateJobToJson(this);
+
+  String? get statusString => _statusString[status];
+  Color? get statusColor => _statusColor[status];
 }
 
-// {
-//   "id": 0,
-//   "job_post_id": 0,
-//   "request_by": 0,
-//   "approved_by": 0,
-//   "created_date": "2022-07-14T01:00:58.361Z",
-//   "approved_date": "2022-07-14T01:00:58.362Z",
-//   "old_end_date": "2022-07-14T01:00:58.362Z",
-//   "extend_end_date": "2022-07-14T01:00:58.362Z",
-//   "reason": "string",
-//   "status": 0
-// }
+Map<int, String> _statusString = {
+  ExtendJobEndDateStatus.approved.index: 'Đã duyệt',
+  ExtendJobEndDateStatus.rejected.index: 'Đã từ chối',
+};
+
+Map<int, Color> _statusColor = {
+  ExtendJobEndDateStatus.approved.index: AppColors.successColor,
+  ExtendJobEndDateStatus.rejected.index: AppColors.errorColor,
+};

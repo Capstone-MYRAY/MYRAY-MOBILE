@@ -53,9 +53,10 @@ class JobFarmerListView extends GetView<JobFarmerListController> {
                 onEndOfPage: controller.getAppliedFarmers,
                 isLoading: controller.isLoading.value,
                 onRefresh: controller.onRefresh,
-                itemCount: controller.appliedFarmer.length,
+                itemCount: controller.appliedFarmers.length,
                 itemBuilder: ((context, index) {
-                  AppliedFarmer appliedFarmer = controller.appliedFarmer[index];
+                  AppliedFarmer appliedFarmer =
+                      controller.appliedFarmers[index];
                   return FarmerInfoCard(
                     key: ValueKey(appliedFarmer.id),
                     fullName: appliedFarmer.userInfo.fullName ?? '',
@@ -63,6 +64,8 @@ class JobFarmerListView extends GetView<JobFarmerListController> {
                     avatar: appliedFarmer.userInfo.imageUrl,
                     statusName: appliedFarmer.statusString,
                     statusColor: appliedFarmer.statusColor,
+                    onFinish: () => controller.onFinish(appliedFarmer),
+                    onFired: () => controller.onFired(appliedFarmer),
                     onButtonTap: () {
                       Get.toNamed(
                         Routes.jobFarmerDetails,

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:myray_mobile/app/data/enums/tabs.dart';
-import 'package:myray_mobile/app/modules/applied_farmer/views/applied_farmer_view.dart';
+import 'package:myray_mobile/app/modules/applied_farmer/views/waiting_approve_view.dart';
 import 'package:myray_mobile/app/modules/dashboard/controllers/dashboard_controller.dart';
 import 'package:myray_mobile/app/modules/home/views/landowner_home_view.dart';
 import 'package:myray_mobile/app/modules/job_post/views/landowner_job_post_view.dart';
@@ -24,7 +24,7 @@ class LandownerDashboardView extends StatelessWidget {
             children: const [
               LandownerHomeView(),
               LandownerJobPostView(),
-              AppliedFarmerView(),
+              WaitingApproveView(),
               LandownerMessageView(),
               LandownerProfileView(),
             ],

@@ -59,6 +59,10 @@ class AppStrings {
   static const titleFavoriteList = 'Danh sách yêu thích';
   static const titleApproved = 'Đã thuê';
   static const titleFeedback = 'Đánh giá';
+  static const titleReportList = 'Danh sách báo cáo';
+  static const titleReportDetails = 'Chi tiết báo cáo';
+  static const titleExtendHistory = 'Lịch sử gia hạn';
+  static const titleUpdateProfile = 'Chỉnh sửa hồ sơ';
 
   //Subtitle
   static const subtitleMyGarden = 'Danh sách vườn đã tạo';
@@ -140,6 +144,8 @@ class AppStrings {
   static const labelResolvedContent = 'Hướng giải quyết';
   static const labelHistoryJob = 'Lịch sử công việc';
   static const labelHistoryJobDetail = 'Chi tiết công việc';
+  static const labelEmail = 'Email';
+  static const labelGender = 'Giới tính';
 
   //Placeholder
   static const placeholderPhone = 'Nhập số điện thoại';
@@ -174,6 +180,7 @@ class AppStrings {
   static const placeholderOnleaveStartDate = 'Ngày nghỉ bắt đầu...';
   static const placeholderOnleaveEndDate = 'Ngày nghỉ kết thúc...';
   static const placeholderNewExtendJobDate = 'Ngày kết thúc mới...';
+  static const placeholderEmail = 'Nhập địa chỉ email';
 
   //Caption
   static const captionChooseRole =

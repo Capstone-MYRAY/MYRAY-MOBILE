@@ -9,7 +9,7 @@ import 'package:myray_mobile/app/shared/utils/auth_credentials.dart';
 class LandownerProfileController extends GetxController {
   final _profileRepository = Get.find<ProfileRepository>();
   final _paymentHistoryRepository = Get.find<PaymentHistoryRepository>();
-  var user = Account().obs;
+  Rx<Account> user = Account().obs;
   var balanceWithPending = 0.0.obs;
   var pointWithPending = 0.obs;
 

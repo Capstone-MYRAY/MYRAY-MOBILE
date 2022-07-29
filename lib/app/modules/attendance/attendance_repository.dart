@@ -24,16 +24,17 @@ class AttendanceRepository {
 
   Future<Attendance?> checkAttendance(CheckAttendanceRequest data) async {
     final response = await _apiProvider.postMethod(_url, data.toJson());
-    print(response.bodyString);
+    print('Attendance error: ${response.bodyString}');
     if (response.isOk) {
       return Attendance.fromJson(response.body);
     }
     return null;
   }
 
-  Future<List<AttendanceResponse>?> getAttendanceList(GetAttendanceRequest data) async {
-    final response = await _apiProvider.getMethod(_url, data:data.toJson());
-    if(response.statusCode == HttpStatus.ok){
+  Future<List<AttendanceResponse>?> getAttendanceList(
+      GetAttendanceRequest data) async {
+    final response = await _apiProvider.getMethod(_url, data: data.toJson());
+    if (response.statusCode == HttpStatus.ok) {
       final jsonList = response.body as List;
       print('length of attendances: ${jsonList.length}');
       return jsonList.map((json) => AttendanceResponse.fromJson(json)).toList();

@@ -17,8 +17,6 @@ class GardenHomeController extends GetxController with GardenService {
 
   final isLoading = false.obs;
 
-  final isBuildFuture = false.obs;
-
   Future<bool?> getGardens() async {
     final int accountId = AuthCredentials.instance.user!.id!;
 

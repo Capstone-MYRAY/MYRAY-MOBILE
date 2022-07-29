@@ -79,7 +79,7 @@ class AppliedFarmerDetailsView extends GetView<AppliedFarmerDetailsController> {
                 onPressed: controller.reject,
                 style: OutlinedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(
-                    vertical: 8.0,
+                    vertical: 12.0,
                   ),
                 ),
                 child: const Text(AppStrings.titleRefuse),
@@ -90,7 +90,7 @@ class AppliedFarmerDetailsView extends GetView<AppliedFarmerDetailsController> {
               child: FilledButton(
                 title: AppStrings.titleHire,
                 padding: const EdgeInsets.symmetric(
-                  vertical: 8.0,
+                  vertical: 12.0,
                 ),
                 onPressed: controller.approve,
               ),
@@ -101,11 +101,15 @@ class AppliedFarmerDetailsView extends GetView<AppliedFarmerDetailsController> {
     }
 
     final color = isApproved ? AppColors.primaryColor : AppColors.errorColor;
+    final statusString =
+        appliedFarmer.status == AppliedFarmerStatus.approved.index
+            ? 'Đã nhận'
+            : 'Đã từ chối';
 
     return FractionallySizedBox(
       widthFactor: 0.4,
       child: StatusChip(
-        statusName: appliedFarmer.statusString,
+        statusName: statusString,
         backgroundColor: Colors.transparent,
         foregroundColor: color,
         border: Border.all(color: color),

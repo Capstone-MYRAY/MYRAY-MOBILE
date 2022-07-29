@@ -20,6 +20,7 @@ Report _$ReportFromJson(Map<String, dynamic> json) => Report(
           ? null
           : DateTime.parse(json['resolved_date'] as String),
       resolvedName: json['resolved_name'] as String?,
+      reportedName: json['reported_name'] as String?,
     );
 
 Map<String, dynamic> _$ReportToJson(Report instance) {
@@ -41,6 +42,7 @@ Map<String, dynamic> _$ReportToJson(Report instance) {
   writeNotNull('resolved_date', instance.resolvedDate?.toIso8601String());
   writeNotNull('resolved_by', instance.resolvedBy);
   writeNotNull('resolved_name', instance.resolvedName);
+  writeNotNull('reported_name', instance.reportedName);
   writeNotNull('status', instance.status);
   return val;
 }

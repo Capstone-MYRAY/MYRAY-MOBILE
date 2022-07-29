@@ -1,19 +1,17 @@
-
 import 'package:json_annotation/json_annotation.dart';
 import 'package:myray_mobile/app/data/enums/enums.dart';
 part 'get_extend_end_date_job_request.g.dart';
 
 @JsonSerializable(includeIfNull: false)
-class GetExtendEndDateJobRequest{
-
+class GetExtendEndDateJobRequest {
   @JsonKey(name: 'requestBy')
-  String requestBy;
+  String? requestBy;
 
   @JsonKey(name: 'approvedBy')
   String? approvedBy;
 
   @JsonKey(name: 'status')
-  String status;
+  String? status;
 
   @JsonKey(name: 'sort-column')
   ExtendTaskJobSortColumn? sortColumn;
@@ -26,18 +24,17 @@ class GetExtendEndDateJobRequest{
 
   @JsonKey(name: 'page-size')
   String pageSize;
-  
 
-  GetExtendEndDateJobRequest({
-    required this.requestBy,
-    required this.status,
-    required this.page,
-    required this.pageSize,
-    this.sortColumn,
-    this.approvedBy,
-    this.orderBy
-  });
+  GetExtendEndDateJobRequest(
+      {required this.page,
+      required this.pageSize,
+      this.requestBy,
+      this.status,
+      this.sortColumn,
+      this.approvedBy,
+      this.orderBy});
 
-  factory GetExtendEndDateJobRequest.fromJson(Map<String, dynamic> json) => _$GetExtendEndDateJobRequestFromJson(json);
+  factory GetExtendEndDateJobRequest.fromJson(Map<String, dynamic> json) =>
+      _$GetExtendEndDateJobRequestFromJson(json);
   Map<String, dynamic> toJson() => _$GetExtendEndDateJobRequestToJson(this);
 }

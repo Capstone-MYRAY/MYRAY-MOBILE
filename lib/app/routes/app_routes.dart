@@ -14,6 +14,7 @@ abstract class Routes {
 
   static const p2pMessages = _Paths.p2pMessages;
   static const guidepost = _Paths.guidepost;
+  static const updateProfile = _Paths.updateProfile;
 
   //landowner
   static const landownerDashboard = _Paths.landownerDashboard;
@@ -31,6 +32,8 @@ abstract class Routes {
   static const landownerBookmarkDetails = _Paths.landownerBookmarkDetails;
   static const jobFarmerList = _Paths.jobFarmerList;
   static const jobFarmerDetails = _Paths.jobFarmerDetails;
+  static const landownerReportList = _Paths.landownerReportList;
+  static const landownerReportDetails = _Paths.landownerReportDetails;
 
   //farmer
   static const farmerDashboard = _Paths.farmerDashboard;
@@ -61,6 +64,7 @@ abstract class _Paths {
 
   static const p2pMessages = '/p2pMessages';
   static const guidepost = '/guidepost';
+  static const updateProfile = '/update_profile';
 
   //Landowner views
   static const landownerDashboard = '$_landowner/dashboard';
@@ -78,6 +82,8 @@ abstract class _Paths {
   static const landownerBookmarkDetails = '$_landowner/bookmark_details';
   static const jobFarmerList = '$_landowner/job_farmer_list';
   static const jobFarmerDetails = '$_landowner/job_farmer_details';
+  static const landownerReportList = '$_landowner/report_list';
+  static const landownerReportDetails = '$_landowner/report_details';
 
   //farmer views
   static const farmerDashboard = '$_farmer/dashboard';

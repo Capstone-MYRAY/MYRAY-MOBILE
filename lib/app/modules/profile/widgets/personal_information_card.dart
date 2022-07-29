@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:myray_mobile/app/data/models/account.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
+import 'package:myray_mobile/app/shared/utils/utils.dart';
 import 'package:myray_mobile/app/shared/widgets/cards/card_field_no_icon.dart';
 
 class PersonalInformation extends StatelessWidget {
@@ -15,9 +16,8 @@ class PersonalInformation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final String _dob = user.value.dob != null
-        ? DateFormat(CommonConstants.ddMMyyyy).format(user.value.dob!)
-        : '';
+    final String dob =
+        user.value.dob != null ? Utils.formatddMMyyyy(user.value.dob!) : '';
     return SizedBox(
       width: Get.width * 0.9,
       child: Column(
@@ -43,7 +43,7 @@ class PersonalInformation extends StatelessWidget {
                   const SizedBox(height: 24.0),
                   CardFieldNoIcon(
                     title: 'Ngày sinh',
-                    data: _dob,
+                    data: dob,
                   ),
                   const SizedBox(height: 24.0),
                   CardFieldNoIcon(

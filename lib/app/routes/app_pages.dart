@@ -44,8 +44,14 @@ import 'package:myray_mobile/app/modules/message/bindings/p2p_message_binding.da
 import 'package:myray_mobile/app/modules/message/views/p2p_message_view.dart';
 import 'package:myray_mobile/app/modules/message/widgets/new_message/new_message_binding.dart';
 import 'package:myray_mobile/app/modules/payment_history/payment_history_module.dart';
+import 'package:myray_mobile/app/modules/profile/bindings/update_profile_binding.dart';
 import 'package:myray_mobile/app/modules/profile/views/farmer_profile_detail.dart';
 import 'package:myray_mobile/app/modules/profile/views/landowner_profile_details_view.dart';
+import 'package:myray_mobile/app/modules/profile/views/update_profile_view.dart';
+import 'package:myray_mobile/app/modules/report/bindings/landowner_report_binding.dart';
+import 'package:myray_mobile/app/modules/report/bindings/landowner_report_details_binding.dart';
+import 'package:myray_mobile/app/modules/report/views/landowner_report_details_view.dart';
+import 'package:myray_mobile/app/modules/report/views/landowner_report_view.dart';
 import 'package:myray_mobile/init_view.dart';
 
 part 'app_routes.dart';
@@ -111,6 +117,11 @@ class AppPages {
       bindings: [GuidepostBinding(), CommentBinding()],
       transition: Transition.rightToLeft,
     ),
+    GetPage(
+      name: _Paths.updateProfile,
+      page: () => const UpdateProfileView(),
+      binding: UpdateProfileBinding(),
+    ),
 
     //landowner
     GetPage(
@@ -166,7 +177,7 @@ class AppPages {
       name: _Paths.checkAttendance,
       page: () => const JobPostAttendanceView(),
       binding: JobPostAttendanceBinding(),
-      transition: Transition.leftToRightWithFade,
+      transition: Transition.rightToLeftWithFade,
     ),
     GetPage(
       name: _Paths.landownerBookmark,
@@ -182,11 +193,22 @@ class AppPages {
       name: _Paths.jobFarmerList,
       page: () => const JobFarmerListView(),
       binding: JobFarmerListBinding(),
+      transition: Transition.rightToLeftWithFade,
     ),
     GetPage(
       name: _Paths.jobFarmerDetails,
       page: () => const JobFarmerDetailsView(),
       binding: JobFarmerDetailsBinding(),
+    ),
+    GetPage(
+      name: _Paths.landownerReportList,
+      page: () => const LandownerReportView(),
+      binding: LandownerReportBinding(),
+    ),
+    GetPage(
+      name: _Paths.landownerReportDetails,
+      page: () => const LandownerReportDetailsView(),
+      binding: LandownerReportDetailsBinding(),
     ),
 
     //farmer

@@ -8,7 +8,7 @@ import 'package:myray_mobile/app/data/services/post_type_repository.dart';
 import 'package:myray_mobile/app/data/services/tree_type_repository.dart';
 import 'package:myray_mobile/app/data/services/upload_image_service.dart';
 import 'package:myray_mobile/app/modules/applied_farmer/applied_farmer_repository.dart';
-import 'package:myray_mobile/app/modules/applied_farmer/controllers/applied_farmer_controller.dart';
+import 'package:myray_mobile/app/modules/applied_farmer/controllers/wating_approve_tab_controller.dart';
 import 'package:myray_mobile/app/modules/applied_job/applied_job_repository.dart';
 import 'package:myray_mobile/app/modules/applied_job/controllers/applied_job_controller.dart';
 import 'package:myray_mobile/app/modules/attendance/attendance_repository.dart';
@@ -17,6 +17,7 @@ import 'package:myray_mobile/app/modules/auth/controllers/auth_controller.dart';
 import 'package:myray_mobile/app/modules/auth/controllers/login_controller.dart';
 import 'package:myray_mobile/app/modules/bookmark/bookmark_repository.dart';
 import 'package:myray_mobile/app/modules/dashboard/controllers/dashboard_controller.dart';
+import 'package:myray_mobile/app/modules/extend_history/extend_job_repository.dart';
 import 'package:myray_mobile/app/modules/feedback/controllers/feedback_controller.dart';
 import 'package:myray_mobile/app/modules/feedback/feedback_repository.dart';
 import 'package:myray_mobile/app/modules/garden/garden_repository.dart';
@@ -67,7 +68,7 @@ class AppBinding extends Bindings {
     Get.lazyPut(() => LandownerJobPostController(), fenix: true);
     Get.lazyPut(() => LandownerMessageController(), fenix: true);
     Get.lazyPut(() => FarmerMessageController(), fenix: true);
-    Get.lazyPut(() => AppliedFarmerController(), fenix: true);
+    Get.lazyPut(() => WaitingApproveTabController(), fenix: true);
     Get.lazyPut(() => FarmerProfileController(), fenix: true);
     Get.lazyPut(() => FarmerHomeController(), fenix: true);
     Get.lazyPut(() => FarmerJobPostController(), fenix: true);
@@ -78,5 +79,6 @@ class AppBinding extends Bindings {
     Get.lazyPut(() => FeedBackRepository(), fenix: true);
     Get.lazyPut(() => FeedBackController(), fenix: true);
     Get.lazyPut(() => ReportRepository(), fenix: true);
+    Get.lazyPut(() => ExtendJobRepository(), fenix: true);
   }
 }

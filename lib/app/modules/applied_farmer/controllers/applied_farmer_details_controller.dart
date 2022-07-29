@@ -1,3 +1,4 @@
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:myray_mobile/app/data/enums/status.dart';
 import 'package:myray_mobile/app/data/models/applied_farmer/applied_farmer_models.dart';
@@ -45,50 +46,61 @@ class AppliedFarmerDetailsController extends GetxController
   }
 
   approve() async {
-    bool? success = await approveFarmer(appliedFarmer.value.id);
+    try {
+      EasyLoading.show();
+      bool approvable = await canApprove(appliedFarmer.value.jobPost);
+      EasyLoading.dismiss();
 
-    //user cancel action
-    if (success == null) return;
+      if (!approvable) return;
 
-    if (!success) {
+      bool? success = await approveFarmer(appliedFarmer.value.id);
+
+      //user cancel action
+      if (success == null) return;
+
+      if (!success) throw Exception('Có lỗi xảy ra');
+
+      //update status
+      appliedFarmer.value.status = AppliedFarmerStatus.approved.index;
+
+      //remove this farmer from list
+      final appliedFarmerController = Get.find<AppliedFarmerController>();
+      appliedFarmerController.removeItem(appliedFarmer.value);
+      appliedFarmer.refresh();
+    } catch (e) {
+      if (EasyLoading.isShow) {
+        EasyLoading.dismiss();
+      }
       CustomSnackbar.show(
         title: AppStrings.titleError,
         message: 'Có lỗi xảy ra',
         backgroundColor: AppColors.errorColor,
       );
-      return;
     }
-
-    //update status
-    appliedFarmer.value.status = AppliedFarmerStatus.approved.index;
-
-    //remove this farmer from list
-    final appliedFarmerController = Get.find<AppliedFarmerController>();
-    appliedFarmerController.removeItem(appliedFarmer.value);
-    appliedFarmer.refresh();
   }
 
   reject() async {
-    bool? success = await rejectFarmer(appliedFarmer.value.id);
+    try {
+      bool? success = await rejectFarmer(appliedFarmer.value.id);
 
-    //user cancel action
-    if (success == null) return;
+      //user cancel action
+      if (success == null) return;
 
-    if (!success) {
+      if (!success) throw Exception('Có lỗi xảy ra');
+
+      //update status
+      appliedFarmer.value.status = AppliedFarmerStatus.rejected.index;
+
+      //remove this farmer from list
+      final appliedFarmerController = Get.find<AppliedFarmerController>();
+      appliedFarmerController.removeItem(appliedFarmer.value);
+      appliedFarmer.refresh();
+    } catch (e) {
       CustomSnackbar.show(
         title: AppStrings.titleError,
         message: 'Có lỗi xảy ra',
         backgroundColor: AppColors.errorColor,
       );
-      return;
     }
-
-    //update status
-    appliedFarmer.value.status = AppliedFarmerStatus.rejected.index;
-
-    //remove this farmer from list
-    final appliedFarmerController = Get.find<AppliedFarmerController>();
-    appliedFarmerController.removeItem(appliedFarmer.value);
-    appliedFarmer.refresh();
   }
 }

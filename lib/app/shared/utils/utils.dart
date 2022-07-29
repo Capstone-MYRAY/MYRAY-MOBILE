@@ -165,6 +165,11 @@ class Utils {
 
   static final isAlphabet = RegExp(r'[a-zA-z]');
 
+  static final isEmail = RegExp(
+    r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
+    caseSensitive: false,
+  );
+
   static String generateConventionId(
       int fromId, int toId, int jobPostId, String roleName) {
     final conventionIdBuffer = StringBuffer();
