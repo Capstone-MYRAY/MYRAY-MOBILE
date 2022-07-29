@@ -39,7 +39,7 @@ Map<String, dynamic> _$GetCommentRequestToJson(GetCommentRequest instance) {
 
 const _$CommentSortColumnEnumMap = {
   CommentSortColumn.commentBy: 'CommentBy',
-  CommentSortColumn.createDate: 'CreateDate',
+  CommentSortColumn.createdDate: 'CreatedDate',
 };
 
 const _$SortOrderEnumMap = {

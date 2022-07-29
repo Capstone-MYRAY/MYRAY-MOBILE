@@ -9,7 +9,7 @@ class GuidepostController extends GetxController {
   final GuidepostRepository _guidepostRepository =
       Get.find<GuidepostRepository>();
   
-  final int _pageSize = 20;
+  final int _pageSize = 5;
   int _currentPage = 0;
   bool _hasNextPage = true;
   final isLoading = false.obs;

@@ -207,6 +207,7 @@ class AppStrings {
   static const male = 'Nam';
   static const female = 'Nữ';
   static const other = 'Khác';
+  static const confirmDeleteMessage = 'Bạn muốn xóa bình luận này ?';
 
   //Tooltip
   static const tooltipUpdateBalance = 'Cập nhật số dư';

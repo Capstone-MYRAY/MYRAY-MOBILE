@@ -18,6 +18,8 @@ class AppAssets {
   static const cultivation = '${_imgPath}bean_farmer.png';
   static const noJobFound = '${_imgPath}job_seeker.png';
   static const guidepost = '${_imgPath}guidepost.png';
+  static const trash = '${_imgPath}trash.png';
+  static const edit = '${_imgPath}edit.png';
 
   //symbols
   static const marker = 'assets/symbols/marker.png';
