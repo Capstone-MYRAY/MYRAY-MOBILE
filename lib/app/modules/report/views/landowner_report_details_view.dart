@@ -39,7 +39,7 @@ class LandownerReportDetailsView
                     ),
                     const SizedBox(height: 8.0),
                     CardUserInfo(
-                      phone: 'wait for Lâm',
+                      phone: report.reportedPhone ?? '',
                       fullName: report.reportedName ?? '',
                       radius: 36.0,
                       avatar: null,
@@ -59,6 +59,7 @@ class LandownerReportDetailsView
   Widget _buildReportInfo() {
     return MyCard(
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Align(
             alignment: Alignment.centerLeft,
@@ -71,7 +72,7 @@ class LandownerReportDetailsView
           CardField(
             icon: CustomIcons.briefcase_outline,
             title: AppStrings.labelWorkName,
-            data: 'wait for Lam',
+            data: report.jobPostTitle ?? '',
           ),
           const SizedBox(height: 8.0),
           CardField(

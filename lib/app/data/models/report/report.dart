@@ -13,6 +13,9 @@ class Report {
   @JsonKey(name: 'job_post_id')
   int? jobPostId;
 
+  @JsonKey(name: 'job_post_title')
+  String? jobPostTitle;
+
   @JsonKey(name: 'content')
   String content;
 
@@ -21,6 +24,18 @@ class Report {
 
   @JsonKey(name: 'reported_id')
   int? reportedId;
+
+  @JsonKey(name: 'reported_name')
+  String? reportedName;
+
+  @JsonKey(name: 'reported_phone')
+  String? reportedPhone;
+
+  @JsonKey(name: 'reported_avatar')
+  String? reportedAvatar;
+
+  @JsonKey(name: 'created_name')
+  String? createdName;
 
   @JsonKey(name: 'created_by')
   int createdBy;
@@ -36,9 +51,6 @@ class Report {
 
   @JsonKey(name: 'resolved_name')
   String? resolvedName;
-
-  @JsonKey(name: 'reported_name')
-  String? reportedName;
 
   @JsonKey(name: 'status')
   int? status;
@@ -56,6 +68,10 @@ class Report {
     this.resolvedDate,
     this.resolvedName,
     this.reportedName,
+    this.createdName,
+    this.reportedAvatar,
+    this.reportedPhone,
+    this.jobPostTitle,
   });
 
   factory Report.fromJson(Map<String, dynamic> json) => _$ReportFromJson(json);

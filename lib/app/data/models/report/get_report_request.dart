@@ -22,6 +22,9 @@ class GetReportRequest {
   @JsonKey(name: 'resolvedBy')
   String? resolvedBy;
 
+  @JsonKey(name: 'status')
+  String? status;
+
   @JsonKey(name: 'sort-column')
   ReportSortColumn? sortColumn;
 
@@ -45,6 +48,7 @@ class GetReportRequest {
     this.orderBy,
     this.page,
     this.pageSize,
+    this.status,
   });
 
   factory GetReportRequest.fromJson(Map<String, dynamic> json) =>

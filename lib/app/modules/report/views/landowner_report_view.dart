@@ -59,9 +59,10 @@ class LandownerReportView extends GetView<LandownerReportController> {
                   return LandownerReportCard(
                     key: ValueKey(report.id),
                     createdDate: report.createdDate,
-                    phone: '0962467699',
+                    phone: report.reportedPhone ?? '',
+                    avatar: report.reportedAvatar,
                     fullName: report.reportedName ?? '',
-                    workName: 'Wait for Lâm',
+                    workName: report.jobPostTitle ?? '',
                     statusName: report.statusString,
                     statusColor: report.statusColor,
                     onButtonTap: () {
