@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -33,7 +32,6 @@ import 'package:myray_mobile/app/shared/utils/utils.dart';
 import 'package:myray_mobile/app/shared/widgets/controls/my_date_picker.dart';
 import 'package:myray_mobile/app/shared/widgets/custom_snackbar.dart';
 import 'package:myray_mobile/app/shared/widgets/dialogs/custom_information.dialog.dart';
-import 'package:myray_mobile/app/shared/widgets/dialogs/information_dialog.dart';
 
 class InprogressJobDetailController extends GetxController {
   final JobPost jobpost;
@@ -162,15 +160,15 @@ class InprogressJobDetailController extends GetxController {
     Get.back();
   }
 
-  onSubmitReportForm(int jobPostId) async {
+  onSubmitReportForm(JobPost jobPost) async {
     bool isFormValid = formKey.currentState!.validate();
     print(isFormValid ? reportContentController.value : 'no valid');
     if (isFormValid) {
       EasyLoading.show();
       PostReportRequest data = PostReportRequest(
           content: reportContentController.text,
-          jobPostId: jobPostId,
-          reportedId: AuthCredentials.instance.user!.id!);
+          jobPostId: jobPost.id,
+          reportedId: jobPost.publishedBy);
       Report? result = await _reportJob(data);
       onCloseReportDialog();
       EasyLoading.dismiss();

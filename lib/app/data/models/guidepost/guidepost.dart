@@ -13,22 +13,22 @@ String title;
 @JsonKey(name: 'content')
 String content;
 
-@JsonKey(name: 'create_date')
-DateTime createDate;
+@JsonKey(name: 'created_date')
+DateTime createdDate;
 
-@JsonKey(name: 'update_date')
-DateTime? updateDate;
+@JsonKey(name: 'updated_date')
+DateTime? updatedDate;
 
-@JsonKey(name: 'create_by')
-int createBy;
+@JsonKey(name: 'created_by')
+int createdBy;
 
 Guidepost({
   required this.id,
   required this.title,
   required this.content,
-  required this.createDate,
-  required this.createBy,
-  this.updateDate
+  required this.createdDate,
+  required this.createdBy,
+  this.updatedDate
 });
 
 factory Guidepost.fromJson(Map<String, dynamic> json) => _$GuidepostFromJson(json);

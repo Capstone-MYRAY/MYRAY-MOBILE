@@ -13,6 +13,7 @@ import 'package:myray_mobile/app/modules/bookmark/views/famer_bookmark.dart';
 import 'package:myray_mobile/app/modules/bookmark/views/landowner_bookmark_details_view.dart';
 import 'package:myray_mobile/app/modules/bookmark/views/landowner_bookmark_view.dart';
 import 'package:myray_mobile/app/modules/comment/bindings/comment_binding.dart';
+import 'package:myray_mobile/app/modules/comment/widgets/test.dart';
 import 'package:myray_mobile/app/modules/dashboard/bindings/dashboard_binding.dart';
 import 'package:myray_mobile/app/modules/dashboard/views/farmer_dashboard_view.dart';
 import 'package:myray_mobile/app/modules/dashboard/views/landowner_dashboard_view.dart';
@@ -239,5 +240,10 @@ class AppPages {
       binding: FarmerHistoryJobDetailBinding(),
       transition: Transition.rightToLeft,
     ),
+    GetPage(
+      name: _Paths.test,
+      page: () => const Test(),
+      transition: Transition.rightToLeft,
+    )
   ];
 }

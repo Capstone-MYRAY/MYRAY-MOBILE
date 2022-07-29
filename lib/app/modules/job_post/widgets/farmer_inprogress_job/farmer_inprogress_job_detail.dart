@@ -369,7 +369,7 @@ class FarmerInProgressJobDetail extends GetView<InprogressJobDetailController> {
                           validateReason: controller.validateReason,
                           submit: (_) {
                             controller
-                                .onSubmitReportForm(controller.jobpost.id);
+                                .onSubmitReportForm(controller.jobpost);
                           },
                           closeDialog: controller.onCloseReportDialog,
                         );

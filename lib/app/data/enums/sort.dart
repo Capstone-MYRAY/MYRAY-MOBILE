@@ -129,6 +129,6 @@ enum CommentSortColumn{
   @JsonValue('CommentBy')
   commentBy,
 
-  @JsonValue('CreateDate')
-  createDate,
+  @JsonValue('CreatedDate')
+  createdDate,
 }

@@ -6,13 +6,19 @@ class CommentRight extends StatelessWidget {
   final String name;
   final String comment;
   // final ulrImage;
-  const CommentRight({Key? key, required this.name, required this.comment})
-      : super(key: key);
+  final void Function()? onLongPress;
+
+  const CommentRight({
+    Key? key,
+    required this.name,
+    required this.comment,
+    this.onLongPress
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(right: 5, top: 20),
+      margin: const EdgeInsets.only(right: 5, top: 10, bottom: 10),
       child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.end,
@@ -31,20 +37,23 @@ class CommentRight extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 10),
-                Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: AppColors.grey.withOpacity(0.5),
-                    borderRadius: const BorderRadius.all(Radius.circular(10)),
-                  ),
-                  child: SizedBox(
-                    width: Get.width * 0.5,
-                    child: Text(
-                      comment,
-                      softWrap: true,
-                      textAlign: TextAlign.justify,
-                      maxLines: 5,
-                      overflow: TextOverflow.ellipsis,
+                InkWell(
+                  onLongPress: onLongPress,
+                  child: Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: AppColors.grey.withOpacity(0.5),
+                      borderRadius: const BorderRadius.all(Radius.circular(10)),
+                    ),
+                    child: SizedBox(
+                      width: Get.width * 0.5,
+                      child: Text(
+                        comment,
+                        softWrap: true,
+                        textAlign: TextAlign.justify,
+                        maxLines: 5,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
                   ),
                 ),
@@ -56,7 +65,6 @@ class CommentRight extends StatelessWidget {
             const CircleAvatar(
               child: Icon(Icons.person),
             ),
-            
           ]),
     );
   }
