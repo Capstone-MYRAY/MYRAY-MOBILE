@@ -36,25 +36,25 @@ class JobFarmerListController extends GetxController {
 
   final isLoading = false.obs;
 
-  final List<FilterObj> _filters = [
-    FilterObj(name: 'Toàn bộ', value: null),
-    FilterObj(
+  final List<FilterObject> _filters = [
+    FilterObject(name: 'Toàn bộ', value: null),
+    FilterObject(
       name: AppStrings.appliedFarmerApproved,
       value: AppliedFarmerStatus.approved,
     ),
-    FilterObj(
+    FilterObject(
       name: AppStrings.appliedFarmerPending,
       value: AppliedFarmerStatus.pending,
     ),
-    FilterObj(
+    FilterObject(
       name: AppStrings.appliedFarmerEnd,
       value: AppliedFarmerStatus.end,
     ),
-    FilterObj(
+    FilterObject(
       name: AppStrings.appliedFarmerFired,
       value: AppliedFarmerStatus.fired,
     ),
-    FilterObj(
+    FilterObject(
       name: AppStrings.appliedFarmerRejected,
       value: AppliedFarmerStatus.rejected,
     ),

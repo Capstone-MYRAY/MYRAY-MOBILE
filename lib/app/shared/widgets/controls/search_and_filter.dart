@@ -9,10 +9,15 @@ import './search_textfield.dart';
 class SearchAndFilter extends StatelessWidget {
   final TextEditingController searchController;
   final void Function() onFilterTap;
+  final void Function(String)? onTextChanged;
+  final bool refreshOnClear;
+
   const SearchAndFilter({
     Key? key,
     required this.onFilterTap,
     required this.searchController,
+    this.onTextChanged,
+    this.refreshOnClear = false,
   }) : super(key: key);
 
   @override
@@ -28,7 +33,9 @@ class SearchAndFilter extends StatelessWidget {
             children: [
               Expanded(
                 child: SearchTextField(
+                  onChanged: onTextChanged,
                   searchController: searchController,
+                  refreshOnClear: refreshOnClear,
                 ),
               ),
               const SizedBox(width: 16.0),
