@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:myray_mobile/app/shared/constants/app_colors.dart';
 import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
 
@@ -8,7 +9,8 @@ class FarmerOnLeaveCard extends StatelessWidget {
   final DateTime submitDate;
   final int numOfOnleaveDays;
   final String reason;
-  // final void Function() onTap;
+  final void Function()? onTap;
+  //final DateTime createdDate;
 
   const FarmerOnLeaveCard({
     Key? key,
@@ -16,14 +18,18 @@ class FarmerOnLeaveCard extends StatelessWidget {
     required this.submitDate,
     required this.numOfOnleaveDays,
     required this.reason,
+    this.onTap
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: onTap,
       child: Card(
         color: AppColors.white,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(9),
+        ),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10),
           child: Column(
@@ -94,7 +100,7 @@ class FarmerOnLeaveCard extends StatelessWidget {
                     width: Get.width * 0.06,
                   ),
                   Text(
-                    "23/07/2022",
+                    DateFormat('dd/MM/yyyy').format(submitDate),
                     style: Get.textTheme.bodyText2!.copyWith(
                         color: AppColors.primaryColor,
                         fontSize: Get.textScaleFactor * 15,
@@ -127,8 +133,8 @@ class FarmerOnLeaveCard extends StatelessWidget {
                     width: Get.width * 0.045,
                   ),
                   Text(
-                    // submitDate.toString(), //bỏ ngày sau
-                    "07/07/2022",
+                    DateFormat('dd/MM/yyyy').format(DateTime.now()),
+                    // DateFormat('dd/MM/yyyy').format(createdDate),
                     style: Get.textTheme.bodyText2!.copyWith(
                         color: AppColors.primaryColor,
                         fontSize: Get.textScaleFactor * 15,

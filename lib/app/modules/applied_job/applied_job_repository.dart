@@ -3,6 +3,7 @@ import 'package:get/get_connect/http/src/status/http_status.dart';
 import 'package:myray_mobile/app/data/models/applied_job/get_applied_job_request.dart';
 import 'package:myray_mobile/app/data/models/applied_job/get_applied_job_response.dart';
 import 'package:myray_mobile/app/data/models/attendance/farmer_post_attendance_request.dart';
+import 'package:myray_mobile/app/data/models/day_off/day_off.dart';
 import 'package:myray_mobile/app/data/models/extend_end_date_job/extend_end_date_job.dart';
 import 'package:myray_mobile/app/data/models/extend_end_date_job/get_extend_end_date_job_list_response.dart';
 import 'package:myray_mobile/app/data/models/extend_end_date_job/get_extend_end_date_job_request.dart';
@@ -104,5 +105,15 @@ class AppliedJobRepository {
       return true;
     }
     return false;
+  }
+
+  //get day off list, no condition
+  Future<List<DayOff>?> getDayOff() async {
+    final response = await _apiProvider.getMethod('/attendance/dayoff');
+    if(response.statusCode == HttpStatus.ok){
+      final jsonList = response.body as List;
+      return jsonList.map((dayOff) => DayOff.fromJson(dayOff)).toList();
+    }
+    return null;
   }
 }
