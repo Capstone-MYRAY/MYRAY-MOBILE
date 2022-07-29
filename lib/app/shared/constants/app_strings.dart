@@ -63,6 +63,9 @@ class AppStrings {
   static const titleReportDetails = 'Chi tiết báo cáo';
   static const titleExtendHistory = 'Lịch sử gia hạn';
   static const titleUpdateProfile = 'Chỉnh sửa hồ sơ';
+  static const titleFilter = 'Bộ lọc';
+  static const titleApply = 'Áp dụng';
+  static const titleClearFilter = 'Bỏ lọc';
 
   //Subtitle
   static const subtitleMyGarden = 'Danh sách vườn đã tạo';

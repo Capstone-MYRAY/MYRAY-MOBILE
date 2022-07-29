@@ -19,6 +19,7 @@ GetRequestJobPostList _$GetRequestJobPostListFromJson(
       page: json['page'] as String?,
       pageSize: json['page-size'] as String?,
       publishBy: json['publishBy'] as String?,
+      postTypeId: json['postTypeId'] as String?,
     );
 
 Map<String, dynamic> _$GetRequestJobPostListToJson(
@@ -40,6 +41,7 @@ Map<String, dynamic> _$GetRequestJobPostListToJson(
   writeNotNull('page', instance.page);
   writeNotNull('page-size', instance.pageSize);
   writeNotNull('publishBy', instance.publishBy);
+  writeNotNull('postTypeId', instance.postTypeId);
   return val;
 }
 

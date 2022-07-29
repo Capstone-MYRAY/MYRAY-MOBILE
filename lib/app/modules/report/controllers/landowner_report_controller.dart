@@ -18,13 +18,13 @@ class LandownerReportController extends GetxController {
 
   Rxn<ReportStatus> selectedFilter = Rxn(null);
 
-  final List<FilterObj> _filters = [
-    FilterObj(name: 'Toàn bộ', value: null),
-    FilterObj(
+  final List<FilterObject> _filters = [
+    FilterObject(name: 'Toàn bộ', value: null),
+    FilterObject(
       name: AppStrings.reportPending,
       value: ReportStatus.pending,
     ),
-    FilterObj(
+    FilterObject(
       name: AppStrings.reportResolved,
       value: ReportStatus.resolved,
     ),
