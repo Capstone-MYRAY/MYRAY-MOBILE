@@ -1,8 +1,12 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:myray_mobile/app/data/enums/enums.dart';
 import 'package:myray_mobile/app/data/models/payment_history/payment_history_models.dart';
 import 'package:myray_mobile/app/modules/payment_history/payment_history_repository.dart';
 import 'package:myray_mobile/app/shared/utils/auth_credentials.dart';
+import 'package:myray_mobile/app/shared/utils/utils.dart';
+import 'package:myray_mobile/app/shared/widgets/controls/my_date_range_picker.dart';
+import 'package:myray_mobile/app/shared/widgets/filters/outlined_filter.dart';
 
 class PaymentHistoryHomeController extends GetxController {
   final _paymentHistoryRepository = Get.find<PaymentHistoryRepository>();
@@ -13,29 +17,79 @@ class PaymentHistoryHomeController extends GetxController {
 
   final isLoading = false.obs;
 
+  late TextEditingController issuedDateController;
+  late TextEditingController messageController;
+  late GlobalKey<OutlinedFilterState> statusKey;
+
+  DateTimeRange? rangeDate;
+  int? statusFilter;
+  String messageFilter = '';
+
+  @override
+  void onInit() {
+    super.onInit();
+    issuedDateController = TextEditingController();
+    messageController = TextEditingController();
+    statusKey = GlobalKey();
+  }
+
+  onClearFilter() {
+    statusKey.currentState!.clearFilter();
+    statusFilter = null;
+    rangeDate = null;
+    issuedDateController.text = '';
+  }
+
+  onApplyFilter() {
+    onRefresh();
+    Get.back(); //close filter dialog
+  }
+
+  onChooseIssuedDate() async {
+    final now = DateTime.now();
+    final firstDate = now.subtract(const Duration(days: 365));
+    DateTimeRange? selectedRange = await MyDateRangePicker.show(
+      firstDate: firstDate,
+      lastDate: now,
+      initDateRange: rangeDate,
+    );
+
+    if (selectedRange != null) {
+      rangeDate = selectedRange;
+      if (selectedRange.start.isAtSameMomentAs(selectedRange.end)) {
+        issuedDateController.text = Utils.formatddMMyyyy(selectedRange.start);
+      } else {
+        issuedDateController.text =
+            '${Utils.formatddMMyyyy(selectedRange.start)} - ${Utils.formatddMMyyyy(selectedRange.end)}';
+      }
+    }
+  }
+
   Future<bool?> getPaymentHistories() async {
-    final int _accountId = AuthCredentials.instance.user!.id!;
-    final _data = GetPaymentHistoryRequest(
+    final int accountId = AuthCredentials.instance.user!.id!;
+    final data = GetPaymentHistoryRequest(
       page: (++_currentPage).toString(),
       pageSize: (_pageSize).toString(),
       sortColumn: PaymentHistorySortColumn.createdDate,
       orderBy: SortOrder.descending,
+      status: statusFilter?.toString(),
+      fromDate: rangeDate?.start,
+      toDate: rangeDate?.end,
     );
 
     //load job post
     isLoading.value = true;
 
     if (_hasNextPage) {
-      final _response =
-          await _paymentHistoryRepository.getList(_accountId, _data);
-      if (_response == null || _response.paymentHistories!.isEmpty) {
+      final response = await _paymentHistoryRepository.getList(accountId, data);
+      if (response == null || response.paymentHistories!.isEmpty) {
         isLoading.value = false;
         return null;
       }
 
-      paymentHistories.addAll(_response.paymentHistories!);
+      paymentHistories.addAll(response.paymentHistories!);
       //update hasNext
-      _hasNextPage = _response.metadata!.hasNextPage;
+      _hasNextPage = response.metadata!.hasNextPage;
     }
     isLoading.value = false;
     return true;
@@ -49,6 +103,6 @@ class PaymentHistoryHomeController extends GetxController {
     //clear job post list
     paymentHistories.clear();
 
-    await getPaymentHistories();
+    update();
   }
 }

@@ -55,7 +55,7 @@ class OutlinedFilterState extends State<OutlinedFilter> {
         borderRadius: BorderRadius.circular(CommonConstants.borderRadius),
         side: BorderSide(
           color: isSelected ? Theme.of(context).primaryColor : AppColors.black,
-          width: 1.0,
+          width: isSelected ? 2.0 : 1.0,
           style: BorderStyle.solid,
         ),
       ),

@@ -190,6 +190,7 @@ class AppStrings {
   static const placeholderEmail = 'Nhập địa chỉ email';
   static const placeholderOldPassword = 'Nhập mật khẩu cũ';
   static const placeholderNewPassword = 'Nhập mật khẩu mới';
+  static const placeholderIssuedDate = 'Ngày thực hiện giao dịch';
 
   //Caption
   static const captionChooseRole =
