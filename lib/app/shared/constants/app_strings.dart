@@ -66,6 +66,7 @@ class AppStrings {
   static const titleFilter = 'Bộ lọc';
   static const titleApply = 'Áp dụng';
   static const titleClearFilter = 'Bỏ lọc';
+  static const titleConfirmSignature = 'Chữ ký xác nhận';
 
   //Subtitle
   static const subtitleMyGarden = 'Danh sách vườn đã tạo';

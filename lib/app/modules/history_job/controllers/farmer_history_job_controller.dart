@@ -15,6 +15,7 @@ class FarmerHistoryJobController extends GetxController{
   int _currentPage = 0;
   bool _hasNextPage = true;
   final isLoading = false.obs;
+  bool isPayPerhour = true;
 
    RxList<JobPost> historyJobPostList =
       RxList<JobPost>();

@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:myray_mobile/app/data/models/day_off/day_off.dart';
 import 'package:myray_mobile/app/modules/applied_job/controllers/day_off_controller.dart';
 import 'package:myray_mobile/app/modules/applied_job/widgets/farmer_onLeave/farmer_onLeave_card.dart';
 import 'package:myray_mobile/app/shared/constants/app_assets.dart';
 import 'package:myray_mobile/app/shared/constants/app_colors.dart';
-import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
 import 'package:myray_mobile/app/shared/utils/utils.dart';
 import 'package:myray_mobile/app/shared/widgets/builders/loading_builder.dart';
 import 'package:myray_mobile/app/shared/widgets/buttons/custom_text_button.dart';
@@ -52,8 +50,9 @@ class FarmerOnLeaveList extends GetView<DayOffController> {
                   return Container(
                     margin: const EdgeInsets.only(top: 15, bottom: 15),
                     child: FarmerOnLeaveCard(
-                        job: 'Tên công việc',
-                        submitDate: dayOff.date,
+                        job: dayOff.appliedJobTitle,
+                        submitDate: dayOff.createdDateJob ?? DateTime.now(),
+                        dayOffDate: dayOff.date,
                         numOfOnleaveDays: 3,
                         reason: dayOff.reason ?? 'Không có lý do',
                         onTap: () {
@@ -92,7 +91,10 @@ class FarmerOnLeaveList extends GetView<DayOffController> {
                                         SizedBox(width: Get.width * 0.07),
                                         Expanded(
                                           child: Text(
-                                            Utils.formatddMMyyyy(DateTime.now()),
+                                            dayOff.createdDateJob != null
+                                            ? Utils.formatddMMyyyy(dayOff.createdDateJob!)
+                                            : 'Đang cập nhật'
+                                            ,
                                             style: Get.textTheme.bodyText2!
                                                 .copyWith(
                                                     fontSize:

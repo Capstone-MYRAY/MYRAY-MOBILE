@@ -7,6 +7,7 @@ import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
 class FarmerOnLeaveCard extends StatelessWidget {
   final String job;
   final DateTime submitDate;
+  final DateTime dayOffDate;
   final int numOfOnleaveDays;
   final String reason;
   final void Function()? onTap;
@@ -16,6 +17,7 @@ class FarmerOnLeaveCard extends StatelessWidget {
     Key? key,
     required this.job,
     required this.submitDate,
+    required this.dayOffDate,
     required this.numOfOnleaveDays,
     required this.reason,
     this.onTap
@@ -66,7 +68,7 @@ class FarmerOnLeaveCard extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.only(right: 15),
                     child: Text(
-                      'Thu hoạch cà phê',
+                      job,
                       style: Get.textTheme.labelMedium!.copyWith(
                         fontWeight: FontWeight.w500,
                         fontSize: Get.textScaleFactor * 15,
@@ -97,10 +99,10 @@ class FarmerOnLeaveCard extends StatelessWidget {
                     ),
                   ),
                   SizedBox(
-                    width: Get.width * 0.06,
+                    width: Get.width * 0.025,
                   ),
                   Text(
-                    DateFormat('dd/MM/yyyy').format(submitDate),
+                    DateFormat('dd/MM/yyyy').format(dayOffDate),
                     style: Get.textTheme.bodyText2!.copyWith(
                         color: AppColors.primaryColor,
                         fontSize: Get.textScaleFactor * 15,
@@ -130,10 +132,10 @@ class FarmerOnLeaveCard extends StatelessWidget {
                     ),
                   ),
                   SizedBox(
-                    width: Get.width * 0.045,
+                    width: Get.width * 0.025,
                   ),
                   Text(
-                    DateFormat('dd/MM/yyyy').format(DateTime.now()),
+                    DateFormat('dd/MM/yyyy').format(submitDate),
                     // DateFormat('dd/MM/yyyy').format(createdDate),
                     style: Get.textTheme.bodyText2!.copyWith(
                         color: AppColors.primaryColor,
