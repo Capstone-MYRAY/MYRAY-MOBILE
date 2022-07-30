@@ -17,6 +17,12 @@ GetPaymentHistoryRequest _$GetPaymentHistoryRequestFromJson(
       orderBy: $enumDecodeNullable(_$SortOrderEnumMap, json['order-by']),
       sortColumn: $enumDecodeNullable(
           _$PaymentHistorySortColumnEnumMap, json['sort-column']),
+      fromDate: json['minDate'] == null
+          ? null
+          : DateTime.parse(json['minDate'] as String),
+      toDate: json['maxDate'] == null
+          ? null
+          : DateTime.parse(json['maxDate'] as String),
     );
 
 Map<String, dynamic> _$GetPaymentHistoryRequestToJson(
@@ -32,6 +38,8 @@ Map<String, dynamic> _$GetPaymentHistoryRequestToJson(
   writeNotNull('jobPostId', instance.jobPostId);
   writeNotNull('createdBy', instance.createdBy);
   writeNotNull('status', instance.status);
+  writeNotNull('minDate', instance.fromDate?.toIso8601String());
+  writeNotNull('maxDate', instance.toDate?.toIso8601String());
   writeNotNull(
       'sort-column', _$PaymentHistorySortColumnEnumMap[instance.sortColumn]);
   writeNotNull('order-by', _$SortOrderEnumMap[instance.orderBy]);

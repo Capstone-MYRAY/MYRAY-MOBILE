@@ -28,6 +28,19 @@ class JobFarmerListView extends GetView<JobFarmerListController> {
               value: controller.selectedFilter.value,
             ),
           ),
+          Obx(
+            () => Container(
+              width: Get.width * 0.9,
+              margin: const EdgeInsets.only(
+                top: 8.0,
+              ),
+              alignment: Alignment.centerRight,
+              child: Text(
+                'Tổng cộng ${controller.totalCount.value}',
+                style: Get.textTheme.caption,
+              ),
+            ),
+          ),
           Expanded(child: _buildContent()),
         ],
       ),

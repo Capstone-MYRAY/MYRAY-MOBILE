@@ -36,6 +36,8 @@ class JobFarmerListController extends GetxController {
 
   final isLoading = false.obs;
 
+  var totalCount = 0.obs;
+
   final List<FilterObject> _filters = [
     FilterObject(name: 'Toàn bộ', value: null),
     FilterObject(
@@ -81,6 +83,8 @@ class JobFarmerListController extends GetxController {
           return null;
         }
 
+        totalCount.value = response.metadata?.totalCount ?? 0;
+
         appliedFarmers.addAll(response.appliedFarmers!);
         //update hasNext
         _hasNextPage = response.metadata!.hasNextPage;
@@ -98,6 +102,7 @@ class JobFarmerListController extends GetxController {
     //reset current page & hasNext
     _currentPage = 0;
     _hasNextPage = true;
+    totalCount.value = 0;
 
     //clear applied farmer list
     appliedFarmers.clear();
