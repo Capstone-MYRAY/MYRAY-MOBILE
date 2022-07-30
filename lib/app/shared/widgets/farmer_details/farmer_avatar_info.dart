@@ -106,7 +106,7 @@ class FarmerAvatarInfo extends StatelessWidget {
               vertical: 8.0,
             ),
             backgroundColor: Colors.transparent,
-            // foregroundColor: AppColors.errorColor,
+            foregroundColor: AppColors.errorColor,
             shape: RoundedRectangleBorder(
               side: const BorderSide(color: AppColors.errorColor),
               borderRadius: BorderRadius.circular(CommonConstants.borderRadius),
@@ -125,8 +125,8 @@ class FarmerAvatarInfo extends StatelessWidget {
           padding: const EdgeInsets.symmetric(
             vertical: 8.0,
           ),
-          // backgroundColor: AppColors.errorColor,
-          // foregroundColor: AppColors.white,
+          backgroundColor: AppColors.errorColor,
+          foregroundColor: AppColors.white,
         ),
         onPressed: onFavoriteToggle,
       ),
