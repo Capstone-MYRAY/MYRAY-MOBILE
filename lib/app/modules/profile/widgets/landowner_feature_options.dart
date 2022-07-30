@@ -54,7 +54,7 @@ class LandownerFeatureOptions extends StatelessWidget {
           icon: CustomIcons.lock_outline,
           title: AppStrings.labelPassword,
           subtitle: AppStrings.subtitleChangePassword,
-          onTap: () {},
+          onTap: () => Get.toNamed(Routes.changePassword),
         ),
         _buildDivider(),
         FeatureOption(

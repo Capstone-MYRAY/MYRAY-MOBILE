@@ -53,7 +53,7 @@ class FarmerFeatureOptions extends StatelessWidget {
           icon: CustomIcons.lock_outline,
           title: AppStrings.titlePassword,
           subtitle: AppStrings.subtitlePassword,
-          onTap: () {},
+          onTap: password,
         ),
         FeatureOption(
           icon: CustomIcons.logout,
