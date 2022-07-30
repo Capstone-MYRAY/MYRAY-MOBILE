@@ -4,7 +4,10 @@ import 'package:get/get.dart';
 import 'package:myray_mobile/app/data/models/account.dart';
 import 'package:myray_mobile/app/data/models/change_password/change_password.dart';
 import 'package:myray_mobile/app/modules/auth/auth_repository.dart';
+import 'package:myray_mobile/app/shared/constants/app_msg.dart';
 import 'package:myray_mobile/app/shared/utils/custom_exception.dart';
+import 'package:myray_mobile/app/shared/utils/field_validation.dart';
+import 'package:myray_mobile/app/shared/utils/utils.dart';
 
 class ChangePasswordController extends GetxController {
   final AuthRepository _authRepository = AuthRepository();
@@ -23,32 +26,57 @@ class ChangePasswordController extends GetxController {
     super.onInit();
   }
 
+  String? checkNewPassword(String? value){
+    if(FieldValidation.instance.validatePassword(value) != null){
+      return 'Vui lòng nhập mật mới';
+    }
+    return null;
+  }
+  String? checkOldPassword(String? value){
+    if(FieldValidation.instance.validatePassword(value) != null){
+      return 'Vui lòng nhập mật cũ';
+    }
+    //check pass cũ có phù hợp khum
+    return null;
+  }
+
+   String? validateConfirmPassword(value) {
+    String password = newPasswordController.text;
+    if (!Utils.equalsIgnoreCase(value, password)) {
+      return AppMsg.MSG6006;
+    }
+    return null;
+  }
+
   onChangePassword() async {
     bool? isValid = formKey.currentState!.validate();
     final Account? account;
-    try {
-      if (isValid) {
-        ChangePassword data =
-            ChangePassword(password: newPasswordController.text.trim());
-        account = await _authRepository.changePassword(data);
+    print('$isValid');
+    // try {
+    //   if (isValid) {
+    //     ChangePassword data =
+    //         ChangePassword(password: newPasswordController.text.trim());
+    //     account = await _authRepository.changePassword(data);
 
-        EasyLoading.show();
-        Future.delayed(const Duration(milliseconds: 500), () {
-          EasyLoading.dismiss();
-          if (account != null) {
-            EasyLoading.showSuccess('Thành công');
-            Get.back();
-            return;
-          }
-          EasyLoading.showError('Không thành công');
-        });
-      }
-    } on CustomException catch (e) {
-      EasyLoading.dismiss();
-      EasyLoading.showError('Đã có lỗi xảy ra!');
-      print('change password: ${e.message}');
-    }
+    //     EasyLoading.show();
+    //     Future.delayed(const Duration(milliseconds: 500), () {
+    //       EasyLoading.dismiss();
+    //       if (account != null) {
+    //         EasyLoading.showSuccess('Thành công');
+    //         Get.back();
+    //         return;
+    //       }
+    //       EasyLoading.showError('Không thành công');
+    //     });
+    //   }
+    // } on CustomException catch (e) {
+    //   EasyLoading.dismiss();
+    //   EasyLoading.showError('Đã có lỗi xảy ra!');
+    //   print('change password: ${e.message}');
+    // }
   }
+  
+  
   @override
   void dispose() {
     super.dispose();

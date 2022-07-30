@@ -38,7 +38,7 @@ class ChangePasswordView extends GetView<ChangePasswordController> {
                 controller: controller.oldPasswordController,
                 isPassword: true,
                 placeholder: AppStrings.placeholderOldPassword,
-                // validator:
+                validator: controller.checkOldPassword,
               ),
               SizedBox(
                 height: Get.height * 0.02,
@@ -49,7 +49,7 @@ class ChangePasswordView extends GetView<ChangePasswordController> {
                 controller: controller.newPasswordController,
                 isPassword: true,
                 placeholder: AppStrings.placeholderNewPassword,
-                // validator:
+                validator: controller.checkNewPassword
               ),
               SizedBox(
                 height: Get.height * 0.02,
@@ -60,7 +60,7 @@ class ChangePasswordView extends GetView<ChangePasswordController> {
                 controller: controller.confirmNewPasswordController,
                 isPassword: true,
                 placeholder: AppStrings.labelConfirmPassword,
-                // validator:
+                validator: controller.validateConfirmPassword,
               ),
                SizedBox(
                 height: Get.height * 0.02,
