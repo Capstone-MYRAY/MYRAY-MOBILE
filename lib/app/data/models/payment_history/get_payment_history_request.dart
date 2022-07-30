@@ -14,6 +14,9 @@ class GetPaymentHistoryRequest {
   @JsonKey(name: 'status')
   String? status;
 
+  @JsonKey(name: 'message')
+  String? message;
+
   @JsonKey(name: 'minDate')
   DateTime? fromDate;
 
@@ -42,6 +45,7 @@ class GetPaymentHistoryRequest {
     this.sortColumn,
     this.fromDate,
     this.toDate,
+    this.message,
   });
 
   factory GetPaymentHistoryRequest.fromJson(Map<String, dynamic> json) =>

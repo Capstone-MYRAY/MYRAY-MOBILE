@@ -23,6 +23,7 @@ GetPaymentHistoryRequest _$GetPaymentHistoryRequestFromJson(
       toDate: json['maxDate'] == null
           ? null
           : DateTime.parse(json['maxDate'] as String),
+      message: json['message'] as String?,
     );
 
 Map<String, dynamic> _$GetPaymentHistoryRequestToJson(
@@ -38,6 +39,7 @@ Map<String, dynamic> _$GetPaymentHistoryRequestToJson(
   writeNotNull('jobPostId', instance.jobPostId);
   writeNotNull('createdBy', instance.createdBy);
   writeNotNull('status', instance.status);
+  writeNotNull('message', instance.message);
   writeNotNull('minDate', instance.fromDate?.toIso8601String());
   writeNotNull('maxDate', instance.toDate?.toIso8601String());
   writeNotNull(
