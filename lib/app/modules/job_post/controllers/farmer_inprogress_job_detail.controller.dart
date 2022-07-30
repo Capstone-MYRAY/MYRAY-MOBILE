@@ -445,10 +445,21 @@ class InprogressJobDetailController extends GetxController {
           );
           return;
         }
+
         //when checked attendance
         if (attendance != null && attendance.first.attendance.isNotEmpty) {
           //add attendance parameter.
           Attendance data = attendance.first.attendance.first;
+          //4: dayOff
+          if (data.status == 4) {
+            CustomInformationDialog.show(
+              title: 'Thông báo',
+              message:
+                  'Bạn đã xin nghỉ phép ngày hôm nay\nVui lòng liên hệ chủ đất hoặc người điều hành gần bạn nhất để được hỗ trợ.',
+              icon: const Icon(Icons.free_cancellation_outlined,
+                  size: 40, color: AppColors.brown),
+            );
+          }
           FarmerAttendanceDetailDialog.show(context, data, jobpost.title);
           return;
         }

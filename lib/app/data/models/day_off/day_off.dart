@@ -9,6 +9,9 @@ class DayOff{
   @JsonKey(name: 'date')
   DateTime date;
 
+  @JsonKey(name: 'created_date_job')
+  DateTime? createdDateJob;
+
   @JsonKey(name: 'salary')
   num salary;
 
@@ -20,6 +23,9 @@ class DayOff{
 
   @JsonKey(name: 'applied_job_id')
   int appliedJobId;
+
+  @JsonKey(name: 'applied_job_title')
+  String appliedJobTitle;
 
   @JsonKey(name: 'reason')
   String? reason;
@@ -40,7 +46,9 @@ class DayOff{
     required this.bonusPoint,
     required this.status,
     required this.appliedJobId,
+    required this.appliedJobTitle,
     this.reason,
+    this.createdDateJob,
     required this.accountId,
     required this.fullname,
     required this.phoneNumber
