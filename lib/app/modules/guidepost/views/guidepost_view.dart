@@ -1,5 +1,3 @@
-import 'package:flutter/foundation.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
@@ -48,12 +46,27 @@ class GuidePostView extends GetView<GuidepostController> {
                           height: 10,
                         ),
                         // Html(
-                        //   data: guidepost.content,
+                        //   data: controller.changeTagType(guidepost.content),
                         //   shrinkWrap: true,
                         // ),
-                        Html.fromDom(
-                          document: HtmlParser.parseHTML(guidepost.content),
+                        Container(
+                          padding: const EdgeInsets.all(10),
+                          child: Html(
+                            data:
+                                controller.changeTagType(guidepost.content),
+                            navigationDelegateForIframe:
+                                (NavigationRequest request) {
+                              if (request.url.contains("google.com/images")) {
+                                return NavigationDecision.prevent;
+                              } else {
+                                return NavigationDecision.navigate;
+                              }
+                            },
+                          ),
                         ),
+                        // Html.fromDom(
+                        //   document: HtmlParser.parseHTML(guidepost.content),
+                        // ),
                         Divider(
                             color: Colors.grey.withOpacity(0.5),
                             indent: 15,
