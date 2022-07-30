@@ -46,7 +46,7 @@ class LandownerJobPostDetailsView
 
   bool get _isRejected => jobPost.status == JobPostStatus.rejected.index;
 
-  bool get _isRepost => jobPost.status == JobPostStatus.expired.index;
+  bool get _isExpired => jobPost.status == JobPostStatus.expired.index;
 
   bool get _isOutOfDate => jobPost.status == JobPostStatus.outOfDate.index;
 
@@ -124,7 +124,7 @@ class LandownerJobPostDetailsView
         widgets.addAll(buttons);
       }
 
-      if (_isRepost) {
+      if (_isExpired || _isOutOfDate) {
         final button = [
           const SizedBox(height: 8.0),
           FractionallySizedBox(
