@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:myray_mobile/app/data/models/attendance/attendance.dart';
 import 'package:myray_mobile/app/shared/constants/app_colors.dart';
+import 'package:myray_mobile/app/shared/constants/app_strings.dart';
 import 'package:myray_mobile/app/shared/utils/utils.dart';
 import 'package:myray_mobile/app/shared/widgets/buttons/custom_text_button.dart';
 
@@ -132,7 +133,7 @@ class FarmerAttendanceDetailDialog {
                         SizedBox(
                           height: Get.height * 0.02,
                         ),
-                        Text('Chữ ký xác nhận', style: Get.textTheme.headline4),
+                        Text(AppStrings.titleConfirmSignature, style: Get.textTheme.headline4),
                         SizedBox(
                           height: Get.height * 0.03,
                         ),
