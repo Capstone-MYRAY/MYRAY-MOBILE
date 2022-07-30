@@ -17,6 +17,8 @@ class ChangePasswordController extends GetxController {
   late TextEditingController newPasswordController;
   late TextEditingController confirmNewPasswordController;
 
+  RxBool isOldPassword = true.obs;
+
   @override
   void onInit() async {
     formKey = GlobalKey<FormState>();
@@ -26,21 +28,35 @@ class ChangePasswordController extends GetxController {
     super.onInit();
   }
 
-  String? checkNewPassword(String? value){
-    if(FieldValidation.instance.validatePassword(value) != null){
+  String? checkNewPassword(String? value) {
+    if (FieldValidation.instance.validatePassword(value) != null) {
       return 'Vui lòng nhập mật mới';
     }
-    return null;
-  }
-  String? checkOldPassword(String? value){
-    if(FieldValidation.instance.validatePassword(value) != null){
-      return 'Vui lòng nhập mật cũ';
+    if(!Utils.limitPassword.hasMatch(value!)){
+      return 'Mật khẩu không hợp lệ, cần ít nhất 6 ký tự';
     }
-    //check pass cũ có phù hợp khum
     return null;
   }
 
-   String? validateConfirmPassword(value) {
+  String? checkOldPassword(String? value) {
+    if (FieldValidation.instance.validatePassword(value) != null) {
+      if(!isOldPassword.value){
+        return null;
+      }
+      return 'Vui lòng nhập mật cũ';
+    }
+    _checkIfOldPassword(value!);
+    return null;
+  }
+
+  _checkIfOldPassword(String password) async {
+    bool? result = await _authRepository.checkOldPassword(password);
+    if (result != null) {
+      isOldPassword.value = result;
+    }
+  }
+
+  String? validateConfirmPassword(value) {
     String password = newPasswordController.text;
     if (!Utils.equalsIgnoreCase(value, password)) {
       return AppMsg.MSG6006;
@@ -51,32 +67,31 @@ class ChangePasswordController extends GetxController {
   onChangePassword() async {
     bool? isValid = formKey.currentState!.validate();
     final Account? account;
-    print('$isValid');
-    // try {
-    //   if (isValid) {
-    //     ChangePassword data =
-    //         ChangePassword(password: newPasswordController.text.trim());
-    //     account = await _authRepository.changePassword(data);
 
-    //     EasyLoading.show();
-    //     Future.delayed(const Duration(milliseconds: 500), () {
-    //       EasyLoading.dismiss();
-    //       if (account != null) {
-    //         EasyLoading.showSuccess('Thành công');
-    //         Get.back();
-    //         return;
-    //       }
-    //       EasyLoading.showError('Không thành công');
-    //     });
-    //   }
-    // } on CustomException catch (e) {
-    //   EasyLoading.dismiss();
-    //   EasyLoading.showError('Đã có lỗi xảy ra!');
-    //   print('change password: ${e.message}');
-    // }
+    try {
+      if (isValid && isOldPassword.value) {
+        ChangePassword data =
+            ChangePassword(password: newPasswordController.text.trim());
+        account = await _authRepository.changePassword(data);
+
+        EasyLoading.show();
+        Future.delayed(const Duration(milliseconds: 500), () {
+          EasyLoading.dismiss();
+          if (account != null) {
+            EasyLoading.showSuccess('Thành công');
+            Get.back();
+            return;
+          }
+          EasyLoading.showError('Không thành công');
+        });
+      }
+    } on CustomException catch (e) {
+      EasyLoading.dismiss();
+      EasyLoading.showError('Đã có lỗi xảy ra!');
+      print('change password: ${e.message}');
+    }
   }
-  
-  
+
   @override
   void dispose() {
     super.dispose();
