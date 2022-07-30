@@ -40,10 +40,10 @@ class JobPostFilter extends GetView<LandownerJobPostController> {
           FilterControls(
             onApply: controller.onApplyFilter,
             onClear: () {
-              workTypeKey.currentState!.clearFilter();
-              postTypeKey.currentState!.clearFilter();
-              postStatusKey.currentState!.clearFilter();
-              workStatusKey.currentState!.clearFilter();
+              workTypeKey.currentState?.clearFilter();
+              postTypeKey.currentState?.clearFilter();
+              postStatusKey.currentState?.clearFilter();
+              workStatusKey.currentState?.clearFilter();
               controller.onClearFilter();
             },
           ),

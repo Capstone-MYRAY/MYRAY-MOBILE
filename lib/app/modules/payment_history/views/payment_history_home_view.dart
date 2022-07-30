@@ -25,7 +25,10 @@ class PaymentHistoryHomeView extends GetView<PaymentHistoryHomeController> {
           SearchAndFilter(
             searchController: controller.messageController,
             refreshOnClear: true,
-            onTextChanged: (value) {},
+            onTextChanged: (value) {
+              controller.messageFilter = value;
+              controller.onRefresh();
+            },
             onFilterTap: () {
               Get.to(() => const PaymentHistoryFilter());
             },
@@ -47,7 +50,12 @@ class PaymentHistoryHomeView extends GetView<PaymentHistoryHomeController> {
                   }
 
                   if (snapshot.hasData) {
-                    return _buildContent();
+                    return GestureDetector(
+                      onPanDown: (_) {
+                        FocusScope.of(context).requestFocus(FocusNode());
+                      },
+                      child: _buildContent(),
+                    );
                   }
 
                   return const SizedBox();

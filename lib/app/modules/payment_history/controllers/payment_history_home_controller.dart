@@ -75,6 +75,7 @@ class PaymentHistoryHomeController extends GetxController {
       status: statusFilter?.toString(),
       fromDate: rangeDate?.start,
       toDate: rangeDate?.end,
+      message: messageFilter,
     );
 
     //load job post

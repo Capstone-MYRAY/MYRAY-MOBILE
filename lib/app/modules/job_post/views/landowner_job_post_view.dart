@@ -43,7 +43,6 @@ class LandownerJobPostView extends GetView<LandownerJobPostController> {
               controller.onRefresh(isFilter: true);
             },
             onFilterTap: () {
-              FocusScope.of(context).requestFocus(FocusNode());
               Get.to(
                 () => JobPostFilter(),
                 transition: Transition.leftToRight,
@@ -53,7 +52,7 @@ class LandownerJobPostView extends GetView<LandownerJobPostController> {
           ),
           Expanded(
             child: GetBuilder<LandownerJobPostController>(
-              builder: (controller) => FutureBuilder(
+              builder: (_) => FutureBuilder(
                 future: controller.getJobPosts(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
@@ -66,8 +65,9 @@ class LandownerJobPostView extends GetView<LandownerJobPostController> {
 
                   if (snapshot.hasData) {
                     return GestureDetector(
-                      onTap: () =>
-                          FocusScope.of(context).requestFocus(FocusNode()),
+                      onPanDown: (_) {
+                        FocusScope.of(context).requestFocus(FocusNode());
+                      },
                       child: _buildContent(),
                     );
                   }
