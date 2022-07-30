@@ -40,17 +40,32 @@ class ChangePasswordView extends GetView<ChangePasswordController> {
                 placeholder: AppStrings.placeholderOldPassword,
                 validator: controller.checkOldPassword,
               ),
+              Obx(
+                () => !controller.isOldPassword.value
+                    ? Container(
+                      margin: const EdgeInsets.only(top: 9, left: 40),
+                      child: Row(
+                        children: [
+                          Text('Mật khẩu cũ không đúng',
+                              style: Get.textTheme.bodySmall!.copyWith(
+                                color: AppColors.errorColor,
+                                fontSize: Get.textScaleFactor * 13
+                            )),
+                        ],
+                      ),
+                    )
+                    : const SizedBox(),
+              ),
               SizedBox(
                 height: Get.height * 0.02,
               ),
               InputField(
-                icon: const Icon(CustomIcons.lock_outline),
-                labelText: AppStrings.labelNewPawword,
-                controller: controller.newPasswordController,
-                isPassword: true,
-                placeholder: AppStrings.placeholderNewPassword,
-                validator: controller.checkNewPassword
-              ),
+                  icon: const Icon(CustomIcons.lock_outline),
+                  labelText: AppStrings.labelNewPawword,
+                  controller: controller.newPasswordController,
+                  isPassword: true,
+                  placeholder: AppStrings.placeholderNewPassword,
+                  validator: controller.checkNewPassword),
               SizedBox(
                 height: Get.height * 0.02,
               ),
@@ -62,16 +77,16 @@ class ChangePasswordView extends GetView<ChangePasswordController> {
                 placeholder: AppStrings.labelConfirmPassword,
                 validator: controller.validateConfirmPassword,
               ),
-               SizedBox(
+              SizedBox(
                 height: Get.height * 0.02,
               ),
-               CustomTextButton(
-                    onPressed: controller.onChangePassword,
-                    title: 'Thay đổi ',
-                    background: AppColors.primaryColor,
-                    padding: EdgeInsets.symmetric(
-                        horizontal: Get.width * 0.2, vertical: 10),
-                  ),
+              CustomTextButton(
+                onPressed: controller.onChangePassword,
+                title: 'Thay đổi ',
+                background: AppColors.primaryColor,
+                padding: EdgeInsets.symmetric(
+                    horizontal: Get.width * 0.2, vertical: 10),
+              ),
               SizedBox(
                 height: Get.height * 0.03,
               ),
