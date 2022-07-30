@@ -54,8 +54,9 @@ class GuidepostController extends GetxController {
   String changeTagType(String content) {
     String tempt = '';
     if (content.contains('oembed')) {
-      tempt = content.replaceAll('oembed', 'a');
-      tempt = tempt.replaceAll('url', 'href');
+      tempt = content.replaceAll('oembed', 'iframe');
+      tempt = tempt.replaceAll('url', 'src');
+    print('temp: $tempt');
       return tempt;
     }
     return content;
