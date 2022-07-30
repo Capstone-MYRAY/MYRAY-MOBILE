@@ -31,6 +31,7 @@ class FarmerProfileView extends GetView<FarmerProfileController> {
               bookmark: controller.navigateToBookmarkPage,
               attendance: controller.navigateToAttendancePage,
               history: controller.navigateToHistoryJob,
+              password: controller.navigateToChangePassword,
             ),
           ],
         ),

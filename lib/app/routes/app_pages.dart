@@ -12,6 +12,8 @@ import 'package:myray_mobile/app/modules/bookmark/bindings/landowner_bookmark_de
 import 'package:myray_mobile/app/modules/bookmark/views/famer_bookmark.dart';
 import 'package:myray_mobile/app/modules/bookmark/views/landowner_bookmark_details_view.dart';
 import 'package:myray_mobile/app/modules/bookmark/views/landowner_bookmark_view.dart';
+import 'package:myray_mobile/app/modules/change_password/bindings/change_password_binding.dart';
+import 'package:myray_mobile/app/modules/change_password/views/change_password_view.dart';
 import 'package:myray_mobile/app/modules/comment/bindings/comment_binding.dart';
 import 'package:myray_mobile/app/modules/comment/widgets/test.dart';
 import 'package:myray_mobile/app/modules/dashboard/bindings/dashboard_binding.dart';
@@ -265,6 +267,12 @@ class AppPages {
     GetPage(
       name: _Paths.test,
       page: () => const Test(),
+      transition: Transition.rightToLeft,
+    ),
+    GetPage(
+      name: _Paths.changePassword,
+      page: () => const ChangePasswordView(),
+      binding: ChangePasswordBinding(),
       transition: Transition.rightToLeft,
     )
   ];

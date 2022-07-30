@@ -67,6 +67,7 @@ class AppStrings {
   static const titleApply = 'Áp dụng';
   static const titleClearFilter = 'Bỏ lọc';
   static const titleConfirmSignature = 'Chữ ký xác nhận';
+  static const titleChangePassword = 'Thay đổi mật khẩu';
 
   //Subtitle
   static const subtitleMyGarden = 'Danh sách vườn đã tạo';
@@ -150,6 +151,8 @@ class AppStrings {
   static const labelHistoryJobDetail = 'Chi tiết công việc';
   static const labelEmail = 'Email';
   static const labelGender = 'Giới tính';
+  static const labelOldPassword = 'Mật khẩu cũ*';
+  static const labelNewPawword = 'Mật khẩu mới*';
 
   //Placeholder
   static const placeholderPhone = 'Nhập số điện thoại';
@@ -185,6 +188,8 @@ class AppStrings {
   static const placeholderOnleaveEndDate = 'Ngày nghỉ kết thúc...';
   static const placeholderNewExtendJobDate = 'Ngày kết thúc mới...';
   static const placeholderEmail = 'Nhập địa chỉ email';
+  static const placeholderOldPassword = 'Nhập mật khẩu cũ';
+  static const placeholderNewPassword = 'Nhập mật khẩu mới';
 
   //Caption
   static const captionChooseRole =

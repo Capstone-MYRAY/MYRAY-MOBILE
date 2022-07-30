@@ -1,7 +1,10 @@
 import 'package:get/get.dart';
+import 'package:get/get_connect/http/src/status/http_status.dart';
+import 'package:myray_mobile/app/data/models/account.dart';
 import 'package:myray_mobile/app/data/models/auth/auth_request.dart';
 import 'package:myray_mobile/app/data/models/auth/auth_response.dart';
 import 'package:myray_mobile/app/data/models/auth/signup_request.dart';
+import 'package:myray_mobile/app/data/models/change_password/change_password.dart';
 import 'package:myray_mobile/app/data/providers/api/api_provider.dart';
 import 'package:myray_mobile/app/shared/utils/custom_exception.dart';
 
@@ -32,5 +35,13 @@ class AuthRepository {
     final response = await _apiProvider.getMethod('/Account/phone/$phoneNum');
     if (response.statusCode == 200) return true;
     return false;
+  }
+
+  Future<Account?> changePassword(ChangePassword data) async {
+    final response = await _apiProvider.postMethod('/Authentication/changpassword', data.toJson());
+    if(response.statusCode == HttpStatus.ok){
+      return Account.fromJson(response.body);
+    }
+    return null;
   }
 }
