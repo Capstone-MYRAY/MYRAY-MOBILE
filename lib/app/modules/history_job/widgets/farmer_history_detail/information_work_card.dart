@@ -7,15 +7,17 @@ import 'package:myray_mobile/app/shared/utils/utils.dart';
 class InformationWorkCard extends StatelessWidget {
   final DateTime startDate;
   final DateTime? endDate;
-  final int permitedNumDayOff; //có phép, không phép
-  final int notPermitedNumDayOff; //có phép, không phép
-  const InformationWorkCard(
-      {Key? key,
-      required this.startDate,
-      required this.permitedNumDayOff,
-      required this.notPermitedNumDayOff,
-      this.endDate})
-      : super(key: key);
+  final int? permitedNumDayOff; //có phép, không phép
+  final int? notPermitedNumDayOff; //có phép, không phép
+  final bool? isPayPerHourJob;
+  const InformationWorkCard({
+    Key? key,
+    required this.startDate,
+    this.permitedNumDayOff = 0,
+    this.notPermitedNumDayOff = 0,
+    this.endDate,
+    this.isPayPerHourJob = true,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -48,61 +50,67 @@ class InformationWorkCard extends StatelessWidget {
             SizedBox(
               height: Get.height * 0.02,
             ),
-            _buildRowInfor(
-                title: 'Số ngày nghỉ:',
-                content: '',
-                icon: CustomIcons.calendar_minus,
-                spaceTitleAndContent: 20),
-            SizedBox(
-              height: Get.height * 0.01,
-            ),
-            Container(
-              margin: const EdgeInsets.only(left: 30),
-              child: Column(
-                children: [
-                  Row(
+            isPayPerHourJob!
+                ? Column(
                     children: [
-                      Text(
-                        'Có phép: ',
-                        style: Get.textTheme.bodyText2!.copyWith(
-                          color: AppColors.primaryColor,
-                          fontSize: Get.textScaleFactor * 15,
+                      _buildRowInfor(
+                          title: 'Số ngày nghỉ:',
+                          content: '',
+                          icon: CustomIcons.calendar_minus,
+                          spaceTitleAndContent: 20),
+                      SizedBox(
+                        height: Get.height * 0.01,
+                      ),
+                      Container(
+                        margin: const EdgeInsets.only(left: 30),
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  'Có phép: ',
+                                  style: Get.textTheme.bodyText2!.copyWith(
+                                    color: AppColors.primaryColor,
+                                    fontSize: Get.textScaleFactor * 15,
+                                  ),
+                                ),
+                                Text(
+                                  '$permitedNumDayOff ngày',
+                                  style: Get.textTheme.bodyText2!.copyWith(
+                                    fontSize: Get.textScaleFactor * 15,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: Get.height * 0.01,
+                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  'Không phép: ',
+                                  style: Get.textTheme.bodyText2!.copyWith(
+                                    color: AppColors.errorColor,
+                                    fontSize: Get.textScaleFactor * 15,
+                                  ),
+                                ),
+                                Text(
+                                  '$notPermitedNumDayOff ngày',
+                                  style: Get.textTheme.bodyText2!.copyWith(
+                                    fontSize: Get.textScaleFactor * 15,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
                       ),
-                      Text(
-                        '$permitedNumDayOff ngày',
-                        style: Get.textTheme.bodyText2!.copyWith(
-                          fontSize: Get.textScaleFactor * 15,
-                        ),
+                      SizedBox(
+                        height: Get.height * 0.02,
                       ),
                     ],
-                  ),
-                  SizedBox(
-                    height: Get.height * 0.01,
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        'Không phép: ',
-                        style: Get.textTheme.bodyText2!.copyWith(
-                          color: AppColors.errorColor,
-                          fontSize: Get.textScaleFactor * 15,
-                        ),
-                      ),
-                      Text(
-                        '$notPermitedNumDayOff ngày',
-                        style: Get.textTheme.bodyText2!.copyWith(
-                          fontSize: Get.textScaleFactor * 15,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(
-              height: Get.height * 0.02,
-            ),
+                  )
+                : const SizedBox(),
           ],
         ),
       ),
