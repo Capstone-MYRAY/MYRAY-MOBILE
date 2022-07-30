@@ -235,16 +235,26 @@ class LandownerJobPostDetailsView
             });
           },
           margin: const EdgeInsets.all(0.0),
-          child: PaymentDetailsInfo(
-            postingFee: payment.jobPostPrice ?? 0,
-            numOfPostingDay: payment.numOfPublishDay ?? 0,
-            pointFee: payment.pointPrice ?? 0,
-            usedPoint: payment.usedPoint ?? 0,
-            earnedPoint: payment.earnedPoint ?? 0,
-            total: payment.balanceFluctuation ?? 0,
-            paymentId: payment.id.toString(),
-            numOfUpgradingDay: payment.totalPinDay ?? 0,
-            upgradingFee: payment.postTypePrice ?? 0,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                payment.message ?? '',
+                style: Get.textTheme.headline6,
+              ),
+              const SizedBox(height: 4.0),
+              PaymentDetailsInfo(
+                postingFee: payment.jobPostPrice ?? 0,
+                numOfPostingDay: payment.numOfPublishDay ?? 0,
+                pointFee: payment.pointPrice ?? 0,
+                usedPoint: payment.usedPoint ?? 0,
+                earnedPoint: payment.earnedPoint ?? 0,
+                total: payment.balanceFluctuation ?? 0,
+                paymentId: payment.id.toString(),
+                numOfUpgradingDay: payment.totalPinDay ?? 0,
+                upgradingFee: payment.postTypePrice ?? 0,
+              ),
+            ],
           ),
         ),
       );
@@ -289,7 +299,7 @@ class LandownerJobPostDetailsView
               .add(Duration(days: jobPost.numOfPublishDay - 1)),
           postStatus: CardStatusField(
             statusName: jobPost.jobPostStatusString,
-            title: '${AppStrings.labelPostStatus}:',
+            title: AppStrings.labelPostStatus,
             backgroundColor: jobPost.jobPostStatusColor,
           ),
           approvedBy: jobPost.approvedName,
@@ -321,7 +331,6 @@ class LandownerJobPostDetailsView
   }
 
   Widget _buildWorkInformation() {
-    print(jobPost.toJson());
     return ToggleInformation(
       tagName: controller.workInformation,
       title: AppStrings.titleWorkInformation,

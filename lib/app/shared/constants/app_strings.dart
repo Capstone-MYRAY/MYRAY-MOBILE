@@ -184,6 +184,7 @@ class AppStrings {
   static const placeholderOnleaveEndDate = 'Ngày nghỉ kết thúc...';
   static const placeholderNewExtendJobDate = 'Ngày kết thúc mới...';
   static const placeholderEmail = 'Nhập địa chỉ email';
+  static const placeholderIssuedDate = 'Ngày thực hiện giao dịch';
 
   //Caption
   static const captionChooseRole =

@@ -14,6 +14,12 @@ class GetPaymentHistoryRequest {
   @JsonKey(name: 'status')
   String? status;
 
+  @JsonKey(name: 'minDate')
+  DateTime? fromDate;
+
+  @JsonKey(name: 'maxDate')
+  DateTime? toDate;
+
   @JsonKey(name: 'sort-column')
   PaymentHistorySortColumn? sortColumn;
 
@@ -34,6 +40,8 @@ class GetPaymentHistoryRequest {
     this.status,
     this.orderBy,
     this.sortColumn,
+    this.fromDate,
+    this.toDate,
   });
 
   factory GetPaymentHistoryRequest.fromJson(Map<String, dynamic> json) =>
