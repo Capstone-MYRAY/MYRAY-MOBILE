@@ -71,7 +71,7 @@ class ChangePasswordController extends GetxController {
     try {
       if (isValid && isOldPassword.value) {
         ChangePassword data =
-            ChangePassword(password: newPasswordController.text.trim());
+            ChangePassword(password: newPasswordController.text);
         account = await _authRepository.changePassword(data);
 
         EasyLoading.show();
