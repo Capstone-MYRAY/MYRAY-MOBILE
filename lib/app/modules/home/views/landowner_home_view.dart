@@ -22,12 +22,17 @@ class LandownerHomeView extends GetView<LandownerHomeController> {
       ),
       body: SizedBox(
         width: double.infinity,
-        child: ListView(
-          shrinkWrap: true,
-          children: const [
-            LandownerFeatureFunctions(),
-            LandownerCurrentStartJobsSection(),
-          ],
+        child: RefreshIndicator(
+          onRefresh: () async {
+            controller.refreshCurrentStartJob();
+          },
+          child: ListView(
+            shrinkWrap: true,
+            children: const [
+              LandownerFeatureFunctions(),
+              LandownerCurrentStartJobsSection(),
+            ],
+          ),
         ),
       ),
     );

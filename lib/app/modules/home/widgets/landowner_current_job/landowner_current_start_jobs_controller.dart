@@ -56,8 +56,8 @@ class LandownerCurrentStartJobsController extends GetxController {
     jobPosts.clear();
 
     //load user info
-    // final profile = Get.find<LandownerProfileController>();
-    // profile.getUserInfo();
+    final profile = Get.find<LandownerProfileController>();
+    profile.getUserInfo();
 
     update(['CurrentStartJobPost']);
   }
