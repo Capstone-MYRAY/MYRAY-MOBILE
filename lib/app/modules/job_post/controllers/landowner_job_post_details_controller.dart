@@ -65,6 +65,42 @@ class LandownerJobPostDetailsController extends GetxController {
     });
   }
 
+  finishJob() async {
+    try {
+      final isConfirmed = await CustomDialog.show(
+          confirm: () => Get.back(result: true),
+          message: 'Bạn muốn kết thúc công việc này?');
+
+      if (isConfirmed == null || !isConfirmed) return;
+
+      final success = await _jobPostRepository.finishJob(jobPost.value.id);
+      if (!success) throw Exception('Có lỗi xảy ra');
+
+      //update details ui
+      jobPost.value.workStatus = JobPostWorkStatus.done.index;
+      update([workInformation, buttonControls]);
+
+      //Update job post list
+      final jobPostController = Get.find<LandownerJobPostController>();
+      final jobPosts = jobPostController.jobPosts;
+      int index = jobPosts.indexWhere((job) => job.id == jobPost.value.id);
+      if (index >= 0) {
+        jobPosts[index] = jobPost.value;
+      }
+
+      CustomSnackbar.show(
+        title: AppStrings.titleSuccess,
+        message: 'Công việc đã hoàn thành',
+      );
+    } catch (e) {
+      CustomSnackbar.show(
+        title: AppStrings.titleError,
+        message: 'Có lỗi xảy ra',
+        backgroundColor: AppColors.errorColor,
+      );
+    }
+  }
+
   viewGardenDetails() async {
     //get garden by id
     try {

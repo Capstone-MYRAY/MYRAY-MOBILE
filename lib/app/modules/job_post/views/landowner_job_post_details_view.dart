@@ -75,8 +75,8 @@ class LandownerJobPostDetailsView
               children: [
                 _buildPostInfo(),
                 _buildWorkInformation(),
-                _buildWorkPlaceInformation(),
                 _buildPostInformation(),
+                _buildWorkPlaceInformation(),
                 _buildPaymentHistoryInformation(),
                 if (!_isFeatureNotDisplay) ..._buildFeatures(),
                 GetBuilder<LandownerJobPostDetailsController>(
@@ -185,6 +185,23 @@ class LandownerJobPostDetailsView
         widgets.addAll(buttons);
       }
 
+      //add finish job button
+      if (_isStartJob) {
+        final buttons = [
+          const SizedBox(height: 8.0),
+          FractionallySizedBox(
+            widthFactor: 0.8,
+            child: FilledButton(
+              title: AppStrings.titleFinishJob,
+              onPressed: controller.finishJob,
+            ),
+          ),
+        ];
+
+        widgets.addAll(buttons);
+      }
+
+      //add extend job button
       if (_isPosted) {
         final buttons = [
           const SizedBox(height: 8.0),
@@ -199,6 +216,7 @@ class LandownerJobPostDetailsView
         widgets.addAll(buttons);
       }
 
+      //add repost button
       if (_isExpired || _isOutOfDate) {
         final button = [
           const SizedBox(height: 8.0),
@@ -364,6 +382,7 @@ class LandownerJobPostDetailsView
       tagName: controller.postInformation,
       title: AppStrings.titlePostInformation,
       headerBorderRadius: BorderRadius.circular(CommonConstants.borderRadius),
+      isOpen: true,
       child: GetBuilder<LandownerJobPostDetailsController>(
         id: controller.postInformation,
         tag: _myTag,
