@@ -34,6 +34,8 @@ import 'package:myray_mobile/app/modules/history_job/views/farmer_hitory_job_det
 import 'package:myray_mobile/app/modules/home/bindings/farmer_job_post_detail_binding.dart';
 import 'package:myray_mobile/app/modules/attendance/bindings/job_post_attendance_binding.dart';
 import 'package:myray_mobile/app/modules/home/views/farmer_job_post_detail.dart';
+import 'package:myray_mobile/app/modules/home/widgets/landowner_main_feature/job_post_by_type/job_post_by_type.dart';
+import 'package:myray_mobile/app/modules/home/widgets/landowner_main_feature/job_post_by_type/job_post_by_type_binding.dart';
 import 'package:myray_mobile/app/modules/job_farmer_list/job_farmer_list_module.dart';
 import 'package:myray_mobile/app/modules/job_post/bindings/farmer_inprogress_job_detail_binding.dart';
 import 'package:myray_mobile/app/modules/attendance/views/job_post_attendance_view.dart';
@@ -139,6 +141,7 @@ class AppPages {
       name: _Paths.gardenHome,
       page: () => const GardenHomeView(),
       binding: GardenHomeBinding(),
+      transition: Transition.rightToLeft,
     ),
     GetPage(
       name: _Paths.gardenForm,
@@ -164,6 +167,7 @@ class AppPages {
       name: _Paths.paymentHistoryHome,
       page: () => const PaymentHistoryHomeView(),
       binding: PaymentHistoryHomeBinding(),
+      transition: Transition.rightToLeft,
     ),
     GetPage(
       name: _Paths.paymentHistoryDetails,
@@ -185,6 +189,7 @@ class AppPages {
       name: _Paths.landownerBookmark,
       page: () => const LandownerBookmarkView(),
       binding: LandownerBookmarkBinding(),
+      transition: Transition.rightToLeft,
     ),
     GetPage(
       name: _Paths.landownerBookmarkDetails,
@@ -206,11 +211,18 @@ class AppPages {
       name: _Paths.landownerReportList,
       page: () => const LandownerReportView(),
       binding: LandownerReportBinding(),
+      transition: Transition.rightToLeft,
     ),
     GetPage(
       name: _Paths.landownerReportDetails,
       page: () => const LandownerReportDetailsView(),
       binding: LandownerReportDetailsBinding(),
+    ),
+    GetPage(
+      name: _Paths.landownerJobPostByType,
+      page: () => const JobPostByType(),
+      binding: JobPostByTypeBinding(),
+      transition: Transition.rightToLeft,
     ),
 
     //farmer

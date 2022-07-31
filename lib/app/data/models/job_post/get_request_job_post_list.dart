@@ -14,6 +14,9 @@ class GetRequestJobPostList {
   @JsonKey(name: 'statusWork')
   String? workStatus;
 
+  @JsonKey(name: 'isNotEndWork')
+  String? isNotEndWork; //boolean
+
   @JsonKey(name: 'sort-column')
   JobPostSortColumn? sortColumn;
 
@@ -46,6 +49,7 @@ class GetRequestJobPostList {
     this.pageSize,
     this.publishBy,
     this.postTypeId,
+    this.isNotEndWork,
   });
 
   factory GetRequestJobPostList.fromJson(Map<String, dynamic> json) =>

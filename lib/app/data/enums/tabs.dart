@@ -1,4 +1,4 @@
-enum landownerTabs {
+enum LandownerTabs {
   home,
   jobPost,
   appliedFarmer,

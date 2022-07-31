@@ -16,6 +16,7 @@ class Arguments {
   static const String address = 'address';
   static const String laLng = 'laLng';
   static const String placeId = 'placeId';
+  static const String type = 'type';
 }
 
 class CommonConstants {
