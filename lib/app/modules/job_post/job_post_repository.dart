@@ -106,6 +106,16 @@ class JobPostRepository {
     return response.body;
   }
 
+  Future<bool> finishJob(int jobPostId) async {
+    final response = await _apiProvider.patchMethod('/jobpost/end/$jobPostId');
+
+    if (response.isOk) {
+      return true;
+    }
+
+    return false;
+  }
+
   Future<bool> deleteJob(int jobPostId) async {
     final response = await _apiProvider.deleteMethod('/jobpost/$jobPostId');
 
