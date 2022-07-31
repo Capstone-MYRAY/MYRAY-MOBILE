@@ -40,31 +40,31 @@ class LandownerDashboardView extends StatelessWidget {
               currentIndex: controller.tabIndex,
               items: [
                 _bottomNavbarItem(
-                  icon: controller.tabIndex == landownerTabs.home.index
+                  icon: controller.tabIndex == LandownerTabs.home.index
                       ? CustomIcons.home
                       : CustomIcons.home_outline,
                   label: AppStrings.home,
                 ),
                 _bottomNavbarItem(
-                  icon: controller.tabIndex == landownerTabs.jobPost.index
+                  icon: controller.tabIndex == LandownerTabs.jobPost.index
                       ? CustomIcons.briefcase
                       : CustomIcons.briefcase_outline,
                   label: AppStrings.jobPost,
                 ),
                 _bottomNavbarItem(
-                  icon: controller.tabIndex == landownerTabs.appliedFarmer.index
+                  icon: controller.tabIndex == LandownerTabs.appliedFarmer.index
                       ? CustomIcons.account_clock
                       : CustomIcons.account_clock_outline,
                   label: AppStrings.applied,
                 ),
                 _bottomNavbarItem(
-                  icon: controller.tabIndex == landownerTabs.message.index
+                  icon: controller.tabIndex == LandownerTabs.message.index
                       ? CustomIcons.chat
                       : CustomIcons.chat_outline,
                   label: AppStrings.message,
                 ),
                 _bottomNavbarItem(
-                  icon: controller.tabIndex == landownerTabs.profile.index
+                  icon: controller.tabIndex == LandownerTabs.profile.index
                       ? CustomIcons.account_circle
                       : CustomIcons.account_circle,
                   label: AppStrings.profile,

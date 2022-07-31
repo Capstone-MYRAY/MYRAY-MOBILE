@@ -20,6 +20,7 @@ GetRequestJobPostList _$GetRequestJobPostListFromJson(
       pageSize: json['page-size'] as String?,
       publishBy: json['publishBy'] as String?,
       postTypeId: json['postTypeId'] as String?,
+      isNotEndWork: json['isNotEndWork'] as String?,
     );
 
 Map<String, dynamic> _$GetRequestJobPostListToJson(
@@ -35,6 +36,7 @@ Map<String, dynamic> _$GetRequestJobPostListToJson(
   writeNotNull('title', instance.title);
   writeNotNull('status', instance.status);
   writeNotNull('statusWork', instance.workStatus);
+  writeNotNull('isNotEndWork', instance.isNotEndWork);
   writeNotNull('sort-column', _$JobPostSortColumnEnumMap[instance.sortColumn]);
   writeNotNull('type', instance.type);
   writeNotNull('order-by', _$SortOrderEnumMap[instance.orderBy]);

@@ -7,6 +7,7 @@ import 'package:myray_mobile/app/data/models/job_post/extend_expired_date_reques
 import 'package:myray_mobile/app/data/models/job_post/job_post.dart';
 import 'package:myray_mobile/app/data/models/payment_history/payment_history_models.dart';
 import 'package:myray_mobile/app/data/services/services.dart';
+import 'package:myray_mobile/app/modules/attendance/attendance_repository.dart';
 import 'package:myray_mobile/app/modules/garden/garden_repository.dart';
 import 'package:myray_mobile/app/modules/job_post/controllers/landowner_job_post_controller.dart';
 import 'package:myray_mobile/app/modules/job_post/job_post_repository.dart';
@@ -29,12 +30,30 @@ class LandownerJobPostDetailsController extends GetxController {
   final _jobPostController = Get.find<LandownerJobPostController>();
   final _profile = Get.find<LandownerProfileController>();
   final _feeDataService = Get.find<FeeDataService>();
+  final _attendanceRepository = Get.find<AttendanceRepository>();
 
   final String workInformation = 'WorkInformation';
   final String workPlaceInformation = 'WorkPlaceInformation';
   final String postInformation = 'PostInformation';
   final String paymentHistoryInformation = 'PaymentInformation';
   final String buttonControls = 'ButtonControls';
+
+  var totalPostingFee = 0.0.obs;
+  var totalPayingSalary = 0.0.obs;
+
+  String get postingFee {
+    double result = (totalPostingFee.value /
+            (totalPostingFee.value + totalPayingSalary.value)) *
+        100;
+    return '${result.toStringAsFixed(1)}%';
+  }
+
+  String get payingSalary {
+    double result = (totalPayingSalary.value /
+            (totalPostingFee.value + totalPayingSalary.value)) *
+        100;
+    return '${result.toStringAsFixed(1)}%';
+  }
 
   LandownerJobPostDetailsController({required this.jobPost});
 
@@ -44,6 +63,42 @@ class LandownerJobPostDetailsController extends GetxController {
       Arguments.item: jobPost.value,
       Arguments.tag: Get.arguments[Arguments.tag],
     });
+  }
+
+  finishJob() async {
+    try {
+      final isConfirmed = await CustomDialog.show(
+          confirm: () => Get.back(result: true),
+          message: 'Bạn muốn kết thúc công việc này?');
+
+      if (isConfirmed == null || !isConfirmed) return;
+
+      final success = await _jobPostRepository.finishJob(jobPost.value.id);
+      if (!success) throw Exception('Có lỗi xảy ra');
+
+      //update details ui
+      jobPost.value.workStatus = JobPostWorkStatus.done.index;
+      update([workInformation, buttonControls]);
+
+      //Update job post list
+      final jobPostController = Get.find<LandownerJobPostController>();
+      final jobPosts = jobPostController.jobPosts;
+      int index = jobPosts.indexWhere((job) => job.id == jobPost.value.id);
+      if (index >= 0) {
+        jobPosts[index] = jobPost.value;
+      }
+
+      CustomSnackbar.show(
+        title: AppStrings.titleSuccess,
+        message: 'Công việc đã hoàn thành',
+      );
+    } catch (e) {
+      CustomSnackbar.show(
+        title: AppStrings.titleError,
+        message: 'Có lỗi xảy ra',
+        backgroundColor: AppColors.errorColor,
+      );
+    }
   }
 
   viewGardenDetails() async {
@@ -77,12 +132,20 @@ class LandownerJobPostDetailsController extends GetxController {
     }
   }
 
+  Future<void> getExpense() async {
+    final tempExpense =
+        await _attendanceRepository.getTotalExpense(jobPost.value.id);
+    if (tempExpense != null) {
+      totalPayingSalary.value = tempExpense;
+    }
+  }
+
   Future<bool?> getPaymentHistory() async {
     paymentHistories.clear();
     final int accountId = AuthCredentials.instance.user!.id!;
     final data = GetPaymentHistoryRequest(
       page: 1.toString(),
-      pageSize: 10.toString(),
+      pageSize: 20.toString(),
       jobPostId: jobPost.value.id.toString(),
       sortColumn: PaymentHistorySortColumn.createdDate,
       orderBy: SortOrder.descending,
@@ -93,7 +156,17 @@ class LandownerJobPostDetailsController extends GetxController {
       return null;
     }
 
-    paymentHistories.addAll(response.paymentHistories!);
+    double tempTotalPostingFee = 0;
+
+    for (PaymentHistory payment in response.paymentHistories!) {
+      paymentHistories.add(payment);
+      tempTotalPostingFee += payment.balanceFluctuation?.abs() ?? 0;
+    }
+
+    totalPostingFee.value = tempTotalPostingFee;
+
+    await getExpense();
+
     update([paymentHistoryInformation]);
     return true;
   }

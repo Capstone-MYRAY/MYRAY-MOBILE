@@ -24,7 +24,6 @@ class AttendanceRepository {
 
   Future<Attendance?> checkAttendance(CheckAttendanceRequest data) async {
     final response = await _apiProvider.postMethod(_url, data.toJson());
-    print('Attendance error: ${response.bodyString}');
     if (response.isOk) {
       return Attendance.fromJson(response.body);
     }
@@ -39,6 +38,16 @@ class AttendanceRepository {
       print('length of attendances: ${jsonList.length}');
       return jsonList.map((json) => AttendanceResponse.fromJson(json)).toList();
     }
+    return null;
+  }
+
+  Future<double?> getTotalExpense(int jobPostId) async {
+    final response =
+        await _apiProvider.getMethod('$_url/totalexpense/$jobPostId');
+    if (response.isOk) {
+      return response.body;
+    }
+
     return null;
   }
 }

@@ -12,6 +12,8 @@ class LazyLoadingList extends StatelessWidget {
   final Future<void> Function() onRefresh;
   final Widget Function(BuildContext, int) itemBuilder;
   final bool reverse;
+  final ScrollPhysics? scrollPhysics;
+  final bool shrinkWrap;
 
   const LazyLoadingList({
     Key? key,
@@ -22,6 +24,8 @@ class LazyLoadingList extends StatelessWidget {
     this.isLoading = false,
     this.width,
     this.reverse = false,
+    this.scrollPhysics,
+    this.shrinkWrap = false,
   }) : super(key: key);
 
   @override
@@ -39,6 +43,8 @@ class LazyLoadingList extends StatelessWidget {
               child: Container(
                 margin: const EdgeInsets.symmetric(vertical: 8.0),
                 child: ListView(
+                  shrinkWrap: shrinkWrap,
+                  physics: scrollPhysics,
                   reverse: reverse,
                   children: [
                     ListView.builder(

@@ -18,8 +18,7 @@ class JobPostRepository {
 
   //Get list of job post
   Future<JobPostResponse?> getJobPostList(GetRequestJobPostList data) async {
-    final response =
-        await _apiProvider.getMethod(_url, data: data.toJson());
+    final response = await _apiProvider.getMethod(_url, data: data.toJson());
     if (response.statusCode == HttpStatus.ok) {
       return JobPostResponse.fromJson(response.body);
     }
@@ -107,6 +106,16 @@ class JobPostRepository {
     return response.body;
   }
 
+  Future<bool> finishJob(int jobPostId) async {
+    final response = await _apiProvider.patchMethod('/jobpost/end/$jobPostId');
+
+    if (response.isOk) {
+      return true;
+    }
+
+    return false;
+  }
+
   Future<bool> deleteJob(int jobPostId) async {
     final response = await _apiProvider.deleteMethod('/jobpost/$jobPostId');
 
@@ -156,8 +165,8 @@ class JobPostRepository {
   //check applied
   //applied: true, not applied: true (200)
   Future<bool?> checkFarmerAppliedOrNot(int data) async {
-    final response = await _apiProvider
-        .getMethod('$_url/checkapplied?jobPostId=$data');
+    final response =
+        await _apiProvider.getMethod('$_url/checkapplied?jobPostId=$data');
     return response.statusCode != HttpStatus.ok;
   }
 

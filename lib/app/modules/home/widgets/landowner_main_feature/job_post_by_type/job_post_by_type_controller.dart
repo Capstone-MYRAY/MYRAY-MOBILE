@@ -3,13 +3,12 @@ import 'package:myray_mobile/app/data/enums/enums.dart';
 import 'package:myray_mobile/app/data/models/job_post/get_request_job_post_list.dart';
 import 'package:myray_mobile/app/data/models/job_post/job_post.dart';
 import 'package:myray_mobile/app/modules/job_post/job_post_repository.dart';
-import 'package:myray_mobile/app/modules/profile/controllers/landowner_profile_controller.dart';
-import 'package:myray_mobile/app/routes/app_pages.dart';
-import 'package:myray_mobile/app/shared/constants/constants.dart';
+import 'package:myray_mobile/app/shared/constants/common.dart';
 import 'package:myray_mobile/app/shared/utils/auth_credentials.dart';
 
-class LandownerCurrentStartJobsController extends GetxController {
+class JobPostByTypeController extends GetxController {
   final _jobPostRepository = Get.find<JobPostRepository>();
+  final workType = Get.arguments[Arguments.type];
   RxList<JobPost> jobPosts = RxList();
   int _currentPage = 0;
   final int _pageSize = 5;
@@ -17,16 +16,16 @@ class LandownerCurrentStartJobsController extends GetxController {
 
   final isLoading = false.obs;
 
-  Future<bool?> getCurrentStartJobs() async {
+  Future<bool?> getJobPosts() async {
     final int accountId = AuthCredentials.instance.user!.id!;
     final data = GetRequestJobPostList(
       publishBy: accountId.toString(),
       page: (++_currentPage).toString(),
       pageSize: (_pageSize).toString(),
-      type: JobType.payPerHourJob.name,
-      workStatus: JobPostWorkStatus.started.index.toString(),
-      sortColumn: JobPostSortColumn.publishedDate,
+      sortColumn: JobPostSortColumn.createdDate,
       orderBy: SortOrder.descending,
+      isNotEndWork: true.toString(),
+      type: workType,
     );
 
     //load job post
@@ -55,14 +54,6 @@ class LandownerCurrentStartJobsController extends GetxController {
     //clear job post list
     jobPosts.clear();
 
-    //load user info
-    final profile = Get.find<LandownerProfileController>();
-    profile.getUserInfo();
-
-    update(['CurrentStartJobPost']);
-  }
-
-  navigateToCheckAttendanceScreen(JobPost jobPost) {
-    Get.toNamed(Routes.checkAttendance, arguments: {Arguments.item: jobPost});
+    update();
   }
 }
