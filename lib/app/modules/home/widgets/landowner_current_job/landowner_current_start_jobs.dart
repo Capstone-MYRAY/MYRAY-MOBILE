@@ -57,30 +57,30 @@ class LandownerCurrentStartJobs extends StatelessWidget {
   }
 
   Widget _buildContent(LandownerCurrentStartJobsController controller) {
-    return Expanded(
-      child: Obx(
-        () {
-          return LazyLoadingList(
-            onEndOfPage: controller.getCurrentStartJobs,
-            isLoading: controller.isLoading.value,
-            onRefresh: controller.onRefresh,
-            itemCount: controller.jobPosts.length,
-            width: double.infinity,
-            itemBuilder: (context, index) {
-              final currentJob = controller.jobPosts[index];
-              return FeatureOption(
-                icon: CustomIcons.briefcase,
-                title: currentJob.title,
-                widthFactor: 1,
-                borderRadius: CommonConstants.borderRadius,
-                margin: const EdgeInsets.symmetric(vertical: 8.0),
-                onTap: () =>
-                    controller.navigateToCheckAttendanceScreen(currentJob),
-              );
-            },
-          );
-        },
-      ),
+    return Obx(
+      () {
+        return LazyLoadingList(
+          onEndOfPage: controller.getCurrentStartJobs,
+          isLoading: controller.isLoading.value,
+          onRefresh: controller.onRefresh,
+          itemCount: controller.jobPosts.length,
+          width: double.infinity,
+          shrinkWrap: true,
+          scrollPhysics: const NeverScrollableScrollPhysics(),
+          itemBuilder: (context, index) {
+            final currentJob = controller.jobPosts[index];
+            return FeatureOption(
+              icon: CustomIcons.briefcase,
+              title: currentJob.title,
+              widthFactor: 1,
+              borderRadius: CommonConstants.borderRadius,
+              margin: const EdgeInsets.symmetric(vertical: 8.0),
+              onTap: () =>
+                  controller.navigateToCheckAttendanceScreen(currentJob),
+            );
+          },
+        );
+      },
     );
   }
 }
