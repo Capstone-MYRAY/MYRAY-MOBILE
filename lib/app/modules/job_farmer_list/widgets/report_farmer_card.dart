@@ -32,6 +32,7 @@ class ReportFarmerCard extends StatelessWidget {
     return MyCard(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Align(
             alignment: Alignment.centerLeft,

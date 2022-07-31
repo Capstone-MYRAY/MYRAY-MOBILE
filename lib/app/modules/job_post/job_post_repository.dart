@@ -77,7 +77,7 @@ class JobPostRepository {
   }
 
   Future<JobPost?> getById(int jobPostId) async {
-    final response = await _apiProvider.getMethod('/jobposts/$jobPostId');
+    final response = await _apiProvider.getMethod('/jobpost/$jobPostId');
 
     if (response.isOk) {
       return JobPost.fromJson(response.body);

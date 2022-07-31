@@ -32,18 +32,18 @@ class ChangePasswordController extends GetxController {
     if (FieldValidation.instance.validatePassword(value) != null) {
       return 'Vui lòng nhập mật mới';
     }
-    if(!Utils.limitPassword.hasMatch(value!)){
-      return 'Mật khẩu không hợp lệ, cần ít nhất 6 ký tự';
+    if (!Utils.limitPassword.hasMatch(value!)) {
+      return 'Mật khẩu không hợp lệ, cần ít nhất 8 ký tự';
     }
     return null;
   }
 
   String? checkOldPassword(String? value) {
     if (FieldValidation.instance.validatePassword(value) != null) {
-      if(!isOldPassword.value){
+      if (!isOldPassword.value) {
         return null;
       }
-      return 'Vui lòng nhập mật cũ';
+      return 'Vui lòng nhập mật khẩu cũ';
     }
     _checkIfOldPassword(value!);
     return null;

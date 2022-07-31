@@ -199,5 +199,5 @@ class Utils {
   }
 
   static final limitString = RegExp(r'(\r?\n?|\r|\n).{1,1000}');
-  static final limitPassword = RegExp(r'^.[\S]{5,30}$');
+  static final limitPassword = RegExp(r'[^\r\n]{8,30}$', caseSensitive: true);
 }
