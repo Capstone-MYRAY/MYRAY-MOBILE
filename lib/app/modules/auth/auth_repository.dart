@@ -23,8 +23,8 @@ class AuthRepository {
   Future<AuthResponse?> login(AuthRequest data) async {
     final response =
         await _apiProvider.postMethod('/Authentication/login', data.toJson());
-    print(response.body.toString());
     if (response.isOk) return AuthResponse.fromJson(response.body);
+
     if (response.hasError) {
       throw CustomException(response.body.toString());
     }
@@ -38,16 +38,18 @@ class AuthRepository {
   }
 
   Future<Account?> changePassword(ChangePassword data) async {
-    final response = await _apiProvider.postMethod('/Authentication/changepassword', data.toJson());
-    if(response.statusCode == HttpStatus.ok){
+    final response = await _apiProvider.postMethod(
+        '/Authentication/changepassword', data.toJson());
+    if (response.statusCode == HttpStatus.ok) {
       return Account.fromJson(response.body);
     }
     return null;
   }
 
   Future<bool?> checkOldPassword(String oldPassword) async {
-    final response = await _apiProvider.post('/authentication/checkpassword', oldPassword);
-    if(response.statusCode == HttpStatus.ok){
+    final response =
+        await _apiProvider.post('/authentication/checkpassword', oldPassword);
+    if (response.statusCode == HttpStatus.ok) {
       return response.body;
     }
     return null;
