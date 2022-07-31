@@ -1,3 +1,4 @@
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:myray_mobile/app/data/enums/enums.dart';
@@ -73,6 +74,7 @@ class LandownerJobPostDetailsView
               shrinkWrap: true,
               padding: const EdgeInsets.only(bottom: 16.0),
               children: [
+                _buildPostInfo(),
                 _buildWorkInformation(),
                 _buildWorkPlaceInformation(),
                 _buildPostInformation(),
@@ -88,6 +90,80 @@ class LandownerJobPostDetailsView
               ],
             );
           }),
+    );
+  }
+
+  Widget _buildPostInfo() {
+    return Obx(
+      () => Container(
+        margin: EdgeInsets.only(
+          top: 16.0,
+          left: Get.width * 0.05,
+          right: Get.width * 0.05,
+        ),
+        child: GridView.count(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          crossAxisCount: 2,
+          mainAxisSpacing: 16.0,
+          crossAxisSpacing: 24.0,
+          childAspectRatio: 11 / 5,
+          children: [
+            _buildFee(
+              color: AppColors.errorColor,
+              title: 'Chi phí đăng bài',
+              data: Utils.vietnameseCurrencyFormat.format(
+                controller.totalPostingFee.value,
+              ),
+            ),
+            _buildFee(
+              color: AppColors.warningColor,
+              title: 'Chi phí trả lương',
+              data: Utils.vietnameseCurrencyFormat.format(
+                controller.totalPayingSalary.value,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildFee(
+      {required Color color, required String title, required String data}) {
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [color, color.withOpacity(0.8)],
+          tileMode: TileMode.mirror,
+        ),
+        borderRadius: BorderRadius.circular(CommonConstants.borderRadius),
+      ),
+      padding: const EdgeInsets.symmetric(
+        horizontal: 8.0,
+        vertical: 8.0,
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            style: Get.textTheme.bodyText2!.copyWith(
+              color: AppColors.white,
+            ),
+          ),
+          Text(
+            data,
+            style: Get.textTheme.bodyText1!.copyWith(
+              color: AppColors.white,
+            ),
+          ),
+        ],
+      ),
     );
   }
 
