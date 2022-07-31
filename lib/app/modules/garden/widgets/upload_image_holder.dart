@@ -191,6 +191,7 @@ class UploadImageHolderState extends State<UploadImageHolder> {
   //build grid item
   Widget _buildImagePlaceHolder(String path, int id) {
     return Container(
+      alignment: Alignment.center,
       padding: const EdgeInsets.symmetric(
         horizontal: 32.0,
         vertical: 16.0,
@@ -200,10 +201,12 @@ class UploadImageHolderState extends State<UploadImageHolder> {
         borderRadius: BorderRadius.circular(CommonConstants.borderRadius),
       ),
       child: Column(
-        mainAxisSize: MainAxisSize.max,
+        mainAxisSize: MainAxisSize.min,
         children: [
           RoundImage(
             imageUrl: path,
+            width: Get.width * 0.3,
+            height: Get.width * 0.3,
           ),
           const SizedBox(height: 16.0),
           FilledButton(
@@ -214,7 +217,7 @@ class UploadImageHolderState extends State<UploadImageHolder> {
               horizontal: 4.0,
             ),
           ),
-          const SizedBox(height: 16.0),
+          const SizedBox(height: 12.0),
           FilledButton(
             title: AppStrings.titleDelete,
             onPressed: () => _removeImage(id),
@@ -247,7 +250,7 @@ class UploadImageHolderState extends State<UploadImageHolder> {
                 crossAxisSpacing: 16.0,
                 mainAxisSpacing: 16.0,
                 physics: const NeverScrollableScrollPhysics(),
-                childAspectRatio: 5 / 7,
+                childAspectRatio: 3 / 5,
                 children: [
                   ..._selectedImages
                       .map(

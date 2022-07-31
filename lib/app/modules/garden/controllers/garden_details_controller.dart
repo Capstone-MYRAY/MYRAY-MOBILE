@@ -40,4 +40,9 @@ class GardenDetailsController extends GetxController with GardenService {
       );
     }
   }
+
+  navigateToJobPostList() {
+    Get.toNamed(Routes.landownerJobPostByGarden,
+        arguments: {Arguments.item: garden.value.id});
+  }
 }

@@ -16,6 +16,7 @@ import 'package:myray_mobile/app/data/models/job_post/job_post.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/utils/utils.dart';
 import 'package:myray_mobile/app/shared/widgets/custom_snackbar.dart';
+import 'package:myray_mobile/app/shared/widgets/dialogs/custom_confirm_dialog.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:signature/signature.dart';
 
@@ -140,6 +141,12 @@ class JobPostAttendanceController extends GetxController {
   }
 
   onAbsent(Account farmer) async {
+    final isConfirmed = await CustomDialog.show(
+        confirm: () => Get.back(result: true),
+        message: 'Bạn có chắc muốn đánh vắng ${farmer.fullName}?');
+
+    if (isConfirmed == null || !isConfirmed) return;
+
     EasyLoading.show();
     try {
       final data = CheckAttendanceRequest(
