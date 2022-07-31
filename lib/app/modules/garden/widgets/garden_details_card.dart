@@ -101,7 +101,7 @@ class GardenDetailsCard extends StatelessWidget {
                   .map(
                     (path) => RoundImage(
                       imageUrl: path,
-                      width: 120,
+                      width: Get.width * 0.3,
                     ),
                   )
                   .toList(),

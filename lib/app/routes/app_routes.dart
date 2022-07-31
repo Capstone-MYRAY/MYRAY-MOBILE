@@ -36,6 +36,7 @@ abstract class Routes {
   static const landownerReportList = _Paths.landownerReportList;
   static const landownerReportDetails = _Paths.landownerReportDetails;
   static const landownerJobPostByType = _Paths.landownerJobPostByType;
+  static const landownerJobPostByGarden = _Paths.landownerJobPostByGarden;
 
   //farmer
   static const farmerDashboard = _Paths.farmerDashboard;
@@ -87,6 +88,7 @@ abstract class _Paths {
   static const landownerReportList = '$_landowner/report_list';
   static const landownerReportDetails = '$_landowner/report_details';
   static const landownerJobPostByType = '$_landowner/job_post_by_type';
+  static const landownerJobPostByGarden = '$_landowner/job_post_by_garden';
 
   //farmer views
   static const farmerDashboard = '$_farmer/dashboard';

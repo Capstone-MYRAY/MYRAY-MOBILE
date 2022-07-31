@@ -57,6 +57,18 @@ class SignupController extends GetxController {
     }
   }
 
+  String? validatePassword(value) {
+    if (Utils.isEmpty(value)) {
+      return AppMsg.MSG0002;
+    }
+
+    if (!Utils.limitPassword.hasMatch(value)) {
+      return 'Mật khẩu tối thiểu 8 ký tự và tối đa 30 ký tự';
+    }
+
+    return null;
+  }
+
   String? validateConfirmPassword(value) {
     String password = passwordController.text;
     if (!Utils.equalsIgnoreCase(value, password)) {

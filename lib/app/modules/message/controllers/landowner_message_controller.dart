@@ -11,15 +11,15 @@ class LandownerMessageController extends GetxController with MessageService {
   final List<MessageJobPost> messages = [];
 
   Future<bool?> loadInitMessages() async {
-    // if (!SignalRProvider.instance.isConnectionOpen) {
-    //   await SignalRProvider.instance.connectToHub();
-    //   SignalRProvider.instance.hubConnection
-    //       ?.on('convention', _onMessageChange);
-    //   await SignalRProvider.instance.hubConnection?.invoke(
-    //       'GetListMessageForLandowner',
-    //       args: [AuthCredentials.instance.user!.id!]);
-    //   return true;
-    // }
+    if (!SignalRProvider.instance.isConnectionOpen) {
+      await SignalRProvider.instance.connectToHub();
+      SignalRProvider.instance.hubConnection
+          ?.on('convention', _onMessageChange);
+      await SignalRProvider.instance.hubConnection?.invoke(
+          'GetListMessageForLandowner',
+          args: [AuthCredentials.instance.user!.id!]);
+      return true;
+    }
 
     return false;
   }

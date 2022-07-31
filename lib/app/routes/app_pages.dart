@@ -22,9 +22,11 @@ import 'package:myray_mobile/app/modules/dashboard/views/landowner_dashboard_vie
 import 'package:myray_mobile/app/modules/garden/bindings/garden_details_binding.dart';
 import 'package:myray_mobile/app/modules/garden/bindings/garden_form_binding.dart';
 import 'package:myray_mobile/app/modules/garden/bindings/garden_home_binding.dart';
+import 'package:myray_mobile/app/modules/garden/bindings/job_post_by_garden_binding.dart';
 import 'package:myray_mobile/app/modules/garden/views/garden_details_view.dart';
 import 'package:myray_mobile/app/modules/garden/views/garden_form_view.dart';
 import 'package:myray_mobile/app/modules/garden/views/garden_home_view.dart';
+import 'package:myray_mobile/app/modules/garden/views/job_post_by_garden_view.dart';
 import 'package:myray_mobile/app/modules/guidepost/bindings/guidepost_binding.dart';
 import 'package:myray_mobile/app/modules/guidepost/views/guidepost_view.dart';
 import 'package:myray_mobile/app/modules/history_job/bindings/farmer_history_job_binding.dart';
@@ -222,6 +224,12 @@ class AppPages {
       name: _Paths.landownerJobPostByType,
       page: () => const JobPostByType(),
       binding: JobPostByTypeBinding(),
+      transition: Transition.rightToLeft,
+    ),
+    GetPage(
+      name: _Paths.landownerJobPostByGarden,
+      page: () => const JobPostByGardenView(),
+      binding: JobPostByGardenBinding(),
       transition: Transition.rightToLeft,
     ),
 

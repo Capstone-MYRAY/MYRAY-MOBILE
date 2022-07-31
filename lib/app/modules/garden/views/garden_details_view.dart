@@ -66,7 +66,7 @@ class GardenDetailsView extends GetView<GardenDetailsController> {
                 child: Column(children: [
                   FilledButton(
                     title: 'Danh sách công việc',
-                    onPressed: () {},
+                    onPressed: controller.navigateToJobPostList,
                   ),
                   const SizedBox(height: 16.0),
                   if (controller.action == null)
