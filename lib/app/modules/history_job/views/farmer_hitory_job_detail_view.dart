@@ -74,7 +74,7 @@ class FarmerHistoryJobDetail extends GetView<FarmerHistoryJobController> {
               ),
               InformationWorkCard(
                 startDate: DateTime.now(),
-                isPayPerHourJob: false,
+                isPayPerHourJob: true,
               ),
               const SizedBox(
                 height: 20,

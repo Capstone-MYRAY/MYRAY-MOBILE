@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:myray_mobile/app/data/models/job_post/job_post.dart';
 import 'package:myray_mobile/app/modules/home/controllers/farmer_home_controller.dart';
+import 'package:myray_mobile/app/modules/home/widgets/farmer_post_card%20copy.dart';
 import 'package:myray_mobile/app/modules/home/widgets/farmer_post_card.dart';
 import 'package:myray_mobile/app/routes/app_pages.dart';
 import 'package:myray_mobile/app/shared/constants/app_assets.dart';
@@ -89,11 +90,12 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
                           Obx(
                             () => controller.secondObject.isNotEmpty
                                 ? Container(
+                                    padding: const EdgeInsets.all(10),
                                     decoration: const BoxDecoration(
                                       color: AppColors.white,
                                     ),
                                     child: SizedBox(
-                                        height: Get.height * 0.35,
+                                        height: Get.height * 0.29,
                                         child: ListView.builder(
                                             padding:
                                                 const EdgeInsets.only(left: 10),
@@ -111,7 +113,7 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
                                                   controller.getExpiredDate(
                                                       publishedDate,
                                                       numberPublishDate);
-                                              return FarmerPostCard(
+                                              return FarmerSpecialPostCard(
                                                 backgroundColor: AppColors
                                                     .markedBackgroundColor,
                                                 title: jobPost.title,

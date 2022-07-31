@@ -28,7 +28,7 @@ class FarmerAttendanceDetailDialog {
           child: SafeArea(
             child: Container(
               width: Get.width,
-              height: Get.height + Get.height * 0.05,
+              height: Get.height + Get.height * 0.02,
               padding: const EdgeInsets.all(20),
               color: AppColors.backgroundColor,
               child: Column(
@@ -49,7 +49,7 @@ class FarmerAttendanceDetailDialog {
                     ],
                   ),
                   SizedBox(
-                    height: Get.height * 0.05,
+                    height: Get.height * 0.02,
                   ),
                   Container(
                     alignment: Alignment.topCenter,
@@ -66,7 +66,7 @@ class FarmerAttendanceDetailDialog {
                         textAlign: TextAlign.center),
                   ),
                   SizedBox(
-                    height: Get.height * 0.05,
+                    height: Get.height * 0.03,
                   ),
                   Container(
                     margin: const EdgeInsets.only(left: 10, right: 10),
@@ -120,7 +120,7 @@ class FarmerAttendanceDetailDialog {
                     ),
                   ),
                   SizedBox(
-                    height: Get.height * 0.05,
+                    height: Get.height * 0.03,
                   ),
                   Container(
                     margin: const EdgeInsets.only(left: 10, right: 10),

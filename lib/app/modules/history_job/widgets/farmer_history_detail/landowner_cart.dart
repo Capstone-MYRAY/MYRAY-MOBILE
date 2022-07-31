@@ -83,7 +83,7 @@ class LandOwnerCard extends StatelessWidget {
                             fontSize: Get.textScaleFactor * 15,
                           ),
                           softWrap: true,
-                          maxLines: 5,
+                          maxLines: 10,
                           overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.left,
                         ),
