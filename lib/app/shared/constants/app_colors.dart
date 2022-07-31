@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 
 ///This class contains all app colors.
@@ -11,7 +13,14 @@ class AppColors {
   static const Color errorColor = Color(0xFFF44336);
   static const Color backgroundColor = Color(0xFFF5F5F5);
   static final Color iconColor = Color(0xFF0C0C0C).withOpacity(0.8);
+  static final Color featureColor = Color(0xFFC1C1C1).withOpacity(0.8);
   static const Color grey = Color(0xFF8E8EA1);
   static const Color black = Color(0xFF0C0C0C);
   static const Color white = Color(0xFFFFFFFF);
+  static const Color greyOtp = Color(0xFFEAEAEA);
+  static const Color markedPostChipColor = Color(0xfff34740);
+  static const Color brown = Color(0xff825823);
+  static const Color markedBackgroundColor = Color(0xffE0F3E1);
+  static const Color starColor = Color(0xFFFFD801);
+  static const Color toggleBottomBorder = Color(0xFFBAD162);
 }

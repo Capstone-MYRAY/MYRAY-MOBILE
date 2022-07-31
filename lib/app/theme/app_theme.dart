@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:myray_mobile/app/shared/constants/app_colors.dart';
+import 'package:myray_mobile/app/shared/constants/constants.dart';
 
 class AppTheme {
   static double scaleFactor = 1;
@@ -47,15 +47,15 @@ class AppTheme {
       colorScheme: ColorScheme(
         brightness: brightness,
         primary: primaryColor,
-        primaryVariant: primaryColor,
+        primaryContainer: primaryColor,
         secondary: secondaryColor!,
-        secondaryVariant: secondaryColor,
-        surface: cardBackground!,
+        secondaryContainer: secondaryColor,
+        surface: textColor!,
         background: background,
         error: errorColor,
         onPrimary: buttonText,
         onSecondary: buttonText,
-        onSurface: buttonText,
+        onSurface: textColor,
         onBackground: buttonText,
         onError: buttonText,
       ),
@@ -103,7 +103,8 @@ class AppTheme {
           padding: MaterialStateProperty.all(
             const EdgeInsets.symmetric(vertical: 12.0, horizontal: 4.0),
           ),
-          minimumSize: MaterialStateProperty.all(const Size.fromHeight(32)),
+          minimumSize: MaterialStateProperty.all(
+              const Size.fromHeight(CommonConstants.buttonHeightSmall)),
           textStyle: MaterialStateProperty.all(
             baseTextTheme.bodyText2!.copyWith(
               color: buttonText,
@@ -160,6 +161,12 @@ class AppTheme {
           fontFamily: 'Roboto',
           fontWeight: FontWeight.w500,
           fontSize: textScaleFactor(16.0),
+          color: disabled,
+        ),
+        floatingLabelStyle: TextStyle(
+          fontFamily: 'Roboto',
+          fontWeight: FontWeight.w500,
+          fontSize: textScaleFactor(16.0),
           color: primaryColor,
         ),
         hintStyle: TextStyle(
@@ -170,21 +177,21 @@ class AppTheme {
         iconColor: secondaryColor,
         prefixIconColor: secondaryColor,
         suffixIconColor: secondaryColor,
-        enabledBorder: UnderlineInputBorder(
-          borderSide: BorderSide(
-            color: secondaryColor,
-          ),
-        ),
+        // enabledBorder: UnderlineInputBorder(
+        //   borderSide: BorderSide(
+        //     color: secondaryColor,
+        //   ),
+        // ),
         errorBorder: UnderlineInputBorder(
           borderSide: BorderSide(
             color: errorColor,
           ),
         ),
-        focusedBorder: UnderlineInputBorder(
-          borderSide: BorderSide(
-            color: primaryColor,
-          ),
-        ),
+        // focusedBorder: UnderlineInputBorder(
+        //   borderSide: BorderSide(
+        //     color: primaryColor,
+        //   ),
+        // ),
         focusedErrorBorder: UnderlineInputBorder(
           borderSide: BorderSide(
             color: primaryColor,
@@ -200,7 +207,10 @@ class AppTheme {
         elevation: 1.0,
         backgroundColor: cardBackground,
         selectedItemColor: primaryColor,
-        unselectedItemColor: textColor!.withOpacity(0.5),
+        showSelectedLabels: true,
+        showUnselectedLabels: true,
+        type: BottomNavigationBarType.fixed,
+        unselectedItemColor: textColor.withOpacity(0.5),
         selectedIconTheme: IconThemeData(
           color: primaryColor,
           size: 32,
@@ -212,13 +222,16 @@ class AppTheme {
         ),
         unselectedIconTheme: IconThemeData(
           color: textColor.withOpacity(0.5),
-          size: 24.0,
+          size: 32.0,
         ),
         unselectedLabelStyle: baseTextTheme.subtitle2!.copyWith(
-          fontSize: 12.0,
+          fontSize: 13.0,
           color: textColor.withOpacity(0.5),
           fontWeight: FontWeight.normal,
         ),
+      ),
+      timePickerTheme: TimePickerThemeData(
+        backgroundColor: cardBackground,
       ),
       fontFamily: 'Roboto',
       textTheme: TextTheme(
