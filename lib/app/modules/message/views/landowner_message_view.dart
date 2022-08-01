@@ -28,7 +28,7 @@ class LandownerMessageView extends StatelessWidget {
                 return const LoadingBuilder();
               }
 
-              if (snapshot.data == null) {
+              if (controller.messages.isEmpty) {
                 return const ListEmptyBuilder(onRefresh: null);
               }
 
