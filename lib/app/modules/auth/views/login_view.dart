@@ -12,6 +12,7 @@ class LoginView extends GetView<LoginController> {
 
   @override
   Widget build(BuildContext context) {
+    final formKey = GlobalKey<FormState>(debugLabel: 'loginKey');
     return Scaffold(
       backgroundColor: AppColors.white,
       body: SafeArea(
@@ -34,30 +35,38 @@ class LoginView extends GetView<LoginController> {
                 SizedBox(
                   width: Get.width * 0.8,
                   child: Form(
-                    key: controller.formKey,
+                    key: formKey,
                     child: Column(
                       children: [
                         InputField(
-                          controller: controller.phoneController,
                           icon: const Icon(CustomIcons.phone_outline),
                           labelText: AppStrings.labelPhone,
                           placeholder: AppStrings.placeholderPhone,
                           inputAction: TextInputAction.next,
                           keyBoardType: TextInputType.phone,
                           validator: controller.validatePhone,
+                          onChanged: (value) {
+                            controller.phone = value;
+                          },
                         ),
                         const SizedBox(height: 16.0),
                         InputField(
-                          controller: controller.passwordController,
                           isPassword: true,
                           icon: const Icon(CustomIcons.lock_outline),
                           labelText: AppStrings.labelPassword,
                           placeholder: AppStrings.placeholderPassword,
                           validator: controller.validatePassword,
+                          onChanged: (value) {
+                            controller.password = value;
+                          },
                         ),
                         const SizedBox(height: 24.0),
                         ElevatedButton(
-                          onPressed: controller.onSubmitForm,
+                          onPressed: () {
+                            if (formKey.currentState!.validate()) {
+                              controller.onSubmitForm();
+                            }
+                          },
                           child: const Text(AppStrings.titleLogin),
                         ),
                         const SizedBox(height: 16.0),

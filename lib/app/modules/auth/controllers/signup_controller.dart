@@ -18,6 +18,7 @@ class SignupController extends GetxController {
   var selectedRole = Roles.none.obs;
   DateTime? selectedDate;
   late GlobalKey<FormState> formKey;
+  late GlobalKey<FormState> passwordFormKey;
   late TextEditingController fullNameController;
   late TextEditingController phoneController;
   late TextEditingController dobController;
@@ -30,6 +31,7 @@ class SignupController extends GetxController {
   void onInit() {
     super.onInit();
     formKey = GlobalKey();
+    passwordFormKey = GlobalKey();
     fullNameController = TextEditingController();
     phoneController = TextEditingController();
     dobController = TextEditingController();
@@ -103,16 +105,17 @@ class SignupController extends GetxController {
   }
 
   onSignupAccount() async {
+    if (!formKey.currentState!.validate() ||
+        !passwordFormKey.currentState!.validate()) {
+      return;
+    }
+
     String fullName = fullNameController.text;
     DateTime dob = selectedDate!;
     String password = passwordController.text;
     int roleId = selectedRole.value == Roles.landowner
         ? CommonConstants.landownerRoleId
         : CommonConstants.farmerRoleId;
-
-    if (!formKey.currentState!.validate()) {
-      return;
-    }
 
     SignupRequest data = SignupRequest(
       fullName: fullName,
@@ -122,12 +125,21 @@ class SignupController extends GetxController {
       roleId: roleId,
     );
 
-    EasyLoading.show(status: AppStrings.loading);
-    await _authRepository.signup(data);
-    await _auth.signOut();
-    EasyLoading.dismiss();
+    try {
+      EasyLoading.show(status: AppStrings.loading);
+      await _authRepository.signup(data);
+      await _auth.signOut();
+      EasyLoading.dismiss();
 
-    Get.offAllNamed(Routes.init);
-    CustomSnackbar.show(title: 'Thông báo', message: AppMsg.MSG6009);
+      Get.offAllNamed(Routes.init);
+      CustomSnackbar.show(title: 'Thông báo', message: AppMsg.MSG6009);
+    } catch (e) {
+      EasyLoading.dismiss();
+      CustomSnackbar.show(
+        title: AppStrings.titleError,
+        message: 'Có lỗi xảy ra',
+        backgroundColor: AppColors.errorColor,
+      );
+    }
   }
 }

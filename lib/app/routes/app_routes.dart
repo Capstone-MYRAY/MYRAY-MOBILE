@@ -4,7 +4,6 @@ abstract class Routes {
   Routes._();
 
   static const init = _Paths.init;
-  static const login = _Paths.login;
   static const chooseRole = _Paths.chooseRole;
   static const forgotPassword = _Paths.forgotPassword;
   static const signup = _Paths.signup;
@@ -56,7 +55,6 @@ abstract class _Paths {
   static const _farmer = '/farmer';
 
   static const init = '/init';
-  static const login = '/login';
   static const chooseRole = '/choose_role';
   static const forgotPassword = '/forgot_password';
   static const signup = '/signup';
