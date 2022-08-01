@@ -11,6 +11,7 @@ class RoundImage extends StatelessWidget {
   final double borderRadius;
   final double width;
   final double height;
+  final BoxFit boxFit;
 
   const RoundImage({
     Key? key,
@@ -18,6 +19,7 @@ class RoundImage extends StatelessWidget {
     this.borderRadius = CommonConstants.borderRadius,
     this.width = 120,
     this.height = double.infinity,
+    this.boxFit = BoxFit.contain,
   }) : super(key: key);
 
   @override
@@ -36,7 +38,7 @@ class RoundImage extends StatelessWidget {
               : Utils.isNetworkImage(imageUrl!)
                   ? Image.network(
                       imageUrl!,
-                      fit: BoxFit.contain,
+                      fit: boxFit,
                       loadingBuilder: (_, child, chunk) {
                         if (chunk != null) {
                           return Image.asset(AppAssets.placeholderImage);
@@ -47,7 +49,7 @@ class RoundImage extends StatelessWidget {
                     )
                   : Image.file(
                       File(imageUrl!),
-                      fit: BoxFit.contain,
+                      fit: boxFit,
                     ),
         ),
       ),

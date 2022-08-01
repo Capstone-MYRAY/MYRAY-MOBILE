@@ -73,11 +73,6 @@ class AppPages {
       page: () => const InitView(),
     ),
     GetPage(
-      name: _Paths.login,
-      page: () => const LoginView(),
-      binding: LoginBinding(),
-    ),
-    GetPage(
       name: _Paths.chooseRole,
       page: () => const ChooseRoleView(),
       binding: SignupBinding(),

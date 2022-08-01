@@ -22,7 +22,7 @@ class FarmerMessageController extends GetxController with MessageService {
       return true;
     }
 
-    return false;
+    return null;
   }
 
   _onMessageChange(List<Object>? arguments) {

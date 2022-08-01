@@ -28,7 +28,7 @@ class JobPostFormView extends GetView<JobPostFormController> {
         title: Text(controller.screenTitle),
       ),
       body: GestureDetector(
-        onTap: () {
+        onPanDown: (_) {
           FocusScope.of(context).requestFocus(FocusNode());
         },
         child: SingleChildScrollView(

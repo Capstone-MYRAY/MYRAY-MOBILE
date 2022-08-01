@@ -749,7 +749,7 @@ class JobPostFormController extends GetxController {
         ? Utils.fromddMMyyyy(publishDateController.text)
         : firstDate;
     DateTime? pickedDate = await MyDatePicker.show(
-        initDate: initDate,
+        initDate: now,
         firstDate: firstDate,
         lastDate: DateTime.now().add(const Duration(days: 365 * 10)));
     if (pickedDate != null) {
