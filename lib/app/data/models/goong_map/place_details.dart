@@ -1,5 +1,5 @@
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:mapbox_gl/mapbox_gl.dart';
 
 part 'place_details.g.dart';
 

@@ -1,6 +1,5 @@
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:mapbox_gl/mapbox_gl.dart';
 
 class UserLocationService {
   static Future<Position> getGeoLocationPosition() async {
