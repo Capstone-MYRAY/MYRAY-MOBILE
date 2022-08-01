@@ -29,7 +29,7 @@ class LandownerMessageView extends StatelessWidget {
               }
 
               if (snapshot.data == null) {
-                return ListEmptyBuilder(onRefresh: () async {});
+                return const ListEmptyBuilder(onRefresh: null);
               }
 
               return LandownerMessageList(
