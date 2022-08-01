@@ -6,10 +6,12 @@ import 'package:myray_mobile/app/shared/widgets/buttons/filled_button.dart';
 class ListEmptyBuilder extends StatelessWidget {
   final Future<void> Function()? onRefresh;
   final String msg;
+  final String? nameImage;
   const ListEmptyBuilder({
     Key? key,
     this.onRefresh,
     this.msg = AppStrings.noData,
+    this.nameImage = AppAssets.emptyFolder,
   }) : super(key: key);
 
   @override
@@ -22,7 +24,7 @@ class ListEmptyBuilder extends StatelessWidget {
         child: Center(
           child: Column(
             children: [
-              Image.asset(AppAssets.emptyFolder),
+              Image.asset(nameImage!),
               Text(
                 msg,
                 style: Get.textTheme.headline5,

@@ -11,6 +11,7 @@ import 'package:myray_mobile/app/shared/constants/app_colors.dart';
 import 'package:myray_mobile/app/shared/constants/app_strings.dart';
 import 'package:myray_mobile/app/shared/constants/common.dart';
 import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
+import 'package:myray_mobile/app/shared/widgets/builders/list_empty_builder.dart';
 import 'package:myray_mobile/app/shared/widgets/builders/loading_builder.dart';
 import 'package:myray_mobile/app/shared/widgets/lazy_loading_list.dart';
 
@@ -27,7 +28,7 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
             Padding(
               padding: const EdgeInsets.only(right: 20),
               child: InkWell(
-                onTap: (){
+                onTap: () {
                   Get.toNamed(Routes.guidepost);
                 },
                 child: Image.asset(
@@ -46,12 +47,67 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const LoadingBuilder();
               }
+              if (snapshot.hasError) {
+                printError(info: snapshot.error.toString());
+                return SizedBox(
+                  width: double.infinity,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const Icon(
+                        Icons.error,
+                        size: 50.0,
+                        color: AppColors.errorColor,
+                      ),
+                      const SizedBox(height: 8.0),
+                      Text(
+                        'Đã có lỗi xảy ra',
+                        style: Get.textTheme.headline6!.copyWith(
+                          color: AppColors.errorColor,
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              }
+              if (snapshot.data == null) {
+                return ListEmptyBuilder(
+                  onRefresh: controller.onRefresh,
+                  msg: 'Không có bài viết nào',
+                  nameImage: AppAssets.noJobPost,
+                );
+              }
               if (snapshot.hasData) {
                 return LazyLoadingList(
                   onEndOfPage: controller.getListJobPost,
                   onRefresh: controller.onRefresh,
+                  isLoading: controller.isLoading.value,
                   itemCount: 1,
                   itemBuilder: ((context, index) {
+                    if (controller.listObject.isEmpty ||
+                        controller.secondObject.isEmpty) {
+                      return Container(
+                        padding:
+                            EdgeInsets.symmetric(vertical: Get.height * 0.3),
+                        child: Center(
+                          child: Column(
+                            children: [
+                              Text(
+                                "Không có bài viết nào.",
+                                style: Get.textTheme.bodyLarge!.copyWith(
+                                  color: AppColors.grey,
+                                  fontSize: Get.textScaleFactor * 20,
+                                ),
+                              ),
+                              const SizedBox(height: 10),
+                              const ImageIcon(AssetImage(AppAssets.jobPost),
+                                  size: 30, color: AppColors.grey),
+                            ],
+                          ),
+                        ),
+                      );
+                    }
                     return SingleChildScrollView(
                       padding: const EdgeInsets.only(top: 10),
                       child: Column(
