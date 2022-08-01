@@ -4,7 +4,9 @@ import 'package:myray_mobile/app/data/enums/enums.dart';
 import 'package:myray_mobile/app/data/models/message/get_message_request.dart';
 import 'package:myray_mobile/app/data/models/message/message.dart';
 import 'package:myray_mobile/app/data/providers/signalR_provider.dart';
+import 'package:myray_mobile/app/modules/dashboard/controllers/dashboard_controller.dart';
 import 'package:myray_mobile/app/modules/message/message_repository.dart';
+import 'package:myray_mobile/app/routes/app_pages.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/utils/auth_credentials.dart';
 import 'package:myray_mobile/app/shared/utils/utils.dart';
@@ -34,7 +36,13 @@ class P2PMessageController extends GetxController {
     SignalRProvider.instance.hubConnection?.off('chat', method: _onChatConnect);
 
     if (isChanged) {
-      EasyLoading.show();
+      final dashboardController = Get.find<DashboardController>();
+
+      if (Get.currentRoute == Routes.init &&
+          dashboardController.tabIndex == 3) {
+        EasyLoading.show();
+      }
+
       if (Utils.equalsIgnoreCase(
           Roles.landowner.name, AuthCredentials.instance.user!.role!)) {
         await SignalRProvider.instance.hubConnection?.invoke(
@@ -45,7 +53,9 @@ class P2PMessageController extends GetxController {
             'GetListMessageForFarmer',
             args: [AuthCredentials.instance.user!.id!]);
       }
-      EasyLoading.dismiss();
+      if (EasyLoading.isShow) {
+        EasyLoading.dismiss();
+      }
     }
 
     super.onClose();
