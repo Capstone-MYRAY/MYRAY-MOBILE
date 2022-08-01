@@ -7,6 +7,7 @@ import 'package:myray_mobile/app/modules/comment/widgets/comment_modal_bottom_sh
 import 'package:myray_mobile/app/modules/guidepost/controllers/guidepost_controller.dart';
 import 'package:myray_mobile/app/modules/guidepost/widgets/avatar.dart';
 import 'package:myray_mobile/app/modules/guidepost/widgets/avatar_content.dart';
+import 'package:myray_mobile/app/shared/constants/app_assets.dart';
 import 'package:myray_mobile/app/shared/constants/app_colors.dart';
 import 'package:myray_mobile/app/shared/constants/app_strings.dart';
 import 'package:myray_mobile/app/shared/utils/utils.dart';
@@ -34,9 +35,32 @@ class GuidePostView extends GetView<GuidepostController> {
               () => LazyLoadingList(
                 onEndOfPage: controller.getGuidepost,
                 onRefresh: controller.onRefresh,
-                itemCount: controller.fullGuidePostList.isEmpty ? 1 : controller.fullGuidePostList.length,
+                itemCount: controller.fullGuidePostList.isEmpty
+                    ? 1
+                    : controller.fullGuidePostList.length,
                 isLoading: controller.isLoading.value,
                 itemBuilder: (context, index) {
+                  if (snapshot.data == null || controller.fullGuidePostList.isEmpty) {
+                    return Container(
+                      padding: EdgeInsets.symmetric(vertical: Get.height * 0.3),
+                      child: Center(
+                        child: Column(
+                          children: [
+                            Text("Không có bài viết nào.",
+                                style: Get.textTheme.bodyLarge!.copyWith(
+                                  color: AppColors.grey,
+                                  fontSize: Get.textScaleFactor * 20,
+                                ),
+                                textAlign: TextAlign.center),
+                            const SizedBox(height: 10),
+                            const ImageIcon(AssetImage(AppAssets.noGuiePost),
+                                size: 30, color: AppColors.grey),
+                          ],
+                        ),
+                      ),
+                    );
+                  }
+
                   Guidepost guidepost =
                       controller.fullGuidePostList[index].guidepost;
                   FullGuidepost fullGuidepost =
@@ -103,7 +127,6 @@ class GuidePostView extends GetView<GuidepostController> {
                           document: HtmlParser.parseHTML(guidepost.content),
                         ),
                         //content
-                       
 
                         Divider(
                             color: Colors.grey.withOpacity(0.5),

@@ -20,6 +20,10 @@ class AppAssets {
   static const guidepost = '${_imgPath}guidepost.png';
   static const trash = '${_imgPath}trash.png';
   static const edit = '${_imgPath}edit.png';
+  static const jobPost = '${_imgPath}job_post.png';
+  static const noJobPost = '${_imgPath}empty_job_post.png';
+  static const noForm = '${_imgPath}no_form.png';
+  static const noGuiePost = '${_imgPath}no_guidepost.png';
 
   //symbols
   static const marker = 'assets/symbols/marker.png';

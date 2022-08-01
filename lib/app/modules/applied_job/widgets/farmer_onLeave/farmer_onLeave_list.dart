@@ -30,19 +30,22 @@ class FarmerOnLeaveList extends GetView<DayOffController> {
                     : controller.dayOffList.length,
                 itemBuilder: (context, index) {
                   if (snapshot.data == null || controller.dayOffList.isEmpty) {
-                    return Center(
-                      child: Column(
-                        children: [
-                          Text("Không có đơn xin nghỉ nào.",
-                              style: Get.textTheme.bodyLarge!.copyWith(
-                                color: AppColors.grey,
-                                fontSize: Get.textScaleFactor * 20,
-                              ),
-                              textAlign: TextAlign.center),
-                          const SizedBox(height: 10),
-                          const ImageIcon(AssetImage(AppAssets.noJobFound),
-                              size: 30, color: AppColors.grey),
-                        ],
+                    return Container(
+                    padding: EdgeInsets.symmetric(vertical: Get.height * 0.3),
+                      child: Center(
+                        child: Column(
+                          children: [
+                            Text("Không có đơn xin nghỉ nào.",
+                                style: Get.textTheme.bodyLarge!.copyWith(
+                                  color: AppColors.grey,
+                                  fontSize: Get.textScaleFactor * 20,
+                                ),
+                                textAlign: TextAlign.center),
+                            const SizedBox(height: 10),
+                            const ImageIcon(AssetImage(AppAssets.noForm),
+                                size: 30, color: AppColors.grey),
+                          ],
+                        ),
                       ),
                     );
                   }

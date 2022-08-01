@@ -73,6 +73,9 @@ class GuidepostController extends GetxController {
   }
 
   _createGuidePostList(List<Guidepost> list) async{
+    if(list.isEmpty){
+      return;
+    }
     for(int i = 0 ; i < list.length; i++){
       Account? account = await _getCreatedPerson(list[i].createdBy);
       FullGuidepost fullGuidepost = FullGuidepost(guidepost: list[i], account: account);
