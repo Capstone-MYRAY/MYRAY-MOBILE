@@ -85,29 +85,6 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
                   isLoading: controller.isLoading.value,
                   itemCount: 1,
                   itemBuilder: ((context, index) {
-                    if (controller.listObject.isEmpty ||
-                        controller.secondObject.isEmpty) {
-                      return Container(
-                        padding:
-                            EdgeInsets.symmetric(vertical: Get.height * 0.3),
-                        child: Center(
-                          child: Column(
-                            children: [
-                              Text(
-                                "Không có bài viết nào.",
-                                style: Get.textTheme.bodyLarge!.copyWith(
-                                  color: AppColors.grey,
-                                  fontSize: Get.textScaleFactor * 20,
-                                ),
-                              ),
-                              const SizedBox(height: 10),
-                              const ImageIcon(AssetImage(AppAssets.jobPost),
-                                  size: 30, color: AppColors.grey),
-                            ],
-                          ),
-                        ),
-                      );
-                    }
                     return SingleChildScrollView(
                       padding: const EdgeInsets.only(top: 10),
                       child: Column(
