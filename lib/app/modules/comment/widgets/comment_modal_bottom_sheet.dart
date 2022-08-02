@@ -1,22 +1,15 @@
 import 'package:comment_box/comment/comment.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_navigation/src/routes/default_transitions.dart';
+import 'package:myray_mobile/app/data/models/account.dart';
 import 'package:myray_mobile/app/data/models/comment/comment.dart';
 import 'package:myray_mobile/app/data/models/comment/post_comment_request.dart';
 import 'package:myray_mobile/app/modules/comment/controllers/comment_controller.dart';
 import 'package:myray_mobile/app/modules/comment/widgets/comment_function_bottom_sheet.dart';
 import 'package:myray_mobile/app/modules/comment/widgets/comment_left_widget.dart';
 import 'package:myray_mobile/app/modules/comment/widgets/comment_right_widget.dart';
-import 'package:myray_mobile/app/modules/comment/widgets/comment_update_bottom_sheet.dart';
-import 'package:myray_mobile/app/routes/app_pages.dart';
-import 'package:myray_mobile/app/shared/constants/app_colors.dart';
-import 'package:myray_mobile/app/shared/constants/app_strings.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
-import 'package:myray_mobile/app/shared/utils/auth_credentials.dart';
 import 'package:myray_mobile/app/shared/widgets/builders/loading_builder.dart';
-import 'package:myray_mobile/app/shared/widgets/buttons/custom_text_button.dart';
-import 'package:myray_mobile/app/shared/widgets/controls/input_field.dart';
 import 'package:myray_mobile/app/shared/widgets/dialogs/custom_confirm_dialog.dart';
 import 'package:myray_mobile/app/shared/widgets/lazy_loading_list.dart';
 
@@ -26,8 +19,10 @@ class CommentModalBottomSheet {
   static showCommentBox({
     required BuildContext context,
     required int guidePostId,
+    Account? commentAccount,
   }) {
     CommentController controller = Get.find<CommentController>();
+    bool isFarmer = controller.isFarmer;
     return showModalBottomSheet(
       backgroundColor: AppColors.white,
       barrierColor: Colors.black.withOpacity(0.5),
@@ -79,8 +74,15 @@ class CommentModalBottomSheet {
                 Expanded(
                   // height: 70,
                   child: CommentBox(
-                      userImage:
-                          'https://cn.i.cdn.ti-platform.com/content/20/the-amazing-world-of-gumball/showpage/za/gumball-carousel.a94b8e60.png',
+                      userImage: commentAccount == null
+                      ? (isFarmer 
+                          ? 'https://i.im.ge/2022/08/02/Fy6jHr.farmer.png'
+                          : 'https://i.im.ge/2022/08/02/Fy69ym.landowner.png')
+                      : commentAccount.imageUrl ?? 
+                      (isFarmer 
+                          ? 'https://i.im.ge/2022/08/02/Fy6jHr.farmer.png'
+                          : 'https://i.im.ge/2022/08/02/Fy69ym.landowner.png')
+                      ,
                       labelText: 'Bình luận...',
                       withBorder: false,
                       errorText: 'Comment cannot be blank',
@@ -150,6 +152,8 @@ class CommentModalBottomSheet {
                                   Comment comment =
                                       controller.commentList[index];
                                   int userId = controller.currentUser;
+                                  String userRole = controller.roleUser;
+                                  print('user role: $userRole');
                                   return comment.commentBy != userId
                                       ? CommentLeft(
                                           name: 'Nông dân A',
