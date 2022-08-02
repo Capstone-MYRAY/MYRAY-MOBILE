@@ -11,7 +11,7 @@ import 'package:myray_mobile/app/shared/utils/utils.dart';
 class FarmerMessageController extends GetxController with MessageService {
   final List<FarmerMessage> messages = [];
 
-  Future<bool?> loadInitMessages() async {
+  Future<void> loadInitMessages() async {
     if (!SignalRProvider.instance.isConnectionOpen) {
       await SignalRProvider.instance.connectToHub();
       SignalRProvider.instance.hubConnection
@@ -19,10 +19,7 @@ class FarmerMessageController extends GetxController with MessageService {
       await SignalRProvider.instance.hubConnection?.invoke(
           'GetListMessageForFarmer',
           args: [AuthCredentials.instance.user!.id!]);
-      return true;
     }
-
-    return null;
   }
 
   _onMessageChange(List<Object>? arguments) {

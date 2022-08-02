@@ -749,7 +749,7 @@ class JobPostFormController extends GetxController {
         ? Utils.fromddMMyyyy(publishDateController.text)
         : firstDate;
     DateTime? pickedDate = await MyDatePicker.show(
-        initDate: now,
+        initDate: initDate,
         firstDate: firstDate,
         lastDate: DateTime.now().add(const Duration(days: 365 * 10)));
     if (pickedDate != null) {
@@ -1032,7 +1032,7 @@ class JobPostFormController extends GetxController {
 
     DateTime publishDate = Utils.fromddMMyyyy(value!);
 
-    //publish date must be before start date
+    // publish date must be before start date
     if (jobStartDateController.text.isNotEmpty) {
       DateTime startDate = Utils.fromddMMyyyy(jobStartDateController.text);
 
