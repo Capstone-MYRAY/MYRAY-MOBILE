@@ -47,8 +47,21 @@ class NotificationProvider {
       return Future.error('Notification service was denied');
     }
 
+    _handleTerminateMessage();
     _handleForegroundMessage();
     _handleOnTapMessage();
+  }
+
+  _handleTerminateMessage() {
+    FirebaseMessaging.instance.getInitialMessage().then((message) {
+      if (message != null && message.data.isNotEmpty) {
+        _serviceDelegate =
+            _service.serviceDelegate(message.data['type'] ?? '', message.data);
+        if (_serviceDelegate != null) {
+          _serviceDelegate!();
+        }
+      }
+    });
   }
 
   _handleOnTapMessage() {
