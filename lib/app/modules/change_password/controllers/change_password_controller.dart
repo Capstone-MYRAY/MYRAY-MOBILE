@@ -8,6 +8,7 @@ import 'package:myray_mobile/app/shared/constants/app_msg.dart';
 import 'package:myray_mobile/app/shared/utils/custom_exception.dart';
 import 'package:myray_mobile/app/shared/utils/field_validation.dart';
 import 'package:myray_mobile/app/shared/utils/utils.dart';
+import 'package:myray_mobile/app/shared/utils/debouncer.dart';
 
 class ChangePasswordController extends GetxController {
   final AuthRepository _authRepository = AuthRepository();
@@ -18,6 +19,7 @@ class ChangePasswordController extends GetxController {
   late TextEditingController confirmNewPasswordController;
 
   RxBool isOldPassword = true.obs;
+  final _debouncer = Debouncer(milliseconds: 500);
 
   @override
   void onInit() async {
@@ -50,10 +52,12 @@ class ChangePasswordController extends GetxController {
   }
 
   _checkIfOldPassword(String password) async {
-    bool? result = await _authRepository.checkOldPassword(password);
-    if (result != null) {
-      isOldPassword.value = result;
-    }
+    _debouncer.run(() async {
+      bool? result = await _authRepository.checkOldPassword(password);
+      if (result != null) {
+        isOldPassword.value = result;
+      }
+    });
   }
 
   String? validateConfirmPassword(value) {
