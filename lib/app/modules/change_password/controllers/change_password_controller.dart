@@ -4,11 +4,13 @@ import 'package:get/get.dart';
 import 'package:myray_mobile/app/data/models/account.dart';
 import 'package:myray_mobile/app/data/models/change_password/change_password.dart';
 import 'package:myray_mobile/app/modules/auth/auth_repository.dart';
+import 'package:myray_mobile/app/shared/constants/app_colors.dart';
 import 'package:myray_mobile/app/shared/constants/app_msg.dart';
 import 'package:myray_mobile/app/shared/utils/custom_exception.dart';
 import 'package:myray_mobile/app/shared/utils/field_validation.dart';
 import 'package:myray_mobile/app/shared/utils/utils.dart';
 import 'package:myray_mobile/app/shared/utils/debouncer.dart';
+import 'package:myray_mobile/app/shared/widgets/custom_snackbar.dart';
 
 class ChangePasswordController extends GetxController {
   final AuthRepository _authRepository = AuthRepository();
@@ -82,17 +84,25 @@ class ChangePasswordController extends GetxController {
         Future.delayed(const Duration(milliseconds: 500), () {
           EasyLoading.dismiss();
           if (account != null) {
-            EasyLoading.showSuccess('Thành công');
-            Get.back();
+            CustomSnackbar.show(
+                title: "Thành công", message: "Thay đổi mật khẩu thành công");
             return;
           }
-          EasyLoading.showError('Không thành công');
+          CustomSnackbar.show(
+              title: "Thất bại",
+              message: "Thay đổi mật khẩu không thành công",
+              backgroundColor: AppColors.errorColor);
         });
       }
     } on CustomException catch (e) {
       EasyLoading.dismiss();
-      EasyLoading.showError('Đã có lỗi xảy ra!');
+      CustomSnackbar.show(
+          title: "Thất bại",
+          message: "Đã có lỗi xảy ra!",
+          backgroundColor: AppColors.errorColor);
       print('change password: ${e.message}');
+    }finally{
+      Get.back();
     }
   }
 
