@@ -47,7 +47,7 @@ abstract class Routes {
   static const farmerAttendanceWorkDay = _Paths.farmerAttendanceWorkDay;
   static const farmerHistoryJob = _Paths.farmerHistoryJob;
   static const farmerHistoryJobDetail = _Paths.farmerHistoryJobDetail;
-  static const test = _Paths.test;
+  static const farmerHistoryJobHome = _Paths.farmerHistoryJobHome;
 }
 
 abstract class _Paths {
@@ -98,5 +98,6 @@ abstract class _Paths {
   static const farmerAttendanceWorkDay = '$_farmer/attendance_work_day';
   static const farmerHistoryJob = '$_farmer/history_job';
   static const farmerHistoryJobDetail = '$_farmer/history_job_detail';
-  static const test = '/test';
+  static const farmerHistoryJobHome = '$_farmer/history_job_home';
+  
 }

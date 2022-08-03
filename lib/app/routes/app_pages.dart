@@ -15,7 +15,6 @@ import 'package:myray_mobile/app/modules/bookmark/views/landowner_bookmark_view.
 import 'package:myray_mobile/app/modules/change_password/bindings/change_password_binding.dart';
 import 'package:myray_mobile/app/modules/change_password/views/change_password_view.dart';
 import 'package:myray_mobile/app/modules/comment/bindings/comment_binding.dart';
-import 'package:myray_mobile/app/modules/comment/widgets/test.dart';
 import 'package:myray_mobile/app/modules/dashboard/bindings/dashboard_binding.dart';
 import 'package:myray_mobile/app/modules/dashboard/views/farmer_dashboard_view.dart';
 import 'package:myray_mobile/app/modules/dashboard/views/landowner_dashboard_view.dart';
@@ -33,6 +32,7 @@ import 'package:myray_mobile/app/modules/history_job/bindings/farmer_history_job
 import 'package:myray_mobile/app/modules/history_job/bindings/farmer_history_job_detail_binding.dart';
 import 'package:myray_mobile/app/modules/history_job/views/farmer_history_job_view.dart';
 import 'package:myray_mobile/app/modules/history_job/views/farmer_hitory_job_detail_view.dart';
+import 'package:myray_mobile/app/modules/history_job/views/history_job_home_view.dart';
 import 'package:myray_mobile/app/modules/home/bindings/farmer_job_post_detail_binding.dart';
 import 'package:myray_mobile/app/modules/attendance/bindings/job_post_attendance_binding.dart';
 import 'package:myray_mobile/app/modules/home/views/farmer_job_post_detail.dart';
@@ -278,17 +278,18 @@ class AppPages {
       page: () => const FarmerHistoryJobDetail(),
       binding: FarmerHistoryJobDetailBinding(),
       transition: Transition.rightToLeft,
-    ),
-    GetPage(
-      name: _Paths.test,
-      page: () => const Test(),
-      transition: Transition.rightToLeft,
-    ),
+    ),   
     GetPage(
       name: _Paths.changePassword,
       page: () => const ChangePasswordView(),
       binding: ChangePasswordBinding(),
       transition: Transition.rightToLeft,
-    )
+    ),
+     GetPage(
+      name: _Paths.farmerHistoryJobHome,
+      page: () => const HistoryJobHomeView(),
+      binding: FarmerHistoryJobBinding(),
+      transition: Transition.rightToLeft,
+    ),
   ];
 }
