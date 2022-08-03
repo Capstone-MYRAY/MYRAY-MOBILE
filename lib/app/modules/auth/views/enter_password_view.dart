@@ -69,7 +69,10 @@ class EnterPasswordView extends GetView<SignupController> {
                         ),
                         const SizedBox(height: 24),
                         ElevatedButton(
-                          onPressed: controller.onSignupAccount,
+                          onPressed: () {
+                            FocusScope.of(context).requestFocus(FocusNode());
+                            controller.onSignupAccount();
+                          },
                           child: const Text(AppStrings.titleSignup),
                         ),
                       ],

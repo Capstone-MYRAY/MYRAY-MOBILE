@@ -6,6 +6,11 @@ enum LandownerTabs {
   profile,
 }
 
+enum WaitingApproveTabs {
+  appliedFarmer,
+  extendRequest,
+}
+
 enum farmerTabs {
   home,
   jobPost,

@@ -45,6 +45,15 @@ class PaymentHistoryHomeController extends GetxController {
     Get.back(); //close filter dialog
   }
 
+  PaymentHistory? findById(int id) {
+    return paymentHistories.firstWhereOrNull((payment) => payment.id == id);
+  }
+
+  //TODO: wait for Lâm
+  Future<PaymentHistory?> getById(int id) async {
+    return null;
+  }
+
   onChooseIssuedDate() async {
     final now = DateTime.now();
     final firstDate = now.subtract(const Duration(days: 365));

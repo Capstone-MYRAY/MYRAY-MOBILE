@@ -76,6 +76,16 @@ class PaymentHistoryDetailsView
       margin: const EdgeInsets.symmetric(vertical: 16.0),
       child: Column(
         children: [
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              payment.message ?? '',
+              style: Get.textTheme.headline6!.copyWith(
+                color: AppColors.black,
+              ),
+            ),
+          ),
+          const SizedBox(height: 8.0),
           PaymentBasicInfo(
             iconColor: payment.statusColor,
             isMe: isMe,
