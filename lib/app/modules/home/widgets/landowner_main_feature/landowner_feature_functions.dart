@@ -30,6 +30,7 @@ class LandownerFeatureFunctions extends StatelessWidget {
               icon: CustomIcons.sprout_outline,
               onTap: () async {
                 //go to garden screen
+
                 await Get.toNamed(Routes.gardenHome);
                 final dashboardController = Get.find<DashboardController>();
                 dashboardController.changeTabIndex(LandownerTabs.profile.index);

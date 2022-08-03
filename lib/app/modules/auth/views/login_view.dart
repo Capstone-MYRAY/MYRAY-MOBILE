@@ -12,7 +12,6 @@ class LoginView extends GetView<LoginController> {
 
   @override
   Widget build(BuildContext context) {
-    final formKey = GlobalKey<FormState>(debugLabel: 'loginKey');
     return Scaffold(
       backgroundColor: AppColors.white,
       body: SafeArea(
@@ -35,7 +34,7 @@ class LoginView extends GetView<LoginController> {
                 SizedBox(
                   width: Get.width * 0.8,
                   child: Form(
-                    key: formKey,
+                    key: controller.formKey,
                     child: Column(
                       children: [
                         InputField(
@@ -45,9 +44,7 @@ class LoginView extends GetView<LoginController> {
                           inputAction: TextInputAction.next,
                           keyBoardType: TextInputType.phone,
                           validator: controller.validatePhone,
-                          onChanged: (value) {
-                            controller.phone = value;
-                          },
+                          controller: controller.phoneController,
                         ),
                         const SizedBox(height: 16.0),
                         InputField(
@@ -56,14 +53,13 @@ class LoginView extends GetView<LoginController> {
                           labelText: AppStrings.labelPassword,
                           placeholder: AppStrings.placeholderPassword,
                           validator: controller.validatePassword,
-                          onChanged: (value) {
-                            controller.password = value;
-                          },
+                          controller: controller.passwordController,
                         ),
                         const SizedBox(height: 24.0),
                         ElevatedButton(
                           onPressed: () {
-                            if (formKey.currentState!.validate()) {
+                            FocusScope.of(context).requestFocus(FocusNode());
+                            if (controller.formKey.currentState!.validate()) {
                               controller.onSubmitForm();
                             }
                           },

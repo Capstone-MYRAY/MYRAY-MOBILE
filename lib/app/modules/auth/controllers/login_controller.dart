@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:myray_mobile/app/data/models/auth/auth_request.dart';
@@ -14,10 +15,19 @@ class LoginController extends GetxController {
   final AuthRepository authRepository;
   final AuthController _authController = Get.find<AuthController>();
 
+  final formKey = GlobalKey<FormState>(debugLabel: 'loginKey');
+
   LoginController({required this.authRepository});
 
-  String phone = '';
-  String password = '';
+  late TextEditingController phoneController;
+  late TextEditingController passwordController;
+
+  @override
+  void onInit() {
+    super.onInit();
+    phoneController = TextEditingController();
+    passwordController = TextEditingController();
+  }
 
   String? validatePhone(value) {
     if (Utils.isEmpty(value)) {
@@ -39,6 +49,9 @@ class LoginController extends GetxController {
   }
 
   onSubmitForm() async {
+    String phone = phoneController.text;
+    String password = passwordController.text;
+
     final data = AuthRequest(phoneNumber: phone, password: password);
 
     EasyLoading.show(status: AppStrings.loading);
