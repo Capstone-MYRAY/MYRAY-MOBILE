@@ -223,7 +223,7 @@ class AppliedJobList extends GetView<AppliedJobController> {
                                   confirm: () =>
                                       controller.cancelAppliedJob(jobPost.id),
                                   message:
-                                      "Bạn muốn hủy yêu cầu ứng tuyển \n Lưu ý: sau khi hủy, bạn không được phép ứng tuyển lạ!");
+                                      "Bạn muốn hủy yêu cầu ứng tuyển?");
                             },
                             title: AppStrings.cancel,
                             border: Border.all(
