@@ -51,7 +51,7 @@ class ExtendJobController extends GetxController with ExtendJobService {
     }
   }
 
-  Future<void> onRefresh() async {
+  Future<void> onRefresh({bool isProfileRefresh = false}) async {
     //reset current page & hasNext
     _currentPage = 0;
     _hasNextPage = true;
@@ -59,9 +59,11 @@ class ExtendJobController extends GetxController with ExtendJobService {
     //clear applied farmer list
     extendRequests.clear();
 
-    //load user info
-    final profile = Get.find<LandownerProfileController>();
-    profile.getUserInfo();
+    if (isProfileRefresh) {
+      //load user info
+      final profile = Get.find<LandownerProfileController>();
+      profile.getUserInfo();
+    }
 
     update();
   }

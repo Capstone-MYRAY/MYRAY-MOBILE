@@ -81,6 +81,14 @@ class LandownerJobPostController extends GetxController {
     }
   }
 
+  JobPost? findById(int id) {
+    return jobPosts.firstWhereOrNull((jobPost) => jobPost.id == id);
+  }
+
+  Future<JobPost?> getById(int jobPostId) async {
+    return await _jobPostRepository.getById(jobPostId);
+  }
+
   Future<bool?> getJobPosts() async {
     final int accountId = AuthCredentials.instance.user!.id!;
     final data = GetRequestJobPostList(
