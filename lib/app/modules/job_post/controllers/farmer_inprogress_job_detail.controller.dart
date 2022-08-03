@@ -459,6 +459,7 @@ class InprogressJobDetailController extends GetxController {
               icon: const Icon(Icons.free_cancellation_outlined,
                   size: 40, color: AppColors.brown),
             );
+            return;
           }
           FarmerAttendanceDetailDialog.show(context, data, jobpost.title);
           return;

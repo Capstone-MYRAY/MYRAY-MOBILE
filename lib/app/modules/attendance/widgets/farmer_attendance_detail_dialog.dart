@@ -25,7 +25,7 @@ class FarmerAttendanceDetailDialog {
       },
       pageBuilder: (context, animation, secondaryAnimation) {
         return SingleChildScrollView(
-          child: SafeArea(
+          child: Card(
             child: Container(
               width: Get.width,
               height: Get.height + Get.height * 0.02,

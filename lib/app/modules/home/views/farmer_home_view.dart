@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:myray_mobile/app/data/models/job_post/job_post.dart';
@@ -88,67 +89,183 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
                     return SingleChildScrollView(
                       padding: const EdgeInsets.only(top: 10),
                       child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.all(11.0),
-                            decoration: const BoxDecoration(
-                              color: AppColors.white,
-                            ),
-                            child: Row(children: [
-                              Container(
-                                margin: const EdgeInsets.only(left: 20),
-                                child: Text(
-                                  "Nổi bật",
-                                  style: Get.textTheme.headline2?.copyWith(
-                                    color: AppColors.primaryColor,
-                                    fontWeight: FontWeight.w500,
-                                    letterSpacing: 2,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.all(11.0),
+                              decoration: const BoxDecoration(
+                                color: AppColors.white,
+                              ),
+                              child: Row(children: [
+                                Container(
+                                  margin: const EdgeInsets.only(left: 20),
+                                  child: Text(
+                                    "Nổi bật",
+                                    style: Get.textTheme.headline2?.copyWith(
+                                      color: AppColors.primaryColor,
+                                      fontWeight: FontWeight.w500,
+                                      letterSpacing: 2,
+                                    ),
                                   ),
                                 ),
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              const Icon(
-                                CustomIcons.star,
-                                size: 20,
-                                color: Colors.amber,
-                              ),
-                            ]),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Obx(
-                            () => controller.secondObject.isNotEmpty
-                                ? Container(
-                                    padding: const EdgeInsets.all(10),
-                                    decoration: const BoxDecoration(
-                                      color: AppColors.white,
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                const Icon(
+                                  CustomIcons.star,
+                                  size: 20,
+                                  color: Colors.amber,
+                                ),
+                              ]),
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Obx(
+                              () => controller.secondObject.isNotEmpty
+                                  ? Container(
+                                      padding: const EdgeInsets.all(10),
+                                      decoration: const BoxDecoration(
+                                        color: AppColors.white,
+                                      ),
+                                       constraints: BoxConstraints(
+                                          minHeight: Get.height * 0.29,
+                                          maxHeight:  Get.height * 0.30,
+                                        ),
+                                      child: 
+                                      ListView.builder(
+                                          // shrinkWrap: true,
+                                          padding:
+                                              const EdgeInsets.only(left: 10),
+                                          scrollDirection: Axis.horizontal,
+                                          itemCount:
+                                              controller.secondObject.length,
+                                          itemBuilder: (context, index) {
+                                            JobPost jobPost = controller
+                                                .secondObject[index];
+                                            var publishedDate =
+                                                jobPost.publishedDate;
+                                            var numberPublishDate =
+                                                jobPost.numOfPublishDay;
+                                            var expiredDate =
+                                                controller.getExpiredDate(
+                                                    publishedDate,
+                                                    numberPublishDate);
+                                            return FarmerSpecialPostCard(
+                                              backgroundColor: AppColors
+                                                  .markedBackgroundColor,
+                                              title: jobPost.title,
+                                              address: jobPost.address ?? '',
+                                              price: jobPost.payPerHourJob !=
+                                                      null
+                                                  ? jobPost
+                                                      .payPerHourJob!.salary
+                                                  : jobPost
+                                                      .payPerTaskJob!.salary,
+                                              treeType: jobPost
+                                                      .treeJobs.isEmpty
+                                                  ? "Không phân loại"
+                                                  : jobPost
+                                                          .treeJobs[0].type ??
+                                                      "Không phân loại", //no
+                                              workType:
+                                                  jobPost.payPerHourJob !=
+                                                          null
+                                                      ? AppStrings.payPerHour
+                                                      : AppStrings.payPerTask,
+                                              isStatus: true,
+                                              expiredDate:
+                                                  DateFormat('dd-MM-yyyy')
+                                                      .format(expiredDate),
+                                              isExpired:
+                                                  controller.checkExpiredDate(
+                                                      expiredDate),
+                                              onTap: () => {
+                                                Get.toNamed(
+                                                    Routes
+                                                        .farmerJobPostDetail,
+                                                    arguments: {
+                                                      Arguments.item: jobPost
+                                                    })
+                                              },
+                                            );
+                                          })
+                                    )
+                                  : Center(
+                                      child: Column(
+                                        children: [
+                                          Text(
+                                            AppStrings.noMarkedJobPost,
+                                            style: Get.textTheme.bodyMedium!
+                                                .copyWith(
+                                                    color: AppColors.grey),
+                                          ),
+                                          const SizedBox(height: 10),
+                                          const ImageIcon(
+                                              AssetImage(AppAssets.noJobFound),
+                                              size: 20,
+                                              color: AppColors.grey)
+                                        ],
+                                      ),
                                     ),
-                                    child: SizedBox(
-                                        height: Get.height * 0.29,
-                                        child: ListView.builder(
-                                            padding:
-                                                const EdgeInsets.only(left: 10),
-                                            scrollDirection: Axis.horizontal,
-                                            itemCount:
-                                                controller.secondObject.length,
-                                            itemBuilder: (context, index) {
-                                              JobPost jobPost = controller
-                                                  .secondObject[index];
-                                              var publishedDate =
-                                                  jobPost.publishedDate;
-                                              var numberPublishDate =
-                                                  jobPost.numOfPublishDay;
-                                              var expiredDate =
-                                                  controller.getExpiredDate(
-                                                      publishedDate,
-                                                      numberPublishDate);
-                                              return FarmerSpecialPostCard(
-                                                backgroundColor: AppColors
-                                                    .markedBackgroundColor,
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            Container(
+                              padding: const EdgeInsets.all(11.0),
+                              decoration: const BoxDecoration(
+                                color: AppColors.white,
+                              ),
+                              child: Row(children: [
+                                Container(
+                                  margin: const EdgeInsets.only(left: 20),
+                                  child: Text(
+                                    "Công việc",
+                                    style: Get.textTheme.headline2?.copyWith(
+                                      color: AppColors.primaryColor,
+                                      fontWeight: FontWeight.w500,
+                                      letterSpacing: 2,
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                const ImageIcon(
+                                    AssetImage(AppAssets.noJobFound),
+                                    size: 20,
+                                    color: AppColors.brown)
+                              ]),
+                            ),
+                            Obx(
+                              () => controller.listObject.isNotEmpty
+                                  ? Flexible(
+                                      child: ListView.builder(
+                                          padding: const EdgeInsets.only(
+                                            left: 5.0,
+                                            right: 5.0,
+                                          ),
+                                          itemCount:
+                                              controller.listObject.length,
+                                          physics:
+                                              const NeverScrollableScrollPhysics(),
+                                          shrinkWrap: true,
+                                          itemBuilder: (context, index) {
+                                            JobPost jobPost =
+                                                controller.listObject[index];
+                                            var publishedDate =
+                                                jobPost.publishedDate;
+                                            var numberPublishDate =
+                                                jobPost.numOfPublishDay;
+                                            var expiredDate =
+                                                controller.getExpiredDate(
+                                                    publishedDate,
+                                                    numberPublishDate);
+                                            return Padding(
+                                              padding: EdgeInsets.only(
+                                                  top: Get.height * 0.02),
+                                              child: FarmerPostCard(
                                                 title: jobPost.title,
                                                 address: jobPost.address ?? '',
                                                 price: jobPost.payPerHourJob !=
@@ -168,147 +285,45 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
                                                             null
                                                         ? AppStrings.payPerHour
                                                         : AppStrings.payPerTask,
-                                                isStatus: true,
                                                 expiredDate:
                                                     DateFormat('dd-MM-yyyy')
                                                         .format(expiredDate),
                                                 isExpired:
                                                     controller.checkExpiredDate(
                                                         expiredDate),
-                                                onTap: () => {
+                                                onTap: () {
                                                   Get.toNamed(
                                                       Routes
                                                           .farmerJobPostDetail,
                                                       arguments: {
                                                         Arguments.item: jobPost
-                                                      })
+                                                      });
                                                 },
-                                              );
-                                            })),
-                                  )
-                                : Center(
-                                    child: Column(
-                                      children: [
-                                        Text(
-                                          AppStrings.noMarkedJobPost,
-                                          style: Get.textTheme.bodyMedium!
-                                              .copyWith(color: AppColors.grey),
-                                        ),
-                                        const SizedBox(height: 10),
-                                        const ImageIcon(
-                                            AssetImage(AppAssets.noJobFound),
-                                            size: 20,
-                                            color: AppColors.grey)
-                                      ],
+                                              ),
+                                            );
+                                          }),
+                                    )
+                                  : Center(
+                                      child: Column(
+                                        children: [
+                                          Text(
+                                            AppStrings.noMarkedJobPost,
+                                            style: Get.textTheme.bodyMedium!
+                                                .copyWith(
+                                                    color: AppColors.grey),
+                                          ),
+                                          const SizedBox(height: 10),
+                                          const ImageIcon(
+                                              AssetImage(AppAssets.noJobFound),
+                                              size: 20,
+                                              color: AppColors.grey)
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          Container(
-                            padding: const EdgeInsets.all(11.0),
-                            decoration: const BoxDecoration(
-                              color: AppColors.white,
-                            ),
-                            child: Row(children: [
-                              Container(
-                                margin: const EdgeInsets.only(left: 20),
-                                child: Text(
-                                  "Công việc",
-                                  style: Get.textTheme.headline2?.copyWith(
-                                    color: AppColors.primaryColor,
-                                    fontWeight: FontWeight.w500,
-                                    letterSpacing: 2,
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              const ImageIcon(AssetImage(AppAssets.noJobFound),
-                                  size: 20, color: AppColors.brown)
-                            ]),
-                          ),
-                          Obx(
-                            () => controller.listObject.isNotEmpty
-                                ? Flexible(
-                                    child: ListView.builder(
-                                        padding: const EdgeInsets.only(
-                                          left: 5.0,
-                                          right: 5.0,
-                                        ),
-                                        itemCount: controller.listObject.length,
-                                        physics:
-                                            const NeverScrollableScrollPhysics(),
-                                        shrinkWrap: true,
-                                        itemBuilder: (context, index) {
-                                          JobPost jobPost =
-                                              controller.listObject[index];
-                                          var publishedDate =
-                                              jobPost.publishedDate;
-                                          var numberPublishDate =
-                                              jobPost.numOfPublishDay;
-                                          var expiredDate =
-                                              controller.getExpiredDate(
-                                                  publishedDate,
-                                                  numberPublishDate);
-                                          return Padding(
-                                            padding: EdgeInsets.only(
-                                                top: Get.height * 0.02),
-                                            child: FarmerPostCard(
-                                              title: jobPost.title,
-                                              address: jobPost.address ?? '',
-                                              price:
-                                                  jobPost.payPerHourJob != null
-                                                      ? jobPost
-                                                          .payPerHourJob!.salary
-                                                      : jobPost.payPerTaskJob!
-                                                          .salary,
-                                              treeType: jobPost.treeJobs.isEmpty
-                                                  ? "Không phân loại"
-                                                  : jobPost.treeJobs[0].type ??
-                                                      "Không phân loại", //no
-                                              workType:
-                                                  jobPost.payPerHourJob != null
-                                                      ? AppStrings.payPerHour
-                                                      : AppStrings.payPerTask,
-                                              expiredDate:
-                                                  DateFormat('dd-MM-yyyy')
-                                                      .format(expiredDate),
-                                              isExpired:
-                                                  controller.checkExpiredDate(
-                                                      expiredDate),
-                                              onTap: () {
-                                                Get.toNamed(
-                                                    Routes.farmerJobPostDetail,
-                                                    arguments: {
-                                                      Arguments.item: jobPost
-                                                    });
-                                              },
-                                            ),
-                                          );
-                                        }),
-                                  )
-                                : Center(
-                                    child: Column(
-                                      children: [
-                                        Text(
-                                          AppStrings.noMarkedJobPost,
-                                          style: Get.textTheme.bodyMedium!
-                                              .copyWith(color: AppColors.grey),
-                                        ),
-                                        const SizedBox(height: 10),
-                                        const ImageIcon(
-                                            AssetImage(AppAssets.noJobFound),
-                                            size: 20,
-                                            color: AppColors.grey)
-                                      ],
-                                    ),
-                                  ),
-                          )
-                        ],
-                      ),
+                            )
+                          ],
+                        ),
+                      
                     );
                   }),
                 );

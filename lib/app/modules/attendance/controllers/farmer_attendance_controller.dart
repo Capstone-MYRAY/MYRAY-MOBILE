@@ -109,6 +109,7 @@ class FarmerAttendanceController extends GetxController {
   showDetailAttendance(
       BuildContext context, AttendanceResponse attendanceResponse) async {
     int status = attendanceResponse.status;
+    print('Status: $status');
     if (status == 1) {
       GetAttendanceByDateRequest data = GetAttendanceByDateRequest(
         jobPostId: currentJobPost.id.toString(),
@@ -139,43 +140,47 @@ class FarmerAttendanceController extends GetxController {
             title: 'Thất bại',
             content: const Center(child: Text('Không thể tải dữ liệu')));
       }
+      return;
     }
 
     if (status == 0) {
       CustomInformationDialog.show(
           title: 'Thông báo',
           content: const Center(child: Text('Bạn đã vắng mặt')));
+      return;
     }
 
     if (status == 4) {
       CustomInformationDialog.show(
-          title: 'Đã xin nghỉ',
-          content: Container(
-            margin: const EdgeInsets.only(left: 10),
-            child: Row(
-              children: [
-                Text(
-                  'Lý do:',
+        title: 'Đã xin nghỉ',
+        content: Container(
+          margin: const EdgeInsets.only(left: 10),
+          child: Row(
+            children: [
+              Text(
+                'Lý do:',
+                style: Get.textTheme.labelMedium!.copyWith(
+                  fontWeight: FontWeight.w500,
+                  fontSize: Get.textScaleFactor * 16,
+                ),
+              ),
+              const SizedBox(
+                width: 10,
+              ),
+              Expanded(
+                child: Text(
+                  attendanceResponse.reason ?? 'Không có lý do',
                   style: Get.textTheme.labelMedium!.copyWith(
-                    fontWeight: FontWeight.w500,
-                    fontSize: Get.textScaleFactor * 16,
-                  ),
+                      fontSize: Get.textScaleFactor * 16,
+                      color: AppColors.black),
+                  textAlign: TextAlign.start,
                 ),
-                const SizedBox(
-                  width: 10,
-                ),
-                Expanded(
-                  child: Text(
-                    attendanceResponse.reason ?? 'Không có lý do',
-                    style: Get.textTheme.labelMedium!.copyWith(
-                        fontSize: Get.textScaleFactor * 16,
-                        color: AppColors.black),
-                    textAlign: TextAlign.start,
-                  ),
-                ),
-              ],
-            ),
-          ));
+              ),
+            ],
+          ),
+        ),
+      );
+      return;
     }
   }
 }
