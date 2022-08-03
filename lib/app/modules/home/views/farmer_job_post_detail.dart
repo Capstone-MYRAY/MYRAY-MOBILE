@@ -38,20 +38,20 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
                 // isExpired: false,
                 onPressedOutlineButton: controller.navigateToChatScreen,
                 onPressedFilledButton: () {
-                  if (controller.jobPost.type == 'PayPerHourJob') {
-                    controller.checkAppliedHourJob();
-                    if (controller.isAppliedHourJob.value) {
-                      InformationDialog.showDialog(
-                        msg:
-                            ' Bạn đã ứng tuyển một công việc có loại hình làm công',
-                        confirmTitle: "Đóng",
-                      );
-                      return;
-                    }
-                  }
+                  // if (controller.jobPost.type == 'PayPerHourJob') {
+                  //   controller.checkAppliedHourJob();
+                  //   if (controller.isAppliedHourJob.value) {
+                  //     InformationDialog.showDialog(
+                  //       msg:
+                  //           ' Bạn đã ứng tuyển một công việc có loại hình làm công',
+                  //       confirmTitle: "Đóng",
+                  //     );
+                  //     return;
+                  //   }
+                  // }
                   CustomDialog.show(
                       confirm: () => controller.applyJob(controller.jobPost.id),
-                      message: "${AppMsg.MSG3005}");
+                      message: AppMsg.MSG3005);
                 },
               ),
       ),
