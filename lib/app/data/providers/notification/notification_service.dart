@@ -2,11 +2,13 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:myray_mobile/app/data/enums/enums.dart';
 import 'package:myray_mobile/app/data/models/job_post/job_post.dart';
+import 'package:myray_mobile/app/data/models/payment_history/payment_history_models.dart';
 import 'package:myray_mobile/app/modules/applied_farmer/controllers/applied_farmer_controller.dart';
 import 'package:myray_mobile/app/modules/applied_farmer/controllers/extend_job_controller.dart';
 import 'package:myray_mobile/app/modules/applied_farmer/controllers/wating_approve_tab_controller.dart';
 import 'package:myray_mobile/app/modules/dashboard/controllers/dashboard_controller.dart';
 import 'package:myray_mobile/app/modules/job_post/controllers/landowner_job_post_controller.dart';
+import 'package:myray_mobile/app/modules/payment_history/controllers/payment_history_controllers.dart';
 import 'package:myray_mobile/app/modules/profile/controllers/landowner_profile_controller.dart';
 import 'package:myray_mobile/app/routes/app_pages.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
@@ -44,7 +46,12 @@ class NotificationService {
     }
   }
 
-  void Function()? delegateOnTap(String type, Map<String, dynamic> data) {
+  void Function()? serviceDelegate(String type, Map<String, dynamic> data) {
+    //Top up account
+    if (Utils.equalsIgnoreCase(type, NotificationTypes.topUp.name)) {
+      return () => _navigateToPaymentHistoryDetails(data);
+    }
+
     //Job post is approved or denied
     if (Utils.equalsIgnoreCase(type, NotificationTypes.jobPost.name)) {
       return () => _navigateToJobPostDetails(data);
@@ -66,6 +73,56 @@ class NotificationService {
   _popUntilHome() {
     if (!_isFirst) {
       Get.until((route) => route.isFirst);
+    }
+  }
+
+  _navigateToPaymentHistoryDetails(Map<String, dynamic> data) async {
+    try {
+      Get.toNamed(Routes.paymentHistoryHome);
+
+      //TODO: wait for Lâm to reduce delay time
+      await Future.delayed(const Duration(milliseconds: 500));
+
+      final controller = Get.find<PaymentHistoryHomeController>();
+
+      if (data['paymentHistoryId'] == null) {
+        throw CustomException('Không có payment history id!');
+      }
+
+      int id = int.parse(data['paymentHistoryId']);
+
+      PaymentHistory? payment = controller.findById(id);
+      EasyLoading.show();
+      payment ??= await controller.getById(id);
+      EasyLoading.dismiss();
+
+      if (payment == null) {
+        throw CustomException('payment null');
+      }
+
+      _popUntilHome();
+
+      Get.toNamed(
+        Routes.paymentHistoryDetails,
+        arguments: {
+          Arguments.tag: payment.id.toString(),
+          Arguments.item: payment,
+        },
+      );
+
+      //change tab
+      _dashboardController.changeTabIndex(LandownerTabs.profile.index);
+    } catch (e) {
+      print(e.toString());
+      if (EasyLoading.isShow) {
+        EasyLoading.dismiss();
+      }
+
+      CustomSnackbar.show(
+        title: AppStrings.titleError,
+        message: 'Có lỗi xảy ra',
+        backgroundColor: AppColors.errorColor,
+      );
     }
   }
 

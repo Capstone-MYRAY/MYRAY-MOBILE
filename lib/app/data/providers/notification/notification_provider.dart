@@ -47,13 +47,27 @@ class NotificationProvider {
       return Future.error('Notification service was denied');
     }
 
-    //Returns a Stream that is called when an incoming FCM payload is received whilst
-    //the Flutter instance is in the foreground.
-    //To handle messages whilst the app is in the background or terminated
+    _handleForegroundMessage();
+    _handleOnTapMessage();
+  }
+
+  _handleOnTapMessage() {
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      if (message.data.isNotEmpty) {
+        _serviceDelegate =
+            _service.serviceDelegate(message.data['type'] ?? '', message.data);
+        if (_serviceDelegate != null) {
+          _serviceDelegate!();
+        }
+      }
+    });
+  }
+
+  _handleForegroundMessage() {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       if (message.notification != null) {
         _serviceDelegate =
-            _service.delegateOnTap(message.data['type'] ?? '', message.data);
+            _service.serviceDelegate(message.data['type'] ?? '', message.data);
 
         Get.snackbar(
           message.notification!.title ?? '',
@@ -70,13 +84,15 @@ class NotificationProvider {
           snackPosition: SnackPosition.TOP,
           duration: const Duration(seconds: 5),
           dismissDirection: DismissDirection.up,
-          isDismissible: false,
           maxWidth: double.infinity,
           margin: EdgeInsets.zero,
           mainButton: _serviceDelegate == null
               ? null
               : TextButton(
-                  onPressed: _serviceDelegate,
+                  onPressed: () {
+                    _serviceDelegate!();
+                    Get.closeCurrentSnackbar();
+                  },
                   child: const Text('Chi tiết'),
                 ),
         );

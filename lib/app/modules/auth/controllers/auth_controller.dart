@@ -11,13 +11,14 @@ class AuthController extends GetxController with StorageProvider {
     removeToken();
 
     //unsubscribe topic
-    await NotificationProvider.instance
-        .unsubscribeTopic(AuthCredentials.instance.user!.id.toString());
+    String topic = AuthCredentials.instance.user!.id.toString();
 
     AuthCredentials.instance.clearUserInfor();
     //disconnect from hub when logout
     SignalRProvider.instance.stopHub();
+    Get.deleteAll();
     isLogged.value = false;
+    NotificationProvider.instance.unsubscribeTopic(topic);
   }
 
   Future<void> login(String token, String refreshToken) async {

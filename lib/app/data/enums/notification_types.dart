@@ -3,4 +3,5 @@ enum NotificationTypes {
   jobPost,
   appliedFarmer,
   extendRequest,
+  appliedResponse,
 }
