@@ -143,6 +143,7 @@ class GuidePostView extends GetView<GuidepostController> {
                             CommentModalBottomSheet.showCommentBox(
                               context: context,
                               guidePostId: guidepost.id,
+                              commentAccount: controller.commentAccount
                             );
                           },
                           child: Row(

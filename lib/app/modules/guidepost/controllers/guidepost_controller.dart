@@ -6,6 +6,7 @@ import 'package:myray_mobile/app/data/models/guidepost/get_guidepost_response.da
 import 'package:myray_mobile/app/data/models/guidepost/guidepost.dart';
 import 'package:myray_mobile/app/modules/guidepost/guidepost_repository.dart';
 import 'package:myray_mobile/app/modules/profile/profile_repository.dart';
+import 'package:myray_mobile/app/shared/utils/auth_credentials.dart';
 import 'package:myray_mobile/app/shared/utils/custom_exception.dart';
 import 'package:webviewx/webviewx.dart';
 
@@ -13,6 +14,7 @@ class GuidepostController extends GetxController {
   final GuidepostRepository _guidepostRepository =
       Get.find<GuidepostRepository>();
   final ProfileRepository _profileRepository = Get.find<ProfileRepository>();
+  Account? commentAccount;
   
   final int _pageSize = 5;
   int _currentPage = 0;
@@ -22,7 +24,17 @@ class GuidepostController extends GetxController {
   RxList<FullGuidepost> fullGuidePostList = RxList<FullGuidepost>();
 
   late WebViewXController webviewController;
-  
+
+  String roleUser = AuthCredentials.instance.user!.role!;
+  int currentUser = AuthCredentials.instance.user!.id!;
+
+
+
+  @override
+  void onInit() async {
+    commentAccount = await _getPerson(currentUser);
+    super.onInit();
+  }
 
   Future<bool?> getGuidepost() async {
     GetGuidepostRequest data = GetGuidepostRequest(
@@ -77,14 +89,14 @@ class GuidepostController extends GetxController {
       return;
     }
     for(int i = 0 ; i < list.length; i++){
-      Account? account = await _getCreatedPerson(list[i].createdBy);
+      Account? account = await _getPerson(list[i].createdBy);
       FullGuidepost fullGuidepost = FullGuidepost(guidepost: list[i], account: account);
       fullGuidePostList.add(fullGuidepost);
     }
     print('list length: ${fullGuidePostList.length}');
   }
 
-  Future<Account?> _getCreatedPerson(int createdBy) async {
+  Future<Account?> _getPerson(int createdBy) async {
     return await _profileRepository.getUser(createdBy); 
   }
 }
