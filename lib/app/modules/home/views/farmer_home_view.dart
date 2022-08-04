@@ -130,7 +130,7 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
                                       ),
                                        constraints: BoxConstraints(
                                           minHeight: Get.height * 0.29,
-                                          maxHeight:  Get.height * 0.30,
+                                          maxHeight:  Get.height * 0.32,
                                         ),
                                       child: 
                                       ListView.builder(
