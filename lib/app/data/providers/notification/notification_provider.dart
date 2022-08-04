@@ -54,6 +54,7 @@ class NotificationProvider {
 
   _handleTerminateMessage() {
     FirebaseMessaging.instance.getInitialMessage().then((message) {
+      print('getInitialMessage');
       if (message != null && message.data.isNotEmpty) {
         _serviceDelegate =
             _service.serviceDelegate(message.data['type'] ?? '', message.data);
@@ -66,6 +67,7 @@ class NotificationProvider {
 
   _handleOnTapMessage() {
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      print('onMessageOpenedApp');
       if (message.data.isNotEmpty) {
         _serviceDelegate =
             _service.serviceDelegate(message.data['type'] ?? '', message.data);
@@ -78,6 +80,7 @@ class NotificationProvider {
 
   _handleForegroundMessage() {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      print('onMessage');
       if (message.notification != null) {
         _serviceDelegate =
             _service.serviceDelegate(message.data['type'] ?? '', message.data);

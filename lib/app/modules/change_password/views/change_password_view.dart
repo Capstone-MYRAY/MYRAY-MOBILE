@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:myray_mobile/app/modules/change_password/controllers/change_password_controller.dart';
-import 'package:myray_mobile/app/shared/constants/app_colors.dart';
-import 'package:myray_mobile/app/shared/constants/app_strings.dart';
+import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
 import 'package:myray_mobile/app/shared/widgets/buttons/custom_text_button.dart';
 import 'package:myray_mobile/app/shared/widgets/controls/input_field.dart';
@@ -49,7 +48,7 @@ class ChangePasswordView extends GetView<ChangePasswordController> {
                               margin: const EdgeInsets.only(top: 9, left: 40),
                               child: Row(
                                 children: [
-                                  Text('Mật khẩu cũ không đúng',
+                                  Text(AppMsg.MSG7004,
                                       style: Get.textTheme.bodySmall!.copyWith(
                                           color: AppColors.errorColor,
                                           fontSize: Get.textScaleFactor * 13)),

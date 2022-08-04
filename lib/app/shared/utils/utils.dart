@@ -28,8 +28,8 @@ class Utils {
     return listEquals(encodeS1, encodeS2);
   }
 
-  static bool isWorkingAge(String dob, String patern) {
-    DateTime birthDate = DateFormat(patern).parse(dob);
+  static bool isWorkingAge(String dob, String pattern) {
+    DateTime birthDate = DateFormat(pattern).parse(dob);
     DateTime today = DateTime.now();
 
     DateTime workingDate = DateTime(

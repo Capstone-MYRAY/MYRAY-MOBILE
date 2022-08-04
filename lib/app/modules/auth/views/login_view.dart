@@ -67,7 +67,10 @@ class LoginView extends GetView<LoginController> {
                         ),
                         const SizedBox(height: 16.0),
                         GestureDetector(
-                          onTap: controller.navigateToForgotPasswordScreen,
+                          onTap: () {
+                            FocusScope.of(context).requestFocus(FocusNode());
+                            controller.navigateToForgotPasswordScreen();
+                          },
                           child: Text(
                             AppStrings.forgotPassword,
                             style: Get.textTheme.caption,
