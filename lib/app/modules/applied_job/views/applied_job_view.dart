@@ -55,7 +55,8 @@ class AppliedJobView extends GetView<AppliedJobController> {
                       FarmerOnLeaveList(),
                     ],
                   ),
-                )
+                ),
+                SizedBox(height: Get.height * 0.2),
               ]),
             ),
           ),

@@ -97,7 +97,7 @@ class FarmerJobPostDetailController extends GetxController with MessageService {
     Get.back();
     await _jobPostRepository.applyJob(idJobPost).then(
           (result) => {
-            if (result)
+            if (result || result == null)
               {
                 const LoadingBuilder(),
                 CustomSnackbar.show(
