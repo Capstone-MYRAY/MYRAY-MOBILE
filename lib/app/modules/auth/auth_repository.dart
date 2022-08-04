@@ -47,13 +47,13 @@ class AuthRepository {
     return null;
   }
 
-  Future<bool?> checkOldPassword(String oldPassword) async {
+  Future<bool> checkOldPassword(String oldPassword) async {
     final response =
         await _apiProvider.post('/authentication/checkpassword', oldPassword);
     if (response.statusCode == HttpStatus.ok) {
       return response.body;
     }
-    return null;
+    return false;
   }
 
   Future<bool> resetPassword(ResetPasswordRequest data) async {

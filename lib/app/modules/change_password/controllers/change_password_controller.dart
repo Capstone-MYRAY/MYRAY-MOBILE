@@ -33,11 +33,11 @@ class ChangePasswordController extends GetxController {
   }
 
   String? checkNewPassword(String? value) {
-    if (FieldValidation.instance.validatePassword(value) != null) {
-      return 'Vui lòng nhập mật mới';
+    if (Utils.isEmpty(value)) {
+      return AppMsg.MSG7005;
     }
     if (!Utils.limitPassword.hasMatch(value!)) {
-      return 'Mật khẩu không hợp lệ, cần ít nhất 8 ký tự';
+      return AppMsg.MSG6011;
     }
     return null;
   }
@@ -47,7 +47,7 @@ class ChangePasswordController extends GetxController {
       if (!isOldPassword.value) {
         return null;
       }
-      return 'Vui lòng nhập mật khẩu cũ';
+      return AppMsg.MSG7006;
     }
     _checkIfOldPassword(value!);
     return null;
@@ -55,10 +55,7 @@ class ChangePasswordController extends GetxController {
 
   _checkIfOldPassword(String password) async {
     _debouncer.run(() async {
-      bool? result = await _authRepository.checkOldPassword(password);
-      if (result != null) {
-        isOldPassword.value = result;
-      }
+      isOldPassword.value = await _authRepository.checkOldPassword(password);
     });
   }
 

@@ -49,7 +49,7 @@ class ResetPasswordController extends GetxController {
       Get.back(); //back to login screen
 
       CustomSnackbar.show(
-        title: AppStrings.titleError,
+        title: AppStrings.titleSuccess,
         message:
             'Mật khẩu mới đã được gửi đến số điện thoại ${phoneController.text}',
       );
