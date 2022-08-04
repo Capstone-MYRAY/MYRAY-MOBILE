@@ -19,10 +19,9 @@ class HistoryJobHomeView extends StatelessWidget {
           children: [
             Text('Dash board'),
             Container(
-              height: Get.height * 0.3,
-              child: CardFunction(title: 'Đã ứng tuyển', icon: Icons.history, onTap: (){
-
-              }),
+              child: Card(
+                child: Text('Đã ứng tuyển'),
+              ),
             ),
             // CardFunction(title: 'Đã làm việc', icon: Icons.history, onTap: (){
             //   Get.toNamed(Routes.farmerHistoryJob);
