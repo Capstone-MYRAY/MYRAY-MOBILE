@@ -28,6 +28,7 @@ class AppMsg {
   static const MSG6008 = 'Mã OTP không đúng';
   static const MSG6009 = 'Đăng ký tài khoản thành công!';
   static const MSG6010 = 'Tài khoản của bạn đã bị khóa';
+  static const MSG6011 = 'Mật khẩu tối thiểu 8 ký tự và tối đa 30 ký tự';
 
   static const MSG3005 = 'Bạn muốn ứng tuyển vào công việc này? ';
   static const MSG3006 = 'Ứng tuyển thành công!';

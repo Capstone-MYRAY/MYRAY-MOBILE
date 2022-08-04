@@ -65,7 +65,7 @@ class SignupController extends GetxController {
     }
 
     if (!Utils.limitPassword.hasMatch(value)) {
-      return 'Mật khẩu tối thiểu 8 ký tự và tối đa 30 ký tự';
+      return AppMsg.MSG6011;
     }
 
     return null;

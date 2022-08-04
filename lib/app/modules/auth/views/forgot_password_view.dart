@@ -44,18 +44,24 @@ class ForgotPasswordView extends GetView<ResetPasswordController> {
                         style: Get.textTheme.caption,
                       ),
                       const SizedBox(height: 16),
-                      InputField(
-                        controller: controller.phoneController,
-                        icon: const Icon(CustomIcons.phone_outline),
-                        labelText: AppStrings.labelPhone,
-                        placeholder: AppStrings.placeholderPhone,
-                        keyBoardType: TextInputType.phone,
-                        validator: FieldValidation.instance.validatePhone,
+                      Form(
+                        key: controller.formKey,
+                        child: InputField(
+                          controller: controller.phoneController,
+                          icon: const Icon(CustomIcons.phone_outline),
+                          labelText: AppStrings.labelPhone,
+                          placeholder: AppStrings.placeholderPhone,
+                          keyBoardType: TextInputType.phone,
+                          validator: FieldValidation.instance.validatePhone,
+                        ),
                       ),
                       const SizedBox(height: 24),
                       ElevatedButton(
-                        onPressed: controller.navigateToOtpScreen,
-                        child: const Text(AppStrings.titleSendOtp),
+                        onPressed: () {
+                          FocusScope.of(context).requestFocus(FocusNode());
+                          controller.resetPassword();
+                        },
+                        child: const Text(AppStrings.resetPassword),
                       ),
                     ],
                   ),
