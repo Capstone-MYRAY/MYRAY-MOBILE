@@ -13,7 +13,8 @@ class FieldValidation {
     }
 
     if (!Utils.isAlphabet.hasMatch(value) ||
-        value.length < 3 && value.length > 50) {
+        value.length < 3 ||
+        value.length > 50) {
       return AppMsg.MSG6005;
     }
 

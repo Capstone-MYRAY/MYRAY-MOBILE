@@ -5,6 +5,7 @@ import 'package:myray_mobile/app/data/models/auth/auth_request.dart';
 import 'package:myray_mobile/app/data/models/auth/auth_response.dart';
 import 'package:myray_mobile/app/data/models/auth/signup_request.dart';
 import 'package:myray_mobile/app/data/models/change_password/change_password.dart';
+import 'package:myray_mobile/app/data/models/reset_password/reset_password_request.dart';
 import 'package:myray_mobile/app/data/providers/api/api_provider.dart';
 import 'package:myray_mobile/app/shared/utils/custom_exception.dart';
 
@@ -46,12 +47,23 @@ class AuthRepository {
     return null;
   }
 
-  Future<bool?> checkOldPassword(String oldPassword) async {
+  Future<bool> checkOldPassword(String oldPassword) async {
     final response =
         await _apiProvider.post('/authentication/checkpassword', oldPassword);
     if (response.statusCode == HttpStatus.ok) {
       return response.body;
     }
-    return null;
+    return false;
+  }
+
+  Future<bool> resetPassword(ResetPasswordRequest data) async {
+    final response = await _apiProvider.postMethod(
+        '/authentication/resetpassword', data.toJson());
+
+    if (response.isOk) {
+      return true;
+    }
+
+    return false;
   }
 }

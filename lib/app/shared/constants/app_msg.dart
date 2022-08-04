@@ -9,6 +9,11 @@ class AppMsg {
   static const MSG0005 = 'Vui lòng nhập số thực lớn hơn 0';
   static const MSG0009 = 'Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại';
   static const MSG0010 = 'Vui lòng nhập số nguyên lớn hơn 0';
+
+  static const MSG3005 = 'Bạn muốn ứng tuyển vào công việc này? ';
+  static const MSG3006 = 'Ứng tuyển thành công!';
+  static const MSG3007 = 'Ứng tuyển không thành công!';
+
   static const MSG4004 = 'Số ngày đăng tối thiểu là 3 ngày';
   static const MSG4006 = 'Bạn đã tạo công việc thành công';
   static const MSG4007 = 'Bạn có muốn xóa công việc này không?';
@@ -18,6 +23,7 @@ class AppMsg {
   static const MSG4011 = 'Bạn đã thêm vườn thành công';
   static const MSG4013 = 'Bạn có muốn xóa mảnh vườn này không?';
   static const MSG4014 = 'Bạn đã xóa mảnh vườn thành công';
+
   static const MSG6001 = 'Số điện thoại này đã được đăng ký';
   static const MSG6002 = 'Số điện thoại không có trong hệ thống';
   static const MSG6003 = 'Mật khẩu không đúng';
@@ -28,8 +34,9 @@ class AppMsg {
   static const MSG6008 = 'Mã OTP không đúng';
   static const MSG6009 = 'Đăng ký tài khoản thành công!';
   static const MSG6010 = 'Tài khoản của bạn đã bị khóa';
+  static const MSG6011 = 'Mật khẩu tối thiểu 8 ký tự và tối đa 30 ký tự';
 
-  static const MSG3005 = 'Bạn muốn ứng tuyển vào công việc này? ';
-  static const MSG3006 = 'Ứng tuyển thành công!';
-  static const MSG3007 = 'Ứng tuyển không thành công!';
+  static const MSG7004 = 'Mật khẩu cũ không đúng';
+  static const MSG7005 = 'Vui lòng nhập mật khẩu mới';
+  static const MSG7006 = 'Vui lòng nhập mật khẩu cũ';
 }
