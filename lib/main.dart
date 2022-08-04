@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:myray_mobile/app/data/providers/notification/notification_provider.dart';
 import 'package:myray_mobile/app_binding.dart';
 import 'package:myray_mobile/app/routes/app_pages.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
@@ -18,6 +19,7 @@ void main() async {
   await GetStorage.init(CommonConstants.appName);
 
   await FlutterConfig.loadEnvVariables();
+  await NotificationProvider.instance.initialize();
 
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     statusBarColor: AppColors.featureColor,
