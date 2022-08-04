@@ -8,7 +8,7 @@ import 'package:myray_mobile/app/modules/applied_farmer/controllers/extend_job_c
 import 'package:myray_mobile/app/modules/applied_farmer/controllers/wating_approve_tab_controller.dart';
 import 'package:myray_mobile/app/modules/dashboard/controllers/dashboard_controller.dart';
 import 'package:myray_mobile/app/modules/job_post/controllers/landowner_job_post_controller.dart';
-import 'package:myray_mobile/app/modules/payment_history/controllers/payment_history_controllers.dart';
+import 'package:myray_mobile/app/modules/payment_history/payment_history_repository.dart';
 import 'package:myray_mobile/app/modules/profile/controllers/landowner_profile_controller.dart';
 import 'package:myray_mobile/app/routes/app_pages.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
@@ -22,9 +22,6 @@ class NotificationService {
   static NotificationService get instance => _instance;
 
   bool get _isFirst => Get.currentRoute == Routes.init;
-
-  final _dashboardController = Get.find<DashboardController>();
-  final _waitingApproveTabController = Get.find<WaitingApproveTabController>();
 
   updateData(String type, Map<String, dynamic> data) {
     if (Utils.equalsIgnoreCase(type, NotificationTypes.topUp.name)) {
@@ -76,24 +73,24 @@ class NotificationService {
     }
   }
 
+  _changeDashBoardTab(int index) {
+    final dashboardController = Get.find<DashboardController>();
+    dashboardController.changeTabIndex(index);
+  }
+
+  _changeWaitingApproveTab(int index) {
+    final waitingApproveTabController = Get.find<WaitingApproveTabController>();
+    waitingApproveTabController.tabController.animateTo(index);
+  }
+
   _navigateToPaymentHistoryDetails(Map<String, dynamic> data) async {
     try {
-      Get.toNamed(Routes.paymentHistoryHome);
-
-      //TODO: wait for Lâm to reduce delay time
-      await Future.delayed(const Duration(milliseconds: 500));
-
-      final controller = Get.find<PaymentHistoryHomeController>();
-
-      if (data['paymentHistoryId'] == null) {
-        throw CustomException('Không có payment history id!');
-      }
+      final paymentHistoryRepository = Get.find<PaymentHistoryRepository>();
 
       int id = int.parse(data['paymentHistoryId']);
 
-      PaymentHistory? payment = controller.findById(id);
       EasyLoading.show();
-      payment ??= await controller.getById(id);
+      PaymentHistory? payment = await paymentHistoryRepository.getById(id);
       EasyLoading.dismiss();
 
       if (payment == null) {
@@ -101,6 +98,7 @@ class NotificationService {
       }
 
       _popUntilHome();
+      Get.toNamed(Routes.paymentHistoryHome);
 
       Get.toNamed(
         Routes.paymentHistoryDetails,
@@ -111,7 +109,8 @@ class NotificationService {
       );
 
       //change tab
-      _dashboardController.changeTabIndex(LandownerTabs.profile.index);
+      final dashboardController = Get.find<DashboardController>();
+      dashboardController.changeTabIndex(LandownerTabs.profile.index);
     } catch (e) {
       print(e.toString());
       if (EasyLoading.isShow) {
@@ -156,7 +155,7 @@ class NotificationService {
       );
 
       //change tab
-      _dashboardController.changeTabIndex(LandownerTabs.jobPost.index);
+      _changeDashBoardTab(LandownerTabs.jobPost.index);
     } catch (e) {
       print(e.toString());
       if (EasyLoading.isShow) {
@@ -172,16 +171,14 @@ class NotificationService {
   }
 
   _navigateToAppliedFarmer() {
-    _dashboardController.changeTabIndex(LandownerTabs.appliedFarmer.index);
-    _waitingApproveTabController.tabController
-        .animateTo(WaitingApproveTabs.appliedFarmer.index);
+    _changeDashBoardTab(LandownerTabs.appliedFarmer.index);
+    _changeWaitingApproveTab(WaitingApproveTabs.appliedFarmer.index);
     _popUntilHome();
   }
 
   _navigateToExtendJob() {
-    _dashboardController.changeTabIndex(LandownerTabs.appliedFarmer.index);
-    _waitingApproveTabController.tabController
-        .animateTo(WaitingApproveTabs.extendRequest.index);
+    _changeDashBoardTab(LandownerTabs.appliedFarmer.index);
+    _changeWaitingApproveTab(WaitingApproveTabs.extendRequest.index);
     _popUntilHome();
   }
 }

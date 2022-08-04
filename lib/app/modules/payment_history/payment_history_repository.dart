@@ -17,4 +17,15 @@ class PaymentHistoryRepository {
 
     return null;
   }
+
+  Future<PaymentHistory?> getById(int paymentId) async {
+    final response =
+        await _apiProvider.getMethod('/paymenthistory/id/$paymentId');
+
+    if (response.statusCode == HttpStatus.ok) {
+      return PaymentHistory.fromJson(response.body);
+    }
+
+    return null;
+  }
 }
