@@ -52,6 +52,7 @@ class AppliedJobList extends GetView<AppliedJobController> {
         return Obx(() => LazyLoadingList(
             onEndOfPage: controller.getAppliedJobList,
             onRefresh: controller.onRefresh,
+            // itemCount: 100,
             itemCount: controller.appliedJobPostResponse.isEmpty
                 ? 1
                 : controller.appliedJobPostResponse.length,
@@ -82,7 +83,7 @@ class AppliedJobList extends GetView<AppliedJobController> {
               JobPost jobPost =
                   controller.appliedJobPostResponse[index].jobPost;
               return Container(
-                  padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
+                  padding: const EdgeInsets.only(top: 10, left: 10, right: 10, bottom: 20),
                   child: Card(
                       color: AppColors.white,
                       child: Padding(
@@ -234,8 +235,10 @@ class AppliedJobList extends GetView<AppliedJobController> {
                           ),
                         ]),
                       )));
-              // return SizedBox();
             })));
+              // return ListView.builder(itemCount: 1000, itemBuilder: ((context, index) {
+              //   return SizedBox(child: Text('hello'));
+              // }));
 
         // return const SizedBox();
       }),

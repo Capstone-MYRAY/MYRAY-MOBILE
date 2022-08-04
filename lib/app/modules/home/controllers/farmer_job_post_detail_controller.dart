@@ -81,7 +81,7 @@ class FarmerJobPostDetailController extends GetxController with MessageService {
   getExpiredDate(DateTime publishedDate, int numberPublishDate) {
     var publishDate = publishedDate.toLocal();
     var expiredDate = DateTime(publishDate.year, publishDate.month,
-        publishDate.day + numberPublishDate - 1);
+        publishDate.day + numberPublishDate);
     return expiredDate;
   }
 
@@ -97,7 +97,7 @@ class FarmerJobPostDetailController extends GetxController with MessageService {
     Get.back();
     await _jobPostRepository.applyJob(idJobPost).then(
           (result) => {
-            if (result)
+            if (result || result == null)
               {
                 const LoadingBuilder(),
                 CustomSnackbar.show(

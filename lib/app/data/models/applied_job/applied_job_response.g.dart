@@ -13,6 +13,7 @@ AppliedJobResponse _$AppliedJobResponseFromJson(Map<String, dynamic> json) =>
       appliedDate: DateTime.parse(json['applied_date'] as String),
       appliedByNavigation: Account.fromJson(
           json['applied_by_navigation'] as Map<String, dynamic>),
+      status: json['status'] as int,
     );
 
 Map<String, dynamic> _$AppliedJobResponseToJson(AppliedJobResponse instance) =>
@@ -21,4 +22,5 @@ Map<String, dynamic> _$AppliedJobResponseToJson(AppliedJobResponse instance) =>
       'job_post': instance.jobPost,
       'applied_date': instance.appliedDate.toIso8601String(),
       'applied_by_navigation': instance.appliedByNavigation,
+      'status': instance.status,
     };

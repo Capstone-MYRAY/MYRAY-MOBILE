@@ -58,7 +58,7 @@ class FarmerOnLeaveList extends StatelessWidget{
                         margin: const EdgeInsets.only(top: 15, bottom: 15),
                         child: FarmerOnLeaveCard(
                             job: dayOff.appliedJobTitle,
-                            submitDate: dayOff.createdDateJob ?? DateTime.now(),
+                            submitDate: dayOff.createdDate ?? DateTime.now(),
                             dayOffDate: dayOff.date,
                             numOfOnleaveDays: 3,
                             reason: dayOff.reason ?? 'Không có lý do',
@@ -99,9 +99,9 @@ class FarmerOnLeaveList extends StatelessWidget{
                                             SizedBox(width: Get.width * 0.07),
                                             Expanded(
                                               child: Text(
-                                                dayOff.createdDateJob != null
+                                                dayOff.createdDate != null
                                                     ? Utils.formatddMMyyyy(
-                                                        dayOff.createdDateJob!)
+                                                        dayOff.createdDate!)
                                                     : 'Đang cập nhật',
                                                 style: Get.textTheme.bodyText2!
                                                     .copyWith(

@@ -15,9 +15,9 @@ DayOff _$DayOffFromJson(Map<String, dynamic> json) => DayOff(
       appliedJobId: json['applied_job_id'] as int,
       appliedJobTitle: json['applied_job_title'] as String,
       reason: json['reason'] as String?,
-      createdDateJob: json['created_date_job'] == null
+      createdDate: json['created_date'] == null
           ? null
-          : DateTime.parse(json['created_date_job'] as String),
+          : DateTime.parse(json['created_date'] as String),
       accountId: json['account_id'] as int,
       fullname: json['fullname'] as String,
       phoneNumber: json['phone_number'] as String,
@@ -35,7 +35,7 @@ Map<String, dynamic> _$DayOffToJson(DayOff instance) {
     }
   }
 
-  writeNotNull('created_date_job', instance.createdDateJob?.toIso8601String());
+  writeNotNull('created_date', instance.createdDate?.toIso8601String());
   val['salary'] = instance.salary;
   val['bonus_point'] = instance.bonusPoint;
   val['status'] = instance.status;

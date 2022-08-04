@@ -291,7 +291,10 @@ class AppliedJobController extends GetxController
 
         Future.delayed(const Duration(milliseconds: 1200), () {
           if (result!) {
-            EasyLoading.showSuccess('Cập nhật thành công !');
+             CustomSnackbar.show(
+                title: "Thành công",
+                message: 'Cập nhật yêu cầu gia hạn thất bại',
+                backgroundColor: AppColors.primaryColor);
             Future.delayed(const Duration(milliseconds: 1000), () {
               onRefreshExtendPage();
               EasyLoading.dismiss();

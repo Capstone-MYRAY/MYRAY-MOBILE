@@ -86,6 +86,7 @@ class FarmerBookmark extends GetView<FarmerBookmarkController> {
                   padding: EdgeInsets.only(top: Get.height * 0.02),
                   child: BookmarkCard(
                     fullName: bookmark.bookmarkNavigation.fullName,
+                    avatar: bookmark.bookmarkNavigation.imageUrl,
                     onViewDetails: () {
                       print('show detail');
                     },
