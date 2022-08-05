@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:get/get.dart';
 import 'package:myray_mobile/app/data/models/account.dart';
 import 'package:myray_mobile/app/data/models/guidepost/full_guidepost.dart';
@@ -15,7 +17,7 @@ class GuidepostController extends GetxController {
       Get.find<GuidepostRepository>();
   final ProfileRepository _profileRepository = Get.find<ProfileRepository>();
   Account? commentAccount;
-  
+
   final int _pageSize = 5;
   int _currentPage = 0;
   bool _hasNextPage = true;
@@ -28,12 +30,22 @@ class GuidepostController extends GetxController {
   String roleUser = AuthCredentials.instance.user!.role!;
   int currentUser = AuthCredentials.instance.user!.id!;
 
-
+  //show more by tap
+  int currentGuidePostIndex = -1.obs;
 
   @override
   void onInit() async {
     commentAccount = await _getPerson(currentUser);
     super.onInit();
+  }
+
+  Map detailGuidePost = {}.obs;
+
+  onShowDetail(int guidePostIndex) {
+    bool? beforeIndex = detailGuidePost[guidePostIndex];
+    if (beforeIndex != null) {
+      detailGuidePost[guidePostIndex] = !beforeIndex;
+    }
   }
 
   Future<bool?> getGuidepost() async {
@@ -52,6 +64,7 @@ class GuidepostController extends GetxController {
         }
         // guidepostList.addAll(loadList.listObject ?? []);
         await _createGuidePostList(loadList.listObject ?? []);
+
         _hasNextPage = loadList.pagingMetadata!.hasNextPage;
       }
       isLoading(false);
@@ -78,25 +91,34 @@ class GuidepostController extends GetxController {
     if (content.contains('oembed')) {
       tempt = content.replaceAll('oembed', 'iframe');
       tempt = tempt.replaceAll('url', 'src');
-    print('temp: $tempt');
+      print('temp: $tempt');
       return tempt;
     }
     return content;
   }
 
-  _createGuidePostList(List<Guidepost> list) async{
-    if(list.isEmpty){
+  _createGuidePostList(List<Guidepost> list) async {
+    if (list.isEmpty) {
       return;
     }
-    for(int i = 0 ; i < list.length; i++){
+    for (int i = 0; i < list.length; i++) {
       Account? account = await _getPerson(list[i].createdBy);
-      FullGuidepost fullGuidepost = FullGuidepost(guidepost: list[i], account: account);
+      FullGuidepost fullGuidepost =
+          FullGuidepost(guidepost: list[i], account: account);
       fullGuidePostList.add(fullGuidepost);
     }
+    if (detailGuidePost.isNotEmpty) {
+      detailGuidePost.clear();
+    }
+    for (int i = 0; i < fullGuidePostList.length; i++) {
+      detailGuidePost[i] = false;
+    }
+
     print('list length: ${fullGuidePostList.length}');
+    print('detail guidepost: ${detailGuidePost.length}');
   }
 
   Future<Account?> _getPerson(int createdBy) async {
-    return await _profileRepository.getUser(createdBy); 
+    return await _profileRepository.getUser(createdBy);
   }
 }
