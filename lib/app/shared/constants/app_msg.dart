@@ -21,14 +21,21 @@ class AppMsg {
   static const MSG4009 = 'Bạn có muốn hủy công việc này không?';
   static const MSG4010 = 'Bạn đã hủy công việc thành công';
   static const MSG4011 = 'Bạn đã thêm vườn thành công';
+  static const MSG4012 = 'Bạn đã cập nhật vườn thành công';
   static const MSG4013 = 'Bạn có muốn xóa mảnh vườn này không?';
   static const MSG4014 = 'Bạn đã xóa mảnh vườn thành công';
+  static const MSG4015 =
+      'Mảnh vườn hiện đang có công việc đang tiến hành, không thể xóa';
+  static const MSG4016 = 'Bạn không có mảnh vườn nào';
+  static const MSG4031 = 'Bạn chưa thực hiện giao dịch nào';
+  static const MSG4033 = 'Chưa có công việc nào được tạo';
+  static const MSG4034 = 'Tên vườn tối đa 100 ký tự';
 
   static const MSG6001 = 'Số điện thoại này đã được đăng ký';
   static const MSG6002 = 'Số điện thoại không có trong hệ thống';
   static const MSG6003 = 'Mật khẩu không đúng';
   static const MSG6005 =
-      'Họ và tên phải là chữ cái với độ dài từ 3 đến 50 ký tự.';
+      'Họ và tên phải là chữ cái với độ dài từ 3 đến 50 ký tự';
   static const MSG6006 = 'Mật khẩu xác nhận không trùng khớp';
   static const MSG6007 = 'Bạn phải đủ 15 tuổi mới được đăng ký';
   static const MSG6008 = 'Mã OTP không đúng';

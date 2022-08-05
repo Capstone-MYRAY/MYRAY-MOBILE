@@ -28,7 +28,10 @@ class JobPostByGardenView extends GetView<JobPostByGardenController> {
             }
 
             if (snapshot.data == null) {
-              return ListEmptyBuilder(onRefresh: controller.onRefresh);
+              return ListEmptyBuilder(
+                onRefresh: controller.onRefresh,
+                msg: AppMsg.MSG4033,
+              );
             }
 
             if (snapshot.hasData) {
