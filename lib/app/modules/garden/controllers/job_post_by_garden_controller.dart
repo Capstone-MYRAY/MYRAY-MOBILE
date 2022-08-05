@@ -24,7 +24,7 @@ class JobPostByGardenController extends GetxController {
       pageSize: (_pageSize).toString(),
       sortColumn: JobPostSortColumn.createdDate,
       orderBy: SortOrder.descending,
-      gardenId: _gardenId,
+      gardenId: _gardenId.toString(),
     );
 
     //load job post

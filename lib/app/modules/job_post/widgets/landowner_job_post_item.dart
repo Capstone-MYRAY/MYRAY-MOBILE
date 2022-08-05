@@ -84,6 +84,7 @@ class LandownerJobPostItem extends StatelessWidget {
             icon: CustomIcons.bulletin_board,
             title: AppStrings.labelWorkType,
             data: workType,
+            isCenter: true,
           ),
           const SizedBox(height: 8.0),
           CardField(

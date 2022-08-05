@@ -68,6 +68,7 @@ class GardenCard extends StatelessWidget {
                       icon: CustomIcons.mountain,
                       title: 'Diện tích',
                       data: '$landArea ha',
+                      isCenter: true,
                     ),
                   ],
                 ),

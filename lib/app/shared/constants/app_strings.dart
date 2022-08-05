@@ -69,6 +69,7 @@ class AppStrings {
   static const titleConfirmSignature = 'Chữ ký xác nhận';
   static const titleChangePassword = 'Thay đổi mật khẩu';
   static const titleFinishJob = 'Hoàn thành công việc';
+  static const titleInfo = 'Thông báo';
 
   //Subtitle
   static const subtitleMyGarden = 'Danh sách vườn đã tạo';

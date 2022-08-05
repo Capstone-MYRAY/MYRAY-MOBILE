@@ -227,7 +227,7 @@ class GardenFormController extends GetxController {
     Get.back();
     CustomSnackbar.show(
       title: AppStrings.titleSuccess,
-      message: 'Cập nhật thành công',
+      message: AppMsg.MSG4012,
     );
   }
 

@@ -52,18 +52,21 @@ class GardenDetailsCard extends StatelessWidget {
             icon: CustomIcons.map_marker_outline,
             title: AppStrings.labelProvince,
             data: area.province,
+            isCenter: true,
           ),
           const SizedBox(height: 8),
           CardField(
             icon: CustomIcons.map_marker_outline,
             title: AppStrings.labelDistrict,
             data: area.district,
+            isCenter: true,
           ),
           const SizedBox(height: 8),
           CardField(
             icon: CustomIcons.map_marker_outline,
             title: AppStrings.labelCommune,
             data: area.commune,
+            isCenter: true,
           ),
           const SizedBox(height: 8),
           CardField(
@@ -76,6 +79,7 @@ class GardenDetailsCard extends StatelessWidget {
             icon: CustomIcons.mountain,
             title: AppStrings.labelLandArea,
             data: garden.landArea.toString(),
+            isCenter: true,
           ),
           const SizedBox(height: 8),
           CardField(

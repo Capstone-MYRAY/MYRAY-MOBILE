@@ -118,6 +118,11 @@ class FieldValidation {
     if (Utils.isEmpty(value)) {
       return AppMsg.MSG0002;
     }
+
+    if (value.length > 100) {
+      return AppMsg.MSG4034;
+    }
+
     return null;
   }
 }
