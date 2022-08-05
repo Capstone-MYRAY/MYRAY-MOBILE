@@ -8,6 +8,8 @@ import 'package:myray_mobile/app/shared/utils/utils.dart';
 
 class FarmerHistoryJobDetail extends GetView<FarmerHistoryJobController> {
   const FarmerHistoryJobDetail({Key? key}) : super(key: key);
+  //biến tạm để check UI bị đuổi
+  final bool isFired = true;
 
   @override
   Widget build(BuildContext context) {
@@ -19,43 +21,102 @@ class FarmerHistoryJobDetail extends GetView<FarmerHistoryJobController> {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              const SizedBox(
-                height: 20,
-              ),
-              Icon(
-                Icons.work_history_rounded,
-                size: 45,
-                color: AppColors.brown.withOpacity(0.7),
-              ),
               Container(
-                width: Get.width * 0.7,
+                width: Get.width,
                 decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(color: AppColors.grey.withOpacity(0.5)),
-                  ),
+                  color: AppColors.white,
                 ),
-                padding: const EdgeInsets.all(20),
                 child: Column(
                   children: [
-                    Text(
-                      'Tên công việc',
-                      softWrap: true,
-                      maxLines: 3,
-                      overflow: TextOverflow.ellipsis,
-                      style: Get.textTheme.headline6!.copyWith(
-                        color: AppColors.brown,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
                     const SizedBox(
-                      height: 10,
+                      height: 15,
                     ),
-                    Text(
-                      controller.isPayPerhour
-                          ? AppStrings.payPerHour
-                          : AppStrings.payPerTask,
-                      style: const TextStyle(
-                        color: AppColors.primaryColor,
+                    Icon(
+                      Icons.work_history_rounded,
+                      size: 45,
+                      color: AppColors.brown.withOpacity(0.7),
+                    ),
+                    Container(
+                      // width: Get.width * 0.7,
+                      decoration: BoxDecoration(
+                        border: Border(
+                          bottom: BorderSide(
+                              color: AppColors.bluePastel.withOpacity(0.4)),
+                        ),
+                      ),
+                      padding: const EdgeInsets.only(top: 5),
+                      child: Column(
+                        children: [
+                          Text(
+                            'Tên công việc ',
+                            softWrap: true,
+                            maxLines: 5,
+                            overflow: TextOverflow.ellipsis,
+                            style: Get.textTheme.headline6!.copyWith(
+                              color: AppColors.brown,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            controller.isPayPerhour
+                                ? AppStrings.payPerHour
+                                : AppStrings.payPerTask,
+                            style: const TextStyle(
+                                color: AppColors.primaryColor,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 16),
+                          ),
+                          Divider(
+                              color: AppColors.grey.withOpacity(0.5),
+                              indent: 45,
+                              endIndent: 45,
+                              height: 10
+                            ),
+                          Container(
+                            margin: const EdgeInsets.only(left: 85, top: 15),
+                            child: InformationWorkCard.buildRowInfor(
+                              title: 'Trạng thái:',
+                              icon: Icons.power_settings_new,
+                              content: 'Bị đuổi',
+                              spaceIconAndTitle: 10,
+                              contentColor: Colors.amber
+                            ),
+                          ),
+                          isFired
+                              ? InkWell(
+                                onTap: (){
+                                  print('See reason');
+                                  //hiện pop up lý do bị đuổi
+                                },
+                                child: Container(
+                                    margin: const EdgeInsets.only(top: 10),
+                                    child: Text(
+                                      "Xem lý do ?",
+                                      style: TextStyle(
+                                        shadows: const [
+                                          Shadow(
+                                              color: Colors.red,
+                                              offset: Offset(0, -5))
+                                        ],
+                                        fontSize: Get.textScaleFactor * 15,
+                                        color: Colors.transparent,
+                                        decoration: TextDecoration.underline,
+                                        decorationColor: AppColors.errorColor,
+                                        decorationThickness: 2,
+                                        decorationStyle:
+                                            TextDecorationStyle.solid,
+                                      ),
+                                    ),
+                                  ),
+                              )
+                              : const SizedBox(),
+                          const SizedBox(
+                            height: 15,
+                          ),
+                        ],
                       ),
                     ),
                   ],
@@ -67,10 +128,10 @@ class FarmerHistoryJobDetail extends GetView<FarmerHistoryJobController> {
               const LandOwnerCard(
                 name: 'Tên chủ rẫy',
                 address:
-                    '4 Hẻm 66/47 Hiệp Thành 45, Hiệp Thành, Quận 12, Hồ Chí Minh',
+                    '4 Hẻm 66/47 Hiệp Thành 45, Hiệp Thành, Quận 12, Hồ Chí Minh ',
               ),
               const SizedBox(
-                height: 20,
+                height: 25,
               ),
               InformationWorkCard(
                 startDate: DateTime.now(),

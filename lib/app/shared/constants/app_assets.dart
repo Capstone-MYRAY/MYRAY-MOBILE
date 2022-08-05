@@ -24,6 +24,8 @@ class AppAssets {
   static const noJobPost = '${_imgPath}empty_job_post.png';
   static const noForm = '${_imgPath}no_form.png';
   static const noGuiePost = '${_imgPath}no_guidepost.png';
+  static const statusWork = '${_imgPath}settings.png';
+
 
   //symbols
   static const marker = 'assets/symbols/marker.png';
