@@ -3,7 +3,9 @@ import 'package:myray_mobile/app/shared/constants/app_assets.dart';
 
 class Avatar extends StatelessWidget {
   final String? imageUrl;
-  const Avatar({Key? key, this.imageUrl}) : super(key: key);
+  final double? width;
+  final double? height;
+  const Avatar({Key? key, this.imageUrl, this.width = 50, this.height = 50}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,14 +16,14 @@ class Avatar extends StatelessWidget {
             ? Ink.image(
                 image: const AssetImage(AppAssets.tempAvatar),
                 fit: BoxFit.cover,
-                width: 50,
-                height: 50,
+                width: width,
+                height: height,
               )
             : Image.network(
                 imageUrl!,
                 fit: BoxFit.cover,
-                width: 50,
-                height: 50,
+                width: width,
+                height: height,
               ),
       ),
     );

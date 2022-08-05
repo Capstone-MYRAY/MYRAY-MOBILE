@@ -11,6 +11,7 @@ import 'package:myray_mobile/app/data/models/comment/post_comment_request.dart';
 import 'package:myray_mobile/app/data/models/comment/put_comment_request.dart';
 import 'package:myray_mobile/app/modules/comment/comment_repository.dart';
 import 'package:myray_mobile/app/modules/comment/widgets/comment_update_bottom_sheet.dart';
+import 'package:myray_mobile/app/modules/profile/profile_repository.dart';
 import 'package:myray_mobile/app/shared/utils/auth_credentials.dart';
 import 'package:myray_mobile/app/shared/utils/custom_exception.dart';
 import 'package:myray_mobile/app/shared/utils/utils.dart';
@@ -18,6 +19,8 @@ import 'package:myray_mobile/app/shared/utils/utils.dart';
 class CommentController extends GetxController
     with GetSingleTickerProviderStateMixin {
   final CommentRepository _commentRepository = Get.find<CommentRepository>();
+  final ProfileRepository _profileRepository = Get.find<ProfileRepository>();
+
 
   int currentUser = AuthCredentials.instance.user!.id!;
   String roleUser = AuthCredentials.instance.user!.role!;
@@ -29,6 +32,7 @@ class CommentController extends GetxController
 
   RxList<Comment> commentList = RxList<Comment>();
   late bool isFarmer = roleUser == 'Farmer';
+  Map commentMapAccount = {}.obs;
 
   late GlobalKey<FormState> formKey;
   late GlobalKey<FormState> editCommentFormKey;
@@ -62,6 +66,7 @@ class CommentController extends GetxController
           return null;
         }
         commentList.addAll(loadList.listObject ?? []);
+        await _createCommentList(loadList.listObject ?? []);
         _hasNextPage = loadList.pagingMetadata!.hasNextPage;
       }
       isLoading(false);
@@ -85,6 +90,23 @@ class CommentController extends GetxController
     await getComments(guidepostId);
   }
 
+  _createCommentList(List<Comment> list) async {
+    if (list.isEmpty) {
+      return;
+    }
+    for (int i = 0; i < list.length; i++) {
+      Account? account = await _getPerson(list[i].commentBy);
+      commentMapAccount[list[i].id] = account;
+    }
+    
+
+    print('list length: ${commentMapAccount.length}');
+  }
+
+  Future<Account?> _getPerson(int createdBy) async {
+    return await _profileRepository.getUser(createdBy);
+  }
+  
   Future<Comment?> createComment(PostCommentRequest data) async {
     return await _commentRepository.createComment(data);
   }
@@ -107,6 +129,24 @@ class CommentController extends GetxController
       return 'Bạn đã nhập quá 1000 từ';
     }
     return null;
+  }
+
+  onCreateComment(int guidePostId, BuildContext context) async {
+    if (validateInputComment(commentController.text.trim())) {
+      // print(controller.commentController.text.trim());
+      PostCommentRequest data = PostCommentRequest(
+        guidepostId: guidePostId,
+        content: commentController.text,
+      );
+      Comment? comment = await createComment(data);
+      if (comment != null) {
+        commentList.insert(commentList.length - 1, comment);
+      }
+      commentController.clear();
+      FocusScope.of(context).unfocus();
+    } else {
+      print("Not validated");
+    }
   }
 
   onDeleteComment(int commentId) async {

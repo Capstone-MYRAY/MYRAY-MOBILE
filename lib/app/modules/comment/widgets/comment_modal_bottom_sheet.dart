@@ -3,11 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:myray_mobile/app/data/models/account.dart';
 import 'package:myray_mobile/app/data/models/comment/comment.dart';
-import 'package:myray_mobile/app/data/models/comment/post_comment_request.dart';
 import 'package:myray_mobile/app/modules/comment/controllers/comment_controller.dart';
 import 'package:myray_mobile/app/modules/comment/widgets/comment_function_bottom_sheet.dart';
-import 'package:myray_mobile/app/modules/comment/widgets/comment_left_widget.dart';
-import 'package:myray_mobile/app/modules/comment/widgets/comment_right_widget.dart';
+import 'package:myray_mobile/app/modules/comment/widgets/comment_container_widget.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/widgets/builders/loading_builder.dart';
 import 'package:myray_mobile/app/shared/widgets/dialogs/custom_confirm_dialog.dart';
@@ -87,23 +85,7 @@ class CommentModalBottomSheet {
                       withBorder: false,
                       errorText: 'Comment cannot be blank',
                       sendButtonMethod: () async {
-                        if (controller.validateInputComment(
-                            controller.commentController.text.trim())) {
-                          // print(controller.commentController.text.trim());
-                          PostCommentRequest data = PostCommentRequest(
-                            guidepostId: guidePostId,
-                            content: controller.commentController.text,
-                          );
-                          Comment? comment =
-                              await controller.createComment(data);
-                          if (comment != null) {
-                            controller.commentList.add(comment);
-                          }
-                          controller.commentController.clear();
-                          FocusScope.of(context).unfocus();
-                        } else {
-                          print("Not validated");
-                        }
+                        controller.onCreateComment(guidePostId, context);
                       },
                       formKey: controller.formKey,
                       commentController: controller.commentController,
@@ -154,16 +136,14 @@ class CommentModalBottomSheet {
                                   int userId = controller.currentUser;
                                   String userRole = controller.roleUser;
                                   print('user role: $userRole');
-                                  return comment.commentBy != userId
-                                      ? CommentLeft(
-                                          name: 'Nông dân A',
+                                  return CommentContainer(
+                                          name: controller.commentMapAccount[comment.id].fullName,
                                           comment: comment.content,
-                                        )
-                                      : CommentRight(
-                                          name: 'Nông dân B',
-                                          comment: comment.content,
+                                          commentDateTime: comment.createDate,
+                                          imageUrl: controller.commentMapAccount[comment.id].imageUrl,
                                           onLongPress: () {
-                                            CommentFunctionBottomSheet.showMenu(
+                                            comment.commentBy == userId
+                                            ? CommentFunctionBottomSheet.showMenu(
                                                 context: context,
                                                 delete: () {
                                                   CustomDialog.show(
@@ -182,7 +162,8 @@ class CommentModalBottomSheet {
                                                   Get.back(); //Tắt menu
                                                   controller.onCloseComment();
                                                   controller.onEditComment(context, comment);
-                                                });
+                                                })
+                                            : null;
                                           });
                                 },
                               ));
