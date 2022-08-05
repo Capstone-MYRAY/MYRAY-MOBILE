@@ -58,7 +58,7 @@ class LoginView extends GetView<LoginController> {
                         const SizedBox(height: 24.0),
                         ElevatedButton(
                           onPressed: () {
-                            FocusScope.of(context).requestFocus(FocusNode());
+                            FocusScope.of(context).unfocus();
                             if (controller.formKey.currentState!.validate()) {
                               controller.onSubmitForm();
                             }
@@ -68,7 +68,7 @@ class LoginView extends GetView<LoginController> {
                         const SizedBox(height: 16.0),
                         GestureDetector(
                           onTap: () {
-                            FocusScope.of(context).requestFocus(FocusNode());
+                            FocusScope.of(context).unfocus();
                             controller.navigateToForgotPasswordScreen();
                           },
                           child: Text(

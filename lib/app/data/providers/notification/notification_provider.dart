@@ -15,22 +15,23 @@ class NotificationProvider {
   void Function()? _serviceDelegate;
 
   Future<void> subscribeTopic(String topic) async {
-    developer.log('Subscribe topic: $topic');
     await _messaging.subscribeToTopic(topic);
-    await _initialize();
+    developer.log('Subscribe topic: $topic');
   }
 
   Future<void> unsubscribeTopic(String topic) async {
-    developer.log('Unsubscribe topic: $topic');
     await _messaging.unsubscribeFromTopic(topic);
+    developer.log('Unsubscribe topic: $topic');
   }
 
-  Future<void> _initialize() async {
+  Future<void> initialize() async {
     final initSetting = await _messaging.getNotificationSettings();
 
     if (initSetting.authorizationStatus == AuthorizationStatus.denied) {
       return Future.error('Notification service was denied');
     }
+
+    print('initSetting: ${initSetting.authorizationStatus}');
 
     //request permission
     final settings = await _messaging.requestPermission(
@@ -53,7 +54,7 @@ class NotificationProvider {
   }
 
   _handleTerminateMessage() {
-    FirebaseMessaging.instance.getInitialMessage().then((message) {
+    _messaging.getInitialMessage().then((message) {
       print('getInitialMessage');
       if (message != null && message.data.isNotEmpty) {
         _serviceDelegate =
@@ -79,6 +80,7 @@ class NotificationProvider {
   }
 
   _handleForegroundMessage() {
+    developer.log('Run: _handleForegroundMessage');
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       print('onMessage');
       if (message.notification != null) {
