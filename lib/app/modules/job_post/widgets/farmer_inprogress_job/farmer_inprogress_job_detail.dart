@@ -122,6 +122,32 @@ class FarmerInProgressJobDetail extends GetView<InprogressJobDetailController> {
                           SizedBox(
                             height: Get.height * 0.01,
                           ),
+                            SizedBox(
+                            width: Get.width * 0.7,
+                            child: Text.rich(
+                              TextSpan(
+                                text: 'Chủ rẫy:  ',
+                                children: [
+                                  TextSpan(
+                                    text: controller.jobpost.publishedName,
+                                    style: Get.textTheme.bodyText2!.copyWith(
+                                        fontSize: Get.textScaleFactor * 15),
+                                  ),
+                                ],
+                                style: Get.textTheme.labelMedium!.copyWith(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: Get.textScaleFactor * 15,
+                                ),
+                              ),
+                              softWrap: true,
+                              overflow: TextOverflow.ellipsis,
+                              textAlign: TextAlign.start,
+                              maxLines: 2,
+                            ),
+                          ),
+                          SizedBox(
+                            height: Get.height * 0.01,
+                          ),
                           SizedBox(
                             width: Get.width * 0.7,
                             child: Text.rich(
