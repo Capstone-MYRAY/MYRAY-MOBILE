@@ -277,22 +277,6 @@ class HistoryAppliedJobView extends GetView<HistoryAppliedJobController> {
                                                 .statusColor,
                                           foregroundColor: Colors.white,
                                         ),
-                                        // Text(
-                                        //   controller
-                                        //       .appliedJobPostResponse[index]
-                                        //       .statusString,
-                                        //   style:
-                                        //       Get.textTheme.bodyText2!.copyWith(
-                                        //     color: controller
-                                        //         .appliedJobPostResponse[index]
-                                        //         .statusColor,
-                                        //     fontSize: Get.textScaleFactor * 15,
-                                        //   ),
-                                        //   softWrap: true,
-                                        //   overflow: TextOverflow.ellipsis,
-                                        //   textAlign: TextAlign.left,
-                                        //   maxLines: 10,
-                                        // ),
                                       ]),
                                     ),
                                   ],
