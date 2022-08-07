@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:myray_mobile/app/modules/attendance/widgets/farmer_attendance_detail_dialog.dart';
 import 'package:myray_mobile/app/modules/history_job/controllers/farmer_history_job_detail_controller.dart';
 import 'package:myray_mobile/app/modules/history_job/widgets/farmer_history_detail/information_work_card.dart';
 import 'package:myray_mobile/app/modules/history_job/widgets/farmer_history_detail/landowner_cart.dart';
@@ -128,8 +129,8 @@ class FarmerHistoryJobDetail extends GetView<FarmerHistoryJobDetailController> {
                 height: 20,
               ),
               LandOwnerCard(
-                name: controller.appliedJob.value.jobPost.publishedName!,
-                address: controller.appliedJob.value.jobPost.address ??
+                name: controller.jobPost.publishedName!,
+                address: controller.jobPost.address ??
                     'Không có địa chỉ',
               ),
               const SizedBox(
@@ -150,91 +151,94 @@ class FarmerHistoryJobDetail extends GetView<FarmerHistoryJobDetailController> {
                 height: 20,
               ),
               controller.isPayPerHourJob
-                  ? Column(
-                      children: [
-                        Container(
-                          width: Get.width * 0.6,
-                          decoration: const BoxDecoration(
-                            color: AppColors.primaryColor,
-                            borderRadius: BorderRadius.all(Radius.circular(5)),
-                          ),
-                          padding: const EdgeInsets.all(20),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              SizedBox(
-                                height: Get.height * 0.03,
-                                child: Text(
-                                  'Báo cáo trả công ',
-                                  softWrap: true,
-                                  maxLines: 3,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: Get.textTheme.headline4!.copyWith(
-                                    color: AppColors.white,
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ),
+                  ? Obx(() => controller.attendanceList.isEmpty
+                      ? Column(
+                          children: [
+                            Text(
+                              'Không có dữ liệu',
+                              style: Get.textTheme.headline6!.copyWith(
+                                  color: Colors.black.withOpacity(0.5)),
+                            ),
+                            const ImageIcon(AssetImage(AppAssets.emptyFolder),
+                                size: 20),
+                          ],
+                        )
+                      : Column(
+                          children: [
+                            Container(
+                              width: Get.width * 0.6,
+                              decoration: const BoxDecoration(
+                                color: AppColors.primaryColor,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(5)),
                               ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        Obx(
-                          () => controller.attendanceList.isEmpty
-                              ? Column(
-                                  children: [
-                                    Text(
-                                      'Không có dữ liệu',
-                                      style: Get.textTheme.headline6!.copyWith(
-                                          color: Colors.black.withOpacity(0.5)),
+                              padding: const EdgeInsets.all(20),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SizedBox(
+                                    height: Get.height * 0.03,
+                                    child: Text(
+                                      'Báo cáo trả công ',
+                                      softWrap: true,
+                                      maxLines: 3,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: Get.textTheme.headline4!.copyWith(
+                                        color: AppColors.white,
+                                      ),
+                                      textAlign: TextAlign.center,
                                     ),
-                                    const ImageIcon(
-                                        AssetImage(AppAssets.emptyFolder),
-                                        size: 20),
-                                  ],
-                                )
-                              : Container(
-                                  width: Get.width * 0.75,
-                                  height: 300,
-                                  padding: const EdgeInsets.all(15),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(5),
-                                    color: AppColors.grey.withOpacity(0.1),
                                   ),
-                                  child: ListView.builder(
-                                    shrinkWrap: true,
-                                    itemCount: controller.attendanceList.length,
-                                    itemBuilder: ((context, index) {
-                                      return InkWell(
-                                        splashColor: AppColors.primaryColor
-                                            .withOpacity(0.2),
-                                        onTap: () {},
-                                        child: Container(
-                                          padding: const EdgeInsets.all(20),
-                                          margin: const EdgeInsets.only(
-                                              top: 10, bottom: 10),
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(5),
-                                            color: AppColors.white,
-                                          ),
-                                          child: Text(
-                                            Utils.formatddMMyyyy(controller
-                                                .attendanceList[index].date),
-                                          ),
-                                        ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            Container(
+                              width: Get.width * 0.75,
+                              height: 300,
+                              padding: const EdgeInsets.all(15),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                color: AppColors.grey.withOpacity(0.1),
+                              ),
+                              child: ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: controller.attendanceList.length,
+                                itemBuilder: ((context, index) {
+                                  return InkWell(
+                                    splashColor:
+                                        AppColors.primaryColor.withOpacity(0.2),
+                                    onTap: () {
+                                      FarmerAttendanceDetailDialog.show(
+                                        context,
+                                        controller.getAttentdance(controller.attendanceList[index]),
+                                        controller.jobPost.title,
                                       );
-                                    }),
-                                  ),
-                                ),
-                        ),
-                        const SizedBox(
-                          height: 15,
-                        ),
-                      ],
-                    )
+                                    },
+                                    child: Container(
+                                      padding: const EdgeInsets.all(20),
+                                      margin: const EdgeInsets.only(
+                                          top: 10, bottom: 10),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(5),
+                                        color: AppColors.white,
+                                      ),
+                                      child: Text(
+                                        Utils.formatddMMyyyy(controller
+                                            .attendanceList[index].date),
+                                      ),
+                                    ),
+                                  );
+                                }),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 15,
+                            ),
+                          ],
+                        ))
                   : Obx(
                       () => controller.attendanceList.isEmpty
                           ? Column(

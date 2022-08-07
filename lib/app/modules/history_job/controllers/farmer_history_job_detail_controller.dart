@@ -18,7 +18,6 @@ class FarmerHistoryJobDetailController extends GetxController {
   late bool isFired = appliedJob.value.status == 4;
   late RxDouble totalSalary = 0.0.obs;
 
-
   @override
   void onInit() async {
     await getAttendanceByJob();
@@ -49,9 +48,25 @@ class FarmerHistoryJobDetailController extends GetxController {
     }
     return null;
   }
+
   _getTotalSalary() async {
-     for (var attendance in attendanceList) { 
+    for (var attendance in attendanceList) {
       totalSalary.value = totalSalary.value + attendance.salary;
-     }
+    }
+  }
+
+  Attendance getAttentdance(AttendanceResponse data) {
+    Attendance attendance = Attendance(
+      id: data.id,
+      date: data.date,
+      bonusPoint: data.bonusPoint,
+      reason: data.reason,
+      salary: data.salary,
+      signature: data.signature,
+      status: data.status,
+      appliedJobId: data.appliedJobId,
+      accountId: data.accountId,
+    );
+    return attendance;
   }
 }
