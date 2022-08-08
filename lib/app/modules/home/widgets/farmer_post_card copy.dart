@@ -20,6 +20,8 @@ class FarmerSpecialPostCard extends StatelessWidget {
   final String address;
   final double price;
   final String treeType;
+  final Color? statusNameColor;
+
 
   const FarmerSpecialPostCard(
       {Key? key,
@@ -35,7 +37,9 @@ class FarmerSpecialPostCard extends StatelessWidget {
       this.statusColor = AppColors.markedPostChipColor,
       this.borderColor = AppColors.white,
       this.expiredDate = "22/06/2022",
-      this.isExpired = false})
+      this.isExpired = false,
+      this.statusNameColor = AppColors.white,
+      })
       : super(key: key);
 
   @override
@@ -74,7 +78,9 @@ class FarmerSpecialPostCard extends StatelessWidget {
                       isStatus!
                           ? StatusChip(
                               statusName: statusName!,
-                              backgroundColor: statusColor!)
+                              backgroundColor: statusColor!,
+                              foregroundColor: statusNameColor,
+                            )
                           : const SizedBox(
                               width: 1,
                             )

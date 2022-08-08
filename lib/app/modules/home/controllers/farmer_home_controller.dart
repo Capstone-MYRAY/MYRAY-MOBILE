@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:myray_mobile/app/data/enums/enums.dart';
 import 'package:myray_mobile/app/data/models/job_post/get_request_job_post_list.dart';
 import 'package:myray_mobile/app/data/models/job_post/job_post.dart';
+import 'package:myray_mobile/app/data/models/job_post/job_post_response.dart';
 import 'package:myray_mobile/app/modules/job_post/job_post_repository.dart';
 import 'package:myray_mobile/app/routes/app_pages.dart';
 import 'package:myray_mobile/app/shared/constants/common.dart';
@@ -46,29 +47,30 @@ class FarmerHomeController extends GetxController {
         status: "2",
         page: (++_currentPage).toString(),
         pageSize: (_pageSize).toString(),
-        // sortColumn: JobPostSortColumn.createdDate,
+        sortColumn: JobPostSortColumn.createdDate,
         // page: "1",
-        orderBy: SortOrder.descending
-        );
+        orderBy: SortOrder.descending);
 
     isLoading.value = true;
     try {
       if (_hasNextpage) {
-        final _response = await _repository.getJobPostList(data);
-        if (_response == null || _response.listJobPost.isEmpty) {
+        JobPostResponse? response = await _repository.getJobPostList(data);
+        if (response == null  || response.listJobPost.isEmpty && response.secondObject!.isEmpty) {
+          print('here');
           isLoading(false);
           return null;
         }
-        listObject.addAll(_response.listJobPost);
-        secondObject.addAll(_response.secondObject!);
-        _hasNextpage = _response.pagingMetadata.hasNextPage;
-        print('second object: ${secondObject.length}');
+        listObject.addAll(response.listJobPost);
+        secondObject.addAll(response.secondObject!);
+        _hasNextpage = response.pagingMetadata.hasNextPage;
+        print('second object: ${listObject.length}');
       }
       isLoading.value = false;
       return true;
     } on CustomException catch (e) {
       isLoading.value = false;
       _hasNextpage = false;
+      print('error: $e');
       return null;
     }
   }
