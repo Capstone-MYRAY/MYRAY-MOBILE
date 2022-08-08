@@ -8,6 +8,7 @@ import 'package:myray_mobile/app/data/models/feedback/feedback.dart';
 import 'package:myray_mobile/app/data/models/job_post/job_post.dart';
 import 'package:myray_mobile/app/data/models/report/get_report_request.dart';
 import 'package:myray_mobile/app/data/models/report/get_report_response.dart';
+import 'package:myray_mobile/app/data/models/report/post_report_request.dart';
 import 'package:myray_mobile/app/data/models/report/put_update_report_request.dart';
 import 'package:myray_mobile/app/data/models/report/report.dart';
 import 'package:myray_mobile/app/data/services/services.dart';
@@ -141,21 +142,23 @@ class FarmerHistoryJobDetailController extends GetxController
     );
   }
 
-  _onCloseReportDialog(){
+  _onCloseReportDialog() {
     reportContentController.clear();
     Get.back();
   }
 
-  _onSubmit(bool isReported, Report? currentReport) {
-    if(!formKey.currentState!.validate()){
+  _onSubmit(bool isReported, Report? currentReport) async {
+    if (!formKey.currentState!.validate()) {
       return;
     }
-    if(isReported){
-      _onUpdate(currentReport!);
+    if (isReported) {
+      await _onUpdateReport(currentReport!);
+      return;
     }
+    await _onCreateReport();
   }
 
-  _onUpdate(Report currentReport) async {
+  _onUpdateReport(Report currentReport) async {
     PutUpdateReportRequest data = PutUpdateReportRequest(
       id: currentReport.id,
       jobPostId: jobPost.id,
@@ -164,40 +167,71 @@ class FarmerHistoryJobDetailController extends GetxController
     );
 
     EasyLoading.show();
-      try {
-        Report? newReport = await updateReport(data);
-        Future.delayed(const Duration(milliseconds: 1200), () {
-          _onCloseReportDialog();
-          EasyLoading.dismiss();
-          if (newReport != null) {
-            ReportUpdateDialog.show(newReport: newReport);
-            return;
-          }
-          CustomSnackbar.show(
-              title: "Thất bại",
-              message: "Gửi báo cáo không thành công",
-              backgroundColor: AppColors.errorColor);
-        });
-      } on CustomException catch (e) {
+    try {
+      Report? newReport = await updateReport(data);
+      Future.delayed(const Duration(milliseconds: 1200), () {
+        _onCloseReportDialog();
         EasyLoading.dismiss();
-        print(e);
+        if (newReport != null) {
+          ReportUpdateDialog.show(newReport: newReport);
+          return;
+        }
         CustomSnackbar.show(
             title: "Thất bại",
-            message: "Không thể gửi báo cáo",
+            message: "Gửi báo cáo không thành công",
             backgroundColor: AppColors.errorColor);
-      }
+      });
+    } on CustomException catch (e) {
+      EasyLoading.dismiss();
+      print(e);
+      CustomSnackbar.show(
+          title: "Thất bại",
+          message: "Không thể gửi báo cáo",
+          backgroundColor: AppColors.errorColor);
+    }
   }
-  
+
+  _onCreateReport() async {
+    if (formKey.currentState!.validate()) {
+      return;
+    }
+    EasyLoading.show();
+
+    try {
+      PostReportRequest data = PostReportRequest(
+          content: reportContentController.text,
+          jobPostId: jobPost.id,
+          reportedId: jobPost.publishedBy);
+      Report? result = await reportJob(data);
+      _onCloseReportDialog();
+      EasyLoading.dismiss();
+      if (result == null) {
+        CustomSnackbar.show(
+            title: "Thất bại",
+            message: "Gửi báo cáo không thành công",
+            backgroundColor: AppColors.errorColor);
+        return;
+      }
+      CustomSnackbar.show(
+          title: "Thành công", message: "Gửi báo cáo thành công");
+    } on CustomException catch (e) {
+      print('Error in report of hitory job: ${e.message}');
+      CustomSnackbar.show(
+          title: "Thất bại",
+          message: "Đã có lỗi xảy ra",
+          backgroundColor: AppColors.errorColor);
+    }
+  }
+
   //valid báo cáo trong vòng 3 ngày
-  
+
   //end report
 
   //feedback
   onFeedback() async {
     FeedBack? currentFeedback;
     bool isFeedbacked = false;
-    
   }
   //end feedback
-  
+
 }
