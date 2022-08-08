@@ -44,7 +44,10 @@ class LandownerReportView extends GetView<LandownerReportController> {
           }
 
           if (snapshot.data == null) {
-            return ListEmptyBuilder(onRefresh: controller.onRefresh);
+            return ListEmptyBuilder(
+              onRefresh: controller.onRefresh,
+              msg: AppMsg.MSG4039,
+            );
           }
 
           if (snapshot.hasData) {
