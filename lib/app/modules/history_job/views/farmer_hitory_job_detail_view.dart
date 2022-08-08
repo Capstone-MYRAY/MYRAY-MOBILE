@@ -128,11 +128,14 @@ class FarmerHistoryJobDetail extends GetView<FarmerHistoryJobDetailController> {
               const SizedBox(
                 height: 20,
               ),
-              LandOwnerCard(
+              Obx(() =>  LandOwnerCard(
                 name: controller.jobPost.publishedName!,
                 address: controller.jobPost.address ??
                     'Không có địa chỉ',
-              ),
+                isBookmark: controller.isBookmark.value,
+                bookmark: controller.onBookmark,
+                report: controller.onReport,
+              ),),
               const SizedBox(
                 height: 25,
               ),

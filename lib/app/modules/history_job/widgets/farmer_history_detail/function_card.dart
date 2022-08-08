@@ -9,13 +9,13 @@ class FunctionCard extends StatelessWidget {
   final void Function()? bookmark;
   final bool? isBookmark;
 
-  const FunctionCard({
-    Key? key,
-    this.isBookmark = false,
-    this.feedback,
-    this.report,
-    this.bookmark
-  }) : super(key: key);
+  const FunctionCard(
+      {Key? key,
+      this.isBookmark = false,
+      this.feedback,
+      this.report,
+      this.bookmark})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -68,29 +68,38 @@ class FunctionCard extends StatelessWidget {
                     ),
                   ],
                 ),
-                Row(
-                  children: [
-                    isBookmark!
-                    ? const Icon(
-                      CustomIcons.heart,
-                      size: 25,
-                      color: Colors.red,
-                    )
-                    : const Icon(
-                      CustomIcons.heart_outline,
-                      size: 25,
-                      color: Colors.red,
-                    ),
-                    TextButton(
-                      onPressed: bookmark,
-                      child: Text(
+                const SizedBox(
+                  height: 5,
+                ),
+                InkWell(
+                  onTap: bookmark,
+                  child: Row(
+                    children: [
+                      isBookmark!
+                          ? const Icon(
+                              CustomIcons.heart,
+                              size: 25,
+                              color: Colors.red,
+                            )
+                          : const Icon(
+                              CustomIcons.heart_outline,
+                              size: 25,
+                              color: Colors.red,
+                            ),
+                      const SizedBox(
+                        width: 8,
+                      ),
+                      Text(
                         'Yêu thích',
                         style: Get.textTheme.headline6!.copyWith(
                           color: AppColors.primaryColor,
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
                 ),
               ]),
             ),
