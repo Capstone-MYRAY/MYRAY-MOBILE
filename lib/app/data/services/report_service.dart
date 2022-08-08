@@ -2,6 +2,7 @@
 import 'package:get/get.dart';
 import 'package:myray_mobile/app/data/models/report/get_report_request.dart';
 import 'package:myray_mobile/app/data/models/report/get_report_response.dart';
+import 'package:myray_mobile/app/data/models/report/post_report_request.dart';
 import 'package:myray_mobile/app/data/models/report/put_update_report_request.dart';
 import 'package:myray_mobile/app/data/models/report/report.dart';
 import 'package:myray_mobile/app/modules/report/report_repository.dart';
@@ -27,5 +28,9 @@ mixin ReportService{
 
   Future<Report?> updateReport(PutUpdateReportRequest data) async {
     return await _reportRepository.updateReport(data);
+  }
+
+  Future<Report?> reportJob(PostReportRequest reportData) async {
+    return await _reportRepository.report(reportData);
   }
 }
