@@ -63,30 +63,24 @@ class FarmerHistoryJobView extends GetView<FarmerHistoryJobController> {
                     if (snapshot.data == null ||
                         controller.historyJobPostList.isEmpty) {
                       return Center(
-                        child: Column(
-                          children: [
-                            Text("Không có công việc nào.",
-                                style: Get.textTheme.bodyLarge!.copyWith(
-                                  color: AppColors.grey,
-                                  fontSize: Get.textScaleFactor * 20,
-                                ),
-                                textAlign: TextAlign.center),
-                            const SizedBox(height: 10),
-                            const ImageIcon(AssetImage(AppAssets.noJobFound),
-                                size: 30, color: AppColors.grey),
-                          ],
+                        child: Container(
+                          height: Get.height * 0.8,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text("Không có công việc nào.",
+                                  style: Get.textTheme.bodyLarge!.copyWith(
+                                    color: AppColors.grey,
+                                    fontSize: Get.textScaleFactor * 20,
+                                  ),
+                                  textAlign: TextAlign.center),
+                              const SizedBox(height: 10),
+                              const ImageIcon(AssetImage(AppAssets.noJobFound),
+                                  size: 30, color: AppColors.grey),
+                            ],
+                          ),
                         ),
                       );
-                      // return HistoryJobCard(
-                      //   title: 'Công việc kết thúc',
-                      //   nameOnwner: 'Tên chủ rẫy',
-                      //   type: 'Làm khoán/công',
-                      //   startDate: DateTime.now(),
-                      //   endDate: DateTime.now(),
-                      //   onTap: (){
-                      //     Get.toNamed(Routes.farmerHistoryJobDetail);
-                      //   }
-                      // );
                     }
                     AppliedJobResponse appliedJob =
                         controller.historyJobPostList[index];

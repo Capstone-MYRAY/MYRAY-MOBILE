@@ -70,6 +70,7 @@ class AppStrings {
   static const titleChangePassword = 'Thay đổi mật khẩu';
   static const titleFinishJob = 'Hoàn thành công việc';
   static const titleInfo = 'Thông báo';
+  static const titleAppliedJobPost = 'Công việc';
 
   //Subtitle
   static const subtitleMyGarden = 'Danh sách vườn đã tạo';
@@ -83,6 +84,7 @@ class AppStrings {
   static const subtitleHistoryJob = "Công việc đã làm";
   static const subtitleFarmerFavorite = "Danh sách chủ rẫy yêu thích";
   static const subtitlePassword = "Thay đổi mật khẩu";
+  static const subtitleAppliedJobPost = 'Các công việc đã ứng tuyển';
 
   //Label
   static const labelPhone = 'Số điện thoại';

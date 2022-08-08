@@ -4,24 +4,28 @@ import 'package:get/get.dart';
 import 'package:myray_mobile/app/data/models/applied_job/applied_job_response.dart';
 import 'package:myray_mobile/app/data/models/attendance/attendance_models.dart';
 import 'package:myray_mobile/app/data/models/attendance/attendance_response.dart';
-import 'package:myray_mobile/app/data/models/feedback/feedback.dart';
+import 'package:myray_mobile/app/data/models/feedback/feedback_models.dart';
 import 'package:myray_mobile/app/data/models/job_post/job_post.dart';
 import 'package:myray_mobile/app/data/models/report/get_report_request.dart';
 import 'package:myray_mobile/app/data/models/report/get_report_response.dart';
 import 'package:myray_mobile/app/data/models/report/post_report_request.dart';
 import 'package:myray_mobile/app/data/models/report/put_update_report_request.dart';
 import 'package:myray_mobile/app/data/models/report/report.dart';
+import 'package:myray_mobile/app/data/services/feedback_service.dart';
 import 'package:myray_mobile/app/data/services/services.dart';
 import 'package:myray_mobile/app/modules/attendance/attendance_repository.dart';
+import 'package:myray_mobile/app/modules/job_post/widgets/farmer_inprogress_dialog/feedback_dialog.dart';
+import 'package:myray_mobile/app/modules/job_post/widgets/farmer_inprogress_dialog/feedback_update_dialog.dart';
 import 'package:myray_mobile/app/modules/job_post/widgets/farmer_inprogress_dialog/report_update_dialog.dart';
 import 'package:myray_mobile/app/shared/constants/app_colors.dart';
+import 'package:myray_mobile/app/shared/constants/common.dart';
 import 'package:myray_mobile/app/shared/utils/auth_credentials.dart';
 import 'package:myray_mobile/app/shared/utils/custom_exception.dart';
 import 'package:myray_mobile/app/modules/job_post/widgets/farmer_inprogress_dialog/report_dialog.dart';
 import 'package:myray_mobile/app/shared/widgets/custom_snackbar.dart';
 
 class FarmerHistoryJobDetailController extends GetxController
-    with BookmarkService, ReportService {
+    with BookmarkService, ReportService, FeedBackService {
   Rx<AppliedJobResponse> appliedJob;
   FarmerHistoryJobDetailController({required this.appliedJob});
   final _attendanceRepository = Get.find<AttendanceRepository>();
@@ -32,9 +36,12 @@ class FarmerHistoryJobDetailController extends GetxController
   late bool isFired = appliedJob.value.status == 4;
   late RxDouble totalSalary = 0.0.obs;
   late RxBool isBookmark = false.obs;
+  late String? firedReason  = '';
 
   late GlobalKey<FormState> formKey;
   late TextEditingController reportContentController;
+  late TextEditingController feedbackContentController;
+  late TextEditingController feedbackRatingController;
 
   @override
   void onInit() async {
@@ -42,6 +49,8 @@ class FarmerHistoryJobDetailController extends GetxController
     await _checkBookmark();
     formKey = GlobalKey<FormState>();
     reportContentController = TextEditingController();
+    feedbackContentController = TextEditingController();
+    feedbackRatingController = TextEditingController();
     super.onInit();
   }
 
@@ -64,6 +73,7 @@ class FarmerHistoryJobDetailController extends GetxController
         return;
       }
       attendanceList.addAll(loadList.reversed);
+      firedReason = attendanceList.first.reason;
       await _getTotalSalary();
     } on CustomException catch (e) {
       print("In attendance farmer controller: ${e.message}");
@@ -123,9 +133,16 @@ class FarmerHistoryJobDetailController extends GetxController
         pageSize: '20');
     GetReportResponse? report = await getReport(data);
     if (report != null && report.listObject != null) {
-      currentReport = report.listObject?.first;
-      reportContentController.text = currentReport!.content;
-      isReported = true;
+      if (report.listObject!.isNotEmpty) {
+        currentReport = report.listObject?.first;
+
+        if (!_canUpdate(jobPost.jobEndDate)) {
+          ReportUpdateDialog.show(newReport: currentReport!);
+          return;
+        }
+        reportContentController.text = currentReport!.content;
+        isReported = true;
+      }
     }
     if (currentReport != null) {
       isResolved = currentReport.resolvedBy != null;
@@ -135,7 +152,7 @@ class FarmerHistoryJobDetailController extends GetxController
       formKey: formKey,
       reportContentController: reportContentController,
       validateReason: validateReason,
-      submit: (_) => _onSubmit(isReported, currentReport),
+      submit: (_) => _onSubmitReport(currentReport),
       closeDialog: _onCloseReportDialog,
       isResovled: isResolved,
       isReported: isReported,
@@ -147,12 +164,12 @@ class FarmerHistoryJobDetailController extends GetxController
     Get.back();
   }
 
-  _onSubmit(bool isReported, Report? currentReport) async {
+  _onSubmitReport(Report? currentReport) async {
     if (!formKey.currentState!.validate()) {
       return;
     }
-    if (isReported) {
-      await _onUpdateReport(currentReport!);
+    if (currentReport != null) {
+      await _onUpdateReport(currentReport);
       return;
     }
     await _onCreateReport();
@@ -192,7 +209,7 @@ class FarmerHistoryJobDetailController extends GetxController
   }
 
   _onCreateReport() async {
-    if (formKey.currentState!.validate()) {
+    if (!formKey.currentState!.validate()) {
       return;
     }
     EasyLoading.show();
@@ -223,7 +240,6 @@ class FarmerHistoryJobDetailController extends GetxController
     }
   }
 
-  //valid báo cáo trong vòng 3 ngày
 
   //end report
 
@@ -231,7 +247,146 @@ class FarmerHistoryJobDetailController extends GetxController
   onFeedback() async {
     FeedBack? currentFeedback;
     bool isFeedbacked = false;
+    DateTime? endDate;
+
+    GetFeedbackRequest data = GetFeedbackRequest(
+        page: '1',
+        pageSize: '20',
+        jobPostId: jobPost.id.toString(),
+        createdBy: AuthCredentials.instance.user!.id.toString());
+    try {
+      GetFeedBackResponse? feedBack = await getFeedback(data);
+      if (feedBack != null && feedBack.listobject != null) {
+        if (feedBack.listobject!.isNotEmpty) {
+          currentFeedback = feedBack.listobject?.first;
+          //hết hạn feedback: sau 3 ngày, kể từ ngày đăng ký
+          if (!_canUpdate(jobPost.jobEndDate)) {
+            FeedBackUpdateDialog.show(
+              newFeedBack: currentFeedback!,
+            );
+            return;
+          }
+
+          feedbackContentController.text = currentFeedback!.content;
+          feedbackRatingController.text = currentFeedback.numStar.toString();
+          isFeedbacked = true;
+        }
+      }
+      FeedbackDialog.show(
+          jobPostId: jobPost.id,
+          formKey: formKey,
+          feedbackRatingController: feedbackRatingController,
+          feedbackContentController: feedbackContentController,
+          submit: (_) => _onSubmitFeedback(currentFeedback),
+          validateReason: validateReason,
+          closeDialog: _onCloseFeedbackDialog,
+          isFeedbacked: isFeedbacked,
+          initialRating:
+              currentFeedback != null ? (currentFeedback.numStar + 0.0) : 1.0);
+    } on CustomException catch (e) {
+      print('error in Feedback: $e');
+    }
+  }
+
+  _onSubmitFeedback(FeedBack? feedback) async {
+    if (!formKey.currentState!.validate()) {
+      return;
+    }
+
+    if (feedback != null) {
+      await _onUpdateFeedback(feedback);
+      return;
+    }
+
+    await _onCreateFeedback();
+  }
+
+  _onUpdateFeedback(FeedBack currentFeedback) async {
+    PutFeedbackRequest data = PutFeedbackRequest(
+      id: currentFeedback.id,
+      content: feedbackContentController.text,
+      numStar: num.parse(feedbackRatingController.text),
+      jobPostId: jobPost.id,
+      belongedId: currentFeedback.belongedId,
+    );
+    EasyLoading.show();
+    _onCloseFeedbackDialog();
+    try {
+      FeedBack? newFeedBack = await updateFeedback(data);
+      Future.delayed(const Duration(milliseconds: 1200), () {
+        EasyLoading.dismiss();
+        if (newFeedBack != null) {
+          FeedBackUpdateDialog.show(
+            newFeedBack: newFeedBack,
+          );
+          return;
+        }
+        CustomSnackbar.show(
+            title: "Thất bại",
+            message: "Gửi đánh giá không thành công",
+            backgroundColor: AppColors.errorColor);
+      });
+    } on CustomException catch (e) {
+      EasyLoading.dismiss();
+
+      print('$e');
+      CustomSnackbar.show(
+          title: "Thất bại",
+          message: "Không thể gửi đánh giá !",
+          backgroundColor: AppColors.errorColor);
+    }
+  }
+
+  _onCreateFeedback() async {
+    if (!formKey.currentState!.validate()) {
+      return;
+    }
+    PostFeedbackRequest data = PostFeedbackRequest(
+      content: feedbackContentController.text,
+      numStar: feedbackRatingController.text != '5'
+          ? int.parse(feedbackRatingController.text)
+          : 5,
+      jobPostId: jobPost.id,
+      belongedId: AuthCredentials.instance.user!.id!,
+    );
+
+    try {
+      FeedBack? feedback = await sendFeedBack(data);
+      EasyLoading.show();
+
+      if (feedback != null) {
+        Future.delayed(const Duration(milliseconds: 1000), () {
+          EasyLoading.dismiss();
+          CustomSnackbar.show(
+              title: "Thành công", message: "Gửi đánh giá thành công");
+        });
+
+        return;
+      }
+
+      CustomSnackbar.show(
+          title: "Thất bại",
+          message: "Gửi đánh giá không thành công",
+          backgroundColor: AppColors.errorColor);
+    } on CustomException catch (e) {
+      print('Đánh giá xảy ra lỗi: $e');
+      CustomSnackbar.show(
+          title: "Thất bại",
+          message: "Gửi đánh giá không thành công",
+          backgroundColor: AppColors.errorColor);
+    }
+  }
+
+  _onCloseFeedbackDialog() {
+    feedbackContentController.clear();
+    feedbackRatingController.clear();
+    Get.back();
   }
   //end feedback
 
+  _canUpdate(DateTime? endDate) {
+    return endDate == null ||
+        DateTime.now().isBefore(endDate
+            .add(const Duration(days: CommonConstants.dayCanEditFeedback)));
+  }
 }
