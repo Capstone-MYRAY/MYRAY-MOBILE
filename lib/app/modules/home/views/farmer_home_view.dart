@@ -12,6 +12,7 @@ import 'package:myray_mobile/app/shared/constants/app_colors.dart';
 import 'package:myray_mobile/app/shared/constants/app_strings.dart';
 import 'package:myray_mobile/app/shared/constants/common.dart';
 import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
+import 'package:myray_mobile/app/shared/utils/hex_color_extension.dart';
 import 'package:myray_mobile/app/shared/widgets/builders/list_empty_builder.dart';
 import 'package:myray_mobile/app/shared/widgets/builders/loading_builder.dart';
 import 'package:myray_mobile/app/shared/widgets/lazy_loading_list.dart';
@@ -154,6 +155,9 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
                                             return FarmerSpecialPostCard(
                                               backgroundColor: AppColors
                                                   .markedBackgroundColor,
+                                              statusColor: HexColor.fromHex(jobPost.backgroundColor!),
+                                              statusName: jobPost.postTypeName,
+                                              statusNameColor: HexColor.fromHex(jobPost.foregroundColor!),
                                               title: jobPost.title,
                                               address: jobPost.address ?? '',
                                               price: jobPost.payPerHourJob !=
@@ -306,6 +310,7 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
                                   : Center(
                                       child: Column(
                                         children: [
+                                          const SizedBox(height: 20),
                                           Text(
                                             AppStrings.noMarkedJobPost,
                                             style: Get.textTheme.bodyMedium!
