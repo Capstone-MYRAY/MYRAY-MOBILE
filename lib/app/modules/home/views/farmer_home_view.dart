@@ -152,46 +152,49 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
                                                 controller.getExpiredDate(
                                                     publishedDate,
                                                     numberPublishDate);
-                                            return FarmerSpecialPostCard(
-                                              backgroundColor: AppColors
-                                                  .markedBackgroundColor,
-                                              statusColor: HexColor.fromHex(jobPost.backgroundColor!),
-                                              statusName: jobPost.postTypeName,
-                                              statusNameColor: HexColor.fromHex(jobPost.foregroundColor!),
-                                              title: jobPost.title,
-                                              address: jobPost.address ?? '',
-                                              price: jobPost.payPerHourJob !=
-                                                      null
-                                                  ? jobPost
-                                                      .payPerHourJob!.salary
-                                                  : jobPost
-                                                      .payPerTaskJob!.salary,
-                                              treeType: jobPost
-                                                      .treeJobs.isEmpty
-                                                  ? "Không phân loại"
-                                                  : jobPost
-                                                          .treeJobs[0].type ??
-                                                      "Không phân loại", //no
-                                              workType:
-                                                  jobPost.payPerHourJob !=
-                                                          null
-                                                      ? AppStrings.payPerHour
-                                                      : AppStrings.payPerTask,
-                                              isStatus: true,
-                                              expiredDate:
-                                                  DateFormat('dd-MM-yyyy')
-                                                      .format(expiredDate),
-                                              isExpired:
-                                                  controller.checkExpiredDate(
-                                                      expiredDate),
-                                              onTap: () => {
-                                                Get.toNamed(
-                                                    Routes
-                                                        .farmerJobPostDetail,
-                                                    arguments: {
-                                                      Arguments.item: jobPost
-                                                    })
-                                              },
+                                            return Container(
+                                              margin: const EdgeInsets.only(right: 20),
+                                              child: FarmerSpecialPostCard(
+                                                backgroundColor: AppColors
+                                                    .markedBackgroundColor,
+                                                statusColor: HexColor.fromHex(jobPost.backgroundColor!),
+                                                statusName: jobPost.postTypeName,
+                                                statusNameColor: HexColor.fromHex(jobPost.foregroundColor!),
+                                                title: jobPost.title,
+                                                address: jobPost.address ?? '',
+                                                price: jobPost.payPerHourJob !=
+                                                        null
+                                                    ? jobPost
+                                                        .payPerHourJob!.salary
+                                                    : jobPost
+                                                        .payPerTaskJob!.salary,
+                                                treeType: jobPost
+                                                        .treeJobs.isEmpty
+                                                    ? "Không phân loại"
+                                                    : jobPost
+                                                            .treeJobs[0].type ??
+                                                        "Không phân loại", //no
+                                                workType:
+                                                    jobPost.payPerHourJob !=
+                                                            null
+                                                        ? AppStrings.payPerHour
+                                                        : AppStrings.payPerTask,
+                                                isStatus: true,
+                                                expiredDate:
+                                                    DateFormat('dd-MM-yyyy')
+                                                        .format(expiredDate),
+                                                isExpired:
+                                                    controller.checkExpiredDate(
+                                                        expiredDate),
+                                                onTap: () => {
+                                                  Get.toNamed(
+                                                      Routes
+                                                          .farmerJobPostDetail,
+                                                      arguments: {
+                                                        Arguments.item: jobPost
+                                                      })
+                                                },
+                                              ),
                                             );
                                           })
                                     )
