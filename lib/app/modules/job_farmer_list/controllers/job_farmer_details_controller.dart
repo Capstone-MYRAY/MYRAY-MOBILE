@@ -90,6 +90,7 @@ class JobFarmerDetailsController extends GetxController
     try {
       EasyLoading.show();
       FeedBack? submittedFeedback;
+      String successMsg = '';
       if (feedback.value == null) {
         final data = PostFeedbackRequest(
           content: content,
@@ -99,6 +100,7 @@ class JobFarmerDetailsController extends GetxController
         );
 
         submittedFeedback = await _feedbackRepository.sendFeedBack(data);
+        successMsg = AppMsg.MSG5003;
       } else {
         final data = PutFeedbackRequest(
           id: feedback.value!.id,
@@ -109,6 +111,7 @@ class JobFarmerDetailsController extends GetxController
         );
 
         submittedFeedback = await _feedbackRepository.updateFeedback(data);
+        successMsg = AppMsg.MSG5010;
       }
 
       if (submittedFeedback == null) throw CustomException('Có lỗi xảy ra');
@@ -121,7 +124,7 @@ class JobFarmerDetailsController extends GetxController
 
       CustomSnackbar.show(
         title: AppStrings.titleSuccess,
-        message: 'Gửi đánh giá thành công',
+        message: successMsg,
       );
     } catch (e) {
       print('Feedback error: ${e.toString()}');
@@ -146,6 +149,7 @@ class JobFarmerDetailsController extends GetxController
     );
 
     try {
+      EasyLoading.show();
       final submittedReport = await _reportRepository.report(data);
 
       if (submittedReport == null) throw CustomException('Có lỗi xảy ra');
@@ -158,7 +162,7 @@ class JobFarmerDetailsController extends GetxController
 
       CustomSnackbar.show(
         title: AppStrings.titleSuccess,
-        message: 'Gửi báo cáo thành công',
+        message: AppMsg.MSG4041,
       );
     } catch (e) {
       print('Report error: ${e.toString()}');
@@ -194,6 +198,7 @@ class JobFarmerDetailsController extends GetxController
       }
     } catch (e) {
       print('onApproveError: ${e.toString()}');
+      EasyLoading.dismiss();
       CustomSnackbar.show(
         title: AppStrings.titleError,
         message: 'Có lỗi xảy ra',
@@ -204,7 +209,9 @@ class JobFarmerDetailsController extends GetxController
 
   onReject() async {
     try {
+      EasyLoading.show();
       bool? success = await rejectFarmer(appliedFarmer.value.id);
+      EasyLoading.dismiss();
 
       //user cancel action
       if (success == null) return;
@@ -219,6 +226,7 @@ class JobFarmerDetailsController extends GetxController
       appliedFarmer.refresh();
     } catch (e) {
       print('onRejectError: ${e.toString()}');
+      EasyLoading.dismiss();
       CustomSnackbar.show(
         title: AppStrings.titleError,
         message: 'Có lỗi xảy ra',

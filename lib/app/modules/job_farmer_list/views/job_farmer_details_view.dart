@@ -19,6 +19,13 @@ class JobFarmerDetailsView extends GetView<JobFarmerDetailsController> {
   @override
   String get tag => Get.arguments[Arguments.tag];
 
+  bool get canReportFeedback {
+    DateTime? endDate = controller.appliedFarmer.value.jobPost.jobEndDate;
+    return endDate == null ||
+        DateTime.now().isBefore(endDate
+            .add(const Duration(days: CommonConstants.dayCanEditFeedback)));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -117,6 +124,8 @@ class JobFarmerDetailsView extends GetView<JobFarmerDetailsController> {
   }
 
   Widget _buildReportAndFeedbackButtons() {
+    if (!canReportFeedback) return const SizedBox();
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -150,15 +159,12 @@ class JobFarmerDetailsView extends GetView<JobFarmerDetailsController> {
   _buildFeedback() {
     FeedBack? feedback = controller.feedback.value;
     if (feedback == null) return const SizedBox();
-    DateTime? endDate = controller.appliedFarmer.value.jobPost.jobEndDate;
-    bool canUpdate = endDate == null ||
-        DateTime.now().isBefore(endDate
-            .add(const Duration(days: CommonConstants.dayCanEditFeedback)));
+
     return FeedbackFarmerCard(
       createdDate: feedback.createdDate,
       rating: feedback.numStar.toDouble(),
       content: feedback.content,
-      canUpdate: canUpdate,
+      canUpdate: canReportFeedback,
       onEditPressed: controller.onFeedback,
     );
   }

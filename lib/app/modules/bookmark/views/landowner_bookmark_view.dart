@@ -27,7 +27,10 @@ class LandownerBookmarkView extends StatelessWidget {
             }
 
             if (snapshot.data == null || controller.bookmarks.isEmpty) {
-              return ListEmptyBuilder(onRefresh: controller.onRefresh);
+              return ListEmptyBuilder(
+                onRefresh: controller.onRefresh,
+                msg: AppMsg.MSG5007,
+              );
             }
 
             if (snapshot.hasData && controller.bookmarks.isNotEmpty) {

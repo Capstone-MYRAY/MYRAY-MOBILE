@@ -45,8 +45,7 @@ class AppliedFarmer {
 
   Map<String, dynamic> toJson() => _$AppliedFarmerToJson(this);
 
-  String get statusString =>
-      _appliedFarmerStatus[status] ?? AppStrings.appliedFarmerEnd;
+  String? get statusString => _appliedFarmerStatus[status];
   Color? get statusColor => _appliedFarmerColor[status];
 }
 

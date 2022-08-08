@@ -97,7 +97,7 @@ class FeedbackDialog {
                 onPressed: () {
                   if (selectedStar == 0) {
                     setState(() {
-                      error = 'Vui lòng chọn số sao';
+                      error = AppMsg.MSG5014;
                     });
                     return;
                   }

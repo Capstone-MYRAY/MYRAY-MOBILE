@@ -68,8 +68,7 @@ class LandownerJobPostDetailsController extends GetxController {
   finishJob() async {
     try {
       final isConfirmed = await CustomDialog.show(
-          confirm: () => Get.back(result: true),
-          message: 'Bạn muốn kết thúc công việc này?');
+          confirm: () => Get.back(result: true), message: AppMsg.MSG4037);
 
       if (isConfirmed == null || !isConfirmed) return;
 
@@ -90,7 +89,7 @@ class LandownerJobPostDetailsController extends GetxController {
 
       CustomSnackbar.show(
         title: AppStrings.titleSuccess,
-        message: 'Công việc đã hoàn thành',
+        message: AppMsg.MSG4038,
       );
     } catch (e) {
       CustomSnackbar.show(
