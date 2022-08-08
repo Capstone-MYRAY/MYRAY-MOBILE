@@ -36,11 +36,15 @@ class FarmerProfileController extends GetxController{
   }
 
   void navigateToHistoryJob(){
-    Get.toNamed(Routes.farmerHistoryJobHome);
+    Get.toNamed(Routes.farmerHistoryJob);
   }
   
   void navigateToChangePassword(){
     Get.toNamed(Routes.changePassword);
+  }
+
+  void navigateToHistoryAppliedJob(){
+    Get.toNamed(Routes.farmerHistoryAppliedJob);
   }
  
 }

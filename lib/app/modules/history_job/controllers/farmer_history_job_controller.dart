@@ -25,9 +25,7 @@ class FarmerHistoryJobController extends GetxController{
   Future<bool?> getHistoryJobList() async {
     GetAppliedJobPostList? list;
     GetAppliedJobRequest data = GetAppliedJobRequest(
-      status: AppliedFarmerStatus.approved,
-      // startWork: "2",
-      startWork: "1",
+      startWork: "2",//job done
       page: (++_currentPage).toString(),
       pageSize: (_pageSize).toString(),
     );

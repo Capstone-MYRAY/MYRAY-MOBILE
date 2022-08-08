@@ -21,7 +21,6 @@ class CommentController extends GetxController
   final CommentRepository _commentRepository = Get.find<CommentRepository>();
   final ProfileRepository _profileRepository = Get.find<ProfileRepository>();
 
-
   int currentUser = AuthCredentials.instance.user!.id!;
   String roleUser = AuthCredentials.instance.user!.role!;
 
@@ -98,7 +97,6 @@ class CommentController extends GetxController
       Account? account = await _getPerson(list[i].commentBy);
       commentMapAccount[list[i].id] = account;
     }
-    
 
     print('list length: ${commentMapAccount.length}');
   }
@@ -106,7 +104,7 @@ class CommentController extends GetxController
   Future<Account?> _getPerson(int createdBy) async {
     return await _profileRepository.getUser(createdBy);
   }
-  
+
   Future<Comment?> createComment(PostCommentRequest data) async {
     return await _commentRepository.createComment(data);
   }
@@ -131,22 +129,30 @@ class CommentController extends GetxController
     return null;
   }
 
-  onCreateComment(int guidePostId, BuildContext context) async {
-    if (validateInputComment(commentController.text.trim())) {
+  onCreateComment(int guidePostId, BuildContext context, Account commentAccount) async {
+    if (!validateInputComment(commentController.text.trim())) {return;}
       // print(controller.commentController.text.trim());
       PostCommentRequest data = PostCommentRequest(
         guidepostId: guidePostId,
         content: commentController.text,
       );
-      Comment? comment = await createComment(data);
-      if (comment != null) {
-        commentList.insert(commentList.length - 1, comment);
+      EasyLoading.show();
+      try {
+        Comment? comment = await createComment(data);
+        Future.delayed(const Duration(milliseconds: 500), () {
+          EasyLoading.dismiss();
+          if (comment != null) {
+            comment.avatar = commentAccount.imageUrl;
+            comment.fullname = commentAccount.fullName;
+            commentList.insert(commentList.isEmpty ? 0:  (commentList.length- 1), comment);
+          }
+        });
+      } on CustomException catch (e) {
+        print("Not validated: $e");
       }
       commentController.clear();
-      FocusScope.of(context).unfocus();
-    } else {
-      print("Not validated");
-    }
+      // FocusScope.of(context).unfocus();
+    
   }
 
   onDeleteComment(int commentId) async {

@@ -20,12 +20,20 @@ class Comment{
   @JsonKey(name: 'create_date')
   DateTime createDate;
 
+  @JsonKey(name: 'avatar')
+  String? avatar;
+
+  @JsonKey(name: 'fullname')
+  String? fullname;
+
   Comment({
     required this.id,
     required this.guidepostId,
     required this.commentBy,
     required this.content,
-    required this.createDate
+    required this.createDate,
+    required this.fullname,
+    this.avatar
   });
 
   factory Comment.fromJson(Map<String, dynamic> json) => _$CommentFromJson(json);

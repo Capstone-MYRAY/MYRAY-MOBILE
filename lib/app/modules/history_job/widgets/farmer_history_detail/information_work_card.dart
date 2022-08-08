@@ -37,7 +37,7 @@ class InformationWorkCard extends StatelessWidget {
             ),
             buildRowInfor(
                 title: 'Ngày bắt đầu:',
-                content: Utils.formatddMMyyyy(endDate ?? DateTime.now()),
+                content: Utils.formatddMMyyyy(startDate),
                 icon: CustomIcons.calendar_star,
                 spaceTitleAndContent: 18),
             SizedBox(
@@ -45,7 +45,7 @@ class InformationWorkCard extends StatelessWidget {
             ),
             buildRowInfor(
               title: 'Ngày kết thúc:',
-              content: Utils.formatddMMyyyy(startDate),
+              content: Utils.formatddMMyyyy(endDate ?? DateTime.now()),
               icon: CustomIcons.calendar_check,
             ),
             SizedBox(

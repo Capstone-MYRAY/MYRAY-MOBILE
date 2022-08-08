@@ -6,6 +6,7 @@ import 'package:myray_mobile/app/modules/history_job/widgets/farmer_history_deta
 import 'package:myray_mobile/app/modules/history_job/widgets/farmer_history_detail/landowner_cart.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/utils/utils.dart';
+import 'package:myray_mobile/app/shared/widgets/dialogs/custom_information.dialog.dart';
 
 class FarmerHistoryJobDetail extends GetView<FarmerHistoryJobDetailController> {
   const FarmerHistoryJobDetail({Key? key}) : super(key: key);
@@ -91,7 +92,10 @@ class FarmerHistoryJobDetail extends GetView<FarmerHistoryJobDetailController> {
                           controller.isFired
                               ? InkWell(
                                   onTap: () {
-                                    print('See reason');
+                                    CustomInformationDialog.show(
+                                      title: 'Thông báo',
+                                      message: 'Bạn bị sa thải với lý do: \n ${controller.firedReason}',
+                                    );
                                     //hiện pop up lý do bị đuổi
                                   },
                                   child: Container(
@@ -128,14 +132,16 @@ class FarmerHistoryJobDetail extends GetView<FarmerHistoryJobDetailController> {
               const SizedBox(
                 height: 20,
               ),
-              Obx(() =>  LandOwnerCard(
-                name: controller.jobPost.publishedName!,
-                address: controller.jobPost.address ??
-                    'Không có địa chỉ',
-                isBookmark: controller.isBookmark.value,
-                bookmark: controller.onBookmark,
-                report: controller.onReport,
-              ),),
+              Obx(
+                () => LandOwnerCard(
+                  name: controller.jobPost.publishedName!,
+                  address: controller.jobPost.address ?? 'Không có địa chỉ',
+                  isBookmark: controller.isBookmark.value,
+                  bookmark: controller.onBookmark,
+                  report: controller.onReport,
+                  feedback: controller.onFeedback,
+                ),
+              ),
               const SizedBox(
                 height: 25,
               ),
@@ -214,9 +220,20 @@ class FarmerHistoryJobDetail extends GetView<FarmerHistoryJobDetailController> {
                                     splashColor:
                                         AppColors.primaryColor.withOpacity(0.2),
                                     onTap: () {
+                                      // print('status: ${controller.attendanceList[index].reason}');
+                                      if (controller
+                                              .attendanceList[index].status !=
+                                          1) {
+                                        CustomInformationDialog.show(
+                                            title: 'Thông báo',
+                                            message:
+                                                'Bạn không tham gia công việc ngày hôm nay');
+                                        return;
+                                      }
                                       FarmerAttendanceDetailDialog.show(
                                         context,
-                                        controller.getAttentdance(controller.attendanceList[index]),
+                                        controller.getAttentdance(
+                                            controller.attendanceList[index]),
                                         controller.jobPost.title,
                                       );
                                     },

@@ -85,7 +85,7 @@ class CommentModalBottomSheet {
                       withBorder: false,
                       errorText: 'Comment cannot be blank',
                       sendButtonMethod: () async {
-                        controller.onCreateComment(guidePostId, context);
+                        controller.onCreateComment(guidePostId, context, commentAccount!);
                       },
                       formKey: controller.formKey,
                       commentController: controller.commentController,
@@ -137,10 +137,10 @@ class CommentModalBottomSheet {
                                   String userRole = controller.roleUser;
                                   print('user role: $userRole');
                                   return CommentContainer(
-                                          name: controller.commentMapAccount[comment.id].fullName,
+                                          name: comment.fullname ?? 'Ẩn danh',
                                           comment: comment.content,
                                           commentDateTime: comment.createDate,
-                                          imageUrl: controller.commentMapAccount[comment.id].imageUrl,
+                                          imageUrl: comment.avatar,
                                           onLongPress: () {
                                             comment.commentBy == userId
                                             ? CommentFunctionBottomSheet.showMenu(

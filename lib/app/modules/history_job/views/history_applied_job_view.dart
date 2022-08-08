@@ -3,9 +3,11 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:myray_mobile/app/data/models/job_post/job_post.dart';
 import 'package:myray_mobile/app/modules/history_job/controllers/history_applied_job_controller.dart';
+import 'package:myray_mobile/app/routes/app_pages.dart';
 import 'package:myray_mobile/app/shared/constants/app_assets.dart';
 import 'package:myray_mobile/app/shared/constants/app_colors.dart';
 import 'package:myray_mobile/app/shared/constants/app_strings.dart';
+import 'package:myray_mobile/app/shared/constants/common.dart';
 import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
 import 'package:myray_mobile/app/shared/widgets/builders/loading_builder.dart';
 import 'package:myray_mobile/app/shared/widgets/chips/status_chip.dart';
@@ -25,13 +27,13 @@ class HistoryAppliedJobView extends GetView<HistoryAppliedJobController> {
             child: Align(
               alignment: Alignment.center,
               child: TabBar(
-            tabs: controller.tabs,
-            controller: controller.tabController,
-            indicatorColor: Colors.transparent,
-            labelColor: AppColors.primaryColor,
-            isScrollable: true,
-            unselectedLabelColor: Colors.grey,
-          ),
+                tabs: controller.tabs,
+                controller: controller.tabController,
+                indicatorColor: AppColors.primaryColor,
+                labelColor: AppColors.primaryColor,
+                isScrollable: true,
+                unselectedLabelColor: Colors.grey,
+              ),
             ),
           ),
         ),
@@ -251,7 +253,8 @@ class HistoryAppliedJobView extends GetView<HistoryAppliedJobController> {
                                     top: 10, left: 15, right: 15, bottom: 20),
                                 child: Row(
                                   children: [
-                                    const Icon(CustomIcons.work_history_outline, size: 20),
+                                    const Icon(CustomIcons.work_history_outline,
+                                        size: 20),
                                     const SizedBox(
                                       width: 10,
                                     ),
@@ -273,8 +276,8 @@ class HistoryAppliedJobView extends GetView<HistoryAppliedJobController> {
                                               .appliedJobPostResponse[index]
                                               .statusString,
                                           backgroundColor: controller
-                                                .appliedJobPostResponse[index]
-                                                .statusColor,
+                                              .appliedJobPostResponse[index]
+                                              .statusColor,
                                           foregroundColor: Colors.white,
                                         ),
                                       ]),
@@ -282,6 +285,35 @@ class HistoryAppliedJobView extends GetView<HistoryAppliedJobController> {
                                   ],
                                 ),
                               ),
+                              controller.tabIndex == 4 ||
+                                      controller.tabIndex == 5
+                                  ? TextButton(
+                                      onPressed: () {
+                                        Get.toNamed(
+                                            Routes.farmerHistoryJobDetail,
+                                            arguments: {
+                                              Arguments.tag:
+                                                  controller.appliedJobPostResponse[index].id.toString(),
+                                              Arguments.item: controller.appliedJobPostResponse[index],
+                                            });
+                                      },
+                                      child: const Text(
+                                        'Chi tiết',
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                          letterSpacing: 1,
+                                          shadows: [
+                                            Shadow(
+                                                color: AppColors.bluePastel,
+                                                offset: Offset(0, -5))
+                                          ],
+                                          color: Colors.transparent,
+                                          decoration: TextDecoration.underline,
+                                          decorationColor: AppColors.bluePastel,
+                                          decorationThickness: 2,
+                                        ),
+                                      ))
+                                  : const SizedBox()
                             ]),
                           )));
                 })));

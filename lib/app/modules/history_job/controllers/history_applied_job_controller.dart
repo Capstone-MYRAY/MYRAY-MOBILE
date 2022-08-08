@@ -21,20 +21,6 @@ class HistoryAppliedJobController extends GetxController
 
   late TabController tabController;
 
-  @override
-  void onInit() async {
-    super.onInit();
-    tabController = TabController(vsync: this, length: 4);
-    tabController.addListener(_handleTabSelection);
-  }
-
-  @override
-  void dispose() {
-    tabController.removeListener(_handleTabSelection);
-    tabController.dispose();
-    super.dispose();
-  }
-
   List<Widget> tabs = const [
     Tab(
       text: 'Tất cả',
@@ -48,13 +34,37 @@ class HistoryAppliedJobController extends GetxController
     Tab(
       text: 'Từ chối',
     ),
+    Tab(
+      text: 'Hoàn thành',
+    ),
+    Tab(
+      text: 'Sa thải',
+    ),
   ];
+
+  @override
+  void onInit() async {
+    super.onInit();
+    tabController = TabController(vsync: this, length: tabs.length);
+    tabController.addListener(_handleTabSelection);
+  }
+
+  @override
+  void dispose() {
+    tabController.removeListener(_handleTabSelection);
+    tabController.dispose();
+    super.dispose();
+  }
+
+  
 
   Map<int, dynamic> statusMap = {
     0: null,
     1: AppliedFarmerStatus.pending,
     2: AppliedFarmerStatus.approved,
-    3: AppliedFarmerStatus.rejected
+    3: AppliedFarmerStatus.rejected,
+    4: AppliedFarmerStatus.end,
+    5: AppliedFarmerStatus.fired
   };
 
   void _handleTabSelection() async {
@@ -76,6 +86,14 @@ class HistoryAppliedJobController extends GetxController
           tabIndex = 3;
           await onRefresh();
           break;
+        case 4:
+          tabIndex = 4;
+          await onRefresh();
+          break;
+        case 5:
+          tabIndex = 5;
+          await onRefresh();
+          break;
       }
     }
   }
@@ -83,6 +101,7 @@ class HistoryAppliedJobController extends GetxController
   //theo tab: all:0; đã nhận: 1; chờ duyệt: 2: từ chối: 3
   Future<bool?> getAppliedJobList() async {
     GetAppliedJobPostList? list;
+    //lấy các công việc chưa start và đang start
     GetAppliedJobRequest data = GetAppliedJobRequest(
       status: statusMap[tabIndex],
       page: (++_currentPage).toString(),
@@ -118,5 +137,4 @@ class HistoryAppliedJobController extends GetxController
     appliedJobPostResponse.clear();
     await getAppliedJobList();
   }
-
 }
