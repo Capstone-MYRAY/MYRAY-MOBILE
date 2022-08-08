@@ -104,7 +104,7 @@ class LandOwnerCard extends StatelessWidget {
                 feedback: feedback,
                 report: report,
                 bookmark: bookmark,
-                isBookmark: true,
+                isBookmark: isBookmark,
               ),
             ),
           ],
