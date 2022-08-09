@@ -1,6 +1,7 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:myray_mobile/app/data/providers/notification/local_notification_service.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'notification_service.dart';
 import 'dart:developer' as developer;
@@ -57,6 +58,7 @@ class NotificationProvider {
     _messaging.getInitialMessage().then((message) {
       print('getInitialMessage');
       if (message != null && message.data.isNotEmpty) {
+        LocalNotificationService.display(message);
         _serviceDelegate =
             _service.serviceDelegate(message.data['type'] ?? '', message.data);
         if (_serviceDelegate != null) {
@@ -75,6 +77,8 @@ class NotificationProvider {
         if (_serviceDelegate != null) {
           _serviceDelegate!();
         }
+
+        _service.updateData(message.data['type'] ?? '', message.data);
       }
     });
   }
@@ -86,6 +90,8 @@ class NotificationProvider {
       if (message.notification != null) {
         _serviceDelegate =
             _service.serviceDelegate(message.data['type'] ?? '', message.data);
+
+        // LocalNotificationService.display(message);
 
         Get.snackbar(
           message.notification!.title ?? '',
