@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:myray_mobile/app/modules/extend_history/extend_job_repository.dart';
+import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/widgets/dialogs/custom_confirm_dialog.dart';
 
 mixin ExtendJobService {
@@ -7,7 +8,7 @@ mixin ExtendJobService {
 
   Future<bool> approveExtend(int requestId) async {
     bool? isApproveConfirm = await CustomDialog.show(
-      message: 'Bạn muốn chấp nhận yêu cầu này?',
+      message: AppMsg.MSG4035,
       confirm: () async {
         //close confirm dialog
         Get.back(result: true);
@@ -21,7 +22,7 @@ mixin ExtendJobService {
 
   Future<bool> rejectExtend(int requestId) async {
     bool? isApproveConfirm = await CustomDialog.show(
-      message: 'Bạn muốn chấp nhận yêu cầu này?',
+      message: AppMsg.MSG4036,
       confirm: () async {
         //close confirm dialog
         Get.back(result: true);

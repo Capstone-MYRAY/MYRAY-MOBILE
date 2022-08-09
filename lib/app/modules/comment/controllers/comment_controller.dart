@@ -129,6 +129,7 @@ class CommentController extends GetxController
     return null;
   }
 
+
   onCreateComment(int guidePostId, BuildContext context, Account commentAccount) async {
     if (!validateInputComment(commentController.text.trim())) {return;}
       // print(controller.commentController.text.trim());
@@ -152,7 +153,6 @@ class CommentController extends GetxController
       }
       commentController.clear();
       // FocusScope.of(context).unfocus();
-    
   }
 
   onDeleteComment(int commentId) async {

@@ -76,7 +76,7 @@ class AppStrings {
   static const subtitleMyGarden = 'Danh sách vườn đã tạo';
   static const subtitlePaymentHistory = 'Danh sách giao dịch đã thực hiện';
   static const subtitleLandownerFavorite = 'Danh sách nông dân yêu thích';
-  static const subtitleLandownerReport = 'Dach sách nông dân đã báo cáo';
+  static const subtitleLandownerReport = 'Dach sách báo cáo đã gửi';
   static const subtitleGuidepost = 'Hướng dẫn kỹ thuật làm nông';
   static const subtitleChangePassword = 'Đổi mật khẩu';
   static const subtitleLogout = 'Đăng xuất tài khoản';

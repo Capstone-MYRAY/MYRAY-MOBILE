@@ -30,6 +30,18 @@ class AppMsg {
   static const MSG4031 = 'Bạn chưa thực hiện giao dịch nào';
   static const MSG4033 = 'Chưa có công việc nào được tạo';
   static const MSG4034 = 'Tên vườn tối đa 100 ký tự';
+  static const MSG4035 = 'Bạn muốn chấp nhận yêu cầu này?';
+  static const MSG4036 = 'Bạn muốn từ chối yêu cầu này?';
+  static const MSG4037 = 'Bạn muốn hoàn thành công việc này?';
+  static const MSG4038 = 'Công việc đã hoàn thành';
+  static const MSG4039 = 'Không có báo cáo nào';
+  static const MSG4040 = 'Vui lòng nhập lý do';
+  static const MSG4041 = 'Gửi báo cáo thành công';
+
+  static const MSG5003 = 'Phản hồi của bạn đã được gửi đi';
+  static const MSG5007 = 'Không có tài khoản yêu thích nào';
+  static const MSG5010 = 'Cập nhật đánh giá thành công';
+  static const MSG5014 = 'Vui lòng chọn số sao';
 
   static const MSG6001 = 'Số điện thoại này đã được đăng ký';
   static const MSG6002 = 'Số điện thoại không có trong hệ thống';

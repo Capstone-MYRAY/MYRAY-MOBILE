@@ -4,4 +4,7 @@ enum NotificationTypes {
   appliedFarmer,
   extendRequest,
   appliedResponse,
+  present,
+  fired,
+  extendJob,
 }

@@ -17,7 +17,7 @@ class AreaRepository {
       //filter response body
       final filter =
           (response.body['list_object'] as List<dynamic>).where((object) {
-        return !object['area_accounts'].isEmpty;
+        return !object['manager_of'].isEmpty;
       }).toList();
 
       //re-create filtered map

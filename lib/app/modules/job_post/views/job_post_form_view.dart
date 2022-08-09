@@ -223,7 +223,7 @@ class JobPostFormView extends GetView<JobPostFormController> {
                                 Expanded(
                                   child: SpinBox(
                                     key: UniqueKey(),
-                                    min: 3,
+                                    min: 1,
                                     max: 100,
                                     keyboardType: TextInputType.number,
                                     showButtons: true,

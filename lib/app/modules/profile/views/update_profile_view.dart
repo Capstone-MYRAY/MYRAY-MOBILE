@@ -21,44 +21,52 @@ class UpdateProfileView extends GetView<UpdateProfileController> {
       ),
       body: SizedBox(
         width: double.infinity,
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Obx(
-                () => AvatarUpdate(
-                  image: controller.currentImage.value == null
-                      ? controller.profileImage
-                      : FileImage(controller.currentImage.value!),
-                  onTapHandlerImage: controller.showImageDialog,
-                  onTapHandlerIcon: controller.currentImage.value == null
-                      ? controller.showImageDialog
-                      : controller.clearCurrentImage,
-                  icon: controller.currentImage.value == null
-                      ? CustomIcons.camera_plus
-                      : Icons.clear,
-                ),
-              ),
-              Form(
-                key: controller.formKey,
-                child: MyCard(
-                  isForm: true,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: _buildInfoField(),
+        child: GestureDetector(
+          onPanDown: (_) {
+            FocusScope.of(context).unfocus();
+          },
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Obx(
+                  () => AvatarUpdate(
+                    image: controller.currentImage.value == null
+                        ? controller.profileImage
+                        : FileImage(controller.currentImage.value!),
+                    onTapHandlerImage: controller.showImageDialog,
+                    onTapHandlerIcon: controller.currentImage.value == null
+                        ? controller.showImageDialog
+                        : controller.clearCurrentImage,
+                    icon: controller.currentImage.value == null
+                        ? CustomIcons.camera_plus
+                        : Icons.clear,
                   ),
                 ),
-              ),
-              const SizedBox(height: 8.0),
-              SizedBox(
-                width: Get.width * 0.7,
-                child: FilledButton(
-                  title: AppStrings.titleUpdate,
-                  onPressed: controller.updateProfile,
+                Form(
+                  key: controller.formKey,
+                  child: MyCard(
+                    isForm: true,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: _buildInfoField(),
+                    ),
+                  ),
                 ),
-              ),
-              const SizedBox(height: 8.0),
-            ],
+                const SizedBox(height: 8.0),
+                SizedBox(
+                  width: Get.width * 0.7,
+                  child: FilledButton(
+                    title: AppStrings.titleUpdate,
+                    onPressed: () {
+                      FocusScope.of(context).unfocus();
+                      controller.updateProfile();
+                    },
+                  ),
+                ),
+                const SizedBox(height: 8.0),
+              ],
+            ),
           ),
         ),
       ),
@@ -78,6 +86,7 @@ class UpdateProfileView extends GetView<UpdateProfileController> {
         labelText: '${AppStrings.labelFullName}*',
         placeholder: AppStrings.placeholderFullName,
         validator: FieldValidation.instance.validateFullName,
+        inputAction: TextInputAction.next,
       ),
       const SizedBox(height: 8.0),
       InputField(
@@ -88,6 +97,7 @@ class UpdateProfileView extends GetView<UpdateProfileController> {
         readOnly: true,
         validator: FieldValidation.instance.validateDob,
         onTap: controller.onChooseDob,
+        inputAction: TextInputAction.next,
       ),
       const SizedBox(height: 8.0),
       InputField(
@@ -96,6 +106,7 @@ class UpdateProfileView extends GetView<UpdateProfileController> {
         labelText: AppStrings.labelEmail,
         placeholder: AppStrings.placeholderEmail,
         validator: FieldValidation.instance.validateEmail,
+        inputAction: TextInputAction.next,
       ),
       const SizedBox(height: 8.0),
       InputField(
@@ -104,6 +115,7 @@ class UpdateProfileView extends GetView<UpdateProfileController> {
         labelText: AppStrings.labelAddress,
         placeholder: 'Nhập địa chỉ',
         validator: FieldValidation.instance.validateAddress,
+        inputAction: TextInputAction.next,
       ),
       const SizedBox(height: 8.0),
       _buildGender(),
@@ -114,7 +126,7 @@ class UpdateProfileView extends GetView<UpdateProfileController> {
         placeholder: AppStrings.placeholderDescription,
         minLines: 1,
         maxLines: 10,
-        inputAction: TextInputAction.done,
+        keyBoardType: TextInputType.multiline,
       ),
     ];
   }
