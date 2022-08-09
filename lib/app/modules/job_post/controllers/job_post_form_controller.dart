@@ -74,7 +74,7 @@ class JobPostFormController extends GetxController {
   var isToolAvailable = false.obs;
   var isUpgrade = false.obs;
 
-  var numOfPublishDay = 3.obs;
+  var numOfPublishDay = 1.obs;
   var totalPostingMoney = 0.0.obs;
   var usingPoint = 0.obs;
   var totalDiscountByPoint = 0.0.obs;
