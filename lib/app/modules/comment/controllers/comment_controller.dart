@@ -129,30 +129,32 @@ class CommentController extends GetxController
     return null;
   }
 
-  onCreateComment(int guidePostId, BuildContext context, Account commentAccount) async {
-    if (!validateInputComment(commentController.text.trim())) {return;}
-      // print(controller.commentController.text.trim());
-      PostCommentRequest data = PostCommentRequest(
-        guidepostId: guidePostId,
-        content: commentController.text,
-      );
-      EasyLoading.show();
-      try {
-        Comment? comment = await createComment(data);
-        Future.delayed(const Duration(milliseconds: 500), () {
-          EasyLoading.dismiss();
-          if (comment != null) {
-            comment.avatar = commentAccount.imageUrl;
-            comment.fullname = commentAccount.fullName;
-            commentList.insert(commentList.isEmpty ? 0:  (commentList.length- 1), comment);
-          }
-        });
-      } on CustomException catch (e) {
-        print("Not validated: $e");
-      }
-      commentController.clear();
-      // FocusScope.of(context).unfocus();
-    
+  onCreateComment(
+      int guidePostId, BuildContext context, Account commentAccount) async {
+    if (!validateInputComment(commentController.text.trim())) {
+      return;
+    }
+    // print(controller.commentController.text.trim());
+    PostCommentRequest data = PostCommentRequest(
+      guidepostId: guidePostId,
+      content: commentController.text,
+    );
+    EasyLoading.show();
+    try {
+      Comment? comment = await createComment(data);
+      Future.delayed(const Duration(milliseconds: 500), () {
+        EasyLoading.dismiss();
+        if (comment != null) {
+          comment.avatar = commentAccount.imageUrl;
+          comment.fullname = commentAccount.fullName;
+          commentList.insert(0, comment);
+        }
+      });
+    } on CustomException catch (e) {
+      print("Not validated: $e");
+    }
+    commentController.clear();
+    // FocusScope.of(context).unfocus();
   }
 
   onDeleteComment(int commentId) async {
