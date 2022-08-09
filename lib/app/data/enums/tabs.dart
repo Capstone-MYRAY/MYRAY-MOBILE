@@ -11,7 +11,7 @@ enum WaitingApproveTabs {
   extendRequest,
 }
 
-enum farmerTabs {
+enum FarmerTabs {
   home,
   jobPost,
   appliedJob,
