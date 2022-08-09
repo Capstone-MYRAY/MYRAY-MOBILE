@@ -144,7 +144,7 @@ class CommentController extends GetxController
           if (comment != null) {
             comment.avatar = commentAccount.imageUrl;
             comment.fullname = commentAccount.fullName;
-            commentList.insert(commentList.isEmpty ? 0:  (commentList.length- 1), comment);
+            commentList.insert(0, comment);
           }
         });
       } on CustomException catch (e) {
