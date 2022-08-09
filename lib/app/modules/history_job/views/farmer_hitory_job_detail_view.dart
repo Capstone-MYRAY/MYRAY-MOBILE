@@ -78,7 +78,7 @@ class FarmerHistoryJobDetail extends GetView<FarmerHistoryJobDetailController> {
                               indent: 45,
                               endIndent: 45,
                               height: 10),
-                          Container(
+                          Obx(() => Container(
                             margin: const EdgeInsets.only(left: 85, top: 15),
                             child: InformationWorkCard.buildRowInfor(
                                 title: 'Trạng thái:',
@@ -88,7 +88,7 @@ class FarmerHistoryJobDetail extends GetView<FarmerHistoryJobDetailController> {
                                 spaceIconAndTitle: 10,
                                 contentColor:
                                     controller.appliedJob.value.statusColor),
-                          ),
+                          ),),
                           controller.isFired
                               ? InkWell(
                                   onTap: () {
