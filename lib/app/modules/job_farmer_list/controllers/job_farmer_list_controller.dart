@@ -12,6 +12,7 @@ import 'package:myray_mobile/app/modules/applied_farmer/applied_farmer_repositor
 import 'package:myray_mobile/app/modules/attendance/attendance_repository.dart';
 import 'package:myray_mobile/app/modules/attendance/widgets/check_attendance_dialog.dart';
 import 'package:myray_mobile/app/modules/attendance/widgets/fired_confirm_dialog.dart';
+import 'package:myray_mobile/app/modules/job_post/controllers/landowner_job_post_details_controller.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/utils/custom_exception.dart';
 import 'package:myray_mobile/app/shared/widgets/custom_snackbar.dart';
@@ -175,6 +176,13 @@ class JobFarmerListController extends GetxController {
       appliedFarmers.refresh();
 
       signatureController.clear();
+
+      //update job post details
+      final jobPostDetails = Get.find<LandownerJobPostDetailsController>(
+          tag: appliedFarmer.jobPost.id.toString());
+      jobPostDetails.totalPayingSalary.value =
+          appliedFarmer.jobPost.payPerTaskJob?.salary ?? 0;
+
       EasyLoading.dismiss();
       Get.back(); //close dialog
     } catch (e) {
@@ -209,7 +217,7 @@ class JobFarmerListController extends GetxController {
       final result = await _attendanceRepository.checkAttendance(data);
       if (result == null) throw Exception('Có lỗi xảy ra');
 
-      appliedFarmer.status = AppliedFarmerStatus.end.index;
+      appliedFarmer.status = AppliedFarmerStatus.fired.index;
       appliedFarmers.refresh();
 
       EasyLoading.dismiss();
