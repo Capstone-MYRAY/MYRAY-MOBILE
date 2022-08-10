@@ -32,7 +32,9 @@ class FarmerProfileView extends GetView<FarmerProfileController> {
               attendance: controller.navigateToAttendancePage,
               history: controller.navigateToHistoryJob,
               password: controller.navigateToChangePassword,
+              appliedJob: controller.navigateToHistoryAppliedJob
             ),
+            const SizedBox(height: 32),
           ],
         ),
       ),

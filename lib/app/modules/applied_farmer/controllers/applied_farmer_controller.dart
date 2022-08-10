@@ -48,7 +48,7 @@ class AppliedFarmerController extends GetxController {
     }
   }
 
-  Future<void> onRefresh() async {
+  Future<void> onRefresh({bool isProfileRefresh = false}) async {
     //reset current page & hasNext
     _currentPage = 0;
     _hasNextPage = true;
@@ -56,9 +56,11 @@ class AppliedFarmerController extends GetxController {
     //clear applied farmer list
     appliedFarmers.clear();
 
-    //load user info
-    final profile = Get.find<LandownerProfileController>();
-    profile.getUserInfo();
+    if (isProfileRefresh) {
+      //load user info
+      final profile = Get.find<LandownerProfileController>();
+      profile.getUserInfo();
+    }
 
     update();
   }

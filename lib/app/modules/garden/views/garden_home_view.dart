@@ -38,7 +38,10 @@ class GardenHomeView extends GetView<GardenHomeController> {
             }
 
             if (snapshot.data == null || controller.gardens.isEmpty) {
-              return ListEmptyBuilder(onRefresh: controller.onRefresh);
+              return ListEmptyBuilder(
+                onRefresh: controller.onRefresh,
+                msg: AppMsg.MSG4016,
+              );
             }
 
             if (snapshot.hasData && controller.gardens.isNotEmpty) {

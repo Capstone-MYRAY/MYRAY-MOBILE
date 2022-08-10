@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:myray_mobile/app/data/models/applied_job/applied_job_response.dart';
 import 'package:myray_mobile/app/data/models/job_post/job_post.dart';
 import 'package:myray_mobile/app/modules/history_job/controllers/farmer_history_job_controller.dart';
 import 'package:myray_mobile/app/modules/history_job/widgets/history_job_card.dart';
 import 'package:myray_mobile/app/routes/app_pages.dart';
+import 'package:myray_mobile/app/shared/constants/app_assets.dart';
 import 'package:myray_mobile/app/shared/constants/app_colors.dart';
 import 'package:myray_mobile/app/shared/constants/app_strings.dart';
+import 'package:myray_mobile/app/shared/constants/common.dart';
 import 'package:myray_mobile/app/shared/widgets/builders/loading_builder.dart';
 import 'package:myray_mobile/app/shared/widgets/lazy_loading_list.dart';
 
@@ -59,28 +62,49 @@ class FarmerHistoryJobView extends GetView<FarmerHistoryJobController> {
                   itemBuilder: (context, index) {
                     if (snapshot.data == null ||
                         controller.historyJobPostList.isEmpty) {
-                      return HistoryJobCard(
-                        title: 'Công việc kết thúc',
-                        nameOnwner: 'Tên chủ rẫy',
-                        type: 'Làm khoán/công',
-                        startDate: DateTime.now(),
-                        endDate: DateTime.now(),
-                        onTap: (){
-                          Get.toNamed(Routes.farmerHistoryJobDetail);
-                        }
+                      return Center(
+                        child: Container(
+                          height: Get.height * 0.8,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text("Không có công việc nào.",
+                                  style: Get.textTheme.bodyLarge!.copyWith(
+                                    color: AppColors.grey,
+                                    fontSize: Get.textScaleFactor * 20,
+                                  ),
+                                  textAlign: TextAlign.center),
+                              const SizedBox(height: 10),
+                              const ImageIcon(AssetImage(AppAssets.noJobFound),
+                                  size: 30, color: AppColors.grey),
+                            ],
+                          ),
+                        ),
                       );
                     }
-                  JobPost jobPost = controller.historyJobPostList[index];
-                  return HistoryJobCard(
-                        title: jobPost.title,
-                        nameOnwner: 'Tên chủ rẫy',
-                        type: 'Làm khoán/công',
-                        startDate: DateTime.now(),
-                        endDate: DateTime.now(),
-                        onTap: (){
-                          Get.toNamed(Routes.farmerHistoryJobDetail);
-                        }
-                      );
+                    AppliedJobResponse appliedJob =
+                        controller.historyJobPostList[index];
+                    return Container(
+                      margin: const EdgeInsets.only(bottom: 10),
+                      child: HistoryJobCard(
+                          title: appliedJob.jobPost.title,
+                          nameOnwner:
+                              appliedJob.jobPost.publishedName ?? 'Tên chủ rẫy',
+                          type: appliedJob.jobPost.type == 'PayPerHourJob'
+                              ? AppStrings.payPerHour
+                              : AppStrings.payPerTask,
+                          startDate: appliedJob.jobPost.jobStartDate,
+                          endDate:
+                              appliedJob.jobPost.jobEndDate ?? DateTime.now(),
+                          statusName: appliedJob.statusString,
+                          statusColor: appliedJob.statusColor,
+                          onTap: () {
+                            Get.toNamed(Routes.farmerHistoryJobDetail, arguments: {
+                              Arguments.tag: appliedJob.id.toString(),
+                              Arguments.item: appliedJob,
+                            });
+                          }),
+                    );
                   },
                 ));
           }),

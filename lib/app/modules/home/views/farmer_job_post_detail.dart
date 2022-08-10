@@ -51,7 +51,7 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
                   }
                   CustomDialog.show(
                       confirm: () => controller.applyJob(controller.jobPost.id),
-                      message: "${AppMsg.MSG3005}");
+                      message: AppMsg.MSG3005);
                 },
               ),
       ),

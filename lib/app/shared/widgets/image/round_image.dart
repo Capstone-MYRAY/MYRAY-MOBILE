@@ -10,12 +10,16 @@ class RoundImage extends StatelessWidget {
   final String? imageUrl;
   final double borderRadius;
   final double width;
+  final double height;
+  final BoxFit boxFit;
 
   const RoundImage({
     Key? key,
     this.imageUrl,
     this.borderRadius = CommonConstants.borderRadius,
     this.width = 120,
+    this.height = double.infinity,
+    this.boxFit = BoxFit.contain,
   }) : super(key: key);
 
   @override
@@ -23,6 +27,7 @@ class RoundImage extends StatelessWidget {
     return ConstrainedBox(
       constraints: BoxConstraints(
         maxWidth: width,
+        maxHeight: height,
       ),
       child: GestureDetector(
         onTap: () => _onTap(context),
@@ -33,7 +38,7 @@ class RoundImage extends StatelessWidget {
               : Utils.isNetworkImage(imageUrl!)
                   ? Image.network(
                       imageUrl!,
-                      fit: BoxFit.fill,
+                      fit: boxFit,
                       loadingBuilder: (_, child, chunk) {
                         if (chunk != null) {
                           return Image.asset(AppAssets.placeholderImage);
@@ -44,7 +49,7 @@ class RoundImage extends StatelessWidget {
                     )
                   : Image.file(
                       File(imageUrl!),
-                      fit: BoxFit.fill,
+                      fit: boxFit,
                     ),
         ),
       ),

@@ -23,6 +23,7 @@ class BaseDialog {
               ),
               Positioned(
                 right: 0,
+                top: 2.0,
                 child: GestureDetector(
                   onTap: () => Get.back(),
                   child: const Icon(Icons.clear),

@@ -4,12 +4,14 @@ import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/widgets/buttons/filled_button.dart';
 
 class ListEmptyBuilder extends StatelessWidget {
-  final Future<void> Function() onRefresh;
+  final Future<void> Function()? onRefresh;
   final String msg;
+  final String? nameImage;
   const ListEmptyBuilder({
     Key? key,
-    required this.onRefresh,
+    this.onRefresh,
     this.msg = AppStrings.noData,
+    this.nameImage = AppAssets.emptyFolder,
   }) : super(key: key);
 
   @override
@@ -22,18 +24,19 @@ class ListEmptyBuilder extends StatelessWidget {
         child: Center(
           child: Column(
             children: [
-              Image.asset(AppAssets.emptyFolder),
+              Image.asset(nameImage!),
               Text(
                 msg,
                 style: Get.textTheme.headline5,
               ),
-              FractionallySizedBox(
-                widthFactor: 0.3,
-                child: TextButton(
-                  onPressed: onRefresh,
-                  child: Text('Tải lại', style: Get.textTheme.headline6),
-                ),
-              )
+              if (onRefresh != null)
+                FractionallySizedBox(
+                  widthFactor: 0.3,
+                  child: TextButton(
+                    onPressed: onRefresh,
+                    child: Text('Tải lại', style: Get.textTheme.headline6),
+                  ),
+                )
             ],
           ),
         ),

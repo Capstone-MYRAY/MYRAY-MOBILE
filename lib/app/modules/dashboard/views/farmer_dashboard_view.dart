@@ -17,7 +17,7 @@ class FarmerDashboardView extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetBuilder<DashboardController>(builder: (controller) {
       return WillPopScope(
-        onWillPop: () async => false,//
+        onWillPop: () async => false, //
         child: Scaffold(
           body: IndexedStack(
             index: controller.tabIndex,
@@ -40,31 +40,31 @@ class FarmerDashboardView extends StatelessWidget {
               currentIndex: controller.tabIndex,
               items: [
                 _bottomNavbarItem(
-                  icon: controller.tabIndex == farmerTabs.home.index
+                  icon: controller.tabIndex == FarmerTabs.home.index
                       ? CustomIcons.home
                       : CustomIcons.home_outline,
                   label: AppStrings.home,
                 ),
                 _bottomNavbarItem(
-                  icon: controller.tabIndex == farmerTabs.jobPost.index
+                  icon: controller.tabIndex == FarmerTabs.jobPost.index
                       ? CustomIcons.briefcase
                       : CustomIcons.briefcase_outline,
                   label: AppStrings.jobPost,
                 ),
                 _bottomNavbarItem(
-                  icon: controller.tabIndex == farmerTabs.appliedJob.index
+                  icon: controller.tabIndex == FarmerTabs.appliedJob.index
                       ? CustomIcons.account_clock
                       : CustomIcons.account_clock_outline,
                   label: AppStrings.applied,
                 ),
                 _bottomNavbarItem(
-                  icon: controller.tabIndex == farmerTabs.message.index
+                  icon: controller.tabIndex == FarmerTabs.message.index
                       ? CustomIcons.chat
                       : CustomIcons.chat_outline,
                   label: AppStrings.message,
                 ),
                 _bottomNavbarItem(
-                  icon: controller.tabIndex == farmerTabs.profile.index
+                  icon: controller.tabIndex == FarmerTabs.profile.index
                       ? CustomIcons.account_circle
                       : CustomIcons.account_circle,
                   label: AppStrings.profile,

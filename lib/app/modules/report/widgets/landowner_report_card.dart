@@ -37,6 +37,7 @@ class LandownerReportCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return MyCard(
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [

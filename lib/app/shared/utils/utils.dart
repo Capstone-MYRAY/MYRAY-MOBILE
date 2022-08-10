@@ -28,8 +28,8 @@ class Utils {
     return listEquals(encodeS1, encodeS2);
   }
 
-  static bool isWorkingAge(String dob, String patern) {
-    DateTime birthDate = DateFormat(patern).parse(dob);
+  static bool isWorkingAge(String dob, String pattern) {
+    DateTime birthDate = DateFormat(pattern).parse(dob);
     DateTime today = DateTime.now();
 
     DateTime workingDate = DateTime(
@@ -199,5 +199,5 @@ class Utils {
   }
 
   static final limitString = RegExp(r'(\r?\n?|\r|\n).{1,1000}');
-  static final limitPassword = RegExp(r'^.[\S]{5,30}$');
+  static final limitPassword = RegExp(r'[^\r\n]{8,30}$', caseSensitive: true);
 }

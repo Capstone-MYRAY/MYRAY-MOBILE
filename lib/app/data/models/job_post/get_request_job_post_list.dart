@@ -23,6 +23,9 @@ class GetRequestJobPostList {
   @JsonKey(name: 'type')
   String? type;
 
+  @JsonKey(name: 'gardenId')
+  String? gardenId;
+
   @JsonKey(name: 'order-by')
   SortOrder? orderBy;
 
@@ -50,6 +53,7 @@ class GetRequestJobPostList {
     this.publishBy,
     this.postTypeId,
     this.isNotEndWork,
+    this.gardenId,
   });
 
   factory GetRequestJobPostList.fromJson(Map<String, dynamic> json) =>

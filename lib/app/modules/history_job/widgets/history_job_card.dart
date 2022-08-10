@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:myray_mobile/app/shared/constants/app_colors.dart';
 import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
+import 'package:myray_mobile/app/shared/widgets/chips/status_chip.dart';
 
 class HistoryJobCard extends StatelessWidget {
   final String title;
@@ -11,6 +12,8 @@ class HistoryJobCard extends StatelessWidget {
   final DateTime startDate;
   final DateTime endDate;
   final int? numOfDayOff;
+  final String statusName;
+  final Color statusColor;
   final void Function() onTap;
   const HistoryJobCard(
       {Key? key,
@@ -19,6 +22,8 @@ class HistoryJobCard extends StatelessWidget {
       required this.type,
       required this.startDate,
       required this.endDate,
+      required this.statusName,
+      required this.statusColor,
       required this.onTap,
       this.numOfDayOff})
       : super(key: key);
@@ -61,6 +66,38 @@ class HistoryJobCard extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(0),
                   child: Row(children: [
+                    const Icon(CustomIcons.person, size: 20),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Text(
+                      "Chủ rẫy:",
+                      style: Get.textTheme.labelMedium!.copyWith(
+                        fontWeight: FontWeight.w500,
+                        fontSize: Get.textScaleFactor * 15,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Text(
+                      nameOnwner,
+                      style: Get.textTheme.bodyText2!.copyWith(
+                        fontSize: Get.textScaleFactor * 15,
+                      ),
+                      softWrap: true,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.left,
+                      maxLines: 5,
+                    ),
+                  ]),
+                ),
+                SizedBox(
+                  height: Get.height * 0.010,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(0),
+                  child: Row(children: [
                     const Icon(CustomIcons.box, size: 20),
                     const SizedBox(
                       width: 10,
@@ -80,8 +117,7 @@ class HistoryJobCard extends StatelessWidget {
                       style: Get.textTheme.bodyText2!.copyWith(
                           color: AppColors.primaryColor,
                           fontSize: Get.textScaleFactor * 15,
-                          fontWeight: FontWeight.w500
-                        ),
+                          fontWeight: FontWeight.w500),
                       softWrap: true,
                       overflow: TextOverflow.ellipsis,
                       textAlign: TextAlign.left,
@@ -112,8 +148,8 @@ class HistoryJobCard extends StatelessWidget {
                     Text(
                       DateFormat('dd/MM/yyyy').format(startDate),
                       style: Get.textTheme.bodyText2!.copyWith(
-                          fontSize: Get.textScaleFactor * 15,
-                        ),
+                        fontSize: Get.textScaleFactor * 15,
+                      ),
                       softWrap: true,
                       overflow: TextOverflow.ellipsis,
                       textAlign: TextAlign.left,
@@ -144,7 +180,7 @@ class HistoryJobCard extends StatelessWidget {
                     Text(
                       DateFormat('dd/MM/yyyy').format(endDate),
                       style: Get.textTheme.bodyText2!.copyWith(
-                          fontSize: Get.textScaleFactor * 15,
+                        fontSize: Get.textScaleFactor * 15,
                       ),
                       softWrap: true,
                       overflow: TextOverflow.ellipsis,
@@ -159,29 +195,26 @@ class HistoryJobCard extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(0),
                   child: Row(children: [
-                    const Icon(CustomIcons.calendar_minus, size: 20),
+                    const Icon(CustomIcons.work_history_outline, size: 20),
                     const SizedBox(
                       width: 10,
                     ),
                     Text(
-                      "Số ngày nghỉ:",
+                     "Trạng thái:",
                       style: Get.textTheme.labelMedium!.copyWith(
                         fontWeight: FontWeight.w500,
                         fontSize: Get.textScaleFactor * 15,
                       ),
                     ),
-                    SizedBox(
-                      width: Get.width * 0.06,
+                    const SizedBox(
+                      width: 10,
                     ),
-                    Text(
-                      numOfDayOff == null ? '0 ngày' : '$numOfDayOff ngày',
-                      style: Get.textTheme.bodyText2!.copyWith(
-                          fontSize: Get.textScaleFactor * 15,
-                      ),
-                      softWrap: true,
-                      overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.left,
-                      maxLines: 10,
+                    StatusChip(
+                      statusName:
+                          statusName,
+                      backgroundColor:
+                          statusColor,
+                      foregroundColor: Colors.white,
                     ),
                   ]),
                 ),

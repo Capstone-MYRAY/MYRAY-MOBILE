@@ -13,7 +13,8 @@ class FieldValidation {
     }
 
     if (!Utils.isAlphabet.hasMatch(value) ||
-        value.length < 3 && value.length > 50) {
+        value.length < 3 ||
+        value.length > 50) {
       return AppMsg.MSG6005;
     }
 
@@ -117,6 +118,11 @@ class FieldValidation {
     if (Utils.isEmpty(value)) {
       return AppMsg.MSG0002;
     }
+
+    if (value.length > 100) {
+      return AppMsg.MSG4034;
+    }
+
     return null;
   }
 }

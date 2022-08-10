@@ -25,15 +25,16 @@ class FarmerAttendanceDetailDialog {
       },
       pageBuilder: (context, animation, secondaryAnimation) {
         return SingleChildScrollView(
-          child: SafeArea(
+          child: Card(
             child: Container(
               width: Get.width,
-              height: Get.height + Get.height * 0.02,
+              height: Get.height + Get.height * 0.03,
               padding: const EdgeInsets.all(20),
               color: AppColors.backgroundColor,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
+                  SizedBox(height: Get.height * 0.05,),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,

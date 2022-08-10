@@ -10,18 +10,15 @@ import 'package:myray_mobile/app/shared/utils/auth_credentials.dart';
 class LandownerMessageController extends GetxController with MessageService {
   final List<MessageJobPost> messages = [];
 
-  Future<bool?> loadInitMessages() async {
-    // if (!SignalRProvider.instance.isConnectionOpen) {
-    //   await SignalRProvider.instance.connectToHub();
-    //   SignalRProvider.instance.hubConnection
-    //       ?.on('convention', _onMessageChange);
-    //   await SignalRProvider.instance.hubConnection?.invoke(
-    //       'GetListMessageForLandowner',
-    //       args: [AuthCredentials.instance.user!.id!]);
-    //   return true;
-    // }
-
-    return false;
+  Future<void> loadInitMessages() async {
+    if (!SignalRProvider.instance.isConnectionOpen) {
+      await SignalRProvider.instance.connectToHub();
+      SignalRProvider.instance.hubConnection
+          ?.on('convention', _onMessageChange);
+      await SignalRProvider.instance.hubConnection?.invoke(
+          'GetListMessageForLandowner',
+          args: [AuthCredentials.instance.user!.id!]);
+    }
   }
 
   _onMessageChange(List<Object>? arguments) {

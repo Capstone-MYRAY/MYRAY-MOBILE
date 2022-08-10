@@ -15,16 +15,16 @@ class LoginController extends GetxController {
   final AuthRepository authRepository;
   final AuthController _authController = Get.find<AuthController>();
 
+  final formKey = GlobalKey<FormState>(debugLabel: 'loginKey');
+
   LoginController({required this.authRepository});
 
-  GlobalKey<FormState> formKey = GlobalKey<FormState>();
   late TextEditingController phoneController;
   late TextEditingController passwordController;
 
   @override
   void onInit() {
     super.onInit();
-
     phoneController = TextEditingController();
     passwordController = TextEditingController();
   }
@@ -49,14 +49,11 @@ class LoginController extends GetxController {
   }
 
   onSubmitForm() async {
-    if (!formKey.currentState!.validate()) {
-      return;
-    }
-
-    final String phone = Utils.formatVietnamesePhone(phoneController.text);
-    final String password = passwordController.text;
+    String phone = phoneController.text;
+    String password = passwordController.text;
 
     final data = AuthRequest(phoneNumber: phone, password: password);
+
     EasyLoading.show(status: AppStrings.loading);
     try {
       AuthResponse? tokens = await authRepository.login(data);
@@ -75,6 +72,8 @@ class LoginController extends GetxController {
         errorMsg = AppMsg.MSG6010;
       } else if (e.message.contains('null')) {
         errorMsg = 'Đăng nhập thất bại. Vui lòng kiểm tra lại kết nối mạng';
+      } else {
+        errorMsg = 'Có lỗi xảy ra';
       }
 
       EasyLoading.dismiss();
@@ -91,12 +90,5 @@ class LoginController extends GetxController {
 
   void navigateToChooseRoleScreen() {
     Get.toNamed(Routes.chooseRole);
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    phoneController.dispose();
-    passwordController.dispose();
   }
 }

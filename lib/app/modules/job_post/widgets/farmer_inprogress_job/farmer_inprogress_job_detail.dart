@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:myray_mobile/app/data/models/feedback/feedback.dart';
 import 'package:myray_mobile/app/data/models/report/report.dart';
-import 'package:myray_mobile/app/modules/attendance/widgets/farmer_attendance_detail_dialog.dart';
 import 'package:myray_mobile/app/modules/job_post/controllers/farmer_inprogress_job_detail.controller.dart';
 import 'package:myray_mobile/app/modules/job_post/widgets/farmer_inprogress_dialog/card_function.dart';
 import 'package:myray_mobile/app/modules/job_post/widgets/farmer_inprogress_dialog/extend_enddate_job_dialog.dart';
@@ -119,6 +118,32 @@ class FarmerInProgressJobDetail extends GetView<InprogressJobDetailController> {
                             height: 10,
                             indent: 20,
                             endIndent: 20,
+                          ),
+                          SizedBox(
+                            height: Get.height * 0.01,
+                          ),
+                            SizedBox(
+                            width: Get.width * 0.7,
+                            child: Text.rich(
+                              TextSpan(
+                                text: 'Chủ rẫy:  ',
+                                children: [
+                                  TextSpan(
+                                    text: controller.jobpost.publishedName,
+                                    style: Get.textTheme.bodyText2!.copyWith(
+                                        fontSize: Get.textScaleFactor * 15),
+                                  ),
+                                ],
+                                style: Get.textTheme.labelMedium!.copyWith(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: Get.textScaleFactor * 15,
+                                ),
+                              ),
+                              softWrap: true,
+                              overflow: TextOverflow.ellipsis,
+                              textAlign: TextAlign.start,
+                              maxLines: 2,
+                            ),
                           ),
                           SizedBox(
                             height: Get.height * 0.01,

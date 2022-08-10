@@ -41,20 +41,6 @@ class LandownerJobPostDetailsController extends GetxController {
   var totalPostingFee = 0.0.obs;
   var totalPayingSalary = 0.0.obs;
 
-  String get postingFee {
-    double result = (totalPostingFee.value /
-            (totalPostingFee.value + totalPayingSalary.value)) *
-        100;
-    return '${result.toStringAsFixed(1)}%';
-  }
-
-  String get payingSalary {
-    double result = (totalPayingSalary.value /
-            (totalPostingFee.value + totalPayingSalary.value)) *
-        100;
-    return '${result.toStringAsFixed(1)}%';
-  }
-
   LandownerJobPostDetailsController({required this.jobPost});
 
   navigateToUpdateForm() {
@@ -68,8 +54,7 @@ class LandownerJobPostDetailsController extends GetxController {
   finishJob() async {
     try {
       final isConfirmed = await CustomDialog.show(
-          confirm: () => Get.back(result: true),
-          message: 'Bạn muốn kết thúc công việc này?');
+          confirm: () => Get.back(result: true), message: AppMsg.MSG4037);
 
       if (isConfirmed == null || !isConfirmed) return;
 
@@ -90,7 +75,7 @@ class LandownerJobPostDetailsController extends GetxController {
 
       CustomSnackbar.show(
         title: AppStrings.titleSuccess,
-        message: 'Công việc đã hoàn thành',
+        message: AppMsg.MSG4038,
       );
     } catch (e) {
       CustomSnackbar.show(

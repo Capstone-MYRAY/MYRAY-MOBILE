@@ -4,10 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:mapbox_gl/mapbox_gl.dart';
-import 'package:myray_mobile/app/data/environment.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:myray_mobile/app/data/services/goong_map_service.dart';
-import 'package:myray_mobile/app/data/services/services.dart';
 import 'package:myray_mobile/app/modules/garden/widgets/search_place/search_place.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
@@ -31,8 +29,11 @@ class MyMapView extends StatefulWidget {
 
 class _MyMapViewState extends State<MyMapView> {
   final _goongService = Get.find<GoongMapService>();
-  MapboxMapController? _controller;
-  Symbol? _selectedSymbol;
+  final _markerId = 'Location';
+  GoogleMapController? _controller;
+  late BitmapDescriptor _myIcon;
+  final Set<Marker> _markers = {};
+  Marker? _selectedMarker;
   late LatLng _currentLocation;
   LatLng? _selectedLocation;
   String? _selectedAddress;
@@ -41,9 +42,18 @@ class _MyMapViewState extends State<MyMapView> {
   void initState() {
     super.initState();
 
+    loadInit();
+  }
+
+  loadInit() async {
     _currentLocation = widget.currentLocation;
     _selectedLocation = widget.selectedLocation;
     _selectedAddress = widget.address;
+    _myIcon = await BitmapDescriptor.fromAssetImage(
+        const ImageConfiguration(size: Size(20, 48)), AppAssets.marker);
+    if (_selectedLocation != null) {
+      _addMarker(_selectedLocation!);
+    }
   }
 
   @override
@@ -54,25 +64,18 @@ class _MyMapViewState extends State<MyMapView> {
     ));
   }
 
-  void _onMapCreated(MapboxMapController controller) {
+  void _onMapCreated(GoogleMapController controller) {
+    print('create map');
     _controller = controller;
   }
 
-  void _onStyleLoadedCallBack() {
-    if (_selectedLocation != null) {
-      _addSymbol(AppAssets.marker, _selectedLocation!);
-    }
-
-    _setCameraPosition(_selectedLocation ?? _currentLocation);
+  void _onMapClick(LatLng coordinates) {
+    _addMarker(coordinates);
   }
 
-  void _onMapClick(Point<double> point, LatLng coordinates) {
-    _addSymbol(AppAssets.marker, coordinates);
-  }
-
-  void _onUserLocationUpdate(UserLocation location) {
-    _currentLocation = location.position;
-  }
+  // void _onUserLocationUpdate(UserLocation location) {
+  //   _currentLocation = location.position;
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -83,21 +86,18 @@ class _MyMapViewState extends State<MyMapView> {
       ),
       child: Stack(
         children: [
-          MapboxMap(
+          GoogleMap(
             initialCameraPosition: CameraPosition(
-              target: widget.currentLocation,
-              zoom: 14.0,
+              target: _selectedLocation ?? _currentLocation,
+              zoom: 16.0,
             ),
-            accessToken: Environment.mapboxPublicKey,
             onMapCreated: _onMapCreated,
-            myLocationRenderMode: MyLocationRenderMode.NORMAL,
-            styleString: 'mapbox://styles/ageha-chou/cl5u389mw000316qpgkacj23n',
-            myLocationTrackingMode: MyLocationTrackingMode.Tracking,
-            doubleClickZoomEnabled: false,
             myLocationEnabled: true,
-            onMapClick: _onMapClick,
-            onUserLocationUpdated: _onUserLocationUpdate,
-            onStyleLoadedCallback: _onStyleLoadedCallBack,
+            myLocationButtonEnabled: false,
+            mapType: MapType.normal,
+            onTap: _onMapClick,
+            markers: _markers,
+            compassEnabled: false,
           ),
           _buildBackButtonAndSearch(),
           _buildPositionDisplay(),
@@ -148,9 +148,9 @@ class _MyMapViewState extends State<MyMapView> {
       //get place by id
       final placeDetails = await _goongService.getPlaceDetails(placeId);
       _selectedAddress = placeDetails.address;
-      await _addSymbol(AppAssets.marker, placeDetails.location);
+      await _addMarker(placeDetails.location);
       //move camera to selected location
-      _controller?.animateCamera(CameraUpdate.newLatLng(_selectedLocation!));
+      _setCameraPosition(_selectedLocation!);
 
       EasyLoading.dismiss();
     } catch (e) {
@@ -210,7 +210,7 @@ class _MyMapViewState extends State<MyMapView> {
                 const SizedBox(height: 8.0),
                 FilledButton(
                   title: 'Chọn địa điểm',
-                  onPressed: _selectedSymbol != null ? _onConfirmButton : null,
+                  onPressed: _selectedMarker != null ? _onConfirmButton : null,
                 ),
               ],
             ),
@@ -227,25 +227,28 @@ class _MyMapViewState extends State<MyMapView> {
     });
   }
 
-  void _removeSymbol() {
-    if (_selectedSymbol != null) {
-      _controller?.removeSymbol(_selectedSymbol!);
+  void _removeMarker() {
+    if (_selectedMarker != null) {
+      _markers.remove(_selectedMarker);
       setState(() {
-        _selectedSymbol = null;
+        _selectedMarker = null;
       });
     }
   }
 
   _setCameraPosition(LatLng location) {
-    _controller?.animateCamera(CameraUpdate.newLatLng(location));
+    _controller?.animateCamera(
+      CameraUpdate.newCameraPosition(
+        CameraPosition(target: location, zoom: 16.0),
+      ),
+    );
   }
 
-  _addSymbol(String iconImage, LatLng coordinates,
-      {bool isBackFromSearch = false}) async {
-    _removeSymbol();
-    final SymbolOptions options = _getSymbolOptions(iconImage, coordinates);
-    final symbol = await _controller?.addSymbol(options);
-    _selectedLocation = symbol?.options.geometry!;
+  _addMarker(LatLng coordinates, {bool isBackFromSearch = false}) async {
+    _removeMarker();
+    final Marker marker = _getSymbolOptions(coordinates);
+    _markers.add(marker);
+    _selectedLocation = marker.position;
 
     //update address
     if (!isBackFromSearch) {
@@ -253,17 +256,15 @@ class _MyMapViewState extends State<MyMapView> {
           await _goongService.getAddressByLatLng(_selectedLocation!);
     }
     setState(() {
-      _selectedSymbol = symbol;
+      _selectedMarker = marker;
     });
   }
 
-  SymbolOptions _getSymbolOptions(String iconImage, LatLng coordinates) {
-    return SymbolOptions(
-      geometry: coordinates,
-      textField: '',
-      iconImage: iconImage,
-      iconSize: 2.5,
-      iconOffset: const Offset(0, 0.8),
+  Marker _getSymbolOptions(LatLng coordinates) {
+    return Marker(
+      markerId: MarkerId(_markerId),
+      position: coordinates,
+      icon: BitmapDescriptor.defaultMarkerWithHue(50),
     );
   }
 }

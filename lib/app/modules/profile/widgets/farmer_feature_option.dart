@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:myray_mobile/app/modules/auth/controllers/auth_controller.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
@@ -12,6 +12,7 @@ class FarmerFeatureOptions extends StatelessWidget {
   final void Function()? bookmark;
   final void Function()? password;
   final void Function()? logout;
+  final void Function()? appliedJob;
 
   const FarmerFeatureOptions({
     Key? key,
@@ -20,6 +21,7 @@ class FarmerFeatureOptions extends StatelessWidget {
     this.bookmark,
     this.password,
     this.logout,
+    this.appliedJob
   }) : super(key: key);
 
   _logout() {
@@ -42,6 +44,12 @@ class FarmerFeatureOptions extends StatelessWidget {
           title: AppStrings.titleHistoryJob,
           subtitle: AppStrings.subtitleHistoryJob,
           onTap: history,
+        ),
+        FeatureOption(
+          icon: Icons.history_toggle_off_outlined,
+          title: AppStrings.titleAppliedJobPost,
+          subtitle: AppStrings.subtitleAppliedJobPost,
+          onTap: appliedJob,
         ),
         FeatureOption(
           icon: CustomIcons.account_heart_outline,

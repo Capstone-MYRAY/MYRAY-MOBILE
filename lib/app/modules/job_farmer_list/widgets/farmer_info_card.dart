@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:myray_mobile/app/data/enums/enums.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
+import 'package:myray_mobile/app/shared/utils/utils.dart';
 import 'package:myray_mobile/app/shared/widgets/buttons/filled_button.dart';
 import 'package:myray_mobile/app/shared/widgets/cards/my_card.dart';
 import 'package:myray_mobile/app/shared/widgets/chips/status_chip.dart';
@@ -13,6 +14,7 @@ class FarmerInfoCard extends StatelessWidget {
   final String? statusName;
   final Color? statusColor;
   final String? avatar;
+  final bool isDisplayEllipsis;
   final void Function()? onButtonTap;
   final void Function() onFinish;
   final void Function() onFired;
@@ -23,6 +25,7 @@ class FarmerInfoCard extends StatelessWidget {
     required this.phone,
     required this.onFinish,
     required this.onFired,
+    this.isDisplayEllipsis = false,
     this.statusName,
     this.statusColor,
     this.avatar,
@@ -71,25 +74,26 @@ class FarmerInfoCard extends StatelessWidget {
                   ],
                 ),
               ),
-              PopupMenuButton<int>(
-                onSelected: (value) {
-                  if (value == AppliedFarmerStatus.end.index) {
-                    onFinish();
-                  } else {
-                    onFired();
-                  }
-                },
-                itemBuilder: (context) => [
-                  PopupMenuItem(
-                    value: AppliedFarmerStatus.end.index,
-                    child: const Text('Hoàn thành'),
-                  ),
-                  PopupMenuItem(
-                    value: AppliedFarmerStatus.fired.index,
-                    child: const Text('Sa thải'),
-                  ),
-                ],
-              ),
+              if (isDisplayEllipsis)
+                PopupMenuButton<int>(
+                  onSelected: (value) {
+                    if (value == AppliedFarmerStatus.end.index) {
+                      onFinish();
+                    } else {
+                      onFired();
+                    }
+                  },
+                  itemBuilder: (context) => [
+                    PopupMenuItem(
+                      value: AppliedFarmerStatus.end.index,
+                      child: const Text('Hoàn thành'),
+                    ),
+                    PopupMenuItem(
+                      value: AppliedFarmerStatus.fired.index,
+                      child: const Text('Sa thải'),
+                    ),
+                  ],
+                ),
             ],
           ),
           const SizedBox(height: 16.0),

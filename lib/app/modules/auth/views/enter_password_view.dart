@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:myray_mobile/app/modules/auth/controllers/signup_controller.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
-import 'package:myray_mobile/app/shared/utils/field_validation.dart';
 import 'package:myray_mobile/app/shared/widgets/controls/input_field.dart';
 
 class EnterPasswordView extends GetView<SignupController> {
@@ -39,6 +38,7 @@ class EnterPasswordView extends GetView<SignupController> {
                         ),
                         const SizedBox(height: 16),
                         Form(
+                          key: controller.passwordFormKey,
                           child: Column(
                             children: [
                               InputField(
@@ -49,8 +49,7 @@ class EnterPasswordView extends GetView<SignupController> {
                                 placeholder: AppStrings.placeholderPassword,
                                 keyBoardType: TextInputType.text,
                                 inputAction: TextInputAction.next,
-                                validator:
-                                    FieldValidation.instance.validatePassword,
+                                validator: controller.validatePassword,
                               ),
                               const SizedBox(height: 16),
                               InputField(
@@ -70,7 +69,10 @@ class EnterPasswordView extends GetView<SignupController> {
                         ),
                         const SizedBox(height: 24),
                         ElevatedButton(
-                          onPressed: controller.onSignupAccount,
+                          onPressed: () {
+                            FocusScope.of(context).requestFocus(FocusNode());
+                            controller.onSignupAccount();
+                          },
                           child: const Text(AppStrings.titleSignup),
                         ),
                       ],

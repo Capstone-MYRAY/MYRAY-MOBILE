@@ -21,6 +21,9 @@ class AttendanceResponse{
   @JsonKey(name: 'bonus_point')
   int bonusPoint;
 
+  @JsonKey(name: 'signature')
+  String? signature;
+
   @JsonKey(name: 'status')
   int status;
 
@@ -49,7 +52,8 @@ class AttendanceResponse{
     required this.accountId,
     required this.fullName,
     required this.phoneNumber,
-    this.reason
+    this.reason,
+    this.signature
   });
 
   String get statusString => _statusString[status] ?? AppStrings.noAttendance;

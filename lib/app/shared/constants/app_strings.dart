@@ -69,12 +69,14 @@ class AppStrings {
   static const titleConfirmSignature = 'Chữ ký xác nhận';
   static const titleChangePassword = 'Thay đổi mật khẩu';
   static const titleFinishJob = 'Hoàn thành công việc';
+  static const titleInfo = 'Thông báo';
+  static const titleAppliedJobPost = 'Công việc';
 
   //Subtitle
   static const subtitleMyGarden = 'Danh sách vườn đã tạo';
   static const subtitlePaymentHistory = 'Danh sách giao dịch đã thực hiện';
   static const subtitleLandownerFavorite = 'Danh sách nông dân yêu thích';
-  static const subtitleLandownerReport = 'Dach sách nông dân đã báo cáo';
+  static const subtitleLandownerReport = 'Dach sách báo cáo đã gửi';
   static const subtitleGuidepost = 'Hướng dẫn kỹ thuật làm nông';
   static const subtitleChangePassword = 'Đổi mật khẩu';
   static const subtitleLogout = 'Đăng xuất tài khoản';
@@ -82,6 +84,7 @@ class AppStrings {
   static const subtitleHistoryJob = "Công việc đã làm";
   static const subtitleFarmerFavorite = "Danh sách chủ rẫy yêu thích";
   static const subtitlePassword = "Thay đổi mật khẩu";
+  static const subtitleAppliedJobPost = 'Các công việc đã ứng tuyển';
 
   //Label
   static const labelPhone = 'Số điện thoại';

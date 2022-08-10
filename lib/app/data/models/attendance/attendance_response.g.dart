@@ -18,6 +18,7 @@ AttendanceResponse _$AttendanceResponseFromJson(Map<String, dynamic> json) =>
       fullName: json['fullname'] as String,
       phoneNumber: json['phone_number'] as String,
       reason: json['reason'] as String?,
+      signature: json['signature'] as String?,
     );
 
 Map<String, dynamic> _$AttendanceResponseToJson(AttendanceResponse instance) {
@@ -26,8 +27,6 @@ Map<String, dynamic> _$AttendanceResponseToJson(AttendanceResponse instance) {
     'date': instance.date.toIso8601String(),
     'salary': instance.salary,
     'bonus_point': instance.bonusPoint,
-    'status': instance.status,
-    'applied_job_id': instance.appliedJobId,
   };
 
   void writeNotNull(String key, dynamic value) {
@@ -36,6 +35,9 @@ Map<String, dynamic> _$AttendanceResponseToJson(AttendanceResponse instance) {
     }
   }
 
+  writeNotNull('signature', instance.signature);
+  val['status'] = instance.status;
+  val['applied_job_id'] = instance.appliedJobId;
   writeNotNull('reason', instance.reason);
   val['account_id'] = instance.accountId;
   val['fullname'] = instance.fullName;

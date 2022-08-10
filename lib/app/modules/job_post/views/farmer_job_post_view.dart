@@ -17,7 +17,6 @@ class FarmerJobPostView extends GetView<FarmerJobPostController> {
           child: const Text(AppStrings.jobPost),
         ),
         centerTitle: true,
-        elevation: 0,
       ),
       body: SingleChildScrollView(
           child: Padding(
@@ -43,8 +42,8 @@ class FarmerJobPostView extends GetView<FarmerJobPostController> {
               ),
               const SizedBox(height: 10),
               const Divider(
-                indent:10,
-                endIndent:10,
+                indent: 10,
+                endIndent: 10,
                 color: AppColors.brown,
                 thickness: 0.5,
               ),
@@ -53,10 +52,11 @@ class FarmerJobPostView extends GetView<FarmerJobPostController> {
                   controller: controller.tabController,
                   children: const <Widget>[
                     FarmerInprogressJobList(),
-                    FarmerNotStartJobList(),                    
+                    FarmerNotStartJobList(),
                   ],
                 ),
-              )
+              ),
+              SizedBox(height: Get.height * 0.2),
             ],
           ),
         ),

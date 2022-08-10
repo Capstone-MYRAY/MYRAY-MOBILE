@@ -3,14 +3,15 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:get/get_navigation/src/routes/default_transitions.dart';
 import 'package:myray_mobile/app/data/enums/enums.dart';
+import 'package:myray_mobile/app/data/models/account.dart';
 import 'package:myray_mobile/app/data/models/comment/comment.dart';
 import 'package:myray_mobile/app/data/models/comment/get_comment_request.dart';
 import 'package:myray_mobile/app/data/models/comment/get_comment_response.dart';
 import 'package:myray_mobile/app/data/models/comment/post_comment_request.dart';
 import 'package:myray_mobile/app/data/models/comment/put_comment_request.dart';
 import 'package:myray_mobile/app/modules/comment/comment_repository.dart';
-import 'package:myray_mobile/app/modules/comment/widgets/comment_modal_bottom_sheet.dart';
 import 'package:myray_mobile/app/modules/comment/widgets/comment_update_bottom_sheet.dart';
+import 'package:myray_mobile/app/modules/profile/profile_repository.dart';
 import 'package:myray_mobile/app/shared/utils/auth_credentials.dart';
 import 'package:myray_mobile/app/shared/utils/custom_exception.dart';
 import 'package:myray_mobile/app/shared/utils/utils.dart';
@@ -18,8 +19,10 @@ import 'package:myray_mobile/app/shared/utils/utils.dart';
 class CommentController extends GetxController
     with GetSingleTickerProviderStateMixin {
   final CommentRepository _commentRepository = Get.find<CommentRepository>();
+  final ProfileRepository _profileRepository = Get.find<ProfileRepository>();
 
   int currentUser = AuthCredentials.instance.user!.id!;
+  String roleUser = AuthCredentials.instance.user!.role!;
 
   final _pageSize = 10;
   int _currentPage = 0;
@@ -27,6 +30,8 @@ class CommentController extends GetxController
   final isLoading = false.obs;
 
   RxList<Comment> commentList = RxList<Comment>();
+  late bool isFarmer = roleUser == 'Farmer';
+  Map commentMapAccount = {}.obs;
 
   late GlobalKey<FormState> formKey;
   late GlobalKey<FormState> editCommentFormKey;
@@ -39,7 +44,6 @@ class CommentController extends GetxController
     editCommentFormKey = GlobalKey<FormState>();
     commentController = TextEditingController();
     editCommentController = TextEditingController();
-
     super.onInit();
   }
 
@@ -61,6 +65,7 @@ class CommentController extends GetxController
           return null;
         }
         commentList.addAll(loadList.listObject ?? []);
+        await _createCommentList(loadList.listObject ?? []);
         _hasNextPage = loadList.pagingMetadata!.hasNextPage;
       }
       isLoading(false);
@@ -82,6 +87,22 @@ class CommentController extends GetxController
 
     commentList.clear();
     await getComments(guidepostId);
+  }
+
+  _createCommentList(List<Comment> list) async {
+    if (list.isEmpty) {
+      return;
+    }
+    for (int i = 0; i < list.length; i++) {
+      Account? account = await _getPerson(list[i].commentBy);
+      commentMapAccount[list[i].id] = account;
+    }
+
+    print('list length: ${commentMapAccount.length}');
+  }
+
+  Future<Account?> _getPerson(int createdBy) async {
+    return await _profileRepository.getUser(createdBy);
   }
 
   Future<Comment?> createComment(PostCommentRequest data) async {
@@ -108,6 +129,32 @@ class CommentController extends GetxController
     return null;
   }
 
+
+  onCreateComment(int guidePostId, BuildContext context, Account commentAccount) async {
+    if (!validateInputComment(commentController.text.trim())) {return;}
+      // print(controller.commentController.text.trim());
+      PostCommentRequest data = PostCommentRequest(
+        guidepostId: guidePostId,
+        content: commentController.text,
+      );
+      EasyLoading.show();
+      try {
+        Comment? comment = await createComment(data);
+        Future.delayed(const Duration(milliseconds: 500), () {
+          EasyLoading.dismiss();
+          if (comment != null) {
+            comment.avatar = commentAccount.imageUrl;
+            comment.fullname = commentAccount.fullName;
+            commentList.insert(0, comment);
+          }
+        });
+      } on CustomException catch (e) {
+        print("Not validated: $e");
+      }
+      commentController.clear();
+      // FocusScope.of(context).unfocus();
+  }
+
   onDeleteComment(int commentId) async {
     Get.back(); //tắt confirm dialog
     EasyLoading.show();
@@ -131,7 +178,6 @@ class CommentController extends GetxController
   }
 
   Future<dynamic> onEditComment(BuildContext context, Comment comment) {
-
     return CommentUpdateBottomSheet.showUpdateForm(
       buildContext: context,
       formKey: editCommentFormKey,
@@ -145,7 +191,8 @@ class CommentController extends GetxController
       },
     );
   }
-  onUpdateComment(Comment oldComment) async  {
+
+  onUpdateComment(Comment oldComment) async {
     // bool isFormValid = formKey.currentState.validate();
     print('${editCommentFormKey.currentContext}');
 
@@ -159,7 +206,7 @@ class CommentController extends GetxController
       EasyLoading.show();
 
       try {
-        Comment? comment = await _commentRepository.updateComment(data);        
+        Comment? comment = await _commentRepository.updateComment(data);
         // commentList.clear();
         print('list count: ${commentList.length}');
         Future.delayed(const Duration(milliseconds: 1200), () {

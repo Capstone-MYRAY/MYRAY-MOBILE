@@ -40,6 +40,7 @@ class ExtendEndDateJobDialog {
     return CustomFormDialog.showDialog(
       formKey: formKey,
       title: 'Gia hạn ngày kết thúc',
+      contentPadding: const EdgeInsets.symmetric(horizontal: 10),
       textFields: [
         Row(
           children: [

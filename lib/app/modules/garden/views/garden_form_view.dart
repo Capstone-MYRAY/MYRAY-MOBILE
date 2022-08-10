@@ -20,7 +20,7 @@ class GardenFormView extends GetView<GardenFormController> {
         title: Text(controller.screenTitle),
       ),
       body: GestureDetector(
-        onTap: () {
+        onPanDown: (_) {
           FocusScope.of(context).requestFocus(FocusNode());
         },
         child: SingleChildScrollView(
@@ -185,8 +185,8 @@ class GardenFormView extends GetView<GardenFormController> {
                             icon: const Icon(Icons.paste_outlined),
                             labelText: '${AppStrings.labelDescription}*',
                             placeholder: AppStrings.placeholderDescription,
-                            keyBoardType: TextInputType.text,
-                            minLines: 3,
+                            keyBoardType: TextInputType.multiline,
+                            minLines: 1,
                             maxLines: 10,
                           ),
                         ]),

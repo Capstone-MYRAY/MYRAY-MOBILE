@@ -15,22 +15,25 @@ import 'package:myray_mobile/app/modules/bookmark/views/landowner_bookmark_view.
 import 'package:myray_mobile/app/modules/change_password/bindings/change_password_binding.dart';
 import 'package:myray_mobile/app/modules/change_password/views/change_password_view.dart';
 import 'package:myray_mobile/app/modules/comment/bindings/comment_binding.dart';
-import 'package:myray_mobile/app/modules/comment/widgets/test.dart';
 import 'package:myray_mobile/app/modules/dashboard/bindings/dashboard_binding.dart';
 import 'package:myray_mobile/app/modules/dashboard/views/farmer_dashboard_view.dart';
 import 'package:myray_mobile/app/modules/dashboard/views/landowner_dashboard_view.dart';
 import 'package:myray_mobile/app/modules/garden/bindings/garden_details_binding.dart';
 import 'package:myray_mobile/app/modules/garden/bindings/garden_form_binding.dart';
 import 'package:myray_mobile/app/modules/garden/bindings/garden_home_binding.dart';
+import 'package:myray_mobile/app/modules/garden/bindings/job_post_by_garden_binding.dart';
 import 'package:myray_mobile/app/modules/garden/views/garden_details_view.dart';
 import 'package:myray_mobile/app/modules/garden/views/garden_form_view.dart';
 import 'package:myray_mobile/app/modules/garden/views/garden_home_view.dart';
+import 'package:myray_mobile/app/modules/garden/views/job_post_by_garden_view.dart';
 import 'package:myray_mobile/app/modules/guidepost/bindings/guidepost_binding.dart';
 import 'package:myray_mobile/app/modules/guidepost/views/guidepost_view.dart';
 import 'package:myray_mobile/app/modules/history_job/bindings/farmer_history_job_binding.dart';
 import 'package:myray_mobile/app/modules/history_job/bindings/farmer_history_job_detail_binding.dart';
+import 'package:myray_mobile/app/modules/history_job/bindings/history_applied_job_binding.dart';
 import 'package:myray_mobile/app/modules/history_job/views/farmer_history_job_view.dart';
 import 'package:myray_mobile/app/modules/history_job/views/farmer_hitory_job_detail_view.dart';
+import 'package:myray_mobile/app/modules/history_job/views/history_applied_job_view.dart';
 import 'package:myray_mobile/app/modules/home/bindings/farmer_job_post_detail_binding.dart';
 import 'package:myray_mobile/app/modules/attendance/bindings/job_post_attendance_binding.dart';
 import 'package:myray_mobile/app/modules/home/views/farmer_job_post_detail.dart';
@@ -69,11 +72,6 @@ class AppPages {
     GetPage(
       name: _Paths.init,
       page: () => const InitView(),
-    ),
-    GetPage(
-      name: _Paths.login,
-      page: () => const LoginView(),
-      binding: LoginBinding(),
     ),
     GetPage(
       name: _Paths.chooseRole,
@@ -224,6 +222,12 @@ class AppPages {
       binding: JobPostByTypeBinding(),
       transition: Transition.rightToLeft,
     ),
+    GetPage(
+      name: _Paths.landownerJobPostByGarden,
+      page: () => const JobPostByGardenView(),
+      binding: JobPostByGardenBinding(),
+      transition: Transition.rightToLeft,
+    ),
 
     //farmer
     GetPage(
@@ -268,24 +272,25 @@ class AppPages {
       name: _Paths.farmerHistoryJob,
       page: () => const FarmerHistoryJobView(),
       binding: FarmerHistoryJobBinding(),
-      transition: Transition.rightToLeft,
+      transition: Transition.downToUp,
     ),
     GetPage(
       name: _Paths.farmerHistoryJobDetail,
       page: () => const FarmerHistoryJobDetail(),
       binding: FarmerHistoryJobDetailBinding(),
       transition: Transition.rightToLeft,
-    ),
-    GetPage(
-      name: _Paths.test,
-      page: () => const Test(),
-      transition: Transition.rightToLeft,
-    ),
+    ),   
     GetPage(
       name: _Paths.changePassword,
       page: () => const ChangePasswordView(),
       binding: ChangePasswordBinding(),
       transition: Transition.rightToLeft,
-    )
+    ),
+    GetPage(
+      name: _Paths.farmerHistoryAppliedJob,
+      page: () => const HistoryAppliedJobView(),
+      binding: HistoryAppliedJobBinding(),
+      transition: Transition.downToUp,
+    ),
   ];
 }

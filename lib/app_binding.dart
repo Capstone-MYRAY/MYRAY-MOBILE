@@ -81,7 +81,7 @@ class AppBinding extends Bindings {
     Get.lazyPut(() => FeedBackController(), fenix: true);
     Get.lazyPut(() => ReportRepository(), fenix: true);
     Get.lazyPut(() => ExtendJobRepository(), fenix: true);
-    Get.lazyPut(() => DayOffController());
+    Get.lazyPut(() => DayOffController(),fenix: true);
 
   }
 }

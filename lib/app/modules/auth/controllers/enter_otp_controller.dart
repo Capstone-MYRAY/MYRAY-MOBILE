@@ -59,7 +59,7 @@ class EnterOtpController extends GetxController {
       if (action == Activities.signup) {
         Get.toNamed(Routes.enterPassword);
       } else if (action == Activities.reset) {
-        Get.offAllNamed(Routes.login);
+        Get.offAllNamed(Routes.init);
       }
     } on Exception catch (e) {
       EasyLoading.dismiss();

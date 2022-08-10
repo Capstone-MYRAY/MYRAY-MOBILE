@@ -8,3 +8,4 @@ export './applied_farmer_service.dart';
 export './garden_service.dart';
 export './message_service.dart';
 export './bookmark_service.dart';
+export './report_service.dart';

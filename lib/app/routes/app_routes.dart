@@ -4,7 +4,6 @@ abstract class Routes {
   Routes._();
 
   static const init = _Paths.init;
-  static const login = _Paths.login;
   static const chooseRole = _Paths.chooseRole;
   static const forgotPassword = _Paths.forgotPassword;
   static const signup = _Paths.signup;
@@ -36,6 +35,7 @@ abstract class Routes {
   static const landownerReportList = _Paths.landownerReportList;
   static const landownerReportDetails = _Paths.landownerReportDetails;
   static const landownerJobPostByType = _Paths.landownerJobPostByType;
+  static const landownerJobPostByGarden = _Paths.landownerJobPostByGarden;
 
   //farmer
   static const farmerDashboard = _Paths.farmerDashboard;
@@ -47,7 +47,7 @@ abstract class Routes {
   static const farmerAttendanceWorkDay = _Paths.farmerAttendanceWorkDay;
   static const farmerHistoryJob = _Paths.farmerHistoryJob;
   static const farmerHistoryJobDetail = _Paths.farmerHistoryJobDetail;
-  static const test = _Paths.test;
+  static const farmerHistoryAppliedJob = _Paths.farmerHistoryAppliedJob;
 }
 
 abstract class _Paths {
@@ -55,7 +55,6 @@ abstract class _Paths {
   static const _farmer = '/farmer';
 
   static const init = '/init';
-  static const login = '/login';
   static const chooseRole = '/choose_role';
   static const forgotPassword = '/forgot_password';
   static const signup = '/signup';
@@ -87,6 +86,7 @@ abstract class _Paths {
   static const landownerReportList = '$_landowner/report_list';
   static const landownerReportDetails = '$_landowner/report_details';
   static const landownerJobPostByType = '$_landowner/job_post_by_type';
+  static const landownerJobPostByGarden = '$_landowner/job_post_by_garden';
 
   //farmer views
   static const farmerDashboard = '$_farmer/dashboard';
@@ -98,5 +98,6 @@ abstract class _Paths {
   static const farmerAttendanceWorkDay = '$_farmer/attendance_work_day';
   static const farmerHistoryJob = '$_farmer/history_job';
   static const farmerHistoryJobDetail = '$_farmer/history_job_detail';
-  static const test = '/test';
+  static const farmerHistoryAppliedJob = '$_farmer/history_applied_job';
+  
 }

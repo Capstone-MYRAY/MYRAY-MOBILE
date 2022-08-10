@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:myray_mobile/app/shared/constants/constants.dart';
 
 class InformationDialog {
   InformationDialog._();
 
-  static Future<dynamic> showDialog(
-      {String title = 'Thông báo',
-      required String msg,
-      required String confirmTitle}) {
+  static Future<dynamic> showDialog({
+    String title = AppStrings.titleInfo,
+    required String msg,
+    String confirmTitle = AppStrings.titleClose,
+  }) {
     return Get.defaultDialog(
       title: title,
       titleStyle: Get.textTheme.headline3!.copyWith(

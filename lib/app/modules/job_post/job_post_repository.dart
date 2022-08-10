@@ -77,7 +77,7 @@ class JobPostRepository {
   }
 
   Future<JobPost?> getById(int jobPostId) async {
-    final response = await _apiProvider.getMethod('/jobposts/$jobPostId');
+    final response = await _apiProvider.getMethod('/jobpost/$jobPostId');
 
     if (response.isOk) {
       return JobPost.fromJson(response.body);
@@ -155,8 +155,13 @@ class JobPostRepository {
   Future<dynamic> applyJob(int data) async {
     final response = await _apiProvider
         .patchMethod('$_url/apply/$data', body: {'jobPostId': data});
-    print(response.request!.url);
+    print('Apply job: ${response.statusCode}');
+
     if (response.statusCode == HttpStatus.ok) {
+      return true;
+    }
+    //400: Returns if job post not existed or applied
+    if (response.statusCode == HttpStatus.badRequest) {
       return true;
     }
     return false;

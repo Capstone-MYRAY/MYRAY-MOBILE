@@ -45,7 +45,7 @@ class PaymentHistoryHomeView extends GetView<PaymentHistoryHomeController> {
                   if (snapshot.data == null) {
                     return ListEmptyBuilder(
                       onRefresh: controller.onRefresh,
-                      msg: 'Bạn chưa thực hiện giao dịch nào',
+                      msg: AppMsg.MSG4031,
                     );
                   }
 

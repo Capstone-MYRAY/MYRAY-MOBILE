@@ -4,10 +4,13 @@ import 'package:get/get.dart';
 import 'package:myray_mobile/app/data/models/account.dart';
 import 'package:myray_mobile/app/data/models/change_password/change_password.dart';
 import 'package:myray_mobile/app/modules/auth/auth_repository.dart';
+import 'package:myray_mobile/app/shared/constants/app_colors.dart';
 import 'package:myray_mobile/app/shared/constants/app_msg.dart';
 import 'package:myray_mobile/app/shared/utils/custom_exception.dart';
 import 'package:myray_mobile/app/shared/utils/field_validation.dart';
 import 'package:myray_mobile/app/shared/utils/utils.dart';
+import 'package:myray_mobile/app/shared/utils/debouncer.dart';
+import 'package:myray_mobile/app/shared/widgets/custom_snackbar.dart';
 
 class ChangePasswordController extends GetxController {
   final AuthRepository _authRepository = AuthRepository();
@@ -18,6 +21,7 @@ class ChangePasswordController extends GetxController {
   late TextEditingController confirmNewPasswordController;
 
   RxBool isOldPassword = true.obs;
+  final _debouncer = Debouncer(milliseconds: 500);
 
   @override
   void onInit() async {
@@ -29,31 +33,30 @@ class ChangePasswordController extends GetxController {
   }
 
   String? checkNewPassword(String? value) {
-    if (FieldValidation.instance.validatePassword(value) != null) {
-      return 'Vui lòng nhập mật mới';
+    if (Utils.isEmpty(value)) {
+      return AppMsg.MSG7005;
     }
-    if(!Utils.limitPassword.hasMatch(value!)){
-      return 'Mật khẩu không hợp lệ, cần ít nhất 6 ký tự';
+    if (!Utils.limitPassword.hasMatch(value!)) {
+      return AppMsg.MSG6011;
     }
     return null;
   }
 
   String? checkOldPassword(String? value) {
     if (FieldValidation.instance.validatePassword(value) != null) {
-      if(!isOldPassword.value){
+      if (!isOldPassword.value) {
         return null;
       }
-      return 'Vui lòng nhập mật cũ';
+      return AppMsg.MSG7006;
     }
     _checkIfOldPassword(value!);
     return null;
   }
 
   _checkIfOldPassword(String password) async {
-    bool? result = await _authRepository.checkOldPassword(password);
-    if (result != null) {
-      isOldPassword.value = result;
-    }
+    _debouncer.run(() async {
+      isOldPassword.value = await _authRepository.checkOldPassword(password);
+    });
   }
 
   String? validateConfirmPassword(value) {
@@ -71,24 +74,32 @@ class ChangePasswordController extends GetxController {
     try {
       if (isValid && isOldPassword.value) {
         ChangePassword data =
-            ChangePassword(password: newPasswordController.text.trim());
+            ChangePassword(password: newPasswordController.text);
         account = await _authRepository.changePassword(data);
 
         EasyLoading.show();
         Future.delayed(const Duration(milliseconds: 500), () {
           EasyLoading.dismiss();
           if (account != null) {
-            EasyLoading.showSuccess('Thành công');
-            Get.back();
+            CustomSnackbar.show(
+                title: "Thành công", message: "Thay đổi mật khẩu thành công");
             return;
           }
-          EasyLoading.showError('Không thành công');
+          CustomSnackbar.show(
+              title: "Thất bại",
+              message: "Thay đổi mật khẩu không thành công",
+              backgroundColor: AppColors.errorColor);
         });
       }
     } on CustomException catch (e) {
       EasyLoading.dismiss();
-      EasyLoading.showError('Đã có lỗi xảy ra!');
+      CustomSnackbar.show(
+          title: "Thất bại",
+          message: "Đã có lỗi xảy ra!",
+          backgroundColor: AppColors.errorColor);
       print('change password: ${e.message}');
+    }finally{
+      Get.back();
     }
   }
 

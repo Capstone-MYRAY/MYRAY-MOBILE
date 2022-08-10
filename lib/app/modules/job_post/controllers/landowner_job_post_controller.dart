@@ -1,7 +1,6 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:myray_mobile/app/data/enums/activities.dart';
-import 'package:myray_mobile/app/data/enums/sort.dart';
+import 'package:myray_mobile/app/data/enums/enums.dart';
 import 'package:myray_mobile/app/data/models/filter_object.dart';
 import 'package:myray_mobile/app/data/models/garden/garden_models.dart';
 import 'package:myray_mobile/app/data/models/job_post/get_request_job_post_list.dart';
@@ -14,6 +13,7 @@ import 'package:myray_mobile/app/modules/profile/controllers/landowner_profile_c
 import 'package:myray_mobile/app/routes/app_pages.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/utils/auth_credentials.dart';
+import 'package:myray_mobile/app/shared/widgets/dialogs/base_dialog.dart';
 import 'package:myray_mobile/app/shared/widgets/dialogs/information_dialog.dart';
 
 class LandownerJobPostController extends GetxController {
@@ -81,6 +81,14 @@ class LandownerJobPostController extends GetxController {
     }
   }
 
+  JobPost? findById(int id) {
+    return jobPosts.firstWhereOrNull((jobPost) => jobPost.id == id);
+  }
+
+  Future<JobPost?> getById(int jobPostId) async {
+    return await _jobPostRepository.getById(jobPostId);
+  }
+
   Future<bool?> getJobPosts() async {
     final int accountId = AuthCredentials.instance.user!.id!;
     final data = GetRequestJobPostList(
@@ -114,6 +122,17 @@ class LandownerJobPostController extends GetxController {
     return true;
   }
 
+  double get _money {
+    final profileController = Get.find<LandownerProfileController>();
+    return profileController.balanceWithPending.value;
+  }
+
+  _navigateToCreateForm() {
+    Get.toNamed(Routes.jobPostForm, arguments: {
+      Arguments.action: Activities.create,
+    });
+  }
+
   navigateToCreateForm() async {
     //check if there is any garden or not
     final gardenRepository = Get.find<GardenRepository>();
@@ -124,16 +143,64 @@ class LandownerJobPostController extends GetxController {
     );
     final GetGardenResponse? response = await gardenRepository.getGardens(data);
     if (response != null && response.gardens!.isNotEmpty) {
-      Get.toNamed(Routes.jobPostForm, arguments: {
-        Arguments.action: Activities.create,
-      });
+      //check if landowner has money or not
+      if (_money == 0) {
+        InformationDialog.showDialog(
+          msg:
+              'Bạn chưa có tiền trong tài khoản. Vui lòng gặp moderator để nạp tiền',
+          confirmTitle: AppStrings.titleClose,
+        );
+        return;
+      }
+
+      _navigateToCreateForm();
       return;
     }
 
-    InformationDialog.showDialog(
-      msg:
-          'Bạn chưa có vườn nào.\nVui lòng vào Hồ sơ -> Vườn của tôi để tạo vườn trước',
-      confirmTitle: AppStrings.titleClose,
+    BaseDialog.show(
+      child: Column(
+        children: [
+          Text(
+            AppStrings.titleInfo,
+            style: Get.textTheme.headline4!.copyWith(
+              color: AppColors.primaryColor,
+            ),
+          ),
+          const SizedBox(height: 16.0),
+          const Text('Bạn chưa có vườn nào. Vui lòng tạo vườn trước'),
+          const SizedBox(height: 16.0),
+          TextButton.icon(
+            icon: const Icon(
+              Icons.keyboard_double_arrow_right_outlined,
+              size: 24.0,
+            ),
+            label: const Text('Tạo vườn'),
+            style: TextButton.styleFrom(
+              padding: const EdgeInsets.symmetric(
+                vertical: 8.0,
+                horizontal: 12.0,
+              ),
+              backgroundColor: AppColors.primaryColor,
+              foregroundColor: AppColors.white,
+              shape: RoundedRectangleBorder(
+                side: const BorderSide(color: AppColors.white),
+                borderRadius:
+                    BorderRadius.circular(CommonConstants.borderRadius),
+              ),
+            ),
+            onPressed: () async {
+              Get.back(); //close dialog
+              Get.toNamed(Routes.gardenHome);
+              Get.toNamed(
+                Routes.gardenForm,
+                arguments: {
+                  Arguments.action: Activities.create,
+                },
+              );
+            },
+          ),
+        ],
+      ),
     );
   }
 

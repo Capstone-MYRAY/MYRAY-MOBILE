@@ -45,8 +45,6 @@ class JobPostFormController extends GetxController {
   int _userPoint =
       Get.find<LandownerProfileController>().pointWithPending.value;
 
-  late double _userBalance;
-
   var postTypeCost = 0.0.obs;
   final _totalFee = 0.0.obs;
 
@@ -58,6 +56,10 @@ class JobPostFormController extends GetxController {
   final _profile = Get.find<LandownerProfileController>();
 
   final List<DateTime> availablePinDates = [];
+
+  LandownerJobPostDetailsController get detailsController =>
+      Get.find<LandownerJobPostDetailsController>(
+          tag: Get.arguments[Arguments.tag]);
 
   final RxList<Garden> gardens = RxList<Garden>();
   Rx<Garden?> selectedGarden = Rx(null);
@@ -72,7 +74,7 @@ class JobPostFormController extends GetxController {
   var isToolAvailable = false.obs;
   var isUpgrade = false.obs;
 
-  var numOfPublishDay = 3.obs;
+  var numOfPublishDay = 1.obs;
   var totalPostingMoney = 0.0.obs;
   var usingPoint = 0.obs;
   var totalDiscountByPoint = 0.0.obs;
@@ -137,13 +139,13 @@ class JobPostFormController extends GetxController {
     return '0';
   }
 
+  double get _userBalance =>
+      Get.find<LandownerProfileController>().balanceWithPending.value;
+
   @override
   void onInit() async {
     formKey = GlobalKey<FormState>();
     treeTypeFieldKey = GlobalKey<TreeTypeFieldState>();
-
-    _userBalance =
-        Get.find<LandownerProfileController>().balanceWithPending.value;
 
     //create controller for text fields
     workNameController = TextEditingController();
@@ -207,7 +209,12 @@ class JobPostFormController extends GetxController {
     if (!isTreeTypeValid || !isFormFieldsValid) return;
 
     //check balance
-    if (_totalFee.value > _userBalance) {
+    double balance = _userBalance;
+    if (action == Activities.update) {
+      balance += detailsController.paymentHistories.first.actualPrice!;
+    }
+
+    if (_totalFee.value > balance) {
       InformationDialog.showDialog(
         msg:
             'Tiền trong tài khoản còn ${Utils.vietnameseCurrencyFormat.format(_userBalance)} không đủ thực hiện giao dịch.',
@@ -234,19 +241,15 @@ class JobPostFormController extends GetxController {
     publishDateController.text = _jobPost?.publishedDate != null
         ? Utils.formatddMMyyyy(_jobPost!.publishedDate)
         : '';
-    numOfPublishDay.value = _jobPost?.numOfPublishDay ?? 3;
+    numOfPublishDay.value = _jobPost?.numOfPublishDay ?? 1;
 
     //get payment history from job post details controller
-
-    final detailsController = Get.find<LandownerJobPostDetailsController>(
-        tag: Get.arguments[Arguments.tag]);
 
     usingPointController.text =
         detailsController.paymentHistories.first.usedPoint?.toString() ?? '0';
     usingPoint.value = detailsController.paymentHistories.first.usedPoint ?? 0;
 
     _userPoint += detailsController.paymentHistories.first.usedPoint!;
-    _userBalance += detailsController.paymentHistories.first.actualPrice!;
 
     //pay per hour job
     if (_jobPost!.payPerHourJob != null) {
@@ -325,8 +328,6 @@ class JobPostFormController extends GetxController {
       }
 
       //refresh job post details screen
-      final detailsController = Get.find<LandownerJobPostDetailsController>(
-          tag: Get.arguments[Arguments.tag]);
       detailsController.jobPost.value = updatedJobPost;
 
       //Update job post list
@@ -1032,7 +1033,7 @@ class JobPostFormController extends GetxController {
 
     DateTime publishDate = Utils.fromddMMyyyy(value!);
 
-    //publish date must be before start date
+    // publish date must be before start date
     if (jobStartDateController.text.isNotEmpty) {
       DateTime startDate = Utils.fromddMMyyyy(jobStartDateController.text);
 
@@ -1053,9 +1054,9 @@ class JobPostFormController extends GetxController {
       return AppMsg.MSG0010;
     }
 
-    if (int.parse(value) < 3) {
-      return AppMsg.MSG4004;
-    }
+    // if (int.parse(value) < 3) {
+    //   return AppMsg.MSG4004;
+    // }
 
     return null;
   }

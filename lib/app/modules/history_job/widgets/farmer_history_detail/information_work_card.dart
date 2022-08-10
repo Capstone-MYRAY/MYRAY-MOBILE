@@ -22,29 +22,30 @@ class InformationWorkCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(9),
-      ),
+      // shape: RoundedRectangleBorder(
+      //   borderRadius: BorderRadius.circular(9),
+      // ),
       color: AppColors.white,
       child: Container(
         padding: const EdgeInsets.all(10),
-        width: Get.width * 0.7,
+        margin: const EdgeInsets.only(left: 10),
+        width: Get.width,
         child: Column(
           children: [
             SizedBox(
               height: Get.height * 0.02,
             ),
-            _buildRowInfor(
+            buildRowInfor(
                 title: 'Ngày bắt đầu:',
-                content: Utils.formatddMMyyyy(DateTime.now()),
+                content: Utils.formatddMMyyyy(startDate),
                 icon: CustomIcons.calendar_star,
                 spaceTitleAndContent: 18),
             SizedBox(
               height: Get.height * 0.02,
             ),
-            _buildRowInfor(
+            buildRowInfor(
               title: 'Ngày kết thúc:',
-              content: Utils.formatddMMyyyy(DateTime.now()),
+              content: Utils.formatddMMyyyy(endDate ?? DateTime.now()),
               icon: CustomIcons.calendar_check,
             ),
             SizedBox(
@@ -53,7 +54,7 @@ class InformationWorkCard extends StatelessWidget {
             isPayPerHourJob!
                 ? Column(
                     children: [
-                      _buildRowInfor(
+                      buildRowInfor(
                           title: 'Số ngày nghỉ:',
                           content: '',
                           icon: CustomIcons.calendar_minus,
@@ -62,7 +63,7 @@ class InformationWorkCard extends StatelessWidget {
                         height: Get.height * 0.01,
                       ),
                       Container(
-                        margin: const EdgeInsets.only(left: 30),
+                        margin: const EdgeInsets.only(left: 35),
                         child: Column(
                           children: [
                             Row(
@@ -117,11 +118,13 @@ class InformationWorkCard extends StatelessWidget {
     );
   }
 
-  Widget _buildRowInfor({
+  static Widget buildRowInfor({
     required String title,
     required String content,
     required IconData icon,
     double? spaceTitleAndContent = 15,
+    double? spaceIconAndTitle = 15,
+    Color? contentColor = Colors.black,
   }) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -130,8 +133,8 @@ class InformationWorkCard extends StatelessWidget {
           icon,
           size: 20,
         ),
-        const SizedBox(
-          width: 10,
+        SizedBox(
+          width: spaceIconAndTitle,
         ),
         Text(
           title,
@@ -148,6 +151,7 @@ class InformationWorkCard extends StatelessWidget {
             content,
             style: Get.textTheme.bodyText2!.copyWith(
               fontSize: Get.textScaleFactor * 15,
+              color: contentColor
             ),
             softWrap: true,
             maxLines: 2,

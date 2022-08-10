@@ -114,12 +114,14 @@ class CheckAttendanceCard extends StatelessWidget {
                   ],
                 ),
               ),
-            if (reason != null)
+            if (reason != null) ...[
+              const SizedBox(height: 12.0),
               CardField(
                 icon: CustomIcons.content_paste,
                 title: 'Lý do',
                 data: reason ?? '',
               ),
+            ],
             if (!isControlDisplayed)
               Container(
                 margin: const EdgeInsets.symmetric(vertical: 8.0),

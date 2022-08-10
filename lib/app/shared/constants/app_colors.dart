@@ -23,4 +23,5 @@ class AppColors {
   static const Color markedBackgroundColor = Color(0xffE0F3E1);
   static const Color starColor = Color(0xFFFFD801);
   static const Color toggleBottomBorder = Color(0xFFBAD162);
+  static const Color bluePastel = Color(0xFF7EC8E3);
 }

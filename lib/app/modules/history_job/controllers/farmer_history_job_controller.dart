@@ -1,7 +1,9 @@
 
 import 'package:get/get.dart';
 import 'package:myray_mobile/app/data/enums/enums.dart';
+import 'package:myray_mobile/app/data/models/applied_job/applied_job_response.dart';
 import 'package:myray_mobile/app/data/models/applied_job/get_applied_job_request.dart';
+import 'package:myray_mobile/app/data/models/applied_job/get_applied_job_response.dart';
 import 'package:myray_mobile/app/data/models/job_post/job_post.dart';
 import 'package:myray_mobile/app/data/models/job_post/job_post_response.dart';
 import 'package:myray_mobile/app/modules/history_job/history_job_repository.dart';
@@ -17,14 +19,13 @@ class FarmerHistoryJobController extends GetxController{
   final isLoading = false.obs;
   bool isPayPerhour = true;
 
-   RxList<JobPost> historyJobPostList =
-      RxList<JobPost>();
+   RxList<AppliedJobResponse> historyJobPostList =
+      RxList<AppliedJobResponse>();
 
   Future<bool?> getHistoryJobList() async {
-    JobPostResponse? list;
+    GetAppliedJobPostList? list;
     GetAppliedJobRequest data = GetAppliedJobRequest(
-      status: AppliedFarmerStatus.approved,
-      startWork: "2",
+      startWork: "2",//job done
       page: (++_currentPage).toString(),
       pageSize: (_pageSize).toString(),
     );
@@ -32,14 +33,14 @@ class FarmerHistoryJobController extends GetxController{
     isLoading.value = true;
     try {
       if (_hasNextPage) {
-        list = await _historyJobRepository.getHistoryJobPostList(data);
+        list = await _historyJobRepository.getAppliedJobList(data);
         print(list == null);
         if (list == null) {
           isLoading.value = false;
           return null;
         }
-        historyJobPostList.addAll(list.listJobPost);
-        _hasNextPage = list.pagingMetadata.hasNextPage;
+        historyJobPostList.addAll(list.listObject ?? []);
+        _hasNextPage = list.pagingMetadata!.hasNextPage;
       }
       isLoading.value = false;
       return true;

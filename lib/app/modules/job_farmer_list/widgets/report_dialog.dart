@@ -35,7 +35,7 @@ class ReportDialog {
               maxLines: 8,
               validator: (value) {
                 if (Utils.isEmpty(value)) {
-                  return 'Vui lòng nhập lý do';
+                  return AppMsg.MSG4040;
                 }
 
                 return null;

@@ -164,23 +164,28 @@ class AppliedJobController extends GetxController
 
   cancelAppliedJob(int jobPostId) async {
     Get.back();
+    EasyLoading.show();
     await _appliedRepository.cancelAppliedJob(jobPostId).then((result) => {
-          if (result!)
+       Future.delayed(const Duration(milliseconds: 500), (){
+        EasyLoading.dismiss();
+         if (result!)
             {
               CustomSnackbar.show(
-                  title: "Thành công", message: "Hủy yêu cầu thành công"),
-              isRefresh(true),
+                  title: "Thành công", message: "Hủy yêu cầu thành công");
+              isRefresh(true);
               appliedJobPostResponse.removeWhere(
-                  (appliedJob) => appliedJob.jobPost.id == jobPostId),
+                  (appliedJob) => appliedJob.jobPost.id == jobPostId);
             }
           else
             {
               CustomSnackbar.show(
                   title: "Thất bại",
                   message: "Hủy yêu cầu không thành công",
-                  backgroundColor: AppColors.errorColor),
+                  backgroundColor: AppColors.errorColor);
             }
-        });
+       })  
+    }
+  );
 
     isRefresh(false);
   }
@@ -286,7 +291,10 @@ class AppliedJobController extends GetxController
 
         Future.delayed(const Duration(milliseconds: 1200), () {
           if (result!) {
-            EasyLoading.showSuccess('Cập nhật thành công !');
+             CustomSnackbar.show(
+                title: "Thành công",
+                message: 'Cập nhật yêu cầu gia hạn thất bại',
+                backgroundColor: AppColors.primaryColor);
             Future.delayed(const Duration(milliseconds: 1000), () {
               onRefreshExtendPage();
               EasyLoading.dismiss();

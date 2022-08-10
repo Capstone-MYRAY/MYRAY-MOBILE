@@ -13,8 +13,7 @@ mixin GardenService {
     if (!canDelete) {
       // show error
       InformationDialog.showDialog(
-        msg: 'Vườn có công việc đang tiến hành, không thể xóa',
-        confirmTitle: AppStrings.titleClose,
+        msg: AppMsg.MSG4015,
       );
       return null;
     }
