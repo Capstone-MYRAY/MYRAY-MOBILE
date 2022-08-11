@@ -12,6 +12,7 @@ import 'package:myray_mobile/app/shared/utils/utils.dart';
 import 'package:myray_mobile/app/shared/widgets/builders/loading_builder.dart';
 import 'package:myray_mobile/app/shared/widgets/dialogs/custom_confirm_dialog.dart';
 import 'package:myray_mobile/app/data/models/job_post/farmer_job_post_detail_response.dart';
+import 'package:myray_mobile/app/shared/widgets/dialogs/custom_information.dialog.dart';
 import 'package:myray_mobile/app/shared/widgets/dialogs/information_dialog.dart';
 
 class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
@@ -38,6 +39,45 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
                 // isExpired: false,
                 onPressedOutlineButton: controller.navigateToChatScreen,
                 onPressedFilledButton: () {
+                  if (controller.isFullApplyRequestJob.value) {
+                    CustomInformationDialog.show(
+                      title: 'Thông báo',
+                      content: Column(
+                        children: [
+                          Text('Bạn đã ứng tuyển 5 công việc',
+                              style: Get.textTheme.headline6!
+                                  .copyWith(color: Colors.black, fontSize: 18)),
+                          const SizedBox(height: 10),
+                          Text(
+                            'Vui lòng chờ duyệt các công việc đã ứng tuyển trước khi ứng tuyển công việc này.',
+                            style: Get.textTheme.bodyMedium!
+                                .copyWith(fontSize: 16),
+                          ),
+                          // Text.rich(
+                          //   TextSpan(
+                          //     children: [
+                          //       TextSpan(
+                          //         text: 'Bạn đã ứng tuyển 5 công việc\n',
+                          //         style: Get.textTheme.headline6!.copyWith(
+
+                          //         ),
+
+                          //       ),
+                          //       TextSpan(
+                          //         text: '\nVui lòng chờ duyệt các công việc đã ứng tuyển trước khi ứng tuyển công việc này.'
+                          //       ),
+                          //   ]),
+                          // ),
+                        ],
+                      ),
+                    );
+                    // InformationDialog.showDialog(
+                    //   msg:
+                    //       'Bạn đã ứng tuyển 5 công việc, vui lòng chờ duyệt trước khi ứng tuyển công việc tiếp theo',
+                    //   confirmTitle: "Đóng",
+                    // );
+                    return;
+                  }
                   if (controller.jobPost.type == 'PayPerHourJob') {
                     controller.checkAppliedHourJob();
                     if (controller.isAppliedHourJob.value) {
@@ -190,9 +230,7 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text("Địa chỉ:", style: Get.textTheme.bodyText1),
-                      SizedBox(
-                        width: Get.width * 0.025 
-                      ),
+                      SizedBox(width: Get.width * 0.025),
                       Expanded(
                         child: Padding(
                           padding: const EdgeInsets.only(right: 15),

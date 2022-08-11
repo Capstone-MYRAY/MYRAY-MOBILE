@@ -37,4 +37,5 @@ class CommonConstants {
   static const double buttonHeightSmall = 20;
   static const String imageDelimiter = '<|>';
   static const int dayCanEditFeedback = 3;
+  static const int numOfAppliedJobList = 5;
 }
