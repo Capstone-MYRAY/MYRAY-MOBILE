@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:myray_mobile/app/data/enums/enums.dart';
 import 'package:myray_mobile/app/data/models/job_post/get_request_job_post_list.dart';
@@ -22,8 +23,11 @@ class FarmerHomeController extends GetxController {
 
   final isLoading = false.obs;
 
+  late TextEditingController searchController;
+
   @override
   void onInit() async {
+    searchController = TextEditingController();
     super.onInit();
   }
 
