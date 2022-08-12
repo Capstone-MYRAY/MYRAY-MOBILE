@@ -20,8 +20,6 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
 
   @override
   Widget build(BuildContext context) {
-    // final isExpired = controller.checkExpiredDate(controller.getExpiredDate(
-    //     controller.jobPost.publishedDate, controller.jobPost.numOfPublishDay));
     return Scaffold(
       appBar: AppBar(
         title: const Text(AppStrings.titleJobPostDetail),
@@ -30,14 +28,10 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
       ),
       bottomNavigationBar: Obx(
         () => controller.isApplied.value
-            // || isExpired
             ? CustomBottomNavigationBar(
-                // isExpired: isExpired,
                 onPressedOutlineButton: controller.navigateToChatScreen,
               )
             : CustomBottomNavigationBar(
-                // isExpired: isExpired,
-                // isExpired: false,
                 onPressedOutlineButton: controller.navigateToChatScreen,
                 onPressedFilledButton: () {
                   if (controller.isFullApplyRequestJob.value) {
@@ -54,29 +48,9 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
                             style: Get.textTheme.bodyMedium!
                                 .copyWith(fontSize: 16),
                           ),
-                          // Text.rich(
-                          //   TextSpan(
-                          //     children: [
-                          //       TextSpan(
-                          //         text: 'Bạn đã ứng tuyển 5 công việc\n',
-                          //         style: Get.textTheme.headline6!.copyWith(
-
-                          //         ),
-
-                          //       ),
-                          //       TextSpan(
-                          //         text: '\nVui lòng chờ duyệt các công việc đã ứng tuyển trước khi ứng tuyển công việc này.'
-                          //       ),
-                          //   ]),
-                          // ),
                         ],
                       ),
-                    );
-                    // InformationDialog.showDialog(
-                    //   msg:
-                    //       'Bạn đã ứng tuyển 5 công việc, vui lòng chờ duyệt trước khi ứng tuyển công việc tiếp theo',
-                    //   confirmTitle: "Đóng",
-                    // );
+                    );                    
                     return;
                   }
                   if (controller.jobPost.type == 'PayPerHourJob') {

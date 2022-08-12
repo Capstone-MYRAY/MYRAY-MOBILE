@@ -16,7 +16,6 @@ FarmerJobPostDetailResponse _$FarmerJobPostDetailResponseFromJson(
       endJobDate: json['end_job_date'] == null
           ? null
           : DateTime.parse(json['end_job_date'] as String),
-      numPublishDay: json['num_publish_day'] as int,
       publishedBy: json['published_by'] as int,
       publishedDate: DateTime.parse(json['published_date'] as String),
       createdDate: DateTime.parse(json['created_date'] as String),
@@ -58,7 +57,6 @@ Map<String, dynamic> _$FarmerJobPostDetailResponseToJson(
   val['type'] = instance.type;
   val['start_job_date'] = instance.startJobDate.toIso8601String();
   writeNotNull('end_job_date', instance.endJobDate?.toIso8601String());
-  val['num_publish_day'] = instance.numPublishDay;
   val['published_by'] = instance.publishedBy;
   val['published_date'] = instance.publishedDate.toIso8601String();
   val['created_date'] = instance.createdDate.toIso8601String();

@@ -19,6 +19,12 @@ class JobPost {
   @JsonKey(name: 'garden_name')
   String? gardenName;
 
+  @JsonKey(name: 'garden_lat')
+  double? gardenLat;
+
+  @JsonKey(name: 'garden_lon')
+  double? gardenLon;
+
   @JsonKey(name: 'title')
   String title;
 
@@ -47,7 +53,7 @@ class JobPost {
   String? publishedName;
 
   @JsonKey(name: 'published_date')
-  DateTime publishedDate;
+   DateTime publishedDate;
 
   @JsonKey(name: 'work_type_id')
   int workTypeId;
@@ -139,6 +145,8 @@ class JobPost {
     this.approvedName,
     this.totalPinDay,
     this.pinStartDate,
+    this.gardenLat,
+    this.gardenLon
   });
 
   @override
