@@ -12,7 +12,7 @@ JobPost _$JobPostFromJson(Map<String, dynamic> json) => JobPost(
       title: json['title'] as String,
       type: json['type'] as String,
       jobStartDate: DateTime.parse(json['start_job_date'] as String),
-      numOfPublishDay: json['num_publish_day'] as int,
+      numOfPublishDay: json['num_publish_day'] as int? ?? 0,
       publishedBy: json['published_by'] as int,
       publishedDate: DateTime.parse(json['published_date'] as String),
       createdDate: DateTime.parse(json['created_date'] as String),
@@ -53,6 +53,8 @@ JobPost _$JobPostFromJson(Map<String, dynamic> json) => JobPost(
       pinStartDate: json['start_pin_date'] == null
           ? null
           : DateTime.parse(json['start_pin_date'] as String),
+      gardenLat: (json['garden_lat'] as num?)?.toDouble(),
+      gardenLon: (json['garden_lon'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$JobPostToJson(JobPost instance) {
@@ -68,6 +70,8 @@ Map<String, dynamic> _$JobPostToJson(JobPost instance) {
   }
 
   writeNotNull('garden_name', instance.gardenName);
+  writeNotNull('garden_lat', instance.gardenLat);
+  writeNotNull('garden_lon', instance.gardenLon);
   val['title'] = instance.title;
   val['tree_jobs'] = instance.treeJobs;
   writeNotNull('address', instance.address);

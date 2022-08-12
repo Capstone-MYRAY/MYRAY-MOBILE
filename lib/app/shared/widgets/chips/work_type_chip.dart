@@ -4,14 +4,15 @@ import 'package:myray_mobile/app/shared/constants/app_colors.dart';
 
 class WorkTypeChip extends StatelessWidget {
   final String? workType;
-  const WorkTypeChip({Key? key, this.workType = ""}) : super(key: key);
+  final double? borderRadiusSize;
+  const WorkTypeChip({Key? key, this.workType = "", this.borderRadiusSize}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(3),
+        borderRadius: BorderRadius.circular(borderRadiusSize ?? 3),
         color: AppColors.primaryColor,
       ),
       child: Row(

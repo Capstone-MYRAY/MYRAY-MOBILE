@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:myray_mobile/app/data/enums/enums.dart';
 import 'package:myray_mobile/app/data/models/job_post/pay_per_hour_job/pay_per_hour_job.dart';
 import 'package:myray_mobile/app/data/models/job_post/pay_per_task_job/pay_per_task_job.dart';
 import 'package:myray_mobile/app/data/models/tree_jobs/tree_jobs.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
+import 'package:myray_mobile/app/shared/utils/utils.dart';
 
 part 'job_post.g.dart';
 
@@ -18,6 +20,12 @@ class JobPost {
 
   @JsonKey(name: 'garden_name')
   String? gardenName;
+
+  @JsonKey(name: 'garden_lat')
+  double? gardenLat;
+
+  @JsonKey(name: 'garden_lon')
+  double? gardenLon;
 
   @JsonKey(name: 'title')
   String title;
@@ -47,7 +55,7 @@ class JobPost {
   String? publishedName;
 
   @JsonKey(name: 'published_date')
-  DateTime publishedDate;
+   DateTime publishedDate;
 
   @JsonKey(name: 'created_date')
   DateTime createdDate;
@@ -106,7 +114,7 @@ class JobPost {
     required this.title,
     required this.type,
     required this.jobStartDate,
-    required this.numOfPublishDay,
+    this.numOfPublishDay = 0,
     required this.publishedBy,
     required this.publishedDate,
     required this.createdDate,
@@ -131,6 +139,8 @@ class JobPost {
     this.approvedName,
     this.totalPinDay,
     this.pinStartDate,
+    this.gardenLat,
+    this.gardenLon
   });
 
   @override

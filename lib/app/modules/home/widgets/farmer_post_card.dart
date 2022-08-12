@@ -20,6 +20,7 @@ class FarmerPostCard extends StatelessWidget {
   final String address;
   final double price;
   final String treeType;
+  final double? distance;
 
   const FarmerPostCard(
       {Key? key,
@@ -35,7 +36,8 @@ class FarmerPostCard extends StatelessWidget {
       this.statusColor = AppColors.markedPostChipColor,
       this.borderColor = AppColors.white,
       this.expiredDate = "22/06/2022",
-      this.isExpired = false})
+      this.isExpired = false,
+      this.distance})
       : super(key: key);
 
   @override
@@ -43,7 +45,7 @@ class FarmerPostCard extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Container(
-        width: Get.width * 0.8, //indicate length of list
+        width: Get.width * 0.9, //indicate length of list
         // margin: const EdgeInsets.symmetric(vertical: 10.0),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
@@ -56,6 +58,7 @@ class FarmerPostCard extends StatelessWidget {
             padding: const EdgeInsets.all(8),
             child: Column(
               children: [
+                //Tên bài post
                 Padding(
                   padding: const EdgeInsets.only(top: 15, left: 15, right: 15),
                   child: Row(
@@ -84,8 +87,37 @@ class FarmerPostCard extends StatelessWidget {
                 const SizedBox(
                   height: 10,
                 ),
+                //Loại công việc
+                Padding(
+                  padding: const EdgeInsets.only(top: 3, left: 15),
+                  child: Row(
+                    children: [
+                      const Icon(Icons.work_outline, size: 20),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Flexible(
+                        child: Text(
+                          'Loại công việc: Làm cỏ',
+                          style: Get.textTheme.bodyText2!
+                              .copyWith(fontSize: Get.textScaleFactor * 15),
+                          softWrap: true,
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.left,
+                          maxLines: 10,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+               
+                const SizedBox(
+                  height: 10,
+                ),
+
+                //Địa chỉ
                 Container(
-                  padding: const EdgeInsets.only(top: 5, left: 15, right: 15),
+                  padding: const EdgeInsets.only(left: 15, right: 15),
                   child: Stack(
                     children: [
                       const Icon(CustomIcons.map_marker_outline, size: 20),
@@ -98,11 +130,11 @@ class FarmerPostCard extends StatelessWidget {
                               text: address,
                             ),
                             style: Get.textTheme.bodyText2!
-                                .copyWith(fontSize: Get.textScaleFactor * 14),
+                                .copyWith(fontSize: Get.textScaleFactor * 15),
                             softWrap: true,
                             overflow: TextOverflow.ellipsis,
-                            textAlign: TextAlign.justify,
-                            maxLines: 10,
+                            textAlign: TextAlign.left,
+                            maxLines: 3,
                           ),
                         ),
                       ),
@@ -112,33 +144,52 @@ class FarmerPostCard extends StatelessWidget {
                 const SizedBox(
                   height: 10,
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 3, left: 15),
-                  child: Row(
-                    children: [
-                      const Icon(CustomIcons.wallet_outline, size: 20),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      Flexible(
-                        child: Text(
-                          Utils.vietnameseCurrencyFormat.format(price),
-                          style: Get.textTheme.bodyText2!
-                              .copyWith(fontSize: Get.textScaleFactor * 14),
-                          softWrap: true,
-                          overflow: TextOverflow.ellipsis,
-                          textAlign: TextAlign.left,
-                          maxLines: 10,
+                //khoảng cách
+                distance != null
+                    ? Padding(
+                        padding: const EdgeInsets.only(left: 15),
+                        child: Row(
+                          children: [
+                            const Icon(Icons.map, size: 20),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Flexible(
+                              child: Text(
+                                'Cách bạn: $distance km',
+                                style: Get.textTheme.bodyText2!.copyWith(
+                                    fontSize: Get.textScaleFactor * 15),
+                                softWrap: true,
+                                overflow: TextOverflow.ellipsis,
+                                textAlign: TextAlign.left,
+                                maxLines: 10,
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
-                    ],
-                  ),
-                ),
+                      )
+                    : const SizedBox(),
+                //Ngày hết hạn
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.start,
+                //   children: [
+                //     workType != null
+                //         ? Padding(
+                //             padding: const EdgeInsets.only(top: 12, left: 15),
+                //             child: WorkTypeChip(
+                //               workType: workType,
+                //               borderRadiusSize: 20,
+                //             ))
+                //         : const SizedBox(
+                //             width: 1,
+                //           ),
+                //   ],
+                // ),
                 const SizedBox(
                   height: 10,
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 3, left: 15),
+                  padding: const EdgeInsets.only(top: 3, left: 13),
                   child: Row(
                     children: [
                       const Icon(CustomIcons.tree_outline, size: 20),
@@ -147,9 +198,9 @@ class FarmerPostCard extends StatelessWidget {
                       ),
                       Flexible(
                         child: Text(
-                          treeType,
+                          'Loại cây: ' + treeType,
                           style: Get.textTheme.bodyText2!
-                              .copyWith(fontSize: Get.textScaleFactor * 14),
+                              .copyWith(fontSize: Get.textScaleFactor * 15),
                           softWrap: true,
                           overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.left,
@@ -159,44 +210,46 @@ class FarmerPostCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    workType != null
-                        ? Padding(
-                            padding: const EdgeInsets.only(top: 12, left: 15),
-                            child: WorkTypeChip(
-                              workType: workType,
-                            ))
-                        : const SizedBox(
-                            width: 1,
-                          ),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 20, top: 25),
-                      child: Row(
-                          // verticalDirection: VerticalDirection.down,
-                          children: [
-                            isExpired!
-                                ? Text(
-                                    "Đã hết hạn",
-                                    style: Get.textTheme.caption!.copyWith(
-                                        fontWeight: FontWeight.bold,
-                                        fontStyle: FontStyle.italic,
-                                        fontSize: Get.textScaleFactor * 10),
-                                  )
-                                : Text(
-                                    "Ngày hết hạn: ${expiredDate!}",
-                                    style: Get.textTheme.overline!.copyWith(
-                                        fontStyle: FontStyle.italic,
-                                        color: AppColors.warningColor,
-                                        fontSize: Get.textScaleFactor * 10),
-                                  )
-                          ]),
-                    )
-                  ],
-                ),
                 const SizedBox(
-                  height: 5,
+                  height: 10,
+                ),
+                //  const SizedBox(
+                //   height: 10,
+                // ),
+                //Tiền công + loại trả lương
+                Padding(
+                  padding: const EdgeInsets.only(left: 15),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const Icon(CustomIcons.wallet_outline, size: 20),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Flexible(
+                        child: Text(
+                          'Lương: ${Utils.vietnameseCurrencyFormat.format(price)} - ',
+                          style: Get.textTheme.bodyText2!
+                              .copyWith(fontSize: Get.textScaleFactor * 15),
+                          softWrap: true,
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.left,
+                          maxLines: 10,
+                        ),
+                      ),
+                      Text(
+                        workType!,
+                        style: Get.textTheme.bodyText2!.copyWith(
+                          fontSize: Get.textScaleFactor * 15,
+                          color: AppColors.primaryColor,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                 const SizedBox(
+                  height: 10,
                 ),
               ],
             ),

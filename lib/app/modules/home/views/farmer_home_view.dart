@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:myray_mobile/app/data/models/job_post/job_post.dart';
@@ -13,6 +14,7 @@ import 'package:myray_mobile/app/shared/constants/app_strings.dart';
 import 'package:myray_mobile/app/shared/constants/common.dart';
 import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
 import 'package:myray_mobile/app/shared/utils/hex_color_extension.dart';
+import 'package:myray_mobile/app/shared/utils/user_current_location.dart';
 import 'package:myray_mobile/app/shared/widgets/builders/list_empty_builder.dart';
 import 'package:myray_mobile/app/shared/widgets/builders/loading_builder.dart';
 import 'package:myray_mobile/app/shared/widgets/controls/search_and_filter.dart';
@@ -23,6 +25,18 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
 
   @override
   Widget build(BuildContext context) {
+    String address = '17/11 Nguyễn Thông, Quận 3, Thành phố Hồ Chí Minh';
+    double? lat = CurrentLocation.instance.userCurrentLocation!.latitude;
+    double? long = CurrentLocation.instance.userCurrentLocation!.longtitude;
+    double distance = 0.0;
+    int newdistance = 0;
+    final double pLat = 11.930503;
+    final double pLng = 108.443409;
+    if (lat != null && long != null) {
+      distance = Geolocator.distanceBetween(pLat, pLng, lat, long);
+
+      distance = double.parse((distance / 1000).toStringAsFixed(0));
+    }
     return Scaffold(
         appBar: AppBar(
           title: const Text(AppStrings.home),
@@ -57,7 +71,23 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
               }
               if (snapshot.hasError) {
                 printError(info: snapshot.error.toString());
-                return SizedBox(
+                return
+                    // FarmerPostCard(
+                    //   title: 'Tên bài post',
+                    //   address: 'Địa chỉ: '  + address.split(',').last,
+                    //   distance: distance,
+                    //   price: 1200000,
+                    //   treeType: 'Cây điều, cây na, cây ổi', //no
+                    //   workType: AppStrings.payPerHour,
+                    //   expiredDate: '11/08/2022',
+                    //   isExpired: false,
+                    //   isStatus: true,
+                    //   statusColor: AppColors.errorColor,
+                    //   statusName: 'Vị trí 1',
+                    //   onTap: () {},
+                    // );
+
+                    SizedBox(
                   width: double.infinity,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -192,7 +222,20 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
                                   })
 
                               // )
-                              : Center(
+                              :
+                              // FarmerPostCard(
+                              //     title: 'Tên bài post nè',
+                              //     address: address.split(',').last,
+                              //     distance: distance,
+                              //     price: 1200000,
+                              //     treeType: 'Không phân loại', //no
+                              //     workType: AppStrings.payPerHour,
+                              //     expiredDate: '11/08/2022',
+                              //     isExpired: false,
+                              //     onTap: () {},
+                              //   ),
+
+                              Center(
                                   child: Column(
                                     children: [
                                       Text(
@@ -267,7 +310,7 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
                                                 top: Get.height * 0.02),
                                             child: FarmerPostCard(
                                               title: jobPost.title,
-                                              address: jobPost.address ?? '',
+                                              address: jobPost.address != null ? jobPost.address!.split(',').last :'',
                                               price:
                                                   jobPost.payPerHourJob != null
                                                       ? jobPost
@@ -288,6 +331,7 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
                                               isExpired:
                                                   controller.checkExpiredDate(
                                                       expiredDate),
+                                              distance: 142.7,
                                               onTap: () {
                                                 Get.toNamed(
                                                     Routes.farmerJobPostDetail,
