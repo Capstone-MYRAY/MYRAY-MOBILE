@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:myray_mobile/app/shared/constants/app_colors.dart';
 import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
 import 'package:myray_mobile/app/shared/utils/utils.dart';
+import 'package:myray_mobile/app/shared/widgets/cards/card_field.dart';
 import 'package:myray_mobile/app/shared/widgets/chips/status_chip.dart';
 import 'package:myray_mobile/app/shared/widgets/chips/work_type_chip.dart';
 
@@ -11,7 +12,7 @@ class FarmerPostCard extends StatelessWidget {
   final String? statusName;
   final Color? statusColor;
   final bool? isStatus;
-  final String? workType;
+  final String? paidType;
   final Color? borderColor;
   final void Function()? onTap;
   final String? expiredDate;
@@ -21,6 +22,7 @@ class FarmerPostCard extends StatelessWidget {
   final double price;
   final String treeType;
   final double? distance;
+  final String workType;
 
   const FarmerPostCard(
       {Key? key,
@@ -29,7 +31,8 @@ class FarmerPostCard extends StatelessWidget {
       required this.price,
       required this.treeType,
       required this.onTap,
-      this.workType,
+      required this.workType,
+      this.paidType,
       this.isStatus = false,
       this.statusName = "Nổi bật",
       this.backgroundColor = AppColors.white,
@@ -61,7 +64,7 @@ class FarmerPostCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Column(
-                  children: [                 
+                  children: [
                     isStatus!
                         ? StatusChip(
                             statusName: statusName!,
@@ -117,9 +120,16 @@ class FarmerPostCard extends StatelessWidget {
                             const SizedBox(
                               width: 10,
                             ),
+                            Text('Loại công việc:',
+                                style: Get.textTheme.bodyText2!.copyWith(
+                                    fontSize: Get.textScaleFactor * 15,
+                                    fontWeight: FontWeight.w600)),
+                            const SizedBox(
+                              width: 5,
+                            ),
                             Flexible(
                               child: Text(
-                                'Loại công việc: Làm cỏ',
+                                workType,
                                 style: Get.textTheme.bodyText2!.copyWith(
                                     fontSize: Get.textScaleFactor * 15),
                                 softWrap: true,
@@ -137,32 +147,61 @@ class FarmerPostCard extends StatelessWidget {
                       ),
 
                       //Địa chỉ
-                      Container(
-                        padding: const EdgeInsets.only(left: 15, right: 15),
-                        child: Stack(
+                      Padding(
+                        padding: const EdgeInsets.only(left: 15),
+                        child: Row(
                           children: [
-                            const Icon(CustomIcons.map_marker_outline,
-                                size: 20),
-                            Padding(
-                              padding: EdgeInsets.only(left: 30),
-                              child: SizedBox(
-                                width: Get.width * 0.65,
-                                child: Text.rich(
-                                  TextSpan(
-                                    text: address,
-                                  ),
-                                  style: Get.textTheme.bodyText2!.copyWith(
-                                      fontSize: Get.textScaleFactor * 15),
-                                  softWrap: true,
-                                  overflow: TextOverflow.ellipsis,
-                                  textAlign: TextAlign.left,
-                                  maxLines: 3,
-                                ),
+                            const Icon(CustomIcons.map_marker_outline, size: 20),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Text('Địa chỉ:',
+                                style: Get.textTheme.bodyText2!.copyWith(
+                                    fontSize: Get.textScaleFactor * 15,
+                                    fontWeight: FontWeight.w600)),
+                            const SizedBox(
+                              width: 5,
+                            ),
+                            Flexible(
+                              child: Text(
+                                address,
+                                style: Get.textTheme.bodyText2!.copyWith(
+                                    fontSize: Get.textScaleFactor * 15),
+                                softWrap: true,
+                                overflow: TextOverflow.ellipsis,
+                                textAlign: TextAlign.left,
+                                maxLines: 10,
                               ),
                             ),
                           ],
                         ),
                       ),
+                      // Container(
+                      //   padding: const EdgeInsets.only(left: 15, right: 15),
+                      //   child: Stack(
+                      //     children: [
+                      //       const Icon(CustomIcons.map_marker_outline,
+                      //           size: 20),
+                      //       Padding(
+                      //         padding: EdgeInsets.only(left: 30),
+                      //         child: SizedBox(
+                      //           width: Get.width * 0.65,
+                      //           child: Text.rich(
+                      //             TextSpan(
+                      //               text: address,
+                      //             ),
+                      //             style: Get.textTheme.bodyText2!.copyWith(
+                      //                 fontSize: Get.textScaleFactor * 15),
+                      //             softWrap: true,
+                      //             overflow: TextOverflow.ellipsis,
+                      //             textAlign: TextAlign.left,
+                      //             maxLines: 3,
+                      //           ),
+                      //         ),
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
                       const SizedBox(
                         height: 10,
                       ),
@@ -176,9 +215,16 @@ class FarmerPostCard extends StatelessWidget {
                                   const SizedBox(
                                     width: 10,
                                   ),
+                                  Text('Cách bạn:',
+                                      style: Get.textTheme.bodyText2!.copyWith(
+                                          fontSize: Get.textScaleFactor * 15,
+                                          fontWeight: FontWeight.w600)),
+                                  const SizedBox(
+                                    width: 5,
+                                  ),
                                   Flexible(
                                     child: Text(
-                                      'Cách bạn: $distance km',
+                                      '$distance km',
                                       style: Get.textTheme.bodyText2!.copyWith(
                                           fontSize: Get.textScaleFactor * 15),
                                       softWrap: true,
@@ -207,20 +253,29 @@ class FarmerPostCard extends StatelessWidget {
                       //           ),
                       //   ],
                       // ),
-                      const SizedBox(
-                        height: 10,
-                      ),
+                      distance != null
+                          ? const SizedBox(
+                              height: 10,
+                            )
+                          : const SizedBox(),
                       Padding(
-                        padding: const EdgeInsets.only(top: 3, left: 13),
+                        padding: const EdgeInsets.only(left: 13),
                         child: Row(
                           children: [
                             const Icon(CustomIcons.tree_outline, size: 20),
                             const SizedBox(
                               width: 10,
                             ),
+                            Text('Loại cây:',
+                                style: Get.textTheme.bodyText2!.copyWith(
+                                    fontSize: Get.textScaleFactor * 15,
+                                    fontWeight: FontWeight.w600)),
+                            const SizedBox(
+                              width: 5,
+                            ),
                             Flexible(
                               child: Text(
-                                'Loại cây: ' + treeType,
+                                treeType,
                                 style: Get.textTheme.bodyText2!.copyWith(
                                     fontSize: Get.textScaleFactor * 15),
                                 softWrap: true,
@@ -235,9 +290,6 @@ class FarmerPostCard extends StatelessWidget {
                       const SizedBox(
                         height: 10,
                       ),
-                      //  const SizedBox(
-                      //   height: 10,
-                      // ),
                       //Tiền công + loại trả lương
                       Padding(
                         padding: const EdgeInsets.only(left: 15),
@@ -248,9 +300,16 @@ class FarmerPostCard extends StatelessWidget {
                             const SizedBox(
                               width: 10,
                             ),
+                            Text('Lương:',
+                                style: Get.textTheme.bodyText2!.copyWith(
+                                    fontSize: Get.textScaleFactor * 15,
+                                    fontWeight: FontWeight.w600)),
+                            const SizedBox(
+                              width: 5,
+                            ),
                             Flexible(
                               child: Text(
-                                'Lương: ${Utils.vietnameseCurrencyFormat.format(price)} - ',
+                                '${Utils.vietnameseCurrencyFormat.format(price)} - ',
                                 style: Get.textTheme.bodyText2!.copyWith(
                                     fontSize: Get.textScaleFactor * 15),
                                 softWrap: true,
@@ -260,7 +319,7 @@ class FarmerPostCard extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              workType!,
+                              paidType!,
                               style: Get.textTheme.bodyText2!.copyWith(
                                 fontSize: Get.textScaleFactor * 15,
                                 color: AppColors.primaryColor,

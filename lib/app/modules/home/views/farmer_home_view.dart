@@ -167,11 +167,12 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
                                   itemBuilder: (context, index) {
                                     JobPost jobPost =
                                         controller.secondObject[index];
-                                    
-                                
+                                    double distance = controller.getDistance(
+                                        jobPost.gardenLat!, jobPost.gardenLon!);
+
                                     return Container(
                                       margin: const EdgeInsets.only(
-                                           top: 10, bottom: 10),
+                                          top: 10, bottom: 10),
                                       child: FarmerPostCard(
                                         backgroundColor:
                                             AppColors.markedBackgroundColor,
@@ -181,7 +182,9 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
                                         // statusNameColor: HexColor.fromHex(
                                         //     jobPost.foregroundColor!),
                                         title: jobPost.title,
-                                        address: jobPost.address != null ? jobPost.address!.split(',').last :'',
+                                        address: jobPost.address != null
+                                            ? jobPost.address!.split(',').last
+                                            : '',
                                         price: jobPost.payPerHourJob != null
                                             ? jobPost.payPerHourJob!.salary
                                             : jobPost.payPerTaskJob!.salary,
@@ -189,11 +192,13 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
                                             ? "Không phân loại"
                                             : jobPost.treeJobs![0].type ??
                                                 "Không phân loại", //no
-                                        workType: jobPost.payPerHourJob != null
+                                        paidType: jobPost.payPerHourJob != null
                                             ? AppStrings.payPerHour
                                             : AppStrings.payPerTask,
-                                        isStatus: true,                                        
-                                        distance: controller.getDistance(jobPost.gardenLat!, jobPost.gardenLon!),
+                                        workType: jobPost.workTypeName,
+                                        isStatus: true,
+                                        distance:
+                                            distance == 0.0 ? null : distance,
                                         onTap: () => {
                                           Get.toNamed(
                                               Routes.farmerJobPostDetail,
@@ -280,13 +285,17 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
                                             controller.listObject[index];
                                         return Container(
                                           margin: const EdgeInsets.only(
-                                               top: 5, bottom: 5),
+                                              top: 5, bottom: 5),
                                           child: Padding(
                                             padding: EdgeInsets.only(
                                                 top: Get.height * 0.02),
                                             child: FarmerPostCard(
                                               title: jobPost.title,
-                                              address: jobPost.address != null ? jobPost.address!.split(',').last :'',
+                                              address: jobPost.address != null
+                                                  ? jobPost.address!
+                                                      .split(',')
+                                                      .last
+                                                  : '',
                                               price:
                                                   jobPost.payPerHourJob != null
                                                       ? jobPost
@@ -299,11 +308,15 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
                                                   ? "Không phân loại"
                                                   : jobPost.treeJobs![0].type ??
                                                       "Không phân loại", //no
-                                              workType:
+                                              paidType:
                                                   jobPost.payPerHourJob != null
                                                       ? AppStrings.payPerHour
-                                                      : AppStrings.payPerTask,                                              
-                                              distance: controller.getDistance(jobPost.gardenLat!, jobPost.gardenLon!),
+                                                      : AppStrings.payPerTask,
+                                              workType: jobPost.workTypeName,
+
+                                              distance: controller.getDistance(
+                                                  jobPost.gardenLat!,
+                                                  jobPost.gardenLon!),
                                               onTap: () {
                                                 Get.toNamed(
                                                     Routes.farmerJobPostDetail,
