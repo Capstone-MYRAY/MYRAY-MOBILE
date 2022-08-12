@@ -7,6 +7,7 @@ import 'package:myray_mobile/app/data/services/fee_data_service.dart';
 import 'package:myray_mobile/app/data/services/post_type_repository.dart';
 import 'package:myray_mobile/app/data/services/tree_type_repository.dart';
 import 'package:myray_mobile/app/data/services/upload_image_service.dart';
+import 'package:myray_mobile/app/data/services/work_type_repository.dart';
 import 'package:myray_mobile/app/modules/applied_farmer/applied_farmer_repository.dart';
 import 'package:myray_mobile/app/modules/applied_farmer/controllers/wating_approve_tab_controller.dart';
 import 'package:myray_mobile/app/modules/applied_job/applied_job_repository.dart';
@@ -60,6 +61,7 @@ class AppBinding extends Bindings {
     Get.lazyPut(() => JobPostRepository(), fenix: true);
     Get.lazyPut(() => BookmarkRepository(), fenix: true);
     Get.lazyPut(() => PaymentHistoryRepository(), fenix: true);
+    Get.lazyPut(() => WorkTypeRepository(), fenix: true);
     Get.lazyPut(() => FeeDataService(), fenix: true);
     Get.lazyPut(() => AppliedFarmerRepository(), fenix: true);
     Get.lazyPut(() => MessageRepository(), fenix: true);
@@ -81,7 +83,6 @@ class AppBinding extends Bindings {
     Get.lazyPut(() => FeedBackController(), fenix: true);
     Get.lazyPut(() => ReportRepository(), fenix: true);
     Get.lazyPut(() => ExtendJobRepository(), fenix: true);
-    Get.lazyPut(() => DayOffController(),fenix: true);
-
+    Get.lazyPut(() => DayOffController(), fenix: true);
   }
 }

@@ -8,7 +8,7 @@ import 'package:myray_mobile/app/shared/widgets/cards/card_status_field.dart';
 class ToggleContentPostInfo extends StatelessWidget {
   final DateTime createdDate;
   final DateTime publishedDate;
-  final DateTime publishExpiryDate;
+  final DateTime? publishExpiryDate;
   final CardStatusField postStatus;
   final CardStatusField? postType;
   final DateTime? approvedDate;
@@ -21,8 +21,8 @@ class ToggleContentPostInfo extends StatelessWidget {
     Key? key,
     required this.createdDate,
     required this.publishedDate,
-    required this.publishExpiryDate,
     required this.postStatus,
+    this.publishExpiryDate,
     this.postType,
     this.approvedBy,
     this.approvedDate,
@@ -48,11 +48,12 @@ class ToggleContentPostInfo extends StatelessWidget {
           data: Utils.formatddMMyyyy(publishedDate),
         ),
         const SizedBox(height: 8.0),
-        CardField(
-          icon: CustomIcons.calendar_range,
-          title: AppStrings.labelExpiryDate,
-          data: Utils.formatddMMyyyy(publishExpiryDate),
-        ),
+        if (publishExpiryDate != null)
+          CardField(
+            icon: CustomIcons.calendar_range,
+            title: AppStrings.labelExpiryDate,
+            data: Utils.formatddMMyyyy(publishExpiryDate!),
+          ),
         const SizedBox(height: 8.0),
         postStatus,
         if (postType != null) ..._buildPinInfo(),

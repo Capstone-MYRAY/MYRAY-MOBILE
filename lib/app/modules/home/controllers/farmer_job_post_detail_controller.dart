@@ -10,11 +10,12 @@ import 'package:myray_mobile/app/shared/constants/app_colors.dart';
 import 'package:myray_mobile/app/shared/constants/app_msg.dart';
 import 'package:myray_mobile/app/shared/constants/common.dart';
 import 'package:myray_mobile/app/shared/utils/auth_credentials.dart';
-import 'package:myray_mobile/app/shared/widgets/builders/loading_builder.dart';
+import 'package:myray_mobile/app/shared/widgets/builders/my_loading_builder.dart';
 import 'package:myray_mobile/app/shared/widgets/custom_snackbar.dart';
 import 'package:myray_mobile/app/data/models/job_post/farmer_job_post_detail_response.dart';
 
-class FarmerJobPostDetailController extends GetxController with MessageService, AppliedJobService {
+class FarmerJobPostDetailController extends GetxController
+    with MessageService, AppliedJobService {
   final _jobPostRepository = Get.find<JobPostRepository>();
   final _accountRepository = Get.find<ProfileRepository>();
   final _bookmarkRepository = Get.find<BookmarkRepository>();
@@ -85,7 +86,7 @@ class FarmerJobPostDetailController extends GetxController with MessageService, 
   //check the num of applied job is 5 or not.
   checkNumOfAppliedJob() async {
     int? numOfAppliedJobList = await checkAmountAppliedJob();
-    if(numOfAppliedJobList == CommonConstants.numOfAppliedJobList){
+    if (numOfAppliedJobList == CommonConstants.numOfAppliedJobList) {
       isFullApplyRequestJob(true);
     }
   }
@@ -111,7 +112,7 @@ class FarmerJobPostDetailController extends GetxController with MessageService, 
           (result) => {
             if (result || result == null)
               {
-                const LoadingBuilder(),
+                const MyLoadingBuilder(),
                 CustomSnackbar.show(
                     title: "Thành công", message: AppMsg.MSG3006),
               }

@@ -9,7 +9,7 @@ import 'package:myray_mobile/app/shared/constants/app_msg.dart';
 import 'package:myray_mobile/app/shared/constants/app_strings.dart';
 import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
 import 'package:myray_mobile/app/shared/utils/utils.dart';
-import 'package:myray_mobile/app/shared/widgets/builders/loading_builder.dart';
+import 'package:myray_mobile/app/shared/widgets/builders/my_loading_builder.dart';
 import 'package:myray_mobile/app/shared/widgets/dialogs/custom_confirm_dialog.dart';
 import 'package:myray_mobile/app/data/models/job_post/farmer_job_post_detail_response.dart';
 import 'package:myray_mobile/app/shared/widgets/dialogs/custom_information.dialog.dart';
@@ -20,8 +20,8 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
 
   @override
   Widget build(BuildContext context) {
-    final isExpired = controller.checkExpiredDate(controller.getExpiredDate(
-        controller.jobPost.publishedDate, controller.jobPost.numOfPublishDay));
+    // final isExpired = controller.checkExpiredDate(controller.getExpiredDate(
+    //     controller.jobPost.publishedDate, controller.jobPost.numOfPublishDay));
     return Scaffold(
       appBar: AppBar(
         title: const Text(AppStrings.titleJobPostDetail),
@@ -29,13 +29,14 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
         centerTitle: true,
       ),
       bottomNavigationBar: Obx(
-        () => controller.isApplied.value || isExpired
+        () => controller.isApplied.value
+            // || isExpired
             ? CustomBottomNavigationBar(
-                isExpired: isExpired,
+                // isExpired: isExpired,
                 onPressedOutlineButton: controller.navigateToChatScreen,
               )
             : CustomBottomNavigationBar(
-                isExpired: isExpired,
+                // isExpired: isExpired,
                 // isExpired: false,
                 onPressedOutlineButton: controller.navigateToChatScreen,
                 onPressedFilledButton: () {
@@ -99,7 +100,7 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
         future: controller.getJobPostDetail(),
         builder: ((context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const LoadingBuilder();
+            return const MyLoadingBuilder();
           }
 
           if (snapshot.hasError || snapshot.data == null) {

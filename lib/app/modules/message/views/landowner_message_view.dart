@@ -4,7 +4,7 @@ import 'package:myray_mobile/app/modules/message/controllers/landowner_message_c
 import 'package:myray_mobile/app/modules/message/widgets/landowner_messages/landowner_message_list.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/widgets/builders/list_empty_builder.dart';
-import 'package:myray_mobile/app/shared/widgets/builders/loading_builder.dart';
+import 'package:myray_mobile/app/shared/widgets/builders/my_loading_builder.dart';
 import 'package:myray_mobile/app/shared/widgets/landowner_appbar.dart';
 
 class LandownerMessageView extends StatelessWidget {
@@ -25,7 +25,7 @@ class LandownerMessageView extends StatelessWidget {
             future: controller.loadInitMessages(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return const LoadingBuilder();
+                return const MyLoadingBuilder();
               }
 
               if (controller.messages.isEmpty) {

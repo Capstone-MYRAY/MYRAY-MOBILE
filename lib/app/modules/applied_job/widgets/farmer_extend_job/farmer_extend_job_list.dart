@@ -6,7 +6,7 @@ import 'package:myray_mobile/app/modules/applied_job/widgets/farmer_extend_job/f
 import 'package:myray_mobile/app/shared/constants/app_assets.dart';
 import 'package:myray_mobile/app/shared/constants/app_colors.dart';
 import 'package:myray_mobile/app/shared/constants/app_strings.dart';
-import 'package:myray_mobile/app/shared/widgets/builders/loading_builder.dart';
+import 'package:myray_mobile/app/shared/widgets/builders/my_loading_builder.dart';
 import 'package:myray_mobile/app/shared/widgets/buttons/custom_text_button.dart';
 import 'package:myray_mobile/app/shared/widgets/controls/input_field.dart';
 import 'package:myray_mobile/app/shared/widgets/dialogs/custom_form_dialog.dart';
@@ -21,7 +21,7 @@ class FarmerExtendJobList extends GetView<AppliedJobController> {
       future: controller.getExtendEndDateJobList(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const LoadingBuilder();
+          return const MyLoadingBuilder();
         }
         return Obx(() => LazyLoadingList(
               onEndOfPage: controller.getExtendEndDateJobList,

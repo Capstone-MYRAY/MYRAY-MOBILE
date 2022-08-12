@@ -23,7 +23,7 @@ class JobPost {
   String title;
 
   @JsonKey(name: 'tree_jobs')
-  List<TreeJobs> treeJobs;
+  List<TreeJobs>? treeJobs;
 
   @JsonKey(name: 'address')
   String? address;
@@ -37,8 +37,8 @@ class JobPost {
   @JsonKey(name: 'end_job_date')
   DateTime? jobEndDate;
 
-  @JsonKey(name: 'num_publish_day')
-  int numOfPublishDay;
+  // @JsonKey(name: 'num_publish_day')
+  // int numOfPublishDay;
 
   @JsonKey(name: 'published_by')
   int publishedBy;
@@ -48,6 +48,12 @@ class JobPost {
 
   @JsonKey(name: 'published_date')
   DateTime publishedDate;
+
+  @JsonKey(name: 'work_type_id')
+  int workTypeId;
+
+  @JsonKey(name: 'work_type_name')
+  String workTypeName;
 
   @JsonKey(name: 'created_date')
   DateTime createdDate;
@@ -106,12 +112,14 @@ class JobPost {
     required this.title,
     required this.type,
     required this.jobStartDate,
-    required this.numOfPublishDay,
+    // required this.numOfPublishDay,
     required this.publishedBy,
     required this.publishedDate,
     required this.createdDate,
     required this.status,
-    required this.treeJobs,
+    required this.workTypeId,
+    required this.workTypeName,
+    this.treeJobs,
     this.publishedName,
     this.gardenName,
     this.address,
@@ -160,19 +168,19 @@ class JobPost {
       _jobPostWorkStatusString[workStatus] ?? '';
 
   String get treeTypes {
-    if (treeJobs.isEmpty) {
+    if (treeJobs == null && treeJobs!.isEmpty) {
       return '';
     }
 
-    if (treeJobs.length == 1) {
-      return treeJobs.first.type ?? '';
+    if (treeJobs!.length == 1) {
+      return treeJobs!.first.type ?? '';
     }
 
     final buffer = StringBuffer();
 
-    for (int i = 0; i < treeJobs.length; i++) {
-      buffer.write(treeJobs[i].type!);
-      if (i < treeJobs.length - 1) {
+    for (int i = 0; i < treeJobs!.length; i++) {
+      buffer.write(treeJobs![i].type!);
+      if (i < treeJobs!.length - 1) {
         buffer.write(', ');
       }
     }

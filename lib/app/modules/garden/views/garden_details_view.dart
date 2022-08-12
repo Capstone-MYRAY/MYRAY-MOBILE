@@ -5,7 +5,7 @@ import 'package:myray_mobile/app/modules/garden/controllers/garden_details_contr
 import 'package:myray_mobile/app/modules/garden/widgets/garden_details_card.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/widgets/builders/details_error_builder.dart';
-import 'package:myray_mobile/app/shared/widgets/builders/loading_builder.dart';
+import 'package:myray_mobile/app/shared/widgets/builders/my_loading_builder.dart';
 import 'package:myray_mobile/app/shared/widgets/buttons/filled_button.dart';
 
 class GardenDetailsView extends GetView<GardenDetailsController> {
@@ -24,7 +24,7 @@ class GardenDetailsView extends GetView<GardenDetailsController> {
         future: controller.getArea(),
         builder: ((context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const LoadingBuilder();
+            return const MyLoadingBuilder();
           }
 
           if (snapshot.hasError || snapshot.data == null) {

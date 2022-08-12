@@ -6,7 +6,7 @@ import 'package:myray_mobile/app/modules/bookmark/widgets/bookmark_card.dart';
 import 'package:myray_mobile/app/routes/app_pages.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/widgets/builders/list_empty_builder.dart';
-import 'package:myray_mobile/app/shared/widgets/builders/loading_builder.dart';
+import 'package:myray_mobile/app/shared/widgets/builders/my_loading_builder.dart';
 import 'package:myray_mobile/app/shared/widgets/lazy_loading_list.dart';
 
 class LandownerBookmarkView extends StatelessWidget {
@@ -23,7 +23,7 @@ class LandownerBookmarkView extends StatelessWidget {
           future: controller.getBookmarks(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const LoadingBuilder();
+              return const MyLoadingBuilder();
             }
 
             if (snapshot.data == null || controller.bookmarks.isEmpty) {
