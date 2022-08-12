@@ -46,7 +46,9 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
           bottom: PreferredSize(
             preferredSize: const Size.fromHeight(kTextTabBarHeight + 15),
             child: SearchAndFilter(
-              onFilterTap: () {},
+              onFilterTap: () {
+                Get.toNamed(Routes.farmerJobPostFilter);
+              },
               searchController: controller.searchController,
             ),
           ),

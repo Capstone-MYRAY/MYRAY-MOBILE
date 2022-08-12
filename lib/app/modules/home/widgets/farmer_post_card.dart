@@ -64,18 +64,23 @@ class FarmerPostCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     isStatus!
                         ? StatusChip(
                             statusName: statusName!,
                             backgroundColor: statusColor!)
                         : const SizedBox(
-                            width: 1,
+                            height: 25,
                           ),
                     Image.network(
                         'https://gialainews.com/wp-content/uploads/2019/06/Gia-Lai-mien-nho-Nhung-mua-lua-ray.jpg',
                         width: 100,
-                        height: 200),
+                        height: 120),
+                    WorkTypeChip(
+                      workType: paidType,
+                      borderRadiusSize: 20,
+                    )
                   ],
                 ),
                 Expanded(
@@ -151,7 +156,8 @@ class FarmerPostCard extends StatelessWidget {
                         padding: const EdgeInsets.only(left: 15),
                         child: Row(
                           children: [
-                            const Icon(CustomIcons.map_marker_outline, size: 20),
+                            const Icon(CustomIcons.map_marker_outline,
+                                size: 20),
                             const SizedBox(
                               width: 10,
                             ),
@@ -309,7 +315,7 @@ class FarmerPostCard extends StatelessWidget {
                             ),
                             Flexible(
                               child: Text(
-                                '${Utils.vietnameseCurrencyFormat.format(price)} - ',
+                                Utils.vietnameseCurrencyFormat.format(price),
                                 style: Get.textTheme.bodyText2!.copyWith(
                                     fontSize: Get.textScaleFactor * 15),
                                 softWrap: true,
@@ -318,14 +324,14 @@ class FarmerPostCard extends StatelessWidget {
                                 maxLines: 10,
                               ),
                             ),
-                            Text(
-                              paidType!,
-                              style: Get.textTheme.bodyText2!.copyWith(
-                                fontSize: Get.textScaleFactor * 15,
-                                color: AppColors.primaryColor,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            )
+                            // Text(
+                            //   paidType!,
+                            //   style: Get.textTheme.bodyText2!.copyWith(
+                            //     fontSize: Get.textScaleFactor * 15,
+                            //     color: AppColors.primaryColor,
+                            //     fontWeight: FontWeight.w600,
+                            //   ),
+                            // )
                           ],
                         ),
                       ),
