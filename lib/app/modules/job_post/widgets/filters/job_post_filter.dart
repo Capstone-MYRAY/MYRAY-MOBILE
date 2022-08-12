@@ -145,7 +145,7 @@ class JobPostFilter extends GetView<LandownerJobPostController> {
 
   Widget _buildWorkTypeFilter() {
     return FilterSection(
-      title: AppStrings.labelWorkType,
+      title: AppStrings.labelWorkPayType,
       child: InlineFilter(
         key: workTypeKey,
         onChanged: (value) {

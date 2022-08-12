@@ -8,7 +8,7 @@ import 'package:myray_mobile/app/routes/app_pages.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/utils/hex_color_extension.dart';
 import 'package:myray_mobile/app/shared/widgets/builders/list_empty_builder.dart';
-import 'package:myray_mobile/app/shared/widgets/builders/loading_builder.dart';
+import 'package:myray_mobile/app/shared/widgets/builders/my_loading_builder.dart';
 import 'package:myray_mobile/app/shared/widgets/lazy_loading_list.dart';
 
 class JobPostByType extends GetView<JobPostByTypeController> {
@@ -29,7 +29,7 @@ class JobPostByType extends GetView<JobPostByTypeController> {
           future: controller.getJobPosts(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const LoadingBuilder();
+              return const MyLoadingBuilder();
             }
 
             if (snapshot.data == null) {
@@ -74,9 +74,9 @@ class JobPostByType extends GetView<JobPostByTypeController> {
                 : null,
             treeTypes: jobPost.treeTypes,
             workType: jobPost.workType,
-            expiredDate: jobPost.publishedDate.add(
-              Duration(days: jobPost.numOfPublishDay - 1),
-            ),
+            // expiredDate: jobPost.publishedDate.add(
+            //   Duration(days: jobPost.numOfPublishDay - 1),
+            // ),
             pinType: jobPost.postTypeName,
             postStatusBackground: jobPost.jobPostStatusColor,
             workStatusBackground: jobPost.jobPostWorkStatusColor,

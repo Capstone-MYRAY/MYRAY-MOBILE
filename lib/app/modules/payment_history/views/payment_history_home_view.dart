@@ -7,7 +7,7 @@ import 'package:myray_mobile/app/modules/payment_history/widgets/payment_history
 import 'package:myray_mobile/app/routes/app_pages.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/widgets/builders/list_empty_builder.dart';
-import 'package:myray_mobile/app/shared/widgets/builders/loading_builder.dart';
+import 'package:myray_mobile/app/shared/widgets/builders/my_loading_builder.dart';
 import 'package:myray_mobile/app/shared/widgets/controls/search_and_filter.dart';
 import 'package:myray_mobile/app/shared/widgets/lazy_loading_list.dart';
 
@@ -39,7 +39,7 @@ class PaymentHistoryHomeView extends GetView<PaymentHistoryHomeController> {
                 future: controller.getPaymentHistories(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const LoadingBuilder();
+                    return const MyLoadingBuilder();
                   }
 
                   if (snapshot.data == null) {
@@ -82,7 +82,7 @@ class PaymentHistoryHomeView extends GetView<PaymentHistoryHomeController> {
             issuedDate: payment.createdDate ?? DateTime.now(),
             balance: payment.balance ?? 0,
             point: payment.earnedPoint ?? 0,
-            balanceFructuation: payment.balanceFluctuation ?? 0,
+            balanceFluctuation: payment.balanceFluctuation ?? 0,
             iconColor: payment.statusColor,
             title: payment.message ?? '',
             onTap: () {

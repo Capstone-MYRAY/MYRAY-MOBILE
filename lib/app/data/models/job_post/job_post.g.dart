@@ -12,13 +12,14 @@ JobPost _$JobPostFromJson(Map<String, dynamic> json) => JobPost(
       title: json['title'] as String,
       type: json['type'] as String,
       jobStartDate: DateTime.parse(json['start_job_date'] as String),
-      numOfPublishDay: json['num_publish_day'] as int? ?? 0,
       publishedBy: json['published_by'] as int,
       publishedDate: DateTime.parse(json['published_date'] as String),
       createdDate: DateTime.parse(json['created_date'] as String),
       status: json['status'] as int,
-      treeJobs: (json['tree_jobs'] as List<dynamic>)
-          .map((e) => TreeJobs.fromJson(e as Map<String, dynamic>))
+      workTypeId: json['work_type_id'] as int,
+      workTypeName: json['work_type_name'] as String,
+      treeJobs: (json['tree_jobs'] as List<dynamic>?)
+          ?.map((e) => TreeJobs.fromJson(e as Map<String, dynamic>))
           .toList(),
       publishedName: json['published_name'] as String?,
       gardenName: json['garden_name'] as String?,
@@ -73,15 +74,16 @@ Map<String, dynamic> _$JobPostToJson(JobPost instance) {
   writeNotNull('garden_lat', instance.gardenLat);
   writeNotNull('garden_lon', instance.gardenLon);
   val['title'] = instance.title;
-  val['tree_jobs'] = instance.treeJobs;
+  writeNotNull('tree_jobs', instance.treeJobs);
   writeNotNull('address', instance.address);
   val['type'] = instance.type;
   val['start_job_date'] = instance.jobStartDate.toIso8601String();
   writeNotNull('end_job_date', instance.jobEndDate?.toIso8601String());
-  val['num_publish_day'] = instance.numOfPublishDay;
   val['published_by'] = instance.publishedBy;
   writeNotNull('published_name', instance.publishedName);
   val['published_date'] = instance.publishedDate.toIso8601String();
+  val['work_type_id'] = instance.workTypeId;
+  val['work_type_name'] = instance.workTypeName;
   val['created_date'] = instance.createdDate.toIso8601String();
   writeNotNull('updated_date', instance.updatedDate?.toIso8601String());
   writeNotNull('approved_by', instance.approvedBy);

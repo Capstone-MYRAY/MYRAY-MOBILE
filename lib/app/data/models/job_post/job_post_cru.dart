@@ -25,8 +25,8 @@ class JobPostCru {
   @JsonKey(name: 'end_job_date')
   DateTime? jobEndDate;
 
-  @JsonKey(name: 'num_publish_day')
-  int numOfPublishDay;
+  // @JsonKey(name: 'num_publish_day')
+  // int numOfPublishDay;
 
   @JsonKey(name: 'description')
   String? description;
@@ -57,7 +57,7 @@ class JobPostCru {
     required this.title,
     required this.treeJobs,
     required this.jobStartDate,
-    required this.numOfPublishDay,
+    // required this.numOfPublishDay,
     required this.publishedDate,
     this.jobEndDate,
     this.description,

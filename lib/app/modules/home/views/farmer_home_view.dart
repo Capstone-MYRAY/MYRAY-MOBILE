@@ -16,7 +16,7 @@ import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
 import 'package:myray_mobile/app/shared/utils/hex_color_extension.dart';
 import 'package:myray_mobile/app/shared/utils/user_current_location.dart';
 import 'package:myray_mobile/app/shared/widgets/builders/list_empty_builder.dart';
-import 'package:myray_mobile/app/shared/widgets/builders/loading_builder.dart';
+import 'package:myray_mobile/app/shared/widgets/builders/my_loading_builder.dart';
 import 'package:myray_mobile/app/shared/widgets/controls/search_and_filter.dart';
 import 'package:myray_mobile/app/shared/widgets/lazy_loading_list.dart';
 
@@ -55,7 +55,7 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
             future: controller.getListJobPost(),
             builder: ((context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return const LoadingBuilder();
+                return const MyLoadingBuilder();
               }
               if (snapshot.hasError) {
                 printError(info: snapshot.error.toString());
@@ -185,9 +185,9 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
                                         price: jobPost.payPerHourJob != null
                                             ? jobPost.payPerHourJob!.salary
                                             : jobPost.payPerTaskJob!.salary,
-                                        treeType: jobPost.treeJobs.isEmpty
+                                        treeType: jobPost.treeJobs!.isEmpty
                                             ? "Không phân loại"
-                                            : jobPost.treeJobs[0].type ??
+                                            : jobPost.treeJobs![0].type ??
                                                 "Không phân loại", //no
                                         workType: jobPost.payPerHourJob != null
                                             ? AppStrings.payPerHour
@@ -293,9 +293,11 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
                                                           .payPerHourJob!.salary
                                                       : jobPost.payPerTaskJob!
                                                           .salary,
-                                              treeType: jobPost.treeJobs.isEmpty
+                                              treeType: jobPost.treeJobs ==
+                                                          null &&
+                                                      jobPost.treeTypes.isEmpty
                                                   ? "Không phân loại"
-                                                  : jobPost.treeJobs[0].type ??
+                                                  : jobPost.treeJobs![0].type ??
                                                       "Không phân loại", //no
                                               workType:
                                                   jobPost.payPerHourJob != null

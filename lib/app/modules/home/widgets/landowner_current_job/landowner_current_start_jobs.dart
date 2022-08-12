@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:myray_mobile/app/modules/home/widgets/landowner_current_job/landowner_current_start_jobs_controller.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
-import 'package:myray_mobile/app/shared/widgets/builders/loading_builder.dart';
+import 'package:myray_mobile/app/shared/widgets/builders/my_loading_builder.dart';
 import 'package:myray_mobile/app/shared/widgets/buttons/filled_button.dart';
 import 'package:myray_mobile/app/shared/widgets/cards/feature_option.dart';
 import 'package:myray_mobile/app/shared/widgets/lazy_loading_list.dart';
@@ -21,7 +21,7 @@ class LandownerCurrentStartJobs extends StatelessWidget {
           future: controller.getCurrentStartJobs(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const LoadingBuilder();
+              return const MyLoadingBuilder();
             }
 
             if (snapshot.data == null) {

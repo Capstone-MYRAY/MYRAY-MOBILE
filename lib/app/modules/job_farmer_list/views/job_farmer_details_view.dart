@@ -8,7 +8,7 @@ import 'package:myray_mobile/app/modules/job_farmer_list/widgets/feedback_farmer
 import 'package:myray_mobile/app/modules/job_farmer_list/widgets/report_farmer_card.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/widgets/builders/details_error_builder.dart';
-import 'package:myray_mobile/app/shared/widgets/builders/loading_builder.dart';
+import 'package:myray_mobile/app/shared/widgets/builders/my_loading_builder.dart';
 import 'package:myray_mobile/app/shared/widgets/buttons/filled_button.dart';
 import 'package:myray_mobile/app/shared/widgets/farmer_details/farmer_details.dart';
 import 'package:myray_mobile/app/shared/widgets/farmer_details/farmer_details_appbar.dart';
@@ -36,7 +36,7 @@ class JobFarmerDetailsView extends GetView<JobFarmerDetailsController> {
         future: controller.init(),
         builder: (_, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const LoadingBuilder();
+            return const MyLoadingBuilder();
           }
 
           if (snapshot.hasError) {

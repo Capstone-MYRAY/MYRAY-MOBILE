@@ -7,7 +7,7 @@ import 'package:myray_mobile/app/shared/constants/app_assets.dart';
 import 'package:myray_mobile/app/shared/constants/app_colors.dart';
 import 'package:myray_mobile/app/shared/constants/app_strings.dart';
 import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
-import 'package:myray_mobile/app/shared/widgets/builders/loading_builder.dart';
+import 'package:myray_mobile/app/shared/widgets/builders/my_loading_builder.dart';
 import 'package:myray_mobile/app/shared/widgets/buttons/custom_text_button.dart';
 import 'package:myray_mobile/app/shared/widgets/dialogs/custom_confirm_dialog.dart';
 import 'package:myray_mobile/app/shared/widgets/lazy_loading_list.dart';
@@ -17,12 +17,11 @@ class AppliedJobList extends GetView<AppliedJobController> {
 //future buider
   @override
   Widget build(BuildContext context) {
-    return
-        FutureBuilder(
+    return FutureBuilder(
       future: controller.getAppliedJobList(),
       builder: ((context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const LoadingBuilder();
+          return const MyLoadingBuilder();
         }
         if (snapshot.hasError) {
           printError(info: snapshot.error.toString());
@@ -64,14 +63,12 @@ class AppliedJobList extends GetView<AppliedJobController> {
                   child: Center(
                     child: Column(
                       children: [
-                        Text(
-                          "Bạn chưa ứng tuyển\n vào công việc nào.",
-                          style: Get.textTheme.bodyLarge!.copyWith(
-                            color: AppColors.grey,
-                            fontSize: Get.textScaleFactor * 20,
-                          ),
-                          textAlign: TextAlign.center
-                        ),
+                        Text("Bạn chưa ứng tuyển\n vào công việc nào.",
+                            style: Get.textTheme.bodyLarge!.copyWith(
+                              color: AppColors.grey,
+                              fontSize: Get.textScaleFactor * 20,
+                            ),
+                            textAlign: TextAlign.center),
                         const SizedBox(height: 10),
                         const ImageIcon(AssetImage(AppAssets.noJobFound),
                             size: 30, color: AppColors.grey),
@@ -83,7 +80,8 @@ class AppliedJobList extends GetView<AppliedJobController> {
               JobPost jobPost =
                   controller.appliedJobPostResponse[index].jobPost;
               return Container(
-                  padding: const EdgeInsets.only(top: 10, left: 10, right: 10, bottom: 20),
+                  padding: const EdgeInsets.only(
+                      top: 10, left: 10, right: 10, bottom: 20),
                   child: Card(
                       color: AppColors.white,
                       child: Padding(
@@ -223,8 +221,7 @@ class AppliedJobList extends GetView<AppliedJobController> {
                               CustomDialog.show(
                                   confirm: () =>
                                       controller.cancelAppliedJob(jobPost.id),
-                                  message:
-                                      "Bạn muốn hủy yêu cầu ứng tuyển?");
+                                  message: "Bạn muốn hủy yêu cầu ứng tuyển?");
                             },
                             title: AppStrings.cancel,
                             border: Border.all(
@@ -236,9 +233,9 @@ class AppliedJobList extends GetView<AppliedJobController> {
                         ]),
                       )));
             })));
-              // return ListView.builder(itemCount: 1000, itemBuilder: ((context, index) {
-              //   return SizedBox(child: Text('hello'));
-              // }));
+        // return ListView.builder(itemCount: 1000, itemBuilder: ((context, index) {
+        //   return SizedBox(child: Text('hello'));
+        // }));
 
         // return const SizedBox();
       }),

@@ -14,7 +14,7 @@ import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
 import 'package:myray_mobile/app/shared/utils/hex_color_extension.dart';
 import 'package:myray_mobile/app/shared/utils/utils.dart';
 import 'package:myray_mobile/app/shared/widgets/builders/details_error_builder.dart';
-import 'package:myray_mobile/app/shared/widgets/builders/loading_builder.dart';
+import 'package:myray_mobile/app/shared/widgets/builders/my_loading_builder.dart';
 import 'package:myray_mobile/app/shared/widgets/buttons/filled_button.dart';
 import 'package:myray_mobile/app/shared/widgets/cards/card_status_field.dart';
 import 'package:myray_mobile/app/shared/widgets/cards/feature_option.dart';
@@ -62,7 +62,7 @@ class LandownerJobPostDetailsView
           future: controller.getPaymentHistory(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const LoadingBuilder();
+              return const MyLoadingBuilder();
             }
 
             if (snapshot.hasError) {
@@ -202,19 +202,19 @@ class LandownerJobPostDetailsView
       }
 
       //add extend job button
-      if (_isPosted) {
-        final buttons = [
-          const SizedBox(height: 8.0),
-          FractionallySizedBox(
-            widthFactor: 0.8,
-            child: FilledButton(
-              title: AppStrings.titleExtendPostEndDate,
-              onPressed: controller.extendExpiredDate,
-            ),
-          ),
-        ];
-        widgets.addAll(buttons);
-      }
+      // if (_isPosted) {
+      //   final buttons = [
+      //     const SizedBox(height: 8.0),
+      //     FractionallySizedBox(
+      //       widthFactor: 0.8,
+      //       child: FilledButton(
+      //         title: AppStrings.titleExtendPostEndDate,
+      //         onPressed: controller.extendExpiredDate,
+      //       ),
+      //     ),
+      //   ];
+      //   widgets.addAll(buttons);
+      // }
 
       //add repost button
       if (_isExpired || _isOutOfDate) {
@@ -389,8 +389,8 @@ class LandownerJobPostDetailsView
         builder: (_) => ToggleContentPostInfo(
           createdDate: jobPost.createdDate,
           publishedDate: jobPost.publishedDate,
-          publishExpiryDate: jobPost.publishedDate
-              .add(Duration(days: jobPost.numOfPublishDay - 1)),
+          // publishExpiryDate: jobPost.publishedDate
+          //     .add(Duration(days: jobPost.numOfPublishDay - 1)),
           postStatus: CardStatusField(
             statusName: jobPost.jobPostStatusString,
             title: AppStrings.labelPostStatus,

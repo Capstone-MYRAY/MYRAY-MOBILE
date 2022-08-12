@@ -13,7 +13,6 @@ JobPostCru _$JobPostCruFromJson(Map<String, dynamic> json) => JobPostCru(
           .map((e) => TreeJobs.fromJson(e as Map<String, dynamic>))
           .toList(),
       jobStartDate: DateTime.parse(json['start_job_date'] as String),
-      numOfPublishDay: json['num_publish_day'] as int,
       publishedDate: DateTime.parse(json['published_date'] as String),
       jobEndDate: json['end_job_date'] == null
           ? null
@@ -51,7 +50,6 @@ Map<String, dynamic> _$JobPostCruToJson(JobPostCru instance) {
   val['title'] = instance.title;
   val['start_job_date'] = instance.jobStartDate.toIso8601String();
   writeNotNull('end_job_date', instance.jobEndDate?.toIso8601String());
-  val['num_publish_day'] = instance.numOfPublishDay;
   writeNotNull('description', instance.description);
   val['published_date'] = instance.publishedDate.toIso8601String();
   writeNotNull('pay_per_hour_job', instance.payPerHourJob?.toJson());

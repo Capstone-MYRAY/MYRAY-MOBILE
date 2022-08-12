@@ -5,7 +5,7 @@ import 'package:myray_mobile/app/modules/attendance/controllers/job_post_attenda
 import 'package:myray_mobile/app/modules/attendance/widgets/check_attendance_card.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/utils/utils.dart';
-import 'package:myray_mobile/app/shared/widgets/builders/loading_builder.dart';
+import 'package:myray_mobile/app/shared/widgets/builders/my_loading_builder.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class JobPostAttendanceView extends GetView<JobPostAttendanceController> {
@@ -36,7 +36,7 @@ class JobPostAttendanceView extends GetView<JobPostAttendanceController> {
             if (snapshot.connectionState == ConnectionState.waiting &&
                 !controller.attendances
                     .containsKey(controller.selectedDate.value)) {
-              return const LoadingBuilder();
+              return const MyLoadingBuilder();
             }
 
             return Expanded(

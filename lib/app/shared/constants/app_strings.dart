@@ -99,7 +99,7 @@ class AppStrings {
   static const labelProvince = 'Tỉnh';
   static const labelDistrict = 'Huyện';
   static const labelCommune = 'Xã';
-  static const labelWorkType = 'Loại hình';
+  static const labelWorkPayType = 'Loại hình';
   static const labelTreeType = 'Loại cây';
   static const labelPublishDate = 'Ngày đăng';
   static const labelExpiryDate = 'Ngày hết hạn';
@@ -156,7 +156,8 @@ class AppStrings {
   static const labelEmail = 'Email';
   static const labelGender = 'Giới tính';
   static const labelOldPassword = 'Mật khẩu cũ*';
-  static const labelNewPawword = 'Mật khẩu mới*';
+  static const labelNewPassord = 'Mật khẩu mới*';
+  static const labelWorkType = 'Loại công việc';
 
   //Placeholder
   static const placeholderPhone = 'Nhập số điện thoại';

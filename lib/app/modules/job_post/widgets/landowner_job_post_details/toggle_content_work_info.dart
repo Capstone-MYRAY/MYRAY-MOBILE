@@ -40,7 +40,7 @@ class ToggleContentWorkInfo extends StatelessWidget {
         const SizedBox(height: 8.0),
         CardField(
           icon: CustomIcons.bulletin_board,
-          title: AppStrings.labelWorkType,
+          title: AppStrings.labelWorkPayType,
           data: workType,
         ),
         const SizedBox(height: 8.0),

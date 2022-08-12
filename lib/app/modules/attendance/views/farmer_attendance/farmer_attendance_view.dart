@@ -10,7 +10,7 @@ import 'package:myray_mobile/app/shared/constants/app_assets.dart';
 import 'package:myray_mobile/app/shared/constants/app_colors.dart';
 import 'package:myray_mobile/app/shared/constants/app_strings.dart';
 import 'package:myray_mobile/app/shared/constants/common.dart';
-import 'package:myray_mobile/app/shared/widgets/builders/loading_builder.dart';
+import 'package:myray_mobile/app/shared/widgets/builders/my_loading_builder.dart';
 import 'package:myray_mobile/app/shared/widgets/cards/feature_option.dart';
 import 'package:myray_mobile/app/shared/widgets/lazy_loading_list.dart';
 
@@ -29,7 +29,7 @@ class FarmerAttendanceView extends StatelessWidget {
                 future: controller.getPayPerHourJobList(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const LoadingBuilder();
+                    return const MyLoadingBuilder();
                   }
                   return Stack(
                     children: [
@@ -63,7 +63,8 @@ class FarmerAttendanceView extends StatelessWidget {
                                   ? 1
                                   : controller.payPerHourJobList.length,
                               itemBuilder: (context, index) {
-                                if (snapshot.data == null || controller.payPerHourJobList.isEmpty) {
+                                if (snapshot.data == null ||
+                                    controller.payPerHourJobList.isEmpty) {
                                   return Center(
                                     child: Column(
                                       children: [
@@ -90,9 +91,10 @@ class FarmerAttendanceView extends StatelessWidget {
                                     ? FeatureOption(
                                         icon: Icons.cases_outlined,
                                         title: jobPost.title,
-                                        onTap:() {
+                                        onTap: () {
                                           controller.currentJobPost = jobPost;
-                                          Get.toNamed(Routes.farmerAttendanceWorkDay);
+                                          Get.toNamed(
+                                              Routes.farmerAttendanceWorkDay);
                                         },
                                       )
                                     : const SizedBox();
