@@ -4,7 +4,7 @@ import 'package:myray_mobile/app/modules/message/controllers/farmer_message_cont
 import 'package:myray_mobile/app/modules/message/widgets/farmer_messages/farmer_message_list.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/widgets/builders/list_empty_builder.dart';
-import 'package:myray_mobile/app/shared/widgets/builders/loading_builder.dart';
+import 'package:myray_mobile/app/shared/widgets/builders/my_loading_builder.dart';
 
 class FarmerMessageView extends StatelessWidget {
   const FarmerMessageView({Key? key}) : super(key: key);
@@ -22,7 +22,7 @@ class FarmerMessageView extends StatelessWidget {
             future: controller.loadInitMessages(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return const LoadingBuilder();
+                return const MyLoadingBuilder();
               }
 
               if (controller.messages.isEmpty) {

@@ -9,7 +9,7 @@ import 'package:myray_mobile/app/shared/constants/app_colors.dart';
 import 'package:myray_mobile/app/shared/constants/app_strings.dart';
 import 'package:myray_mobile/app/shared/constants/common.dart';
 import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
-import 'package:myray_mobile/app/shared/widgets/builders/loading_builder.dart';
+import 'package:myray_mobile/app/shared/widgets/builders/my_loading_builder.dart';
 import 'package:myray_mobile/app/shared/widgets/chips/status_chip.dart';
 import 'package:myray_mobile/app/shared/widgets/lazy_loading_list.dart';
 
@@ -41,7 +41,7 @@ class HistoryAppliedJobView extends GetView<HistoryAppliedJobController> {
           future: controller.getAppliedJobList(),
           builder: ((context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const LoadingBuilder();
+              return const MyLoadingBuilder();
             }
             if (snapshot.hasError) {
               printError(info: snapshot.error.toString());
@@ -292,9 +292,13 @@ class HistoryAppliedJobView extends GetView<HistoryAppliedJobController> {
                                         Get.toNamed(
                                             Routes.farmerHistoryJobDetail,
                                             arguments: {
-                                              Arguments.tag:
-                                                  controller.appliedJobPostResponse[index].id.toString(),
-                                              Arguments.item: controller.appliedJobPostResponse[index],
+                                              Arguments.tag: controller
+                                                  .appliedJobPostResponse[index]
+                                                  .id
+                                                  .toString(),
+                                              Arguments.item: controller
+                                                      .appliedJobPostResponse[
+                                                  index],
                                             });
                                       },
                                       child: const Text(

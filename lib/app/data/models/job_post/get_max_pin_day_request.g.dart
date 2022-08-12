@@ -9,7 +9,6 @@ part of 'get_max_pin_day_request.dart';
 GetMaxPinDayRequest _$GetMaxPinDayRequestFromJson(Map<String, dynamic> json) =>
     GetMaxPinDayRequest(
       pinDate: DateTime.parse(json['pinDate'] as String),
-      numOfPublishDay: json['numberPublishDay'] as String,
       postTypeId: json['postTypeId'] as String,
     );
 
@@ -17,6 +16,5 @@ Map<String, dynamic> _$GetMaxPinDayRequestToJson(
         GetMaxPinDayRequest instance) =>
     <String, dynamic>{
       'pinDate': instance.pinDate.toIso8601String(),
-      'numberPublishDay': instance.numOfPublishDay,
       'postTypeId': instance.postTypeId,
     };

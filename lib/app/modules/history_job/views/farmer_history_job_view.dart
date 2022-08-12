@@ -9,7 +9,7 @@ import 'package:myray_mobile/app/shared/constants/app_assets.dart';
 import 'package:myray_mobile/app/shared/constants/app_colors.dart';
 import 'package:myray_mobile/app/shared/constants/app_strings.dart';
 import 'package:myray_mobile/app/shared/constants/common.dart';
-import 'package:myray_mobile/app/shared/widgets/builders/loading_builder.dart';
+import 'package:myray_mobile/app/shared/widgets/builders/my_loading_builder.dart';
 import 'package:myray_mobile/app/shared/widgets/lazy_loading_list.dart';
 
 class FarmerHistoryJobView extends GetView<FarmerHistoryJobController> {
@@ -26,7 +26,7 @@ class FarmerHistoryJobView extends GetView<FarmerHistoryJobController> {
           future: controller.getHistoryJobList(),
           builder: (constext, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const LoadingBuilder();
+              return const MyLoadingBuilder();
             }
             if (snapshot.hasError) {
               printError(info: snapshot.error.toString());
@@ -99,10 +99,11 @@ class FarmerHistoryJobView extends GetView<FarmerHistoryJobController> {
                           statusName: appliedJob.statusString,
                           statusColor: appliedJob.statusColor,
                           onTap: () {
-                            Get.toNamed(Routes.farmerHistoryJobDetail, arguments: {
-                              Arguments.tag: appliedJob.id.toString(),
-                              Arguments.item: appliedJob,
-                            });
+                            Get.toNamed(Routes.farmerHistoryJobDetail,
+                                arguments: {
+                                  Arguments.tag: appliedJob.id.toString(),
+                                  Arguments.item: appliedJob,
+                                });
                           }),
                     );
                   },

@@ -237,7 +237,9 @@ class LandownerJobPostDetailsController extends GetxController {
       title: jobPost.value.title,
       type: jobPost.value.type,
       jobStartDate: publishDate.add(const Duration(days: 1)),
-      numOfPublishDay: 3,
+      // numOfPublishDay: 1,
+      workTypeId: jobPost.value.workTypeId,
+      workTypeName: jobPost.value.workTypeName,
       publishedBy: jobPost.value.publishedBy,
       publishedDate: publishDate,
       createdDate: jobPost.value.createdDate,
@@ -256,25 +258,25 @@ class LandownerJobPostDetailsController extends GetxController {
     });
   }
 
-  extendExpiredDate() async {
-    //get price config
-    try {
-      FeeData feeData;
-      final result = await _feeDataService.getFeeConfig();
-      if (result == null) throw Exception('Có lỗi xảy ra');
-      feeData = result;
-
-      ExtendExpiredDateDialog.show(
-        jobPost.value.publishedDate
-            .add(Duration(days: jobPost.value.numOfPublishDay - 1)),
-        feeData,
-        _profile,
-        _extendExpiredDate,
-      );
-    } catch (e) {
-      print('extendExpiredDate: ${e.toString()}');
-    }
-  }
+  // extendExpiredDate() async {
+  //   //get price config
+  //   try {
+  //     FeeData feeData;
+  //     final result = await _feeDataService.getFeeConfig();
+  //     if (result == null) throw Exception('Có lỗi xảy ra');
+  //     feeData = result;
+  //
+  //     ExtendExpiredDateDialog.show(
+  //       jobPost.value.publishedDate
+  //           .add(Duration(days: jobPost.value.numOfPublishDay - 1)),
+  //       feeData,
+  //       _profile,
+  //       _extendExpiredDate,
+  //     );
+  //   } catch (e) {
+  //     print('extendExpiredDate: ${e.toString()}');
+  //   }
+  // }
 
   _extendExpiredDate(DateTime expandDate, int? usedPoint) async {
     try {

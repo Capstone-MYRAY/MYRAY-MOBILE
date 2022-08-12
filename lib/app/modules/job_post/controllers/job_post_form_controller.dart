@@ -14,7 +14,9 @@ import 'package:myray_mobile/app/data/models/job_post/pay_per_task_job/pay_per_t
 import 'package:myray_mobile/app/data/models/post_type/post_type_models.dart';
 import 'package:myray_mobile/app/data/models/tree_jobs/tree_jobs.dart';
 import 'package:myray_mobile/app/data/models/tree_type/tree_type_models.dart';
+import 'package:myray_mobile/app/data/models/work_type/work_type_models.dart';
 import 'package:myray_mobile/app/data/services/services.dart';
+import 'package:myray_mobile/app/data/services/work_type_repository.dart';
 import 'package:myray_mobile/app/modules/garden/garden_repository.dart';
 import 'package:myray_mobile/app/modules/job_post/controllers/landowner_job_post_controller.dart';
 import 'package:myray_mobile/app/modules/job_post/controllers/landowner_job_post_details_controller.dart';
@@ -54,6 +56,7 @@ class JobPostFormController extends GetxController {
   final _jobPostRepository = Get.find<JobPostRepository>();
   final _feeDataService = Get.find<FeeDataService>();
   final _profile = Get.find<LandownerProfileController>();
+  final _workTypeRepository = Get.find<WorkTypeRepository>();
 
   final List<DateTime> availablePinDates = [];
 
@@ -64,17 +67,20 @@ class JobPostFormController extends GetxController {
   final RxList<Garden> gardens = RxList<Garden>();
   Rx<Garden?> selectedGarden = Rx(null);
 
+  final RxList<WorkType> workTypes = RxList<WorkType>();
+  Rx<WorkType?> selectedWorkType = Rx(null);
+
   RxList<TreeType>? treeTypes;
   RxList<TreeType> selectedTreeTypes = RxList<TreeType>();
 
   RxList<PostType>? postTypes;
   Rx<PostType?> selectedPostType = Rx(null);
 
-  var selectedWorkType = ''.obs;
+  var selectedWorkPayType = ''.obs;
   var isToolAvailable = false.obs;
   var isUpgrade = false.obs;
 
-  var numOfPublishDay = 1.obs;
+  // var numOfPublishDay = 1.obs;
   var totalPostingMoney = 0.0.obs;
   var usingPoint = 0.obs;
   var totalDiscountByPoint = 0.0.obs;
@@ -111,9 +117,9 @@ class JobPostFormController extends GetxController {
   late TextEditingController upgradeDateController;
   // late TextEditingController numOfUpgradeDateController;
 
-  String get numOfPublishDayEquation =>
-      '${Utils.vietnameseCurrencyFormat.format(_feeConfig.value.postingFeePerDay)} x '
-      '${numOfPublishDay.value} (ngày)';
+  // String get numOfPublishDayEquation =>
+  //     '${Utils.vietnameseCurrencyFormat.format(_feeConfig.value.postingFeePerDay)} x '
+  //     '${numOfPublishDay.value} (ngày)';
   String get publishFee =>
       '= ${Utils.vietnameseCurrencyFormat.format(totalPostingMoney.value)}';
 
@@ -141,6 +147,23 @@ class JobPostFormController extends GetxController {
 
   double get _userBalance =>
       Get.find<LandownerProfileController>().balanceWithPending.value;
+
+  Future<void> loadInitData() async {
+    //get fee config
+    await getFeeConfig();
+
+    //get garden list
+    await getGardens();
+
+    //get tree type list
+    await getTreeTypes();
+
+    //get post type list
+    await getPostTypes();
+
+    //get work type
+    await getWorkType();
+  }
 
   @override
   void onInit() async {
@@ -179,19 +202,7 @@ class JobPostFormController extends GetxController {
     //create controller for upgrade job post
     upgradeDateController = TextEditingController();
 
-    //get fee config
-    await getFeeConfig();
-
-    //get garden list
-    await getGardens();
-
-    //get tree type list
-    await getTreeTypes();
-
-    //get post type list
-    await getPostTypes();
-
-    calPostingFee();
+    // calPostingFee();
     calTotalFee();
 
     if (_jobPost != null) {
@@ -203,10 +214,10 @@ class JobPostFormController extends GetxController {
 
   onSubmitForm() {
     //check form validation
-    bool isTreeTypeValid = treeTypeFieldKey.currentState!.validate();
+    // bool isTreeTypeValid = treeTypeFieldKey.currentState!.validate();
     bool isFormFieldsValid = formKey.currentState!.validate();
 
-    if (!isTreeTypeValid || !isFormFieldsValid) return;
+    if (!isFormFieldsValid) return;
 
     //check balance
     double balance = _userBalance;
@@ -241,7 +252,7 @@ class JobPostFormController extends GetxController {
     publishDateController.text = _jobPost?.publishedDate != null
         ? Utils.formatddMMyyyy(_jobPost!.publishedDate)
         : '';
-    numOfPublishDay.value = _jobPost?.numOfPublishDay ?? 1;
+    // numOfPublishDay.value = _jobPost?.numOfPublishDay ?? 1;
 
     //get payment history from job post details controller
 
@@ -258,7 +269,7 @@ class JobPostFormController extends GetxController {
       minFarmerController.text = hourJob.minFarmer.toString();
       maxFarmerController.text = hourJob.maxFarmer.toString();
       hourSalaryController.updateValue(hourJob.salary);
-      selectedWorkType.value = AppStrings.payPerHour;
+      selectedWorkPayType.value = AppStrings.payPerHour;
       startHourController.text = Utils.getHHmm(hourJob.startTime);
       endHourController.text = Utils.getHHmm(hourJob.finishTime);
     }
@@ -271,19 +282,21 @@ class JobPostFormController extends GetxController {
           : '';
       taskSalaryController.updateValue(taskJob.salary);
       isToolAvailable.value = taskJob.isFarmToolsAvaiable ?? false;
-      selectedWorkType.value = AppStrings.payPerTask;
+      selectedWorkPayType.value = AppStrings.payPerTask;
     }
 
     //set selected garden
     selectedGarden.value =
         gardens.firstWhere((element) => element.id == _jobPost!.gardenId);
 
-    selectedTreeTypes = _jobPost!.treeJobs
-        .map((treeJob) =>
-            TreeType(id: treeJob.treeTypeId, status: 1, type: treeJob.type!))
-        .toList()
-        .cast<TreeType>()
-        .obs;
+    if (_jobPost!.treeJobs != null && _jobPost!.treeJobs!.isNotEmpty) {
+      selectedTreeTypes = _jobPost!.treeJobs!
+          .map((treeJob) =>
+              TreeType(id: treeJob.treeTypeId, status: 1, type: treeJob.type!))
+          .toList()
+          .cast<TreeType>()
+          .obs;
+    }
 
     //load upgrade post info
     if (_jobPost?.postTypeId != null) {
@@ -303,7 +316,7 @@ class JobPostFormController extends GetxController {
     }
 
     calPoint();
-    calPostingFee();
+    // calPostingFee();
     calUpgradeCost();
   }
 
@@ -413,14 +426,14 @@ class JobPostFormController extends GetxController {
         .toList();
     String _title = workNameController.text;
     DateTime _jobStartDate = Utils.fromddMMyyyy(jobStartDateController.text);
-    int _numOfPublishDay = numOfPublishDay.value;
+    // int _numOfPublishDay = numOfPublishDay.value;
     String _description = descriptionController.text;
     DateTime _publishedDate = Utils.fromddMMyyyy(publishDateController.text);
     DateTime? _jobEndDate;
     PayPerHourJob? _payPerHourJob;
     PayPerTaskJob? _payPerTaskJob;
 
-    if (selectedWorkType.value == AppStrings.payPerTask) {
+    if (selectedWorkPayType.value == AppStrings.payPerTask) {
       _payPerTaskJob = PayPerTaskJob(
         salary: taskSalaryController.numberValue,
         isFarmToolsAvaiable: isToolAvailable.value,
@@ -456,7 +469,7 @@ class JobPostFormController extends GetxController {
       treeJobs: _treeJobs,
       jobStartDate: _jobStartDate,
       jobEndDate: _jobEndDate,
-      numOfPublishDay: _numOfPublishDay,
+      // numOfPublishDay: _numOfPublishDay,
       publishedDate: _publishedDate,
       description: _description,
       numberOfPinDay: _numberOfPinDay,
@@ -473,6 +486,18 @@ class JobPostFormController extends GetxController {
     if (result != null) {
       _feeConfig.value = result;
       update();
+    }
+  }
+
+  getWorkType() async {
+    final GetWorkTypeRequest data = GetWorkTypeRequest(
+      page: '1',
+      pageSize: '100',
+    );
+
+    final response = await _workTypeRepository.getList(data);
+    if (response != null) {
+      workTypes.addAll(response.workTypes);
     }
   }
 
@@ -559,14 +584,14 @@ class JobPostFormController extends GetxController {
 
     final data = CheckPinDateRequest(
       publishedDate: Utils.fromddMMyyyy(publishDateController.text),
-      numOfPublishDay: numOfPublishDay.value.toString(),
+      // numOfPublishDay: numOfPublishDay.value.toString(),
       postTypeId: selectedPostType.value!.id.toString(),
     );
 
-    List<DateTime>? _pinDates =
+    List<DateTime>? pinDates =
         await _jobPostRepository.getAvailablePinDates(data);
-    if (_pinDates != null) {
-      availablePinDates.addAll(_pinDates);
+    if (pinDates != null) {
+      availablePinDates.addAll(pinDates);
     }
   }
 
@@ -582,6 +607,11 @@ class JobPostFormController extends GetxController {
     });
   }
 
+  void onWorkTypeChange(WorkType? workType) {
+    selectedWorkType.value = workType;
+    print(selectedWorkType.value?.name);
+  }
+
   //functions for garden dropdown list
   bool compareGarden(Garden? g1, Garden? g2) {
     if (g1 != null && g2 != null) {
@@ -594,17 +624,17 @@ class JobPostFormController extends GetxController {
     selectedGarden.value = garden;
   }
 
-  //functions for work type dropdown list
-  bool compareWorkType(String? s1, String? s2) {
+  //functions for work pay type dropdown list
+  bool compareWorkPayType(String? s1, String? s2) {
     if (s1 != null && s2 != null) {
       return Utils.equalsUtf8String(s1, s2);
     }
     return false;
   }
 
-  void onWorkTypeChange(String? s) {
+  void onWorkPayTypeChange(String? s) {
     if (s != null) {
-      selectedWorkType.value = s;
+      selectedWorkPayType.value = s;
     }
   }
 
@@ -612,6 +642,14 @@ class JobPostFormController extends GetxController {
   bool comparePostType(PostType? t1, PostType? t2) {
     if (t1 != null && t2 != null) {
       return t1.id == t2.id;
+    }
+    return false;
+  }
+
+  //functions for garden dropdown list
+  bool compareWorkType(WorkType? o1, WorkType? o2) {
+    if (o1 != null && o2 != null) {
+      return o1.id == o2.id;
     }
     return false;
   }
@@ -758,19 +796,19 @@ class JobPostFormController extends GetxController {
     }
   }
 
-  calPostingFee() {
-    totalPostingMoney.value =
-        _feeConfig.value.postingFeePerDay * numOfPublishDay.value;
-  }
+  // calPostingFee() {
+  //   totalPostingMoney.value =
+  //       _feeConfig.value.postingFeePerDay * numOfPublishDay.value;
+  // }
 
   //handle onChange number of publish day
-  void onChangeNumOfPublishDay(double value) {
-    numOfPublishDay.value = value.toInt();
-
-    calPostingFee();
-    calTotalFee();
-    getAvailablePinDates();
-  }
+  // void onChangeNumOfPublishDay(double value) {
+  //   numOfPublishDay.value = value.toInt();
+  //
+  //   calPostingFee();
+  //   calTotalFee();
+  //   getAvailablePinDates();
+  // }
 
   calPoint() {
     totalDiscountByPoint.value =
@@ -796,7 +834,7 @@ class JobPostFormController extends GetxController {
     if (upgradeDateController.text.isEmpty) return;
     final data = GetMaxPinDayRequest(
       pinDate: Utils.fromddMMyyyy(upgradeDateController.text),
-      numOfPublishDay: numOfPublishDay.value.toString(),
+      // numOfPublishDay: numOfPublishDay.value.toString(),
       postTypeId: selectedPostType.value!.id.toString(),
     );
     maxDay.value = await _jobPostRepository.getMaxPinDay(data);
@@ -827,7 +865,12 @@ class JobPostFormController extends GetxController {
     return null;
   }
 
-  String? validateWorkType(String? value) {
+  String? validateWorkTypeSelection(WorkType? workType) {
+    if (workType == null) return AppMsg.MSG0002;
+    return null;
+  }
+
+  String? validateWorkPayType(String? value) {
     if (Utils.isEmpty(value)) {
       return AppMsg.MSG0002;
     }
@@ -850,7 +893,7 @@ class JobPostFormController extends GetxController {
       }
     }
 
-    if (selectedWorkType.value == AppStrings.payPerTask &&
+    if (selectedWorkPayType.value == AppStrings.payPerTask &&
         jobEndDateController.text.isNotEmpty) {
       DateTime endDate = Utils.fromddMMyyyy(jobEndDateController.text);
       if (startDate.compareTo(endDate) > 0) {
@@ -1011,18 +1054,18 @@ class JobPostFormController extends GetxController {
     }
 
     //check upgrade date
-    if (upgradeDateController.text.isNotEmpty &&
-        publishDateController.text.isNotEmpty &&
-        isUpgrade.value) {
-      DateTime endUpradeDate = Utils.fromddMMyyyy(upgradeDateController.text)
-          .add(Duration(days: int.parse(value)));
-      DateTime endPublishDate = Utils.fromddMMyyyy(publishDateController.text)
-          .add(Duration(days: numOfPublishDay.value));
-      Duration difference = endPublishDate.difference(endUpradeDate);
-      if (difference.inDays < 0) {
-        return 'Ngày nâng cấp không hợp lệ';
-      }
-    }
+    // if (upgradeDateController.text.isNotEmpty &&
+    //     publishDateController.text.isNotEmpty &&
+    //     isUpgrade.value) {
+    //   DateTime endUpradeDate = Utils.fromddMMyyyy(upgradeDateController.text)
+    //       .add(Duration(days: int.parse(value)));
+    //   DateTime endPublishDate = Utils.fromddMMyyyy(publishDateController.text)
+    //       .add(Duration(days: numOfPublishDay.value));
+    //   Duration difference = endPublishDate.difference(endUpradeDate);
+    //   if (difference.inDays < 0) {
+    //     return 'Ngày nâng cấp không hợp lệ';
+    //   }
+    // }
     return null;
   }
 
@@ -1045,19 +1088,19 @@ class JobPostFormController extends GetxController {
     return null;
   }
 
-  String? validateNumOfPublishDay(String? value) {
-    if (Utils.isEmpty(value)) {
-      return AppMsg.MSG0002;
-    }
-
-    if (!Utils.isPositiveInteger(value!)) {
-      return AppMsg.MSG0010;
-    }
-
-    // if (int.parse(value) < 3) {
-    //   return AppMsg.MSG4004;
-    // }
-
-    return null;
-  }
+  // String? validateNumOfPublishDay(String? value) {
+  //   if (Utils.isEmpty(value)) {
+  //     return AppMsg.MSG0002;
+  //   }
+  //
+  //   if (!Utils.isPositiveInteger(value!)) {
+  //     return AppMsg.MSG0010;
+  //   }
+  //
+  //   // if (int.parse(value) < 3) {
+  //   //   return AppMsg.MSG4004;
+  //   // }
+  //
+  //   return null;
+  // }
 }

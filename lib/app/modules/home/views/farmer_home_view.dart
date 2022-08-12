@@ -14,7 +14,7 @@ import 'package:myray_mobile/app/shared/constants/common.dart';
 import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
 import 'package:myray_mobile/app/shared/utils/hex_color_extension.dart';
 import 'package:myray_mobile/app/shared/widgets/builders/list_empty_builder.dart';
-import 'package:myray_mobile/app/shared/widgets/builders/loading_builder.dart';
+import 'package:myray_mobile/app/shared/widgets/builders/my_loading_builder.dart';
 import 'package:myray_mobile/app/shared/widgets/lazy_loading_list.dart';
 
 class FarmerHomeView extends GetView<FarmerHomeController> {
@@ -47,7 +47,7 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
             future: controller.getListJobPost(),
             builder: ((context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return const LoadingBuilder();
+                return const MyLoadingBuilder();
               }
               if (snapshot.hasError) {
                 printError(info: snapshot.error.toString());
@@ -145,12 +145,12 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
                                               controller.secondObject[index];
                                           var publishedDate =
                                               jobPost.publishedDate;
-                                          var numberPublishDate =
-                                              jobPost.numOfPublishDay;
-                                          var expiredDate =
-                                              controller.getExpiredDate(
-                                                  publishedDate,
-                                                  numberPublishDate);
+                                          // var numberPublishDate =
+                                          //     jobPost.numOfPublishDay;
+                                          // var expiredDate =
+                                          //     controller.getExpiredDate(
+                                          //         publishedDate,
+                                          //         numberPublishDate);
                                           return Container(
                                             margin: const EdgeInsets.only(
                                                 right: 20),
@@ -170,21 +170,23 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
                                                           .payPerHourJob!.salary
                                                       : jobPost.payPerTaskJob!
                                                           .salary,
-                                              treeType: jobPost.treeJobs.isEmpty
+                                              treeType: jobPost.treeJobs ==
+                                                          null &&
+                                                      jobPost.treeTypes.isEmpty
                                                   ? "Không phân loại"
-                                                  : jobPost.treeJobs[0].type ??
+                                                  : jobPost.treeJobs![0].type ??
                                                       "Không phân loại", //no
                                               workType:
                                                   jobPost.payPerHourJob != null
                                                       ? AppStrings.payPerHour
                                                       : AppStrings.payPerTask,
                                               isStatus: true,
-                                              expiredDate:
-                                                  DateFormat('dd-MM-yyyy')
-                                                      .format(expiredDate),
-                                              isExpired:
-                                                  controller.checkExpiredDate(
-                                                      expiredDate),
+                                              // expiredDate:
+                                              //     DateFormat('dd-MM-yyyy')
+                                              //         .format(expiredDate),
+                                              // isExpired:
+                                              //     controller.checkExpiredDate(
+                                              //         expiredDate),
                                               onTap: () => {
                                                 Get.toNamed(
                                                     Routes.farmerJobPostDetail,
@@ -256,12 +258,12 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
                                               controller.listObject[index];
                                           var publishedDate =
                                               jobPost.publishedDate;
-                                          var numberPublishDate =
-                                              jobPost.numOfPublishDay;
-                                          var expiredDate =
-                                              controller.getExpiredDate(
-                                                  publishedDate,
-                                                  numberPublishDate);
+                                          // var numberPublishDate =
+                                          //     jobPost.numOfPublishDay;
+                                          // var expiredDate =
+                                          //     controller.getExpiredDate(
+                                          //         publishedDate,
+                                          //         numberPublishDate);
                                           return Padding(
                                             padding: EdgeInsets.only(
                                                 top: Get.height * 0.02),
@@ -274,20 +276,22 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
                                                           .payPerHourJob!.salary
                                                       : jobPost.payPerTaskJob!
                                                           .salary,
-                                              treeType: jobPost.treeJobs.isEmpty
+                                              treeType: jobPost.treeJobs ==
+                                                          null &&
+                                                      jobPost.treeTypes.isEmpty
                                                   ? "Không phân loại"
-                                                  : jobPost.treeJobs[0].type ??
+                                                  : jobPost.treeJobs![0].type ??
                                                       "Không phân loại", //no
                                               workType:
                                                   jobPost.payPerHourJob != null
                                                       ? AppStrings.payPerHour
                                                       : AppStrings.payPerTask,
-                                              expiredDate:
-                                                  DateFormat('dd-MM-yyyy')
-                                                      .format(expiredDate),
-                                              isExpired:
-                                                  controller.checkExpiredDate(
-                                                      expiredDate),
+                                              // expiredDate:
+                                              //     DateFormat('dd-MM-yyyy')
+                                              //         .format(expiredDate),
+                                              // isExpired:
+                                              //     controller.checkExpiredDate(
+                                              //         expiredDate),
                                               onTap: () {
                                                 Get.toNamed(
                                                     Routes.farmerJobPostDetail,
