@@ -25,18 +25,6 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
 
   @override
   Widget build(BuildContext context) {
-    String address = '17/11 Nguyễn Thông, Quận 3, Thành phố Hồ Chí Minh';
-    double? lat = CurrentLocation.instance.userCurrentLocation!.latitude;
-    double? long = CurrentLocation.instance.userCurrentLocation!.longtitude;
-    double distance = 0.0;
-    int newdistance = 0;
-    final double pLat = 11.930503;
-    final double pLng = 108.443409;
-    if (lat != null && long != null) {
-      distance = Geolocator.distanceBetween(pLat, pLng, lat, long);
-
-      distance = double.parse((distance / 1000).toStringAsFixed(0));
-    }
     return Scaffold(
         appBar: AppBar(
           title: const Text(AppStrings.home),
@@ -118,6 +106,7 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
               }
               if (snapshot.hasData) {
                 return LazyLoadingList(
+                  width: Get.width,
                   onEndOfPage: controller.getListJobPost,
                   onRefresh: controller.onRefresh,
                   isLoading: controller.isLoading.value,
@@ -126,6 +115,7 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
                     return Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
+                        const SizedBox(height: 10),
                         Container(
                           padding: const EdgeInsets.all(11.0),
                           decoration: const BoxDecoration(
@@ -172,29 +162,26 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
                                   // shrinkWrap: true,
                                   physics: const NeverScrollableScrollPhysics(),
                                   shrinkWrap: true,
-                                  padding: const EdgeInsets.only(left: 10),
+                                  // padding: const EdgeInsets.only(left: 10),
                                   itemCount: controller.secondObject.length,
                                   itemBuilder: (context, index) {
                                     JobPost jobPost =
                                         controller.secondObject[index];
-                                    var publishedDate = jobPost.publishedDate;
-                                    var numberPublishDate =
-                                        jobPost.numOfPublishDay;
-                                    var expiredDate = controller.getExpiredDate(
-                                        publishedDate, numberPublishDate);
+                                    
+                                
                                     return Container(
                                       margin: const EdgeInsets.only(
-                                          right: 20, top: 10, bottom: 10),
-                                      child: FarmerSpecialPostCard(
+                                           top: 10, bottom: 10),
+                                      child: FarmerPostCard(
                                         backgroundColor:
                                             AppColors.markedBackgroundColor,
                                         statusColor: HexColor.fromHex(
                                             jobPost.backgroundColor!),
                                         statusName: jobPost.postTypeName,
-                                        statusNameColor: HexColor.fromHex(
-                                            jobPost.foregroundColor!),
+                                        // statusNameColor: HexColor.fromHex(
+                                        //     jobPost.foregroundColor!),
                                         title: jobPost.title,
-                                        address: jobPost.address ?? '',
+                                        address: jobPost.address != null ? jobPost.address!.split(',').last :'',
                                         price: jobPost.payPerHourJob != null
                                             ? jobPost.payPerHourJob!.salary
                                             : jobPost.payPerTaskJob!.salary,
@@ -205,11 +192,8 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
                                         workType: jobPost.payPerHourJob != null
                                             ? AppStrings.payPerHour
                                             : AppStrings.payPerTask,
-                                        isStatus: true,
-                                        expiredDate: DateFormat('dd-MM-yyyy')
-                                            .format(expiredDate),
-                                        isExpired: controller
-                                            .checkExpiredDate(expiredDate),
+                                        isStatus: true,                                        
+                                        distance: controller.getDistance(jobPost.gardenLat!, jobPost.gardenLon!),
                                         onTap: () => {
                                           Get.toNamed(
                                               Routes.farmerJobPostDetail,
@@ -283,10 +267,10 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
                           () => controller.listObject.isNotEmpty
                               ? Flexible(
                                   child: ListView.builder(
-                                      padding: const EdgeInsets.only(
-                                        left: 5.0,
-                                        right: 5.0,
-                                      ),
+                                      // padding: const EdgeInsets.only(
+                                      //   left: 5.0,
+                                      //   right: 5.0,
+                                      // ),
                                       itemCount: controller.listObject.length,
                                       physics:
                                           const NeverScrollableScrollPhysics(),
@@ -294,17 +278,9 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
                                       itemBuilder: (context, index) {
                                         JobPost jobPost =
                                             controller.listObject[index];
-                                        var publishedDate =
-                                            jobPost.publishedDate;
-                                        var numberPublishDate =
-                                            jobPost.numOfPublishDay;
-                                        var expiredDate =
-                                            controller.getExpiredDate(
-                                                publishedDate,
-                                                numberPublishDate);
                                         return Container(
                                           margin: const EdgeInsets.only(
-                                              right: 10, top: 5, bottom: 5),
+                                               top: 5, bottom: 5),
                                           child: Padding(
                                             padding: EdgeInsets.only(
                                                 top: Get.height * 0.02),
@@ -324,14 +300,8 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
                                               workType:
                                                   jobPost.payPerHourJob != null
                                                       ? AppStrings.payPerHour
-                                                      : AppStrings.payPerTask,
-                                              expiredDate:
-                                                  DateFormat('dd-MM-yyyy')
-                                                      .format(expiredDate),
-                                              isExpired:
-                                                  controller.checkExpiredDate(
-                                                      expiredDate),
-                                              distance: 142.7,
+                                                      : AppStrings.payPerTask,                                              
+                                              distance: controller.getDistance(jobPost.gardenLat!, jobPost.gardenLon!),
                                               onTap: () {
                                                 Get.toNamed(
                                                     Routes.farmerJobPostDetail,

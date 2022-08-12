@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:myray_mobile/app/data/enums/enums.dart';
 import 'package:myray_mobile/app/data/models/job_post/get_request_job_post_list.dart';
@@ -8,6 +9,7 @@ import 'package:myray_mobile/app/modules/job_post/job_post_repository.dart';
 import 'package:myray_mobile/app/routes/app_pages.dart';
 import 'package:myray_mobile/app/shared/constants/common.dart';
 import 'package:myray_mobile/app/shared/utils/custom_exception.dart';
+import 'package:myray_mobile/app/shared/utils/user_current_location.dart';
 
 class FarmerHomeController extends GetxController {
   final _repository = Get.find<JobPostRepository>();
@@ -24,6 +26,8 @@ class FarmerHomeController extends GetxController {
   final isLoading = false.obs;
 
   late TextEditingController searchController;
+  double? lat = CurrentLocation.instance.userCurrentLocation!.latitude;
+  double? long = CurrentLocation.instance.userCurrentLocation!.longtitude;
 
   @override
   void onInit() async {
@@ -59,7 +63,8 @@ class FarmerHomeController extends GetxController {
     try {
       if (_hasNextpage) {
         JobPostResponse? response = await _repository.getJobPostList(data);
-        if (response == null  || response.listJobPost.isEmpty && response.secondObject!.isEmpty) {
+        if (response == null ||
+            response.listJobPost.isEmpty && response.secondObject!.isEmpty) {
           print('here');
           isLoading(false);
           return null;
@@ -96,5 +101,16 @@ class FarmerHomeController extends GetxController {
   navigateToDetailPage(Rx<JobPost> jobPost) {
     Get.toNamed(Routes.farmerJobPostDetail,
         arguments: {Arguments.item: jobPost});
+  }
+
+  //get distance
+  getDistance(double gardenLat, double gardenLong) {
+    double distance = 0.0;
+    if (lat != null && long != null) {
+      distance = Geolocator.distanceBetween(gardenLat, gardenLong, lat!, long!);
+
+      distance = double.parse((distance / 1000).toStringAsFixed(0));
+    }
+    return distance;
   }
 }
