@@ -1,6 +1,7 @@
 import 'package:filter_list/filter_list.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:myray_mobile/app/data/models/tree_type/tree_type.dart';
 import 'package:myray_mobile/app/data/models/work_type/work_type_models.dart';
 import 'package:myray_mobile/app/shared/constants/app_colors.dart';
 import 'package:myray_mobile/app/shared/constants/app_strings.dart';
@@ -8,18 +9,18 @@ import 'package:myray_mobile/app/shared/constants/common.dart';
 import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
 import 'package:myray_mobile/app/shared/utils/utils.dart';
 
-class WorkTypeField extends StatefulWidget {
-  final List<WorkType> workTypes;
-  final List<WorkType> selectedWorkTypes;
-  const WorkTypeField(
-      {Key? key, required this.workTypes, required this.selectedWorkTypes})
+class TreeTypeField extends StatefulWidget {
+  final List<TreeType> treeTypes;
+  final List<TreeType> selectedTreeTypes;
+  const TreeTypeField(
+      {Key? key, required this.treeTypes, required this.selectedTreeTypes})
       : super(key: key);
 
   @override
-  State<WorkTypeField> createState() => _WorkTypeFieldState();
+  State<TreeTypeField> createState() => TreeTypeFieldState();
 }
 
-class _WorkTypeFieldState extends State<WorkTypeField> {
+class TreeTypeFieldState extends State<TreeTypeField> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -45,7 +46,7 @@ class _WorkTypeFieldState extends State<WorkTypeField> {
               ),
               horizontalTitleGap: 0.0,
               title: Text(
-                'Chọn loại công việc',
+                'Chọn loại cây',
                 style: Get.theme.inputDecorationTheme.labelStyle,
               ),
               trailing: _buildIcon(CustomIcons.menu_down),
@@ -55,63 +56,66 @@ class _WorkTypeFieldState extends State<WorkTypeField> {
           const SizedBox(
             height: 8.0,
           ),
-          _buildSelectedChip(),
+          Obx(() => _buildSelectedChip()),
         ],
       ),
     );
   }
 
   void _openWrokTypeDialog(BuildContext context) {
-    FilterListDialog.display<WorkType>(Get.context!,
-        height: Get.height * 0.8,
-        controlButtons: [ControlButtonType.Reset],
-        resetButtonText: 'Bỏ chọn toàn bộ',
-        applyButtonText: 'Chọn',
-        listData: widget.workTypes,
-        selectedItemsText: 'mục đã chọn',
-        themeData: FilterListThemeData(
+    FilterListDialog.display<TreeType>(
+      Get.context!,
+      height: Get.height * 0.8,
+      controlButtons: [ControlButtonType.Reset],
+      resetButtonText: 'Bỏ chọn toàn bộ',
+      applyButtonText: 'Chọn',
+      listData: widget.treeTypes,
+      selectedItemsText: 'mục đã chọn',
+      themeData: FilterListThemeData(
+        context,
+        choiceChipTheme: ChoiceChipThemeData(
+          selectedBackgroundColor: AppColors.primaryColor.withOpacity(0.5),
+        ),
+        controlButtonBarTheme: ControlButtonBarThemeData(
           context,
-          choiceChipTheme: ChoiceChipThemeData(
-            selectedBackgroundColor: AppColors.primaryColor.withOpacity(0.5),
-          ),
-          controlButtonBarTheme: ControlButtonBarThemeData(
-            context,
-            controlButtonTheme: ControlButtonThemeData(
-              primaryButtonBackgroundColor: AppColors.primaryColor,
-              textStyle: Get.textTheme.bodyText1!.copyWith(
-                color: AppColors.primaryColor,
-                fontWeight: FontWeight.w400,
-              ),
-              primaryButtonTextStyle: Get.textTheme.bodyText1!.copyWith(
-                color: AppColors.white,
-              ),
+          controlButtonTheme: ControlButtonThemeData(
+            primaryButtonBackgroundColor: AppColors.primaryColor,
+            textStyle: Get.textTheme.bodyText1!.copyWith(
+              color: AppColors.primaryColor,
+              fontWeight: FontWeight.w400,
+            ),
+            primaryButtonTextStyle: Get.textTheme.bodyText1!.copyWith(
+              color: AppColors.white,
             ),
           ),
-          headerTheme: HeaderThemeData(
-            searchFieldHintText: AppStrings.placeholderSearch,
-            searchFieldInputBorder: InputBorder.none,
-            searchFieldHintTextStyle: Get.textTheme.caption,
-          ),
         ),
-        selectedListData: widget.selectedWorkTypes,
-        choiceChipLabel: (workType) => workType?.name,
-        validateSelectedItem: (list, treeType) {
-          if (list == null) return false;
-          return list.contains(treeType);
-        },
-        onItemSearch: (workType, query) {
-          return Utils.toLowerCaseNonAccentVietnamese(workType.name)
-              .contains(Utils.toLowerCaseNonAccentVietnamese(query));
-        },
-        onApplyButtonClick: (list) {
-          setState(() {
-            widget.selectedWorkTypes.clear();
-            if (list != null) {
-              widget.selectedWorkTypes.addAll(list.toList().cast<WorkType>());
-            }
-          });
-          Navigator.pop(context);
+        headerTheme: HeaderThemeData(
+          searchFieldHintText: AppStrings.placeholderSearch,
+          searchFieldInputBorder: InputBorder.none,
+          searchFieldHintTextStyle: Get.textTheme.caption,
+        ),
+      ),
+      selectedListData: widget.selectedTreeTypes,
+      choiceChipLabel: (treeType) => treeType?.type,
+      validateSelectedItem: (list, treeType) {
+        if (list == null) return false;
+        return list.contains(treeType);
+      },
+      onItemSearch: (treeType, query) {
+        return Utils.toLowerCaseNonAccentVietnamese(treeType.type)
+            .contains(Utils.toLowerCaseNonAccentVietnamese(query));
+      },
+      onApplyButtonClick: (list) {
+        setState(() {
+          widget.selectedTreeTypes.clear();
+          if (list != null) {
+            widget.selectedTreeTypes.addAll(list.toList().cast<TreeType>());
+          }
         });
+        Navigator.pop(context);
+      },
+      
+    );
   }
 
   Widget _buildIcon(IconData icon) {
@@ -126,11 +130,11 @@ class _WorkTypeFieldState extends State<WorkTypeField> {
     return Wrap(
       spacing: 12.0,
       children: [
-        ...widget.selectedWorkTypes
+        ...widget.selectedTreeTypes
             .map(
-              (workType) => ActionChip(
+              (treeType) => ActionChip(
                 label: Text(
-                  workType.name,
+                  treeType.type,
                   style: Get.textTheme.bodyText1!.copyWith(
                     color: AppColors.white,
                   ),
@@ -142,7 +146,7 @@ class _WorkTypeFieldState extends State<WorkTypeField> {
                 backgroundColor: AppColors.primaryColor.withOpacity(0.5),
                 onPressed: () {
                   setState(() {
-                    widget.selectedWorkTypes.remove(workType);
+                    widget.selectedTreeTypes.remove(treeType);
                   });
                 },
               ),
