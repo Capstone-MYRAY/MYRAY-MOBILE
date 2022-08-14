@@ -134,7 +134,7 @@ class FarmerHistoryJobDetail extends GetView<FarmerHistoryJobDetailController> {
               ),
               Obx(
                 () => LandOwnerCard(
-                  name: controller.jobPost.publishedName!,
+                  name: controller.jobPost.publishedName ?? 'Chủ rẫy',
                   address: controller.jobPost.address ?? 'Không có địa chỉ',
                   isBookmark: controller.isBookmark.value,
                   bookmark: controller.onBookmark,
