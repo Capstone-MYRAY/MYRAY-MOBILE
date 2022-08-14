@@ -110,7 +110,7 @@ class SignupController extends GetxController {
       return;
     }
 
-    String fullName = fullNameController.text;
+    String fullName = fullNameController.text.trim();
     DateTime dob = selectedDate!;
     String password = passwordController.text;
     int roleId = selectedRole.value == Roles.landowner

@@ -88,9 +88,9 @@ class GardenFormController extends GetxController {
       selectedCommune.value = Commune(id: area.id, commune: area.commune);
 
       landAreaController.text = garden.landArea.toString();
-      gardenNameController.text = garden.name;
-      descriptionController.text = garden.description;
-      addressController.text = garden.address;
+      gardenNameController.text = garden.name.trim();
+      descriptionController.text = garden.description.trim();
+      addressController.text = garden.address.trim();
       latitude = garden.latitudes;
       longitude = garden.longitudes;
 
@@ -185,10 +185,10 @@ class GardenFormController extends GetxController {
 
     //update garden
     final int areaId = selectedCommune.value.id;
-    final String gardenName = gardenNameController.text;
-    final String description = descriptionController.text;
+    final String gardenName = gardenNameController.text.trim();
+    final String description = descriptionController.text.trim();
     final double landArea = double.parse(landAreaController.text);
-    final String address = addressController.text;
+    final String address = addressController.text.trim();
 
     Garden data = detailsController!.garden.value
       ..areaId = areaId

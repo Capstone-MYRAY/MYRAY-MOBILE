@@ -53,7 +53,7 @@ class JobPost {
   String? publishedName;
 
   @JsonKey(name: 'published_date')
-   DateTime publishedDate;
+  DateTime publishedDate;
 
   @JsonKey(name: 'work_type_id')
   int workTypeId;
@@ -112,42 +112,41 @@ class JobPost {
   @JsonKey(name: 'pay_per_task_job')
   PayPerTaskJob? payPerTaskJob;
 
-  JobPost({
-    required this.id,
-    required this.gardenId,
-    required this.title,
-    required this.type,
-    required this.jobStartDate,
-    // required this.numOfPublishDay,
-    required this.publishedBy,
-    required this.publishedDate,
-    required this.createdDate,
-    required this.status,
-    required this.workTypeId,
-    required this.workTypeName,
-    this.treeJobs,
-    this.publishedName,
-    this.gardenName,
-    this.address,
-    this.approvedBy,
-    this.approvedDate,
-    this.updatedDate,
-    this.description,
-    this.payPerHourJob,
-    this.payPerTaskJob,
-    this.workStatus,
-    this.rejectedReason,
-    this.postTypeId,
-    this.backgroundColor,
-    this.foregroundColor,
-    this.jobEndDate,
-    this.postTypeName,
-    this.approvedName,
-    this.totalPinDay,
-    this.pinStartDate,
-    this.gardenLat,
-    this.gardenLon
-  });
+  JobPost(
+      {required this.id,
+      required this.gardenId,
+      required this.title,
+      required this.type,
+      required this.jobStartDate,
+      // required this.numOfPublishDay,
+      required this.publishedBy,
+      required this.publishedDate,
+      required this.createdDate,
+      required this.status,
+      required this.workTypeId,
+      required this.workTypeName,
+      this.treeJobs,
+      this.publishedName,
+      this.gardenName,
+      this.address,
+      this.approvedBy,
+      this.approvedDate,
+      this.updatedDate,
+      this.description,
+      this.payPerHourJob,
+      this.payPerTaskJob,
+      this.workStatus,
+      this.rejectedReason,
+      this.postTypeId,
+      this.backgroundColor,
+      this.foregroundColor,
+      this.jobEndDate,
+      this.postTypeName,
+      this.approvedName,
+      this.totalPinDay,
+      this.pinStartDate,
+      this.gardenLat,
+      this.gardenLon});
 
   @override
   bool operator ==(Object other) {
@@ -210,6 +209,9 @@ Map<int, Color> _jobPostStatusColor = {
   JobPostStatus.outOfDate.index: AppColors.cancelColor,
   JobPostStatus.cancel.index: AppColors.cancelColor,
   JobPostStatus.approved.index: AppColors.successColor,
+  JobPostStatus.shortHanded.index: AppColors.warningColor,
+  JobPostStatus.enough.index: AppColors.successColor,
+  JobPostStatus.end.index: AppColors.cancelColor,
 };
 
 Map<int, String> _jobPostStatusString = {
@@ -220,6 +222,9 @@ Map<int, String> _jobPostStatusString = {
   JobPostStatus.outOfDate.index: AppStrings.jobPostStatusOutOfDate,
   JobPostStatus.cancel.index: AppStrings.jobPostStatusCancel,
   JobPostStatus.approved.index: AppStrings.jobPostStatusApproved,
+  JobPostStatus.shortHanded.index: AppStrings.jobPostStatusShortHanded,
+  JobPostStatus.enough.index: AppStrings.jobPostStatusEnough,
+  JobPostStatus.end.index: AppStrings.jobPostStatusEnd,
 };
 
 Map<int, Color> _jobPostWorkStatusColor = {

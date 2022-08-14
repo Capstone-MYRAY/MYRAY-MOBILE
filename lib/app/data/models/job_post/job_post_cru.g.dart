@@ -9,11 +9,12 @@ part of 'job_post_cru.dart';
 JobPostCru _$JobPostCruFromJson(Map<String, dynamic> json) => JobPostCru(
       gardenId: json['garden_id'] as int,
       title: json['title'] as String,
-      treeJobs: (json['tree_jobs'] as List<dynamic>)
-          .map((e) => TreeJobs.fromJson(e as Map<String, dynamic>))
+      treeJobs: (json['tree_jobs'] as List<dynamic>?)
+          ?.map((e) => TreeJobs.fromJson(e as Map<String, dynamic>))
           .toList(),
       jobStartDate: DateTime.parse(json['start_job_date'] as String),
       publishedDate: DateTime.parse(json['published_date'] as String),
+      workTypeId: json['work_type_id'] as int?,
       jobEndDate: json['end_job_date'] == null
           ? null
           : DateTime.parse(json['end_job_date'] as String),
@@ -46,10 +47,11 @@ Map<String, dynamic> _$JobPostCruToJson(JobPostCru instance) {
 
   writeNotNull('id', instance.id);
   val['garden_id'] = instance.gardenId;
-  val['tree_jobs'] = instance.treeJobs.map((e) => e.toJson()).toList();
+  writeNotNull('tree_jobs', instance.treeJobs?.map((e) => e.toJson()).toList());
   val['title'] = instance.title;
   val['start_job_date'] = instance.jobStartDate.toIso8601String();
   writeNotNull('end_job_date', instance.jobEndDate?.toIso8601String());
+  writeNotNull('work_type_id', instance.workTypeId);
   writeNotNull('description', instance.description);
   val['published_date'] = instance.publishedDate.toIso8601String();
   writeNotNull('pay_per_hour_job', instance.payPerHourJob?.toJson());
