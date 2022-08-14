@@ -435,10 +435,11 @@ class LandownerJobPostDetailsView
         tag: _myTag,
         builder: (_) => ToggleContentWorkInfo(
           workName: jobPost.title,
+          workType: jobPost.workTypeName,
           jobStartDate: jobPost.jobStartDate,
           jobEndDate: jobPost.jobEndDate,
           treeTypes: jobPost.treeTypes,
-          workType: jobPost.workType,
+          workPayType: jobPost.workType,
           description: jobPost.description?.contains('\n') != null
               ? '\n${jobPost.description}'
               : jobPost.description,

@@ -20,6 +20,7 @@ import 'package:myray_mobile/app/shared/widgets/buttons/filled_button.dart';
 import 'package:myray_mobile/app/shared/widgets/controls/input_field.dart';
 import 'package:myray_mobile/app/shared/widgets/cards/my_card.dart';
 import 'package:myray_mobile/app/shared/widgets/controls/my_check_box.dart';
+import 'package:myray_mobile/app/shared/widgets/controls/my_date_range_picker.dart';
 
 class JobPostFormView extends GetView<JobPostFormController> {
   const JobPostFormView({Key? key}) : super(key: key);
@@ -452,37 +453,35 @@ class JobPostFormView extends GetView<JobPostFormController> {
           placeholder: AppStrings.placeholderUpgradeDate,
           inputAction: TextInputAction.next,
           readOnly: true,
-          onTap: controller.isUpgradeDateAvailable()
-              ? controller.onChooseUpgradeDate
-              : null,
+          onTap: controller.onChooseUpgradeDate,
           validator: controller.validateUpgradeDate,
         ),
-        const SizedBox(height: 16.0),
-        Row(
-          children: [
-            const Icon(
-              CustomIcons.calendar_range,
-              size: 24.0,
-            ),
-            const SizedBox(width: 16.0),
-            Expanded(
-              child: SpinBox(
-                key: UniqueKey(),
-                min: controller.maxDay.value == 0 ? 0 : 1,
-                max: controller.maxDay.value.toDouble(),
-                keyboardType: TextInputType.number,
-                showButtons: true,
-                onChanged: controller.onChangeNumOfUpgradeDay,
-                enabled: controller.isEnableDayEdit.value,
-                value: controller.numOfUpgradeDay.value.toDouble(),
-                decoration: const InputDecoration(
-                  label: Text('${AppStrings.labelNumOfUpgradeDay}*'),
-                ),
-                validator: controller.validateNumOfUpgradeDay,
-              ),
-            ),
-          ],
-        ),
+        // const SizedBox(height: 16.0),
+        // Row(
+        //   children: [
+        //     const Icon(
+        //       CustomIcons.calendar_range,
+        //       size: 24.0,
+        //     ),
+        //     const SizedBox(width: 16.0),
+        //     Expanded(
+        //       child: SpinBox(
+        //         key: UniqueKey(),
+        //         min: controller.maxDay.value == 0 ? 0 : 1,
+        //         max: controller.maxDay.value.toDouble(),
+        //         keyboardType: TextInputType.number,
+        //         showButtons: true,
+        //         onChanged: controller.onChangeNumOfUpgradeDay,
+        //         enabled: controller.isEnableDayEdit.value,
+        //         value: controller.numOfUpgradeDay.value.toDouble(),
+        //         decoration: const InputDecoration(
+        //           label: Text('${AppStrings.labelNumOfUpgradeDay}*'),
+        //         ),
+        //         validator: controller.validateNumOfUpgradeDay,
+        //       ),
+        //     ),
+        //   ],
+        // ),
         const SizedBox(height: 8.0),
         Obx(
           () => EquationDisplay(
