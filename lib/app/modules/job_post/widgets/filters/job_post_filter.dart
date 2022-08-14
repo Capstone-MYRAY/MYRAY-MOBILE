@@ -96,20 +96,24 @@ class JobPostFilter extends GetView<LandownerJobPostController> {
             value: null,
           ),
           FilterObject(
-            name: AppStrings.jobPostStatusPosted,
-            value: JobPostStatus.posted.index,
-          ),
-          FilterObject(
             name: AppStrings.jobPostStatusPending,
             value: JobPostStatus.pending.index,
+          ),
+          FilterObject(
+            name: AppStrings.jobPostStatusShortHanded,
+            value: JobPostStatus.shortHanded.index,
+          ),
+          FilterObject(
+            name: AppStrings.jobPostStatusEnough,
+            value: JobPostStatus.enough.index,
           ),
           FilterObject(
             name: AppStrings.jobPostStatusApproved,
             value: JobPostStatus.approved.index,
           ),
           FilterObject(
-            name: AppStrings.jobPostStatusExpired,
-            value: JobPostStatus.expired.index,
+            name: AppStrings.jobPostStatusEnd,
+            value: JobPostStatus.end.index,
           ),
           FilterObject(
             name: AppStrings.jobPostStatusOutOfDate,
