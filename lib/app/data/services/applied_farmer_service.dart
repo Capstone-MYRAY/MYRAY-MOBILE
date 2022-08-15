@@ -56,7 +56,7 @@ mixin AppliedFarmerService {
       },
     );
 
-    if (isApproveConfirm == null || !isApproveConfirm) return null;
+    if (isApproveConfirm == null || !isApproveConfirm) return 0;
 
     try {
       EasyLoading.show();
