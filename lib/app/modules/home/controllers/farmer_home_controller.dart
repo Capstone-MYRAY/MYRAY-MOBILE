@@ -13,6 +13,7 @@ import 'package:myray_mobile/app/data/models/tree_type/tree_type.dart';
 import 'package:myray_mobile/app/data/models/work_type/work_type_models.dart';
 import 'package:myray_mobile/app/data/services/services.dart';
 import 'package:myray_mobile/app/data/services/work_type_repository.dart';
+import 'package:myray_mobile/app/modules/home/widgets/farmer_filter.dart/price_list.dart';
 import 'package:myray_mobile/app/modules/home/widgets/farmer_filter.dart/tree_type_field.dart';
 import 'package:myray_mobile/app/modules/job_post/job_post_repository.dart';
 import 'package:myray_mobile/app/routes/app_pages.dart';
@@ -58,34 +59,7 @@ class FarmerHomeController extends GetxController
   RxList<TreeType> selectedTreeTypes = RxList<TreeType>();
 
   //Lương
-  Rx<FilterObject> selectSalaryRange =
-      FilterObject(name: 'Mức lương', value: null).obs;
-  List<FilterObject> filterSalaryList = [
-    FilterObject(
-      name: 'Mức lương',
-      value: null,
-    ),
-    FilterObject(
-      name: '>= 100.000 đ',
-      value: 100000,
-    ),
-    FilterObject(
-      name: '>= 500.000 đ',
-      value: 500000,
-    ),
-    FilterObject(
-      name: '>= 1.000.000 đ',
-      value: 1000000,
-    ),
-    FilterObject(
-      name: '>= 5.000.000 đ',
-      value: 5000000,
-    ),
-    FilterObject(
-      name: '>= 10.000.000 đ',
-      value: 1000000,
-    ),
-  ];
+  Rx<FilterPrice> selectSalaryRange = PriceList.priceList[0].obs;
 
   //Tỉnh, huyện, xã
   RxString selectedProvince = ''.obs;
@@ -99,8 +73,6 @@ class FarmerHomeController extends GetxController
   RxList<String> provinces = RxList<String>();
   RxList<String> districts = RxList<String>();
   RxList<String> communes = RxList<String>();
-
-  
 
   //Ngày bắt đầu
   late TextEditingController fromDateController;
@@ -138,8 +110,8 @@ class FarmerHomeController extends GetxController
 
   getListJobPost() async {
     // print('>>>>Firstime hasNextpage: $_hasNextpage');
-    print(
-        'hasNextpage: $_hasNextpage; page: $_currentPage; page_size: $_pageSize; is loading value: ${isLoading.value}');
+    // print(
+    //     'hasNextpage: $_hasNextpage; page: $_currentPage; page_size: $_pageSize; is loading value: ${isLoading.value}');
 
     GetRequestJobPostList data = GetRequestJobPostList(
         status: "2",
@@ -148,13 +120,15 @@ class FarmerHomeController extends GetxController
         sortColumn: JobPostSortColumn.createdDate,
         orderBy: SortOrder.descending,
         type: paidTypeFilter, //filter paid type
-        startDateFrom:
-            currentFromDate != null ? "${currentFromDate!}Z" : '',
-        startDateTo:
-            currentToDate != null ? "${currentToDate!}Z" : '',
+        startDateFrom: currentFromDate != null ? "${currentFromDate!}Z" : '',
+        startDateTo: currentToDate != null ? "${currentToDate!}Z" : '',
         workTypeId: workTypeId != null ? workTypeId.toString() : '',
         treeType: _getChosenTreeTypeIdList(),
-        province: selectedProvince.value == '' ? null : selectedProvince.value
+        province: selectedProvince.value == '' ? null : selectedProvince.value,
+        salaryFrom: selectSalaryRange.value.salaryFrom == null
+                  ? '' : selectSalaryRange.value.salaryFrom.toString(),
+        salaryTo: selectSalaryRange.value.salaryTo == null
+                  ? '' : selectSalaryRange.value.salaryTo.toString(),
       );
 
     isLoading.value = true;
@@ -183,7 +157,7 @@ class FarmerHomeController extends GetxController
         print('second object: ${secondObject.length}');
       }
       isLoading.value = false;
-      print('>>>$_hasNextpage');
+      // print('>>>$_hasNextpage');
       return true;
     } on CustomException catch (e) {
       isLoading.value = false;
@@ -191,17 +165,6 @@ class FarmerHomeController extends GetxController
       print('error: $e');
       return null;
     }
-  }
-
-  _filter(JobPostResponse response) {
-    if (paidTypeFilter != null) {
-      // print('paid type: $paidTypeFilter');
-      secondObject.addAll(response.secondObject!.where((element) =>
-          element.type.toLowerCase() == paidTypeFilter!.toLowerCase()));
-      // print('num second object: ${secondObject.length}');
-      return;
-    }
-    secondObject.addAll(response.secondObject!);
   }
 
   Future<void> onRefresh() async {
@@ -242,7 +205,7 @@ class FarmerHomeController extends GetxController
     selectedTreeTypes.clear();
     print('select work type: ${selectedTreeTypes.length}');
 
-    selectSalaryRange.value = FilterObject(name: 'Mức lương', value: null);
+    selectSalaryRange.value = PriceList.priceList[0];
 
     selectedWorkTypes.value = '';
     workTypeId = null;
@@ -270,10 +233,9 @@ class FarmerHomeController extends GetxController
     Get.back(); //close filter page
   }
 
-  void onSalaryRangeChange(String? fo) {
+  void onSalaryRangeChange(FilterPrice? fo) {
     if (fo != null) {
-      selectSalaryRange.value =
-          filterSalaryList.firstWhere((element) => element.name == fo);
+      selectSalaryRange.value = fo;
     }
   }
 
@@ -290,7 +252,7 @@ class FarmerHomeController extends GetxController
   }
 
   void onDistrictChange(String? district) async {
-    if(district != null){
+    if (district != null) {
       selectedDistrict.value = district;
       isDistrictChosen.value = true;
 
@@ -301,7 +263,7 @@ class FarmerHomeController extends GetxController
   }
 
   void onCommuneChange(String? commune) async {
-    if(commune != null){
+    if (commune != null) {
       selectedCommune.value = commune;
     }
   }
@@ -319,10 +281,8 @@ class FarmerHomeController extends GetxController
     currentToDate = DateTime.now();
     toDateController.text = '';
 
-    DateTime? firstDate = DateTime.now();
     DateTime? pickedDate = await MyDatePicker.show(
         initDate: currentFromDate,
-        firstDate: firstDate,
         lastDate: DateTime.now()
             .add(const Duration(days: 365 * 10))); //check ngày end job
     if (pickedDate != null) {
@@ -413,8 +373,7 @@ class FarmerHomeController extends GetxController
         sortColumn: AreaSortColumn.province,
         orderBy: SortOrder.ascending,
         province: selectedProvince.value == '' ? null : selectedProvince.value,
-        district: selectedDistrict.value == '' ? null : selectedDistrict.value
-    );
+        district: selectedDistrict.value == '' ? null : selectedDistrict.value);
 
     final GetAreaResponse? response = await getAreas(data);
     if (response == null) return;
@@ -431,7 +390,7 @@ class FarmerHomeController extends GetxController
       loadDistricts();
     }
 
-    if(selectedDistrict.value != ''){
+    if (selectedDistrict.value != '') {
       loadCommune();
     }
   }
@@ -451,7 +410,7 @@ class FarmerHomeController extends GetxController
     }
   }
 
-  loadCommune(){
+  loadCommune() {
     communes.clear();
     for (Area area in areas) {
       communes.add(area.commune);

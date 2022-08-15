@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:myray_mobile/app/shared/constants/app_colors.dart';
+import 'package:myray_mobile/app/shared/constants/app_strings.dart';
 import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
 import 'package:myray_mobile/app/shared/utils/utils.dart';
 import 'package:myray_mobile/app/shared/widgets/cards/card_field.dart';
@@ -300,29 +301,36 @@ class FarmerPostCard extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(left: 15),
                         child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const Icon(CustomIcons.wallet_outline, size: 20),
                             const SizedBox(
                               width: 10,
                             ),
-                            Text('Lương:',
-                                style: Get.textTheme.bodyText2!.copyWith(
-                                    fontSize: Get.textScaleFactor * 15,
-                                    fontWeight: FontWeight.w600)),
-                            const SizedBox(
-                              width: 5,
-                            ),
-                            Flexible(
-                              child: Text(
-                                Utils.vietnameseCurrencyFormat.format(price),
-                                style: Get.textTheme.bodyText2!.copyWith(
-                                    fontSize: Get.textScaleFactor * 15),
-                                softWrap: true,
-                                overflow: TextOverflow.ellipsis,
-                                textAlign: TextAlign.left,
-                                maxLines: 10,
-                              ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                    paidType == AppStrings.payPerHour
+                                        ? 'Lương công: ' 
+                                        : 'Lương khoán: ',
+                                    style: Get.textTheme.bodyText2!.copyWith(
+                                        fontSize: Get.textScaleFactor * 15,
+                                        fontWeight: FontWeight.w600)),
+                                const SizedBox(
+                                  height: 5,
+                                ),
+                                Text(
+                                  Utils.vietnameseCurrencyFormat.format(price),
+                                  style: Get.textTheme.bodyText2!.copyWith(
+                                      fontSize: Get.textScaleFactor * 15),
+                                  softWrap: true,
+                                  overflow: TextOverflow.ellipsis,
+                                  textAlign: TextAlign.left,
+                                  maxLines: 10,
+                                ),
+                              ],
                             ),
                             // Text(
                             //   paidType!,

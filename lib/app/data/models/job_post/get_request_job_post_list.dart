@@ -48,10 +48,10 @@ class GetRequestJobPostList {
   String? startDateTo;
 
   @JsonKey(name: 'salaryFrom')
-  double? salaryFrom;
+  String? salaryFrom;
 
   @JsonKey(name: 'salaryTo')
-  double? salaryTo;
+  String? salaryTo;
 
   @JsonKey(name: 'order-by')
   SortOrder? orderBy;

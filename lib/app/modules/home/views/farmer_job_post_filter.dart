@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:myray_mobile/app/data/enums/enums.dart';
 import 'package:myray_mobile/app/data/models/filter_object.dart';
 import 'package:myray_mobile/app/modules/home/controllers/farmer_home_controller.dart';
+import 'package:myray_mobile/app/modules/home/widgets/farmer_filter.dart/price_list.dart';
 import 'package:myray_mobile/app/modules/home/widgets/farmer_filter.dart/tree_type_field.dart';
 import 'package:myray_mobile/app/shared/constants/app_colors.dart';
 import 'package:myray_mobile/app/shared/constants/app_strings.dart';
@@ -32,43 +33,35 @@ class FarmerJobPostFilter extends GetView<FarmerHomeController> {
             child: ListView(
               children: [
                 Obx(() => FilterSection(
-                  title: 'Tỉnh',
-                  child: Column(
-                    children: [
-                      _buildProvinceDropdownList(),
-                      controller.isProvinceChosen.value
-                          ? Column(
-                              children: [
-                                const SizedBox(height: 15),
-                                _buildDistrictDropdownList(),
-                                controller.isDistrictChosen.value
-                               ? Column(
+                      title: 'Tỉnh',
+                      child: Column(
+                        children: [
+                          _buildProvinceDropdownList(),
+                          controller.isProvinceChosen.value
+                              ? Column(
                                   children: [
                                     const SizedBox(height: 15),
-                                    _buildCommuneDropdownList(),
+                                    _buildDistrictDropdownList(),
+                                    controller.isDistrictChosen.value
+                                        ? Column(
+                                            children: [
+                                              const SizedBox(height: 15),
+                                              _buildCommuneDropdownList(),
+                                            ],
+                                          )
+                                        : const SizedBox(),
                                   ],
-                                ): const SizedBox(),
-                              ],
-                            )
-                          : const SizedBox()
-                    ],
-                  ),
-                )),
-                //  FilterSection(
-                //     title: 'Xã',
-                //     child: _buildProvinceDropdownList(),
-                //   ),
-                //   FilterSection(
-                //     title: 'Huyện',
-                //     child: _buildProvinceDropdownList(),
-                //   ),
+                                )
+                              : const SizedBox()
+                        ],
+                      ),
+                    )),
                 Obx(
                   () => FilterSection(
                     title: 'Loại công việc',
                     child: _buildWorkTypeDropdownList(),
                   ),
                 ),
-
                 _buildPaidTypeFilter(),
                 Obx(
                   () => FilterSection(
@@ -76,7 +69,6 @@ class FarmerJobPostFilter extends GetView<FarmerHomeController> {
                     child: _buildSalaryDropdownList(),
                   ),
                 ),
-
                 FilterSection(
                   title: 'Ngày bắt đầu',
                   child: Column(
@@ -172,37 +164,66 @@ class FarmerJobPostFilter extends GetView<FarmerHomeController> {
   }
 
   Widget _buildSalaryDropdownList() {
-    return DropdownSearch<String>(
-      key: UniqueKey(),
-      popupProps: const PopupProps.menu(
-        showSelectedItems: true,
-        constraints: BoxConstraints(
-          maxHeight: 120.0,
-        ),
-      ),
-      dropdownDecoratorProps: const DropDownDecoratorProps(
-        dropdownSearchDecoration: InputDecoration(
-          // icon: Icon(CustomIcons.bulletin_board, size: 24),
+    return SizedBox(
+      width: Get.width * 0.8,
+      child: DropdownButtonFormField<FilterPrice>(
+        key: UniqueKey(),
+        value: controller.selectSalaryRange.value,
+        onChanged: controller.onSalaryRangeChange,
+        menuMaxHeight: 120.0,
+        // isExpanded: true,
+        style: TextStyle(color: AppColors.primaryColor),
+        elevation: 0,
+        alignment: Alignment.bottomLeft,
+        dropdownColor: AppColors.white,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+
+        decoration: InputDecoration(
           labelText: 'Chọn mức lương',
           isDense: true,
           floatingLabelBehavior: FloatingLabelBehavior.auto,
+          floatingLabelAlignment: FloatingLabelAlignment.start
         ),
+        items: PriceList.priceList.map((FilterPrice price) {
+          String formatPrice = price.toPriceString();
+          return DropdownMenuItem<FilterPrice>(
+            value: price,
+            child: Text(
+              formatPrice,
+              style: TextStyle(color: AppColors.black),
+            ),
+          );
+        }).toList(),
       ),
-      selectedItem: controller.selectSalaryRange.value.name,
-      items: const [
-        'Mức lương',
-        '>= 100.000 đ',
-        '>= 500.000 đ',
-        '>= 1.000.000 đ',
-        '>= 5.000.000 đ',
-        '>= 10.000.000 đ',
-      ],
-      compareFn: (item1, item2) {
-        return true;
-      },
-      onChanged: controller.onSalaryRangeChange,
-      autoValidateMode: AutovalidateMode.onUserInteraction,
     );
+
+    // DropdownSearch<FilterPrice>(
+    //   key: UniqueKey(),
+    //   popupProps: const PopupProps.menu(
+    //     showSelectedItems: true,
+    //     constraints: BoxConstraints(
+    //       maxHeight: 120.0,
+    //     ),
+    //   ),
+    //   dropdownDecoratorProps: const DropDownDecoratorProps(
+    //     dropdownSearchDecoration: InputDecoration(
+    //       // icon: Icon(CustomIcons.bulletin_board, size: 24),
+    //       labelText: 'Chọn mức lương',
+    //       isDense: true,
+    //       floatingLabelBehavior: FloatingLabelBehavior.auto,
+    //     ),
+    //   ),
+    //   selectedItem: controller.selectSalaryRange.value,
+    //   items: PriceList.priceList,
+    //   compareFn: (item1, item2) {
+    //     return true;
+    //   },
+    //   onChanged: (value){
+
+    //     print('get ${value?.salaryFrom}');
+    //   },
+    //   autoValidateMode: AutovalidateMode.onUserInteraction,
+    // );
   }
 
   Widget _buildProvinceDropdownList() {
@@ -213,6 +234,7 @@ class FarmerJobPostFilter extends GetView<FarmerHomeController> {
         constraints: BoxConstraints(
           maxHeight: 120.0,
         ),
+        textStyle: TextStyle(color: AppColors.black),
       ),
       dropdownDecoratorProps: const DropDownDecoratorProps(
         dropdownSearchDecoration: InputDecoration(
@@ -231,6 +253,7 @@ class FarmerJobPostFilter extends GetView<FarmerHomeController> {
       autoValidateMode: AutovalidateMode.onUserInteraction,
     );
   }
+
   Widget _buildDistrictDropdownList() {
     return DropdownSearch<String>(
       key: UniqueKey(),
@@ -257,6 +280,7 @@ class FarmerJobPostFilter extends GetView<FarmerHomeController> {
       autoValidateMode: AutovalidateMode.onUserInteraction,
     );
   }
+
   Widget _buildCommuneDropdownList() {
     return DropdownSearch<String>(
       key: UniqueKey(),
