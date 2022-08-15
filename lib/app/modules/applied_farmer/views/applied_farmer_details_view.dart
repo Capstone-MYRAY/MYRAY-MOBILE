@@ -85,7 +85,7 @@ class AppliedFarmerDetailsView extends GetView<AppliedFarmerDetailsController> {
               ),
             ),
             if (appliedFarmer.jobPost.status ==
-                AppliedFarmerStatus.pending.index) ...[
+                JobPostStatus.shortHanded.index) ...[
               const SizedBox(width: 16.0),
               Expanded(
                 child: FilledButton(

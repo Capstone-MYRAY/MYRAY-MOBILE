@@ -1,3 +1,4 @@
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:myray_mobile/app/data/enums/enums.dart';
 import 'package:myray_mobile/app/data/models/applied_farmer/applied_farmer_models.dart';
@@ -46,7 +47,7 @@ mixin AppliedFarmerService {
     return false;
   }
 
-  Future<bool?> approveFarmer(int appliedId) async {
+  Future<int?> approveFarmer(int appliedId) async {
     bool? isApproveConfirm = await CustomDialog.show(
       message: 'Bạn muốn thuê người này?',
       confirm: () async {
@@ -57,7 +58,15 @@ mixin AppliedFarmerService {
 
     if (isApproveConfirm == null || !isApproveConfirm) return null;
 
-    return await _appliedFarmerRepository.approveFarmer(appliedId);
+    try {
+      EasyLoading.show();
+      int? status = await _appliedFarmerRepository.approveFarmer(appliedId);
+      return status;
+    } catch (e) {
+      throw Exception('Có lỗi xảy ra');
+    } finally {
+      EasyLoading.dismiss();
+    }
   }
 
   Future<bool?> rejectFarmer(int appliedId) async {
@@ -71,6 +80,14 @@ mixin AppliedFarmerService {
 
     if (isApproveConfirm == null || !isApproveConfirm) return null;
 
-    return await _appliedFarmerRepository.rejectFarmer(appliedId);
+    try {
+      EasyLoading.show();
+      bool result = await _appliedFarmerRepository.rejectFarmer(appliedId);
+      return result;
+    } catch (e) {
+      throw Exception('Có lỗi xảy ra');
+    } finally {
+      EasyLoading.dismiss();
+    }
   }
 }
