@@ -44,11 +44,15 @@ class LandownerJobPostDetailsController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    isFindingFarmer.value =
-        jobPost.value.status == JobPostStatus.shortHanded.index;
+    updateFindingFarmerStatus();
   }
 
   LandownerJobPostDetailsController({required this.jobPost});
+
+  updateFindingFarmerStatus() {
+    isFindingFarmer.value =
+        jobPost.value.status == JobPostStatus.shortHanded.index;
+  }
 
   navigateToUpdateForm() {
     Get.toNamed(Routes.jobPostForm, arguments: {
@@ -56,6 +60,12 @@ class LandownerJobPostDetailsController extends GetxController {
       Arguments.item: jobPost.value,
       Arguments.tag: Get.arguments[Arguments.tag],
     });
+  }
+
+  updateJobPostStatus(int status) {
+    jobPost.value.status = status;
+    updateFindingFarmerStatus();
+    update([postInformation]);
   }
 
   onFindingFarmerToggle(value) async {
@@ -66,8 +76,6 @@ class LandownerJobPostDetailsController extends GetxController {
       int status =
           value ? JobPostStatus.shortHanded.index : JobPostStatus.enough.index;
       jobPost.value.status = status;
-
-      // update([postInformation]);
 
       //update job post in list
       if (Get.previousRoute == Routes.init) {
