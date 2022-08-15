@@ -14,7 +14,7 @@ class JobPostCru {
   int gardenId;
 
   @JsonKey(name: 'tree_jobs')
-  List<TreeJobs> treeJobs;
+  List<TreeJobs>? treeJobs;
 
   @JsonKey(name: 'title')
   String title;
@@ -24,6 +24,9 @@ class JobPostCru {
 
   @JsonKey(name: 'end_job_date')
   DateTime? jobEndDate;
+
+  @JsonKey(name: 'work_type_id')
+  int? workTypeId;
 
   // @JsonKey(name: 'num_publish_day')
   // int numOfPublishDay;
@@ -59,6 +62,7 @@ class JobPostCru {
     required this.jobStartDate,
     // required this.numOfPublishDay,
     required this.publishedDate,
+    this.workTypeId,
     this.jobEndDate,
     this.description,
     this.payPerHourJob,

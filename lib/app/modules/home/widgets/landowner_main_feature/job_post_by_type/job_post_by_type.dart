@@ -64,6 +64,7 @@ class JobPostByType extends GetView<JobPostByTypeController> {
           return LandownerJobPostItem(
             key: ValueKey(jobPost.id),
             title: jobPost.title,
+            workType: jobPost.workTypeName,
             address: jobPost.address ?? '',
             publishedDate: jobPost.publishedDate,
             postTypeBackground: jobPost.backgroundColor != null
@@ -73,7 +74,7 @@ class JobPostByType extends GetView<JobPostByTypeController> {
                 ? HexColor.fromHex(jobPost.foregroundColor!)
                 : null,
             treeTypes: jobPost.treeTypes,
-            workType: jobPost.workType,
+            workPayType: jobPost.workType,
             // expiredDate: jobPost.publishedDate.add(
             //   Duration(days: jobPost.numOfPublishDay - 1),
             // ),

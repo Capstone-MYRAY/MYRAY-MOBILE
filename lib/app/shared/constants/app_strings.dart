@@ -235,6 +235,10 @@ class AppStrings {
   static const jobPostStatusOutOfDate = 'Quá hạn duyệt';
   static const jobPostStatusCancel = 'Đã hủy';
   static const jobPostStatusApproved = 'Đã duyệt';
+  static const jobPostStatusShortHanded = 'Đang tuyển người';
+  static const jobPostStatusEnough = 'Đã đủ người';
+  static const jobPostStatusEnd = 'Đã kết thúc';
+
   static const jobPostWorkStatusPending = 'Chưa bắt đầu';
   static const jobPostWorkStatusStarted = 'Đã bắt đầu';
   static const jobPostWorkStatusDone = 'Đã kết thúc';

@@ -7,8 +7,9 @@ import 'package:myray_mobile/app/shared/widgets/cards/card_status_field.dart';
 
 class ToggleContentWorkInfo extends StatelessWidget {
   final String workName;
-  final String workType;
+  final String workPayType;
   final String treeTypes;
+  final String workType;
   final DateTime jobStartDate;
   final DateTime? jobEndDate;
   final String? description;
@@ -19,6 +20,7 @@ class ToggleContentWorkInfo extends StatelessWidget {
     Key? key,
     required this.workName,
     required this.workType,
+    required this.workPayType,
     required this.treeTypes,
     required this.jobStartDate,
     required this.workContent,
@@ -39,15 +41,21 @@ class ToggleContentWorkInfo extends StatelessWidget {
         ),
         const SizedBox(height: 8.0),
         CardField(
+          icon: CustomIcons.briefcase_outline,
+          title: AppStrings.labelWorkType,
+          data: workType,
+        ),
+        const SizedBox(height: 8.0),
+        CardField(
           icon: CustomIcons.bulletin_board,
           title: AppStrings.labelWorkPayType,
-          data: workType,
+          data: workPayType,
         ),
         const SizedBox(height: 8.0),
         CardField(
           icon: CustomIcons.tree_outline,
           title: AppStrings.labelTreeType,
-          data: treeTypes,
+          data: treeTypes.isEmpty ? 'Không phân loại' : treeTypes,
         ),
         const SizedBox(height: 8.0),
         workContent,
