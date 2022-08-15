@@ -23,7 +23,7 @@ import 'package:myray_mobile/app/shared/utils/utils.dart';
 import 'package:myray_mobile/app/shared/widgets/controls/my_date_picker.dart';
 
 class FarmerHomeController extends GetxController
-    with WorkTypeRepository, TreeTypeService {
+    with WorkTypeRepository, TreeTypeService, AreaRepository {
   final _repository = Get.find<JobPostRepository>();
   late int page = 1;
   var isExpired = false.obs;
@@ -87,9 +87,20 @@ class FarmerHomeController extends GetxController
     ),
   ];
 
-  //Tỉnh
-  RxString selectProvince = ''.obs;
-  List<String> labelProvince = [];
+  //Tỉnh, huyện, xã
+  RxString selectedProvince = ''.obs;
+  var selectedDistrict = ''.obs;
+  var selectedCommune = ''.obs;
+  RxBool isProvinceChosen = false.obs;
+  RxBool isDistrictChosen = false.obs;
+
+  var areas = [].obs;
+
+  RxList<String> provinces = RxList<String>();
+  RxList<String> districts = RxList<String>();
+  RxList<String> communes = RxList<String>();
+
+  
 
   //Ngày bắt đầu
   late TextEditingController fromDateController;
@@ -107,6 +118,7 @@ class FarmerHomeController extends GetxController
     super.onInit();
     _loadWorkTypes();
     _loadTreeTypes();
+    _loadAreas();
   }
 
   getExpiredDate(DateTime publishedDate, int numberPublishDate) {
@@ -128,6 +140,7 @@ class FarmerHomeController extends GetxController
     // print('>>>>Firstime hasNextpage: $_hasNextpage');
     print(
         'hasNextpage: $_hasNextpage; page: $_currentPage; page_size: $_pageSize; is loading value: ${isLoading.value}');
+
     GetRequestJobPostList data = GetRequestJobPostList(
         status: "2",
         page: (++_currentPage).toString(),
@@ -136,11 +149,13 @@ class FarmerHomeController extends GetxController
         orderBy: SortOrder.descending,
         type: paidTypeFilter, //filter paid type
         startDateFrom:
-            currentFromDate != null ? "${currentFromDate!.toLocal()}Z" : '',
+            currentFromDate != null ? "${currentFromDate!}Z" : '',
         startDateTo:
-            currentToDate != null ? "${currentToDate!.toLocal()}Z" : '',
-        workTypeId: workTypeId != null ? workTypeId.toString() : ''
-     );
+            currentToDate != null ? "${currentToDate!}Z" : '',
+        workTypeId: workTypeId != null ? workTypeId.toString() : '',
+        treeType: _getChosenTreeTypeIdList(),
+        province: selectedProvince.value == '' ? null : selectedProvince.value
+      );
 
     isLoading.value = true;
     try {
@@ -152,7 +167,6 @@ class FarmerHomeController extends GetxController
           isLoading(false);
           return null;
         }
-        // print('>>>is loading value: ${isLoading.value}');
         listObject.addAll(response.listJobPost);
         // print('>>>>second object: ${response.secondObject!.length}');
         // secondObject.addAll(response.secondObject!);
@@ -162,11 +176,11 @@ class FarmerHomeController extends GetxController
 
         _hasNextpage = response.pagingMetadata.hasNextPage;
         // print('next page: $_hasNextpage; second object: ${secondObject.isEmpty}');
-        if (_hasNextpage && secondObject.isEmpty) {
+        if (secondObject.isEmpty) {
           secondObject.addAll(response.secondObject!);
         }
         // print('list object: ${listObject.length}');
-        // print('second object: ${secondObject.length}');
+        print('second object: ${secondObject.length}');
       }
       isLoading.value = false;
       print('>>>$_hasNextpage');
@@ -232,7 +246,15 @@ class FarmerHomeController extends GetxController
 
     selectedWorkTypes.value = '';
     workTypeId = null;
-    
+
+    selectedProvince.value = '';
+    isProvinceChosen.value = false;
+
+    selectedDistrict.value = '';
+    isDistrictChosen.value = false;
+
+    selectedCommune.value = '';
+
     onClearChooseDate();
   }
 
@@ -255,16 +277,40 @@ class FarmerHomeController extends GetxController
     }
   }
 
-  void onProvinceChange(String? province) {
+  void onProvinceChange(String? province) async {
     if (province != null) {
-      selectProvince.value = province;
+      selectedProvince.value = province;
+      isProvinceChosen.value = true;
+
+      selectedDistrict.value = '';
+      selectedCommune.value = '';
+
+      await _loadAreas();
+    }
+  }
+
+  void onDistrictChange(String? district) async {
+    if(district != null){
+      selectedDistrict.value = district;
+      isDistrictChosen.value = true;
+
+      selectedCommune.value = '';
+
+      await _loadAreas();
+    }
+  }
+
+  void onCommuneChange(String? commune) async {
+    if(commune != null){
+      selectedCommune.value = commune;
     }
   }
 
   void onWorkTypeChange(String? fo) {
     if (fo != null) {
       selectedWorkTypes.value = fo;
-      workTypeId = workTypeList.firstWhere((workType) => workType.name == fo).value;
+      workTypeId =
+          workTypeList.firstWhere((workType) => workType.name == fo).value;
     }
   }
 
@@ -340,22 +386,75 @@ class FarmerHomeController extends GetxController
     }
   }
 
-  // _loadAreas() async {
-  //   GetAreaRequest data = GetAreaRequest(
-  //     page: '1',
-  //     pageSize: '100',
-  //     status: '1',
-  //     sortColumn: AreaSortColumn.province,
-  //     orderBy: SortOrder.ascending,
-  //   );
+  _getChosenTreeTypeIdList() {
+    if (selectedTreeTypes.isEmpty) {
+      return '';
+    }
+    if (selectedTreeTypes.length == 1) {
+      return selectedTreeTypes.first.id.toString();
+    }
+    final buffer = StringBuffer();
 
-  //   final GetAreaResponse? response = await _areaRepository.getAreas(data);
-  //   if (response == null) return;
+    for (int i = 0; i < selectedTreeTypes.length; i++) {
+      buffer.write(selectedTreeTypes[i].id);
+      if (i < selectedTreeTypes.length - 1) {
+        buffer.write(', ');
+      }
+    }
 
-  //   if (response.areas != null) {
-  //     areas.value = response.areas as List<Area>;
-  //     loadProvinces();
-  //   }
-  // }
+    return buffer.toString();
+  }
 
+  _loadAreas() async {
+    GetAreaRequest data = GetAreaRequest(
+        page: '1',
+        pageSize: '100',
+        status: '1',
+        sortColumn: AreaSortColumn.province,
+        orderBy: SortOrder.ascending,
+        province: selectedProvince.value == '' ? null : selectedProvince.value,
+        district: selectedDistrict.value == '' ? null : selectedDistrict.value
+    );
+
+    final GetAreaResponse? response = await getAreas(data);
+    if (response == null) return;
+
+    if (response.areas != null) {
+      areas.value = response.areas as List<Area>;
+      print('>>>num: ${areas.length}');
+      if (provinces.isEmpty) {
+        loadProvinces();
+      }
+    }
+
+    if (selectedProvince.value != '' && selectedDistrict.value == '') {
+      loadDistricts();
+    }
+
+    if(selectedDistrict.value != ''){
+      loadCommune();
+    }
+  }
+
+  loadProvinces() {
+    for (Area area in areas) {
+      if (!provinces.contains(area.province)) {
+        provinces.add(area.province);
+      }
+    }
+  }
+
+  loadDistricts() {
+    districts.clear();
+    for (Area area in areas) {
+      districts.add(area.district);
+    }
+  }
+
+  loadCommune(){
+    communes.clear();
+    for (Area area in areas) {
+      communes.add(area.commune);
+    }
+  }
 }

@@ -31,16 +31,29 @@ class FarmerJobPostFilter extends GetView<FarmerHomeController> {
           Expanded(
             child: ListView(
               children: [
-                FilterSection(
+                Obx(() => FilterSection(
                   title: 'Tỉnh',
-                  child: _buildProvinceDropdownList(),
-                ),
-                Obx(
-                  () => FilterSection(
-                    title: 'Loại công việc',
-                    child: _buildWorkTypeDropdownList(),
+                  child: Column(
+                    children: [
+                      _buildProvinceDropdownList(),
+                      controller.isProvinceChosen.value
+                          ? Column(
+                              children: [
+                                const SizedBox(height: 15),
+                                _buildDistrictDropdownList(),
+                                controller.isDistrictChosen.value
+                               ? Column(
+                                  children: [
+                                    const SizedBox(height: 15),
+                                    _buildCommuneDropdownList(),
+                                  ],
+                                ): const SizedBox(),
+                              ],
+                            )
+                          : const SizedBox()
+                    ],
                   ),
-                ),
+                )),
                 //  FilterSection(
                 //     title: 'Xã',
                 //     child: _buildProvinceDropdownList(),
@@ -49,6 +62,13 @@ class FarmerJobPostFilter extends GetView<FarmerHomeController> {
                 //     title: 'Huyện',
                 //     child: _buildProvinceDropdownList(),
                 //   ),
+                Obx(
+                  () => FilterSection(
+                    title: 'Loại công việc',
+                    child: _buildWorkTypeDropdownList(),
+                  ),
+                ),
+
                 _buildPaidTypeFilter(),
                 Obx(
                   () => FilterSection(
@@ -202,16 +222,64 @@ class FarmerJobPostFilter extends GetView<FarmerHomeController> {
           floatingLabelBehavior: FloatingLabelBehavior.auto,
         ),
       ),
-      selectedItem: controller.selectProvince.value,
-      items: const [
-        'Lâm Đồng',
-        'Kiên Giang',
-        'Đà Lạt',
-      ],
+      selectedItem: controller.selectedProvince.value,
+      items: controller.provinces,
       compareFn: (item1, item2) {
         return true;
       },
       onChanged: controller.onProvinceChange,
+      autoValidateMode: AutovalidateMode.onUserInteraction,
+    );
+  }
+  Widget _buildDistrictDropdownList() {
+    return DropdownSearch<String>(
+      key: UniqueKey(),
+      popupProps: const PopupProps.menu(
+        showSelectedItems: true,
+        constraints: BoxConstraints(
+          maxHeight: 120.0,
+        ),
+      ),
+      dropdownDecoratorProps: const DropDownDecoratorProps(
+        dropdownSearchDecoration: InputDecoration(
+          // icon: Icon(CustomIcons.bulletin_board, size: 24),
+          labelText: 'Chọn huyện',
+          isDense: true,
+          floatingLabelBehavior: FloatingLabelBehavior.auto,
+        ),
+      ),
+      selectedItem: controller.selectedDistrict.value,
+      items: controller.districts,
+      compareFn: (item1, item2) {
+        return true;
+      },
+      onChanged: controller.onDistrictChange,
+      autoValidateMode: AutovalidateMode.onUserInteraction,
+    );
+  }
+  Widget _buildCommuneDropdownList() {
+    return DropdownSearch<String>(
+      key: UniqueKey(),
+      popupProps: const PopupProps.menu(
+        showSelectedItems: true,
+        constraints: BoxConstraints(
+          maxHeight: 120.0,
+        ),
+      ),
+      dropdownDecoratorProps: const DropDownDecoratorProps(
+        dropdownSearchDecoration: InputDecoration(
+          // icon: Icon(CustomIcons.bulletin_board, size: 24),
+          labelText: 'Chọn xã',
+          isDense: true,
+          floatingLabelBehavior: FloatingLabelBehavior.auto,
+        ),
+      ),
+      selectedItem: controller.selectedCommune.value,
+      items: controller.communes,
+      compareFn: (item1, item2) {
+        return true;
+      },
+      onChanged: controller.onCommuneChange,
       autoValidateMode: AutovalidateMode.onUserInteraction,
     );
   }

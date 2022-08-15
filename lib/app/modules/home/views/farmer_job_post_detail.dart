@@ -305,7 +305,7 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
                       ),
                       Text(
                         DateFormat('dd-MM-yyyy')
-                            .format(controller.jobPost.jobStartDate),
+                            .format(controller.jobPost.jobStartDate.toLocal()),
                         style: TextStyle(
                           fontSize: Get.textScaleFactor * 15,
                         ),
