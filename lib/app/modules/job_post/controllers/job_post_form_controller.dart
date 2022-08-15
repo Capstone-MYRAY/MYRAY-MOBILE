@@ -259,6 +259,8 @@ class JobPostFormController extends GetxController {
       return;
     }
 
+    Get.closeCurrentSnackbar();
+
     //execute create or update
     if (action == Activities.create) {
       onCreate();

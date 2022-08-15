@@ -188,6 +188,8 @@ class JobFarmerDetailsController extends GetxController
       //user cancel action
       if (jobPostStatus == null) throw Exception('Có lỗi xảy ra');
 
+      if (jobPostStatus == 0) return;
+
       //update job post status
       if (jobPostStatus == JobPostStatus.enough.index) {
         final jobPostController = Get.find<LandownerJobPostController>();
