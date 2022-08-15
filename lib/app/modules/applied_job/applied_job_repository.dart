@@ -116,4 +116,12 @@ class AppliedJobRepository {
     }
     return null;
   }
+
+  Future<int?> countAppliedJob() async {
+    final response = await _apiProvider.getMethod('$jobPostUrl/countapplied');
+    if(response.statusCode == HttpStatus.ok){
+      return response.body;
+    }
+    return null;
+  }
 }
