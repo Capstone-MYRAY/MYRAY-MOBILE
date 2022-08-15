@@ -224,10 +224,37 @@ class JobPostFormController extends GetxController {
     }
 
     if (_totalFee.value > balance) {
-      InformationDialog.showDialog(
-        msg:
-            'Tiền trong tài khoản còn ${Utils.vietnameseCurrencyFormat.format(_userBalance)} không đủ thực hiện giao dịch.',
-        confirmTitle: AppStrings.titleClose,
+      Get.defaultDialog(
+        title: 'Thông báo',
+        barrierDismissible: false,
+        contentPadding: const EdgeInsets.symmetric(
+          vertical: 12.0,
+          horizontal: 24.0,
+        ),
+        confirm: TextButton(
+          child: const Text(
+            'Đóng',
+          ),
+          onPressed: () => Get.back(),
+        ),
+        content: RichText(
+          text: TextSpan(
+            style: Get.textTheme.bodyText1,
+            text: 'Tiền trong tài khoản còn ',
+            children: <TextSpan>[
+              TextSpan(
+                text: Utils.vietnameseCurrencyFormat.format(balance),
+                style: Get.textTheme.bodyText1!.copyWith(
+                  color: AppColors.primaryColor,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              const TextSpan(
+                text: ' không đủ thực hiện giao dịch.',
+              ),
+            ],
+          ),
+        ),
       );
       return;
     }

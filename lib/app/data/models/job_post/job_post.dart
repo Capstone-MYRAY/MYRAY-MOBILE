@@ -5,6 +5,7 @@ import 'package:myray_mobile/app/data/models/job_post/pay_per_hour_job/pay_per_h
 import 'package:myray_mobile/app/data/models/job_post/pay_per_task_job/pay_per_task_job.dart';
 import 'package:myray_mobile/app/data/models/tree_jobs/tree_jobs.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
+import 'package:myray_mobile/app/shared/utils/utils.dart';
 
 part 'job_post.g.dart';
 
@@ -194,6 +195,9 @@ class JobPost {
 
     return buffer.toString();
   }
+
+  bool get isPayPerHourJob =>
+      Utils.equalsIgnoreCase(type, JobType.payPerHourJob.name);
 }
 
 Map<String, String> _workTypeAlias = {

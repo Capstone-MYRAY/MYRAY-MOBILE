@@ -40,9 +40,13 @@ class LandownerJobPostDetailsView
 
   bool get _isStartJob => jobPost.workStatus == JobPostWorkStatus.started.index;
 
-  bool get _isPosted => jobPost.status == JobPostStatus.posted.index;
+  // bool get _isPosted => jobPost.status == JobPostStatus.posted.index;
 
   bool get _isApproved => jobPost.status == JobPostStatus.approved.index;
+
+  bool get _isShortHanded => jobPost.status == JobPostStatus.shortHanded.index;
+
+  bool get _isEnough => jobPost.status == JobPostStatus.enough.index;
 
   bool get _isRejected => jobPost.status == JobPostStatus.rejected.index;
 
@@ -216,6 +220,21 @@ class LandownerJobPostDetailsView
       //   widgets.addAll(buttons);
       // }
 
+      if (jobPost.isPayPerHourJob &&
+          (_isEnough || _isShortHanded || _isApproved)) {
+        final buttons = [
+          const SizedBox(height: 8.0),
+          FractionallySizedBox(
+            widthFactor: 0.8,
+            child: FilledButton(
+              title: AppStrings.titleExtendMaxFarmer,
+              onPressed: controller.updateMaxFarmer,
+            ),
+          ),
+        ];
+        widgets.addAll(buttons);
+      }
+
       //add repost button
       if (_isExpired || _isOutOfDate) {
         final button = [
@@ -250,6 +269,7 @@ class LandownerJobPostDetailsView
       //add cancel button
       if (_isApproved && !_isStartJob) {
         final buttons = [
+          const SizedBox(height: 8.0),
           FractionallySizedBox(
             widthFactor: 0.8,
             child: FilledButton(
