@@ -149,6 +149,15 @@ class JobPostRepository {
     return false;
   }
 
+  Future<void> needFarmerToggle(int jobPostId) async {
+    final response =
+        await _apiProvider.patchMethod('/jobpost/switch/$jobPostId');
+
+    if (response.statusCode == HttpStatus.badRequest) {
+      throw CustomException('Công việc này đã đủ người, không cần tuyển thêm');
+    }
+  }
+
   Future<JobPost?> extendExpiredDate(ExtendExpiredDateRequest data) async {
     final response = await _apiProvider.patchMethod(
       '/jobpost/extendjob/${data.jobPostId}',

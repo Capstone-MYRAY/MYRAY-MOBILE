@@ -75,26 +75,28 @@ class AppliedFarmerDetailsView extends GetView<AppliedFarmerDetailsController> {
         child: Row(
           children: [
             Expanded(
-              child: OutlinedButton(
-                onPressed: controller.reject,
-                style: OutlinedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 12.0,
-                  ),
-                ),
-                child: const Text(AppStrings.titleRefuse),
-              ),
-            ),
-            const SizedBox(width: 16.0),
-            Expanded(
               child: FilledButton(
-                title: AppStrings.titleHire,
+                onPressed: controller.reject,
                 padding: const EdgeInsets.symmetric(
                   vertical: 12.0,
                 ),
-                onPressed: controller.approve,
+                title: AppStrings.titleRefuse,
+                color: AppColors.errorColor,
               ),
             ),
+            if (appliedFarmer.jobPost.status ==
+                AppliedFarmerStatus.pending.index) ...[
+              const SizedBox(width: 16.0),
+              Expanded(
+                child: FilledButton(
+                  title: AppStrings.titleHire,
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 12.0,
+                  ),
+                  onPressed: controller.approve,
+                ),
+              ),
+            ],
           ],
         ),
       );

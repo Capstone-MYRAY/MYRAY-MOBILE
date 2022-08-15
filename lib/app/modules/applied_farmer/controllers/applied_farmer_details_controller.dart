@@ -8,7 +8,9 @@ import 'package:myray_mobile/app/data/services/message_service.dart';
 import 'package:myray_mobile/app/modules/applied_farmer/controllers/applied_farmer_controller.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/utils/auth_credentials.dart';
+import 'package:myray_mobile/app/shared/utils/custom_exception.dart';
 import 'package:myray_mobile/app/shared/widgets/custom_snackbar.dart';
+import 'package:myray_mobile/app/shared/widgets/dialogs/information_dialog.dart';
 
 class AppliedFarmerDetailsController extends GetxController
     with AppliedFarmerService, MessageService, BookmarkService {
@@ -47,11 +49,12 @@ class AppliedFarmerDetailsController extends GetxController
 
   approve() async {
     try {
-      EasyLoading.show();
-      bool approvable = await canApprove(appliedFarmer.value.jobPost);
-      EasyLoading.dismiss();
+      bool approvable = canApprove(appliedFarmer.value.jobPost);
 
-      if (!approvable) return;
+      if (!approvable) {
+        throw CustomException(
+            'Công việc này đã đủ người, không thể nhận thêm.');
+      }
 
       bool? success = await approveFarmer(appliedFarmer.value.id);
 
@@ -63,14 +66,14 @@ class AppliedFarmerDetailsController extends GetxController
       //update status
       appliedFarmer.value.status = AppliedFarmerStatus.approved.index;
 
-      //remove this farmer from list
+      //refresh list
       final appliedFarmerController = Get.find<AppliedFarmerController>();
-      appliedFarmerController.removeItem(appliedFarmer.value);
-      appliedFarmer.refresh();
+      appliedFarmerController.onRefresh();
+    } on CustomException catch (e) {
+      InformationDialog.showDialog(
+        msg: e.message,
+      );
     } catch (e) {
-      if (EasyLoading.isShow) {
-        EasyLoading.dismiss();
-      }
       CustomSnackbar.show(
         title: AppStrings.titleError,
         message: 'Có lỗi xảy ra',
@@ -82,6 +85,7 @@ class AppliedFarmerDetailsController extends GetxController
   reject() async {
     try {
       bool? success = await rejectFarmer(appliedFarmer.value.id);
+      // EasyLoading.dismiss();
 
       //user cancel action
       if (success == null) return;
