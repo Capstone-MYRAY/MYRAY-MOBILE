@@ -164,25 +164,37 @@ class FarmerJobPostFilter extends GetView<FarmerHomeController> {
   }
 
   Widget _buildSalaryDropdownList() {
-    return DropdownButton<FilterPrice>(
-      key: UniqueKey(),
-      hint: Text("Select a user"),
-      value: controller.selectSalaryRange.value,
-      onChanged: controller.onSalaryRangeChange,
-      menuMaxHeight: 120.0,
-      isDense: true,
-      isExpanded: true,
-      alignment: Alignment(-5.0, -10.0),
-      items: PriceList.priceList.map((FilterPrice price)  {
-        String formatPrice = price.toPriceString();
-        return DropdownMenuItem<FilterPrice>(
-          value: price,
-          child: Text(
-            formatPrice,
-            style: TextStyle(color: AppColors.primaryColor),
-          ),
-        );
-      }).toList(),
+    return SizedBox(
+      width: Get.width * 0.8,
+      child: DropdownButtonFormField<FilterPrice>(
+        key: UniqueKey(),
+        value: controller.selectSalaryRange.value,
+        onChanged: controller.onSalaryRangeChange,
+        menuMaxHeight: 120.0,
+        // isExpanded: true,
+        style: TextStyle(color: AppColors.primaryColor),
+        elevation: 0,
+        alignment: Alignment.bottomLeft,
+        dropdownColor: AppColors.white,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+
+        decoration: InputDecoration(
+          labelText: 'Chọn mức lương',
+          isDense: true,
+          floatingLabelBehavior: FloatingLabelBehavior.auto,
+          floatingLabelAlignment: FloatingLabelAlignment.start
+        ),
+        items: PriceList.priceList.map((FilterPrice price) {
+          String formatPrice = price.toPriceString();
+          return DropdownMenuItem<FilterPrice>(
+            value: price,
+            child: Text(
+              formatPrice,
+              style: TextStyle(color: AppColors.black),
+            ),
+          );
+        }).toList(),
+      ),
     );
 
     // DropdownSearch<FilterPrice>(
@@ -222,6 +234,7 @@ class FarmerJobPostFilter extends GetView<FarmerHomeController> {
         constraints: BoxConstraints(
           maxHeight: 120.0,
         ),
+        textStyle: TextStyle(color: AppColors.black),
       ),
       dropdownDecoratorProps: const DropDownDecoratorProps(
         dropdownSearchDecoration: InputDecoration(

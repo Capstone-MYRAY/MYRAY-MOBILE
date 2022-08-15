@@ -60,13 +60,6 @@ class FarmerHomeController extends GetxController
 
   //Lương
   Rx<FilterPrice> selectSalaryRange = PriceList.priceList[0].obs;
-  List<String> labelSalaryList = [];
-  getPriceLabel() {
-    for (FilterPrice price in PriceList.priceList) {
-      labelSalaryList.add(price.toPriceString());
-    }
-    return labelSalaryList;
-  }
 
   //Tỉnh, huyện, xã
   RxString selectedProvince = ''.obs;
@@ -174,17 +167,6 @@ class FarmerHomeController extends GetxController
     }
   }
 
-  _filter(JobPostResponse response) {
-    if (paidTypeFilter != null) {
-      // print('paid type: $paidTypeFilter');
-      secondObject.addAll(response.secondObject!.where((element) =>
-          element.type.toLowerCase() == paidTypeFilter!.toLowerCase()));
-      // print('num second object: ${secondObject.length}');
-      return;
-    }
-    secondObject.addAll(response.secondObject!);
-  }
-
   Future<void> onRefresh() async {
     //reset current page & hasNext
     _currentPage = 0;
@@ -255,7 +237,6 @@ class FarmerHomeController extends GetxController
     if (fo != null) {
       selectSalaryRange.value = fo;
     }
-    print('>>>${fo!.salaryFrom}');
   }
 
   void onProvinceChange(String? province) async {
@@ -300,10 +281,8 @@ class FarmerHomeController extends GetxController
     currentToDate = DateTime.now();
     toDateController.text = '';
 
-    DateTime? firstDate = DateTime.now();
     DateTime? pickedDate = await MyDatePicker.show(
         initDate: currentFromDate,
-        firstDate: firstDate,
         lastDate: DateTime.now()
             .add(const Duration(days: 365 * 10))); //check ngày end job
     if (pickedDate != null) {
