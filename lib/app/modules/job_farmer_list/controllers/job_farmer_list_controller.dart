@@ -63,6 +63,13 @@ class JobFarmerListController extends GetxController {
     ),
   ];
 
+  void updateAppliedFarmer(AppliedFarmer appliedFarmer) {
+    int index = appliedFarmers.indexWhere((e) => e.id == appliedFarmer.id);
+    if (index >= 0) {
+      appliedFarmers[index] = appliedFarmer;
+    }
+  }
+
   Future<bool?> getAppliedFarmers() async {
     GetAppliedFarmerRequest data = GetAppliedFarmerRequest(
       status: selectedFilter.value,

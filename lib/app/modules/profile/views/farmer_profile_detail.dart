@@ -24,6 +24,7 @@ class FarmerProfileDetailView extends GetView<FarmerProfileController> {
         return SizedBox(
           width: double.infinity,
           child: SingleChildScrollView(
+            padding: const EdgeInsets.only(bottom: 8.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
