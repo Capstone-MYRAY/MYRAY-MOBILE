@@ -88,7 +88,7 @@ class AppliedJobList extends GetView<AppliedJobController> {
                 splashFactory: InkRipple.splashFactory,
                 onTap: () {
                   Get.toNamed(Routes.farmerJobPostDetail,
-                      arguments: {Arguments.item: jobPost});
+                       arguments: {Arguments.item: jobPost});
                 },
                 child: Container(
                   padding: const EdgeInsets.only(
@@ -296,11 +296,6 @@ class AppliedJobList extends GetView<AppliedJobController> {
             }),
           ),
         );
-        // return ListView.builder(itemCount: 1000, itemBuilder: ((context, index) {
-        //   return SizedBox(child: Text('hello'));
-        // }));
-
-        // return const SizedBox();
       }),
       // )
     );
