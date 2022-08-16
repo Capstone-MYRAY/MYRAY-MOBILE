@@ -118,8 +118,37 @@ class JobFarmerDetailsController extends GetxController
 
       if (submittedFeedback == null) throw CustomException('Có lỗi xảy ra');
 
+      //update star
+      if (feedback.value == null) {
+        if (appliedFarmer.value.userInfo.rating == null ||
+            appliedFarmer.value.userInfo.rating == 0) {
+          appliedFarmer.value.userInfo.rating =
+              submittedFeedback.numStar.toDouble();
+        } else {
+          double newRating = (appliedFarmer.value.userInfo.rating! +
+                  submittedFeedback.numStar.toDouble()) /
+              2;
+          appliedFarmer.value.userInfo.rating = newRating;
+        }
+      } else {
+        double newRating =
+            appliedFarmer.value.userInfo.rating! - feedback.value!.numStar;
+        if (newRating == 0) {
+          newRating += submittedFeedback.numStar;
+        } else {
+          newRating += submittedFeedback.numStar;
+          newRating /= 2;
+        }
+        appliedFarmer.value.userInfo.rating = newRating;
+      }
+
       //update ui
       feedback.value = submittedFeedback;
+
+      appliedFarmer.refresh();
+
+      //update job farmer list
+      _jobFarmerController.updateAppliedFarmer(appliedFarmer.value);
 
       EasyLoading.dismiss();
       Get.back(); //close dialog
