@@ -328,7 +328,7 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
                                   children: [
                                     const SizedBox(height: 20),
                                     Text(
-                                      AppStrings.noMarkedJobPost,
+                                      AppStrings.noJobPost,
                                       style: Get.textTheme.bodyMedium!
                                           .copyWith(color: AppColors.grey),
                                     ),

@@ -220,6 +220,7 @@ class AppStrings {
   static const payPerHour = 'Làm công';
   static const noData = 'Không có dữ liệu';
   static const noMarkedJobPost = "Không có bài viết nào nổi bật";
+  static const noJobPost = "Không có bài viết nào";
   static const male = 'Nam';
   static const female = 'Nữ';
   static const other = 'Khác';

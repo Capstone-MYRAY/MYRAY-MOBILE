@@ -50,7 +50,7 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
                           ),
                         ],
                       ),
-                    );                    
+                    );
                     return;
                   }
                   if (controller.jobPost.type == 'PayPerHourJob') {
@@ -116,7 +116,7 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
   Widget detailList(bool isChangedState) => CustomScrollView(slivers: [
         SliverPersistentHeader(
           delegate: CustomSliverAppBarDelegate(
-            expandedHeight: Get.height * 0.2,
+            expandedHeight: Get.height * 0.25,
             heightOfScreen: Get.height * 0.35,
             titleFloatingCard: controller.jobPost.title,
             isChangedState: isChangedState,
@@ -263,12 +263,58 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
                         width: 20,
                       ),
                       Text(
+                        controller.jobPost.workTypeName,
+                        style: TextStyle(
+                          fontSize: Get.textScaleFactor * 15,
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Làm việc với cây:", style: Get.textTheme.bodyText1),
+                      const SizedBox(
+                        width: 6,
+                      ),
+                      Expanded(
+                        child: Text(
+                          controller.jobPost.treeTypes == ''
+                          ? 'Không phân loại'
+                          : controller.jobPost.treeTypes
+                          ,
+                          style: TextStyle(
+                            fontSize: Get.textScaleFactor * 15,
+                          ),
+                          softWrap: true,
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text("Trả lương theo:", style: Get.textTheme.bodyText1),
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      Text(
                         controller.jobPost.type == 'PayPerHourJob'
                             ? AppStrings.payPerHour
                             : AppStrings.payPerTask,
                         style: TextStyle(
                           color: AppColors.primaryColor,
                           fontSize: Get.textScaleFactor * 15,
+                          fontWeight: FontWeight.w700
                         ),
                       ),
                     ],
@@ -301,13 +347,15 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
                     children: [
                       Text("Ngày bắt đầu:", style: Get.textTheme.bodyText1),
                       const SizedBox(
-                        width: 29,
+                        width: 27,
                       ),
                       Text(
                         DateFormat('dd-MM-yyyy')
                             .format(controller.jobPost.jobStartDate.toLocal()),
                         style: TextStyle(
                           fontSize: Get.textScaleFactor * 15,
+                          color: AppColors.primaryColor,
+                          fontWeight: FontWeight.w700
                         ),
                       ),
                     ],

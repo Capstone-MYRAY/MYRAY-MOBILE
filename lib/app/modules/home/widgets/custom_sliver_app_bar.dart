@@ -57,7 +57,7 @@ class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
           ),
           alignment: Alignment.bottomRight,
           child: Card(
-            color: AppColors.markedBackgroundColor.withOpacity(0.85),
+            color: AppColors.white.withOpacity(0.9),
             child: Row(
               children: [
                 //Expanded(child: buildButton(text: 'Share', icon: Icons.share)),
