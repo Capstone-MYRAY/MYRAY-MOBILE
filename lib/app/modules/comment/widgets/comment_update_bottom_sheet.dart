@@ -19,6 +19,7 @@ class CommentUpdateBottomSheet {
     void Function()? cancel,
     final String? imageUrl,
   }) {
+    editCommentController.text = comment.content;
     return showModalBottomSheet(
         context: buildContext,
         enableDrag: false,
@@ -27,11 +28,14 @@ class CommentUpdateBottomSheet {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),
         ),
+        constraints: BoxConstraints(
+          maxHeight: Get.height * 0.8,
+        ),
+        isScrollControlled: true,
         builder: (context) {
-          editCommentController.text = comment.content;
           return Padding(
-             padding: EdgeInsets.only(
-                        bottom: MediaQuery.of(context).viewInsets.bottom),
+            padding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).viewInsets.bottom),
             child: Container(
                 height: Get.height * 0.7,
                 padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
