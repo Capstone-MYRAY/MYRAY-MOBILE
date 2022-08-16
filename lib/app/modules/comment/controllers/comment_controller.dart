@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:get/get_navigation/src/routes/default_transitions.dart';
 import 'package:myray_mobile/app/data/enums/enums.dart';
 import 'package:myray_mobile/app/data/models/account.dart';
 import 'package:myray_mobile/app/data/models/comment/comment.dart';
@@ -184,6 +183,7 @@ class CommentController extends GetxController
       editCommentController: editCommentController,
       comment: comment,
       validateComment: validateComment,
+      imageUrl: comment.avatar,
       update: () {
         print('comment id: ${comment.id}');
 
@@ -203,14 +203,12 @@ class CommentController extends GetxController
         id: oldComment.id,
         content: editCommentController.text.trim(),
       );
-      EasyLoading.show();
+      // EasyLoading.show();
 
       try {
         Comment? comment = await _commentRepository.updateComment(data);
-        // commentList.clear();
         print('list count: ${commentList.length}');
-        Future.delayed(const Duration(milliseconds: 1200), () {
-          EasyLoading.dismiss();
+        Future.delayed(const Duration(milliseconds: 1000), () {
           //show comment box
           if (comment == null) {
             EasyLoading.showError('Không thể xóa');
@@ -220,7 +218,6 @@ class CommentController extends GetxController
           EasyLoading.showSuccess('Đã cập nhật');
         });
       } on CustomException catch (e) {
-        EasyLoading.dismiss();
         EasyLoading.showError('Đã có lỗi xảy ta');
         print(e.message);
       }
