@@ -126,7 +126,7 @@ class FarmerPostCard extends StatelessWidget {
                             const SizedBox(
                               width: 10,
                             ),
-                            Text('Loại công việc:',
+                            Text('${AppStrings.labelWorkType}:',
                                 style: Get.textTheme.bodyText2!.copyWith(
                                     fontSize: Get.textScaleFactor * 15,
                                     fontWeight: FontWeight.w600)),
