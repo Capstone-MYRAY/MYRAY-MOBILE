@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_switch/flutter_switch.dart';
 import 'package:get/get.dart';
 import 'package:myray_mobile/app/data/enums/enums.dart';
 import 'package:myray_mobile/app/data/models/job_post/job_post.dart';
@@ -78,8 +79,8 @@ class LandownerJobPostDetailsView
               padding: const EdgeInsets.only(bottom: 16.0),
               children: [
                 _buildPostInfo(),
-                _buildWorkInformation(),
                 _buildPostInformation(),
+                _buildWorkInformation(),
                 _buildWorkPlaceInformation(),
                 _buildPaymentHistoryInformation(),
                 if (!_isFeatureNotDisplay) ..._buildFeatures(),
@@ -93,6 +94,41 @@ class LandownerJobPostDetailsView
               ],
             );
           }),
+    );
+  }
+
+  Widget _buildFindFarmerToggle() {
+    // if (!_isApproved && !_isShortHanded && !_isEnough) return const SizedBox();
+    return Row(
+      children: [
+        Text(
+          '${AppStrings.labelPostStatus}:',
+          style: Get.textTheme.bodyText2!.copyWith(
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        const SizedBox(width: 8.0),
+        Obx(
+          () => FlutterSwitch(
+            value: controller.isFindingFarmer.value,
+            width: Get.width * 0.3,
+            height: Get.width * 0.08,
+            valueFontSize: 13.0,
+            activeTextFontWeight: FontWeight.normal,
+            inactiveTextFontWeight: FontWeight.normal,
+            onToggle: controller.onFindingFarmerToggle,
+            activeColor: AppColors.successColor,
+            activeText: 'Tuyển người',
+            activeTextColor: AppColors.white,
+            inactiveColor: AppColors.grey,
+            inactiveText: 'Ngừng tuyển',
+            inactiveTextColor: AppColors.white,
+            showOnOff: true,
+            padding: 8.0,
+            toggleSize: 20.0,
+          ),
+        ),
+      ],
     );
   }
 
@@ -393,6 +429,18 @@ class LandownerJobPostDetailsView
     return null;
   }
 
+  Widget _buildPostStatus() {
+    if (_isShortHanded || _isEnough) {
+      return _buildFindFarmerToggle();
+    }
+
+    return CardStatusField(
+      statusName: jobPost.jobPostStatusString,
+      title: AppStrings.labelPostStatus,
+      backgroundColor: jobPost.jobPostStatusColor,
+    );
+  }
+
   Widget _buildPostInformation() {
     DateTime? expiryDate = jobPost.pinStartDate == null
         ? null
@@ -403,19 +451,17 @@ class LandownerJobPostDetailsView
       title: AppStrings.titlePostInformation,
       headerBorderRadius: BorderRadius.circular(CommonConstants.borderRadius),
       isOpen: true,
+      isCustom: true,
       child: GetBuilder<LandownerJobPostDetailsController>(
         id: controller.postInformation,
         tag: _myTag,
         builder: (_) => ToggleContentPostInfo(
+          title: AppStrings.titlePostInformation,
           createdDate: jobPost.createdDate,
           publishedDate: jobPost.publishedDate,
           // publishExpiryDate: jobPost.publishedDate
           //     .add(Duration(days: jobPost.numOfPublishDay - 1)),
-          postStatus: CardStatusField(
-            statusName: jobPost.jobPostStatusString,
-            title: AppStrings.labelPostStatus,
-            backgroundColor: jobPost.jobPostStatusColor,
-          ),
+          postStatus: _buildPostStatus(),
           approvedBy: jobPost.approvedName,
           approvedDate: jobPost.approvedDate,
           rejectedReason: jobPost.rejectedReason,

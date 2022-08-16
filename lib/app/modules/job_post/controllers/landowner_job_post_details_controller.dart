@@ -7,6 +7,7 @@ import 'package:myray_mobile/app/data/models/job_post/pay_per_hour_job/extend_fa
 import 'package:myray_mobile/app/data/models/payment_history/payment_history_models.dart';
 import 'package:myray_mobile/app/modules/attendance/attendance_repository.dart';
 import 'package:myray_mobile/app/modules/garden/garden_repository.dart';
+import 'package:myray_mobile/app/modules/home/widgets/landowner_main_feature/job_post_by_type/job_post_by_type_controller.dart';
 import 'package:myray_mobile/app/modules/job_post/controllers/landowner_job_post_controller.dart';
 import 'package:myray_mobile/app/modules/job_post/job_post_repository.dart';
 import 'package:myray_mobile/app/modules/job_post/widgets/landowner_job_post_details/update_max_farmer_dialog.dart';
@@ -18,6 +19,7 @@ import 'package:myray_mobile/app/shared/utils/auth_credentials.dart';
 import 'package:myray_mobile/app/shared/utils/custom_exception.dart';
 import 'package:myray_mobile/app/shared/widgets/custom_snackbar.dart';
 import 'package:myray_mobile/app/shared/widgets/dialogs/custom_confirm_dialog.dart';
+import 'package:myray_mobile/app/shared/widgets/dialogs/information_dialog.dart';
 
 class LandownerJobPostDetailsController extends GetxController {
   final Rx<JobPost> jobPost;
@@ -37,8 +39,20 @@ class LandownerJobPostDetailsController extends GetxController {
 
   var totalPostingFee = 0.0.obs;
   var totalPayingSalary = 0.0.obs;
+  var isFindingFarmer = false.obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    updateFindingFarmerStatus();
+  }
 
   LandownerJobPostDetailsController({required this.jobPost});
+
+  updateFindingFarmerStatus() {
+    isFindingFarmer.value =
+        jobPost.value.status == JobPostStatus.shortHanded.index;
+  }
 
   navigateToUpdateForm() {
     Get.toNamed(Routes.jobPostForm, arguments: {
@@ -46,6 +60,41 @@ class LandownerJobPostDetailsController extends GetxController {
       Arguments.item: jobPost.value,
       Arguments.tag: Get.arguments[Arguments.tag],
     });
+  }
+
+  updateJobPostStatus(int status) {
+    jobPost.value.status = status;
+    updateFindingFarmerStatus();
+    update([postInformation]);
+  }
+
+  onFindingFarmerToggle(value) async {
+    isFindingFarmer.value = value;
+    try {
+      await _jobPostRepository.needFarmerToggle(jobPost.value.id);
+      //update job post status
+      int status =
+          value ? JobPostStatus.shortHanded.index : JobPostStatus.enough.index;
+      jobPost.value.status = status;
+
+      //update job post in list
+      if (Get.previousRoute == Routes.init) {
+        _jobPostController.updateJobPosts(jobPost.value);
+      } else {
+        final jobPostByTypeController = Get.find<JobPostByTypeController>();
+        jobPostByTypeController.updateJobPosts(jobPost.value);
+      }
+    } on CustomException catch (e) {
+      InformationDialog.showDialog(msg: e.message);
+      isFindingFarmer.value = !value;
+    } catch (e) {
+      CustomSnackbar.show(
+        title: AppStrings.titleError,
+        message: 'Có lỗi xảy ra',
+        backgroundColor: AppColors.errorColor,
+      );
+      isFindingFarmer.value = !value;
+    }
   }
 
   finishJob() async {
@@ -174,7 +223,7 @@ class LandownerJobPostDetailsController extends GetxController {
           //update balance
           _profile.calBalance();
 
-          //update jobpost list
+          //update job post list
           _jobPostController.jobPosts.remove(jobPost.value);
 
           //close details screen
@@ -291,6 +340,7 @@ class LandownerJobPostDetailsController extends GetxController {
         jobPosts[index] = jobPost.value;
       }
 
+      isFindingFarmer.value = true;
       update([workInformation]);
 
       Get.back(); //close dialog

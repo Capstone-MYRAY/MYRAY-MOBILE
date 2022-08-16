@@ -213,8 +213,8 @@ Map<int, Color> _jobPostStatusColor = {
   JobPostStatus.outOfDate.index: AppColors.cancelColor,
   JobPostStatus.cancel.index: AppColors.cancelColor,
   JobPostStatus.approved.index: AppColors.successColor,
-  JobPostStatus.shortHanded.index: AppColors.warningColor,
-  JobPostStatus.enough.index: AppColors.successColor,
+  JobPostStatus.shortHanded.index: AppColors.successColor,
+  JobPostStatus.enough.index: AppColors.warningColor,
   JobPostStatus.end.index: AppColors.cancelColor,
 };
 
