@@ -42,6 +42,7 @@ class AppMsg {
   static const MSG5007 = 'Không có tài khoản yêu thích nào';
   static const MSG5010 = 'Cập nhật đánh giá thành công';
   static const MSG5014 = 'Vui lòng chọn số sao';
+  static const MSG5015 = 'Bạn muốn hủy yêu cầu ứng tuyển?';
 
   static const MSG6001 = 'Số điện thoại này đã được đăng ký';
   static const MSG6002 = 'Số điện thoại không có trong hệ thống';

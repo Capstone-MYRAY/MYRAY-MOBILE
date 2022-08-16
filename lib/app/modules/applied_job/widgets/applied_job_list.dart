@@ -3,9 +3,12 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:myray_mobile/app/data/models/job_post/job_post.dart';
 import 'package:myray_mobile/app/modules/applied_job/controllers/applied_job_controller.dart';
+import 'package:myray_mobile/app/routes/app_pages.dart';
 import 'package:myray_mobile/app/shared/constants/app_assets.dart';
 import 'package:myray_mobile/app/shared/constants/app_colors.dart';
+import 'package:myray_mobile/app/shared/constants/app_msg.dart';
 import 'package:myray_mobile/app/shared/constants/app_strings.dart';
+import 'package:myray_mobile/app/shared/constants/common.dart';
 import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
 import 'package:myray_mobile/app/shared/widgets/builders/my_loading_builder.dart';
 import 'package:myray_mobile/app/shared/widgets/buttons/custom_text_button.dart';
@@ -48,7 +51,8 @@ class AppliedJobList extends GetView<AppliedJobController> {
           );
         }
 
-        return Obx(() => LazyLoadingList(
+        return Obx(
+          () => LazyLoadingList(
             onEndOfPage: controller.getAppliedJobList,
             onRefresh: controller.onRefresh,
             // itemCount: 100,
@@ -79,160 +83,219 @@ class AppliedJobList extends GetView<AppliedJobController> {
               }
               JobPost jobPost =
                   controller.appliedJobPostResponse[index].jobPost;
-              return Container(
+              return InkWell(
+                highlightColor: AppColors.primaryColor.withOpacity(0.4),
+                splashFactory: InkRipple.splashFactory,
+                onTap: () {
+                  Get.toNamed(Routes.farmerJobPostDetail,
+                      arguments: {Arguments.item: jobPost});
+                },
+                child: Container(
                   padding: const EdgeInsets.only(
-                      top: 10, left: 10, right: 10, bottom: 20),
+                      top: 5, left: 10, right: 10, bottom: 10),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                   child: Card(
-                      color: AppColors.white,
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 10),
-                        child: Column(children: [
-                          Padding(
-                            padding: const EdgeInsets.only(left: 20, right: 20),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: Text(jobPost.title,
-                                      style: Get.textTheme.headline3?.copyWith(
-                                        color: AppColors.brown,
-                                      ),
-                                      softWrap: true,
-                                      maxLines: 3,
-                                      textAlign: TextAlign.justify,
-                                      overflow: TextOverflow.ellipsis),
-                                ),
-                              ],
-                            ),
+                    color: AppColors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(9),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 10),
+                      child: Column(children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 20, right: 20),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Text(jobPost.title,
+                                    style: Get.textTheme.headline3?.copyWith(
+                                      color: AppColors.brown,
+                                    ),
+                                    softWrap: true,
+                                    maxLines: 3,
+                                    textAlign: TextAlign.justify,
+                                    overflow: TextOverflow.ellipsis),
+                              ),
+                            ],
                           ),
-                          Container(
-                            padding: const EdgeInsets.only(top: 10, right: 15),
-                            child: Stack(
-                              children: [
-                                const Icon(CustomIcons.map_marker_outline,
-                                    size: 20),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 30),
-                                  child: SizedBox(
-                                    width: Get.width * 0.65,
-                                    child: Text.rich(
-                                      TextSpan(
-                                        text: jobPost.address ?? '',
-                                      ),
-                                      style: Get.textTheme.bodyText2!.copyWith(
-                                          fontSize: Get.textScaleFactor * 14),
-                                      softWrap: true,
-                                      overflow: TextOverflow.ellipsis,
-                                      textAlign: TextAlign.justify,
-                                      maxLines: 10,
+                        ),
+                        // Container(
+                        //   padding: const EdgeInsets.only(top: 10, right: 15),
+                        //   child: Stack(
+                        //     children: [
+                        //       const Icon(CustomIcons.map_marker_outline,
+                        //           size: 20),
+                        //       Padding(
+                        //         padding: const EdgeInsets.only(left: 30),
+                        //         child: SizedBox(
+                        //           width: Get.width * 0.65,
+                        //           child: Text.rich(
+                        //             TextSpan(
+                        //               text: jobPost.address ?? '',
+                        //             ),
+                        //             style: Get.textTheme.bodyText2!.copyWith(
+                        //                 fontSize: Get.textScaleFactor * 14),
+                        //             softWrap: true,
+                        //             overflow: TextOverflow.ellipsis,
+                        //             textAlign: TextAlign.justify,
+                        //             maxLines: 10,
+                        //           ),
+                        //         ),
+                        //       ),
+                        //     ],
+                        //   ),
+                        // ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              top: 10, left: 15, right: 15),
+                          child: Row(
+                            children: [
+                              const Icon(CustomIcons.calendar_star, size: 20),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Expanded(
+                                child: Row(children: [
+                                  Text(
+                                    "${AppStrings.labelAppliedDate}:",
+                                    style: Get.textTheme.labelMedium!.copyWith(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: Get.textScaleFactor * 15,
                                     ),
                                   ),
-                                ),
-                              ],
-                            ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text(
+                                    DateFormat('dd-MM-yyyy').format(controller
+                                        .appliedJobPostResponse[index]
+                                        .appliedDate),
+                                    style: Get.textTheme.bodyText2!.copyWith(
+                                      color: AppColors.primaryColor,
+                                      fontSize: Get.textScaleFactor * 15,
+                                    ),
+                                    softWrap: true,
+                                    overflow: TextOverflow.ellipsis,
+                                    textAlign: TextAlign.left,
+                                    maxLines: 10,
+                                  ),
+                                ]),
+                              ),
+                            ],
                           ),
-
-                          // const SizedBox(height: 15),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                top: 10, left: 15, right: 15),
-                            child: Row(
-                              children: [
-                                const Icon(CustomIcons.calendar_star, size: 20),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                Expanded(
-                                  child: Row(children: [
-                                    Text(
-                                      "Ngày ứng tuyển:",
-                                      style:
-                                          Get.textTheme.labelMedium!.copyWith(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: Get.textScaleFactor * 15,
-                                      ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              top: 10, left: 15, right: 15),
+                          child: Row(
+                            children: [
+                              const Icon(Icons.work_outline, size: 20),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Expanded(
+                                child: Row(children: [
+                                  Text(
+                                    "${AppStrings.labelWorkType}: ",
+                                    style: Get.textTheme.labelMedium!.copyWith(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: Get.textScaleFactor * 15,
                                     ),
-                                    SizedBox(
-                                      width: Get.width * 0.09,
+                                  ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text(
+                                    controller.appliedJobPostResponse[index]
+                                        .jobPost.workTypeName,
+                                    style: Get.textTheme.bodyText2!.copyWith(
+                                      fontSize: Get.textScaleFactor * 15,
                                     ),
-                                    Text(
-                                      DateFormat('dd-MM-yyyy').format(controller
-                                          .appliedJobPostResponse[index]
-                                          .appliedDate),
-                                      style: Get.textTheme.bodyText2!.copyWith(
+                                    softWrap: true,
+                                    overflow: TextOverflow.ellipsis,
+                                    textAlign: TextAlign.left,
+                                    maxLines: 10,
+                                  ),
+                                ]),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              top: 10, left: 15, right: 15),
+                          child: Row(
+                            children: [
+                              const Icon(CustomIcons.box, size: 20),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Expanded(
+                                child: Row(children: [
+                                  Text(
+                                    "Trả lương theo: ",
+                                    style: Get.textTheme.labelMedium!.copyWith(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: Get.textScaleFactor * 15,
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text(
+                                    controller.appliedJobPostResponse[index]
+                                                .jobPost.type ==
+                                            "PayPerHourJob"
+                                        ? AppStrings.payPerHour
+                                        : AppStrings.payPerTask,
+                                    style: Get.textTheme.bodyText2!.copyWith(
                                         color: AppColors.primaryColor,
                                         fontSize: Get.textScaleFactor * 15,
-                                      ),
-                                      softWrap: true,
-                                      overflow: TextOverflow.ellipsis,
-                                      textAlign: TextAlign.left,
-                                      maxLines: 10,
-                                    ),
-                                  ]),
-                                ),
+                                        fontWeight: FontWeight.w600),
+                                    softWrap: true,
+                                    overflow: TextOverflow.ellipsis,
+                                    textAlign: TextAlign.left,
+                                    maxLines: 10,
+                                  ),
+                                ]),
+                              ),
+                            ],
+                          ),
+                        ),
+                        CustomTextButton(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 8),
+                          textStyle: Get.textTheme.labelMedium!.copyWith(
+                              shadows: [
+                                const Shadow(
+                                    color: AppColors.primaryColor,
+                                    offset: Offset(0, -5))
                               ],
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                top: 10, left: 15, right: 15),
-                            child: Row(
-                              children: [
-                                const Icon(CustomIcons.box, size: 20),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                Expanded(
-                                  child: Row(children: [
-                                    Text(
-                                      "Loại hình công việc: ",
-                                      style:
-                                          Get.textTheme.labelMedium!.copyWith(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: Get.textScaleFactor * 15,
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      width: 10,
-                                    ),
-                                    Text(
-                                      controller.appliedJobPostResponse[index]
-                                                  .jobPost.type ==
-                                              "PayPerHourJob"
-                                          ? AppStrings.payPerHour
-                                          : AppStrings.payPerTask,
-                                      style: Get.textTheme.bodyText2!.copyWith(
-                                        color: AppColors.primaryColor,
-                                        fontSize: Get.textScaleFactor * 15,
-                                      ),
-                                      softWrap: true,
-                                      overflow: TextOverflow.ellipsis,
-                                      textAlign: TextAlign.left,
-                                      maxLines: 10,
-                                    ),
-                                  ]),
-                                ),
-                              ],
-                            ),
-                          ),
-                          CustomTextButton(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 45, vertical: 8),
-                            onPressed: () {
-                              CustomDialog.show(
-                                  confirm: () =>
-                                      controller.cancelAppliedJob(jobPost.id),
-                                  message: "Bạn muốn hủy yêu cầu ứng tuyển?");
-                            },
-                            title: AppStrings.cancel,
-                            border: Border.all(
-                              color: AppColors.primaryColor,
-                            ),
-                            foreground: AppColors.primaryColor,
-                            background: AppColors.white,
-                          ),
-                        ]),
-                      )));
-            })));
+                              color: Colors.transparent,
+                              decoration: TextDecoration.underline,
+                              decorationColor: AppColors.primaryColor,
+                              decorationThickness: 2,
+                              fontSize: 16),
+                          onPressed: () {
+                            CustomDialog.show(
+                                confirm: () =>
+                                    controller.cancelAppliedJob(jobPost.id),
+                                message: AppMsg.MSG5015);
+                          },
+                          title: AppStrings.cancelAppliedRequest,
+                          foreground: AppColors.primaryColor,
+                          background: AppColors.white,
+                        ),
+                      ]),
+                    ),
+                  ),
+                ),
+              );
+            }),
+          ),
+        );
         // return ListView.builder(itemCount: 1000, itemBuilder: ((context, index) {
         //   return SizedBox(child: Text('hello'));
         // }));
