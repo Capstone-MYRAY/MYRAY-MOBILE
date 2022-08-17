@@ -72,6 +72,7 @@ class AppStrings {
   static const titleInfo = 'Thông báo';
   static const titleAppliedJobPost = 'Công việc';
   static const titleExtendMaxFarmer = 'Tăng số người tối đa';
+  static const titleViewFeedback = 'Xem đánh giá';
 
   //Subtitle
   static const subtitleMyGarden = 'Danh sách vườn đã tạo';

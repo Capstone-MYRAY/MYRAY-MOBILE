@@ -1,19 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:myray_mobile/app/data/models/feedback/feedback.dart';
+import 'package:myray_mobile/app/modules/guidepost/widgets/avatar.dart';
 import 'package:myray_mobile/app/modules/home/controllers/farmer_job_post_detail_controller.dart';
+import 'package:myray_mobile/app/modules/home/controllers/feedback_list_controller.dart';
 import 'package:myray_mobile/app/modules/home/widgets/custom_bottom_navigation_bar.dart';
 import 'package:myray_mobile/app/modules/home/widgets/custom_sliver_app_bar.dart';
+import 'package:myray_mobile/app/modules/home/widgets/feedback_container.dart';
+import 'package:myray_mobile/app/shared/constants/app_assets.dart';
 import 'package:myray_mobile/app/shared/constants/app_colors.dart';
 import 'package:myray_mobile/app/shared/constants/app_msg.dart';
 import 'package:myray_mobile/app/shared/constants/app_strings.dart';
 import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
 import 'package:myray_mobile/app/shared/utils/utils.dart';
+import 'package:myray_mobile/app/shared/widgets/builders/list_empty_builder.dart';
 import 'package:myray_mobile/app/shared/widgets/builders/my_loading_builder.dart';
+import 'package:myray_mobile/app/shared/widgets/buttons/custom_text_button.dart';
 import 'package:myray_mobile/app/shared/widgets/dialogs/custom_confirm_dialog.dart';
 import 'package:myray_mobile/app/data/models/job_post/farmer_job_post_detail_response.dart';
 import 'package:myray_mobile/app/shared/widgets/dialogs/custom_information.dialog.dart';
 import 'package:myray_mobile/app/shared/widgets/dialogs/information_dialog.dart';
+import 'package:myray_mobile/app/shared/widgets/lazy_loading_list.dart';
 
 class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
   const FarmerJobPostDetail({Key? key}) : super(key: key);
@@ -104,7 +113,7 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
 
           if (snapshot.hasData) {
             controller.detailPost = snapshot.data!.obs;
-            return detailList(controller.isApplied.value);
+            return detailList(controller.isApplied.value, context);
           }
 
           return const SizedBox();
@@ -113,7 +122,8 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
     );
   }
 
-  Widget detailList(bool isChangedState) => CustomScrollView(slivers: [
+  Widget detailList(bool isChangedState, BuildContext context) =>
+      CustomScrollView(slivers: [
         SliverPersistentHeader(
           delegate: CustomSliverAppBarDelegate(
             expandedHeight: Get.height * 0.25,
@@ -122,7 +132,7 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
             isChangedState: isChangedState,
           ),
         ),
-        _buildLandownerCard(),
+        _buildLandownerCard(context),
         _buildCardInfoJjob(),
         _buildCardDescriptionJob(),
         const SliverToBoxAdapter(
@@ -131,7 +141,7 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
         ))
       ]);
 
-  Widget _buildLandownerCard() {
+  Widget _buildLandownerCard(BuildContext context) {
     return SliverToBoxAdapter(
         child: Container(
             padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
@@ -144,7 +154,7 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "Chủ đất",
+                          AppStrings.landowner,
                           style: Get.textTheme.displayMedium?.copyWith(
                             color: AppColors.brown,
                           ),
@@ -188,14 +198,16 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
                       SizedBox(
                         width: Get.width * 0.03,
                       ),
-                      Text(
-                        controller.landownerAccount != null
-                            ? controller.landownerAccount!.value.fullName!
-                            : "Tên chủ rẫy đang cập nhật",
-                        style: TextStyle(
-                          fontSize: Get.textScaleFactor * 15,
+                      Obx(
+                        () => Text(
+                          controller.landownerAccount != null
+                              ? controller.landownerAccount!.value.fullName!
+                              : "Tên chủ rẫy đang cập nhật",
+                          style: TextStyle(
+                            fontSize: Get.textScaleFactor * 15,
+                          ),
                         ),
-                      ),
+                      )
                     ],
                   ),
                   const SizedBox(
@@ -223,7 +235,23 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
                     ],
                   ),
                   const SizedBox(
-                    height: 20,
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      CustomTextButton(
+                          onPressed: () {
+                            buildFeedBackBottomSheet(context);
+                          },
+                          title: AppStrings.titleViewFeedback,
+                          background: AppColors.white,
+                          foreground: AppColors.primaryColor,
+                          border: Border.all(color: AppColors.primaryColor)),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 5,
                   ),
                 ]),
               ),
@@ -270,7 +298,6 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
                       ),
                     ],
                   ),
-
                   const SizedBox(
                     height: 15,
                   ),
@@ -285,9 +312,8 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
                       Expanded(
                         child: Text(
                           controller.jobPost.treeTypes == ''
-                          ? 'Không phân loại'
-                          : controller.jobPost.treeTypes
-                          ,
+                              ? 'Không phân loại'
+                              : controller.jobPost.treeTypes,
                           style: TextStyle(
                             fontSize: Get.textScaleFactor * 15,
                           ),
@@ -296,7 +322,6 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
                       ),
                     ],
                   ),
-
                   const SizedBox(
                     height: 15,
                   ),
@@ -312,10 +337,9 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
                             ? AppStrings.payPerHour
                             : AppStrings.payPerTask,
                         style: TextStyle(
-                          color: AppColors.primaryColor,
-                          fontSize: Get.textScaleFactor * 15,
-                          fontWeight: FontWeight.w700
-                        ),
+                            color: AppColors.primaryColor,
+                            fontSize: Get.textScaleFactor * 15,
+                            fontWeight: FontWeight.w700),
                       ),
                     ],
                   ),
@@ -353,10 +377,9 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
                         DateFormat('dd-MM-yyyy')
                             .format(controller.jobPost.jobStartDate.toLocal()),
                         style: TextStyle(
-                          fontSize: Get.textScaleFactor * 15,
-                          color: AppColors.primaryColor,
-                          fontWeight: FontWeight.w700
-                        ),
+                            fontSize: Get.textScaleFactor * 15,
+                            color: AppColors.primaryColor,
+                            fontWeight: FontWeight.w700),
                       ),
                     ],
                   ),
@@ -416,4 +439,158 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
               ]),
             ),
           )));
+
+  Future<void> buildFeedBackBottomSheet(BuildContext context) {
+    return showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        builder: (context) {
+          int? id = controller.landownerAccount!.value.id;
+          String? imageUrl = controller.landownerAccount!.value.imageUrl;
+          double? numStar = controller.landownerAccount!.value.rating;
+          return Container(
+              height: Get.height * 0.8,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Center(
+                    child: Container(
+                        height: Get.height * 0.25,
+                        child: Column(
+                          children: [
+                            Container(
+                              height: 5,
+                              width: 50,
+                              decoration: BoxDecoration(
+                                color: Colors.grey.shade400,
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              child: Text(''),
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Avatar(imageUrl: imageUrl, width: 100, height: 100),
+                            const SizedBox(height: 10),
+                            Expanded(
+                              // width: Get.width * 0.5,
+                              child: Text(
+                                controller.landownerAccount!.value.fullName ??
+                                    'Tên chủ rẫy đang cập nhật',
+                                style: Get.textTheme.headline5,
+                                softWrap: true,
+                                textAlign: TextAlign.center,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                            // const SizedBox(height: 10),
+                            RatingBarIndicator(
+                              direction: Axis.horizontal,
+                              itemCount: 5,
+                              itemSize: 30,
+                              itemBuilder: (context, _) => const Icon(
+                                Icons.star,
+                                color: Colors.amber,
+                              ),
+                              rating: numStar ?? 5,
+                            ),
+                          ],
+                        )),
+                  ),
+                  Divider(
+                    color: AppColors.grey.withOpacity(0.5),
+                    height: 10,
+                    endIndent: 25,
+                    indent: 15,
+                  ),
+                  const SizedBox(height: 10),
+                  Container(
+                    margin: const EdgeInsets.only(left: 15),
+                    child: Row(
+                      children: [
+                        SizedBox(
+                          height: 30,
+                          child: Text(
+                            "${AppStrings.titleFeedback}:",
+                            style: Get.textTheme.headline3!
+                                .copyWith(color: AppColors.primaryColor),
+                            softWrap: true,
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Expanded(
+                    child: GetBuilder<FeedBackListController>(
+                      builder: (controller) {
+                        controller.landOwnerAccountId = id!;
+                        return FutureBuilder(
+                          future: controller.getFeedbackList(),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return const MyLoadingBuilder();
+                            }
+                            if (snapshot.hasError ||
+                                snapshot.data == null ||
+                                controller.feedBackList.isEmpty) {
+                              printError();
+                              return Center(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'Chưa có đánh giá nào',
+                                      style: Get.textTheme.bodyMedium!.copyWith(
+                                          color: AppColors.grey, fontSize: 20),
+                                    ),
+                                    const SizedBox(height: 10),
+                                    const ImageIcon(
+                                        AssetImage(AppAssets.feedBack),
+                                        size: 50,
+                                        color: AppColors.grey),
+                                    FractionallySizedBox(
+                                      widthFactor: 0.3,
+                                      child: TextButton(
+                                        onPressed: controller.onRefreshFeedBack,
+                                        child: Text('Tải lại',
+                                            style: Get.textTheme.headline6),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              );
+                            }
+
+                            return Obx(
+                              () => LazyLoadingList(
+                                onEndOfPage: controller.getFeedbackList,
+                                onRefresh: controller.onRefreshFeedBack,
+                                itemCount: controller.feedBackList.length,
+                                isLoading: controller.isLoading.value,
+                                itemBuilder: (context, index) {
+                                  FeedBack feedBack =
+                                      controller.feedBackList[index];
+                                  return FeedBackContainer(feedBack: feedBack);
+                                },
+                              ),
+                            );
+                          },
+                        );
+                      },
+                    ),
+                  )
+                ],
+              ));
+        });
+  }
 }
