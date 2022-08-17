@@ -28,6 +28,7 @@ class CommentUpdateBottomSheet {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),
         ),
+        
         constraints: BoxConstraints(
           maxHeight: Get.height * 0.8,
         ),
