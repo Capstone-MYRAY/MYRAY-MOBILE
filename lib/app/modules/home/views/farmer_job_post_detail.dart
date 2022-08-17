@@ -198,8 +198,7 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
                       SizedBox(
                         width: Get.width * 0.03,
                       ),
-                      Obx(
-                        () => Text(
+                      Text(
                           controller.landownerAccount != null
                               ? controller.landownerAccount!.value.fullName!
                               : "Tên chủ rẫy đang cập nhật",
@@ -207,7 +206,7 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
                             fontSize: Get.textScaleFactor * 15,
                           ),
                         ),
-                      )
+                    
                     ],
                   ),
                   const SizedBox(
