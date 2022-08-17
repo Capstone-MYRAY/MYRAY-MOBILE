@@ -35,8 +35,8 @@ class FarmerJobPostDetailController extends GetxController
 
   @override
   void onInit() async {
-    super.onInit();
     _getLanownerAccount(jobPost.publishedBy);
+    super.onInit();
     _checkFarmerAppliedOrNot(jobPost.id);
     // checkAppliedHourJob();
     checkBookmark(jobPost.publishedBy);
@@ -166,5 +166,4 @@ class FarmerJobPostDetailController extends GetxController
       isBookmark.value = false;
     }
   }
-
 }
