@@ -210,7 +210,10 @@ class JobFarmerDetailsController extends GetxController
     try {
       bool approvable = canApprove(appliedFarmer.value.jobPost);
 
-      if (!approvable) return;
+      if (!approvable) {
+        throw CustomException(
+            'Công việc này đã đủ người, không thể nhận thêm.');
+      }
 
       int? jobPostStatus = await approveFarmer(appliedFarmer.value.id);
 

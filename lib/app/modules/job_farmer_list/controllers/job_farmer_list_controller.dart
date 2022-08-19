@@ -16,6 +16,7 @@ import 'package:myray_mobile/app/modules/job_post/controllers/landowner_job_post
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/utils/custom_exception.dart';
 import 'package:myray_mobile/app/shared/widgets/custom_snackbar.dart';
+import 'package:myray_mobile/app/shared/widgets/dialogs/custom_confirm_dialog.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:signature/signature.dart';
 
@@ -141,36 +142,21 @@ class JobFarmerListController extends GetxController {
     appliedFarmers.refresh();
   }
 
-  onFinish(AppliedFarmer appliedFarmer) {
-    CheckAttendanceDialog.show(
-      appliedFarmer.jobPost.payPerHourJob?.salary ??
-          appliedFarmer.jobPost.payPerTaskJob?.salary ??
-          0,
-      signatureController,
-      () => _onFinish(appliedFarmer, isOnFinish: true),
-      isFinish: true,
-    );
-  }
-
-  _onFinish(AppliedFarmer appliedFarmer, {bool isOnFinish = false}) async {
+  onFinish(AppliedFarmer appliedFarmer) async {
     EasyLoading.show();
     try {
-      //generate multipart
-      final imgBytes = await signatureController.toPngBytes();
-      final tempDir = await getTemporaryDirectory();
-      File file = await File('${tempDir.path}/signature.png').create();
-      file.writeAsBytesSync(imgBytes!);
+      final confirmed = await CustomDialog.show(
+        message: 'Bạn muốn hoàn thành công việc cho ${appliedFarmer.userInfo.fullName}',
+        confirm: () => Get.back(result: true);
+      );
 
-      var multipart =
-          MultipartFile(file, filename: '${tempDir.path}/signature.png');
-      final uploadedFile = await _uploadService.uploadImage([multipart]);
+      if(confirmed == null || !confirmed) return;
 
       //mark as present or finish
       final data = CheckAttendanceRequest(
         jobPostId: appliedFarmer.jobPost.id.toString(),
         dateTime: DateTime.now(),
         accountId: appliedFarmer.userInfo.id.toString(),
-        signature: uploadedFile?.files.first.link,
         status: AttendanceStatus.end,
       );
 
@@ -181,14 +167,6 @@ class JobFarmerListController extends GetxController {
 
       appliedFarmer.status = AppliedFarmerStatus.end.index;
       appliedFarmers.refresh();
-
-      signatureController.clear();
-
-      //update job post details
-      final jobPostDetails = Get.find<LandownerJobPostDetailsController>(
-          tag: appliedFarmer.jobPost.id.toString());
-      jobPostDetails.totalPayingSalary.value =
-          appliedFarmer.jobPost.payPerTaskJob?.salary ?? 0;
 
       EasyLoading.dismiss();
       Get.back(); //close dialog
