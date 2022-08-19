@@ -16,32 +16,42 @@ class FeatureFunction extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: AppColors.white,
-      borderRadius: BorderRadius.circular(CommonConstants.borderRadius),
-      child: InkWell(
-        onTap: onTap,
+    return ConstrainedBox(
+      constraints: BoxConstraints(
+        maxWidth: Get.width * 0.35,
+        minHeight: Get.width * 0.35,
+      ),
+      child: Material(
+        color: AppColors.white,
         borderRadius: BorderRadius.circular(CommonConstants.borderRadius),
-        child: Container(
-          alignment: Alignment.center,
-          padding: const EdgeInsets.symmetric(
-            vertical: 8.0,
-            horizontal: 8.0,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(icon, size: 24.0),
-              const SizedBox(height: 8.0),
-              Text(
-                title,
-                style: Get.textTheme.bodyText1!.copyWith(
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(CommonConstants.borderRadius),
+          child: Container(
+            alignment: Alignment.center,
+            padding: const EdgeInsets.symmetric(
+              vertical: 8.0,
+              horizontal: 8.0,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  icon,
+                  size: 32.0,
                   color: AppColors.primaryColor,
                 ),
-                textAlign: TextAlign.center,
-              ),
-            ],
+                const SizedBox(height: 8.0),
+                Text(
+                  title,
+                  style: Get.textTheme.bodyText1!.copyWith(
+                      // color: AppColors.primaryColor,
+                      ),
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
           ),
         ),
       ),

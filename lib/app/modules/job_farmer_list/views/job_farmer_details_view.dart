@@ -20,10 +20,13 @@ class JobFarmerDetailsView extends GetView<JobFarmerDetailsController> {
   String get tag => Get.arguments[Arguments.tag];
 
   bool get canReportFeedback {
+    bool isPending = controller.appliedFarmer.value.jobPost.workStatus ==
+        JobPostWorkStatus.pending.index;
     DateTime? endDate = controller.appliedFarmer.value.jobPost.jobEndDate;
-    return endDate == null ||
-        DateTime.now().isBefore(endDate
-            .add(const Duration(days: CommonConstants.dayCanEditFeedback)));
+    return !isPending &&
+        (endDate == null ||
+            DateTime.now().isBefore(endDate.add(
+                const Duration(days: CommonConstants.dayCanEditFeedback))));
   }
 
   @override

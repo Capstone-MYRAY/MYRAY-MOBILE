@@ -79,7 +79,7 @@ class CheckAttendanceDialog {
           ),
           const SizedBox(height: 16.0),
           FilledButton(
-            title: isFinish ? 'Hoàn Thành' : 'Điểm danh',
+            title: isFinish ? 'Hoàn Thành' : 'Xác nhận',
             onPressed: () {
               if (controller.isEmpty) {
                 InformationDialog.showDialog(

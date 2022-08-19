@@ -1,7 +1,6 @@
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_spinbox/flutter_spinbox.dart';
 import 'package:get/get.dart';
 import 'package:myray_mobile/app/data/models/garden/garden_models.dart';
 import 'package:myray_mobile/app/data/models/post_type/post_type.dart';
@@ -20,7 +19,6 @@ import 'package:myray_mobile/app/shared/widgets/buttons/filled_button.dart';
 import 'package:myray_mobile/app/shared/widgets/controls/input_field.dart';
 import 'package:myray_mobile/app/shared/widgets/cards/my_card.dart';
 import 'package:myray_mobile/app/shared/widgets/controls/my_check_box.dart';
-import 'package:myray_mobile/app/shared/widgets/controls/my_date_range_picker.dart';
 
 class JobPostFormView extends GetView<JobPostFormController> {
   const JobPostFormView({Key? key}) : super(key: key);

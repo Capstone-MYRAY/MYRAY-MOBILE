@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:myray_mobile/app/data/providers/momo/deep_link_handler.dart';
 import 'package:myray_mobile/app/data/providers/notification/local_notification_service.dart';
 import 'package:myray_mobile/app/data/providers/notification/notification_provider.dart';
 import 'package:myray_mobile/app/shared/utils/user_current_location.dart';
@@ -45,6 +46,8 @@ void main() async {
     statusBarColor: AppColors.featureColor,
   ));
   await CurrentLocation.instance.saveUserCurrentLocation();
+
+  DeepLinkHandler.init();
 
   runApp(const MyApp());
   configLoading();
