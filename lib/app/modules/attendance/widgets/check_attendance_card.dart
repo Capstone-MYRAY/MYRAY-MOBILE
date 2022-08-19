@@ -69,11 +69,11 @@ class CheckAttendanceCard extends StatelessWidget {
                           color: AppColors.black,
                         ),
                       ),
-                      const SizedBox(height: 4.0),
-                      Text(
-                        phone,
-                        style: Get.textTheme.caption,
-                      ),
+                      // const SizedBox(height: 4.0),
+                      // Text(
+                      //   phone,
+                      //   style: Get.textTheme.caption,
+                      // ),
                     ],
                   ),
                 ),

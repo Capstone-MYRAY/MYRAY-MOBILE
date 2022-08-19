@@ -10,6 +10,7 @@ import 'package:myray_mobile/app/modules/garden/garden_repository.dart';
 import 'package:myray_mobile/app/modules/home/widgets/landowner_main_feature/job_post_by_type/job_post_by_type_controller.dart';
 import 'package:myray_mobile/app/modules/job_post/controllers/landowner_job_post_controller.dart';
 import 'package:myray_mobile/app/modules/job_post/job_post_repository.dart';
+import 'package:myray_mobile/app/modules/job_post/widgets/landowner_job_post_details/update_job_start_date_dialog.dart';
 import 'package:myray_mobile/app/modules/job_post/widgets/landowner_job_post_details/update_max_farmer_dialog.dart';
 import 'package:myray_mobile/app/modules/payment_history/payment_history_repository.dart';
 import 'package:myray_mobile/app/modules/profile/controllers/landowner_profile_controller.dart';
@@ -66,6 +67,41 @@ class LandownerJobPostDetailsController extends GetxController {
     jobPost.value.status = status;
     updateFindingFarmerStatus();
     update([postInformation]);
+  }
+
+  onUpdateJobStartDate() {
+    UpdateJobStartDateDialog.show(
+      currentStartDate: jobPost.value.jobStartDate,
+      updateJobStartDateFn: _onUpdateJobStartDate,
+    );
+  }
+
+  _onUpdateJobStartDate(DateTime newJobStartDate) async {
+    try {
+      EasyLoading.show();
+      final success = await _jobPostRepository.updateJobStartDate(
+          newJobStartDate, jobPost.value.id);
+      EasyLoading.dismiss();
+      if (!success) throw Exception('Có lỗi xảy ra');
+
+      jobPost.value.jobStartDate = newJobStartDate;
+      update([workInformation]);
+
+      Get.back(); //close dialog
+
+      CustomSnackbar.show(
+        title: AppStrings.titleSuccess,
+        message: 'Cập nhật ngày bắt đầu công việc thành công',
+      );
+    } catch (e) {
+      EasyLoading.dismiss();
+      //show error
+      CustomSnackbar.show(
+        title: AppStrings.titleError,
+        message: 'Có lỗi xảy ra',
+        backgroundColor: AppColors.errorColor,
+      );
+    }
   }
 
   onFindingFarmerToggle(value) async {

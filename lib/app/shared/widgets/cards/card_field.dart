@@ -21,6 +21,7 @@ class CardField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisSize: MainAxisSize.min,
       crossAxisAlignment:
           isCenter ? CrossAxisAlignment.center : CrossAxisAlignment.start,
       children: [

@@ -105,6 +105,7 @@ class LandownerJobPostItem extends StatelessWidget {
             icon: CustomIcons.calendar_range,
             title: AppStrings.labelPublishDate,
             data: Utils.formatddMMyyyy(publishedDate),
+            isCenter: true,
           ),
           const SizedBox(height: 8.0),
           if (expiredDate != null)

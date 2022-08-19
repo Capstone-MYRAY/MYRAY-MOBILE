@@ -43,6 +43,7 @@ class ToggleInformation extends GetView<ToggleController> {
 
   _buildContent(bool isOpen) {
     return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
         ToggleHeader(
           title: title,
@@ -65,6 +66,7 @@ class ToggleInformation extends GetView<ToggleController> {
       margin: const EdgeInsets.all(0.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: [
           Text(
             title,

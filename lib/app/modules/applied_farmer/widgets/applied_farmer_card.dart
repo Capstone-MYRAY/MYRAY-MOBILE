@@ -50,12 +50,12 @@ class AppliedFarmerCard extends StatelessWidget {
                       style: Get.textTheme.bodyText1,
                     ),
                     const SizedBox(height: 2),
-                    Text(
-                      phone,
-                      style: Get.textTheme.bodyText2!.copyWith(
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
+                    // Text(
+                    //   phone,
+                    //   style: Get.textTheme.bodyText2!.copyWith(
+                    //     fontWeight: FontWeight.w400,
+                    //   ),
+                    // ),
                     const SizedBox(height: 2),
                     RatingStar(
                       itemCount: 5,
