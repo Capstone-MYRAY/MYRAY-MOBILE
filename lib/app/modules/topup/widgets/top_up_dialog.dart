@@ -9,7 +9,7 @@ import 'package:myray_mobile/app/shared/widgets/controls/input_field.dart';
 import 'package:myray_mobile/app/shared/widgets/dialogs/base_dialog.dart';
 
 class TopUpDialog {
-  static Future<dynamic> show() async {
+  static Future<dynamic> show(BuildContext context) async {
     return await BaseDialog.show(
       child: GetBuilder<TopUpController>(
         init: TopUpController(),
@@ -43,7 +43,10 @@ class TopUpDialog {
                 widthFactor: 0.6,
                 child: FilledButton(
                   title: AppStrings.titleTopUp,
-                  onPressed: controller.onTopUp,
+                  onPressed: () {
+                    FocusScope.of(Get.context!).requestFocus(FocusNode());
+                    controller.onTopUp();
+                  },
                 ),
               ),
             ],

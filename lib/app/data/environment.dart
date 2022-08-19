@@ -8,6 +8,8 @@ class Environment {
   static String goongMapUrl = FlutterConfig.get('GOONG_MAP_URL');
   static String momoPartnerCode = FlutterConfig.get('MOMO_PARTNER_CODE');
   static String momoIOSAppScheme = FlutterConfig.get('MOMO_IOS_SCHEME');
+  static String momoAccessKey = FlutterConfig.get('MOMO_ACCESS_KEY');
+  static String momoSecretKey = FlutterConfig.get('MOMO_SECRET_KEY');
   static String goongMapApiKey = FlutterConfig.get('GOONG_API_KEY');
   static String mapboxPublicKey = FlutterConfig.get('MAP_BOX_PUBLIC_KEY');
 }

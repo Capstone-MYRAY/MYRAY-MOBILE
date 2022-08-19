@@ -74,7 +74,7 @@ class LandownerFeatureFunctions extends StatelessWidget {
             title: AppStrings.titleTopUp,
             icon: CustomIcons.currency_usd,
             onTap: () {
-              TopUpDialog.show();
+              TopUpDialog.show(context);
             },
           ),
         ],
