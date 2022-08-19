@@ -73,6 +73,7 @@ class AppStrings {
   static const titleAppliedJobPost = 'Công việc';
   static const titleExtendMaxFarmer = 'Tăng số người tối đa';
   static const titleViewFeedback = 'Xem đánh giá';
+  static const titleTopUp = 'Nạp tiền';
 
   //Subtitle
   static const subtitleMyGarden = 'Danh sách vườn đã tạo';
@@ -198,6 +199,7 @@ class AppStrings {
   static const placeholderOldPassword = 'Nhập mật khẩu cũ';
   static const placeholderNewPassword = 'Nhập mật khẩu mới';
   static const placeholderIssuedDate = 'Ngày thực hiện giao dịch';
+  static const placeholderTopUp = 'Nhập số tiền cần nạp';
 
   //Caption
   static const captionChooseRole =

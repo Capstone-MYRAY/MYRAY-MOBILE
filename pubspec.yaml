@@ -73,6 +73,7 @@ dependencies:
   firebase_messaging: ^12.0.1
   flutter_local_notifications: ^9.1.4
   flutter_switch: ^0.3.2
+  momo_vn: ^2.0.2
 
 dev_dependencies:
   flutter_test:

@@ -6,6 +6,8 @@ class Environment {
   static String apiUrl = FlutterConfig.get('API_URL');
   static String googleMapApiKey = FlutterConfig.get('GOOGLE_MAPS_API_KEY');
   static String goongMapUrl = FlutterConfig.get('GOONG_MAP_URL');
+  static String momoPartnerCode = FlutterConfig.get('MOMO_PARTNER_CODE');
+  static String momoIOSAppScheme = FlutterConfig.get('MOMO_IOS_SCHEME');
   static String goongMapApiKey = FlutterConfig.get('GOONG_API_KEY');
   static String mapboxPublicKey = FlutterConfig.get('MAP_BOX_PUBLIC_KEY');
 }

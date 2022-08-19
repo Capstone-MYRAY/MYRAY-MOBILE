@@ -147,7 +147,7 @@ class LandownerJobPostController extends GetxController {
       if (_money == 0) {
         InformationDialog.showDialog(
           msg:
-              'Bạn chưa có tiền trong tài khoản. Vui lòng gặp moderator để nạp tiền',
+              'Bạn chưa có tiền trong tài khoản. Vui lòng nạp tiền để thực hiện chức năng này',
           confirmTitle: AppStrings.titleClose,
         );
         return;

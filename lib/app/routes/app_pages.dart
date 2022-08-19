@@ -61,6 +61,8 @@ import 'package:myray_mobile/app/modules/report/bindings/landowner_report_bindin
 import 'package:myray_mobile/app/modules/report/bindings/landowner_report_details_binding.dart';
 import 'package:myray_mobile/app/modules/report/views/landowner_report_details_view.dart';
 import 'package:myray_mobile/app/modules/report/views/landowner_report_view.dart';
+import 'package:myray_mobile/app/modules/topup/bindings/top_up_binding.dart';
+import 'package:myray_mobile/app/modules/topup/views/top_up_view.dart';
 import 'package:myray_mobile/init_view.dart';
 
 part 'app_routes.dart';
@@ -230,6 +232,12 @@ class AppPages {
       binding: JobPostByGardenBinding(),
       transition: Transition.rightToLeft,
     ),
+    GetPage(
+      name: _Paths.topUp,
+      page: () => const TopUpView(),
+      binding: TopUpBinding(),
+      transition: Transition.rightToLeft,
+    ),
 
     //farmer
     GetPage(
@@ -296,7 +304,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.farmerJobPostFilter,
-      page: () =>  FarmerJobPostFilter(),
+      page: () => FarmerJobPostFilter(),
       binding: FarmerJobPostBinding(),
       transition: Transition.downToUp,
     )
