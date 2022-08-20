@@ -7,6 +7,8 @@ import 'package:myray_mobile/app/data/enums/enums.dart';
 import 'package:myray_mobile/app/data/models/applied_farmer/applied_farmer_models.dart';
 import 'package:myray_mobile/app/data/models/attendance/attendance_models.dart';
 import 'package:myray_mobile/app/data/models/filter_object.dart';
+import 'package:myray_mobile/app/data/models/job_post/pay_per_hour_job/pay_per_hour_job.dart';
+import 'package:myray_mobile/app/data/models/upload_file/upload_file_models.dart';
 import 'package:myray_mobile/app/data/services/services.dart';
 import 'package:myray_mobile/app/modules/applied_farmer/applied_farmer_repository.dart';
 import 'package:myray_mobile/app/modules/attendance/attendance_repository.dart';
@@ -143,42 +145,85 @@ class JobFarmerListController extends GetxController {
   }
 
   onFinish(AppliedFarmer appliedFarmer) async {
-    EasyLoading.show();
-    try {
-      final confirmed = await CustomDialog.show(
-        message: 'Bạn muốn hoàn thành công việc cho ${appliedFarmer.userInfo.fullName}',
-        confirm: () => Get.back(result: true);
+    if (!appliedFarmer.jobPost.isPayPerHourJob) {
+      CheckAttendanceDialog.show(
+        appliedFarmer.jobPost.payPerHourJob?.salary ??
+            appliedFarmer.jobPost.payPerTaskJob?.salary ??
+            0,
+        signatureController,
+        () => _onFinish(appliedFarmer, isOnFinish: true),
+        isFinish: true,
       );
+    } else {
+      try {
+        final confirmed = await CustomDialog.show(
+          message:
+              'Bạn muốn hoàn thành công việc cho ${appliedFarmer.userInfo.fullName}',
+          confirm: () => Get.back(result: true),
+        );
 
-      if(confirmed == null || !confirmed) return;
+        if (confirmed == null || !confirmed) return;
+
+        _onFinish(appliedFarmer);
+      } catch (e) {
+        EasyLoading.dismiss();
+        CustomSnackbar.show(
+          title: AppStrings.titleError,
+          message: 'Có lỗi xảy ra',
+          backgroundColor: AppColors.errorColor,
+        );
+        print('_onPresentOrFinish: ${e.toString()}');
+      }
+    }
+  }
+
+  _onFinish(AppliedFarmer appliedFarmer,
+      {bool isOnFinish = false, bool isPayPerHourJob = true}) async {
+    try {
+      UploadImageResponse? uploadedFile;
+
+      EasyLoading.show();
+      if (!isPayPerHourJob) {
+        //generate multipart
+        final imgBytes = await signatureController.toPngBytes();
+        final tempDir = await getTemporaryDirectory();
+        File file = await File('${tempDir.path}/signature.png').create();
+        file.writeAsBytesSync(imgBytes!);
+
+        var multipart =
+            MultipartFile(file, filename: '${tempDir.path}/signature.png');
+        uploadedFile = await _uploadService.uploadImage([multipart]);
+      }
 
       //mark as present or finish
       final data = CheckAttendanceRequest(
         jobPostId: appliedFarmer.jobPost.id.toString(),
         dateTime: DateTime.now(),
         accountId: appliedFarmer.userInfo.id.toString(),
+        signature: uploadedFile?.files.first.link,
         status: AttendanceStatus.end,
       );
 
       print(data.toJson());
 
       final result = await _attendanceRepository.checkAttendance(data);
+      EasyLoading.dismiss();
       if (result == null) throw Exception('Có lỗi xảy ra');
 
       appliedFarmer.status = AppliedFarmerStatus.end.index;
       appliedFarmers.refresh();
 
+      signatureController.clear();
+
+      //update job post details
+      final jobPostDetails = Get.find<LandownerJobPostDetailsController>(
+          tag: appliedFarmer.jobPost.id.toString());
+      jobPostDetails.totalPayingSalary.value =
+          appliedFarmer.jobPost.payPerTaskJob?.salary ?? 0;
+
       EasyLoading.dismiss();
       Get.back(); //close dialog
-    } catch (e) {
-      EasyLoading.dismiss();
-      CustomSnackbar.show(
-        title: AppStrings.titleError,
-        message: 'Có lỗi xảy ra',
-        backgroundColor: AppColors.errorColor,
-      );
-      print('_onPresentOrFinish: ${e.toString()}');
-    }
+    } catch (e) {}
   }
 
   onFired(AppliedFarmer appliedFarmer) {

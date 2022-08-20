@@ -116,7 +116,7 @@ class LandownerJobPostDetailsController extends GetxController {
       //update job post in list
       if (Get.previousRoute == Routes.init) {
         _jobPostController.updateJobPosts(jobPost.value);
-      } else {
+      } else if (Get.previousRoute == Routes.landownerJobPostByType) {
         final jobPostByTypeController = Get.find<JobPostByTypeController>();
         jobPostByTypeController.updateJobPosts(jobPost.value);
       }
@@ -124,6 +124,7 @@ class LandownerJobPostDetailsController extends GetxController {
       InformationDialog.showDialog(msg: e.message);
       isFindingFarmer.value = !value;
     } catch (e) {
+      print(e.toString());
       CustomSnackbar.show(
         title: AppStrings.titleError,
         message: 'Có lỗi xảy ra',
