@@ -31,6 +31,7 @@ class FarmerJobPostDetailController extends GetxController
   Rx<bool> isBookmark = false.obs;
   RxBool isFullApplyRequestJob = false.obs;
 
+
   FarmerJobPostDetailController({required this.jobPost});
 
   @override
@@ -166,4 +167,7 @@ class FarmerJobPostDetailController extends GetxController
       isBookmark.value = false;
     }
   }
+
+
+
 }

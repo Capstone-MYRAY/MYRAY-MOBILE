@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:get/get.dart';
 import 'package:myray_mobile/app/shared/constants/app_colors.dart';
+import 'package:myray_mobile/app/shared/constants/common.dart';
 
 class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   final double expandedHeight;
@@ -8,13 +10,15 @@ class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   final String? titleFloatingCard;
   final bool? isChangedState;
   final bool? isExpired;
+  final List<Widget> imageList;
 
-  const CustomSliverAppBarDelegate({
+  CustomSliverAppBarDelegate({
     required this.expandedHeight,
     required this.heightOfScreen,
     this.titleFloatingCard = "Tiêu đề bài đăng",
     this.isChangedState,
     this.isExpired = false,
+    required this.imageList
   });
 
   @override
@@ -27,7 +31,8 @@ class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
       fit: StackFit.expand,
       // overflow: Overflow.visible,
       children: [
-        buildBackground(shrinkOffset),
+        // buildBackground(shrinkOffset),
+        buildBackgroundSlider(shrinkOffset),
         // SizedBox(height: 100,),
         Positioned(
           top: top,
@@ -48,6 +53,15 @@ class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
           fit: BoxFit.cover,
         ),
       );
+   Widget buildBackgroundSlider(double shrinkOffset) => Opacity(
+        opacity: disappear(shrinkOffset),
+        child: ImageSlideshow(
+           autoPlayInterval: CommonConstants.autoPlayIntervalTime,
+           isLoop: imageList.length != 1,
+           indicatorColor: AppColors.white,
+          children: imageList,
+        ),
+   );
 
   Widget buildFloating(double shrinkOffset) => Opacity(
         opacity: disappear(shrinkOffset),
@@ -57,7 +71,7 @@ class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
           ),
           alignment: Alignment.bottomRight,
           child: Card(
-            color: AppColors.white.withOpacity(0.9),
+            color: AppColors.black.withOpacity(0.2),
             child: Row(
               children: [
                 //Expanded(child: buildButton(text: 'Share', icon: Icons.share)),
@@ -92,8 +106,8 @@ class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
               child: Text(
                 text,
                 style: TextStyle(
-                    fontSize: Get.textScaleFactor * 20,
-                    color: AppColors.brown,
+                    fontSize: Get.textScaleFactor * 22,
+                    color: AppColors.white,
                     fontWeight: FontWeight.w500),
                 softWrap: true,
                 maxLines: 3,

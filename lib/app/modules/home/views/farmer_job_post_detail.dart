@@ -113,7 +113,7 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
 
           if (snapshot.hasData) {
             controller.detailPost = snapshot.data!.obs;
-            return detailList(controller.isApplied.value, context);
+            return detailList(controller.isApplied.value,context);
           }
 
           return const SizedBox();
@@ -130,6 +130,7 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
             heightOfScreen: Get.height * 0.35,
             titleFloatingCard: controller.jobPost.title,
             isChangedState: isChangedState,
+            imageList: controller.jobPost.gardenImageList
           ),
         ),
         _buildLandownerCard(context),

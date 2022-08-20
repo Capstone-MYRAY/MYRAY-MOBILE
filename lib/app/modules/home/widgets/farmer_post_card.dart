@@ -4,7 +4,6 @@ import 'package:myray_mobile/app/shared/constants/app_colors.dart';
 import 'package:myray_mobile/app/shared/constants/app_strings.dart';
 import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
 import 'package:myray_mobile/app/shared/utils/utils.dart';
-import 'package:myray_mobile/app/shared/widgets/cards/card_field.dart';
 import 'package:myray_mobile/app/shared/widgets/chips/status_chip.dart';
 import 'package:myray_mobile/app/shared/widgets/chips/work_type_chip.dart';
 
@@ -24,25 +23,28 @@ class FarmerPostCard extends StatelessWidget {
   final String treeType;
   final double? distance;
   final String workType;
+  final String? imageUrl;
 
-  const FarmerPostCard(
-      {Key? key,
-      required this.title,
-      required this.address,
-      required this.price,
-      required this.treeType,
-      required this.onTap,
-      required this.workType,
-      this.paidType,
-      this.isStatus = false,
-      this.statusName = "Nổi bật",
-      this.backgroundColor = AppColors.white,
-      this.statusColor = AppColors.markedPostChipColor,
-      this.borderColor = AppColors.white,
-      this.expiredDate = "22/06/2022",
-      this.isExpired = false,
-      this.distance})
-      : super(key: key);
+  const FarmerPostCard({
+    Key? key,
+    required this.title,
+    required this.address,
+    required this.price,
+    required this.treeType,
+    required this.onTap,
+    required this.workType,
+    this.paidType,
+    this.isStatus = false,
+    this.statusName = "Nổi bật",
+    this.backgroundColor = AppColors.white,
+    this.statusColor = AppColors.markedPostChipColor,
+    this.borderColor = AppColors.white,
+    this.expiredDate = "22/06/2022",
+    this.isExpired = false,
+    this.distance,
+    this.imageUrl =
+        'https://gialainews.com/wp-content/uploads/2019/06/Gia-Lai-mien-nho-Nhung-mua-lua-ray.jpg',
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -65,19 +67,42 @@ class FarmerPostCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     isStatus!
-                        ? StatusChip(
-                            statusName: statusName!,
-                            backgroundColor: statusColor!)
+                        ? Padding(
+                          padding: const EdgeInsets.only(bottom:10.0),
+                          child: StatusChip(
+                              statusName: statusName!,
+                              backgroundColor: statusColor!,
+                          ),
+                        )
                         : const SizedBox(
                             height: 25,
                           ),
-                    Image.network(
-                        'https://gialainews.com/wp-content/uploads/2019/06/Gia-Lai-mien-nho-Nhung-mua-lua-ray.jpg',
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: Image.network(
+                        imageUrl!,
+                        fit: BoxFit.fitHeight,
                         width: 100,
-                        height: 120),
+                        height: 100,
+                        loadingBuilder: (context, child, loadingProgress) {
+                          if (loadingProgress == null) return child;
+                          return Center(
+                            child: CircularProgressIndicator(
+                              value: loadingProgress.expectedTotalBytes != null
+                                  ? loadingProgress.cumulativeBytesLoaded /
+                                      loadingProgress.expectedTotalBytes!
+                                  : null,
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
                     WorkTypeChip(
                       workType: paidType,
                       borderRadiusSize: 20,
@@ -313,7 +338,7 @@ class FarmerPostCard extends StatelessWidget {
                               children: [
                                 Text(
                                     paidType == AppStrings.payPerHour
-                                        ? 'Lương công: ' 
+                                        ? 'Lương công: '
                                         : 'Lương khoán: ',
                                     style: Get.textTheme.bodyText2!.copyWith(
                                         fontSize: Get.textScaleFactor * 15,
