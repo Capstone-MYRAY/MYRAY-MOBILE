@@ -20,6 +20,9 @@ class JobPost {
   @JsonKey(name: 'garden_name')
   String? gardenName;
 
+  @JsonKey(name: 'garden_image')
+  String? gardenImage;
+
   @JsonKey(name: 'garden_lat')
   double? gardenLat;
 
@@ -147,7 +150,8 @@ class JobPost {
       this.totalPinDay,
       this.pinStartDate,
       this.gardenLat,
-      this.gardenLon});
+      this.gardenLon,
+      this.gardenImage});
 
   @override
   bool operator ==(Object other) {
@@ -198,6 +202,31 @@ class JobPost {
 
   bool get isPayPerHourJob =>
       Utils.equalsIgnoreCase(type, JobType.payPerHourJob.name);
+
+  List<Widget> get gardenImageList {
+    List<Widget> imageWidgetList = [];
+    List<String> imageList = gardenImage!.split(CommonConstants.imageDelimiter);
+    for (String imageUrl in imageList) {
+      imageWidgetList.add(
+        Image.network(
+          imageUrl,
+          fit: BoxFit.cover,
+          loadingBuilder: (context, child, loadingProgress) {
+            if (loadingProgress == null) return child;
+            return Center(
+              child: CircularProgressIndicator(
+                value: loadingProgress.expectedTotalBytes != null
+                    ? loadingProgress.cumulativeBytesLoaded /
+                        loadingProgress.expectedTotalBytes!
+                    : null,
+              ),
+            );
+          },
+        ),
+      );
+    }
+    return imageWidgetList;
+  }
 }
 
 Map<String, String> _workPayTypeAlias = {
