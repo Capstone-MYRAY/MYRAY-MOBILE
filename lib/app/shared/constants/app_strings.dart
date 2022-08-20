@@ -68,7 +68,7 @@ class AppStrings {
   static const titleClearFilter = 'Bỏ lọc';
   static const titleConfirmSignature = 'Chữ ký xác nhận';
   static const titleChangePassword = 'Thay đổi mật khẩu';
-  static const titleFinishJob = 'Hoàn thành công việc';
+  static const titleFinishJob = 'Kết thúc công việc';
   static const titleInfo = 'Thông báo';
   static const titleAppliedJobPost = 'Công việc';
   static const titleExtendMaxFarmer = 'Tăng số người tối đa';
