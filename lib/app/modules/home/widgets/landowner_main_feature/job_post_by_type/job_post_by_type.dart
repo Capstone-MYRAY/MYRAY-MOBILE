@@ -33,7 +33,10 @@ class JobPostByType extends GetView<JobPostByTypeController> {
             }
 
             if (snapshot.data == null) {
-              return ListEmptyBuilder(onRefresh: controller.onRefresh);
+              return ListEmptyBuilder(
+                onRefresh: controller.onRefresh,
+                msg: 'Không tồn tại bài đăng nào',
+              );
             }
 
             if (snapshot.hasData) {
@@ -64,6 +67,7 @@ class JobPostByType extends GetView<JobPostByTypeController> {
           return LandownerJobPostItem(
             key: ValueKey(jobPost.id),
             title: jobPost.title,
+            gardenName: jobPost.gardenName ?? '',
             workType: jobPost.workTypeName,
             address: jobPost.address ?? '',
             publishedDate: jobPost.publishedDate,

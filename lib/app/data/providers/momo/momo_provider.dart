@@ -1,4 +1,5 @@
 import 'package:crypto/crypto.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/widgets/custom_snackbar.dart';
@@ -101,6 +102,7 @@ class MomoProvider extends GetConnect {
           }
         });
         webView.launch(result.payUrl);
+        webView.resize(_buildRect());
       }
     } catch (e) {
       Future.delayed(const Duration(seconds: 500))
@@ -147,5 +149,17 @@ class MomoProvider extends GetConnect {
     orderId.write(now.second);
     orderId.write(now.millisecond);
     return orderId.toString();
+  }
+
+  Rect _buildRect() {
+    final topPadding = Get.mediaQuery.padding.top;
+    final top = topPadding;
+    var height = Get.mediaQuery.size.height - top;
+
+    if (height < 0.0) {
+      height = 0.0;
+    }
+
+    return Rect.fromLTWH(0.0, top, Get.width, height);
   }
 }

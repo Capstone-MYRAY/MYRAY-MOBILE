@@ -34,7 +34,7 @@ mixin AppliedFarmerService {
 
     InformationDialog.showDialog(
         msg:
-            'Bạn vẫn chưa xác nhận trả lương cho nông dân, không thể kết thúc công việc.');
+            'Bạn vẫn chưa xác nhận trả lương cho nông dân, không thể kết thúc công việc');
 
     return false;
   }
