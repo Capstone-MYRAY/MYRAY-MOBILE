@@ -5,11 +5,13 @@ import 'package:myray_mobile/app/data/models/garden/garden.dart';
 import 'package:myray_mobile/app/data/models/job_post/job_post.dart';
 import 'package:myray_mobile/app/data/models/job_post/pay_per_hour_job/extend_farmer_request.dart';
 import 'package:myray_mobile/app/data/models/payment_history/payment_history_models.dart';
+import 'package:myray_mobile/app/data/services/services.dart';
 import 'package:myray_mobile/app/modules/attendance/attendance_repository.dart';
 import 'package:myray_mobile/app/modules/garden/garden_repository.dart';
 import 'package:myray_mobile/app/modules/home/widgets/landowner_main_feature/job_post_by_type/job_post_by_type_controller.dart';
 import 'package:myray_mobile/app/modules/job_post/controllers/landowner_job_post_controller.dart';
 import 'package:myray_mobile/app/modules/job_post/job_post_repository.dart';
+import 'package:myray_mobile/app/modules/job_post/widgets/landowner_job_post_details/update_job_start_date_dialog.dart';
 import 'package:myray_mobile/app/modules/job_post/widgets/landowner_job_post_details/update_max_farmer_dialog.dart';
 import 'package:myray_mobile/app/modules/payment_history/payment_history_repository.dart';
 import 'package:myray_mobile/app/modules/profile/controllers/landowner_profile_controller.dart';
@@ -21,7 +23,8 @@ import 'package:myray_mobile/app/shared/widgets/custom_snackbar.dart';
 import 'package:myray_mobile/app/shared/widgets/dialogs/custom_confirm_dialog.dart';
 import 'package:myray_mobile/app/shared/widgets/dialogs/information_dialog.dart';
 
-class LandownerJobPostDetailsController extends GetxController {
+class LandownerJobPostDetailsController extends GetxController
+    with AppliedFarmerService {
   final Rx<JobPost> jobPost;
   final List<PaymentHistory> paymentHistories = [];
   final _gardenRepository = Get.find<GardenRepository>();
@@ -68,6 +71,41 @@ class LandownerJobPostDetailsController extends GetxController {
     update([postInformation]);
   }
 
+  onUpdateJobStartDate() {
+    UpdateJobStartDateDialog.show(
+      currentStartDate: jobPost.value.jobStartDate,
+      updateJobStartDateFn: _onUpdateJobStartDate,
+    );
+  }
+
+  _onUpdateJobStartDate(DateTime newJobStartDate) async {
+    try {
+      EasyLoading.show();
+      final success = await _jobPostRepository.updateJobStartDate(
+          newJobStartDate, jobPost.value.id);
+      EasyLoading.dismiss();
+      if (!success) throw Exception('Có lỗi xảy ra');
+
+      jobPost.value.jobStartDate = newJobStartDate;
+      update([workInformation]);
+
+      Get.back(); //close dialog
+
+      CustomSnackbar.show(
+        title: AppStrings.titleSuccess,
+        message: 'Cập nhật ngày bắt đầu công việc thành công',
+      );
+    } catch (e) {
+      EasyLoading.dismiss();
+      //show error
+      CustomSnackbar.show(
+        title: AppStrings.titleError,
+        message: 'Có lỗi xảy ra',
+        backgroundColor: AppColors.errorColor,
+      );
+    }
+  }
+
   onFindingFarmerToggle(value) async {
     isFindingFarmer.value = value;
     try {
@@ -80,7 +118,7 @@ class LandownerJobPostDetailsController extends GetxController {
       //update job post in list
       if (Get.previousRoute == Routes.init) {
         _jobPostController.updateJobPosts(jobPost.value);
-      } else {
+      } else if (Get.previousRoute == Routes.landownerJobPostByType) {
         final jobPostByTypeController = Get.find<JobPostByTypeController>();
         jobPostByTypeController.updateJobPosts(jobPost.value);
       }
@@ -88,6 +126,7 @@ class LandownerJobPostDetailsController extends GetxController {
       InformationDialog.showDialog(msg: e.message);
       isFindingFarmer.value = !value;
     } catch (e) {
+      print(e.toString());
       CustomSnackbar.show(
         title: AppStrings.titleError,
         message: 'Có lỗi xảy ra',
@@ -99,8 +138,13 @@ class LandownerJobPostDetailsController extends GetxController {
 
   finishJob() async {
     try {
+      final canFinish = await canEnd(jobPost.value);
+      if (!canFinish) return;
+
       final isConfirmed = await CustomDialog.show(
-          confirm: () => Get.back(result: true), message: AppMsg.MSG4037);
+        confirm: () => Get.back(result: true),
+        message: AppMsg.MSG4037,
+      );
 
       if (isConfirmed == null || !isConfirmed) return;
 

@@ -30,12 +30,12 @@ class CardUserInfo extends StatelessWidget {
           style: Get.textTheme.bodyText1,
           textAlign: TextAlign.center,
         ),
-        const SizedBox(height: 4.0),
-        Text(
-          phone,
-          style: Get.textTheme.caption,
-          textAlign: TextAlign.center,
-        ),
+        // const SizedBox(height: 4.0),
+        // Text(
+        //   phone,
+        //   style: Get.textTheme.caption,
+        //   textAlign: TextAlign.center,
+        // ),
       ],
     );
   }

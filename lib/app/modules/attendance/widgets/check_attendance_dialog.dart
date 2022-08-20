@@ -21,7 +21,7 @@ class CheckAttendanceDialog {
           Align(
             alignment: Alignment.center,
             child: Text(
-              'Xác nhận thông tin',
+              'Xác nhận trả lương',
               style: Get.textTheme.headline4!.copyWith(
                 color: AppColors.primaryColor,
               ),
@@ -79,7 +79,7 @@ class CheckAttendanceDialog {
           ),
           const SizedBox(height: 16.0),
           FilledButton(
-            title: isFinish ? 'Hoàn Thành' : 'Xác nhận',
+            title: 'Xác nhận',
             onPressed: () {
               if (controller.isEmpty) {
                 InformationDialog.showDialog(

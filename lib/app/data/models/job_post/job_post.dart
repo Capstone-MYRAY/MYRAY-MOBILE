@@ -162,7 +162,7 @@ class JobPost {
 
   Map<String, dynamic> toJson() => _$JobPostToJson(this);
 
-  String get workType => _workTypeAlias[type] ?? '';
+  String get workPayType => _workPayTypeAlias[type] ?? '';
 
   Color get jobPostStatusColor =>
       _jobPostStatusColor[status] ?? Colors.transparent;
@@ -200,7 +200,7 @@ class JobPost {
       Utils.equalsIgnoreCase(type, JobType.payPerHourJob.name);
 }
 
-Map<String, String> _workTypeAlias = {
+Map<String, String> _workPayTypeAlias = {
   'PayPerHourJob': AppStrings.payPerHour,
   'PayPerTaskJob': AppStrings.payPerTask,
 };

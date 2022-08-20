@@ -79,11 +79,8 @@ class JobFarmerListView extends GetView<JobFarmerListController> {
                     avatar: appliedFarmer.userInfo.imageUrl,
                     statusName: appliedFarmer.statusString,
                     statusColor: appliedFarmer.statusColor,
-                    isDisplayEllipsis: Utils.equalsIgnoreCase(
-                            appliedFarmer.jobPost.type,
-                            JobType.payPerTaskJob.name) &&
-                        appliedFarmer.status ==
-                            AppliedFarmerStatus.approved.index,
+                    isDisplayEllipsis: appliedFarmer.status ==
+                        AppliedFarmerStatus.approved.index,
                     onFinish: () => controller.onFinish(appliedFarmer),
                     onFired: () => controller.onFired(appliedFarmer),
                     onButtonTap: () {
