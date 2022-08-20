@@ -62,6 +62,7 @@ class JobPostByGardenView extends GetView<JobPostByGardenController> {
           return LandownerJobPostItem(
             key: ValueKey(jobPost.id),
             title: jobPost.title,
+            gardenName: jobPost.gardenName ?? '',
             workType: jobPost.workTypeName,
             address: jobPost.address ?? '',
             publishedDate: jobPost.publishedDate,

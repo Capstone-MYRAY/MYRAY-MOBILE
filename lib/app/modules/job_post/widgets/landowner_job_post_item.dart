@@ -26,6 +26,7 @@ class LandownerJobPostItem extends StatelessWidget {
   final Color? workStatusForeground;
   final String postStatusString;
   final String workStatusString;
+  final String gardenName;
 
   final void Function() onDetailsPress;
 
@@ -40,6 +41,7 @@ class LandownerJobPostItem extends StatelessWidget {
     required this.postStatusString,
     required this.workStatusString,
     required this.workType,
+    required this.gardenName,
     this.expiredDate,
     this.pinType,
     this.postTypeBackground,
@@ -83,10 +85,15 @@ class LandownerJobPostItem extends StatelessWidget {
           ),
           const SizedBox(height: 12.0),
           CardField(
-            icon: CustomIcons.map_marker_outline,
-            title: AppStrings.labelAddress,
-            data: address,
+            icon: CustomIcons.sprout_outline,
+            title: AppStrings.labelGardenName,
+            data: gardenName,
           ),
+          // CardField(
+          //   icon: CustomIcons.map_marker_outline,
+          //   title: AppStrings.labelAddress,
+          //   data: address,
+          // ),
           const SizedBox(height: 8.0),
           CardField(
             icon: CustomIcons.bulletin_board,

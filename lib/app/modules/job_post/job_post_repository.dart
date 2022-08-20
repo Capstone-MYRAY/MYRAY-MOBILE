@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/status/http_status.dart';
 import 'package:myray_mobile/app/data/models/job_post/check_pin_date_request.dart';
@@ -151,6 +153,7 @@ class JobPostRepository {
 
   Future<bool> updateJobStartDate(
       DateTime newJobStartDate, int jobPostId) async {
+    print('Date: ${newJobStartDate.toIso8601String()}');
     final response = await _apiProvider.put(
         '/jobpost/startdate/$jobPostId', newJobStartDate.toIso8601String());
 

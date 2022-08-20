@@ -63,19 +63,22 @@ class GardenDetailsView extends GetView<GardenDetailsController> {
               const SizedBox(height: 16.0),
               SizedBox(
                 width: Get.width * 0.7,
-                child: Column(children: [
-                  FilledButton(
-                    title: 'Danh sách công việc',
-                    onPressed: controller.navigateToJobPostList,
-                  ),
-                  const SizedBox(height: 16.0),
-                  if (controller.action == null)
-                    FilledButton(
-                      title: AppStrings.titleDelete,
-                      onPressed: controller.onDeleteGarden,
-                      color: AppColors.errorColor,
-                    ),
-                ]),
+                child: Column(
+                  children: [
+                    if (controller.action == null) ...[
+                      FilledButton(
+                        title: 'Danh sách công việc',
+                        onPressed: controller.navigateToJobPostList,
+                      ),
+                      const SizedBox(height: 16.0),
+                      FilledButton(
+                        title: AppStrings.titleDelete,
+                        onPressed: controller.onDeleteGarden,
+                        color: AppColors.errorColor,
+                      ),
+                    ],
+                  ],
+                ),
               ),
             ],
           ),

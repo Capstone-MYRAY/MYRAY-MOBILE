@@ -416,7 +416,7 @@ class JobPostFormController extends GetxController {
 
       CustomSnackbar.show(
         title: AppStrings.titleSuccess,
-        message: 'Cập nhật thành công',
+        message: 'Cập nhật bài đăng thành công',
       );
     } on Exception {
       EasyLoading.dismiss();
@@ -476,10 +476,10 @@ class JobPostFormController extends GetxController {
     List<TreeJobs> treeJobs = selectedTreeTypes
         .map((treeType) => TreeJobs(treeTypeId: treeType.id!))
         .toList();
-    String title = workNameController.text;
+    String title = workNameController.text.trim();
     DateTime jobStartDate = Utils.fromddMMyyyy(jobStartDateController.text);
     // int _numOfPublishDay = numOfPublishDay.value;
-    String description = descriptionController.text;
+    String description = descriptionController.text.trim();
     DateTime publishedDate = Utils.fromddMMyyyy(publishDateController.text);
     DateTime? jobEndDate;
     PayPerHourJob? payPerHourJob;
@@ -504,7 +504,7 @@ class JobPostFormController extends GetxController {
     }
 
     int usedPoint = usingPointController.text.isNotEmpty
-        ? double.parse(usingPointController.text).round()
+        ? double.parse(usingPointController.text.trim()).round()
         : 0;
 
     int? postTypeId = selectedPostType.value?.id;
@@ -936,7 +936,7 @@ class JobPostFormController extends GetxController {
   void onChangeUpgradePost(bool? value) {
     if (!isUpgrade.value && publishDateController.text.isEmpty) {
       InformationDialog.showDialog(
-        msg: 'Vui lòng nhập ngày đăng trước',
+        msg: 'Vui lòng chọn ngày đăng trước',
         confirmTitle: AppStrings.titleClose,
       );
       return;
@@ -948,6 +948,10 @@ class JobPostFormController extends GetxController {
   String? validateWorkName(String? value) {
     if (Utils.isEmpty(value)) {
       return AppMsg.MSG0002;
+    }
+
+    if (value!.length > 70) {
+      return 'Tên công việc tối đa 70 ký tự';
     }
 
     return null;

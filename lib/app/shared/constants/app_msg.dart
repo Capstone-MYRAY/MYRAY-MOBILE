@@ -32,8 +32,8 @@ class AppMsg {
   static const MSG4034 = 'Tên vườn tối đa 100 ký tự';
   static const MSG4035 = 'Bạn muốn chấp nhận yêu cầu này?';
   static const MSG4036 = 'Bạn muốn từ chối yêu cầu này?';
-  static const MSG4037 = 'Bạn muốn hoàn thành công việc này?';
-  static const MSG4038 = 'Công việc đã hoàn thành';
+  static const MSG4037 = 'Bạn muốn kết thúc công việc này?';
+  static const MSG4038 = 'Công việc đã kết thúc';
   static const MSG4039 = 'Không có báo cáo nào';
   static const MSG4040 = 'Vui lòng nhập lý do';
   static const MSG4041 = 'Gửi báo cáo thành công';
