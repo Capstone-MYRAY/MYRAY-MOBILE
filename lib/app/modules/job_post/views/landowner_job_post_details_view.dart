@@ -40,6 +40,7 @@ class LandownerJobPostDetailsView
       jobPost.status == JobPostStatus.cancel.index;
 
   bool get _isStartJob => jobPost.workStatus == JobPostWorkStatus.started.index;
+  bool get _isNotStart => jobPost.workStatus == JobPostWorkStatus.pending.index;
 
   // bool get _isPosted => jobPost.status == JobPostStatus.posted.index;
 
@@ -56,6 +57,12 @@ class LandownerJobPostDetailsView
   bool get _isOutOfDate => jobPost.status == JobPostStatus.outOfDate.index;
 
   bool get _isPending => jobPost.status == JobPostStatus.pending.index;
+
+  bool get _canEditJobStartDate =>
+      (_isApproved || _isShortHanded || _isEnough) &&
+      jobPost.jobStartDate
+          .toLocal()
+          .isAfter(DateUtils.dateOnly(DateTime.now()));
 
   @override
   Widget build(BuildContext context) {
@@ -503,9 +510,11 @@ class LandownerJobPostDetailsView
           workName: jobPost.title,
           workType: jobPost.workTypeName,
           jobStartDate: jobPost.jobStartDate,
+          canEditJobStartDate: _canEditJobStartDate,
+          onEdit: controller.onUpdateJobStartDate,
           jobEndDate: jobPost.jobEndDate,
           treeTypes: jobPost.treeTypes,
-          workPayType: jobPost.workType,
+          workPayType: jobPost.workPayType,
           description: jobPost.description?.contains('\n') != null
               ? '\n${jobPost.description}'
               : jobPost.description,
@@ -522,7 +531,7 @@ class LandownerJobPostDetailsView
 
   _buildWorkContent() {
     if (Utils.equalsUtf8String(
-        controller.jobPost.value.workType, AppStrings.payPerHour)) {
+        controller.jobPost.value.workPayType, AppStrings.payPerHour)) {
       final PayPerHourJob hourJob = jobPost.payPerHourJob!;
       String estimateFarmer = hourJob.minFarmer == hourJob.maxFarmer
           ? '${hourJob.maxFarmer} người'

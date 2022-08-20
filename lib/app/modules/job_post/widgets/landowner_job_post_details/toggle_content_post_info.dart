@@ -51,12 +51,14 @@ class ToggleContentPostInfo extends StatelessWidget {
             icon: CustomIcons.calendar_range,
             title: AppStrings.labelCreatedDate,
             data: Utils.formatddMMyyyy(createdDate),
+            isCenter: true,
           ),
           const SizedBox(height: 8.0),
           CardField(
             icon: CustomIcons.calendar_range,
             title: AppStrings.labelPublishDate,
             data: Utils.formatddMMyyyy(publishedDate),
+            isCenter: true,
           ),
           const SizedBox(height: 8.0),
           if (publishExpiryDate != null)

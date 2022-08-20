@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:myray_mobile/app/modules/profile/controllers/landowner_profile_controller.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/widgets/custom_snackbar.dart';
 import 'package:uni_links/uni_links.dart';
@@ -19,7 +20,7 @@ class DeepLinkHandler {
   static Future<void> _handleInitialUri() async {
     // In this example app this is an almost useless guard, but it is here to
     // show we are not going to call getInitialUri multiple times, even if this
-    // was a weidget that will be disposed of (ex. a navigation route change).
+    // was a widget that will be disposed of (ex. a navigation route change).
     if (!_initialUriIsHandled) {
       _initialUriIsHandled = true;
       try {
@@ -51,7 +52,15 @@ class DeepLinkHandler {
             print(uri.queryParameters);
             String? resultCode = uri.queryParameters['resultCode'];
             if (resultCode == '9000' || resultCode == '0') {
-              Get.back(); //close dialog
+              bool? isOpen = Get.isDialogOpen;
+              if (isOpen != null && isOpen) {
+                Get.back(); //close dialog
+              }
+
+              //upate UI
+              final profile = Get.find<LandownerProfileController>();
+              profile.getUserInfo();
+
               Future.delayed(const Duration(seconds: 1)).then(
                 (value) => CustomSnackbar.show(
                   title: AppStrings.titleSuccess,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
 import 'package:myray_mobile/app/shared/utils/utils.dart';
+import 'package:myray_mobile/app/shared/widgets/buttons/custom_icon_button.dart';
 import 'package:myray_mobile/app/shared/widgets/cards/card_field.dart';
 import 'package:myray_mobile/app/shared/widgets/cards/card_status_field.dart';
 
@@ -15,6 +16,8 @@ class ToggleContentWorkInfo extends StatelessWidget {
   final String? description;
   final Widget workContent;
   final CardStatusField workStatus;
+  final bool canEditJobStartDate;
+  final void Function()? onEdit;
 
   const ToggleContentWorkInfo({
     Key? key,
@@ -25,6 +28,8 @@ class ToggleContentWorkInfo extends StatelessWidget {
     required this.jobStartDate,
     required this.workContent,
     required this.workStatus,
+    required this.canEditJobStartDate,
+    this.onEdit,
     this.jobEndDate,
     this.description,
   }) : super(key: key);
@@ -33,6 +38,7 @@ class ToggleContentWorkInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
       children: [
         CardField(
           icon: CustomIcons.briefcase_outline,
@@ -60,16 +66,31 @@ class ToggleContentWorkInfo extends StatelessWidget {
         const SizedBox(height: 8.0),
         workContent,
         const SizedBox(height: 8.0),
-        CardField(
-          icon: CustomIcons.calendar_range,
-          title: AppStrings.labelJobStartDate,
-          data: Utils.formatddMMyyyy(jobStartDate),
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Expanded(
+              child: CardField(
+                icon: CustomIcons.calendar_range,
+                title: AppStrings.labelJobStartDate,
+                data: Utils.formatddMMyyyy(jobStartDate),
+                isCenter: true,
+              ),
+            ),
+            if (canEditJobStartDate)
+              CustomIconButton(
+                icon: CustomIcons.pencil,
+                toolTip: 'Chỉnh sửa ngày bắt đầu',
+                onTap: onEdit,
+              ),
+          ],
         ),
         const SizedBox(height: 8.0),
         CardField(
           icon: CustomIcons.calendar_range,
           title: AppStrings.labelJobEndDate,
           data: jobEndDate != null ? Utils.formatddMMyyyy(jobEndDate!) : 'N/A',
+          isCenter: true,
         ),
         const SizedBox(height: 8.0),
         workStatus,

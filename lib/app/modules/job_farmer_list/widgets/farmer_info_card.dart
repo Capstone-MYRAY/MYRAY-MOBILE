@@ -63,11 +63,11 @@ class FarmerInfoCard extends StatelessWidget {
                             fullName,
                             style: Get.textTheme.bodyText1,
                           ),
-                          const SizedBox(height: 4.0),
-                          Text(
-                            phone,
-                            style: Get.textTheme.caption,
-                          ),
+                          // const SizedBox(height: 4.0),
+                          // Text(
+                          //   phone,
+                          //   style: Get.textTheme.caption,
+                          // ),
                         ],
                       ),
                     ),

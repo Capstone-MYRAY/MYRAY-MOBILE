@@ -99,19 +99,19 @@ class JobFarmerDetailsView extends GetView<JobFarmerDetailsController> {
         SizedBox(
           width: Get.width * 0.35,
           child: SizedBox(
-            child: OutlinedButton(
+            child: FilledButton(
               onPressed: controller.onReject,
-              style: OutlinedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 12.0,
-                ),
+              padding: const EdgeInsets.symmetric(
+                vertical: 12.0,
               ),
-              child: const Text(AppStrings.titleRefuse),
+              title: AppStrings.titleRefuse,
+              color: AppColors.errorColor,
             ),
           ),
         ),
-        const SizedBox(width: 16.0),
-        if (controller.feedback.value == null)
+        if (controller.appliedFarmer.value.jobPost.status ==
+            JobPostStatus.shortHanded.index) ...[
+          const SizedBox(width: 16.0),
           SizedBox(
             width: Get.width * 0.35,
             child: FilledButton(
@@ -122,6 +122,7 @@ class JobFarmerDetailsView extends GetView<JobFarmerDetailsController> {
               onPressed: controller.onApprove,
             ),
           ),
+        ]
       ],
     );
   }

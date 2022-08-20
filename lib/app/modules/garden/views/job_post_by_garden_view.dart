@@ -72,7 +72,7 @@ class JobPostByGardenView extends GetView<JobPostByGardenController> {
                 ? HexColor.fromHex(jobPost.foregroundColor!)
                 : null,
             treeTypes: jobPost.treeTypes,
-            workPayType: jobPost.workType,
+            workPayType: jobPost.workPayType,
             // expiredDate: jobPost.publishedDate.add(
             //   Duration(days: jobPost.numOfPublishDay - 1),
             // ),

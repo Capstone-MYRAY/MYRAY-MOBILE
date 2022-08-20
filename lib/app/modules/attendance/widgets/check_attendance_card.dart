@@ -69,11 +69,11 @@ class CheckAttendanceCard extends StatelessWidget {
                           color: AppColors.black,
                         ),
                       ),
-                      const SizedBox(height: 4.0),
-                      Text(
-                        phone,
-                        style: Get.textTheme.caption,
-                      ),
+                      // const SizedBox(height: 4.0),
+                      // Text(
+                      //   phone,
+                      //   style: Get.textTheme.caption,
+                      // ),
                     ],
                   ),
                 ),
@@ -100,17 +100,17 @@ class CheckAttendanceCard extends StatelessWidget {
                       title: 'Có mặt',
                       onPressed: onPresent,
                     ),
-                    if (!isFiredOrEnd) ...[
-                      FilledButton(
-                        title: 'Sa thải',
-                        onPressed: onFired,
-                        color: AppColors.errorColor,
-                      ),
-                      FilledButton(
-                        title: 'Hoàn thành',
-                        onPressed: onFinish,
-                      ),
-                    ],
+                    // if (!isFiredOrEnd) ...[
+                    //   FilledButton(
+                    //     title: 'Sa thải',
+                    //     onPressed: onFired,
+                    //     color: AppColors.errorColor,
+                    //   ),
+                    //   FilledButton(
+                    //     title: 'Hoàn thành',
+                    //     onPressed: onFinish,
+                    //   ),
+                    // ],
                   ],
                 ),
               ),

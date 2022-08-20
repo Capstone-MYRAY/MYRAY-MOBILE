@@ -149,6 +149,20 @@ class JobPostRepository {
     return false;
   }
 
+  Future<bool> updateJobStartDate(
+      DateTime newJobStartDate, int jobPostId) async {
+    final response = await _apiProvider.put(
+        '/jobpost/startdate/$jobPostId', newJobStartDate.toIso8601String());
+
+    print(response.bodyString);
+
+    if (response.isOk) {
+      return true;
+    }
+
+    return false;
+  }
+
   Future<void> needFarmerToggle(int jobPostId) async {
     final response =
         await _apiProvider.patchMethod('/jobpost/switch/$jobPostId');

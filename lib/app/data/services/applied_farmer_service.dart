@@ -9,35 +9,35 @@ import 'package:myray_mobile/app/shared/utils/custom_exception.dart';
 import 'package:myray_mobile/app/shared/utils/utils.dart';
 import 'package:myray_mobile/app/shared/widgets/custom_snackbar.dart';
 import 'package:myray_mobile/app/shared/widgets/dialogs/custom_confirm_dialog.dart';
+import 'package:myray_mobile/app/shared/widgets/dialogs/information_dialog.dart';
 
 mixin AppliedFarmerService {
   final _appliedFarmerRepository = Get.find<AppliedFarmerRepository>();
-  // Future<bool> canApprove(JobPost jobPost) async {
-  //   if (Utils.equalsIgnoreCase(jobPost.type, JobType.payPerHourJob.name)) {
-  //     return true;
-  //   } //if job post is pay per hour job
-  //
-  //   final data = GetAppliedFarmerRequest(
-  //     page: 1.toString(),
-  //     pageSize: 1.toString(),
-  //     status: AppliedFarmerStatus.approved,
-  //     jobPostId: jobPost.id.toString(),
-  //   );
-  //
-  //   final appliedFarmers = await _appliedFarmerRepository.getAppliedByJob(data);
-  //   if (appliedFarmers == null || appliedFarmers.appliedFarmers == null) {
-  //     throw CustomException('Error');
-  //   }
-  //
-  //   if (appliedFarmers.appliedFarmers!.isEmpty) return true;
-  //
-  //   CustomSnackbar.show(
-  //     title: AppStrings.titleError,
-  //     message: 'Công việc này đã đủ người, không thể nhận thêm.',
-  //     backgroundColor: AppColors.errorColor,
-  //   );
-  //   return false;
-  // }
+  Future<bool> canEnd(JobPost jobPost) async {
+    if (Utils.equalsIgnoreCase(jobPost.type, JobType.payPerHourJob.name)) {
+      return true;
+    } //if job post is pay per hour job
+
+    final data = GetAppliedFarmerRequest(
+      page: 1.toString(),
+      pageSize: 1.toString(),
+      status: AppliedFarmerStatus.approved,
+      jobPostId: jobPost.id.toString(),
+    );
+
+    final appliedFarmers = await _appliedFarmerRepository.getAppliedByJob(data);
+    if (appliedFarmers == null || appliedFarmers.appliedFarmers == null) {
+      throw CustomException('Error');
+    }
+
+    if (appliedFarmers.appliedFarmers!.isEmpty) return true;
+
+    InformationDialog.showDialog(
+        msg:
+            'Bạn vẫn chưa xác nhận trả lương cho nông dân, không thể kết thúc công việc.');
+
+    return false;
+  }
 
   bool canApprove(JobPost jobPost) {
     if (jobPost.status == JobPostStatus.shortHanded.index) {

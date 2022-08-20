@@ -36,11 +36,13 @@ class PersonalInformation extends StatelessWidget {
                     style: Get.textTheme.headline6,
                   ),
                   const SizedBox(height: 16.0),
-                  CardFieldNoIcon(
-                    title: 'Số điện thoại',
-                    data: user.value.phoneNumber ?? '',
-                  ),
-                  const SizedBox(height: 24.0),
+                  if (user.value.roleId == 3) ...[
+                    CardFieldNoIcon(
+                      title: 'Số điện thoại',
+                      data: user.value.phoneNumber ?? '',
+                    ),
+                    const SizedBox(height: 24.0),
+                  ],
                   CardFieldNoIcon(
                     title: 'Ngày sinh',
                     data: dob,
@@ -51,11 +53,13 @@ class PersonalInformation extends StatelessWidget {
                     data: user.value.genderString,
                   ),
                   const SizedBox(height: 24.0),
-                  CardFieldNoIcon(
-                    title: 'Email',
-                    data: user.value.email ?? '',
-                  ),
-                  const SizedBox(height: 24.0),
+                  if (user.value.roleId == 3) ...[
+                    CardFieldNoIcon(
+                      title: 'Email',
+                      data: user.value.email ?? '',
+                    ),
+                    const SizedBox(height: 24.0),
+                  ],
                   CardFieldNoIcon(
                     title: 'Địa chỉ',
                     data: user.value.address ?? '',
