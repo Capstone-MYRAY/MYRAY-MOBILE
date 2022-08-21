@@ -52,6 +52,8 @@ class JobPostRepository {
     final response =
         await _apiProvider.getMethod('/jobpost', data: data.toJson());
 
+    print('Body: ${response.bodyString}');
+
     if (response.statusCode == HttpStatus.ok) {
       return LandownerGetJobPostResponse.fromJson(response.body);
     }
@@ -153,9 +155,8 @@ class JobPostRepository {
 
   Future<bool> updateJobStartDate(
       DateTime newJobStartDate, int jobPostId) async {
-    print('Date: ${newJobStartDate.toIso8601String()}');
-    final response = await _apiProvider.put(
-        '/jobpost/startdate/$jobPostId', newJobStartDate.toIso8601String());
+    final response = await _apiProvider.put('/jobpost/startdate/$jobPostId',
+        json.encode(newJobStartDate.toIso8601String()));
 
     print(response.bodyString);
 
@@ -164,6 +165,16 @@ class JobPostRepository {
     }
 
     return false;
+  }
+
+  Future<int> countAppliedFarmerWithApprovedAndEndStatus(int jobPostId) async {
+    final response =
+        await _apiProvider.getMethod('/jobpost/countall/$jobPostId');
+    if (response.isOk) {
+      return response.body;
+    }
+
+    return 0;
   }
 
   Future<void> needFarmerToggle(int jobPostId) async {

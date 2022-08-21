@@ -24,6 +24,7 @@ class AttendanceRepository {
 
   Future<Attendance?> checkAttendance(CheckAttendanceRequest data) async {
     final response = await _apiProvider.postMethod(_url, data.toJson());
+    print(response.bodyString);
     if (response.isOk) {
       return Attendance.fromJson(response.body);
     }

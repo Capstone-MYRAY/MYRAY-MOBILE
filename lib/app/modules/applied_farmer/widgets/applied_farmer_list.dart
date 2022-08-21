@@ -23,7 +23,10 @@ class AppliedFarmerList extends StatelessWidget {
           }
 
           if (snapshot.data == null) {
-            return ListEmptyBuilder(onRefresh: controller.onRefresh);
+            return ListEmptyBuilder(
+              onRefresh: controller.onRefresh,
+              msg: 'Không có yêu cầu nào',
+            );
           }
 
           if (snapshot.hasData) {

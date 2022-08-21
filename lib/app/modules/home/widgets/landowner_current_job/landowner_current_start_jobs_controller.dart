@@ -25,7 +25,7 @@ class LandownerCurrentStartJobsController extends GetxController {
       pageSize: (_pageSize).toString(),
       type: JobType.payPerHourJob.name,
       workStatus: JobPostWorkStatus.started.index.toString(),
-      sortColumn: JobPostSortColumn.publishedDate,
+      sortColumn: JobPostSortColumn.createdDate,
       orderBy: SortOrder.descending,
     );
 

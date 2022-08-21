@@ -31,8 +31,8 @@ enum GardenSortColumn {
 }
 
 enum JobPostSortColumn {
-  @JsonValue('PublishedDate')
-  publishedDate,
+  // @JsonValue('PublishedDate')
+  // publishedDate,
 
   @JsonValue('CreatedDate')
   createdDate,

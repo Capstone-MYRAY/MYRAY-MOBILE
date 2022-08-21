@@ -6,6 +6,7 @@ import 'package:myray_mobile/app/data/services/bookmark_service.dart';
 import 'package:myray_mobile/app/data/services/message_service.dart';
 import 'package:myray_mobile/app/modules/applied_farmer/controllers/applied_farmer_controller.dart';
 import 'package:myray_mobile/app/modules/job_post/controllers/landowner_job_post_controller.dart';
+import 'package:myray_mobile/app/modules/job_post/job_post_repository.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/utils/auth_credentials.dart';
 import 'package:myray_mobile/app/shared/utils/custom_exception.dart';
@@ -15,9 +16,23 @@ import 'package:myray_mobile/app/shared/widgets/dialogs/information_dialog.dart'
 class AppliedFarmerDetailsController extends GetxController
     with AppliedFarmerService, MessageService, BookmarkService {
   final Rx<AppliedFarmer> appliedFarmer;
+  final _jobPostRepository = Get.find<JobPostRepository>();
   var isBookmarked = false.obs;
+  var totalApprovedFarmer = 0.obs;
 
   AppliedFarmerDetailsController({required this.appliedFarmer});
+
+  Future<void> initData() async {
+    isBookmarked.value = await isBookMark(appliedFarmer.value.userInfo.id!);
+    await getTotalApprovedFarmer();
+  }
+
+  getTotalApprovedFarmer() async {
+    final totalFarmer =
+        await _jobPostRepository.countAppliedFarmerWithApprovedAndEndStatus(
+            appliedFarmer.value.jobPost.id);
+    totalApprovedFarmer.value = totalFarmer;
+  }
 
   void navigateToChatScreen() {
     final fromId = AuthCredentials.instance.user?.id ?? 0;
@@ -25,12 +40,13 @@ class AppliedFarmerDetailsController extends GetxController
     final jobPostId = appliedFarmer.value.jobPost.id;
     final toAvatar = appliedFarmer.value.userInfo.imageUrl;
     navigateToP2PMessageScreen(
-        fromId,
-        toId,
-        jobPostId,
-        appliedFarmer.value.userInfo.fullName ?? '',
-        appliedFarmer.value.jobPost.title,
-        toAvatar: toAvatar);
+      fromId,
+      toId,
+      jobPostId,
+      appliedFarmer.value.userInfo.fullName ?? '',
+      appliedFarmer.value.jobPost.title,
+      toAvatar: toAvatar,
+    );
   }
 
   onToggleBookmark() {
