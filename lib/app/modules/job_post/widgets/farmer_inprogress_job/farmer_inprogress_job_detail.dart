@@ -9,6 +9,7 @@ import 'package:myray_mobile/app/modules/job_post/widgets/farmer_inprogress_dial
 import 'package:myray_mobile/app/modules/job_post/widgets/farmer_inprogress_dialog/feedback_dialog.dart';
 import 'package:myray_mobile/app/modules/job_post/widgets/farmer_inprogress_dialog/onLeave_dialog.dart';
 import 'package:myray_mobile/app/modules/job_post/widgets/farmer_inprogress_dialog/report_dialog.dart';
+import 'package:myray_mobile/app/modules/job_post/widgets/farmer_inprogress_dialog/report_update_dialog.dart';
 import 'package:myray_mobile/app/shared/constants/app_colors.dart';
 import 'package:myray_mobile/app/shared/constants/app_strings.dart';
 import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
@@ -122,7 +123,7 @@ class FarmerInProgressJobDetail extends GetView<InprogressJobDetailController> {
                           SizedBox(
                             height: Get.height * 0.01,
                           ),
-                            SizedBox(
+                          SizedBox(
                             width: Get.width * 0.7,
                             child: Text.rich(
                               TextSpan(
@@ -285,7 +286,7 @@ class FarmerInProgressJobDetail extends GetView<InprogressJobDetailController> {
                         ? CardFunction(
                             title: AppStrings.buttonCheckAttendance,
                             icon: Icons.check_circle_outline,
-                            onTap: (){
+                            onTap: () {
                               controller.showAttendance(context);
                               // FarmerAttendanceDetailDialog.show(context);
                             },
@@ -369,6 +370,11 @@ class FarmerInProgressJobDetail extends GetView<InprogressJobDetailController> {
                         if (report != null) {
                           controller.reportContentController.text =
                               report.content;
+                          if (report.resolvedBy != null) {
+                            ReportUpdateDialog.show(
+                                newReport: report, title: 'Báo cáo');
+                            return;
+                          }
                           ReportDialog.show(
                             isResovled: report.status != 1,
                             isReported: true,
@@ -393,8 +399,7 @@ class FarmerInProgressJobDetail extends GetView<InprogressJobDetailController> {
                               controller.reportContentController,
                           validateReason: controller.validateReason,
                           submit: (_) {
-                            controller
-                                .onSubmitReportForm(controller.jobpost);
+                            controller.onSubmitReportForm(controller.jobpost);
                           },
                           closeDialog: controller.onCloseReportDialog,
                         );

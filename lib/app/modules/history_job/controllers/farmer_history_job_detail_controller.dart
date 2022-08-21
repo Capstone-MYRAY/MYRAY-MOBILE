@@ -175,37 +175,6 @@ class FarmerHistoryJobDetailController extends GetxController
     } on CustomException catch (e) {
       print('>>Report in history detail: ${e.message}');
     }
-
-    // GetReportRequest data = GetReportRequest(
-    //     jobPostId: jobPost.id.toString(),
-    //     createdBy: AuthCredentials.instance.user!.id.toString(),
-    //     page: "1",
-    //     pageSize: '20');
-    // GetReportResponse? report = await getReport(data);
-    // if (report != null && report.listObject != null) {
-    //   if (report.listObject!.isNotEmpty) {
-    //     currentReport = report.listObject?.first;
-
-    //     //reported
-    //     if (currentReport != null) {
-    //       reportContentController.text = currentReport.content;
-    //       isReported = true;
-    //     }
-    //   }
-    // }
-    if (currentReport != null) {
-      isResolved = currentReport.resolvedBy != null;
-    }
-    ReportDialog.show(
-      jobPostId: jobPost.id,
-      formKey: formKey,
-      reportContentController: reportContentController,
-      validateReason: validateReason,
-      submit: (_) => _onSubmitReport(currentReport),
-      closeDialog: _onCloseReportDialog,
-      isResovled: isResolved,
-      isReported: isReported,
-    );
   }
 
   _onCloseReportDialog() {
@@ -332,8 +301,13 @@ class FarmerHistoryJobDetailController extends GetxController
                 : 1.0);
         return;
       }
+      if(currentFeedback == null){
+        CustomInformationDialog.show(
+            title: 'Đánh giá', message: 'Đã hết hạn đánh giá');
+        return;
+      }
       FeedBackUpdateDialog.show(
-        newFeedBack: currentFeedback!,
+        newFeedBack: currentFeedback,
         title: 'Đánh giá'
       );
     } on CustomException catch (e) {
