@@ -43,6 +43,7 @@ class LandownerJobPostDetailsController extends GetxController
   var totalPostingFee = 0.0.obs;
   var totalPayingSalary = 0.0.obs;
   var isFindingFarmer = false.obs;
+  var totalApprovedFarmer = 0.obs;
 
   @override
   void onInit() {
@@ -51,6 +52,19 @@ class LandownerJobPostDetailsController extends GetxController
   }
 
   LandownerJobPostDetailsController({required this.jobPost});
+
+  Future<void> initData() async {
+    await getPaymentHistory();
+    await getTotalApprovedFarmer();
+  }
+
+  String get totalFarmerDisplay {
+    if (jobPost.value.isPayPerHourJob) {
+      return 'Số người đã nhận: ${totalApprovedFarmer.value}/${jobPost.value.payPerHourJob!.maxFarmer}';
+    } else {
+      return 'Số người đã nhận: ${totalApprovedFarmer.value}/1';
+    }
+  }
 
   updateFindingFarmerStatus() {
     isFindingFarmer.value =
@@ -63,6 +77,12 @@ class LandownerJobPostDetailsController extends GetxController
       Arguments.item: jobPost.value,
       Arguments.tag: Get.arguments[Arguments.tag],
     });
+  }
+
+  getTotalApprovedFarmer() async {
+    final totalFarmer = await _jobPostRepository
+        .countAppliedFarmerWithApprovedAndEndStatus(jobPost.value.id);
+    totalApprovedFarmer.value = totalFarmer;
   }
 
   updateJobPostStatus(int status) {
@@ -88,6 +108,14 @@ class LandownerJobPostDetailsController extends GetxController
 
       jobPost.value.jobStartDate = newJobStartDate;
       update([workInformation]);
+
+      //update job post in list
+      if (Get.previousRoute == Routes.init) {
+        _jobPostController.updateJobPosts(jobPost.value);
+      } else if (Get.previousRoute == Routes.landownerJobPostByType) {
+        final jobPostByTypeController = Get.find<JobPostByTypeController>();
+        jobPostByTypeController.updateJobPosts(jobPost.value);
+      }
 
       Get.back(); //close dialog
 
@@ -215,7 +243,7 @@ class LandownerJobPostDetailsController extends GetxController
     }
   }
 
-  Future<bool?> getPaymentHistory() async {
+  Future<void> getPaymentHistory() async {
     paymentHistories.clear();
     final int accountId = AuthCredentials.instance.user!.id!;
     final data = GetPaymentHistoryRequest(
@@ -228,7 +256,7 @@ class LandownerJobPostDetailsController extends GetxController
 
     final response = await _paymentHistoryRepository.getList(accountId, data);
     if (response == null || response.paymentHistories!.isEmpty) {
-      return null;
+      return;
     }
 
     double tempTotalPostingFee = 0;
@@ -243,7 +271,6 @@ class LandownerJobPostDetailsController extends GetxController
     await getExpense();
 
     update([paymentHistoryInformation]);
-    return true;
   }
 
   deleteJob() {
