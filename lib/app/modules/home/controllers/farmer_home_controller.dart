@@ -114,7 +114,7 @@ class FarmerHomeController extends GetxController
     //     'hasNextpage: $_hasNextpage; page: $_currentPage; page_size: $_pageSize; is loading value: ${isLoading.value}');
 
     GetRequestJobPostList data = GetRequestJobPostList(
-        status: "2",
+        // status: "2",
         page: (++_currentPage).toString(),
         pageSize: (_pageSize).toString(),
         sortColumn: JobPostSortColumn.createdDate,

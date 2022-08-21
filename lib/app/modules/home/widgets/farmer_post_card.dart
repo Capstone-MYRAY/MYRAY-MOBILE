@@ -293,6 +293,7 @@ class FarmerPostCard extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(left: 13),
                         child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const Icon(CustomIcons.tree_outline, size: 20),
                             const SizedBox(

@@ -23,6 +23,7 @@ import 'package:myray_mobile/app/shared/utils/auth_credentials.dart';
 import 'package:myray_mobile/app/shared/utils/custom_exception.dart';
 import 'package:myray_mobile/app/modules/job_post/widgets/farmer_inprogress_dialog/report_dialog.dart';
 import 'package:myray_mobile/app/shared/widgets/custom_snackbar.dart';
+import 'package:myray_mobile/app/shared/widgets/dialogs/custom_information.dialog.dart';
 
 class FarmerHistoryJobDetailController extends GetxController
     with BookmarkService, ReportService, FeedBackService {
@@ -36,7 +37,7 @@ class FarmerHistoryJobDetailController extends GetxController
   late bool isFired = appliedJob.value.status == 4;
   late RxDouble totalSalary = 0.0.obs;
   late RxBool isBookmark = false.obs;
-  late String? firedReason  = '';
+  late String? firedReason = '';
 
   late GlobalKey<FormState> formKey;
   late TextEditingController reportContentController;
@@ -126,37 +127,54 @@ class FarmerHistoryJobDetailController extends GetxController
     Report? currentReport;
     bool isReported = false;
     bool isResolved = false;
-    GetReportRequest data = GetReportRequest(
-        jobPostId: jobPost.id.toString(),
-        createdBy: AuthCredentials.instance.user!.id.toString(),
-        page: "1",
-        pageSize: '20');
-    GetReportResponse? report = await getReport(data);
-    if (report != null && report.listObject != null) {
-      if (report.listObject!.isNotEmpty) {
-        currentReport = report.listObject?.first;
 
-        if (!_canUpdate(jobPost.jobEndDate)) {
-          ReportUpdateDialog.show(newReport: currentReport!);
-          return;
+    try {
+      GetReportRequest data = GetReportRequest(
+          jobPostId: jobPost.id.toString(),
+          createdBy: AuthCredentials.instance.user!.id.toString(),
+          page: "1",
+          pageSize: '20');
+      GetReportResponse? report = await getReport(data);
+      if (_canUpdateOrCreate(jobPost.jobEndDate)) {
+        if (report != null && report.listObject != null) {
+          if (report.listObject!.isNotEmpty) {
+            currentReport = report.listObject?.first;
+
+            //reported
+            if (currentReport != null) {
+              reportContentController.text = currentReport.content;
+              isReported = true;
+              isResolved = currentReport.resolvedBy != null;
+              if (isResolved) {
+                ReportUpdateDialog.show(
+                  newReport: currentReport,
+                  title: 'Báo cáo'
+                );
+                return;
+              }
+            }
+            ReportDialog.show(
+              jobPostId: jobPost.id,
+              formKey: formKey,
+              reportContentController: reportContentController,
+              validateReason: validateReason,
+              submit: (_) => _onSubmitReport(currentReport),
+              closeDialog: _onCloseReportDialog,
+              isResovled: isResolved,
+              isReported: isReported,
+            );
+          }
         }
-        reportContentController.text = currentReport!.content;
-        isReported = true;
       }
+      if (currentReport == null) {
+        CustomInformationDialog.show(
+            title: 'Báo cáo', message: 'Đã hết hạn báo cáo');
+        return;
+      }
+      ReportUpdateDialog.show(newReport: currentReport);
+    } on CustomException catch (e) {
+      print('>>Report in history detail: ${e.message}');
     }
-    if (currentReport != null) {
-      isResolved = currentReport.resolvedBy != null;
-    }
-    ReportDialog.show(
-      jobPostId: jobPost.id,
-      formKey: formKey,
-      reportContentController: reportContentController,
-      validateReason: validateReason,
-      submit: (_) => _onSubmitReport(currentReport),
-      closeDialog: _onCloseReportDialog,
-      isResovled: isResolved,
-      isReported: isReported,
-    );
   }
 
   _onCloseReportDialog() {
@@ -240,10 +258,10 @@ class FarmerHistoryJobDetailController extends GetxController
     }
   }
 
-
   //end report
 
   //feedback
+
   onFeedback() async {
     FeedBack? currentFeedback;
     bool isFeedbacked = false;
@@ -256,33 +274,42 @@ class FarmerHistoryJobDetailController extends GetxController
         createdBy: AuthCredentials.instance.user!.id.toString());
     try {
       GetFeedBackResponse? feedBack = await getFeedback(data);
-      if (feedBack != null && feedBack.listobject != null) {
-        if (feedBack.listobject!.isNotEmpty) {
-          currentFeedback = feedBack.listobject?.first;
-          //hết hạn feedback: sau 3 ngày, kể từ ngày đăng ký
-          if (!_canUpdate(jobPost.jobEndDate)) {
-            FeedBackUpdateDialog.show(
-              newFeedBack: currentFeedback!,
-            );
-            return;
+      if (_canUpdateOrCreate(jobPost.jobEndDate)) {
+        if (feedBack != null && feedBack.listobject != null) {
+          if (feedBack.listobject!.isNotEmpty) {
+            currentFeedback = feedBack.listobject?.first;
+            //hết hạn feedback: sau 3 ngày, kể từ ngày đăng ký
+            if (currentFeedback != null) {
+              feedbackContentController.text = currentFeedback.content;
+              feedbackRatingController.text =
+                  currentFeedback.numStar.toString();
+              isFeedbacked = true;
+            }
           }
-
-          feedbackContentController.text = currentFeedback!.content;
-          feedbackRatingController.text = currentFeedback.numStar.toString();
-          isFeedbacked = true;
         }
+        FeedbackDialog.show(
+            jobPostId: jobPost.id,
+            formKey: formKey,
+            feedbackRatingController: feedbackRatingController,
+            feedbackContentController: feedbackContentController,
+            submit: (_) => _onSubmitFeedback(currentFeedback),
+            validateReason: validateReason,
+            closeDialog: _onCloseFeedbackDialog,
+            isFeedbacked: isFeedbacked,
+            initialRating: currentFeedback != null
+                ? (currentFeedback.numStar + 0.0)
+                : 1.0);
+        return;
       }
-      FeedbackDialog.show(
-          jobPostId: jobPost.id,
-          formKey: formKey,
-          feedbackRatingController: feedbackRatingController,
-          feedbackContentController: feedbackContentController,
-          submit: (_) => _onSubmitFeedback(currentFeedback),
-          validateReason: validateReason,
-          closeDialog: _onCloseFeedbackDialog,
-          isFeedbacked: isFeedbacked,
-          initialRating:
-              currentFeedback != null ? (currentFeedback.numStar + 0.0) : 1.0);
+      if(currentFeedback == null){
+        CustomInformationDialog.show(
+            title: 'Đánh giá', message: 'Đã hết hạn đánh giá');
+        return;
+      }
+      FeedBackUpdateDialog.show(
+        newFeedBack: currentFeedback,
+        title: 'Đánh giá'
+      );
     } on CustomException catch (e) {
       print('error in Feedback: $e');
     }
@@ -384,7 +411,7 @@ class FarmerHistoryJobDetailController extends GetxController
   }
   //end feedback
 
-  _canUpdate(DateTime? endDate) {
+  _canUpdateOrCreate(DateTime? endDate) {
     return endDate == null ||
         DateTime.now().isBefore(endDate
             .add(const Duration(days: CommonConstants.dayCanEditFeedback)));
