@@ -51,11 +51,14 @@ class UpdateJobStartDateDialog {
               inputAction: TextInputAction.next,
               readOnly: true,
               onTap: () async {
+                DateTime now = DateUtils.dateOnly(DateTime.now());
+                DateTime initDate = selectedDate != null
+                    ? selectedDate!
+                    : currentStartDate.toLocal();
                 DateTime? selected = await MyDatePicker.show(
-                  firstDate: currentStartDate.toLocal(),
-                  lastDate:
-                      currentStartDate.toLocal().add(const Duration(days: 30)),
-                  initDate: currentStartDate.toLocal(),
+                  firstDate: now.add(const Duration(days: 1)),
+                  lastDate: now.toLocal().add(const Duration(days: 30)),
+                  initDate: initDate,
                 );
 
                 if (selected != null) {

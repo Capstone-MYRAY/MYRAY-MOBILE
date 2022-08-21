@@ -68,7 +68,6 @@ Map<String, dynamic> _$GetRequestJobPostListToJson(
 }
 
 const _$JobPostSortColumnEnumMap = {
-  JobPostSortColumn.publishedDate: 'PublishedDate',
   JobPostSortColumn.createdDate: 'CreatedDate',
   JobPostSortColumn.approvedDate: 'ApprovedDate',
 };

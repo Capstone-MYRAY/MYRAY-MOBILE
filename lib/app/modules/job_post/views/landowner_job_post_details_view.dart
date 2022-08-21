@@ -71,7 +71,7 @@ class LandownerJobPostDetailsView
         title: const Text(AppStrings.titleJobPostDetail),
       ),
       body: FutureBuilder(
-          future: controller.getPaymentHistory(),
+          future: controller.initData(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const MyLoadingBuilder();
@@ -86,6 +86,18 @@ class LandownerJobPostDetailsView
               padding: const EdgeInsets.only(bottom: 16.0),
               children: [
                 _buildPostInfo(),
+                Container(
+                  margin: EdgeInsets.only(
+                    top: 16.0,
+                    left: Get.width * 0.05,
+                    right: Get.width * 0.05,
+                  ),
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    controller.totalFarmerDisplay,
+                    style: Get.textTheme.bodyText1,
+                  ),
+                ),
                 _buildPostInformation(),
                 _buildWorkInformation(),
                 _buildWorkPlaceInformation(),

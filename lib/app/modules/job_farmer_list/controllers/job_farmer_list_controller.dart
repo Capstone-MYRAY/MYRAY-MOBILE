@@ -7,7 +7,6 @@ import 'package:myray_mobile/app/data/enums/enums.dart';
 import 'package:myray_mobile/app/data/models/applied_farmer/applied_farmer_models.dart';
 import 'package:myray_mobile/app/data/models/attendance/attendance_models.dart';
 import 'package:myray_mobile/app/data/models/filter_object.dart';
-import 'package:myray_mobile/app/data/models/job_post/pay_per_hour_job/pay_per_hour_job.dart';
 import 'package:myray_mobile/app/data/models/upload_file/upload_file_models.dart';
 import 'package:myray_mobile/app/data/services/services.dart';
 import 'package:myray_mobile/app/modules/applied_farmer/applied_farmer_repository.dart';
@@ -158,7 +157,7 @@ class JobFarmerListController extends GetxController {
       try {
         final confirmed = await CustomDialog.show(
           message:
-              'Bạn muốn hoàn thành công việc cho ${appliedFarmer.userInfo.fullName}',
+              'Bạn muốn hoàn thành công việc cho ${appliedFarmer.userInfo.fullName}?',
           confirm: () => Get.back(result: true),
         );
 
