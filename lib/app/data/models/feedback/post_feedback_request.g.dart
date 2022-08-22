@@ -9,7 +9,7 @@ part of 'post_feedback_request.dart';
 PostFeedbackRequest _$PostFeedbackRequestFromJson(Map<String, dynamic> json) =>
     PostFeedbackRequest(
       content: json['content'] as String,
-      numStar: json['num_star'] as int,
+      numStar: json['num_star'] as num,
       jobPostId: json['job_post_id'] as int,
       belongedId: json['belonged_id'] as int,
     );
