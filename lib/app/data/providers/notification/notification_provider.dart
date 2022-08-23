@@ -49,6 +49,12 @@ class NotificationProvider {
       return Future.error('Notification service was denied');
     }
 
+    FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
+
     _handleTerminateMessage();
     _handleForegroundMessage();
     _handleOnTapMessage();
@@ -91,35 +97,35 @@ class NotificationProvider {
         _serviceDelegate =
             _service.serviceDelegate(message.data['type'] ?? '', message.data);
 
-        // LocalNotificationService.display(message);
+        LocalNotificationService.display(message);
 
-        Get.snackbar(
-          message.notification!.title ?? '',
-          message.notification!.body ?? '',
-          icon: Container(
-              margin: const EdgeInsets.symmetric(
-                vertical: 8.0,
-                horizontal: 12.0,
-              ),
-              child: Image.asset(AppAssets.logo, width: 24.0)),
-          backgroundColor: AppColors.white,
-          colorText: AppColors.black,
-          borderRadius: 0.0,
-          snackPosition: SnackPosition.TOP,
-          duration: const Duration(seconds: 5),
-          dismissDirection: DismissDirection.up,
-          maxWidth: double.infinity,
-          margin: EdgeInsets.zero,
-          mainButton: _serviceDelegate == null
-              ? null
-              : TextButton(
-                  onPressed: () {
-                    _serviceDelegate!();
-                    Get.closeCurrentSnackbar();
-                  },
-                  child: const Text('Chi tiết'),
-                ),
-        );
+        // Get.snackbar(
+        //   message.notification!.title ?? '',
+        //   message.notification!.body ?? '',
+        //   icon: Container(
+        //       margin: const EdgeInsets.symmetric(
+        //         vertical: 8.0,
+        //         horizontal: 12.0,
+        //       ),
+        //       child: Image.asset(AppAssets.logo, width: 24.0)),
+        //   backgroundColor: AppColors.white,
+        //   colorText: AppColors.black,
+        //   borderRadius: 0.0,
+        //   snackPosition: SnackPosition.TOP,
+        //   duration: const Duration(seconds: 5),
+        //   dismissDirection: DismissDirection.up,
+        //   maxWidth: double.infinity,
+        //   margin: EdgeInsets.zero,
+        //   mainButton: _serviceDelegate == null
+        //       ? null
+        //       : TextButton(
+        //           onPressed: () {
+        //             _serviceDelegate!();
+        //             Get.closeCurrentSnackbar();
+        //           },
+        //           child: const Text('Chi tiết'),
+        //         ),
+        // );
 
         _service.updateData(message.data['type'] ?? '', message.data);
       }

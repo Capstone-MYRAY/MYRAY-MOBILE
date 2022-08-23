@@ -14,8 +14,20 @@ class LocalNotificationService {
       android: AndroidInitializationSettings('@mipmap/ic_logo'),
     );
 
+    const channel = AndroidNotificationChannel(
+      'myray', // id
+      'Notification', // title// description
+      importance: Importance.max,
+      enableVibration: true,
+    );
+
     await _notificationsPlugin.initialize(initializationSettings,
         onSelectNotification: _onSelectNotification);
+
+    await _notificationsPlugin
+        .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>()
+        ?.createNotificationChannel(channel);
   }
 
   static void _onSelectNotification(String? payload) {
@@ -43,15 +55,17 @@ class LocalNotificationService {
       String payload = jsonEncode(message.data);
 
       const notificationDetails = NotificationDetails(
-          android: AndroidNotificationDetails(
-        'myray',
-        'MyRay Channel',
-        importance: Importance.max,
-        priority: Priority.high,
-        icon: '@mipmap/ic_logo',
-        autoCancel: true,
-        channelShowBadge: true,
-      ));
+        android: AndroidNotificationDetails(
+          'myray',
+          'Notification',
+          importance: Importance.max,
+          priority: Priority.high,
+          icon: '@mipmap/ic_logo',
+          autoCancel: true,
+          channelShowBadge: true,
+        ),
+        iOS: IOSNotificationDetails(),
+      );
 
       _notificationsPlugin.show(
         id,

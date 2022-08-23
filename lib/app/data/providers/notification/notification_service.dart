@@ -10,8 +10,6 @@ import 'package:myray_mobile/app/modules/applied_job/controllers/applied_job_con
 import 'package:myray_mobile/app/modules/attendance/controllers/farmer_attendance_controller.dart';
 import 'package:myray_mobile/app/modules/dashboard/controllers/dashboard_controller.dart';
 import 'package:myray_mobile/app/modules/history_job/controllers/history_applied_job_controller.dart';
-import 'package:myray_mobile/app/modules/job_post/controllers/farmer_inprogress_job_controller.dart';
-import 'package:myray_mobile/app/modules/job_post/controllers/farmer_job_post_controller.dart';
 import 'package:myray_mobile/app/modules/job_post/controllers/landowner_job_post_controller.dart';
 import 'package:myray_mobile/app/modules/job_post/job_post_repository.dart';
 import 'package:myray_mobile/app/modules/payment_history/payment_history_repository.dart';
@@ -33,6 +31,9 @@ class NotificationService {
     if (Utils.equalsIgnoreCase(type, NotificationTypes.topUp.name)) {
       final profile = Get.find<LandownerProfileController>();
       profile.getUserInfo();
+      if (Get.isDialogOpen != null && Get.isDialogOpen!) {
+        Get.back();
+      }
     } else if (Utils.equalsIgnoreCase(type, NotificationTypes.jobPost.name)) {
       final jobPostController = Get.find<LandownerJobPostController>();
       jobPostController.onRefresh();

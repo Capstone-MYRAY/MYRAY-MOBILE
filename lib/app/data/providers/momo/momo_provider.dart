@@ -33,10 +33,12 @@ class MomoProvider extends GetConnect {
     required String ipnUrl,
     required requestType,
     required redirectUrl,
-    required Map<String, String> extraData,
+    // required Map<String, String> extraData,
+    required String extraData,
   }) async {
     String id = _momoOrderId;
-    String encodedExtraData = base64Convert.encode(json.encode(extraData));
+    // String encodedExtraData = base64Convert.encode(json.encode(extraData));
+    String encodedExtraData = base64Convert.encode(extraData);
     final params = MomoPaymentRequest(
       partnerCode: Environment.momoPartnerCode,
       requestId: id,
@@ -59,14 +61,14 @@ class MomoProvider extends GetConnect {
       requestType: requestType,
     );
 
-    String token = AuthCredentials.instance.getToken() ?? '';
     try {
       final response = await post(
         _url,
         params.toJson(),
         contentType: 'application/json; charset=utf-8',
-        headers: {'Authorization': 'Bearer $token'},
       );
+
+      print(response.bodyString);
 
       if (response.isOk) {
         final result = MomoPaymentResponse.fromJson(response.body);
@@ -103,14 +105,15 @@ class MomoProvider extends GetConnect {
         });
         webView.launch(result.payUrl);
         webView.resize(_buildRect());
+      } else {
+        throw Exception('Lỗi Momo');
       }
     } catch (e) {
-      Future.delayed(const Duration(seconds: 500))
-          .then((value) => CustomSnackbar.show(
-                title: AppStrings.titleError,
-                message: 'Nạp tiền thất bại',
-                backgroundColor: AppColors.errorColor,
-              ));
+      CustomSnackbar.show(
+        title: AppStrings.titleError,
+        message: 'Có lỗi xảy ra',
+        backgroundColor: AppColors.errorColor,
+      );
     }
   }
 

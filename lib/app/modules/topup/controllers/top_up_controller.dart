@@ -28,14 +28,16 @@ class TopUpController extends GetxController {
     if (!formKey.currentState!.validate()) return;
     int amount = topUpMoneyController.numberValue.toInt();
     final accountId = AuthCredentials.instance.user!.id;
+    print('Top up');
     try {
       MomoProvider.instance.createPayment(
         amount: amount,
         orderInfo: 'Nạp tiền vào tài khoản MYRAY',
-        ipnUrl: '${Environment.apiUrl}/account/topup',
+        ipnUrl: '${Environment.apiUrl}/account/ipn',
         redirectUrl: 'myray://paymentResult',
         requestType: MomoRequestType.captureWallet.name,
-        extraData: {'accountId': accountId.toString()},
+        // extraData: {'accountId': accountId.toString()},
+        extraData: accountId.toString(),
       );
     } catch (e) {
       CustomSnackbar.show(
@@ -48,7 +50,7 @@ class TopUpController extends GetxController {
 
   String? validateTopUpMoney(String? value) {
     if (Utils.isEmpty(value)) {
-      return AppMsg.MSG0002;
+      return 'Vui lòng nhập số tiền';
     }
 
     if (topUpMoneyController.numberValue <= 0) {

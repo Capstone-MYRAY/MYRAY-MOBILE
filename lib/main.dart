@@ -10,6 +10,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:myray_mobile/app/data/providers/momo/deep_link_handler.dart';
 import 'package:myray_mobile/app/data/providers/notification/local_notification_service.dart';
 import 'package:myray_mobile/app/data/providers/notification/notification_provider.dart';
+import 'package:myray_mobile/app/data/providers/notification/notification_service.dart';
 import 'package:myray_mobile/app/shared/utils/user_current_location.dart';
 import 'package:myray_mobile/app_binding.dart';
 import 'package:myray_mobile/app/routes/app_pages.dart';
@@ -34,11 +35,11 @@ Future<void> handleBackgroundMessage(RemoteMessage message) async {
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-  // await LocalNotificationService.initialize();
   await Firebase.initializeApp();
   await GetStorage.init(CommonConstants.appName);
 
   await FlutterConfig.loadEnvVariables();
+  await LocalNotificationService.initialize();
   await NotificationProvider.instance.initialize();
   FirebaseMessaging.onBackgroundMessage(handleBackgroundMessage);
 
@@ -47,7 +48,7 @@ void main() async {
   ));
   await CurrentLocation.instance.saveUserCurrentLocation();
 
-  DeepLinkHandler.init();
+  // DeepLinkHandler.init();
 
   runApp(const MyApp());
   configLoading();
