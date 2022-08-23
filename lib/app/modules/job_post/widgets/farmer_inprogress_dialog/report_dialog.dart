@@ -21,7 +21,7 @@ class ReportDialog {
     void Function()? delete,
   }) {
     return CustomFormDialog.showDialog(
-        title: 'Báo cáo',
+        title: isReported ? 'Cập nhật báo cáo': 'Báo cáo',
         formKey: formKey,
         contentPadding: const EdgeInsets.only(left: 10, right: 10),
         textFields: [

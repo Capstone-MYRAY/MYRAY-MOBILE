@@ -147,9 +147,7 @@ class FarmerHistoryJobDetailController extends GetxController
               isResolved = currentReport.resolvedBy != null;
               if (isResolved) {
                 ReportUpdateDialog.show(
-                  newReport: currentReport,
-                  title: 'Báo cáo'
-                );
+                    newReport: currentReport, title: 'Báo cáo');
                 return;
               }
             }
@@ -231,6 +229,7 @@ class FarmerHistoryJobDetailController extends GetxController
       return;
     }
     EasyLoading.show();
+    _onCloseReportDialog();
 
     try {
       PostReportRequest data = PostReportRequest(
@@ -301,15 +300,13 @@ class FarmerHistoryJobDetailController extends GetxController
                 : 1.0);
         return;
       }
-      if(currentFeedback == null){
+      if (currentFeedback == null) {
         CustomInformationDialog.show(
             title: 'Đánh giá', message: 'Đã hết hạn đánh giá');
         return;
       }
       FeedBackUpdateDialog.show(
-        newFeedBack: currentFeedback,
-        title: 'Đánh giá'
-      );
+          newFeedBack: currentFeedback, title: 'Đánh giá');
     } on CustomException catch (e) {
       print('error in Feedback: $e');
     }
@@ -380,6 +377,7 @@ class FarmerHistoryJobDetailController extends GetxController
     try {
       FeedBack? feedback = await sendFeedBack(data);
       EasyLoading.show();
+      _onCloseFeedbackDialog();
 
       if (feedback != null) {
         Future.delayed(const Duration(milliseconds: 1000), () {

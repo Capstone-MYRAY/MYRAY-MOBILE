@@ -301,10 +301,12 @@ class InprogressJobDetailController extends GetxController {
     bool isFormValid = formKey.currentState!.validate();
 
     if (isFormValid) {
+      String ratingFeedback = feedbackRatingController.text;
+      print('>>feed: $ratingFeedback');
       PostFeedbackRequest data = PostFeedbackRequest(
         content: feedbackContentController.text,
-        numStar: feedbackRatingController.text != '5'
-            ? int.parse(feedbackRatingController.text)
+        numStar: feedbackRatingController.text != '5' || ratingFeedback == ''
+            ? int.parse(ratingFeedback)
             : 5,
         jobPostId: jobPostId,
         belongedId: AuthCredentials.instance.user!.id!,
@@ -313,14 +315,15 @@ class InprogressJobDetailController extends GetxController {
       try {
         FeedBack? feedback = await feedBackController.sendFeedBack(data);
         EasyLoading.show();
+      
 
         if (feedback != null) {
           Future.delayed(const Duration(milliseconds: 1000), () {
             EasyLoading.dismiss();
+            onCloseFeedBackDialog();
             CustomSnackbar.show(
                 title: "Thành công", message: "Gửi đánh giá thành công");
           });
-
           return;
         }
 
