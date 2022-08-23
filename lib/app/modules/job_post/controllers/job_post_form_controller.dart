@@ -250,7 +250,7 @@ class JobPostFormController extends GetxController {
                 ),
               ),
               const TextSpan(
-                text: ' không đủ thực hiện giao dịch.',
+                text: ' không đủ để tạo bài đăng.',
               ),
             ],
           ),

@@ -143,7 +143,7 @@ class JobPostAttendanceController extends GetxController {
   onAbsent(Account farmer) async {
     final isConfirmed = await CustomDialog.show(
         confirm: () => Get.back(result: true),
-        message: 'Bạn có chắc muốn đánh vắng ${farmer.fullName}?');
+        message: 'Bạn muốn đánh vắng ${farmer.fullName}?');
 
     if (isConfirmed == null || !isConfirmed) return;
 

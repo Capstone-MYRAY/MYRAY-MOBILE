@@ -52,8 +52,6 @@ class JobPostRepository {
     final response =
         await _apiProvider.getMethod('/jobpost', data: data.toJson());
 
-    print('Body: ${response.bodyString}');
-
     if (response.statusCode == HttpStatus.ok) {
       return LandownerGetJobPostResponse.fromJson(response.body);
     }
@@ -157,8 +155,6 @@ class JobPostRepository {
       DateTime newJobStartDate, int jobPostId) async {
     final response = await _apiProvider.put('/jobpost/startdate/$jobPostId',
         json.encode(newJobStartDate.toIso8601String()));
-
-    print(response.bodyString);
 
     if (response.isOk) {
       return true;
