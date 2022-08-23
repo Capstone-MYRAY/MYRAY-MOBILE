@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:myray_mobile/app/data/models/account.dart';
 import 'package:myray_mobile/app/data/models/attendance/attendance.dart';
 import 'package:myray_mobile/app/data/models/attendance/farmer_post_attendance_request.dart';
 import 'package:myray_mobile/app/data/models/attendance/get_attendance_by_date_request.dart';
@@ -18,12 +19,14 @@ import 'package:myray_mobile/app/data/models/report/get_report_response.dart';
 import 'package:myray_mobile/app/data/models/report/post_report_request.dart';
 import 'package:myray_mobile/app/data/models/report/put_update_report_request.dart';
 import 'package:myray_mobile/app/data/models/report/report.dart';
+import 'package:myray_mobile/app/data/services/message_service.dart';
 import 'package:myray_mobile/app/modules/applied_job/applied_job_repository.dart';
 import 'package:myray_mobile/app/modules/attendance/attendance_repository.dart';
 import 'package:myray_mobile/app/modules/attendance/widgets/farmer_attendance_detail_dialog.dart';
 import 'package:myray_mobile/app/modules/feedback/controllers/feedback_controller.dart';
 import 'package:myray_mobile/app/modules/job_post/widgets/farmer_inprogress_dialog/feedback_update_dialog.dart';
 import 'package:myray_mobile/app/modules/job_post/widgets/farmer_inprogress_dialog/report_update_dialog.dart';
+import 'package:myray_mobile/app/modules/profile/profile_repository.dart';
 import 'package:myray_mobile/app/modules/report/report_repository.dart';
 import 'package:myray_mobile/app/shared/constants/app_colors.dart';
 import 'package:myray_mobile/app/shared/utils/auth_credentials.dart';
@@ -33,7 +36,7 @@ import 'package:myray_mobile/app/shared/widgets/controls/my_date_picker.dart';
 import 'package:myray_mobile/app/shared/widgets/custom_snackbar.dart';
 import 'package:myray_mobile/app/shared/widgets/dialogs/custom_information.dialog.dart';
 
-class InprogressJobDetailController extends GetxController {
+class InprogressJobDetailController extends GetxController with MessageService, ProfileRepository{
   final JobPost jobpost;
   FeedBackController feedBackController = Get.find<FeedBackController>();
   final _appliedRepository = Get.find<AppliedJobRepository>();
@@ -58,6 +61,7 @@ class InprogressJobDetailController extends GetxController {
   late TextEditingController feedbackContentController;
   late TextEditingController feedbackRatingController;
 
+
   @override
   void onInit() async {
     formKey = GlobalKey<FormState>();
@@ -72,6 +76,8 @@ class InprogressJobDetailController extends GetxController {
 
     feedbackContentController = TextEditingController();
     feedbackRatingController = TextEditingController();
+
+    _getLanownerAccount(jobpost.publishedBy);
     super.onInit();
   }
 
@@ -505,4 +511,33 @@ class InprogressJobDetailController extends GetxController {
   Future<Report?> _updateReport(PutUpdateReportRequest data) async {
     return await _reportRepository.updateReport(data);
   }
+
+  //Chat
+  Account? landownerAccount;
+  _getLanownerAccount(int landownerId) async {
+    await getUser(landownerId).then(
+          (value) => {
+            if (value != null)
+              {
+                landownerAccount = value,
+              },
+          },
+        );
+  }
+  void navigateToChatScreen() {
+    print('Im here');
+    final fromId = AuthCredentials.instance.user?.id ?? 0;
+    final toId = jobpost.publishedBy;
+    final jobPostId = jobpost.id;
+
+    navigateToP2PMessageScreen(
+      fromId,
+      toId,
+      jobPostId,
+      jobpost.publishedName ?? 'Chủ rẫy',
+      jobpost.title,
+      toAvatar: landownerAccount?.imageUrl,
+    );
+  }
+
 }
