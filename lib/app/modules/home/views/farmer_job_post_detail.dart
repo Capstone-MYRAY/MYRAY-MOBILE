@@ -113,7 +113,7 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
 
           if (snapshot.hasData) {
             controller.detailPost = snapshot.data!.obs;
-            return detailList(controller.isApplied.value,context);
+            return detailList(controller.isApplied.value, context);
           }
 
           return const SizedBox();
@@ -126,12 +126,11 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
       CustomScrollView(slivers: [
         SliverPersistentHeader(
           delegate: CustomSliverAppBarDelegate(
-            expandedHeight: Get.height * 0.25,
-            heightOfScreen: Get.height * 0.35,
-            titleFloatingCard: controller.jobPost.title,
-            isChangedState: isChangedState,
-            imageList: controller.jobPost.gardenImageList
-          ),
+              expandedHeight: Get.height * 0.25,
+              heightOfScreen: Get.height * 0.35,
+              titleFloatingCard: controller.jobPost.title,
+              isChangedState: isChangedState,
+              imageList: controller.jobPost.gardenImageList),
         ),
         _buildLandownerCard(context),
         _buildCardInfoJjob(),
@@ -200,14 +199,13 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
                         width: Get.width * 0.03,
                       ),
                       Text(
-                          controller.landownerAccount != null
-                              ? controller.landownerAccount!.value.fullName!
-                              : "Tên chủ rẫy đang cập nhật",
-                          style: TextStyle(
-                            fontSize: Get.textScaleFactor * 15,
-                          ),
+                        controller.landownerAccount != null
+                            ? controller.landownerAccount!.value.fullName!
+                            : "Tên chủ rẫy đang cập nhật",
+                        style: TextStyle(
+                          fontSize: Get.textScaleFactor * 15,
                         ),
-                    
+                      ),
                     ],
                   ),
                   const SizedBox(
@@ -305,7 +303,8 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Làm việc với cây:", style: Get.textTheme.bodyText1),
+                      Text('${AppStrings.labelTreeType}:',
+                          style: Get.textTheme.bodyText1),
                       const SizedBox(
                         width: 6,
                       ),
@@ -358,8 +357,9 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
                             ? "${Utils.vietnameseCurrencyFormat.format(controller.jobPost.payPerHourJob!.salary)} /công"
                             : "${Utils.vietnameseCurrencyFormat.format(controller.jobPost.payPerTaskJob!.salary)} ",
                         style: TextStyle(
-                          fontSize: Get.textScaleFactor * 15,
-                        ),
+                            fontSize: Get.textScaleFactor * 15,
+                            color: AppColors.primaryColor,
+                            fontWeight: FontWeight.w700),
                       ),
                     ],
                   ),
@@ -377,9 +377,8 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
                         DateFormat('dd-MM-yyyy')
                             .format(controller.jobPost.jobStartDate.toLocal()),
                         style: TextStyle(
-                            fontSize: Get.textScaleFactor * 15,
-                            color: AppColors.primaryColor,
-                            fontWeight: FontWeight.w700),
+                          fontSize: Get.textScaleFactor * 15,
+                        ),
                       ),
                     ],
                   ),

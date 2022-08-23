@@ -14,6 +14,7 @@ import 'package:myray_mobile/app/shared/constants/app_colors.dart';
 import 'package:myray_mobile/app/shared/constants/app_strings.dart';
 import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
 import 'package:myray_mobile/app/shared/utils/utils.dart';
+import 'package:myray_mobile/app/shared/widgets/buttons/custom_outline_button.dart';
 
 // ignore: must_be_immutable
 class FarmerInProgressJobDetail extends GetView<InprogressJobDetailController> {
@@ -41,6 +42,14 @@ class FarmerInProgressJobDetail extends GetView<InprogressJobDetailController> {
           backgroundColor: Colors.amber[200],
           elevation: 0,
         ),
+        floatingActionButton: FloatingActionButton.extended(
+          backgroundColor: AppColors.primaryColor,
+          foregroundColor: AppColors.white,
+          onPressed:controller.navigateToChatScreen,
+          icon: const Icon(CustomIcons.chat),
+          label: const Text(AppStrings.messageButton),
+        ),
+
         body: FutureBuilder(
             //get job post
             builder: (context, snapshot) {
