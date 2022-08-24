@@ -119,15 +119,16 @@ class UpdateProfileView extends GetView<UpdateProfileController> {
       ),
       const SizedBox(height: 8.0),
       _buildGender(),
-      InputField(
-        controller: controller.descriptionController,
-        icon: const Icon(CustomIcons.content_paste),
-        labelText: AppStrings.labelDescription,
-        placeholder: AppStrings.placeholderDescription,
-        minLines: 1,
-        maxLines: 10,
-        keyBoardType: TextInputType.multiline,
-      ),
+      if (!controller.user.isLandowner)
+        InputField(
+          controller: controller.descriptionController,
+          icon: const Icon(CustomIcons.content_paste),
+          labelText: AppStrings.labelDescription,
+          placeholder: AppStrings.placeholderDescription,
+          minLines: 1,
+          maxLines: 10,
+          keyBoardType: TextInputType.multiline,
+        ),
     ];
   }
 

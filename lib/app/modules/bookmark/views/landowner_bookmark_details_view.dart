@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:myray_mobile/app/modules/bookmark/controllers/landowner_bookmark_details_controller.dart';
+import 'package:myray_mobile/app/modules/feedback/widgets/feedback_bottom_sheet/feedback_list_bottom_sheet.dart';
 import 'package:myray_mobile/app/shared/widgets/farmer_details/farmer_details.dart';
 import 'package:myray_mobile/app/shared/widgets/farmer_details/farmer_details_appbar.dart';
 
@@ -30,6 +31,9 @@ class LandownerBookmarkDetailsView
                   avatar: controller.user.imageUrl,
                   role: controller.user.roleName,
                   user: Rx(controller.user),
+                  onRatingDetails: () {
+                    FeedbackListBottomSheet.show(controller.user.id!);
+                  },
                 ),
               ),
             ],

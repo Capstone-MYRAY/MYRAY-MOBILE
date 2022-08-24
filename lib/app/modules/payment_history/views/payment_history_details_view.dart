@@ -23,7 +23,12 @@ class PaymentHistoryDetailsView
 
   PaymentHistory get payment => controller.paymentHistory.value;
 
-  bool get isMe => payment.createdBy == AuthCredentials.instance.user!.id;
+  bool get isMe {
+    bool isHaveTotalPinDate =
+        payment.totalPinDay != null && payment.totalPinDay != 0;
+    bool isHaveUsedPoint = payment.usedPoint != null && payment.usedPoint != 0;
+    return isHaveTotalPinDate || isHaveUsedPoint;
+  }
 
   Activities? get _action => Get.arguments[Arguments.action];
 
@@ -43,6 +48,7 @@ class PaymentHistoryDetailsView
         child: Column(
           children: [
             _buildAboveCard(),
+            //TODO: fix display
             if (isMe) ...[
               PaymentDetailsInfoCard(
                 title: AppStrings.titlePaymentHistoryDetails,

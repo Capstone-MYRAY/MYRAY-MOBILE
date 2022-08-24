@@ -1,11 +1,9 @@
-
 import 'package:json_annotation/json_annotation.dart';
 import 'package:myray_mobile/app/data/enums/enums.dart';
 part 'get_feedback_request.g.dart';
 
 @JsonSerializable(includeIfNull: false)
 class GetFeedbackRequest {
-
   @JsonKey(name: 'numStar')
   String? numStar;
 
@@ -21,6 +19,9 @@ class GetFeedbackRequest {
   @JsonKey(name: 'order-by')
   SortOrder? orderBy;
 
+  @JsonKey(name: 'belongedId')
+  int? belongedId;
+
   @JsonKey(name: 'page')
   String? page;
 
@@ -31,12 +32,14 @@ class GetFeedbackRequest {
     this.numStar,
     this.jobPostId,
     this.createdBy,
+    this.belongedId,
     this.sortColumn,
     this.orderBy,
     this.page,
-    this.pageSize
+    this.pageSize,
   });
 
-  factory GetFeedbackRequest.fromJson(Map<String, dynamic> json) => _$GetFeedbackRequestFromJson(json);
+  factory GetFeedbackRequest.fromJson(Map<String, dynamic> json) =>
+      _$GetFeedbackRequestFromJson(json);
   Map<String, dynamic> toJson() => _$GetFeedbackRequestToJson(this);
 }

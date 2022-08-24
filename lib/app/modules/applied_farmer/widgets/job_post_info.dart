@@ -39,10 +39,13 @@ class JobPostInfo extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Text(
-            'Thông tin bài đăng',
-            textAlign: TextAlign.start,
-            style: Get.textTheme.headline6,
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              'Thông tin bài đăng',
+              textAlign: TextAlign.start,
+              style: Get.textTheme.headline6,
+            ),
           ),
           const SizedBox(height: 16.0),
           CardField(
@@ -69,22 +72,25 @@ class JobPostInfo extends StatelessWidget {
             icon: CustomIcons.sprout_outline,
           ),
           const SizedBox(height: 8.0),
-          RichText(
-            textScaleFactor: Get.textScaleFactor,
-            text: TextSpan(
-              style: Get.textTheme.bodyText1,
-              text: 'Số người đã nhận: ',
-              children: <TextSpan>[
-                TextSpan(
-                  text: '$approvedFarmer/${maxFarmer ?? 1}',
-                  style: Get.textTheme.bodyText1!.copyWith(
-                    color: totalColor,
-                    fontWeight: FontWeight.w700,
+          Align(
+            alignment: Alignment.centerRight,
+            child: RichText(
+              textScaleFactor: Get.textScaleFactor,
+              text: TextSpan(
+                style: Get.textTheme.bodyText1,
+                text: 'Số người đã nhận: ',
+                children: <TextSpan>[
+                  TextSpan(
+                    text: '$approvedFarmer/${maxFarmer ?? 1}',
+                    style: Get.textTheme.bodyText1!.copyWith(
+                      color: totalColor,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
+          )
         ],
       ),
     );

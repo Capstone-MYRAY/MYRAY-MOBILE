@@ -36,7 +36,7 @@ class PersonalInformation extends StatelessWidget {
                     style: Get.textTheme.headline6,
                   ),
                   const SizedBox(height: 16.0),
-                  if (user.value.roleId == 3) ...[
+                  if (user.value.isLandowner) ...[
                     CardFieldNoIcon(
                       title: 'Số điện thoại',
                       data: user.value.phoneNumber ?? '',
@@ -53,7 +53,7 @@ class PersonalInformation extends StatelessWidget {
                     data: user.value.genderString,
                   ),
                   const SizedBox(height: 24.0),
-                  if (user.value.roleId == 3) ...[
+                  if (user.value.isLandowner) ...[
                     CardFieldNoIcon(
                       title: 'Email',
                       data: user.value.email ?? '',
@@ -68,38 +68,40 @@ class PersonalInformation extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(height: 16.0),
-          Card(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                vertical: 16.0,
-                horizontal: 32.0,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Mô tả',
-                    style: Get.textTheme.headline6,
-                  ),
-                  const SizedBox(height: 16.0),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: user.value.aboutMe == null
-                            ? const Text(
-                                'Chưa có thông tin',
-                              )
-                            : Text(
-                                user.value.aboutMe!,
-                              ),
-                      ),
-                    ],
-                  ),
-                ],
+          if (!user.value.isLandowner) ...[
+            const SizedBox(height: 16.0),
+            Card(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 16.0,
+                  horizontal: 32.0,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Mô tả',
+                      style: Get.textTheme.headline6,
+                    ),
+                    const SizedBox(height: 16.0),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: user.value.aboutMe == null
+                              ? const Text(
+                                  'Chưa có thông tin',
+                                )
+                              : Text(
+                                  user.value.aboutMe!,
+                                ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
+          ],
           const SizedBox(height: 8.0),
         ],
       ),

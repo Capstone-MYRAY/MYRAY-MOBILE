@@ -1,12 +1,10 @@
-
 import 'package:get/get.dart';
 import 'package:myray_mobile/app/data/models/feedback/feedback.dart';
 import 'package:myray_mobile/app/data/models/feedback/feedback_models.dart';
 import 'package:myray_mobile/app/data/services/feedback_service.dart';
 import 'package:myray_mobile/app/shared/utils/custom_exception.dart';
 
-class FeedBackListController extends GetxController with FeedBackService{
-
+class FeedBackListController extends GetxController with FeedBackService {
   late int landOwnerAccountId;
   int _currentFeedbackPage = 0;
   final int _pageSizeFeedback = 5;
@@ -28,19 +26,19 @@ class FeedBackListController extends GetxController with FeedBackService{
       if (_hasNextpageFeedback) {
         response = await getFeedback(data);
         if (response == null ||
-            response.listobject == null || response.listobject!.isEmpty ) {
+            response.listObject == null ||
+            response.listObject!.isEmpty) {
           isLoading.value = false;
           return null;
         }
 
         //take feedback has belongedId
-        print('>>>>list length: ${response.listobject?.length}');
-        final feedBackJsonList = response.listobject!;
-        feedBackList.value =
-            feedBackJsonList.where((object) {
+        print('>>>>list length: ${response.listObject?.length}');
+        final feedBackJsonList = response.listObject!;
+        feedBackList.value = feedBackJsonList.where((object) {
           return object.belongedId == landOwnerAccountId;
           //check: 4 has data
-          // return object.belongedId == 4; 
+          // return object.belongedId == 4;
         }).toList();
         _hasNextpageFeedback = response.pagingMetadata!.hasNextPage;
       }

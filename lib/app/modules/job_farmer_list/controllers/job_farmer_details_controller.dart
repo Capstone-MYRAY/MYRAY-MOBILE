@@ -239,6 +239,9 @@ class JobFarmerDetailsController extends GetxController
       appliedFarmer.value.status = AppliedFarmerStatus.approved.index;
       appliedFarmer.refresh();
 
+      //update approve farmer
+      jobPostDetailsController.totalApprovedFarmer.value += 1;
+
       //update job farmer list
       _jobFarmerController.onRefresh();
     } catch (e) {

@@ -5,6 +5,7 @@ import 'package:myray_mobile/app/data/services/applied_farmer_service.dart';
 import 'package:myray_mobile/app/data/services/bookmark_service.dart';
 import 'package:myray_mobile/app/data/services/message_service.dart';
 import 'package:myray_mobile/app/modules/applied_farmer/controllers/applied_farmer_controller.dart';
+import 'package:myray_mobile/app/modules/feedback/widgets/feedback_bottom_sheet/feedback_list_bottom_sheet.dart';
 import 'package:myray_mobile/app/modules/job_post/controllers/landowner_job_post_controller.dart';
 import 'package:myray_mobile/app/modules/job_post/job_post_repository.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
@@ -25,6 +26,10 @@ class AppliedFarmerDetailsController extends GetxController
   Future<void> initData() async {
     isBookmarked.value = await isBookMark(appliedFarmer.value.userInfo.id!);
     await getTotalApprovedFarmer();
+  }
+
+  getFeedbackList() {
+    FeedbackListBottomSheet.show(appliedFarmer.value.userInfo.id!);
   }
 
   getTotalApprovedFarmer() async {
@@ -89,6 +94,9 @@ class AppliedFarmerDetailsController extends GetxController
       //update status
       appliedFarmer.value.status = AppliedFarmerStatus.approved.index;
       appliedFarmer.refresh();
+
+      //update approve farmer
+      totalApprovedFarmer.value += 1;
 
       //refresh list
       final appliedFarmerController = Get.find<AppliedFarmerController>();

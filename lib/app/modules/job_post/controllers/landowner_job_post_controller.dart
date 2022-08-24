@@ -17,7 +17,6 @@ import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/utils/auth_credentials.dart';
 import 'package:myray_mobile/app/shared/widgets/buttons/filled_button.dart';
 import 'package:myray_mobile/app/shared/widgets/dialogs/base_dialog.dart';
-import 'package:myray_mobile/app/shared/widgets/dialogs/information_dialog.dart';
 
 class LandownerJobPostController extends GetxController {
   final _jobPostRepository = Get.find<JobPostRepository>();
