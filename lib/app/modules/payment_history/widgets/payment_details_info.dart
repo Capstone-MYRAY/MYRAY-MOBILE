@@ -40,12 +40,12 @@ class PaymentDetailsInfo extends StatelessWidget {
             style: Get.textTheme.bodyText1,
           ),
         ],
-        const SizedBox(height: 8.0),
-        PaymentField(
-          title: 'Đăng bài',
-          price: postingFee,
-          unit: numOfPostingDay,
-        ),
+        // const SizedBox(height: 8.0),
+        // PaymentField(
+        //   title: 'Đăng bài',
+        //   price: postingFee,
+        //   unit: numOfPostingDay,
+        // ),
         if (numOfUpgradingDay != 0) ...[
           const SizedBox(height: 8.0),
           PaymentField(
