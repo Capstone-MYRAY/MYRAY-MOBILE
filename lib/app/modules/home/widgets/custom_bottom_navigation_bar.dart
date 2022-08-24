@@ -39,7 +39,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
           Flexible(
             child: FilledButton(
               title: isExpired! ? 'Hết hạn' : AppStrings.shortApplyButton,
-              onPressed: onPressedFilledButton,
+              onPressed: isExpired! ? null : onPressedFilledButton,
             ),
           ),
         ],

@@ -50,7 +50,12 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
             onFilterTap: () {
               Get.toNamed(Routes.farmerJobPostFilter);
             },
-            searchController: controller.searchController,
+            searchController: controller.titleController,
+            refreshOnClear: true,
+            onTextChanged: (value){
+              controller.titleSearch = value;
+              controller.onRefresh();
+            },
           ),
         ),
       ),
