@@ -90,6 +90,9 @@ class AppliedFarmerDetailsController extends GetxController
       appliedFarmer.value.status = AppliedFarmerStatus.approved.index;
       appliedFarmer.refresh();
 
+      //update approve farmer
+      totalApprovedFarmer.value += 1;
+
       //refresh list
       final appliedFarmerController = Get.find<AppliedFarmerController>();
       appliedFarmerController.onRefresh();

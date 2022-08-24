@@ -343,36 +343,57 @@ class LandownerJobPostDetailsController extends GetxController
         });
   }
 
-  repostJobPost() {
-    DateTime now = DateTime.now();
-    DateTime publishDate = now.hour >= 16 && now.hour <= 23
-        ? now.add(const Duration(days: 1))
-        : now;
-    final cloneJobPost = JobPost(
-      id: 0,
-      gardenId: jobPost.value.gardenId,
-      title: jobPost.value.title,
-      type: jobPost.value.type,
-      jobStartDate: publishDate.add(const Duration(days: 1)),
-      // numOfPublishDay: 1,
-      workTypeId: jobPost.value.workTypeId,
-      workTypeName: jobPost.value.workTypeName,
-      publishedBy: jobPost.value.publishedBy,
-      publishedDate: publishDate,
-      createdDate: jobPost.value.createdDate,
-      status: jobPost.value.status,
-      treeJobs: jobPost.value.treeJobs,
-      address: jobPost.value.address,
-      description: jobPost.value.description,
-      payPerHourJob: jobPost.value.payPerHourJob,
-      payPerTaskJob: jobPost.value.payPerTaskJob,
-    );
+  repostJobPost() async {
+    try {
+      //check if the garden is deleted
+      EasyLoading.show();
+      await _gardenRepository.getById(jobPost.value.id);
+      EasyLoading.dismiss();
 
-    Get.toNamed(Routes.jobPostForm, arguments: {
-      Arguments.action: Activities.create,
-      Arguments.item: cloneJobPost,
-      Arguments.tag: Get.arguments[Arguments.tag],
-    });
+      DateTime now = DateTime.now();
+      DateTime publishDate = now.hour >= 16 && now.hour <= 23
+          ? now.add(const Duration(days: 1))
+          : now;
+      final cloneJobPost = JobPost(
+        id: 0,
+        gardenId: jobPost.value.gardenId,
+        title: jobPost.value.title,
+        type: jobPost.value.type,
+        jobStartDate: publishDate.add(const Duration(days: 1)),
+        // numOfPublishDay: 1,
+        workTypeId: jobPost.value.workTypeId,
+        workTypeName: jobPost.value.workTypeName,
+        publishedBy: jobPost.value.publishedBy,
+        publishedDate: publishDate,
+        createdDate: jobPost.value.createdDate,
+        status: jobPost.value.status,
+        treeJobs: jobPost.value.treeJobs,
+        address: jobPost.value.address,
+        description: jobPost.value.description,
+        payPerHourJob: jobPost.value.payPerHourJob,
+        payPerTaskJob: jobPost.value.payPerTaskJob,
+      );
+
+      Get.toNamed(Routes.jobPostForm, arguments: {
+        Arguments.action: Activities.create,
+        Arguments.item: cloneJobPost,
+        Arguments.tag: Get.arguments[Arguments.tag],
+      });
+    } on CustomException catch (e) {
+      if (e.message.contains('No content')) {
+        InformationDialog.showDialog(
+          msg: 'Mảnh vườn của bài đăng này đã xóa, không thể đăng lại!',
+        );
+      }
+    } catch (e) {
+      CustomSnackbar.show(
+        title: AppStrings.titleError,
+        message: 'Có lỗi xảy ra',
+        backgroundColor: AppColors.errorColor,
+      );
+    } finally {
+      EasyLoading.dismiss();
+    }
   }
 
   updateMaxFarmer() {
