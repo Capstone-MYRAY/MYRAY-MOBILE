@@ -9,8 +9,6 @@ import 'package:myray_mobile/app/modules/home/widgets/farmer_filter.dart/tree_ty
 import 'package:myray_mobile/app/shared/constants/app_colors.dart';
 import 'package:myray_mobile/app/shared/constants/app_strings.dart';
 import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
-import 'package:myray_mobile/app/shared/widgets/controls/input_field.dart';
-import 'package:myray_mobile/app/shared/widgets/controls/my_date_picker.dart';
 import 'package:myray_mobile/app/shared/widgets/filters/filter_controls.dart';
 import 'package:myray_mobile/app/shared/widgets/filters/filter_section.dart';
 import 'package:myray_mobile/app/shared/widgets/filters/inline_filter.dart';
@@ -170,15 +168,15 @@ class FarmerJobPostFilter extends GetView<FarmerHomeController> {
         key: UniqueKey(),
         value: controller.selectSalaryRange.value,
         onChanged: controller.onSalaryRangeChange,
-        menuMaxHeight: 120.0,
+        menuMaxHeight: 160.0,
         // isExpanded: true,
-        style: TextStyle(color: AppColors.primaryColor),
+        style: const TextStyle(color: AppColors.primaryColor),
         elevation: 0,
         alignment: Alignment.bottomLeft,
         dropdownColor: AppColors.white,
         autovalidateMode: AutovalidateMode.onUserInteraction,
 
-        decoration: InputDecoration(
+        decoration: const InputDecoration(
           labelText: 'Chọn mức lương',
           isDense: true,
           floatingLabelBehavior: FloatingLabelBehavior.auto,

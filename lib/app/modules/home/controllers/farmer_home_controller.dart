@@ -35,10 +35,11 @@ class FarmerHomeController extends GetxController
   int _currentPage = 0;
   final int _pageSize = 5;
   bool _hasNextpage = true;
+  int? _status = 8;
 
   final isLoading = false.obs;
 
-  late TextEditingController searchController;
+  late TextEditingController titleController;
   double? lat = CurrentLocation.instance.userCurrentLocation!.latitude;
   double? long = CurrentLocation.instance.userCurrentLocation!.longtitude;
 
@@ -80,10 +81,13 @@ class FarmerHomeController extends GetxController
   DateTime? currentFromDate;
   DateTime? currentToDate;
 
+  //Tìm kiếm theo tên
+  String titleSearch = '';
+
   late GlobalKey<TreeTypeFieldState> treeTypeFieldKey;
   @override
   void onInit() async {
-    searchController = TextEditingController();
+    titleController = TextEditingController();
     treeTypeFieldKey = GlobalKey<TreeTypeFieldState>();
     fromDateController = TextEditingController();
     toDateController = TextEditingController();
@@ -114,7 +118,8 @@ class FarmerHomeController extends GetxController
     //     'hasNextpage: $_hasNextpage; page: $_currentPage; page_size: $_pageSize; is loading value: ${isLoading.value}');
 
     GetRequestJobPostList data = GetRequestJobPostList(
-        status: "7",
+        // status: _status.toString(),
+        // status: '8',
         page: (++_currentPage).toString(),
         pageSize: (_pageSize).toString(),
         sortColumn: JobPostSortColumn.createdDate,
@@ -126,10 +131,12 @@ class FarmerHomeController extends GetxController
         treeType: _getChosenTreeTypeIdList(),
         province: selectedProvince.value == '' ? null : selectedProvince.value,
         salaryFrom: selectSalaryRange.value.salaryFrom == null
-                  ? '' : selectSalaryRange.value.salaryFrom.toString(),
+            ? ''
+            : selectSalaryRange.value.salaryFrom.toString(),
         salaryTo: selectSalaryRange.value.salaryTo == null
-                  ? '' : selectSalaryRange.value.salaryTo.toString(),
-      );
+            ? ''
+            : selectSalaryRange.value.salaryTo.toString(),
+        title: titleSearch.isEmpty ? null : titleSearch);
 
     isLoading.value = true;
     try {
@@ -156,13 +163,13 @@ class FarmerHomeController extends GetxController
         // print('list object: ${listObject.length}');
         print('second object: ${secondObject.length}');
       }
-      isLoading.value = false;
       // print('>>>$_hasNextpage');
+      isLoading.value = false;
       return true;
     } on CustomException catch (e) {
       isLoading.value = false;
       _hasNextpage = false;
-      print('error: $e');
+      print('error: ${e.message}');
       return null;
     }
   }
@@ -171,6 +178,7 @@ class FarmerHomeController extends GetxController
     //reset current page & hasNext
     _currentPage = 0;
     _hasNextpage = true;
+    _status = 8;
 
     //clear list
     listObject.clear();
