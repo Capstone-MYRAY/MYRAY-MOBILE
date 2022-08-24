@@ -36,7 +36,8 @@ import 'package:myray_mobile/app/shared/widgets/controls/my_date_picker.dart';
 import 'package:myray_mobile/app/shared/widgets/custom_snackbar.dart';
 import 'package:myray_mobile/app/shared/widgets/dialogs/custom_information.dialog.dart';
 
-class InprogressJobDetailController extends GetxController with MessageService, ProfileRepository{
+class InprogressJobDetailController extends GetxController
+    with MessageService, ProfileRepository {
   final JobPost jobpost;
   FeedBackController feedBackController = Get.find<FeedBackController>();
   final _appliedRepository = Get.find<AppliedJobRepository>();
@@ -60,7 +61,6 @@ class InprogressJobDetailController extends GetxController with MessageService, 
 
   late TextEditingController feedbackContentController;
   late TextEditingController feedbackRatingController;
-
 
   @override
   void onInit() async {
@@ -321,7 +321,6 @@ class InprogressJobDetailController extends GetxController with MessageService, 
       try {
         FeedBack? feedback = await feedBackController.sendFeedBack(data);
         EasyLoading.show();
-      
 
         if (feedback != null) {
           Future.delayed(const Duration(milliseconds: 1000), () {
@@ -415,9 +414,9 @@ class InprogressJobDetailController extends GetxController with MessageService, 
       GetFeedBackResponse? feedBack =
           await feedBackController.getFeedback(data);
       if (feedBack != null) {
-        if (feedBack.listobject!.isNotEmpty) {
-          print("feedback: ${feedBack.listobject!.length}");
-          return feedBack.listobject![0];
+        if (feedBack.listObject!.isNotEmpty) {
+          print("feedback: ${feedBack.listObject!.length}");
+          return feedBack.listObject![0];
         }
       }
       return;
@@ -516,14 +515,15 @@ class InprogressJobDetailController extends GetxController with MessageService, 
   Account? landownerAccount;
   _getLanownerAccount(int landownerId) async {
     await getUser(landownerId).then(
-          (value) => {
-            if (value != null)
-              {
-                landownerAccount = value,
-              },
+      (value) => {
+        if (value != null)
+          {
+            landownerAccount = value,
           },
-        );
+      },
+    );
   }
+
   void navigateToChatScreen() {
     print('Im here');
     final fromId = AuthCredentials.instance.user?.id ?? 0;
@@ -539,5 +539,4 @@ class InprogressJobDetailController extends GetxController with MessageService, 
       toAvatar: landownerAccount?.imageUrl,
     );
   }
-
 }

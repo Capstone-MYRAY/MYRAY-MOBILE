@@ -274,9 +274,9 @@ class FarmerHistoryJobDetailController extends GetxController
     try {
       GetFeedBackResponse? feedBack = await getFeedback(data);
       if (_canUpdateOrCreate(jobPost.jobEndDate)) {
-        if (feedBack != null && feedBack.listobject != null) {
-          if (feedBack.listobject!.isNotEmpty) {
-            currentFeedback = feedBack.listobject?.first;
+        if (feedBack != null && feedBack.listObject != null) {
+          if (feedBack.listObject!.isNotEmpty) {
+            currentFeedback = feedBack.listObject?.first;
             //hết hạn feedback: sau 3 ngày, kể từ ngày đăng ký
             if (currentFeedback != null) {
               feedbackContentController.text = currentFeedback.content;

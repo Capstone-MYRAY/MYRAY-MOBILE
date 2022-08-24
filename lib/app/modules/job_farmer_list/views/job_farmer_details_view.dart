@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:myray_mobile/app/data/enums/enums.dart';
 import 'package:myray_mobile/app/data/models/feedback/feedback.dart';
 import 'package:myray_mobile/app/data/models/report/report.dart';
+import 'package:myray_mobile/app/modules/feedback/widgets/feedback_bottom_sheet/feedback_list_bottom_sheet.dart';
 import 'package:myray_mobile/app/modules/job_farmer_list/controllers/controllers.dart';
 import 'package:myray_mobile/app/modules/job_farmer_list/widgets/feedback_farmer_card.dart';
 import 'package:myray_mobile/app/modules/job_farmer_list/widgets/report_farmer_card.dart';
@@ -65,6 +66,10 @@ class JobFarmerDetailsView extends GetView<JobFarmerDetailsController> {
                       isBookmarked: controller.isBookmarked.value,
                       onFavoriteToggle: () => controller.onToggleBookmark(),
                       navigateToChatScreen: controller.navigateToChatScreen,
+                      onRatingDetails: () {
+                        FeedbackListBottomSheet.show(
+                            controller.appliedFarmer.value.userInfo.id!);
+                      },
                     ),
                     _buildFeedback(),
                     _buildReport(),

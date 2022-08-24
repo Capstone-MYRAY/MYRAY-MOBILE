@@ -11,8 +11,7 @@ class FeedBackContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        child: Column(
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         RatingBarIndicator(
@@ -25,29 +24,29 @@ class FeedBackContainer extends StatelessWidget {
           ),
           rating: double.parse(feedBack.numStar.toString()),
         ),
-        Text(Utils.formatddMMyyyy(feedBack.createdDate),
-            style: Get.textTheme.caption),
-        const SizedBox(
-          height: 10,
+        const SizedBox(height: 2.0),
+        Text(
+          Utils.formatddMMyyyy(feedBack.createdDate),
+          style: Get.textTheme.caption,
         ),
+        const SizedBox(height: 8),
         SizedBox(
-            width: Get.width * 0.9,
-            child: Text(
-              feedBack.content,
-              style: Get.textTheme.bodyMedium!.copyWith(
-                fontSize: 15
-              ),
-              softWrap: true,
-              textAlign: TextAlign.left,
-              overflow: TextOverflow.ellipsis,
-              maxLines: 50,
-            )),
+          width: Get.width * 0.9,
+          child: Text(
+            feedBack.content,
+            style: Get.textTheme.bodyMedium!.copyWith(fontSize: 15),
+            softWrap: true,
+            textAlign: TextAlign.left,
+            overflow: TextOverflow.ellipsis,
+            maxLines: 50,
+          ),
+        ),
         Divider(
           color: AppColors.grey.withOpacity(0.1),
           height: 10,
           endIndent: 10,
         ),
       ],
-    ));
+    );
   }
 }

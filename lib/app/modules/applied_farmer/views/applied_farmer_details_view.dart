@@ -52,6 +52,7 @@ class AppliedFarmerDetailsView extends GetView<AppliedFarmerDetailsController> {
                       isBookmarked: controller.isBookmarked.value,
                       onFavoriteToggle: () => controller.onToggleBookmark(),
                       navigateToChatScreen: controller.navigateToChatScreen,
+                      onRatingDetails: controller.getFeedbackList,
                     ),
                   ),
                   const SizedBox(height: 8.0),
