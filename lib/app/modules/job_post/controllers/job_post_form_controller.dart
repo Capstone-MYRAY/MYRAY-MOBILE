@@ -25,6 +25,7 @@ import 'package:myray_mobile/app/routes/app_pages.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/utils/auth_credentials.dart';
 import 'package:myray_mobile/app/shared/utils/utils.dart';
+import 'package:myray_mobile/app/shared/utils/datetime_extension.dart';
 import 'package:myray_mobile/app/shared/widgets/controls/my_date_range_picker.dart';
 import 'package:myray_mobile/app/shared/widgets/custom_snackbar.dart';
 import 'package:myray_mobile/app/shared/widgets/dialogs/information_dialog.dart';
@@ -149,7 +150,9 @@ class JobPostFormController extends GetxController {
   double get _userBalance =>
       Get.find<LandownerProfileController>().balanceWithPending.value;
 
-  Future<void> loadInitData() async {
+  late Future<void> loadInitData;
+
+  Future<void> _loadInitData() async {
     //get fee config
     await getFeeConfig();
 
@@ -170,6 +173,7 @@ class JobPostFormController extends GetxController {
 
   @override
   void onInit() {
+    loadInitData = _loadInitData();
     super.onInit();
 
     formKey = GlobalKey<FormState>();
@@ -1172,6 +1176,13 @@ class JobPostFormController extends GetxController {
     }
 
     DateTime publishDate = Utils.fromddMMyyyy(value!);
+
+    DateTime now = DateTime.now();
+    bool isValidHour =
+        now.hour >= 16 && now.hour <= 23 && publishDate.isToday();
+    if (!isValidHour) {
+      return 'Không được chọn ngày đăng bài là ngày hôm nay nếu sau 16h';
+    }
 
     // publish date must be before start date
     if (jobStartDateController.text.isNotEmpty) {

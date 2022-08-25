@@ -52,6 +52,17 @@ class AttendanceRepository {
     return null;
   }
 
+  Future<List<Attendance>?> getAttendanceByAccountAndJobPostId(
+      GetAttendanceRequest data) async {
+    final response = await _apiProvider.getMethod(_url, data: data.toJson());
+    if (response.isOk) {
+      final jsonList = response.body as List;
+      return jsonList.map((json) => Attendance.fromJson(json)).toList();
+    }
+
+    return null;
+  }
+
   Future<double?> getTotalExpense(int jobPostId) async {
     final response =
         await _apiProvider.getMethod('$_url/totalexpense/$jobPostId');

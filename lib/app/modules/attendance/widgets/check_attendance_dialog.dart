@@ -114,7 +114,7 @@ class CheckAttendanceDialog {
               FilledButton(
                 title: 'Xác nhận',
                 onPressed: () {
-                  bool isValid = formKey.currentState!.validate();
+                  bool? isValid = formKey.currentState?.validate();
                   if (signatureController.isEmpty) {
                     InformationDialog.showDialog(
                       msg: 'Vui lòng ký xác nhận trước.',
@@ -123,7 +123,7 @@ class CheckAttendanceDialog {
                     return;
                   }
 
-                  if (!isValid) {
+                  if (isValid != null && !isValid) {
                     return;
                   }
 

@@ -312,6 +312,11 @@ class GardenFormController extends GetxController {
       );
     } catch (e) {
       EasyLoading.dismiss();
+      CustomSnackbar.show(
+        title: AppStrings.titleError,
+        message: 'Có lỗi xảy ra',
+        backgroundColor: AppColors.errorColor,
+      );
       print('Create error: ${e.toString()}');
     }
   }
@@ -470,6 +475,11 @@ class GardenFormController extends GetxController {
       }
     } catch (e) {
       EasyLoading.dismiss();
+      CustomSnackbar.show(
+        title: AppStrings.titleError,
+        message: 'Có lỗi xảy ra',
+        backgroundColor: AppColors.errorColor,
+      );
       print('GardenForm-navigateToMap: ${e.toString()}');
     }
   }

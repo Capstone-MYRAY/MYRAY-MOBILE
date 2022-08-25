@@ -65,10 +65,22 @@ class JobPostAttendanceView extends GetView<JobPostAttendanceController> {
                         bool isFiredEndDisplay =
                             isFiredOrEnd && isSelectedBeforeEndDate;
 
-                        bool isDisplay = item.attendance.isEmpty &&
+                        bool isEmptyDisplay = item.attendance.isEmpty &&
                             (item.appliedFarmerStatus ==
                                     AppliedFarmerStatus.approved.index ||
                                 isFiredEndDisplay);
+
+                        bool isNotEmptyDisplay = item.attendance.isNotEmpty &&
+                            (item.attendance.first.status ==
+                                    AttendanceStatus.present.index ||
+                                item.attendance.first.status ==
+                                    AttendanceStatus.absent.index ||
+                                (item.attendance.first.status ==
+                                        AttendanceStatus.dayOff.index &&
+                                    item.appliedFarmerStatus ==
+                                        AppliedFarmerStatus.approved.index));
+
+                        bool isDisplay = isEmptyDisplay || isNotEmptyDisplay;
 
                         if (!isDisplay) {
                           return const SizedBox();

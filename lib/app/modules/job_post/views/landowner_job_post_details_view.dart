@@ -293,7 +293,7 @@ class LandownerJobPostDetailsView
       }
 
       //add repost button
-      if (_isExpired || _isOutOfDate || true) {
+      if (_isExpired || _isOutOfDate) {
         final button = [
           const SizedBox(height: 8.0),
           FractionallySizedBox(

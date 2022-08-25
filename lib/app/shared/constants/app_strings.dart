@@ -170,8 +170,7 @@ class AppStrings {
   static const placeholderDate = 'dd/MM/yyyy';
   static const placeholderLandArea = 'Nhập diện tích';
   static const placeholderGardenName = 'Nhập tên vườn';
-  static const placeholderDescription =
-      'Đã từng có kinh nghiệm ở những công việc nào?';
+  static const placeholderDescription = 'Nhập mô tả';
   static const placeholderAddress = 'Chạm để lấy địa chỉ';
   static const placeholderProvince = 'Chọn tỉnh';
   static const placeholderDistrict = 'Chọn huyện';

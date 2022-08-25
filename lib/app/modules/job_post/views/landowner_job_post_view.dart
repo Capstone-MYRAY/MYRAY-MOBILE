@@ -62,7 +62,7 @@ class LandownerJobPostView extends GetView<LandownerJobPostController> {
                   if (snapshot.data == null) {
                     return ListEmptyBuilder(
                       onRefresh: controller.onRefresh,
-                      msg: 'Không tồn tại bài đăng nào',
+                      msg: 'Không có bài đăng nào',
                     );
                   }
 
