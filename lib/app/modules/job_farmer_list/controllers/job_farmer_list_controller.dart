@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -28,6 +29,12 @@ class JobFarmerListController extends GetxController {
     penColor: AppColors.black,
     penStrokeWidth: 3.0,
     exportBackgroundColor: AppColors.white,
+  );
+  final moneyController = MoneyMaskedTextController(
+    thousandSeparator: '.',
+    rightSymbol: 'đ',
+    precision: 0,
+    decimalSeparator: '',
   );
   final _appliedFarmerRepository = Get.find<AppliedFarmerRepository>();
   final _jobPostId = Get.arguments[Arguments.jobPostId];
@@ -145,13 +152,15 @@ class JobFarmerListController extends GetxController {
 
   onFinish(AppliedFarmer appliedFarmer) async {
     if (!appliedFarmer.jobPost.isPayPerHourJob) {
+      //set money controller
+      moneyController.updateValue(appliedFarmer.jobPost.payPerTaskJob?.salary);
       CheckAttendanceDialog.show(
         appliedFarmer.jobPost.payPerHourJob?.salary ??
             appliedFarmer.jobPost.payPerTaskJob?.salary ??
             0,
         signatureController,
-        () => _onFinish(appliedFarmer, isOnFinish: true),
-        isFinish: true,
+        () => _payPerTaskEnd(appliedFarmer),
+        moneyController: moneyController,
       );
     } else {
       try {
@@ -163,7 +172,7 @@ class JobFarmerListController extends GetxController {
 
         if (confirmed == null || !confirmed) return;
 
-        _onFinish(appliedFarmer);
+        _payPerHourEnd(appliedFarmer);
       } catch (e) {
         EasyLoading.dismiss();
         CustomSnackbar.show(
@@ -171,58 +180,96 @@ class JobFarmerListController extends GetxController {
           message: 'Có lỗi xảy ra',
           backgroundColor: AppColors.errorColor,
         );
-        print('_onPresentOrFinish: ${e.toString()}');
+        print('_onFinish: ${e.toString()}');
       }
     }
   }
 
-  _onFinish(AppliedFarmer appliedFarmer,
-      {bool isOnFinish = false, bool isPayPerHourJob = true}) async {
+  _payPerHourEnd(AppliedFarmer appliedFarmer) async {
     try {
-      UploadImageResponse? uploadedFile;
-
-      EasyLoading.show();
-      if (!isPayPerHourJob) {
-        //generate multipart
-        final imgBytes = await signatureController.toPngBytes();
-        final tempDir = await getTemporaryDirectory();
-        File file = await File('${tempDir.path}/signature.png').create();
-        file.writeAsBytesSync(imgBytes!);
-
-        var multipart =
-            MultipartFile(file, filename: '${tempDir.path}/signature.png');
-        uploadedFile = await _uploadService.uploadImage([multipart]);
-      }
-
-      //mark as present or finish
+      //mark as finish
       final data = CheckAttendanceRequest(
         jobPostId: appliedFarmer.jobPost.id.toString(),
         dateTime: DateTime.now(),
         accountId: appliedFarmer.userInfo.id.toString(),
-        signature: uploadedFile?.files.first.link,
         status: AttendanceStatus.end,
       );
 
       print(data.toJson());
 
+      EasyLoading.show();
       final result = await _attendanceRepository.checkAttendance(data);
       EasyLoading.dismiss();
       if (result == null) throw Exception('Có lỗi xảy ra');
 
-      appliedFarmer.status = AppliedFarmerStatus.end.index;
-      appliedFarmers.refresh();
+      _updateAppliedFarmer(appliedFarmer);
+    } catch (e) {
+      EasyLoading.dismiss();
+      CustomSnackbar.show(
+        title: AppStrings.titleError,
+        message: 'Có lỗi xảy ra',
+        backgroundColor: AppColors.errorColor,
+      );
+    }
+  }
+
+  _payPerTaskEnd(AppliedFarmer appliedFarmer) async {
+    try {
+      print(moneyController.value);
+      UploadImageResponse? uploadedFile;
+
+      //generate multipart
+      final imgBytes = await signatureController.toPngBytes();
+      final tempDir = await getTemporaryDirectory();
+      File file = await File('${tempDir.path}/signature.png').create();
+      file.writeAsBytesSync(imgBytes!);
+
+      var multipart =
+          MultipartFile(file, filename: '${tempDir.path}/signature.png');
+      uploadedFile = await _uploadService.uploadImage([multipart]);
+
+      //mark as finish
+      final data = CheckAttendanceRequest(
+        jobPostId: appliedFarmer.jobPost.id.toString(),
+        dateTime: DateTime.now(),
+        salary: moneyController.numberValue,
+        signature: uploadedFile?.files.first.link,
+        accountId: appliedFarmer.userInfo.id.toString(),
+        status: AttendanceStatus.end,
+      );
+
+      print(data.toJson());
+
+      EasyLoading.show();
+      final result =
+          await _attendanceRepository.checkPayPerTaskAttendance(data);
+      EasyLoading.dismiss();
+      if (result == null) throw Exception('Có lỗi xảy ra');
 
       signatureController.clear();
+      moneyController.clear();
 
-      //update job post details
-      final jobPostDetails = Get.find<LandownerJobPostDetailsController>(
-          tag: appliedFarmer.jobPost.id.toString());
-      jobPostDetails.totalPayingSalary.value =
-          appliedFarmer.jobPost.payPerTaskJob?.salary ?? 0;
-
+      _updateAppliedFarmer(appliedFarmer);
+      Get.back();
+    } catch (e) {
       EasyLoading.dismiss();
-      Get.back(); //close dialog
-    } catch (e) {}
+      CustomSnackbar.show(
+        title: AppStrings.titleError,
+        message: 'Có lỗi xảy ra',
+        backgroundColor: AppColors.errorColor,
+      );
+    }
+  }
+
+  _updateAppliedFarmer(AppliedFarmer appliedFarmer) {
+    appliedFarmer.status = AppliedFarmerStatus.end.index;
+    appliedFarmers.refresh();
+
+    //update job post details
+    final jobPostDetails = Get.find<LandownerJobPostDetailsController>(
+        tag: appliedFarmer.jobPost.id.toString());
+    jobPostDetails.totalPayingSalary.value =
+        appliedFarmer.jobPost.payPerTaskJob?.salary ?? 0;
   }
 
   onFired(AppliedFarmer appliedFarmer) {
@@ -249,6 +296,14 @@ class JobFarmerListController extends GetxController {
       appliedFarmer.status = AppliedFarmerStatus.fired.index;
       appliedFarmers.refresh();
 
+      final jobPostDetailsController =
+          Get.find<LandownerJobPostDetailsController>(
+              tag: appliedFarmer.jobPost.id.toString());
+
+      //update approve farmer
+      print(jobPostDetailsController.totalApprovedFarmer.value);
+      jobPostDetailsController.totalApprovedFarmer.value -= 1;
+      print(jobPostDetailsController.totalApprovedFarmer.value);
       EasyLoading.dismiss();
       Get.back(); //close dialog
     } catch (e) {

@@ -31,6 +31,16 @@ class AttendanceRepository {
     return null;
   }
 
+  Future<Attendance?> checkPayPerTaskAttendance(
+      CheckAttendanceRequest data) async {
+    final response = await _apiProvider.postMethod('$_url/task', data.toJson());
+    print(response.bodyString);
+    if (response.isOk) {
+      return Attendance.fromJson(response.body);
+    }
+    return null;
+  }
+
   Future<List<AttendanceResponse>?> getAttendanceList(
       GetAttendanceRequest data) async {
     final response = await _apiProvider.getMethod(_url, data: data.toJson());

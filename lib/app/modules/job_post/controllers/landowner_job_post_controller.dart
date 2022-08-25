@@ -148,6 +148,7 @@ class LandownerJobPostController extends GetxController {
     if (response == null || response.gardens!.isEmpty) {
       BaseDialog.show(
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             Text(
               AppStrings.titleInfo,
@@ -199,6 +200,7 @@ class LandownerJobPostController extends GetxController {
     if (_money == 0) {
       BaseDialog.show(
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             Text(
               AppStrings.titleInfo,

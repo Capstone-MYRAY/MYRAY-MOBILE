@@ -96,7 +96,6 @@ class JobPostAttendanceView extends GetView<JobPostAttendanceController> {
                               ? item.attendance.first.reason
                               : null,
                           onPresent: () => controller.onPresent(item.farmer),
-                          onFinish: () => controller.onFinish(item.farmer),
                           onAbsent: () => controller.onAbsent(item.farmer),
                           onFired: () => controller.onFired(item.farmer),
                         );

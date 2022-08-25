@@ -18,7 +18,6 @@ class CheckAttendanceCard extends StatelessWidget {
   final Color? statusBackground;
   final bool isFiredOrEnd;
   final void Function() onPresent;
-  final void Function() onFinish;
   final void Function() onAbsent;
   final void Function() onFired;
 
@@ -27,7 +26,6 @@ class CheckAttendanceCard extends StatelessWidget {
     required this.fullName,
     required this.phone,
     required this.onPresent,
-    required this.onFinish,
     required this.onAbsent,
     required this.onFired,
     this.avatar,

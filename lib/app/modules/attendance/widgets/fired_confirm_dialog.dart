@@ -23,6 +23,7 @@ class FiredConfirmDialog {
       child: StatefulBuilder(
         builder: (BuildContext ctx, StateSetter setState) {
           return Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
               Align(
                 alignment: Alignment.center,

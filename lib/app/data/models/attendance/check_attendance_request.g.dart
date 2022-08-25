@@ -15,6 +15,7 @@ CheckAttendanceRequest _$CheckAttendanceRequestFromJson(
       signature: json['signature'] as String?,
       reason: json['reason'] as String?,
       status: $enumDecodeNullable(_$AttendanceStatusEnumMap, json['status']),
+      salary: (json['salary'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$CheckAttendanceRequestToJson(
@@ -34,6 +35,7 @@ Map<String, dynamic> _$CheckAttendanceRequestToJson(
   writeNotNull('signature', instance.signature);
   writeNotNull('reason', instance.reason);
   writeNotNull('status', _$AttendanceStatusEnumMap[instance.status]);
+  writeNotNull('salary', instance.salary);
   return val;
 }
 
