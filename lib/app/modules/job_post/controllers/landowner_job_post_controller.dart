@@ -15,8 +15,10 @@ import 'package:myray_mobile/app/modules/topup/widgets/top_up_dialog.dart';
 import 'package:myray_mobile/app/routes/app_pages.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/utils/auth_credentials.dart';
+import 'package:myray_mobile/app/shared/utils/custom_exception.dart';
 import 'package:myray_mobile/app/shared/widgets/buttons/filled_button.dart';
 import 'package:myray_mobile/app/shared/widgets/dialogs/base_dialog.dart';
+import 'package:myray_mobile/app/shared/widgets/dialogs/information_dialog.dart';
 
 class LandownerJobPostController extends GetxController {
   final _jobPostRepository = Get.find<JobPostRepository>();
@@ -135,7 +137,7 @@ class LandownerJobPostController extends GetxController {
     });
   }
 
-  navigateToCreateForm() async {
+  _isHaveGarden() async {
     //check if there is any garden or not
     final gardenRepository = Get.find<GardenRepository>();
     final data = GetGardenRequest(
@@ -143,11 +145,25 @@ class LandownerJobPostController extends GetxController {
       page: 1.toString(),
       pageSize: 1.toString(),
     );
-    final GetGardenResponse? response = await gardenRepository.getGardens(data);
 
-    if (response == null || response.gardens!.isEmpty) {
+    try {
+      final GetGardenResponse? response =
+          await gardenRepository.getGardens(data);
+      if (response == null || response.gardens!.isEmpty) return false;
+      return true;
+    } on CustomException catch (e) {
+      if (e.message.contains('No response')) {
+        InformationDialog.showDialog(msg: 'Vui lòng kiểm tra kết nối mạng');
+      }
+    }
+  }
+
+  navigateToCreateForm() async {
+    final isHaveGarden = await _isHaveGarden();
+    if (isHaveGarden) {
       BaseDialog.show(
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             Text(
               AppStrings.titleInfo,
@@ -199,6 +215,7 @@ class LandownerJobPostController extends GetxController {
     if (_money == 0) {
       BaseDialog.show(
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             Text(
               AppStrings.titleInfo,
@@ -214,22 +231,24 @@ class LandownerJobPostController extends GetxController {
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                OutlinedButton(
-                  onPressed: () {
-                    Get.back(); //close dialog
-                    _navigateToCreateForm();
-                  },
-                  style: OutlinedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 12.0,
-                      horizontal: 8.0,
+                Expanded(
+                  child: OutlinedButton(
+                    onPressed: () {
+                      Get.back(); //close dialog
+                      _navigateToCreateForm();
+                    },
+                    style: OutlinedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 12.0,
+                        horizontal: 8.0,
+                      ),
                     ),
+                    child: const Text('Tạo công việc'),
                   ),
-                  child: const Text('Tạo công việc'),
                 ),
-                const SizedBox(width: 20.0),
-                SizedBox(
-                  width: Get.width * 0.3,
+                const SizedBox(width: 16.0),
+                Expanded(
+                  // width: Get.width * 0.3,
                   child: FilledButton(
                     title: 'Nạp tiền ngay',
                     onPressed: () {

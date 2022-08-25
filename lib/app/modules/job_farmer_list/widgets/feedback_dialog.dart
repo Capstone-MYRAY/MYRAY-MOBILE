@@ -24,6 +24,7 @@ class FeedbackDialog {
         builder: (context, setState) => Form(
           key: formKey,
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
               Align(
                 alignment: Alignment.center,

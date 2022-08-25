@@ -19,6 +19,7 @@ class UpdateMaxFarmerDialog {
 
     return await BaseDialog.show(
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           Align(
             alignment: Alignment.center,

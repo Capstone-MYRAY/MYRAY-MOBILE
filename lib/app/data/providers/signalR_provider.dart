@@ -37,12 +37,12 @@ class SignalRProvider with StorageProvider {
           _connectionUrl,
           options: HttpConnectionOptions(
             accessTokenFactory: () => Future.value(token),
-            logger: transportProtLogger,
+            // logger: transportProtLogger,
             skipNegotiation: true,
             transport: HttpTransportType.WebSockets,
           ),
         )
-        .configureLogging(hubProtLogger)
+        // .configureLogging(hubProtLogger)
         // .withAutomaticReconnect()
         .build();
   }

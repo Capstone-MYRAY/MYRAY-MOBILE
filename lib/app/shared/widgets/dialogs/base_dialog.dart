@@ -6,30 +6,26 @@ class BaseDialog {
 
   static Future<dynamic> show({
     required Widget child,
-    double? width,
+    EdgeInsets? insetPadding,
   }) async {
     return Get.dialog(
       AlertDialog(
-        content: SizedBox(
-          width: width ?? Get.width * 0.9,
-          child: Stack(
-            children: [
-              Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  child,
-                ],
+        insetPadding: insetPadding ??
+            EdgeInsets.symmetric(
+              horizontal: Get.width * 0.08,
+            ),
+        content: Stack(
+          children: [
+            child,
+            Positioned(
+              right: 0,
+              top: 4.0,
+              child: GestureDetector(
+                onTap: () => Get.back(),
+                child: const Icon(Icons.clear),
               ),
-              Positioned(
-                right: 0,
-                top: 4.0,
-                child: GestureDetector(
-                  onTap: () => Get.back(),
-                  child: const Icon(Icons.clear),
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
       barrierDismissible: false,

@@ -4,4 +4,9 @@ extension ExDateTime on DateTime {
     if (compareTo(dMax) > 0) return false;
     return true;
   }
+
+  bool isToday() {
+    final now = DateTime.now();
+    return day == now.day && month == now.month && year == now.year;
+  }
 }

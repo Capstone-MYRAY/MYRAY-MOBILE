@@ -29,8 +29,8 @@ class JobPostFormView extends GetView<JobPostFormController> {
       appBar: AppBar(
         title: Text(controller.screenTitle),
       ),
-      body: FutureBuilder(
-        future: controller.loadInitData(),
+      body: FutureBuilder<void>(
+        future: controller.loadInitData,
         builder: (_, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const MyLoadingBuilder();
