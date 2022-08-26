@@ -20,7 +20,7 @@ class FeedbackListBottomSheetController extends GetxController {
     final data = GetFeedbackRequest(
       page: (++_currentPage).toString(),
       pageSize: (_pageSize).toString(),
-      belongedId: belongedId,
+      belongedId: belongedId.toString(),
       sortColumn: FeedbackSortColumn.createdDate,
       orderBy: SortOrder.descending,
     );

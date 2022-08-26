@@ -289,6 +289,7 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
                               size: 20, color: AppColors.brown)
                         ]),
                       ),
+                      const SizedBox(height: 10),
                       Obx(
                         () => controller.listObject.isNotEmpty
                             ? Flexible(

@@ -20,7 +20,7 @@ class GetFeedbackRequest {
   SortOrder? orderBy;
 
   @JsonKey(name: 'belongedId')
-  int? belongedId;
+  String? belongedId;
 
   @JsonKey(name: 'page')
   String? page;

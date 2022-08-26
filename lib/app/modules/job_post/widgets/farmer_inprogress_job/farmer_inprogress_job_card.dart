@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:myray_mobile/app/data/models/job_post/job_post.dart';
 import 'package:myray_mobile/app/shared/constants/app_colors.dart';
 import 'package:myray_mobile/app/shared/constants/app_strings.dart';
 import 'package:myray_mobile/app/shared/utils/utils.dart';
+import 'package:myray_mobile/app/shared/widgets/cards/card_field.dart';
 
 class FarmerInprogressJobCard extends StatelessWidget {
   final String job;
@@ -12,18 +14,20 @@ class FarmerInprogressJobCard extends StatelessWidget {
   final String endTime;
   final String? jobEndDate;
   final bool? isPayPerHourJob;
+  final JobPost jobPost;
   final void Function() moreDetail;
 
-  const FarmerInprogressJobCard({
-    Key? key,
-    required this.job,
-    required this.address,
-    required this.startTime,
-    required this.endTime,
-    required this.moreDetail,
-    this.jobEndDate,
-    this.isPayPerHourJob = true,
-  }) : super(key: key);
+  const FarmerInprogressJobCard(
+      {Key? key,
+      required this.job,
+      required this.address,
+      required this.startTime,
+      required this.endTime,
+      required this.moreDetail,
+      this.jobEndDate,
+      this.isPayPerHourJob = true,
+      required this.jobPost})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +47,7 @@ class FarmerInprogressJobCard extends StatelessWidget {
                 child: Row(
                   children: [
                     Expanded(
-                      child: Text(job,
+                      child: Text(jobPost.title,
                           style: Get.textTheme.headline3?.copyWith(
                             color: AppColors.brown,
                           ),
@@ -59,7 +63,17 @@ class FarmerInprogressJobCard extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 10, left: 20, right: 20),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
+                  children: <Widget>[                    
+                    CardField(
+                      icon: Icons.person,
+                      title: 'Chủ rẫy',
+                      data: jobPost.publishedName ?? 'Tên chủ rẫy',
+                      fontSize: Get.textScaleFactor * 15,
+                      iconAndTitleSpace: Get.width * 0.03,
+                    ),
+                    SizedBox(
+                      height: Get.height * 0.005,
+                    ),
                     isPayPerHourJob!
                         ? Row(
                             children: [
@@ -151,7 +165,7 @@ class FarmerInprogressJobCard extends StatelessWidget {
                           width: Get.width * 0.02,
                         ),
                         Text(
-                          jobEndDate ?? 'Chưa xác định',
+                          jobEndDate ?? 'Chưa kết thúc',
                           style: Get.textTheme.labelSmall!.copyWith(
                             color: AppColors.errorColor,
                             fontSize: Get.textScaleFactor * 15,

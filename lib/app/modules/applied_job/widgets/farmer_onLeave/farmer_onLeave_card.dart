@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:myray_mobile/app/shared/constants/app_colors.dart';
 import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
+import 'package:myray_mobile/app/shared/utils/utils.dart';
 
 class FarmerOnLeaveCard extends StatelessWidget {
   final String job;
@@ -102,7 +103,7 @@ class FarmerOnLeaveCard extends StatelessWidget {
                     width: Get.width * 0.025,
                   ),
                   Text(
-                    DateFormat('dd/MM/yyyy').format(dayOffDate),
+                    Utils.formatddMMyyyy(dayOffDate),
                     style: Get.textTheme.bodyText2!.copyWith(
                         color: AppColors.primaryColor,
                         fontSize: Get.textScaleFactor * 15,

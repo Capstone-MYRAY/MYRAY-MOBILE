@@ -309,35 +309,35 @@ class InprogressJobDetailController extends GetxController
 
     if (isFormValid) {
       String ratingFeedback = feedbackRatingController.text;
-      print('>>feed: $ratingFeedback');
+      print('>>feed: ${feedbackContentController.text}');
       PostFeedbackRequest data = PostFeedbackRequest(
         content: feedbackContentController.text,
-        numStar: feedbackRatingController.text != '5' || ratingFeedback == ''
+        numStar: feedbackRatingController.text != '5' && ratingFeedback != ''
             ? int.parse(ratingFeedback)
             : 5,
         jobPostId: jobPostId,
-        belongedId: AuthCredentials.instance.user!.id!,
+        belongedId: jobpost.publishedBy,
       );
 
       try {
-        FeedBack? feedback = await feedBackController.sendFeedBack(data);
         EasyLoading.show();
+        FeedBack? feedback = await feedBackController.sendFeedBack(data);
+        EasyLoading.dismiss();
 
         if (feedback != null) {
-          Future.delayed(const Duration(milliseconds: 1000), () {
-            EasyLoading.dismiss();
-            onCloseFeedBackDialog();
-            CustomSnackbar.show(
-                title: "Thành công", message: "Gửi đánh giá thành công");
-          });
+          onCloseFeedBackDialog();
+          CustomSnackbar.show(
+              title: "Thành công", message: "Gửi đánh giá thành công");
+
           return;
         }
-
         CustomSnackbar.show(
             title: "Thất bại",
             message: "Gửi đánh giá không thành công",
             backgroundColor: AppColors.errorColor);
       } on CustomException catch (e) {
+        EasyLoading.dismiss();
+
         print('Đánh giá xảy ra lỗi: $e');
         CustomSnackbar.show(
             title: "Thất bại",
@@ -357,27 +357,24 @@ class InprogressJobDetailController extends GetxController
         jobPostId: feedBack.jobPostId,
         belongedId: feedBack.belongedId,
       );
-      EasyLoading.show();
       onCloseFeedBackDialog(); //khi show ra nếu ko đóng key board sẽ bị stack overflow
+
       try {
+        EasyLoading.show();
+
         FeedBack? newFeedBack = await feedBackController.updateFeedback(data);
-        Future.delayed(const Duration(milliseconds: 1200), () {
-          EasyLoading.dismiss();
-          if (newFeedBack != null) {
-            FeedBackUpdateDialog.show(
-              newFeedBack: newFeedBack,
-            );
-            return;
-          }
-          CustomSnackbar.show(
-              title: "Thất bại",
-              message: "Gửi đánh giá không thành công",
-              backgroundColor: AppColors.errorColor);
-        });
+        EasyLoading.dismiss();
+
+        if (newFeedBack != null) {
+          FeedBackUpdateDialog.show(
+            newFeedBack: newFeedBack,
+          );
+          return;
+        }
       } on CustomException catch (e) {
         EasyLoading.dismiss();
 
-        print('$e');
+        print(e.message);
         CustomSnackbar.show(
             title: "Thất bại",
             message: "Không thể gửi đánh giá !",

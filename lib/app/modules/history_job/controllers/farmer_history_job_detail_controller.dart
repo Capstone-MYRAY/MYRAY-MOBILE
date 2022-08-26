@@ -270,7 +270,8 @@ class FarmerHistoryJobDetailController extends GetxController
         page: '1',
         pageSize: '20',
         jobPostId: jobPost.id.toString(),
-        createdBy: AuthCredentials.instance.user!.id.toString());
+        createdBy: AuthCredentials.instance.user!.id.toString(),
+    );
     try {
       GetFeedBackResponse? feedBack = await getFeedback(data);
       if (_canUpdateOrCreate(jobPost.jobEndDate)) {
@@ -371,7 +372,7 @@ class FarmerHistoryJobDetailController extends GetxController
           ? int.parse(feedbackRatingController.text)
           : 5,
       jobPostId: jobPost.id,
-      belongedId: AuthCredentials.instance.user!.id!,
+      belongedId: jobPost.publishedBy,
     );
 
     try {

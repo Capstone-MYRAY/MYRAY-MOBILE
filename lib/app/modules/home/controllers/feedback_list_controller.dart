@@ -19,7 +19,9 @@ class FeedBackListController extends GetxController with FeedBackService {
     GetFeedBackResponse? response;
     GetFeedbackRequest data = GetFeedbackRequest(
         page: (++_currentFeedbackPage).toString(),
-        pageSize: _pageSizeFeedback.toString());
+        pageSize: _pageSizeFeedback.toString(),
+        belongedId: landOwnerAccountId.toString(),
+    );
 
     isLoading.value = true;
     try {
@@ -35,11 +37,12 @@ class FeedBackListController extends GetxController with FeedBackService {
         //take feedback has belongedId
         print('>>>>list length: ${response.listObject?.length}');
         final feedBackJsonList = response.listObject!;
-        feedBackList.value = feedBackJsonList.where((object) {
-          return object.belongedId == landOwnerAccountId;
-          //check: 4 has data
-          // return object.belongedId == 4;
-        }).toList();
+        feedBackList.value = feedBackJsonList;
+        // .where((object) {
+        //   return object.belongedId == landOwnerAccountId;
+        //   //check: 4 has data
+        //   // return object.belongedId == 4;
+        // }).toList();
         _hasNextpageFeedback = response.pagingMetadata!.hasNextPage;
       }
       isLoading.value = false;

@@ -93,6 +93,7 @@ class FarmerInprogressJobList extends GetView<FarmerInprogressJobController> {
                                     'null'
                                 ? "17:00"
                                 : jobPost.payPerTaskJob!.finishTime.toString(),
+                        jobPost: jobPost,
                         moreDetail: () {
                           Get.toNamed(Routes.farmerInprogressJobDetail,
                               arguments: {Arguments.item: jobPost});
