@@ -119,24 +119,20 @@ class FarmerHomeController extends GetxController
 
     GetRequestJobPostList data = GetRequestJobPostList(
         // status: _status.toString(),
-        // status: '8',
+        // status: '9',
         page: (++_currentPage).toString(),
         pageSize: (_pageSize).toString(),
         sortColumn: JobPostSortColumn.createdDate,
         orderBy: SortOrder.descending,
         type: paidTypeFilter, //filter paid type
-        startDateFrom: currentFromDate != null ? "${currentFromDate!}Z" : '',
-        startDateTo: currentToDate != null ? "${currentToDate!}Z" : '',
-        workTypeId: workTypeId != null ? workTypeId.toString() : '',
-        treeType: _getChosenTreeTypeIdList(),
+        startDateFrom: currentFromDate != null ? "${currentFromDate!}Z" : null,
+        startDateTo: currentToDate != null ? "${currentToDate!}Z" : null,
+        workTypeId: workTypeId?.toString(),
+        // treeType: _getChosenTreeTypeIdList(),
         province: selectedProvince.value == '' ? null : selectedProvince.value,
-        salaryFrom: selectSalaryRange.value.salaryFrom == null
-            ? ''
-            : selectSalaryRange.value.salaryFrom.toString(),
-        salaryTo: selectSalaryRange.value.salaryTo == null
-            ? ''
-            : selectSalaryRange.value.salaryTo.toString(),
-        title: titleSearch.isEmpty ? null : titleSearch);
+        salaryFrom: selectSalaryRange.value.salaryFrom?.toString(),
+        salaryTo: selectSalaryRange.value.salaryTo?.toString(),
+        title: titleSearch.isEmpty ? null : titleSearch,);
 
     isLoading.value = true;
     try {

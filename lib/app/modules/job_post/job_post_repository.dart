@@ -14,6 +14,7 @@ import 'package:myray_mobile/app/data/models/job_post/pay_per_hour_job/extend_fa
 import 'package:myray_mobile/app/data/providers/api/api_provider.dart';
 import 'package:myray_mobile/app/shared/utils/custom_exception.dart';
 import 'package:myray_mobile/app/data/models/job_post/farmer_job_post_detail_response.dart';
+import 'dart:developer' as developer;
 
 class JobPostRepository {
   final ApiProvider _apiProvider = Get.find<ApiProvider>();
@@ -23,6 +24,7 @@ class JobPostRepository {
   Future<JobPostResponse?> getJobPostList(GetRequestJobPostList data) async {
     final response = await _apiProvider.getMethod(_url, data: data.toJson());
     if (response.statusCode == HttpStatus.ok) {
+      developer.log(response.body['list_object'].length.toString());
       return JobPostResponse.fromJson(response.body);
     }
     if (response.statusCode == HttpStatus.badRequest) {
