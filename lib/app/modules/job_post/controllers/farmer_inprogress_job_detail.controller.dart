@@ -437,12 +437,12 @@ class InprogressJobDetailController extends GetxController
     );
 
     try {
+      EasyLoading.show();
       List<GetAttendanceByDateResponse>? attendance =
           await _attendanceRepository.getList(data);
+      EasyLoading.dismiss();
 
-      EasyLoading.show();
       Future.delayed(const Duration(milliseconds: 1000), () {
-        EasyLoading.dismiss();
         if (attendance != null && attendance.first.attendance.isEmpty) {
           CustomInformationDialog.show(
             title: 'Thông báo',
