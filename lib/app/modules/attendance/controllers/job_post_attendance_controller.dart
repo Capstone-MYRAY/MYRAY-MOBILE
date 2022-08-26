@@ -96,7 +96,7 @@ class JobPostAttendanceController extends GetxController {
       Attendance attendance, AttendanceStatus status) {
     final item =
         selectedAttendances.firstWhere((e) => e.farmer.id == farmer.id);
-    item.attendance.add(attendance);
+    item.attendances.add(attendance);
     attendances.update(date, (value) => selectedAttendances);
     if (status == AttendanceStatus.end || status == AttendanceStatus.fired) {
       attendances.removeWhere(

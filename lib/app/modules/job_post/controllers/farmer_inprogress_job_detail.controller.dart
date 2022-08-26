@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:myray_mobile/app/data/enums/status.dart';
 import 'package:myray_mobile/app/data/models/account.dart';
 import 'package:myray_mobile/app/data/models/attendance/attendance.dart';
 import 'package:myray_mobile/app/data/models/attendance/farmer_post_attendance_request.dart';
@@ -431,54 +432,66 @@ class InprogressJobDetailController extends GetxController
   }
 
   showAttendance(BuildContext context) async {
-    GetAttendanceByDateRequest data = GetAttendanceByDateRequest(
-      jobPostId: jobpost.id.toString(),
-      date: DateTime.now(),
-    );
-
     try {
-      List<GetAttendanceByDateResponse>? attendance =
-          await _attendanceRepository.getList(data);
+      GetAttendanceByDateRequest data = GetAttendanceByDateRequest(
+        jobPostId: jobpost.id.toString(),
+        date: DateTime.now(),
+      );
 
       EasyLoading.show();
-      Future.delayed(const Duration(milliseconds: 1000), () {
-        EasyLoading.dismiss();
-        if (attendance != null && attendance.first.attendance.isEmpty) {
-          CustomInformationDialog.show(
-            title: 'Thông báo',
-            message:
-                'Bạn chưa được điểm danh!\nVui lòng liên hệ chủ đất hoặc người điều hành gần bạn nhất để được hỗ trợ.',
-            icon: const Icon(Icons.pending_actions_outlined,
-                size: 40, color: AppColors.brown),
-          );
-          return;
-        }
+      List<GetAttendanceByDateResponse>? attendances =
+          await _attendanceRepository.getList(data);
+      EasyLoading.dismiss();
 
-        //when checked attendance
-        if (attendance != null && attendance.first.attendance.isNotEmpty) {
-          //add attendance parameter.
-          Attendance data = attendance.first.attendance.first;
-          //4: dayOff
-          if (data.status == 4) {
-            CustomInformationDialog.show(
-              title: 'Thông báo',
-              message:
-                  'Bạn đã xin nghỉ phép ngày hôm nay\nVui lòng liên hệ chủ đất hoặc người điều hành gần bạn nhất để được hỗ trợ.',
-              icon: const Icon(Icons.free_cancellation_outlined,
-                  size: 40, color: AppColors.brown),
-            );
-            return;
-          }
-          FarmerAttendanceDetailDialog.show(context, data, jobpost.title);
-          return;
-        }
+      if (attendances == null || attendances.isEmpty) {
+        CustomInformationDialog.show(
+          title: 'Thông báo',
+          message:
+              'Bạn chưa được điểm danh!\nVui lòng liên hệ chủ đất hoặc người điều hành gần bạn nhất để được hỗ trợ.',
+          icon: const Icon(Icons.pending_actions_outlined,
+              size: 40, color: AppColors.brown),
+        );
+        return;
+      }
 
-        CustomSnackbar.show(
-            title: "Thất bại",
-            message: "Không thể kiểm tra điểm danh !",
-            backgroundColor: AppColors.errorColor);
-      });
+      final farmerId = AuthCredentials.instance.user!.id;
+
+      //find farmer in attendance list
+      GetAttendanceByDateResponse? todayAttendance = attendances
+          .firstWhereOrNull((attendance) => attendance.farmer.id == farmerId);
+
+      if (todayAttendance == null)
+        throw CustomException('Không thể xem điểm danh');
+      //4: dayOff
+      if (todayAttendance.attendances.first.status ==
+          AttendanceStatus.dayOff.index) {
+        CustomInformationDialog.show(
+          title: 'Thông báo',
+          message:
+              'Bạn đã xin nghỉ phép ngày hôm nay\nVui lòng liên hệ chủ đất hoặc người điều hành gần bạn nhất để được hỗ trợ.',
+          icon: const Icon(Icons.free_cancellation_outlined,
+              size: 40, color: AppColors.brown),
+        );
+        return;
+      }
+
+      if (todayAttendance.attendances.first.status ==
+          AttendanceStatus.absent.index) {
+        CustomInformationDialog.show(
+            title: 'Thông báo', message: 'Bạn đã vắng mặt');
+        return;
+      }
+
+      FarmerAttendanceDetailDialog.show(
+          Get.context!, todayAttendance.attendances.first, jobpost.title);
     } on CustomException catch (e) {
+      EasyLoading.dismiss();
+      CustomSnackbar.show(
+          title: "Thất bại",
+          message: "Không thể xem điểm danh !",
+          backgroundColor: AppColors.errorColor);
+    } catch (e) {
+      EasyLoading.dismiss();
       CustomSnackbar.show(
           title: "Thất bại",
           message: "Không thể xem điểm danh !",

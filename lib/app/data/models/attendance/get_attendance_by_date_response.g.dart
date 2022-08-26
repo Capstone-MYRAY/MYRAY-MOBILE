@@ -11,7 +11,7 @@ GetAttendanceByDateResponse _$GetAttendanceByDateResponseFromJson(
     GetAttendanceByDateResponse(
       farmer: Account.fromJson(json['account'] as Map<String, dynamic>),
       id: json['job_post_id'] as int,
-      attendance: (json['attendances'] as List<dynamic>)
+      attendances: (json['attendances'] as List<dynamic>)
           .map((e) => Attendance.fromJson(e as Map<String, dynamic>))
           .toList(),
       appliedFarmerStatus: json['status'] as int,
@@ -35,6 +35,6 @@ Map<String, dynamic> _$GetAttendanceByDateResponseToJson(
 
   writeNotNull('end_date', instance.endDate?.toIso8601String());
   val['account'] = instance.farmer.toJson();
-  val['attendances'] = instance.attendance.map((e) => e.toJson()).toList();
+  val['attendances'] = instance.attendances.map((e) => e.toJson()).toList();
   return val;
 }

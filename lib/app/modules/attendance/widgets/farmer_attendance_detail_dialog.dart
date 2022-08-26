@@ -28,13 +28,15 @@ class FarmerAttendanceDetailDialog {
           child: Card(
             child: Container(
               width: Get.width,
-              height: Get.height + Get.height * 0.03,
+              // height: Get.height + Get.height * 0.03,
               padding: const EdgeInsets.all(20),
               color: AppColors.backgroundColor,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                  SizedBox(height: Get.height * 0.05,),
+                  SizedBox(
+                    height: Get.height * 0.05,
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -93,7 +95,7 @@ class FarmerAttendanceDetailDialog {
                         ),
                         _buildRowInformation(
                             label: 'Ngày nhận tiền:',
-                            content: Utils.formatddMMyyyy(attendance.date!)),
+                            content: Utils.formatddMMyyyy(attendance.date)),
                         SizedBox(
                           height: Get.height * 0.03,
                         ),
@@ -105,15 +107,16 @@ class FarmerAttendanceDetailDialog {
                         SizedBox(
                           height: Get.height * 0.03,
                         ),
-                         _buildRowInformation(
-                            label: 'Điểm thưởng:', content: '${attendance.bonusPoint} điểm'),
+                        // _buildRowInformation(
+                        //     label: 'Điểm thưởng:',
+                        //     content: '${attendance.bonusPoint} điểm'),
                         SizedBox(
                           height: Get.height * 0.03,
                         ),
                         _buildRowInformation(
                             label: 'Nội dung:',
                             content:
-                                'Nhận tiền công ngày ${Utils.formatddMMyyyy(attendance.date!)}'),
+                                'Nhận tiền công ngày ${Utils.formatddMMyyyy(attendance.date)}'),
                         SizedBox(
                           height: Get.height * 0.03,
                         ),
@@ -134,17 +137,19 @@ class FarmerAttendanceDetailDialog {
                         SizedBox(
                           height: Get.height * 0.02,
                         ),
-                        Text(AppStrings.titleConfirmSignature, style: Get.textTheme.headline4),
+                        Text(AppStrings.titleConfirmSignature,
+                            style: Get.textTheme.headline4),
                         SizedBox(
                           height: Get.height * 0.03,
                         ),
                         Container(
-                            padding: const EdgeInsets.all(25),
-                            margin: const EdgeInsets.only(left: 20, right: 20),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              image: DecorationImage(image: NetworkImage('${attendance.signature}')),
-                            ),
+                          padding: const EdgeInsets.all(25),
+                          margin: const EdgeInsets.only(left: 20, right: 20),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            image: DecorationImage(
+                                image: NetworkImage('${attendance.signature}')),
+                          ),
                         ),
                         SizedBox(
                           height: Get.height * 0.03,

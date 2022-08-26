@@ -160,7 +160,7 @@ class LandownerJobPostController extends GetxController {
 
   navigateToCreateForm() async {
     final isHaveGarden = await _isHaveGarden();
-    if (isHaveGarden) {
+    if (!isHaveGarden) {
       BaseDialog.show(
         child: Column(
           mainAxisSize: MainAxisSize.min,

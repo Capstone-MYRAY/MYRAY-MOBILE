@@ -19,12 +19,12 @@ class GetAttendanceByDateResponse {
   Account farmer;
 
   @JsonKey(name: 'attendances')
-  List<Attendance> attendance;
+  List<Attendance> attendances;
 
   GetAttendanceByDateResponse({
     required this.farmer,
     required this.id,
-    required this.attendance,
+    required this.attendances,
     required this.appliedFarmerStatus,
     this.endDate,
   });
