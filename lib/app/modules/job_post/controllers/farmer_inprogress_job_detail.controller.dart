@@ -432,28 +432,27 @@ class InprogressJobDetailController extends GetxController
   }
 
   showAttendance(BuildContext context) async {
-    GetAttendanceByDateRequest data = GetAttendanceByDateRequest(
-      jobPostId: jobpost.id.toString(),
-      date: DateTime.now(),
-    );
+    try {
+      GetAttendanceByDateRequest data = GetAttendanceByDateRequest(
+        jobPostId: jobpost.id.toString(),
+        date: DateTime.now(),
+      );
 
       EasyLoading.show();
       List<GetAttendanceByDateResponse>? attendances =
           await _attendanceRepository.getList(data);
+      EasyLoading.dismiss();
 
-      EasyLoading.show();
-      Future.delayed(const Duration(milliseconds: 1000), () {
-        EasyLoading.dismiss();
-        if (attendance != null && attendance.first.attendance.isEmpty) {
-          CustomInformationDialog.show(
-            title: 'Thông báo',
-            message:
-                'Bạn chưa được điểm danh!\nVui lòng liên hệ chủ đất hoặc người điều hành gần bạn nhất để được hỗ trợ.',
-            icon: const Icon(Icons.pending_actions_outlined,
-                size: 40, color: AppColors.brown),
-          );
-          return;
-        }
+      if (attendances == null || attendances.isEmpty) {
+        CustomInformationDialog.show(
+          title: 'Thông báo',
+          message:
+              'Bạn chưa được điểm danh!\nVui lòng liên hệ chủ đất hoặc người điều hành gần bạn nhất để được hỗ trợ.',
+          icon: const Icon(Icons.pending_actions_outlined,
+              size: 40, color: AppColors.brown),
+        );
+        return;
+      }
 
       final farmerId = AuthCredentials.instance.user!.id;
 
