@@ -123,9 +123,9 @@ class FarmerAttendanceController extends GetxController {
         Future.delayed(const Duration(milliseconds: 1000), () {
           EasyLoading.dismiss();
           //when checked attendance
-          if (attendance != null && attendance.first.attendance.isNotEmpty) {
+          if (attendance != null && attendance.first.attendances.isNotEmpty) {
             //add attendance parameter.
-            Attendance data = attendance.first.attendance.first;
+            Attendance data = attendance.first.attendances.first;
             FarmerAttendanceDetailDialog.show(
                 context, data, currentJobPost.title);
             return;

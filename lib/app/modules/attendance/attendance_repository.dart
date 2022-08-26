@@ -12,6 +12,7 @@ class AttendanceRepository {
       GetAttendanceByDateRequest data) async {
     final response =
         await _apiProvider.getMethod('$_url/day', data: data.toJson());
+    print(response.bodyString);
     if (response.isOk) {
       final jsonList = response.body as List;
       return jsonList

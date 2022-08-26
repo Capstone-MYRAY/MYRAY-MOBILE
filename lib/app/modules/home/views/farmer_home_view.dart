@@ -52,7 +52,7 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
             },
             searchController: controller.titleController,
             refreshOnClear: true,
-            onTextChanged: (value){
+            onTextChanged: (value) {
               controller.titleSearch = value;
               controller.onRefresh();
             },
@@ -125,43 +125,44 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       const SizedBox(height: 10),
-                      Obx(() => controller.secondObject.isNotEmpty
-                      ? Column(
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.all(11.0),
-                            decoration: const BoxDecoration(
-                              color: AppColors.white,
-                            ),
-                            child: 
-                            Row(children: [
-                              Container(
-                                margin: const EdgeInsets.only(left: 20),
-                                child: Text(
-                                  "Nổi bật",
-                                  style: Get.textTheme.headline2?.copyWith(
-                                    color: AppColors.primaryColor,
-                                    fontWeight: FontWeight.w500,
-                                    letterSpacing: 2,
+                      Obx(
+                        () => controller.secondObject.isNotEmpty
+                            ? Column(
+                                children: [
+                                  Container(
+                                    padding: const EdgeInsets.all(11.0),
+                                    decoration: const BoxDecoration(
+                                      color: AppColors.white,
+                                    ),
+                                    child: Row(children: [
+                                      Container(
+                                        margin: const EdgeInsets.only(left: 20),
+                                        child: Text(
+                                          "Nổi bật",
+                                          style:
+                                              Get.textTheme.headline2?.copyWith(
+                                            color: AppColors.primaryColor,
+                                            fontWeight: FontWeight.w500,
+                                            letterSpacing: 2,
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
+                                      const Icon(
+                                        CustomIcons.star,
+                                        size: 20,
+                                        color: Colors.amber,
+                                      ),
+                                    ]),
                                   ),
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              const Icon(
-                                CustomIcons.star,
-                                size: 20,
-                                color: Colors.amber,
-                              ),
-                            ]),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                        ],
-                      )
-                      : const SizedBox(),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                ],
+                              )
+                            : const SizedBox(),
                       ),
                       Obx(
                         () => controller.secondObject.isNotEmpty
@@ -189,7 +190,9 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
 
                                   return Container(
                                     margin: const EdgeInsets.only(
-                                        top: 10, bottom: 10),
+                                      top: 4,
+                                      bottom: 4,
+                                    ),
                                     child: FarmerPostCard(
                                       backgroundColor:
                                           AppColors.markedBackgroundColor,
@@ -213,7 +216,8 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
                                           : AppStrings.payPerTask,
                                       workType: jobPost.workTypeName,
                                       isStatus: true,
-                                      imageUrl: jobPost.gardenImage!.split(CommonConstants.imageDelimiter)[0],
+                                      imageUrl: jobPost.gardenImage!.split(
+                                          CommonConstants.imageDelimiter)[0],
                                       distance:
                                           distance == 0.0 ? null : distance,
                                       onTap: () => {
@@ -239,7 +243,6 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
                             //     isExpired: false,
                             //     onTap: () {},
                             //   ),
-
 
                             // Center(
                             //     child: Column(
@@ -303,39 +306,36 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
                                           controller.listObject[index];
                                       return Container(
                                         margin: const EdgeInsets.only(
-                                            top: 5, bottom: 5),
-                                        child: Padding(
-                                          padding: EdgeInsets.only(
-                                              top: Get.height * 0.02),
-                                          child: FarmerPostCard(
-                                            title: jobPost.title,
-                                            address: jobPost.address != null
-                                                ? jobPost.address!
-                                                    .split(',')
-                                                    .last
-                                                : '',
-                                            price: jobPost.payPerHourJob != null
-                                                ? jobPost.payPerHourJob!.salary
-                                                : jobPost.payPerTaskJob!.salary,
-                                            treeType: jobPost.treeTypes, //no
-                                            paidType:
-                                                jobPost.payPerHourJob != null
-                                                    ? AppStrings.payPerHour
-                                                    : AppStrings.payPerTask,
-                                            workType: jobPost.workTypeName,
+                                            top: 4, bottom: 4),
+                                        child: FarmerPostCard(
+                                          title: jobPost.title,
+                                          address: jobPost.address != null
+                                              ? jobPost.address!.split(',').last
+                                              : '',
+                                          price: jobPost.payPerHourJob != null
+                                              ? jobPost.payPerHourJob!.salary
+                                              : jobPost.payPerTaskJob!.salary,
+                                          treeType: jobPost.treeTypes, //no
+                                          paidType:
+                                              jobPost.payPerHourJob != null
+                                                  ? AppStrings.payPerHour
+                                                  : AppStrings.payPerTask,
+                                          workType: jobPost.workTypeName,
 
-                                            distance: controller.getDistance(
-                                                jobPost.gardenLat!,
-                                                jobPost.gardenLon!),
-                                            imageUrl: jobPost.gardenImage!.split(CommonConstants.imageDelimiter).first,
-                                            onTap: () {
-                                              Get.toNamed(
-                                                  Routes.farmerJobPostDetail,
-                                                  arguments: {
-                                                    Arguments.item: jobPost
-                                                  });
-                                            },
-                                          ),
+                                          distance: controller.getDistance(
+                                              jobPost.gardenLat!,
+                                              jobPost.gardenLon!),
+                                          imageUrl: jobPost.gardenImage!
+                                              .split(CommonConstants
+                                                  .imageDelimiter)
+                                              .first,
+                                          onTap: () {
+                                            Get.toNamed(
+                                                Routes.farmerJobPostDetail,
+                                                arguments: {
+                                                  Arguments.item: jobPost
+                                                });
+                                          },
                                         ),
                                       );
                                     }),

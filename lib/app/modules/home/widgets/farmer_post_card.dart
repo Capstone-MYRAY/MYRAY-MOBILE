@@ -4,6 +4,7 @@ import 'package:myray_mobile/app/shared/constants/app_colors.dart';
 import 'package:myray_mobile/app/shared/constants/app_strings.dart';
 import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
 import 'package:myray_mobile/app/shared/utils/utils.dart';
+import 'package:myray_mobile/app/shared/widgets/cards/card_field.dart';
 import 'package:myray_mobile/app/shared/widgets/chips/status_chip.dart';
 import 'package:myray_mobile/app/shared/widgets/chips/work_type_chip.dart';
 
@@ -59,6 +60,7 @@ class FarmerPostCard extends StatelessWidget {
               color: borderColor!,
             )),
         child: Card(
+          elevation: 1.0,
           color: backgroundColor,
           child: Padding(
             padding: const EdgeInsets.all(8),
@@ -71,12 +73,12 @@ class FarmerPostCard extends StatelessWidget {
                   children: [
                     isStatus!
                         ? Padding(
-                          padding: const EdgeInsets.only(bottom:10.0),
-                          child: StatusChip(
+                            padding: const EdgeInsets.only(bottom: 10.0),
+                            child: StatusChip(
                               statusName: statusName!,
                               backgroundColor: statusColor!,
-                          ),
-                        )
+                            ),
+                          )
                         : const SizedBox(
                             height: 25,
                           ),
@@ -109,269 +111,85 @@ class FarmerPostCard extends StatelessWidget {
                     )
                   ],
                 ),
+                const SizedBox(width: 16.0),
                 Expanded(
                   child: Column(
                     children: [
                       //Tên bài post
-                      Padding(
-                        padding:
-                            const EdgeInsets.only(top: 15, left: 15, right: 15),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Flexible(
-                              child: Text(
-                                title,
-                                style: Get.textTheme.headline4,
-                                softWrap: true,
-                                overflow: TextOverflow.ellipsis,
-                                textAlign: TextAlign.left,
-                                maxLines: 2,
-                              ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Flexible(
+                            child: Text(
+                              title,
+                              style: Get.textTheme.headline4,
+                              softWrap: true,
+                              overflow: TextOverflow.ellipsis,
+                              textAlign: TextAlign.left,
+                              maxLines: 2,
                             ),
-                            // isStatus!
-                            //     ? StatusChip(
-                            //         statusName: statusName!,
-                            //         backgroundColor: statusColor!)
-                            //     : const SizedBox(
-                            //         width: 1,
-                            //       )
-                          ],
-                        ),
+                          ),
+                          // isStatus!
+                          //     ? StatusChip(
+                          //         statusName: statusName!,
+                          //         backgroundColor: statusColor!)
+                          //     : const SizedBox(
+                          //         width: 1,
+                          //       )
+                        ],
                       ),
                       const SizedBox(
                         height: 10,
                       ),
                       //Loại công việc
-                      Padding(
-                        padding: const EdgeInsets.only(top: 3, left: 15),
-                        child: Row(
-                          children: [
-                            const Icon(Icons.work_outline, size: 20),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            Text('${AppStrings.labelWorkType}:',
-                                style: Get.textTheme.bodyText2!.copyWith(
-                                    fontSize: Get.textScaleFactor * 15,
-                                    fontWeight: FontWeight.w600)),
-                            const SizedBox(
-                              width: 5,
-                            ),
-                            Flexible(
-                              child: Text(
-                                workType,
-                                style: Get.textTheme.bodyText2!.copyWith(
-                                    fontSize: Get.textScaleFactor * 15),
-                                softWrap: true,
-                                overflow: TextOverflow.ellipsis,
-                                textAlign: TextAlign.left,
-                                maxLines: 10,
-                              ),
-                            ),
-                          ],
-                        ),
+                      CardField(
+                        icon: CustomIcons.briefcase_outline,
+                        title: AppStrings.labelWorkType,
+                        data: workType,
+                        fontSize: 16.0,
+                        titleFontWeight: FontWeight.w600,
                       ),
-
-                      const SizedBox(
-                        height: 10,
+                      const SizedBox(height: 8),
+                      CardField(
+                        icon: CustomIcons.map_marker_outline,
+                        title: AppStrings.labelAddress,
+                        data: address,
+                        fontSize: 15.0,
+                        titleFontWeight: FontWeight.w600,
                       ),
-
-                      //Địa chỉ
-                      Padding(
-                        padding: const EdgeInsets.only(left: 15),
-                        child: Row(
-                          children: [
-                            const Icon(CustomIcons.map_marker_outline,
-                                size: 20),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            Text('Địa chỉ:',
-                                style: Get.textTheme.bodyText2!.copyWith(
-                                    fontSize: Get.textScaleFactor * 15,
-                                    fontWeight: FontWeight.w600)),
-                            const SizedBox(
-                              width: 5,
-                            ),
-                            Flexible(
-                              child: Text(
-                                address,
-                                style: Get.textTheme.bodyText2!.copyWith(
-                                    fontSize: Get.textScaleFactor * 15),
-                                softWrap: true,
-                                overflow: TextOverflow.ellipsis,
-                                textAlign: TextAlign.left,
-                                maxLines: 10,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      // Container(
-                      //   padding: const EdgeInsets.only(left: 15, right: 15),
-                      //   child: Stack(
-                      //     children: [
-                      //       const Icon(CustomIcons.map_marker_outline,
-                      //           size: 20),
-                      //       Padding(
-                      //         padding: EdgeInsets.only(left: 30),
-                      //         child: SizedBox(
-                      //           width: Get.width * 0.65,
-                      //           child: Text.rich(
-                      //             TextSpan(
-                      //               text: address,
-                      //             ),
-                      //             style: Get.textTheme.bodyText2!.copyWith(
-                      //                 fontSize: Get.textScaleFactor * 15),
-                      //             softWrap: true,
-                      //             overflow: TextOverflow.ellipsis,
-                      //             textAlign: TextAlign.left,
-                      //             maxLines: 3,
-                      //           ),
-                      //         ),
-                      //       ),
-                      //     ],
-                      //   ),
-                      // ),
-                      const SizedBox(
-                        height: 10,
-                      ),
+                      const SizedBox(height: 8),
                       //khoảng cách
-                      distance != null
-                          ? Padding(
-                              padding: const EdgeInsets.only(left: 15),
-                              child: Row(
-                                children: [
-                                  const Icon(Icons.map, size: 20),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  Text('Cách bạn:',
-                                      style: Get.textTheme.bodyText2!.copyWith(
-                                          fontSize: Get.textScaleFactor * 15,
-                                          fontWeight: FontWeight.w600)),
-                                  const SizedBox(
-                                    width: 5,
-                                  ),
-                                  Flexible(
-                                    child: Text(
-                                      '$distance km',
-                                      style: Get.textTheme.bodyText2!.copyWith(
-                                          fontSize: Get.textScaleFactor * 15),
-                                      softWrap: true,
-                                      overflow: TextOverflow.ellipsis,
-                                      textAlign: TextAlign.left,
-                                      maxLines: 10,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            )
-                          : const SizedBox(),
-                      //Ngày hết hạn
-                      // Row(
-                      //   mainAxisAlignment: MainAxisAlignment.start,
-                      //   children: [
-                      //     workType != null
-                      //         ? Padding(
-                      //             padding: const EdgeInsets.only(top: 12, left: 15),
-                      //             child: WorkTypeChip(
-                      //               workType: workType,
-                      //               borderRadiusSize: 20,
-                      //             ))
-                      //         : const SizedBox(
-                      //             width: 1,
-                      //           ),
-                      //   ],
-                      // ),
-                      distance != null
-                          ? const SizedBox(
-                              height: 10,
-                            )
-                          : const SizedBox(),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 13),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Icon(CustomIcons.tree_outline, size: 20),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            Text('Loại cây:',
-                                style: Get.textTheme.bodyText2!.copyWith(
-                                    fontSize: Get.textScaleFactor * 15,
-                                    fontWeight: FontWeight.w600)),
-                            const SizedBox(
-                              width: 5,
-                            ),
-                            Flexible(
-                              child: Text(
-                                treeType,
-                                style: Get.textTheme.bodyText2!.copyWith(
-                                    fontSize: Get.textScaleFactor * 15),
-                                softWrap: true,
-                                overflow: TextOverflow.ellipsis,
-                                textAlign: TextAlign.left,
-                                maxLines: 10,
-                              ),
-                            ),
-                          ],
+                      if (distance != null) ...[
+                        CardField(
+                          icon: Icons.map,
+                          title: 'Cách bạn',
+                          data: '$distance km',
+                          fontSize: 16.0,
+                          titleFontWeight: FontWeight.w600,
                         ),
+                        const SizedBox(
+                          height: 8,
+                        ),
+                      ],
+                      CardField(
+                        icon: CustomIcons.tree_outline,
+                        title: 'Loại cây',
+                        data: treeType,
+                        fontSize: 16.0,
+                        titleFontWeight: FontWeight.w600,
                       ),
-                      const SizedBox(
-                        height: 10,
-                      ),
+                      const SizedBox(height: 8),
                       //Tiền công + loại trả lương
-                      Padding(
-                        padding: const EdgeInsets.only(left: 15),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Icon(CustomIcons.wallet_outline, size: 20),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                    paidType == AppStrings.payPerHour
-                                        ? 'Lương công: '
-                                        : 'Lương khoán: ',
-                                    style: Get.textTheme.bodyText2!.copyWith(
-                                        fontSize: Get.textScaleFactor * 15,
-                                        fontWeight: FontWeight.w600)),
-                                const SizedBox(
-                                  height: 5,
-                                ),
-                                Text(
-                                  Utils.vietnameseCurrencyFormat.format(price),
-                                  style: Get.textTheme.bodyText2!.copyWith(
-                                      fontSize: Get.textScaleFactor * 15),
-                                  softWrap: true,
-                                  overflow: TextOverflow.ellipsis,
-                                  textAlign: TextAlign.left,
-                                  maxLines: 10,
-                                ),
-                              ],
-                            ),
-                            // Text(
-                            //   paidType!,
-                            //   style: Get.textTheme.bodyText2!.copyWith(
-                            //     fontSize: Get.textScaleFactor * 15,
-                            //     color: AppColors.primaryColor,
-                            //     fontWeight: FontWeight.w600,
-                            //   ),
-                            // )
-                          ],
-                        ),
+                      CardField(
+                        icon: CustomIcons.wallet_outline,
+                        title: paidType == AppStrings.payPerHour
+                            ? 'Lương công'
+                            : 'Lương khoán',
+                        data: Utils.vietnameseCurrencyFormat.format(price),
+                        fontSize: 16.0,
+                        titleFontWeight: FontWeight.w600,
                       ),
-                      const SizedBox(
-                        height: 10,
-                      ),
+                      const SizedBox(height: 8),
                     ],
                   ),
                 ),

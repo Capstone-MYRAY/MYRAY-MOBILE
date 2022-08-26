@@ -7,18 +7,43 @@ import 'feedback_list.dart';
 class FeedbackListBottomSheet {
   static show(int belongedId) {
     Get.bottomSheet(
-      ConstrainedBox(
+      Container(
         constraints: BoxConstraints(
           maxHeight: Get.height * 0.8,
         ),
-        child: Padding(
-          padding: const EdgeInsets.only(
-            top: 16.0,
-            bottom: 8.0,
-          ),
-          child: FeedbackList(
-            belongedId: belongedId,
-          ),
+        child: Column(
+          children: [
+            Container(
+              margin: const EdgeInsets.only(
+                top: 12.0,
+              ),
+              height: 5,
+              width: 50,
+              decoration: BoxDecoration(
+                color: Colors.grey.shade400,
+                borderRadius: BorderRadius.circular(5),
+              ),
+            ),
+            Container(
+              margin: const EdgeInsets.symmetric(
+                vertical: 12.0,
+                horizontal: 12.0,
+              ),
+              alignment: Alignment.centerLeft,
+              child: Text(
+                "${AppStrings.titleFeedback}:",
+                style: Get.textTheme.headline3!
+                    .copyWith(color: AppColors.primaryColor),
+                softWrap: true,
+                textAlign: TextAlign.center,
+              ),
+            ),
+            Expanded(
+              child: FeedbackList(
+                belongedId: belongedId,
+              ),
+            ),
+          ],
         ),
       ),
       shape: RoundedRectangleBorder(

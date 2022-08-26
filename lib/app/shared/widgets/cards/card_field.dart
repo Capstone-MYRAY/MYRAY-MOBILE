@@ -8,6 +8,8 @@ class CardField extends StatelessWidget {
   final String data;
   final bool isCenter;
   final Color? dataColor;
+  final double? fontSize;
+  final FontWeight? titleFontWeight;
 
   const CardField({
     Key? key,
@@ -16,6 +18,8 @@ class CardField extends StatelessWidget {
     required this.data,
     this.isCenter = false,
     this.dataColor,
+    this.fontSize,
+    this.titleFontWeight,
   }) : super(key: key);
 
   @override
@@ -35,17 +39,22 @@ class CardField extends StatelessWidget {
             softWrap: true,
             textScaleFactor: Get.textScaleFactor,
             text: TextSpan(
+              style: Get.textTheme.bodyText2!.copyWith(
+                height: 1.3,
+              ),
               children: [
                 TextSpan(
                   text: '$title: ',
                   style: Get.textTheme.bodyText2!.copyWith(
-                    fontWeight: FontWeight.w500,
+                    fontWeight: titleFontWeight ?? FontWeight.w500,
+                    fontSize: fontSize,
                   ),
                 ),
                 TextSpan(
                   text: data,
                   style: Get.textTheme.bodyText2!.copyWith(
                     color: dataColor ?? AppColors.black,
+                    fontSize: fontSize,
                   ),
                 ),
               ],

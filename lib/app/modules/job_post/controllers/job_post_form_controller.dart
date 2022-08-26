@@ -1178,9 +1178,9 @@ class JobPostFormController extends GetxController {
     DateTime publishDate = Utils.fromddMMyyyy(value!);
 
     DateTime now = DateTime.now();
-    bool isValidHour =
+    bool isInvalidHour =
         now.hour >= 16 && now.hour <= 23 && publishDate.isToday();
-    if (!isValidHour) {
+    if (isInvalidHour) {
       return 'Không được chọn ngày đăng bài là ngày hôm nay nếu sau 16h';
     }
 
