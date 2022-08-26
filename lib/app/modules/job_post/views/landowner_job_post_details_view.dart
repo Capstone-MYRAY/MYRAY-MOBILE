@@ -86,16 +86,18 @@ class LandownerJobPostDetailsView
               padding: const EdgeInsets.only(bottom: 16.0),
               children: [
                 _buildPostInfo(),
-                Container(
-                  margin: EdgeInsets.only(
-                    top: 16.0,
-                    left: Get.width * 0.05,
-                    right: Get.width * 0.05,
-                  ),
-                  alignment: Alignment.centerRight,
-                  child: Text(
-                    controller.totalFarmerDisplay,
-                    style: Get.textTheme.bodyText1,
+                Obx(
+                  () => Container(
+                    margin: EdgeInsets.only(
+                      top: 16.0,
+                      left: Get.width * 0.05,
+                      right: Get.width * 0.05,
+                    ),
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      controller.totalFarmerDisplay,
+                      style: Get.textTheme.bodyText1,
+                    ),
                   ),
                 ),
                 _buildPostInformation(),
@@ -291,7 +293,7 @@ class LandownerJobPostDetailsView
       }
 
       //add repost button
-      if (_isExpired || _isOutOfDate || true) {
+      if (_isExpired || _isOutOfDate) {
         final button = [
           const SizedBox(height: 8.0),
           FractionallySizedBox(

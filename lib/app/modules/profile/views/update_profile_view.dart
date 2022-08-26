@@ -124,7 +124,7 @@ class UpdateProfileView extends GetView<UpdateProfileController> {
           controller: controller.descriptionController,
           icon: const Icon(CustomIcons.content_paste),
           labelText: AppStrings.labelDescription,
-          placeholder: AppStrings.placeholderDescription,
+          placeholder: 'Đã từng có kinh nghiệm ở những công việc nào?',
           minLines: 1,
           maxLines: 10,
           keyBoardType: TextInputType.multiline,

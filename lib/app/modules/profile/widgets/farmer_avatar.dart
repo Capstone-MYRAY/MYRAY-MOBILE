@@ -71,26 +71,26 @@ class FarmerAvatar extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 10.0),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: const [
-                    Icon(CustomIcons.star, size: 15),
-                    SizedBox(width: 5.0),
-                    Text(
-                      "1000", // chưa load dữ liệu lên được, vì có thể thay đổi nên tính sau
-                      style: TextStyle(
-                          fontSize: 15,
-                          color: AppColors.primaryColor,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(width: 5.0),
-                    Text(
-                      'điểm thưởng',
-                      style: TextStyle(fontSize: 15),
-                    )
-                  ],
-                ),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.center,
+                //   crossAxisAlignment: CrossAxisAlignment.center,
+                //   children: const [
+                //     Icon(CustomIcons.star, size: 15),
+                //     SizedBox(width: 5.0),
+                //     Text(
+                //       "1000", // chưa load dữ liệu lên được, vì có thể thay đổi nên tính sau
+                //       style: TextStyle(
+                //           fontSize: 15,
+                //           color: AppColors.primaryColor,
+                //           fontWeight: FontWeight.bold),
+                //     ),
+                //     SizedBox(width: 5.0),
+                //     Text(
+                //       'điểm thưởng',
+                //       style: TextStyle(fontSize: 15),
+                //     )
+                //   ],
+                // ),
                 Padding(
                   padding: const EdgeInsets.only(top: 10.0, bottom: 11.0),
                   child: FilledButton(

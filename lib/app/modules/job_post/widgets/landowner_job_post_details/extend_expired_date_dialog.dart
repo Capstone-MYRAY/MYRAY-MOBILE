@@ -29,6 +29,7 @@ class ExtendExpiredDateDialog {
     return await BaseDialog.show(
       child: StatefulBuilder(
         builder: (context, setState) => Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             Align(
               alignment: Alignment.center,

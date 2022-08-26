@@ -65,16 +65,28 @@ class JobPostAttendanceView extends GetView<JobPostAttendanceController> {
                         bool isFiredEndDisplay =
                             isFiredOrEnd && isSelectedBeforeEndDate;
 
-                        bool isDisplay = item.attendance.isEmpty &&
+                        bool isEmptyDisplay = item.attendances.isEmpty &&
                             (item.appliedFarmerStatus ==
                                     AppliedFarmerStatus.approved.index ||
                                 isFiredEndDisplay);
+
+                        bool isNotEmptyDisplay = item.attendances.isNotEmpty &&
+                            (item.attendances.first.status ==
+                                    AttendanceStatus.present.index ||
+                                item.attendances.first.status ==
+                                    AttendanceStatus.absent.index ||
+                                (item.attendances.first.status ==
+                                        AttendanceStatus.dayOff.index &&
+                                    item.appliedFarmerStatus ==
+                                        AppliedFarmerStatus.approved.index));
+
+                        bool isDisplay = isEmptyDisplay || isNotEmptyDisplay;
 
                         if (!isDisplay) {
                           return const SizedBox();
                         }
 
-                        bool isControlDisplayed = item.attendance.isEmpty &&
+                        bool isControlDisplayed = item.attendances.isEmpty &&
                             !controller.selectedDate.value.isAfter(now);
 
                         return CheckAttendanceCard(
@@ -86,17 +98,16 @@ class JobPostAttendanceView extends GetView<JobPostAttendanceController> {
                           avatar: item.farmer.imageUrl,
                           isFiredOrEnd: isFiredOrEnd,
                           isControlDisplayed: isControlDisplayed,
-                          statusName: item.attendance.isNotEmpty
-                              ? item.attendance.first.statusString
+                          statusName: item.attendances.isNotEmpty
+                              ? item.attendances.first.statusString
                               : AppStrings.noAttendance,
-                          statusBackground: item.attendance.isNotEmpty
-                              ? item.attendance.first.statusColor
+                          statusBackground: item.attendances.isNotEmpty
+                              ? item.attendances.first.statusColor
                               : AppColors.grey,
-                          reason: item.attendance.isNotEmpty
-                              ? item.attendance.first.reason
+                          reason: item.attendances.isNotEmpty
+                              ? item.attendances.first.reason
                               : null,
                           onPresent: () => controller.onPresent(item.farmer),
-                          onFinish: () => controller.onFinish(item.farmer),
                           onAbsent: () => controller.onAbsent(item.farmer),
                           onFired: () => controller.onFired(item.farmer),
                         );

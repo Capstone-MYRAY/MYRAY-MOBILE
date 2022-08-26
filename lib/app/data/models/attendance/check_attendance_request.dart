@@ -23,6 +23,9 @@ class CheckAttendanceRequest {
   @JsonKey(name: 'status')
   AttendanceStatus? status;
 
+  @JsonKey(name: 'salary')
+  double? salary;
+
   CheckAttendanceRequest({
     required this.jobPostId,
     required this.dateTime,
@@ -30,6 +33,7 @@ class CheckAttendanceRequest {
     this.signature,
     this.reason,
     this.status,
+    this.salary,
   });
 
   factory CheckAttendanceRequest.fromJson(Map<String, dynamic> json) =>

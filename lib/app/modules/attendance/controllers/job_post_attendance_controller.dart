@@ -96,7 +96,7 @@ class JobPostAttendanceController extends GetxController {
       Attendance attendance, AttendanceStatus status) {
     final item =
         selectedAttendances.firstWhere((e) => e.farmer.id == farmer.id);
-    item.attendance.add(attendance);
+    item.attendances.add(attendance);
     attendances.update(date, (value) => selectedAttendances);
     if (status == AttendanceStatus.end || status == AttendanceStatus.fired) {
       attendances.removeWhere(
@@ -176,19 +176,11 @@ class JobPostAttendanceController extends GetxController {
     CheckAttendanceDialog.show(
       _jobPost.payPerHourJob?.salary ?? _jobPost.payPerTaskJob?.salary ?? 0,
       signatureController,
-      () => _onPresentOrFinish(farmer),
+      () => _onPresent(farmer),
     );
   }
 
-  onFinish(Account farmer) {
-    CheckAttendanceDialog.show(
-        _jobPost.payPerHourJob?.salary ?? _jobPost.payPerTaskJob?.salary ?? 0,
-        signatureController,
-        () => _onPresentOrFinish(farmer, isOnFinish: true),
-        isFinish: true);
-  }
-
-  _onPresentOrFinish(Account farmer, {bool isOnFinish = false}) async {
+  _onPresent(Account farmer, {bool isOnFinish = false}) async {
     EasyLoading.show();
     try {
       //generate multipart
@@ -207,15 +199,15 @@ class JobPostAttendanceController extends GetxController {
         dateTime: selectedDate.value,
         accountId: farmer.id.toString(),
         signature: uploadedFile?.files.first.link,
-        status: !isOnFinish ? AttendanceStatus.present : AttendanceStatus.end,
+        status: AttendanceStatus.present,
       );
 
       print(data.toJson());
 
       final result = await _attendanceRepository.checkAttendance(data);
       if (result == null) throw Exception('Có lỗi xảy ra');
-      _updateAttendanceList(farmer, selectedDate.value, result,
-          isOnFinish ? AttendanceStatus.end : AttendanceStatus.present);
+      _updateAttendanceList(
+          farmer, selectedDate.value, result, AttendanceStatus.present);
       signatureController.clear();
       EasyLoading.dismiss();
       Get.back(); //close dialog

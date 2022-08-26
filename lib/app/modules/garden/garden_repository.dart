@@ -30,6 +30,11 @@ class GardenRepository {
   Future<GetGardenResponse?> getGardens(GetGardenRequest data) async {
     final response = await _apiProvider.getMethod(path, data: data.toJson());
 
+    print(response.statusCode);
+    if (response.statusCode == null) {
+      throw CustomException('No response');
+    }
+
     if (response.statusCode == HttpStatus.ok) {
       return GetGardenResponse.fromJson(response.body);
     }
