@@ -128,7 +128,7 @@ class FarmerHomeController extends GetxController
         startDateFrom: currentFromDate != null ? "${currentFromDate!}Z" : null,
         startDateTo: currentToDate != null ? "${currentToDate!}Z" : null,
         workTypeId: workTypeId?.toString(),
-        // treeType: _getChosenTreeTypeIdList(),
+        treeType: _getChosenTreeTypeIdList(),
         province: selectedProvince.value == '' ? null : selectedProvince.value,
         salaryFrom: selectSalaryRange.value.salaryFrom?.toString(),
         salaryTo: selectSalaryRange.value.salaryTo?.toString(),

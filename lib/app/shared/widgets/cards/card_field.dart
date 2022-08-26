@@ -10,6 +10,7 @@ class CardField extends StatelessWidget {
   final Color? dataColor;
   final double? fontSize;
   final FontWeight? titleFontWeight;
+  final double? iconAndTitleSpace;
 
   const CardField({
     Key? key,
@@ -20,6 +21,7 @@ class CardField extends StatelessWidget {
     this.dataColor,
     this.fontSize,
     this.titleFontWeight,
+    this.iconAndTitleSpace,
   }) : super(key: key);
 
   @override
@@ -33,7 +35,7 @@ class CardField extends StatelessWidget {
           icon,
           color: AppColors.iconColor,
         ),
-        const SizedBox(width: 5.0),
+        SizedBox(width: iconAndTitleSpace ?? 5.0),
         Expanded(
           child: RichText(
             softWrap: true,

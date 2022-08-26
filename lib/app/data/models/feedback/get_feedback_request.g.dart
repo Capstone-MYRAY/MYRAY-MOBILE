@@ -11,7 +11,7 @@ GetFeedbackRequest _$GetFeedbackRequestFromJson(Map<String, dynamic> json) =>
       numStar: json['numStar'] as String?,
       jobPostId: json['jobPostId'] as String?,
       createdBy: json['createdBy'] as String?,
-      belongedId: json['belongedId'] as int?,
+      belongedId: json['belongedId'] as String?,
       sortColumn:
           $enumDecodeNullable(_$FeedbackSortColumnEnumMap, json['sort-column']),
       orderBy: $enumDecodeNullable(_$SortOrderEnumMap, json['order-by']),

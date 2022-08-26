@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:myray_mobile/app/shared/constants/app_colors.dart';
+import 'package:myray_mobile/app/shared/constants/app_strings.dart';
 import 'package:myray_mobile/app/shared/widgets/buttons/custom_text_button.dart';
 import 'package:myray_mobile/app/shared/widgets/controls/input_field.dart';
 import 'package:myray_mobile/app/shared/widgets/dialogs/custom_form_dialog.dart';
@@ -25,6 +26,7 @@ class FeedbackDialog {
         title: isFeedbacked ? ' Cập nhật đánh giá' : "Đánh giá",
         formKey: formKey,
         contentPadding: const EdgeInsets.only(left: 20, right: 10),
+        submitButtonTitle: AppStrings.titleFeedback,
         textFields: [
           Row(
             mainAxisAlignment: MainAxisAlignment.center,

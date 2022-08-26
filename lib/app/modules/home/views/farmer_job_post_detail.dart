@@ -544,7 +544,7 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
                             if (snapshot.hasError ||
                                 snapshot.data == null ||
                                 controller.feedBackList.isEmpty) {
-                              printError();
+                              // printError();
                               return Center(
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
