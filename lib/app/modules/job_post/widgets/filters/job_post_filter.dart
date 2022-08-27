@@ -24,6 +24,13 @@ class JobPostFilter extends GetView<LandownerJobPostController> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(AppStrings.titleFilter),
+        leading: GestureDetector(
+          onTap: () {
+            controller.isClearFilter = false;
+            Get.back();
+          },
+          child: const Icon(Icons.arrow_back_outlined),
+        ),
       ),
       body: Column(
         children: [
@@ -38,13 +45,29 @@ class JobPostFilter extends GetView<LandownerJobPostController> {
             ),
           ),
           FilterControls(
-            onApply: controller.onApplyFilter,
+            onApply: () {
+              if (controller.isClearFilter) {
+                controller.onClearFilter();
+                controller.isClearFilter = false;
+              } else {
+                controller.workTypeFilter =
+                    workTypeKey.currentState?.getSelectedItem();
+                controller.postTypeFilter =
+                    postTypeKey.currentState?.getSelectedItem();
+                controller.postStatusFilter =
+                    postStatusKey.currentState?.getSelectedItem();
+                controller.workStatusFilter =
+                    workStatusKey.currentState?.getSelectedItem();
+              }
+              controller.onApplyFilter();
+              Get.back(); //close filter screen
+            },
             onClear: () {
               workTypeKey.currentState?.clearFilter();
               postTypeKey.currentState?.clearFilter();
               postStatusKey.currentState?.clearFilter();
               workStatusKey.currentState?.clearFilter();
-              controller.onClearFilter();
+              controller.isClearFilter = true;
             },
           ),
         ],
@@ -57,7 +80,7 @@ class JobPostFilter extends GetView<LandownerJobPostController> {
       title: AppStrings.labelWorkStatus,
       child: OutlinedFilter(
         key: workStatusKey,
-        onChanged: (value) => controller.workStatusFilter = value,
+        // onChanged: (value) => controller.workStatusFilter = value,
         selectedItem: controller.workStatusFilter,
         items: [
           FilterObject(
@@ -86,9 +109,9 @@ class JobPostFilter extends GetView<LandownerJobPostController> {
       title: AppStrings.labelPostStatus,
       child: OutlinedFilter(
         key: postStatusKey,
-        onChanged: (value) {
-          controller.postStatusFilter = value;
-        },
+        // onChanged: (value) {
+        //   controller.postStatusFilter = value;
+        // },
         selectedItem: controller.postStatusFilter,
         items: [
           FilterObject(
@@ -139,10 +162,10 @@ class JobPostFilter extends GetView<LandownerJobPostController> {
         key: postTypeKey,
         items: controller.postTypeList,
         selectedItem: controller.postTypeFilter,
-        onChanged: (value) {
-          controller.postTypeFilter = value;
-          print('Selected post type: $value');
-        },
+        // onChanged: (value) {
+        //   controller.postTypeFilter = value;
+        //   print('Selected post type: $value');
+        // },
       ),
     );
   }
@@ -152,10 +175,10 @@ class JobPostFilter extends GetView<LandownerJobPostController> {
       title: AppStrings.labelWorkPayType,
       child: InlineFilter(
         key: workTypeKey,
-        onChanged: (value) {
-          controller.workTypeFilter = value;
-          print('Selected work type: $value');
-        },
+        // onChanged: (value) {
+        //   controller.workTypeFilter = value;
+        //   print('Selected work type: $value');
+        // },
         selectedItem: controller.workTypeFilter,
         items: [
           FilterObject(

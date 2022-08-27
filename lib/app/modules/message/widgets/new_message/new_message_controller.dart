@@ -96,6 +96,9 @@ class NewMessageController extends GetxController with UploadImageService {
 
   sendMessage() async {
     final msg = messageController.text.trim();
+
+    if (msg.isEmpty) return;
+
     final newMessage = NewMessageRequest(
       fromId: fromId,
       toId: toId,
@@ -117,6 +120,7 @@ class NewMessageController extends GetxController with UploadImageService {
         //display message on screen
         _p2pMessageController.addNewMessage(message);
         messageController.clear();
+        isDisplaySendButton.value = false;
         _p2pMessageController.isChanged = true;
         await SignalRProvider.instance.hubConnection
             ?.invoke('SendMessage', args: [newMessage]);

@@ -10,12 +10,30 @@ import 'package:myray_mobile/app/shared/widgets/filters/filter_section.dart';
 import 'package:myray_mobile/app/shared/widgets/filters/outlined_filter.dart';
 
 class PaymentHistoryFilter extends GetView<PaymentHistoryHomeController> {
-  const PaymentHistoryFilter({Key? key}) : super(key: key);
+  PaymentHistoryFilter({Key? key}) : super(key: key) {
+    _selectedDate = controller.rangeDate;
+  }
+
+  final statusKey = GlobalKey<OutlinedFilterState>();
+  final issuedDateController = TextEditingController();
+  DateTimeRange? _selectedDate;
 
   @override
   Widget build(BuildContext context) {
+    print('Payment filter build');
+    controller.setDateRangeText(_selectedDate, issuedDateController);
+
     return Scaffold(
-      appBar: AppBar(title: const Text(AppStrings.titleFilter)),
+      appBar: AppBar(
+        title: const Text(AppStrings.titleFilter),
+        leading: GestureDetector(
+          onTap: () {
+            controller.isClearFilter = false;
+            Get.back();
+          },
+          child: const Icon(Icons.arrow_back_outlined),
+        ),
+      ),
       body: Column(
         children: [
           Expanded(
@@ -27,8 +45,26 @@ class PaymentHistoryFilter extends GetView<PaymentHistoryHomeController> {
             ),
           ),
           FilterControls(
-            onApply: controller.onApplyFilter,
-            onClear: controller.onClearFilter,
+            onApply: () {
+              if (controller.isClearFilter) {
+                controller.isClearFilter = false;
+                statusKey.currentState?.clearFilter();
+                controller.onClearFilter();
+              } else {
+                controller.rangeDate = _selectedDate;
+                print(controller.rangeDate == null);
+                // controller.setDateRangeText(
+                //     selectedDate, controller.issuedDateController);
+                controller.statusFilter =
+                    statusKey.currentState?.getSelectedItem();
+              }
+              controller.onApplyFilter();
+            },
+            onClear: () {
+              statusKey.currentState!.clearFilter();
+              issuedDateController.clear();
+              controller.isClearFilter = true;
+            },
           ),
         ],
       ),
@@ -39,10 +75,10 @@ class PaymentHistoryFilter extends GetView<PaymentHistoryHomeController> {
     return FilterSection(
       title: 'Trạng thái',
       child: OutlinedFilter(
-        key: controller.statusKey,
-        onChanged: (value) {
-          controller.statusFilter = value;
-        },
+        key: statusKey,
+        // onChanged: (value) {
+        //   controller.statusFilter = value;
+        // },
         selectedItem: controller.statusFilter,
         items: [
           FilterObject(
@@ -70,9 +106,15 @@ class PaymentHistoryFilter extends GetView<PaymentHistoryHomeController> {
     return FilterSection(
       title: 'Theo thời gian',
       child: TextField(
-        controller: controller.issuedDateController,
+        controller: issuedDateController,
         readOnly: true,
-        onTap: controller.onChooseIssuedDate,
+        onTap: () async {
+          DateTimeRange? selectedDate = await controller.onChooseIssuedDate();
+          if (selectedDate != null) {
+            _selectedDate = selectedDate;
+          }
+          controller.setDateRangeText(_selectedDate, issuedDateController);
+        },
         decoration: InputDecoration(
           hintText: AppStrings.placeholderIssuedDate,
           border: OutlineInputBorder(
