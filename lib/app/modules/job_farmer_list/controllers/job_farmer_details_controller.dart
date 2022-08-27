@@ -11,6 +11,7 @@ import 'package:myray_mobile/app/modules/job_farmer_list/widgets/feedback_dialog
 import 'package:myray_mobile/app/modules/job_farmer_list/widgets/report_dialog.dart';
 import 'package:myray_mobile/app/modules/job_post/controllers/landowner_job_post_controller.dart';
 import 'package:myray_mobile/app/modules/job_post/controllers/landowner_job_post_details_controller.dart';
+import 'package:myray_mobile/app/modules/profile/profile_repository.dart';
 import 'package:myray_mobile/app/modules/report/report_repository.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/utils/auth_credentials.dart';
@@ -33,6 +34,7 @@ class JobFarmerDetailsController extends GetxController
     isBookmarked.value = await isBookMark(appliedFarmer.value.userInfo.id!);
     await getFeedback();
     await getReport();
+    print(appliedFarmer.value.userInfo.rating);
   }
 
   onToggleBookmark() {
@@ -119,28 +121,14 @@ class JobFarmerDetailsController extends GetxController
       if (submittedFeedback == null) throw CustomException('Có lỗi xảy ra');
 
       //update star
-      if (feedback.value == null) {
-        if (appliedFarmer.value.userInfo.rating == null ||
-            appliedFarmer.value.userInfo.rating == 0) {
-          appliedFarmer.value.userInfo.rating =
-              submittedFeedback.numStar.toDouble();
-        } else {
-          double newRating = (appliedFarmer.value.userInfo.rating! +
-                  submittedFeedback.numStar.toDouble()) /
-              2;
-          appliedFarmer.value.userInfo.rating = newRating;
-        }
-      } else {
-        double newRating =
-            appliedFarmer.value.userInfo.rating! - feedback.value!.numStar;
-        if (newRating == 0) {
-          newRating += submittedFeedback.numStar;
-        } else {
-          newRating += submittedFeedback.numStar;
-          newRating /= 2;
-        }
-        appliedFarmer.value.userInfo.rating = newRating;
-      }
+      final profileRepo = Get.find<ProfileRepository>();
+      final userInfo =
+          await profileRepo.getUser(appliedFarmer.value.userInfo.id!);
+
+      if (userInfo == null) throw CustomException('Có lỗi xảy ra');
+      appliedFarmer.value.userInfo.rating = userInfo.rating;
+
+      print('Rating: ${appliedFarmer.value.userInfo.rating}');
 
       //update ui
       feedback.value = submittedFeedback;
