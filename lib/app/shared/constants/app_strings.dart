@@ -217,7 +217,7 @@ class AppStrings {
   static const forgotPassword = 'Quên mật khẩu?';
   static const resetPassword = 'Đặt lại mật khẩu';
   static const farmer = 'Nông dân';
-  static const landowner = 'Chủ đất';
+  static const landowner = 'Chủ vườn';
   static const loading = 'Đang xử lý';
   static const payPerTask = 'Làm khoán';
   static const payPerHour = 'Làm công';
