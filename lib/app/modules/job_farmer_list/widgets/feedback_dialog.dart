@@ -17,6 +17,10 @@ class FeedbackDialog {
     );
     String? error;
     double selectedStar = 0.0;
+    if (feedback != null) {
+      selectedStar = feedback.numStar.toDouble();
+    }
+
     final formKey = GlobalKey<FormState>();
 
     return await BaseDialog.show(

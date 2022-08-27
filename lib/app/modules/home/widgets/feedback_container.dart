@@ -35,7 +35,7 @@ class FeedBackContainer extends StatelessWidget {
           SizedBox(
             width: Get.width * 0.9,
             child: Text(
-              feedBack.content,
+              feedBack.content ?? '',
               style: Get.textTheme.bodyMedium!.copyWith(fontSize: 15),
               softWrap: true,
               textAlign: TextAlign.left,
