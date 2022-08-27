@@ -203,7 +203,7 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
                       Text(
                         controller.landownerAccount != null
                             ? controller.landownerAccount!.value.fullName!
-                            : "Tên chủ rẫy đang cập nhật",
+                            : "Tên chủ vườn đang cập nhật",
                         style: TextStyle(
                           fontSize: Get.textScaleFactor * 15,
                         ),
@@ -483,7 +483,7 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
                               // width: Get.width * 0.5,
                               child: Text(
                                 controller.landownerAccount!.value.fullName ??
-                                    'Tên chủ rẫy đang cập nhật',
+                                    'Tên chủ vườn đang cập nhật',
                                 style: Get.textTheme.headline5,
                                 softWrap: true,
                                 textAlign: TextAlign.center,

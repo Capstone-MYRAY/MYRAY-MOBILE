@@ -85,7 +85,7 @@ class AppStrings {
   static const subtitleLogout = 'Đăng xuất tài khoản';
   static const subtitleCheckattendance = "Kiểm tra điểm danh";
   static const subtitleHistoryJob = "Công việc đã làm";
-  static const subtitleFarmerFavorite = "Danh sách chủ rẫy yêu thích";
+  static const subtitleFarmerFavorite = "Danh sách chủ vườn yêu thích";
   static const subtitlePassword = "Thay đổi mật khẩu";
   static const subtitleAppliedJobPost = 'Các công việc đã ứng tuyển';
 

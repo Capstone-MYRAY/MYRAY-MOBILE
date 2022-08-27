@@ -66,8 +66,8 @@ class FarmerInprogressJobCard extends StatelessWidget {
                   children: <Widget>[                    
                     CardField(
                       icon: Icons.person,
-                      title: 'Chủ rẫy',
-                      data: jobPost.publishedName ?? 'Tên chủ rẫy',
+                      title: 'Chủ vườn',
+                      data: jobPost.publishedName ?? 'Tên chủ vườn',
                       fontSize: Get.textScaleFactor * 15,
                       iconAndTitleSpace: Get.width * 0.03,
                     ),

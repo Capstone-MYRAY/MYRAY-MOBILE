@@ -71,7 +71,7 @@ class HistoryJobCard extends StatelessWidget {
                       width: 10,
                     ),
                     Text(
-                      "Chủ rẫy:",
+                      "Chủ vườn:",
                       style: Get.textTheme.labelMedium!.copyWith(
                         fontWeight: FontWeight.w500,
                         fontSize: Get.textScaleFactor * 15,
