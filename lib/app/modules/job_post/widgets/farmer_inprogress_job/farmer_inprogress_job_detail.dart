@@ -136,7 +136,7 @@ class FarmerInProgressJobDetail extends GetView<InprogressJobDetailController> {
                             width: Get.width * 0.7,
                             child: Text.rich(
                               TextSpan(
-                                text: 'Chủ rẫy:  ',
+                                text: 'Chủ vườn:  ',
                                 children: [
                                   TextSpan(
                                     text: controller.jobpost.publishedName,

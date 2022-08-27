@@ -89,7 +89,7 @@ class FarmerHistoryJobView extends GetView<FarmerHistoryJobController> {
                       child: HistoryJobCard(
                           title: appliedJob.jobPost.title,
                           nameOnwner:
-                              appliedJob.jobPost.publishedName ?? 'Tên chủ rẫy',
+                              appliedJob.jobPost.publishedName ?? 'Tên chủ vườn',
                           type: appliedJob.jobPost.type == 'PayPerHourJob'
                               ? AppStrings.payPerHour
                               : AppStrings.payPerTask,

@@ -544,7 +544,7 @@ class InprogressJobDetailController extends GetxController
       fromId,
       toId,
       jobPostId,
-      jobpost.publishedName ?? 'Chủ rẫy',
+      jobpost.publishedName ?? 'Chủ vườn',
       jobpost.title,
       toAvatar: landownerAccount?.imageUrl,
     );
