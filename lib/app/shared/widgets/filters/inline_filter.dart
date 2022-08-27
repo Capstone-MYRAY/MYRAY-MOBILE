@@ -5,12 +5,12 @@ import 'package:myray_mobile/app/shared/constants/constants.dart';
 class InlineFilter extends StatefulWidget {
   final List<FilterObject> items;
   final dynamic selectedItem;
-  final void Function(dynamic value) onChanged;
+  final void Function(dynamic value)? onChanged;
 
   const InlineFilter({
     Key? key,
     required this.items,
-    required this.onChanged,
+    this.onChanged,
     this.selectedItem,
   }) : super(key: key);
 
@@ -26,6 +26,10 @@ class InlineFilterState extends State<InlineFilter> {
     setState(() {
       _selectedItem = null;
     });
+  }
+
+  dynamic getSelectedItem() {
+    return _selectedItem;
   }
 
   @override
@@ -60,7 +64,9 @@ class InlineFilterState extends State<InlineFilter> {
         borderRadius: BorderRadius.circular(CommonConstants.borderRadius),
         child: InkWell(
           onTap: () {
-            widget.onChanged(value);
+            if (widget.onChanged != null) {
+              widget.onChanged!(value);
+            }
             setState(() {
               _selectedItem = value;
             });

@@ -17,9 +17,9 @@ class PaymentHistoryHomeController extends GetxController {
 
   final isLoading = false.obs;
 
-  late TextEditingController issuedDateController;
   late TextEditingController messageController;
-  late GlobalKey<OutlinedFilterState> statusKey;
+
+  bool isClearFilter = false;
 
   DateTimeRange? rangeDate;
   int? statusFilter;
@@ -28,16 +28,12 @@ class PaymentHistoryHomeController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    issuedDateController = TextEditingController();
     messageController = TextEditingController();
-    statusKey = GlobalKey();
   }
 
   onClearFilter() {
-    statusKey.currentState!.clearFilter();
     statusFilter = null;
     rangeDate = null;
-    issuedDateController.text = '';
   }
 
   onApplyFilter() {
@@ -49,12 +45,7 @@ class PaymentHistoryHomeController extends GetxController {
     return paymentHistories.firstWhereOrNull((payment) => payment.id == id);
   }
 
-  //TODO: wait for Lâm
-  Future<PaymentHistory?> getById(int id) async {
-    return null;
-  }
-
-  onChooseIssuedDate() async {
+  Future<DateTimeRange?> onChooseIssuedDate() async {
     final now = DateTime.now();
     final firstDate = now.subtract(const Duration(days: 365));
     DateTimeRange? selectedRange = await MyDateRangePicker.show(
@@ -63,14 +54,21 @@ class PaymentHistoryHomeController extends GetxController {
       initDateRange: rangeDate,
     );
 
-    if (selectedRange != null) {
-      rangeDate = selectedRange;
-      if (selectedRange.start.isAtSameMomentAs(selectedRange.end)) {
-        issuedDateController.text = Utils.formatddMMyyyy(selectedRange.start);
-      } else {
-        issuedDateController.text =
-            '${Utils.formatddMMyyyy(selectedRange.start)} - ${Utils.formatddMMyyyy(selectedRange.end)}';
-      }
+    return selectedRange;
+  }
+
+  setDateRangeText(
+      DateTimeRange? selectedRange, TextEditingController textController) {
+    if (selectedRange == null) {
+      textController.text = '';
+      return;
+    }
+
+    if (selectedRange.start.isAtSameMomentAs(selectedRange.end)) {
+      textController.text = Utils.formatddMMyyyy(selectedRange.start);
+    } else {
+      textController.text =
+          '${Utils.formatddMMyyyy(selectedRange.start)} - ${Utils.formatddMMyyyy(selectedRange.end)}';
     }
   }
 

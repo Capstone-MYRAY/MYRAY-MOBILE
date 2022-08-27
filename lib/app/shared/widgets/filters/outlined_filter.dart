@@ -5,12 +5,12 @@ import 'package:myray_mobile/app/shared/constants/constants.dart';
 class OutlinedFilter extends StatefulWidget {
   final List<FilterObject> items;
   final dynamic selectedItem;
-  final void Function(dynamic value) onChanged;
+  final void Function(dynamic value)? onChanged;
 
   const OutlinedFilter({
     Key? key,
     required this.items,
-    required this.onChanged,
+    this.onChanged,
     this.selectedItem,
   }) : super(key: key);
 
@@ -26,6 +26,10 @@ class OutlinedFilterState extends State<OutlinedFilter> {
     setState(() {
       _selectedItem = null;
     });
+  }
+
+  dynamic getSelectedItem() {
+    return _selectedItem;
   }
 
   @override
@@ -61,7 +65,9 @@ class OutlinedFilterState extends State<OutlinedFilter> {
       ),
       child: InkWell(
         onTap: () {
-          widget.onChanged(value);
+          if (widget.onChanged != null) {
+            widget.onChanged!(value);
+          }
           setState(() {
             _selectedItem = value;
           });
