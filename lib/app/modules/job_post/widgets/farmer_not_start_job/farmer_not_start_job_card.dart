@@ -115,19 +115,19 @@ class FarmerNotStartJobCard extends StatelessWidget {
               SizedBox(
                 height: Get.height * 0.010,
               ),
-              CustomTextButton(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 40, vertical: 8),
-                onPressed: () {
-                  CustomDialog.show(confirm: confirm, message: message!);
-                },
-                title: AppStrings.cancel,
-                border: Border.all(
-                  color: AppColors.primaryColor,
-                ),
-                foreground: AppColors.primaryColor,
-                background: AppColors.white,
-              ),
+              // CustomTextButton(
+              //   padding:
+              //       const EdgeInsets.symmetric(horizontal: 40, vertical: 8),
+              //   onPressed: () {
+              //     CustomDialog.show(confirm: confirm, message: message!);
+              //   },
+              //   title: AppStrings.cancel,
+              //   border: Border.all(
+              //     color: AppColors.primaryColor,
+              //   ),
+              //   foreground: AppColors.primaryColor,
+              //   background: AppColors.white,
+              // ),
             ],
           ),
         ),
