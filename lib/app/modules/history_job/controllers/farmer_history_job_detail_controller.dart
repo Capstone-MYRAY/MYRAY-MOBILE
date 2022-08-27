@@ -267,10 +267,10 @@ class FarmerHistoryJobDetailController extends GetxController
     DateTime? endDate;
 
     GetFeedbackRequest data = GetFeedbackRequest(
-        page: '1',
-        pageSize: '20',
-        jobPostId: jobPost.id.toString(),
-        createdBy: AuthCredentials.instance.user!.id.toString(),
+      page: '1',
+      pageSize: '20',
+      jobPostId: jobPost.id.toString(),
+      createdBy: AuthCredentials.instance.user!.id.toString(),
     );
     try {
       GetFeedBackResponse? feedBack = await getFeedback(data);
@@ -280,7 +280,7 @@ class FarmerHistoryJobDetailController extends GetxController
             currentFeedback = feedBack.listObject?.first;
             //hết hạn feedback: sau 3 ngày, kể từ ngày đăng ký
             if (currentFeedback != null) {
-              feedbackContentController.text = currentFeedback.content;
+              feedbackContentController.text = currentFeedback.content ?? '';
               feedbackRatingController.text =
                   currentFeedback.numStar.toString();
               isFeedbacked = true;
