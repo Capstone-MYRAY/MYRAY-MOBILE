@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:myray_mobile/app/data/models/job_post/job_post.dart';
 import 'package:myray_mobile/app/shared/constants/app_colors.dart';
 import 'package:myray_mobile/app/shared/constants/app_strings.dart';
 import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
 import 'package:myray_mobile/app/shared/widgets/buttons/custom_text_button.dart';
+import 'package:myray_mobile/app/shared/widgets/cards/card_field.dart';
 import 'package:myray_mobile/app/shared/widgets/dialogs/custom_confirm_dialog.dart';
 
 class FarmerNotStartJobCard extends StatelessWidget {
@@ -13,16 +15,18 @@ class FarmerNotStartJobCard extends StatelessWidget {
   final void Function() confirm;
   final String? message;
   final String? buttonLabel;
+  final JobPost jobPost;
 
-  const FarmerNotStartJobCard(
-      {Key? key,
-      required this.title,
-      required this.address,
-      required this.startDate,
-      required this.confirm,
-      this.buttonLabel = 'Hủy',
-      this.message = 'Bạn muốn thực hiện thao tác này'})
-      : super(key: key);
+  const FarmerNotStartJobCard({
+    Key? key,
+    required this.title,
+    required this.address,
+    required this.startDate,
+    required this.confirm,
+    this.buttonLabel = 'Hủy',
+    this.message = 'Bạn muốn thực hiện thao tác này',
+    required this.jobPost,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +35,8 @@ class FarmerNotStartJobCard extends StatelessWidget {
       child: Card(
         color: AppColors.white,
         child: Padding(
-          padding: const EdgeInsets.only(left: 15.0, right: 11, top: 10, bottom: 10),
+          padding:
+              const EdgeInsets.only(left: 15.0, right: 11, top: 10, bottom: 10),
           child: Column(
             children: [
               SizedBox(
@@ -50,37 +55,49 @@ class FarmerNotStartJobCard extends StatelessWidget {
               SizedBox(
                 height: Get.height * 0.015,
               ),
-               Row(
-                children: [
-                Stack(
-                  children: [
-                    const Icon(CustomIcons.map_marker_outline, size: 20),
-                    
-                    Padding(
-                      padding: EdgeInsets.only(left: 30),
-                      child: SizedBox(                        
-                        width: Get.width * 0.65,
-                        child: Text.rich(
-                          
-                          TextSpan(
-                            text: address,
-                          ),
-                          style: Get.textTheme.bodyText2!
-                              .copyWith(fontSize: Get.textScaleFactor * 14),
-                          softWrap: true,
-                          overflow: TextOverflow.ellipsis,
-                          textAlign: TextAlign.justify,
-                          maxLines: 10,
-                      
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                ]
+              //  Row(
+              //   children: [
+              //   Stack(
+              //     children: [
+              //       const Icon(CustomIcons.map_marker_outline, size: 20),
+
+              //       Padding(
+              //         padding: EdgeInsets.only(left: 30),
+              //         child: SizedBox(
+              //           width: Get.width * 0.65,
+              //           child: Text.rich(
+
+              //             TextSpan(
+              //               text: address,
+              //             ),
+              //             style: Get.textTheme.bodyText2!
+              //                 .copyWith(fontSize: Get.textScaleFactor * 14),
+              //             softWrap: true,
+              //             overflow: TextOverflow.ellipsis,
+              //             textAlign: TextAlign.justify,
+              //             maxLines: 10,
+
+              //           ),
+              //         ),
+              //       ),
+              //     ],
+              //   ),
+              //   ]
+              // ),
+              CardField(
+                icon: Icons.person,
+                title: 'Chủ vườn',
+                data: jobPost.publishedName ?? 'Tên chủ vườn',
+                iconAndTitleSpace: Get.width * 0.03,
               ),
               SizedBox(
                 height: Get.height * 0.010,
+              ),
+              CardField(
+                icon: CustomIcons.briefcase_outline,
+                title: AppStrings.labelWorkType,
+                data: jobPost.workTypeName,
+                iconAndTitleSpace: Get.width * 0.03,
               ),
               Padding(
                 padding: EdgeInsets.all(0),

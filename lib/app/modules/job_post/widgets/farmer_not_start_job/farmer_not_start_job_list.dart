@@ -84,6 +84,7 @@ class FarmerNotStartJobList extends GetView<FarmerNotStartJobController> {
                           DateFormat('dd/MM/yyyy').format(jobPost.jobStartDate),
                       confirm: () => controller.cancelAppliedJob(jobPost.id),
                       message: 'Bạn muốn hủy công việc đã được tuyển ?',
+                      jobPost: jobPost
                     ),
                   );
                 },

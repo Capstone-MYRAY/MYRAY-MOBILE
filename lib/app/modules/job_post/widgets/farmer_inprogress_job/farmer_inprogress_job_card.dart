@@ -71,7 +71,7 @@ class FarmerInprogressJobCard extends StatelessWidget {
                       iconAndTitleSpace: Get.width * 0.03,
                     ),
                     SizedBox(
-                      height: Get.height * 0.005,
+                      height: Get.height * 0.010,
                     ),
                     if (isPayPerHourJob!) ...[
                       CardField(
@@ -82,75 +82,9 @@ class FarmerInprogressJobCard extends StatelessWidget {
                         iconAndTitleSpace: Get.width * 0.03,
                       ),
                       SizedBox(
-                        height: Get.height * 0.005,
-                      )
+                        height: Get.height * 0.010,
+                      ),
                     ],
-                    // ? Row(
-                    //     children: [
-                    //       const Icon(Icons.timer_sharp, size: 20),
-                    //       const SizedBox(
-                    //         width: 10,
-                    //       ),
-                    //       Text(
-                    //         "${AppStrings.labelWorkingTime}:",
-                    //         style: Get.textTheme.labelMedium!.copyWith(
-                    //           fontWeight: FontWeight.w500,
-                    //           fontSize: Get.textScaleFactor * 15,
-                    //         ),
-                    //       ),
-                    //       SizedBox(
-                    //         width: Get.width * 0.045,
-                    //       ),
-                    //       Text(
-                    //         Utils.fromHHmm(startTime).format(context),
-                    //         style: Get.textTheme.labelSmall!.copyWith(
-                    //           color: AppColors.black,
-                    //           fontSize: Get.textScaleFactor * 15,
-                    //         ),
-                    //       ),
-                    //       Text(
-                    //         ' - ',
-                    //         style: Get.textTheme.labelMedium!.copyWith(
-                    //           color: AppColors.black,
-                    //           fontSize: Get.textScaleFactor * 15,
-                    //         ),
-                    //       ),
-                    //       Text(
-                    //         Utils.fromHHmm(endTime).format(context),
-                    //         style: Get.textTheme.labelSmall!.copyWith(
-                    //           color: AppColors.black,
-                    //           fontSize: Get.textScaleFactor * 15,
-                    //         ),
-                    //       ),
-                    //     ],
-                    //   )
-                    // Row(
-                    //   children: [
-                    //     const Icon(Icons.calendar_today_outlined, size: 20),
-                    //     const SizedBox(
-                    //       width: 10,
-                    //     ),
-                    //     Text(
-                    //       "${AppStrings.labelPresentDate}:",
-                    //       style: Get.textTheme.labelMedium!.copyWith(
-                    //         fontWeight: FontWeight.w500,
-                    //         fontSize: Get.textScaleFactor * 15,
-                    //       ),
-                    //     ),
-                    //     SizedBox(
-                    //       width: Get.width * 0.03,
-                    //     ),
-                    //     Text(
-                    //       DateFormat('dd-MM-yyyy')
-                    //           .format(DateTime.now())
-                    //           .toString(),
-                    //       style: Get.textTheme.labelSmall!.copyWith(
-                    //         color: AppColors.primaryColor,
-                    //         fontSize: Get.textScaleFactor * 15,
-                    //       ),
-                    //     ),
-                    //   ],
-                    // ),
                     CardField(
                       icon: Icons.calendar_today_outlined,
                       title: AppStrings.labelPresentDate,
@@ -158,35 +92,11 @@ class FarmerInprogressJobCard extends StatelessWidget {
                           .format(DateTime.now())
                           .toString(),
                       iconAndTitleSpace: Get.width * 0.03,
+                      dataColor: AppColors.primaryColor
                     ),
                     SizedBox(
-                      height: Get.height * 0.005,
-                    ),
-                    // Row(
-                    //   children: [
-                    //     const Icon(Icons.calendar_month, size: 20),
-                    //     const SizedBox(
-                    //       width: 10,
-                    //     ),
-                    //     Text(
-                    //       "${AppStrings.labelShortJobEndDate}:",
-                    //       style: Get.textTheme.labelMedium!.copyWith(
-                    //         fontWeight: FontWeight.w500,
-                    //         fontSize: Get.textScaleFactor * 15,
-                    //       ),
-                    //     ),
-                    //     SizedBox(
-                    //       width: Get.width * 0.02,
-                    //     ),
-                    //     Text(
-                    //       jobEndDate ?? 'Chưa kết thúc',
-                    //       style: Get.textTheme.labelSmall!.copyWith(
-                    //         color: AppColors.errorColor,
-                    //         fontSize: Get.textScaleFactor * 15,
-                    //       ),
-                    //     ),
-                    //   ],
-                    // ),
+                      height: Get.height * 0.010,
+                    ),                   
                     CardField(
                       icon: Icons.calendar_month,
                       title: AppStrings.labelShortJobEndDate,
