@@ -55,7 +55,7 @@ class FarmerOnLeaveList extends StatelessWidget {
                       }
                       DayOff dayOff = controller.dayOffList[index];
                       return Container(
-                        margin: const EdgeInsets.only(top: 15, bottom: 15),
+                        padding: const EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 10),
                         child: FarmerOnLeaveCard(
                             job: dayOff.appliedJobTitle,
                             submitDate: dayOff.createdDate ?? DateTime.now(),

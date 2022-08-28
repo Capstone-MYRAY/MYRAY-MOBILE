@@ -151,25 +151,26 @@ class FarmerHistoryJobDetailController extends GetxController
                 return;
               }
             }
-            ReportDialog.show(
-              jobPostId: jobPost.id,
-              formKey: formKey,
-              reportContentController: reportContentController,
-              validateReason: validateReason,
-              submit: (_) => _onSubmitReport(currentReport),
-              closeDialog: _onCloseReportDialog,
-              isResovled: isResolved,
-              isReported: isReported,
-            );
           }
+          ReportDialog.show(
+            jobPostId: jobPost.id,
+            formKey: formKey,
+            reportContentController: reportContentController,
+            validateReason: validateReason,
+            submit: (_) => _onSubmitReport(currentReport),
+            closeDialog: _onCloseReportDialog,
+            isResovled: isResolved,
+            isReported: isReported,
+          );
         }
-      }
-      if (currentReport == null) {
-        CustomInformationDialog.show(
-            title: 'Báo cáo', message: 'Đã hết hạn báo cáo');
         return;
       }
-      ReportUpdateDialog.show(newReport: currentReport);
+      if (currentReport != null) {
+        ReportUpdateDialog.show(newReport: currentReport, title: 'Báo cáo');
+      }
+      CustomInformationDialog.show(
+          title: 'Báo cáo', message: 'Đã hết hạn báo cáo');
+      return;
     } on CustomException catch (e) {
       print('>>Report in history detail: ${e.message}');
     }
@@ -198,7 +199,6 @@ class FarmerHistoryJobDetailController extends GetxController
       content: reportContentController.text,
       reportedId: currentReport.reportedId!,
     );
-
     EasyLoading.show();
     try {
       Report? newReport = await updateReport(data);
@@ -228,14 +228,15 @@ class FarmerHistoryJobDetailController extends GetxController
     if (!formKey.currentState!.validate()) {
       return;
     }
-    EasyLoading.show();
-    _onCloseReportDialog();
+print("content: ${reportContentController.text}");
 
+    EasyLoading.show();
     try {
       PostReportRequest data = PostReportRequest(
           content: reportContentController.text,
           jobPostId: jobPost.id,
           reportedId: jobPost.publishedBy);
+
       Report? result = await reportJob(data);
       _onCloseReportDialog();
       EasyLoading.dismiss();
@@ -267,10 +268,10 @@ class FarmerHistoryJobDetailController extends GetxController
     DateTime? endDate;
 
     GetFeedbackRequest data = GetFeedbackRequest(
-        page: '1',
-        pageSize: '20',
-        jobPostId: jobPost.id.toString(),
-        createdBy: AuthCredentials.instance.user!.id.toString(),
+      page: '1',
+      pageSize: '20',
+      jobPostId: jobPost.id.toString(),
+      createdBy: AuthCredentials.instance.user!.id.toString(),
     );
     try {
       GetFeedBackResponse? feedBack = await getFeedback(data);

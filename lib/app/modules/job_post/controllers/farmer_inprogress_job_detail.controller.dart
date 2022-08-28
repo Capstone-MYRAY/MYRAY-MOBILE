@@ -444,7 +444,7 @@ class InprogressJobDetailController extends GetxController
         CustomInformationDialog.show(
           title: 'Thông báo',
           message:
-              'Bạn chưa được điểm danh!\nVui lòng liên hệ chủ đất hoặc người điều hành gần bạn nhất để được hỗ trợ.',
+              'Bạn chưa được điểm danh!\nVui lòng liên hệ chủ vườn hoặc người điều hành gần bạn nhất để được hỗ trợ.',
           icon: const Icon(Icons.pending_actions_outlined,
               size: 40, color: AppColors.brown),
         );
@@ -465,7 +465,7 @@ class InprogressJobDetailController extends GetxController
         CustomInformationDialog.show(
           title: 'Thông báo',
           message:
-              'Bạn đã xin nghỉ phép ngày hôm nay\nVui lòng liên hệ chủ đất hoặc người điều hành gần bạn nhất để được hỗ trợ.',
+              'Bạn đã xin nghỉ phép ngày hôm nay\nVui lòng liên hệ chủ vườn hoặc người điều hành gần bạn nhất để được hỗ trợ.',
           icon: const Icon(Icons.free_cancellation_outlined,
               size: 40, color: AppColors.brown),
         );

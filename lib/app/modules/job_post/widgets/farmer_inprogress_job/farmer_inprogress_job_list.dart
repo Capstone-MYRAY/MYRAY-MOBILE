@@ -80,7 +80,7 @@ class FarmerInprogressJobList extends GetView<FarmerInprogressJobController> {
                     controller.inProgressJobPostList[index].jobPost;
                 bool isPayPerHourJob = jobPost.payPerHourJob != null;
                 return Container(
-                    padding: const EdgeInsets.all(8),
+                    padding: const EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 10),
                     child: FarmerInprogressJobCard(
                         job: jobPost.title,
                         address: jobPost.address ?? 'Cập nhật sau',

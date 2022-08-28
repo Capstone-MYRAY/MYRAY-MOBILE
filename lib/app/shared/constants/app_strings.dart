@@ -74,6 +74,7 @@ class AppStrings {
   static const titleExtendMaxFarmer = 'Tăng số người tối đa';
   static const titleViewFeedback = 'Xem đánh giá';
   static const titleTopUp = 'Nạp tiền';
+  static const titltePayByType = 'Trả lương theo';
 
   //Subtitle
   static const subtitleMyGarden = 'Danh sách vườn đã tạo';
@@ -217,7 +218,7 @@ class AppStrings {
   static const forgotPassword = 'Quên mật khẩu?';
   static const resetPassword = 'Đặt lại mật khẩu';
   static const farmer = 'Nông dân';
-  static const landowner = 'Chủ đất';
+  static const landowner = 'Chủ vườn';
   static const loading = 'Đang xử lý';
   static const payPerTask = 'Làm khoán';
   static const payPerHour = 'Làm công';

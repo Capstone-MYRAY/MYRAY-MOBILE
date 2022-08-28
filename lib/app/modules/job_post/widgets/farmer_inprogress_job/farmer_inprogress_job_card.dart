@@ -33,8 +33,6 @@ class FarmerInprogressJobCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: moreDetail,
-      child: Padding(
-        padding: const EdgeInsets.only(top: 10.0),
         child: Card(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(9),
@@ -114,7 +112,7 @@ class FarmerInprogressJobCard extends StatelessWidget {
             ],
           ),
         ),
-      ),
+      
     );
   }
 }
