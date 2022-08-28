@@ -263,7 +263,7 @@ Map<int, String> _jobPostStatusString = {
 Map<int, Color> _jobPostWorkStatusColor = {
   JobPostWorkStatus.pending.index: AppColors.warningColor,
   JobPostWorkStatus.started.index: AppColors.successColor,
-  JobPostWorkStatus.done.index: AppColors.grey,
+  JobPostWorkStatus.done.index: AppColors.cancelColor,
 };
 
 Map<int, String> _jobPostWorkStatusString = {
