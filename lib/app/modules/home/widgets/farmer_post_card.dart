@@ -164,7 +164,7 @@ class FarmerPostCard extends StatelessWidget {
                       CardField(
                         icon: CustomIcons.tree_outline,
                         title: 'Loại cây',
-                        data: treeType,
+                        data: treeType.isEmpty ? 'Không phân loại' : treeType,
                         titleFontWeight: FontWeight.w600,
                       ),
                       const SizedBox(height: 8),
