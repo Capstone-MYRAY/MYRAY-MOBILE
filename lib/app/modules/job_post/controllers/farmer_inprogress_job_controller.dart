@@ -61,6 +61,4 @@ class FarmerInprogressJobController extends GetxController {
     inProgressJobPostList.clear();
     await getInProgressJobList();
   }
-
-  }
-
+}
