@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:myray_mobile/app/data/models/job_post/job_post.dart';
 import 'package:myray_mobile/app/modules/applied_job/controllers/applied_job_controller.dart';
 import 'package:myray_mobile/app/routes/app_pages.dart';
@@ -10,8 +9,10 @@ import 'package:myray_mobile/app/shared/constants/app_msg.dart';
 import 'package:myray_mobile/app/shared/constants/app_strings.dart';
 import 'package:myray_mobile/app/shared/constants/common.dart';
 import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
+import 'package:myray_mobile/app/shared/utils/utils.dart';
 import 'package:myray_mobile/app/shared/widgets/builders/my_loading_builder.dart';
 import 'package:myray_mobile/app/shared/widgets/buttons/custom_text_button.dart';
+import 'package:myray_mobile/app/shared/widgets/cards/card_field.dart';
 import 'package:myray_mobile/app/shared/widgets/dialogs/custom_confirm_dialog.dart';
 import 'package:myray_mobile/app/shared/widgets/lazy_loading_list.dart';
 
@@ -88,7 +89,7 @@ class AppliedJobList extends GetView<AppliedJobController> {
                 splashFactory: InkRipple.splashFactory,
                 onTap: () {
                   Get.toNamed(Routes.farmerJobPostDetail,
-                       arguments: {Arguments.item: jobPost});
+                      arguments: {Arguments.item: jobPost});
                 },
                 child: Container(
                   padding: const EdgeInsets.only(
@@ -102,11 +103,9 @@ class AppliedJobList extends GetView<AppliedJobController> {
                       borderRadius: BorderRadius.circular(9),
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.only(top: 10),
+                      padding: const EdgeInsets.only(top: 10, left: 20, right: 20),
                       child: Column(children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 20, right: 20),
-                          child: Row(
+                        Row(
                             children: [
                               Expanded(
                                 child: Text(jobPost.title,
@@ -120,7 +119,7 @@ class AppliedJobList extends GetView<AppliedJobController> {
                               ),
                             ],
                           ),
-                        ),
+                        
                         // Container(
                         //   padding: const EdgeInsets.only(top: 10, right: 15),
                         //   child: Stack(
@@ -147,123 +146,159 @@ class AppliedJobList extends GetView<AppliedJobController> {
                         //     ],
                         //   ),
                         // ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              top: 10, left: 15, right: 15),
-                          child: Row(
-                            children: [
-                              const Icon(CustomIcons.calendar_star, size: 20),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Expanded(
-                                child: Row(children: [
-                                  Text(
-                                    "${AppStrings.labelAppliedDate}:",
-                                    style: Get.textTheme.labelMedium!.copyWith(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: Get.textScaleFactor * 15,
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  Text(
-                                    DateFormat('dd-MM-yyyy').format(controller
-                                        .appliedJobPostResponse[index]
-                                        .appliedDate),
-                                    style: Get.textTheme.bodyText2!.copyWith(
-                                      color: AppColors.primaryColor,
-                                      fontSize: Get.textScaleFactor * 15,
-                                    ),
-                                    softWrap: true,
-                                    overflow: TextOverflow.ellipsis,
-                                    textAlign: TextAlign.left,
-                                    maxLines: 10,
-                                  ),
-                                ]),
-                              ),
-                            ],
-                          ),
+                        SizedBox(
+                          height: Get.height * 0.010,
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              top: 10, left: 15, right: 15),
-                          child: Row(
-                            children: [
-                              const Icon(Icons.work_outline, size: 20),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Expanded(
-                                child: Row(children: [
-                                  Text(
-                                    "${AppStrings.labelWorkType}: ",
-                                    style: Get.textTheme.labelMedium!.copyWith(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: Get.textScaleFactor * 15,
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  Text(
-                                    controller.appliedJobPostResponse[index]
-                                        .jobPost.workTypeName,
-                                    style: Get.textTheme.bodyText2!.copyWith(
-                                      fontSize: Get.textScaleFactor * 15,
-                                    ),
-                                    softWrap: true,
-                                    overflow: TextOverflow.ellipsis,
-                                    textAlign: TextAlign.left,
-                                    maxLines: 10,
-                                  ),
-                                ]),
-                              ),
-                            ],
-                          ),
+                        CardField(
+                          icon: CustomIcons.calendar_star,
+                          title: AppStrings.labelAppliedDate,
+                          data: Utils.formatddMMyyyy(controller
+                              .appliedJobPostResponse[index].appliedDate),
+                          iconAndTitleSpace: Get.width * 0.03,
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              top: 10, left: 15, right: 15),
-                          child: Row(
-                            children: [
-                              const Icon(CustomIcons.box, size: 20),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Expanded(
-                                child: Row(children: [
-                                  Text(
-                                    "Trả lương theo: ",
-                                    style: Get.textTheme.labelMedium!.copyWith(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: Get.textScaleFactor * 15,
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  Text(
-                                    controller.appliedJobPostResponse[index]
-                                                .jobPost.type ==
-                                            "PayPerHourJob"
-                                        ? AppStrings.payPerHour
-                                        : AppStrings.payPerTask,
-                                    style: Get.textTheme.bodyText2!.copyWith(
-                                        color: AppColors.primaryColor,
-                                        fontSize: Get.textScaleFactor * 15,
-                                        fontWeight: FontWeight.w600),
-                                    softWrap: true,
-                                    overflow: TextOverflow.ellipsis,
-                                    textAlign: TextAlign.left,
-                                    maxLines: 10,
-                                  ),
-                                ]),
-                              ),
-                            ],
-                          ),
+                        // Padding(
+                        //   padding: const EdgeInsets.only(
+                        //       top: 10, left: 15, right: 15),
+                        //   child: Row(
+                        //     children: [
+                        //       const Icon(CustomIcons.calendar_star, size: 20),
+                        //       const SizedBox(
+                        //         width: 10,
+                        //       ),
+                        //       Expanded(
+                        //         child: Row(children: [
+                        //           Text(
+                        //             "${AppStrings.labelAppliedDate}:",
+                        //             style: Get.textTheme.labelMedium!.copyWith(
+                        //               fontWeight: FontWeight.w500,
+                        //               fontSize: Get.textScaleFactor * 15,
+                        //             ),
+                        //           ),
+                        //           const SizedBox(
+                        //             width: 10,
+                        //           ),
+                        //           Text(
+                        //             DateFormat('dd-MM-yyyy').format(controller
+                        //                 .appliedJobPostResponse[index]
+                        //                 .appliedDate),
+                        //             style: Get.textTheme.bodyText2!.copyWith(
+                        //               color: AppColors.primaryColor,
+                        //               fontSize: Get.textScaleFactor * 15,
+                        //             ),
+                        //             softWrap: true,
+                        //             overflow: TextOverflow.ellipsis,
+                        //             textAlign: TextAlign.left,
+                        //             maxLines: 10,
+                        //           ),
+                        //         ]),
+                        //       ),
+                        //     ],
+                        //   ),
+                        // ),
+                        SizedBox(
+                          height: Get.height * 0.010,
                         ),
+                        CardField(
+                          icon: Icons.work_outline,
+                          title: AppStrings.labelWorkType,
+                          data: controller.appliedJobPostResponse[index].jobPost
+                              .workTypeName,
+                          iconAndTitleSpace: Get.width * 0.03,
+                        ),
+                        // Padding(
+                        //   padding: const EdgeInsets.only(
+                        //       top: 10, left: 15, right: 15),
+                        //   child: Row(
+                        //     children: [
+                        //       const Icon(Icons.work_outline, size: 20),
+                        //       const SizedBox(
+                        //         width: 10,
+                        //       ),
+                        //       Expanded(
+                        //         child: Row(children: [
+                        //           Text(
+                        //             "${AppStrings.labelWorkType}: ",
+                        //             style: Get.textTheme.labelMedium!.copyWith(
+                        //               fontWeight: FontWeight.w500,
+                        //               fontSize: Get.textScaleFactor * 15,
+                        //             ),
+                        //           ),
+                        //           const SizedBox(
+                        //             width: 10,
+                        //           ),
+                        //           Text(
+                        //             controller.appliedJobPostResponse[index]
+                        //                 .jobPost.workTypeName,
+                        //             style: Get.textTheme.bodyText2!.copyWith(
+                        //               fontSize: Get.textScaleFactor * 15,
+                        //             ),
+                        //             softWrap: true,
+                        //             overflow: TextOverflow.ellipsis,
+                        //             textAlign: TextAlign.left,
+                        //             maxLines: 10,
+                        //           ),
+                        //         ]),
+                        //       ),
+                        //     ],
+                        //   ),
+                        // ),
+                        SizedBox(
+                          height: Get.height * 0.010,
+                        ),
+                        CardField(
+                          icon: CustomIcons.box,
+                          title: AppStrings.titltePayByType,
+                          data: controller.appliedJobPostResponse[index].jobPost
+                                      .type ==
+                                  "PayPerHourJob"
+                              ? AppStrings.payPerHour
+                              : AppStrings.payPerTask,
+                          iconAndTitleSpace: Get.width * 0.03,
+                          dataColor: AppColors.primaryColor,
+                        ),
+
+                        // Padding(
+                        //   padding: const EdgeInsets.only(
+                        //       top: 10, left: 15, right: 15),
+                        //   child: Row(
+                        //     children: [
+                        //       const Icon(CustomIcons.box, size: 20),
+                        //       const SizedBox(
+                        //         width: 10,
+                        //       ),
+                        //       Expanded(
+                        //         child: Row(children: [
+                        //           Text(
+                        //             "Trả lương theo: ",
+                        //             style: Get.textTheme.labelMedium!.copyWith(
+                        //               fontWeight: FontWeight.w500,
+                        //               fontSize: Get.textScaleFactor * 15,
+                        //             ),
+                        //           ),
+                        //           const SizedBox(
+                        //             width: 10,
+                        //           ),
+                        //           Text(
+                        //             controller.appliedJobPostResponse[index]
+                        //                         .jobPost.type ==
+                        //                     "PayPerHourJob"
+                        //                 ? AppStrings.payPerHour
+                        //                 : AppStrings.payPerTask,
+                        //             style: Get.textTheme.bodyText2!.copyWith(
+                        //                 color: AppColors.primaryColor,
+                        //                 fontSize: Get.textScaleFactor * 15,
+                        //                 fontWeight: FontWeight.w600),
+                        //             softWrap: true,
+                        //             overflow: TextOverflow.ellipsis,
+                        //             textAlign: TextAlign.left,
+                        //             maxLines: 10,
+                        //           ),
+                        //         ]),
+                        //       ),
+                        //     ],
+                        //   ),
+                        // ),
+
                         CustomTextButton(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 10, vertical: 8),

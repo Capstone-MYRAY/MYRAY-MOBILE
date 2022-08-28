@@ -74,6 +74,7 @@ class AppStrings {
   static const titleExtendMaxFarmer = 'Tăng số người tối đa';
   static const titleViewFeedback = 'Xem đánh giá';
   static const titleTopUp = 'Nạp tiền';
+  static const titltePayByType = 'Trả lương theo';
 
   //Subtitle
   static const subtitleMyGarden = 'Danh sách vườn đã tạo';

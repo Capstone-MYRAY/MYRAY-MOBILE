@@ -77,24 +77,28 @@ class FarmerExtendJobList extends GetView<AppliedJobController> {
                   );
                 }
                 ExtendEndDateJob appliedJob = controller.listObject[index];
-                return FarmerExtendJobCard(
-                  title: appliedJob.jobTitle ?? "Công việc hiện tại",
-                  startOldDate: appliedJob.oldEndDate,
-                  startNewDate: appliedJob.extendEndDate,
-                  createdDate: appliedJob.createdDate ??
-                      DateTime.now(), //ko tra ve ngay tao khi update xong
-                  status: appliedJob.status,
-                  buttonLabel: 'Xin hủy',
-                  confirmButtonLeft: appliedJob.status == 0
-                      ? () => {_showExtendJobDialog(appliedJob)}
-                      : () {},
-                  confirmButtonRight: appliedJob.status == 0
-                      ? () {
-                          controller.canceExtendEndDate(appliedJob.id);
-                        }
-                      : () {},
-                  message:
-                      'Bạn muốn hủy yêu cầu gia hạn ngày kết thúc của công việc này ?',
+                return Container(
+                  padding: const EdgeInsets.only(
+                      top: 5, left: 10, right: 10, bottom: 10),
+                  child: FarmerExtendJobCard(
+                    title: appliedJob.jobTitle ?? "Công việc hiện tại",
+                    startOldDate: appliedJob.oldEndDate,
+                    startNewDate: appliedJob.extendEndDate,
+                    createdDate: appliedJob.createdDate ??
+                        DateTime.now(), //ko tra ve ngay tao khi update xong
+                    status: appliedJob.status,
+                    buttonLabel: 'Xin hủy',
+                    confirmButtonLeft: appliedJob.status == 0
+                        ? () => {_showExtendJobDialog(appliedJob)}
+                        : () {},
+                    confirmButtonRight: appliedJob.status == 0
+                        ? () {
+                            controller.canceExtendEndDate(appliedJob.id);
+                          }
+                        : () {},
+                    message:
+                        'Bạn muốn hủy yêu cầu gia hạn ngày kết thúc của công việc này ?',
+                  ),
                 );
               },
             ));

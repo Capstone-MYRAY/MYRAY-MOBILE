@@ -12,7 +12,7 @@ class FarmerInprogressJobCard extends StatelessWidget {
   final String address;
   final String startTime;
   final String endTime;
-  final String? jobEndDate;
+  final DateTime? jobEndDate;
   final bool? isPayPerHourJob;
   final JobPost jobPost;
   final void Function() moreDetail;
@@ -33,8 +33,6 @@ class FarmerInprogressJobCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: moreDetail,
-      child: Padding(
-        padding: const EdgeInsets.only(top: 10.0),
         child: Card(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(9),
@@ -63,115 +61,47 @@ class FarmerInprogressJobCard extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 10, left: 20, right: 20),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[                    
+                  children: <Widget>[
                     CardField(
                       icon: Icons.person,
                       title: 'Chủ vườn',
                       data: jobPost.publishedName ?? 'Tên chủ vườn',
-                      fontSize: Get.textScaleFactor * 15,
                       iconAndTitleSpace: Get.width * 0.03,
                     ),
                     SizedBox(
-                      height: Get.height * 0.005,
+                      height: Get.height * 0.010,
                     ),
-                    isPayPerHourJob!
-                        ? Row(
-                            children: [
-                              const Icon(Icons.timer_sharp, size: 20),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Text(
-                                "${AppStrings.labelWorkingTime}:",
-                                style: Get.textTheme.labelMedium!.copyWith(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: Get.textScaleFactor * 15,
-                                ),
-                              ),
-                              SizedBox(
-                                width: Get.width * 0.045,
-                              ),
-                              Text(
-                                Utils.fromHHmm(startTime).format(context),
-                                style: Get.textTheme.labelSmall!.copyWith(
-                                  color: AppColors.black,
-                                  fontSize: Get.textScaleFactor * 15,
-                                ),
-                              ),
-                              Text(
-                                ' - ',
-                                style: Get.textTheme.labelMedium!.copyWith(
-                                  color: AppColors.black,
-                                  fontSize: Get.textScaleFactor * 15,
-                                ),
-                              ),
-                              Text(
-                                Utils.fromHHmm(endTime).format(context),
-                                style: Get.textTheme.labelSmall!.copyWith(
-                                  color: AppColors.black,
-                                  fontSize: Get.textScaleFactor * 15,
-                                ),
-                              ),
-                            ],
-                          )
-                        : const SizedBox(),
-                    SizedBox(
-                      height: Get.height * 0.005,
-                    ),
-                    Row(
-                      children: [
-                        const Icon(Icons.calendar_today_outlined, size: 20),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Text(
-                          "${AppStrings.labelPresentDate}:",
-                          style: Get.textTheme.labelMedium!.copyWith(
-                            fontWeight: FontWeight.w500,
-                            fontSize: Get.textScaleFactor * 15,
-                          ),
-                        ),
-                        SizedBox(
-                          width: Get.width * 0.03,
-                        ),
-                        Text(
-                          DateFormat('dd-MM-yyyy')
-                              .format(DateTime.now())
-                              .toString(),
-                          style: Get.textTheme.labelSmall!.copyWith(
-                            color: AppColors.primaryColor,
-                            fontSize: Get.textScaleFactor * 15,
-                          ),
-                        ),
-                      ],
+                    if (isPayPerHourJob!) ...[
+                      CardField(
+                        icon: Icons.timer_sharp,
+                        title: AppStrings.labelWorkingTime,
+                        data:
+                            "${Utils.fromHHmm(startTime).format(context)} - ${Utils.fromHHmm(endTime).format(context)}",
+                        iconAndTitleSpace: Get.width * 0.03,
+                      ),
+                      SizedBox(
+                        height: Get.height * 0.010,
+                      ),
+                    ],
+                    CardField(
+                      icon: Icons.calendar_today_outlined,
+                      title: AppStrings.labelPresentDate,
+                      data: DateFormat('dd-MM-yyyy')
+                          .format(DateTime.now())
+                          .toString(),
+                      iconAndTitleSpace: Get.width * 0.03,
+                      dataColor: AppColors.primaryColor
                     ),
                     SizedBox(
-                      height: Get.height * 0.005,
-                    ),
-                    Row(
-                      children: [
-                        const Icon(Icons.calendar_month, size: 20),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Text(
-                          "${AppStrings.labelShortJobEndDate}:",
-                          style: Get.textTheme.labelMedium!.copyWith(
-                            fontWeight: FontWeight.w500,
-                            fontSize: Get.textScaleFactor * 15,
-                          ),
-                        ),
-                        SizedBox(
-                          width: Get.width * 0.02,
-                        ),
-                        Text(
-                          jobEndDate ?? 'Chưa kết thúc',
-                          style: Get.textTheme.labelSmall!.copyWith(
-                            color: AppColors.errorColor,
-                            fontSize: Get.textScaleFactor * 15,
-                          ),
-                        ),
-                      ],
+                      height: Get.height * 0.010,
+                    ),                   
+                    CardField(
+                      icon: Icons.calendar_month,
+                      title: AppStrings.labelShortJobEndDate,
+                      data: jobEndDate != null
+                          ? Utils.formatddMMyyyy(jobEndDate!)
+                          : 'Chưa kết thúc',
+                      iconAndTitleSpace: Get.width * 0.03,
                     ),
                   ],
                 ),
@@ -182,7 +112,7 @@ class FarmerInprogressJobCard extends StatelessWidget {
             ],
           ),
         ),
-      ),
+      
     );
   }
 }

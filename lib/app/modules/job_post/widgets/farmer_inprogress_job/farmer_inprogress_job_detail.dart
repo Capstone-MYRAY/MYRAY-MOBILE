@@ -247,9 +247,7 @@ class FarmerInProgressJobDetail extends GetView<InprogressJobDetailController> {
                                           text: controller.jobpost.jobEndDate ==
                                                   null
                                               ? 'Chưa xác định'
-                                              : DateFormat('dd/MM/yyyy').format(
-                                                  controller
-                                                      .jobpost.jobEndDate!),
+                                              : Utils.formatddMMyyyy(controller.jobpost.jobEndDate!),
                                           style:
                                               Get.textTheme.bodyText2!.copyWith(
                                             fontSize: Get.textScaleFactor * 15,

@@ -198,7 +198,7 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
                                           AppColors.markedBackgroundColor,
                                       statusColor: HexColor.fromHex(
                                           jobPost.backgroundColor!),
-                                      statusName: jobPost.postTypeName,
+                                      // statusName: jobPost.postTypeName,
                                       // statusNameColor: HexColor.fromHex(
                                       //     jobPost.foregroundColor!),
                                       title: jobPost.title,

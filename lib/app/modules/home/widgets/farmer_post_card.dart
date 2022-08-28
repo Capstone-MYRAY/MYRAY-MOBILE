@@ -129,13 +129,6 @@ class FarmerPostCard extends StatelessWidget {
                               maxLines: 2,
                             ),
                           ),
-                          // isStatus!
-                          //     ? StatusChip(
-                          //         statusName: statusName!,
-                          //         backgroundColor: statusColor!)
-                          //     : const SizedBox(
-                          //         width: 1,
-                          //       )
                         ],
                       ),
                       const SizedBox(
@@ -146,7 +139,6 @@ class FarmerPostCard extends StatelessWidget {
                         icon: CustomIcons.briefcase_outline,
                         title: AppStrings.labelWorkType,
                         data: workType,
-                        fontSize: 16.0,
                         titleFontWeight: FontWeight.w600,
                       ),
                       const SizedBox(height: 8),
@@ -154,7 +146,6 @@ class FarmerPostCard extends StatelessWidget {
                         icon: CustomIcons.map_marker_outline,
                         title: AppStrings.labelAddress,
                         data: address,
-                        fontSize: 15.0,
                         titleFontWeight: FontWeight.w600,
                       ),
                       const SizedBox(height: 8),
@@ -164,7 +155,6 @@ class FarmerPostCard extends StatelessWidget {
                           icon: Icons.map,
                           title: 'Cách bạn',
                           data: '$distance km',
-                          fontSize: 16.0,
                           titleFontWeight: FontWeight.w600,
                         ),
                         const SizedBox(
@@ -175,7 +165,6 @@ class FarmerPostCard extends StatelessWidget {
                         icon: CustomIcons.tree_outline,
                         title: 'Loại cây',
                         data: treeType,
-                        fontSize: 16.0,
                         titleFontWeight: FontWeight.w600,
                       ),
                       const SizedBox(height: 8),
@@ -186,7 +175,6 @@ class FarmerPostCard extends StatelessWidget {
                             ? 'Lương công'
                             : 'Lương khoán',
                         data: Utils.vietnameseCurrencyFormat.format(price),
-                        fontSize: 16.0,
                         titleFontWeight: FontWeight.w600,
                       ),
                       const SizedBox(height: 8),

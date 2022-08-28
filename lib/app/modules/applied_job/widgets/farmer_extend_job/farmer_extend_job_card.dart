@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:myray_mobile/app/shared/constants/app_colors.dart';
 import 'package:myray_mobile/app/shared/constants/app_strings.dart';
 import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
+import 'package:myray_mobile/app/shared/utils/utils.dart';
 import 'package:myray_mobile/app/shared/widgets/buttons/custom_text_button.dart';
+import 'package:myray_mobile/app/shared/widgets/cards/card_field.dart';
 import 'package:myray_mobile/app/shared/widgets/chips/status_chip.dart';
 import 'package:myray_mobile/app/shared/widgets/dialogs/custom_confirm_dialog.dart';
 
@@ -56,143 +57,67 @@ class FarmerExtendJobCard extends StatelessWidget {
                       textAlign: TextAlign.start,
                       overflow: TextOverflow.ellipsis),
                 ),
-                _buildChip(status),
+                // _buildChip(status),
               ]),
               SizedBox(
                 height: Get.height * 0.02,
               ),
-              Padding(
-                padding: const EdgeInsets.all(0),
-                child: Row(children: [
-                  const Icon(Icons.calendar_month, size: 20),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Text(
-                    "Ngày nộp đơn:",
-                    style: Get.textTheme.labelMedium!.copyWith(
-                      fontWeight: FontWeight.w500,
-                      fontSize: Get.textScaleFactor * 15,
-                    ),
-                  ),
-                  SizedBox(
-                    width: Get.width * 0.09,
-                  ),
-                  Text(
-                    // startOldDate.toString(), //bỏ ngày sau
-                    DateFormat('dd/MM/yyyy').format(createdDate),
-                    style: Get.textTheme.bodyText2!.copyWith(
-                        color: AppColors.primaryColor,
-                        fontSize: Get.textScaleFactor * 15,
-                        fontWeight: FontWeight.w500),
-                    softWrap: true,
-                    overflow: TextOverflow.ellipsis,
-                    textAlign: TextAlign.left,
-                    maxLines: 10,
-                  ),
-                ]),
+              CardField(
+                icon: Icons.calendar_month,
+                title: "Ngày nộp đơn",
+                data: Utils.formatddMMyyyy(createdDate),
+                iconAndTitleSpace: Get.width * 0.03,
+              ),
+              SizedBox(
+                height: Get.height * 0.010,
+              ),              
+              CardField(
+                icon: CustomIcons.calendar_star,
+                title: "Ngày kết thúc cũ",
+                data: Utils.formatddMMyyyy(startOldDate),
+                iconAndTitleSpace: Get.width * 0.03,
               ),
               SizedBox(
                 height: Get.height * 0.010,
               ),
-              Padding(
-                padding: const EdgeInsets.all(0),
-                child: Row(children: [
-                  const Icon(CustomIcons.calendar_star, size: 20),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Text(
-                    "Ngày kết thúc cũ:",
-                    style: Get.textTheme.labelMedium!.copyWith(
-                      fontWeight: FontWeight.w500,
-                      fontSize: Get.textScaleFactor * 15,
-                    ),
-                  ),
-                  SizedBox(
-                    width: Get.width * 0.040,
-                  ),
-                  Text(
-                    // startOldDate.toString(), //bỏ ngày sau
-                    DateFormat('dd/MM/yyyy').format(startOldDate),
-                    style: Get.textTheme.bodyText2!.copyWith(
-                        color: AppColors.primaryColor,
-                        fontSize: Get.textScaleFactor * 15,
-                        fontWeight: FontWeight.w500),
-                    softWrap: true,
-                    overflow: TextOverflow.ellipsis,
-                    textAlign: TextAlign.left,
-                    maxLines: 10,
-                  ),
-                ]),
+              CardField(
+                icon: CustomIcons.calendar_star,
+                title:  "Ngày kết thúc mới",
+                data: Utils.formatddMMyyyy(startNewDate),
+                iconAndTitleSpace: Get.width * 0.03,
               ),
               SizedBox(
                 height: Get.height * 0.010,
-              ),
-              Padding(
-                padding: EdgeInsets.all(0),
-                child: Row(children: [
-                  const Icon(CustomIcons.calendar_star, size: 20),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Text(
-                    "Ngày kết thúc mới:",
-                    style: Get.textTheme.labelMedium!.copyWith(
-                      fontWeight: FontWeight.w500,
-                      fontSize: Get.textScaleFactor * 15,
-                    ),
-                  ),
-                  SizedBox(
-                    width: Get.width * 0.02,
-                  ),
-                  Text(
-                    // startNewDate.toString(), //bỏ ngày sau
-                    DateFormat('dd/MM/yyyy').format(startNewDate),
-                    style: Get.textTheme.bodyText2!.copyWith(
-                        color: AppColors.primaryColor,
-                        fontSize: Get.textScaleFactor * 15,
-                        fontWeight: FontWeight.w500),
-                    softWrap: true,
-                    overflow: TextOverflow.ellipsis,
-                    textAlign: TextAlign.left,
-                    maxLines: 10,
-                  ),
-                ]),
-              ),
-              SizedBox(
-                height: Get.height * 0.010,
-              ),
-             status == 0
-             ? Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                CustomTextButton(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: Get.width * 0.05,
-                    vertical: 8,
-                  ),
-                  onPressed: confirmButtonLeft,
-                  title: 'Cập nhật',
-                ),
-                SizedBox(
-                  width: Get.width * 0.02,
-                ),
-                CustomTextButton(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 40, vertical: 8),
-                  onPressed: () {
-                    CustomDialog.show(confirm: confirmButtonRight, message: message!);
-                  },
-                  title: AppStrings.cancel,
-                  border: Border.all(
-                    color: AppColors.primaryColor,
-                  ),
-                  foreground: AppColors.primaryColor,
-                  background: AppColors.white,
-                ),
-              ])
-              : const SizedBox(),
+              ),                         
+              status == 0
+                  ? Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                      CustomTextButton(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: Get.width * 0.05,
+                          vertical: 8,
+                        ),
+                        onPressed: confirmButtonLeft,
+                        title: 'Cập nhật',
+                      ),
+                      SizedBox(
+                        width: Get.width * 0.02,
+                      ),
+                      CustomTextButton(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 40, vertical: 8),
+                        onPressed: () {
+                          CustomDialog.show(
+                              confirm: confirmButtonRight, message: message!);
+                        },
+                        title: AppStrings.cancel,
+                        border: Border.all(
+                          color: AppColors.primaryColor,
+                        ),
+                        foreground: AppColors.primaryColor,
+                        background: AppColors.white,
+                      ),
+                    ])
+                  : const SizedBox(),
             ],
           ),
         ),
