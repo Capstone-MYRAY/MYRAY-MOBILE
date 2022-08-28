@@ -15,13 +15,11 @@ import 'package:myray_mobile/app/shared/constants/app_msg.dart';
 import 'package:myray_mobile/app/shared/constants/app_strings.dart';
 import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
 import 'package:myray_mobile/app/shared/utils/utils.dart';
-import 'package:myray_mobile/app/shared/widgets/builders/list_empty_builder.dart';
 import 'package:myray_mobile/app/shared/widgets/builders/my_loading_builder.dart';
 import 'package:myray_mobile/app/shared/widgets/buttons/custom_text_button.dart';
 import 'package:myray_mobile/app/shared/widgets/dialogs/custom_confirm_dialog.dart';
 import 'package:myray_mobile/app/data/models/job_post/farmer_job_post_detail_response.dart';
 import 'package:myray_mobile/app/shared/widgets/dialogs/custom_information.dialog.dart';
-import 'package:myray_mobile/app/shared/widgets/dialogs/information_dialog.dart';
 import 'package:myray_mobile/app/shared/widgets/lazy_loading_list.dart';
 
 class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
@@ -67,17 +65,17 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
                     );
                     return;
                   }
-                  if (controller.jobPost.type == 'PayPerHourJob') {
-                    controller.checkAppliedHourJob();
-                    if (controller.isAppliedHourJob.value) {
-                      InformationDialog.showDialog(
-                        msg:
-                            ' Bạn đã ứng tuyển một công việc có loại hình làm công',
-                        confirmTitle: "Đóng",
-                      );
-                      return;
-                    }
-                  }
+                  // if (controller.jobPost.type == 'PayPerHourJob') {
+                  //   controller.checkAppliedHourJob();
+                  //   if (controller.isAppliedHourJob.value) {
+                  //     InformationDialog.showDialog(
+                  //       msg:
+                  //           ' Bạn đã ứng tuyển một công việc có loại hình làm công',
+                  //       confirmTitle: "Đóng",
+                  //     );
+                  //     return;
+                  //   }
+                  // }
                   CustomDialog.show(
                       confirm: () => controller.applyJob(controller.jobPost.id),
                       message: AppMsg.MSG3005);

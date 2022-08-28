@@ -43,7 +43,7 @@ class FarmerOnLeaveCard extends StatelessWidget {
                 height: Get.height * 0.01,
               ),
               Text('Đơn xin nghỉ phép',
-                  style: Get.textTheme.headline3?.copyWith(
+                  style: Get.textTheme.headline4?.copyWith(
                     color: AppColors.brown,
                     decoration: TextDecoration.underline,
                   ),

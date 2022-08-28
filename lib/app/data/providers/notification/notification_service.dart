@@ -58,7 +58,7 @@ class NotificationService {
       }
     } else if (Utils.equalsIgnoreCase(type, NotificationTypes.extendJob.name)) {
       final appliedJobController = Get.find<AppliedJobController>();
-      appliedJobController.onRefresh(); //Vẫn giữ
+      appliedJobController.onRefreshExtendPage(); 
       final inProgressJobPostController =
           Get.find<FarmerInprogressJobController>();
       inProgressJobPostController.onRefresh();

@@ -44,9 +44,9 @@ class FarmerInprogressJobCard extends StatelessWidget {
                 padding: const EdgeInsets.only(left: 20, right: 20, top: 10),
                 child: Row(
                   children: [
-                    Expanded(
+                    Flexible(
                       child: Text(jobPost.title,
-                          style: Get.textTheme.headline3?.copyWith(
+                          style: Get.textTheme.headline4?.copyWith(
                             color: AppColors.brown,
                           ),
                           softWrap: true,

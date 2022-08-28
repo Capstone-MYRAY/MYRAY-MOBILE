@@ -165,17 +165,7 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
                             : const SizedBox(),
                       ),
                       Obx(
-                        () => controller.secondObject.isNotEmpty
-                            // ? Container(
-                            //     padding: const EdgeInsets.all(10),
-                            //     decoration: const BoxDecoration(
-                            //       color: AppColors.white,
-                            //     ),
-                            //     constraints: BoxConstraints(
-                            //       minHeight: Get.height * 0.29,
-                            //       maxHeight: Get.height * 0.35,
-                            //     ),
-                            //     child:
+                        () => controller.secondObject.isNotEmpty                            
                             ? ListView.builder(
                                 // shrinkWrap: true,
                                 physics: const NeverScrollableScrollPhysics(),

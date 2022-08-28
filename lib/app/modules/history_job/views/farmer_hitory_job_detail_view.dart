@@ -307,18 +307,44 @@ class FarmerHistoryJobDetail extends GetView<FarmerHistoryJobDetailController> {
                                         decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(10),
-                                          image: DecorationImage(
-                                              image: NetworkImage(controller
-                                                  .attendanceList
-                                                  .first
-                                                  .signature!)),
+                                          // image: DecorationImage(
+                                          //     image:
+                                          //     // Image.network(controller
+                                          //     //     .attendanceList
+                                          //     //     .first
+                                          //     //     .signature!)
+
+                                          //      NetworkImage(controller
+                                          //         .attendanceList
+                                          //         .first
+                                          //         .signature!
+                                          //   )
+                                          //   ),
                                         ),
-                                        // child: Image.network(
-                                        //   controller
-                                        //       .attendanceList.first.signature!,
-                                        //   width: 50,
-                                        //   height: 50,
-                                        // ),
+                                        child: Image.network(
+                                          controller
+                                              .attendanceList.first.signature!,
+                                          // width: ,
+                                          // height: 50,
+                                          loadingBuilder: (context, child,
+                                              loadingProgress) {
+                                            if (loadingProgress == null) {
+                                              return child;
+                                            }
+                                            return Center(
+                                              child: CircularProgressIndicator(
+                                                value: loadingProgress
+                                                            .expectedTotalBytes !=
+                                                        null
+                                                    ? loadingProgress
+                                                            .cumulativeBytesLoaded /
+                                                        loadingProgress
+                                                            .expectedTotalBytes!
+                                                    : null,
+                                              ),
+                                            );
+                                          },
+                                        ),
                                       ),
                                       SizedBox(
                                         height: Get.height * 0.03,

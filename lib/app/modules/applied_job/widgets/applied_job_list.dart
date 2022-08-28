@@ -109,7 +109,7 @@ class AppliedJobList extends GetView<AppliedJobController> {
                             children: [
                               Expanded(
                                 child: Text(jobPost.title,
-                                    style: Get.textTheme.headline3?.copyWith(
+                                    style: Get.textTheme.headline4?.copyWith(
                                       color: AppColors.brown,
                                     ),
                                     softWrap: true,
