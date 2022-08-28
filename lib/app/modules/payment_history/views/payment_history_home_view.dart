@@ -30,7 +30,7 @@ class PaymentHistoryHomeView extends GetView<PaymentHistoryHomeController> {
               controller.onRefresh();
             },
             onFilterTap: () {
-              Get.to(() => const PaymentHistoryFilter());
+              Get.to(() => PaymentHistoryFilter());
             },
           ),
           Expanded(

@@ -90,10 +90,23 @@ class MomoProvider extends GetConnect {
             });
           }
 
+          if (url.contains('market://')) {
+            Uri marketUri = Uri.parse(url);
+            canLaunchUrl(marketUri).then((canLaunch) {
+              if (canLaunch) {
+                launchUrl(marketUri).then((value) {
+                  webView.close();
+                  webView.dispose();
+                });
+              }
+            });
+          }
+
           if (url.contains('momo://')) {
             Uri momoUri = Uri.parse(url);
             //launch momo app
             canLaunchUrl(momoUri).then((canLaunch) {
+              print('canLaunch: $canLaunch');
               if (canLaunch) {
                 launchUrl(momoUri).then((value) {
                   webView.close();

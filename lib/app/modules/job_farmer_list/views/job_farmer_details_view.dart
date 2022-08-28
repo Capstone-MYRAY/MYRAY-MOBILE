@@ -44,6 +44,7 @@ class JobFarmerDetailsView extends GetView<JobFarmerDetailsController> {
           }
 
           if (snapshot.hasError) {
+            print(snapshot.error.toString());
             return const DetailsErrorBuilder();
           }
 
@@ -172,7 +173,7 @@ class JobFarmerDetailsView extends GetView<JobFarmerDetailsController> {
     return FeedbackFarmerCard(
       createdDate: feedback.createdDate,
       rating: feedback.numStar.toDouble(),
-      content: feedback.content,
+      content: feedback.content ?? '',
       canUpdate: canReportFeedback,
       onEditPressed: controller.onFeedback,
     );

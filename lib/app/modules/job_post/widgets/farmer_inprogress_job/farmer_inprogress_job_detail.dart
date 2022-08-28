@@ -45,11 +45,10 @@ class FarmerInProgressJobDetail extends GetView<InprogressJobDetailController> {
         floatingActionButton: FloatingActionButton.extended(
           backgroundColor: AppColors.primaryColor,
           foregroundColor: AppColors.white,
-          onPressed:controller.navigateToChatScreen,
+          onPressed: controller.navigateToChatScreen,
           icon: const Icon(CustomIcons.chat),
           label: const Text(AppStrings.messageButton),
         ),
-
         body: FutureBuilder(
             //get job post
             builder: (context, snapshot) {
@@ -332,7 +331,7 @@ class FarmerInProgressJobDetail extends GetView<InprogressJobDetailController> {
                             .checkDoFeedBack(controller.jobpost.id);
                         if (feedBack != null) {
                           controller.feedbackContentController.text =
-                              feedBack.content;
+                              feedBack.content ?? '';
                           controller.feedbackRatingController.text =
                               feedBack.numStar.toString();
                           FeedbackDialog.show(

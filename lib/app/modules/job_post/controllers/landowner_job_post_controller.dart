@@ -38,6 +38,7 @@ class LandownerJobPostController extends GetxController {
   int? postTypeFilter;
   int? postStatusFilter;
   int? workStatusFilter;
+  bool isClearFilter = false;
 
   final isLoading = false.obs;
 
@@ -49,7 +50,6 @@ class LandownerJobPostController extends GetxController {
 
   onApplyFilter() {
     onRefresh(isFilter: true);
-    Get.back(); //close filter screen
   }
 
   onClearFilter() {

@@ -88,7 +88,7 @@ class FeedBackUpdateDialog {
                   Expanded(
                     //valid giới hạn lại số chữ nhập
                     child: Text(
-                      newFeedBack.content,
+                      newFeedBack.content ?? '',
                       style: Get.textTheme.bodyText2!
                           .copyWith(fontSize: Get.textScaleFactor * 16),
                       softWrap: true,

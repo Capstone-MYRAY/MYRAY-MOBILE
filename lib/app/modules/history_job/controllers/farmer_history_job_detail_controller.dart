@@ -281,7 +281,7 @@ print("content: ${reportContentController.text}");
             currentFeedback = feedBack.listObject?.first;
             //hết hạn feedback: sau 3 ngày, kể từ ngày đăng ký
             if (currentFeedback != null) {
-              feedbackContentController.text = currentFeedback.content;
+              feedbackContentController.text = currentFeedback.content ?? '';
               feedbackRatingController.text =
                   currentFeedback.numStar.toString();
               isFeedbacked = true;
