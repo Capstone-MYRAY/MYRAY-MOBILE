@@ -181,7 +181,10 @@ class LandownerJobPostDetailsController extends GetxController
 
       //update details ui
       jobPost.value.workStatus = JobPostWorkStatus.done.index;
-      update([workInformation, buttonControls]);
+      jobPost.value.status = JobPostStatus.end.index;
+      jobPost.value.jobEndDate = DateTime.now();
+
+      update([workInformation, buttonControls, postInformation]);
 
       //Update job post list
       final jobPostController = Get.find<LandownerJobPostController>();

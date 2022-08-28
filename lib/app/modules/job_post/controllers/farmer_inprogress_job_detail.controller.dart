@@ -82,6 +82,11 @@ class InprogressJobDetailController extends GetxController
     super.onInit();
   }
 
+  updateJobEndDate(DateTime jobEndDate) {
+    jobpost.jobEndDate = jobEndDate;
+    update(['jobEndDate']);
+  }
+
   String? validateReason(String? value) {
     if (Utils.isEmpty(value)) {
       return 'Vui lòng nhập lý do';
