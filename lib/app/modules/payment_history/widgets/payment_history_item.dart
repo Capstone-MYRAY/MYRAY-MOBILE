@@ -27,7 +27,7 @@ class PaymentHistoryItem extends StatelessWidget {
 
   String get _pointSign => point.isNegative ? '' : '+';
   String get _balanceFluctuationSign =>
-      balanceFluctuation.isNegative ? '' : '+';
+      balanceFluctuation <= 0 ? '' : '+';
 
   @override
   Widget build(BuildContext context) {
@@ -110,7 +110,7 @@ class PaymentHistoryItem extends StatelessWidget {
                   Text(
                     '$_balanceFluctuationSign${Utils.vietnameseCurrencyFormat.format(balanceFluctuation)}',
                     style: Get.textTheme.headline6!.copyWith(
-                      color: balanceFluctuation.isNegative
+                      color: balanceFluctuation <= 0
                           ? AppColors.errorColor
                           : AppColors.primaryColor,
                       fontSize: 13 * Get.textScaleFactor,
