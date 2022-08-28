@@ -19,7 +19,7 @@ class LoginView extends GetView<LoginController> {
           alignment: Alignment.center,
           width: double.infinity,
           child: GestureDetector(
-            onPanDown: (_) {
+            onTap: () {
               FocusScope.of(context).unfocus();
             },
             child: SingleChildScrollView(
