@@ -201,42 +201,41 @@ class FarmerInProgressJobDetail extends GetView<InprogressJobDetailController> {
                             ),
                             child: Column(
                               children: [
-                                isPayPerHourJob
-                                    ? SizedBox(
-                                        width: Get.width * 0.6,
-                                        child: Text.rich(
+                                if (isPayPerHourJob) ...[
+                                  SizedBox(
+                                    width: Get.width * 0.6,
+                                    child: Text.rich(
+                                      TextSpan(
+                                        text: 'Giờ làm việc:     ',
+                                        children: [
                                           TextSpan(
-                                            text: 'Giờ làm việc:     ',
-                                            children: [
-                                              TextSpan(
-                                                text:
-                                                    '${Utils.fromHHmm(controller.jobpost.payPerHourJob!.startTime).format(context)} - ${Utils.fromHHmm(controller.jobpost.payPerHourJob!.finishTime).format(context)}',
-                                                style: Get.textTheme.bodyText2!
-                                                    .copyWith(
-                                                        fontSize:
-                                                            Get.textScaleFactor *
-                                                                15,
-                                                        color: AppColors.white),
-                                              ),
-                                            ],
-                                            style: Get.textTheme.labelMedium!
+                                            text:
+                                                '${Utils.fromHHmm(controller.jobpost.payPerHourJob!.startTime).format(context)} - ${Utils.fromHHmm(controller.jobpost.payPerHourJob!.finishTime).format(context)}',
+                                            style: Get.textTheme.bodyText2!
                                                 .copyWith(
-                                                    fontWeight: FontWeight.w500,
                                                     fontSize:
                                                         Get.textScaleFactor *
                                                             15,
                                                     color: AppColors.white),
                                           ),
-                                          softWrap: true,
-                                          overflow: TextOverflow.ellipsis,
-                                          textAlign: TextAlign.center,
-                                          maxLines: 10,
-                                        ),
-                                      )
-                                    : const SizedBox(),
-                                SizedBox(
-                                  height: Get.height * 0.01,
-                                ),
+                                        ],
+                                        style: Get.textTheme.labelMedium!
+                                            .copyWith(
+                                                fontWeight: FontWeight.w500,
+                                                fontSize:
+                                                    Get.textScaleFactor * 15,
+                                                color: AppColors.white),
+                                      ),
+                                      softWrap: true,
+                                      overflow: TextOverflow.ellipsis,
+                                      textAlign: TextAlign.center,
+                                      maxLines: 10,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: Get.height * 0.01,
+                                  ),
+                                ],
                                 GetBuilder<InprogressJobDetailController>(
                                   id: 'jobEndDate',
                                   builder: (_) => SizedBox(
@@ -249,7 +248,7 @@ class FarmerInProgressJobDetail extends GetView<InprogressJobDetailController> {
                                             text:
                                                 controller.jobpost.jobEndDate ==
                                                         null
-                                                    ? 'Chưa xác định'
+                                                    ? 'Chưa kết thúc'
                                                     : Utils.formatddMMyyyy(
                                                         controller.jobpost
                                                             .jobEndDate!),
@@ -257,7 +256,7 @@ class FarmerInProgressJobDetail extends GetView<InprogressJobDetailController> {
                                                 .copyWith(
                                               fontSize:
                                                   Get.textScaleFactor * 15,
-                                              color: AppColors.errorColor,
+                                              color: Colors.amber[200],
                                               fontWeight: FontWeight.w500,
                                             ),
                                           ),

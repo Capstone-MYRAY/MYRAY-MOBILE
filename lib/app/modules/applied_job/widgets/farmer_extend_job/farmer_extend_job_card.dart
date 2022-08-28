@@ -50,8 +50,7 @@ class FarmerExtendJobCard extends StatelessWidget {
                 Expanded(
                   child: Text(title,
                       style: Get.textTheme.headline4?.copyWith(
-                          color: AppColors.brown,
-                          fontSize: Get.textScaleFactor * 25),
+                          color: AppColors.brown,),
                       softWrap: true,
                       maxLines: 2,
                       textAlign: TextAlign.start,

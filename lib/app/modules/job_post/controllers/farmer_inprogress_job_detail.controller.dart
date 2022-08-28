@@ -144,7 +144,7 @@ class InprogressJobDetailController extends GetxController
     print('_pickedDate: $_pickedDate');
 
     if (_pickedDate != null) {
-      currentExtendDate = _pickedDate;
+      currentExtendDate= _pickedDate;
       extendJobDateController.text = Utils.formatddMMyyyy(_pickedDate);
     }
   }

@@ -96,14 +96,16 @@ class FarmerNotStartJobCard extends StatelessWidget {
                 height: Get.height * 0.01,
               ),
               Row(children: [
-                Text(title,
-                    style: Get.textTheme.headline3?.copyWith(
-                      color: AppColors.brown,
-                    ),
-                    softWrap: true,
-                    maxLines: 3,
-                    textAlign: TextAlign.justify,
-                    overflow: TextOverflow.ellipsis),
+                Flexible(
+                  child: Text(title,
+                      style: Get.textTheme.headline4?.copyWith(
+                        color: AppColors.brown,
+                      ),
+                      softWrap: true,
+                      maxLines: 3,
+                      textAlign: TextAlign.justify,
+                      overflow: TextOverflow.ellipsis),
+                ),
               ]),
               SizedBox(
                 height: Get.height * 0.015,

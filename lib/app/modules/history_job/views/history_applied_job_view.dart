@@ -9,8 +9,11 @@ import 'package:myray_mobile/app/shared/constants/app_colors.dart';
 import 'package:myray_mobile/app/shared/constants/app_strings.dart';
 import 'package:myray_mobile/app/shared/constants/common.dart';
 import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
+import 'package:myray_mobile/app/shared/utils/utils.dart';
 import 'package:myray_mobile/app/shared/widgets/builders/my_loading_builder.dart';
+import 'package:myray_mobile/app/shared/widgets/cards/card_field.dart';
 import 'package:myray_mobile/app/shared/widgets/chips/status_chip.dart';
+import 'package:myray_mobile/app/shared/widgets/dialogs/base_dialog.dart';
 import 'package:myray_mobile/app/shared/widgets/lazy_loading_list.dart';
 
 class HistoryAppliedJobView extends GetView<HistoryAppliedJobController> {
@@ -68,7 +71,8 @@ class HistoryAppliedJobView extends GetView<HistoryAppliedJobController> {
               );
             }
 
-            return Obx(() => LazyLoadingList(
+            return Obx(
+              () => LazyLoadingList(
                 onEndOfPage: () => controller.getAppliedJobList(),
                 onRefresh: controller.onRefresh,
                 // itemCount: 100,
@@ -100,157 +104,223 @@ class HistoryAppliedJobView extends GetView<HistoryAppliedJobController> {
                   JobPost jobPost =
                       controller.appliedJobPostResponse[index].jobPost;
                   return Container(
-                      padding: const EdgeInsets.only(
-                          top: 10, left: 10, right: 10, bottom: 20),
+                    padding: const EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 10),
+                    child: InkWell(
+                      onTap: () {
+                        BaseDialog.show(
+                          insetPadding: const EdgeInsets.symmetric(
+                            horizontal: 25,
+                            // vertical: Get.height * 0.3,
+                          ),
+                          child: SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                Text(AppStrings.titleDetails,
+                                    style: Get.textTheme.headline4!.copyWith(
+                                      color: AppColors.primaryColor,
+                                    )),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                CardField(
+                                  icon: Icons.person,
+                                  title: AppStrings.landowner,
+                                  data:
+                                      jobPost.publishedName ?? 'Đang cập nhật',
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                CardField(
+                                  icon: CustomIcons.map_marker_outline,
+                                  title: AppStrings.labelAddress,
+                                  data: jobPost.address ?? 'Đang cập nhật',
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
                       child: Card(
                           color: AppColors.white,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(9),
                           ),
                           child: Padding(
-                            padding: const EdgeInsets.only(top: 10),
+                            padding: const EdgeInsets.only(
+                                top: 10, left: 15, right: 15),
                             child: Column(children: [
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 20, right: 20),
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                      child: Text(jobPost.title,
-                                          style:
-                                              Get.textTheme.headline3?.copyWith(
-                                            color: AppColors.brown,
-                                          ),
-                                          softWrap: true,
-                                          maxLines: 3,
-                                          textAlign: TextAlign.justify,
-                                          overflow: TextOverflow.ellipsis),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                padding:
-                                    const EdgeInsets.only(top: 10, right: 15),
-                                child: Stack(
-                                  children: [
-                                    const Icon(CustomIcons.map_marker_outline,
-                                        size: 20),
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 30),
-                                      child: SizedBox(
-                                        width: Get.width * 0.65,
-                                        child: Text.rich(
-                                          TextSpan(
-                                            text: jobPost.address ?? '',
-                                          ),
-                                          style: Get.textTheme.bodyText2!
-                                              .copyWith(
-                                                  fontSize:
-                                                      Get.textScaleFactor * 14),
-                                          softWrap: true,
-                                          overflow: TextOverflow.ellipsis,
-                                          textAlign: TextAlign.justify,
-                                          maxLines: 10,
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: Text(jobPost.title,
+                                        style:
+                                            Get.textTheme.headline4?.copyWith(
+                                          color: AppColors.brown,
                                         ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                        softWrap: true,
+                                        maxLines: 3,
+                                        textAlign: TextAlign.justify,
+                                        overflow: TextOverflow.ellipsis),
+                                  ),
+                                ],
                               ),
+
+                              //cho địa chỉ vô chi tiết dialog.
+                              // Container(
+                              //   padding:
+                              //       const EdgeInsets.only(top: 10, right: 15),
+                              //   child: Stack(
+                              //     children: [
+                              //       const Icon(CustomIcons.map_marker_outline,
+                              //           size: 20),
+                              //       Padding(
+                              //         padding: const EdgeInsets.only(left: 30),
+                              //         child: SizedBox(
+                              //           width: Get.width * 0.65,
+                              //           child: Text.rich(
+                              //             TextSpan(
+                              //               text: jobPost.address ?? '',
+                              //             ),
+                              //             style: Get.textTheme.bodyText2!
+                              //                 .copyWith(
+                              //                     fontSize:
+                              //                         Get.textScaleFactor * 14),
+                              //             softWrap: true,
+                              //             overflow: TextOverflow.ellipsis,
+                              //             textAlign: TextAlign.justify,
+                              //             maxLines: 10,
+                              //           ),
+                              //         ),
+                              //       ),
+                              //     ],
+                              //   ),
+                              // ),
                               // const SizedBox(height: 15),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    top: 10, left: 15, right: 15),
-                                child: Row(
-                                  children: [
-                                    const Icon(CustomIcons.calendar_star,
-                                        size: 20),
-                                    const SizedBox(
-                                      width: 10,
-                                    ),
-                                    Expanded(
-                                      child: Row(children: [
-                                        Text(
-                                          "Ngày ứng tuyển:",
-                                          style: Get.textTheme.labelMedium!
-                                              .copyWith(
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: Get.textScaleFactor * 15,
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                          width: 10,
-                                        ),
-                                        Text(
-                                          DateFormat('dd-MM-yyyy').format(
-                                              controller
-                                                  .appliedJobPostResponse[index]
-                                                  .appliedDate),
-                                          style:
-                                              Get.textTheme.bodyText2!.copyWith(
-                                            color: AppColors.primaryColor,
-                                            fontSize: Get.textScaleFactor * 15,
-                                          ),
-                                          softWrap: true,
-                                          overflow: TextOverflow.ellipsis,
-                                          textAlign: TextAlign.left,
-                                          maxLines: 10,
-                                        ),
-                                      ]),
-                                    ),
-                                  ],
-                                ),
+                              // Padding(
+                              //   padding: const EdgeInsets.only(
+                              //       top: 10, left: 15, right: 15),
+                              //   child: Row(
+                              //     children: [
+                              //       const Icon(CustomIcons.calendar_star,
+                              //           size: 20),
+                              //       const SizedBox(
+                              //         width: 10,
+                              //       ),
+                              //       Expanded(
+                              //         child: Row(children: [
+                              //           Text(
+                              //             "Ngày ứng tuyển:",
+                              //             style: Get.textTheme.labelMedium!
+                              //                 .copyWith(
+                              //               fontWeight: FontWeight.w500,
+                              //               fontSize: Get.textScaleFactor * 15,
+                              //             ),
+                              //           ),
+                              //           const SizedBox(
+                              //             width: 10,
+                              //           ),
+                              //           Text(
+                              //             DateFormat('dd-MM-yyyy').format(
+                              //                 controller
+                              //                     .appliedJobPostResponse[index]
+                              //                     .appliedDate),
+                              //             style:
+                              //                 Get.textTheme.bodyText2!.copyWith(
+                              //               color: AppColors.primaryColor,
+                              //               fontSize: Get.textScaleFactor * 15,
+                              //             ),
+                              //             softWrap: true,
+                              //             overflow: TextOverflow.ellipsis,
+                              //             textAlign: TextAlign.left,
+                              //             maxLines: 10,
+                              //           ),
+                              //         ]),
+                              //       ),
+                              //     ],
+                              //   ),
+                              // ),
+                              SizedBox(
+                                height: Get.height * 0.02,
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    top: 10, left: 15, right: 15),
-                                child: Row(
-                                  children: [
-                                    const Icon(CustomIcons.box, size: 20),
-                                    const SizedBox(
-                                      width: 10,
-                                    ),
-                                    Expanded(
-                                      child: Row(children: [
-                                        Text(
-                                          "Loại hình công việc: ",
-                                          style: Get.textTheme.labelMedium!
-                                              .copyWith(
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: Get.textScaleFactor * 15,
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                          width: 10,
-                                        ),
-                                        Text(
-                                          controller
-                                                      .appliedJobPostResponse[
-                                                          index]
-                                                      .jobPost
-                                                      .type ==
-                                                  "PayPerHourJob"
-                                              ? AppStrings.payPerHour
-                                              : AppStrings.payPerTask,
-                                          style:
-                                              Get.textTheme.bodyText2!.copyWith(
-                                            color: AppColors.primaryColor,
-                                            fontSize: Get.textScaleFactor * 15,
-                                          ),
-                                          softWrap: true,
-                                          overflow: TextOverflow.ellipsis,
-                                          textAlign: TextAlign.left,
-                                          maxLines: 10,
-                                        ),
-                                      ]),
-                                    ),
-                                  ],
-                                ),
+                              CardField(
+                                icon: CustomIcons.calendar_star,
+                                title: "Ngày ứng tuyển",
+                                data: Utils.formatddMMyyyy(controller
+                                        .appliedJobPostResponse[index]
+                                        .appliedDate)
+                                    .toString(),
+                                iconAndTitleSpace: Get.width * 0.03,
                               ),
+                              SizedBox(
+                                height: Get.height * 0.010,
+                              ),
+                              CardField(
+                                icon: CustomIcons.box,
+                                title: AppStrings.titltePayByType,
+                                data: controller.appliedJobPostResponse[index]
+                                            .jobPost.type ==
+                                        "PayPerHourJob"
+                                    ? AppStrings.payPerHour
+                                    : AppStrings.payPerTask,
+                                dataColor: AppColors.primaryColor,
+                                iconAndTitleSpace: Get.width * 0.03,
+                              ),
+                              SizedBox(
+                                height: Get.height * 0.010,
+                              ),
+
+                              // Padding(
+                              //   padding: const EdgeInsets.only(
+                              //       top: 10, left: 15, right: 15),
+                              //   child: Row(
+                              //     children: [
+                              //       const Icon(CustomIcons.box, size: 20),
+                              //       const SizedBox(
+                              //         width: 10,
+                              //       ),
+                              //       Expanded(
+                              //         child: Row(children: [
+                              //           Text(
+                              //             "Loại hình công việc: ",
+                              //             style: Get.textTheme.labelMedium!
+                              //                 .copyWith(
+                              //               fontWeight: FontWeight.w500,
+                              //               fontSize: Get.textScaleFactor * 15,
+                              //             ),
+                              //           ),
+                              //           const SizedBox(
+                              //             width: 10,
+                              //           ),
+                              //           Text(
+                              //             controller
+                              //                         .appliedJobPostResponse[
+                              //                             index]
+                              //                         .jobPost
+                              //                         .type ==
+                              //                     "PayPerHourJob"
+                              //                 ? AppStrings.payPerHour
+                              //                 : AppStrings.payPerTask,
+                              //             style:
+                              //                 Get.textTheme.bodyText2!.copyWith(
+                              //               color: AppColors.primaryColor,
+                              //               fontSize: Get.textScaleFactor * 15,
+                              //             ),
+                              //             softWrap: true,
+                              //             overflow: TextOverflow.ellipsis,
+                              //             textAlign: TextAlign.left,
+                              //             maxLines: 10,
+                              //           ),
+                              //         ]),
+                              //       ),
+                              //     ],
+                              //   ),
+                              // ),
                               Padding(
-                                padding: const EdgeInsets.only(
-                                    top: 10, left: 15, right: 15, bottom: 20),
+                                padding: const EdgeInsets.only(bottom: 20),
                                 child: Row(
                                   children: [
                                     const Icon(CustomIcons.work_history_outline,
@@ -262,11 +332,9 @@ class HistoryAppliedJobView extends GetView<HistoryAppliedJobController> {
                                       child: Row(children: [
                                         Text(
                                           "Trạng thái:",
-                                          style: Get.textTheme.labelMedium!
+                                          style: Get.textTheme.bodyText2!
                                               .copyWith(
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: Get.textScaleFactor * 15,
-                                          ),
+                                                  fontWeight: FontWeight.w500),
                                         ),
                                         const SizedBox(
                                           width: 10,
@@ -319,8 +387,12 @@ class HistoryAppliedJobView extends GetView<HistoryAppliedJobController> {
                                       ))
                                   : const SizedBox()
                             ]),
-                          )));
-                })));
+                          )),
+                    ),
+                  );
+                }),
+              ),
+            );
             // return ListView.builder(itemCount: 1000, itemBuilder: ((context, index) {
             //   return SizedBox(child: Text('hello'));
             // }));
