@@ -63,6 +63,8 @@ class FarmerHistoryJobDetailController extends GetxController
     try {
       List<AttendanceResponse>? loadList =
           await _attendanceRepository.getAttendanceList(data);
+      print("In attendance farmer controller: ${attendanceList.length}");
+
       if (loadList == null) {
         return null;
       }
@@ -73,6 +75,7 @@ class FarmerHistoryJobDetailController extends GetxController
       if (attendanceList.isNotEmpty) {
         return;
       }
+
       attendanceList.addAll(loadList.reversed);
       firedReason = attendanceList.first.reason;
       await _getTotalSalary();
