@@ -456,9 +456,20 @@ class InprogressJobDetailController extends GetxController
       //find farmer in attendance list
       GetAttendanceByDateResponse? todayAttendance = attendances
           .firstWhereOrNull((attendance) => attendance.farmer.id == farmerId);
+      // print("attendance: ${todayAttendance?.attendances.length}");
 
-      if (todayAttendance == null)
-        throw CustomException('Không thể xem điểm danh');
+      if (todayAttendance == null || todayAttendance.attendances.isEmpty) {
+        CustomInformationDialog.show(
+          title: 'Thông báo',
+          message:
+              'Bạn chưa được điểm danh!\nVui lòng liên hệ chủ vườn hoặc người điều hành gần bạn nhất để được hỗ trợ.',
+          icon: const Icon(Icons.pending_actions_outlined,
+              size: 40, color: AppColors.brown),
+        );
+        return;
+      }
+      // if (todayAttendance == null)
+      //   throw CustomException('Không thể xem điểm danh');
       //4: dayOff
       if (todayAttendance.attendances.first.status ==
           AttendanceStatus.dayOff.index) {
@@ -487,13 +498,14 @@ class InprogressJobDetailController extends GetxController
           title: "Thất bại",
           message: "Không thể xem điểm danh !",
           backgroundColor: AppColors.errorColor);
-    } catch (e) {
-      EasyLoading.dismiss();
-      CustomSnackbar.show(
-          title: "Thất bại",
-          message: "Không thể xem điểm danh !",
-          backgroundColor: AppColors.errorColor);
     }
+    // catch (e) {
+    //   EasyLoading.dismiss();
+    //   CustomSnackbar.show(
+    //       title: "Thất bại",
+    //       message: "Không thể xem điểm danh !",
+    //       backgroundColor: AppColors.errorColor);
+    // }
   }
 
   Future<Report?> _reportJob(PostReportRequest reportData) async {
