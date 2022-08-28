@@ -24,7 +24,7 @@ class UpdateMaxFarmerDialog {
           Align(
             alignment: Alignment.center,
             child: Text(
-              'Cập nhật số người tối đa',
+              'Cập nhật số người',
               style: Get.textTheme.headline4!.copyWith(
                 color: AppColors.primaryColor,
               ),

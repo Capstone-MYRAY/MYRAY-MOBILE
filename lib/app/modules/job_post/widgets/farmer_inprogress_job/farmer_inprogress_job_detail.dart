@@ -237,36 +237,43 @@ class FarmerInProgressJobDetail extends GetView<InprogressJobDetailController> {
                                 SizedBox(
                                   height: Get.height * 0.01,
                                 ),
-                                SizedBox(
-                                  width: Get.width * 0.6,
-                                  child: Text.rich(
-                                    TextSpan(
-                                      text: 'Ngày kết thúc:   ',
-                                      children: [
-                                        TextSpan(
-                                          text: controller.jobpost.jobEndDate ==
-                                                  null
-                                              ? 'Chưa xác định'
-                                              : Utils.formatddMMyyyy(controller.jobpost.jobEndDate!),
-                                          style:
-                                              Get.textTheme.bodyText2!.copyWith(
-                                            fontSize: Get.textScaleFactor * 15,
-                                            color: AppColors.errorColor,
-                                            fontWeight: FontWeight.w500,
-                                          ),
-                                        ),
-                                      ],
-                                      style: Get.textTheme.labelMedium!
-                                          .copyWith(
-                                              fontWeight: FontWeight.w500,
+                                GetBuilder<InprogressJobDetailController>(
+                                  id: 'jobEndDate',
+                                  builder: (_) => SizedBox(
+                                    width: Get.width * 0.6,
+                                    child: Text.rich(
+                                      TextSpan(
+                                        text: 'Ngày kết thúc:   ',
+                                        children: [
+                                          TextSpan(
+                                            text:
+                                                controller.jobpost.jobEndDate ==
+                                                        null
+                                                    ? 'Chưa xác định'
+                                                    : Utils.formatddMMyyyy(
+                                                        controller.jobpost
+                                                            .jobEndDate!),
+                                            style: Get.textTheme.bodyText2!
+                                                .copyWith(
                                               fontSize:
                                                   Get.textScaleFactor * 15,
-                                              color: AppColors.white),
+                                              color: AppColors.errorColor,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ),
+                                        ],
+                                        style: Get.textTheme.labelMedium!
+                                            .copyWith(
+                                                fontWeight: FontWeight.w500,
+                                                fontSize:
+                                                    Get.textScaleFactor * 15,
+                                                color: AppColors.white),
+                                      ),
+                                      softWrap: true,
+                                      overflow: TextOverflow.ellipsis,
+                                      textAlign: TextAlign.center,
+                                      maxLines: 10,
                                     ),
-                                    softWrap: true,
-                                    overflow: TextOverflow.ellipsis,
-                                    textAlign: TextAlign.center,
-                                    maxLines: 10,
                                   ),
                                 ),
                               ],

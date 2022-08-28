@@ -42,7 +42,7 @@ class LocalNotificationService {
           serviceDelegate();
         }
 
-        service.updateData(data['type'] ?? '', data);
+        // service.updateData(data['type'] ?? '', data);
       }
     }
   }
