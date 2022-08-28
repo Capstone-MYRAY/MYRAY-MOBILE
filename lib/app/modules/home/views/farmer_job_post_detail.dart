@@ -40,10 +40,13 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
             ? CustomBottomNavigationBar(
                 onPressedOutlineButton: controller.navigateToChatScreen,
                 isExpired: controller.jobPost.status == 4,
+                status: controller.jobPost.status
               )
             : CustomBottomNavigationBar(
                 isExpired: controller.jobPost.status == 4,
                 onPressedOutlineButton: controller.navigateToChatScreen,
+                status: controller.jobPost.status,
+
                 onPressedFilledButton: () {
                   if (controller.isFullApplyRequestJob.value) {
                     CustomInformationDialog.show(
