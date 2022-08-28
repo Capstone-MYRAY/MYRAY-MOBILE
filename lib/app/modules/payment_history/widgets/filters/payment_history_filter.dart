@@ -20,7 +20,6 @@ class PaymentHistoryFilter extends GetView<PaymentHistoryHomeController> {
 
   @override
   Widget build(BuildContext context) {
-    print('Payment filter build');
     controller.setDateRangeText(_selectedDate, issuedDateController);
 
     return Scaffold(
