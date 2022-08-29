@@ -21,6 +21,7 @@ import 'package:myray_mobile/app/shared/widgets/dialogs/custom_confirm_dialog.da
 import 'package:myray_mobile/app/data/models/job_post/farmer_job_post_detail_response.dart';
 import 'package:myray_mobile/app/shared/widgets/dialogs/custom_information.dialog.dart';
 import 'package:myray_mobile/app/shared/widgets/lazy_loading_list.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
   const FarmerJobPostDetail({Key? key}) : super(key: key);
@@ -38,13 +39,11 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
             ? CustomBottomNavigationBar(
                 onPressedOutlineButton: controller.navigateToChatScreen,
                 isExpired: controller.jobPost.status == 4,
-                status: controller.jobPost.status
-              )
+                status: controller.jobPost.status)
             : CustomBottomNavigationBar(
                 isExpired: controller.jobPost.status == 4,
                 onPressedOutlineButton: controller.navigateToChatScreen,
                 status: controller.jobPost.status,
-
                 onPressedFilledButton: () {
                   if (controller.isFullApplyRequestJob.value) {
                     CustomInformationDialog.show(
@@ -232,6 +231,18 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
                             maxLines: 3,
                           ),
                         ),
+                      ),
+                      GestureDetector(
+                        onTap: () async {
+                          Uri googleUri = Uri.parse(
+                              'google.navigation:q=${controller.jobPost.gardenLat},${controller.jobPost.gardenLon}&mode=d');
+                          if (await canLaunchUrl(googleUri)) {
+                            await launchUrl(googleUri);
+                          } else {
+                            throw 'Could not open the map.';
+                          }
+                        },
+                        child: const Icon(Icons.alt_route_rounded),
                       ),
                     ],
                   ),
