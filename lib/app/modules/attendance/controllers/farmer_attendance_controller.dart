@@ -106,89 +106,12 @@ class FarmerAttendanceController extends GetxController {
     attendances.clear();
     await getAttendanceByJob();
   }
-
-  // showDetailAttendance(
-  //     BuildContext context, AttendanceResponse attendanceResponse) async {
-  //   int status = attendanceResponse.status;
-  //   print('Status: $status');
-  //   if (status == 1) {
-  //     GetAttendanceByDateRequest data = GetAttendanceByDateRequest(
-  //       jobPostId: currentJobPost.id.toString(),
-  //       date: attendanceResponse.date.toLocal(),
-  //     );
-  //     try {
-  //       List<GetAttendanceByDateResponse>? attendance =
-  //           await _attendanceRepository.getList(data);
-
-  //       EasyLoading.show();
-  //       Future.delayed(const Duration(milliseconds: 1000), () {
-  //         EasyLoading.dismiss();
-  //         //when checked attendance
-  //         if (attendance != null && attendance.first.attendances.isNotEmpty) {
-  //           //add attendance parameter.
-  //           Attendance data = attendance.first.attendances.first;
-  //           FarmerAttendanceDetailDialog.show(
-  //               context, data, currentJobPost.title);
-  //           return;
-  //         }
-  //         CustomInformationDialog.show(
-  //             title: 'Thất bại',
-  //             content: const Center(child: Text('Không có dữ liệu')));
-  //       });
-  //     } on CustomException catch (e) {
-  //       print(e.message);
-  //       CustomInformationDialog.show(
-  //           title: 'Thất bại',
-  //           content: const Center(child: Text('Không thể tải dữ liệu')));
-  //     }
-  //     return;
-  //   }
-
-  //   if (status == 0) {
-  //     CustomInformationDialog.show(
-  //         title: 'Thông báo',
-  //         content: const Center(child: Text('Bạn đã vắng mặt')));
-  //     return;
-  //   }
-
-  //   if (status == 4) {
-  //     CustomInformationDialog.show(
-  //       title: 'Đã xin nghỉ',
-  //       content: Container(
-  //         margin: const EdgeInsets.only(left: 10),
-  //         child: Row(
-  //           children: [
-  //             Text(
-  //               'Lý do:',
-  //               style: Get.textTheme.labelMedium!.copyWith(
-  //                 fontWeight: FontWeight.w500,
-  //                 fontSize: Get.textScaleFactor * 16,
-  //               ),
-  //             ),
-  //             const SizedBox(
-  //               width: 10,
-  //             ),
-  //             Expanded(
-  //               child: Text(
-  //                 attendanceResponse.reason ?? 'Không có lý do',
-  //                 style: Get.textTheme.labelMedium!.copyWith(
-  //                     fontSize: Get.textScaleFactor * 16,
-  //                     color: AppColors.black),
-  //                 textAlign: TextAlign.start,
-  //               ),
-  //             ),
-  //           ],
-  //         ),
-  //       ),
-  //     );
-  //     return;
-  //   }
-  // }
-  showAttendance(BuildContext context) async {
+  showAttendance(BuildContext context, DateTime dateAttendance) async {
     try {
+      print(">>> $dateAttendance");
       GetAttendanceByDateRequest data = GetAttendanceByDateRequest(
         jobPostId: currentJobPost.id.toString(),
-        date: DateTime.now(),
+        date: dateAttendance.toLocal(),
       );
 
       EasyLoading.show();
@@ -212,9 +135,10 @@ class FarmerAttendanceController extends GetxController {
       //find farmer in attendance list
       GetAttendanceByDateResponse? todayAttendance = attendances
           .firstWhereOrNull((attendance) => attendance.farmer.id == farmerId);
-      // print("attendance: ${todayAttendance?.attendances.length}");
-
+      print("attendance: ${todayAttendance?.attendances.length}");
+  
       if (todayAttendance == null || todayAttendance.attendances.isEmpty) {
+
         CustomInformationDialog.show(
           title: 'Thông báo',
           message:
