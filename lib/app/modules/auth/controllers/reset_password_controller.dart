@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:myray_mobile/app/data/enums/enums.dart';
-import 'package:myray_mobile/app/data/models/reset_password/reset_password_request.dart';
 import 'package:myray_mobile/app/modules/auth/auth_repository.dart';
 import 'package:myray_mobile/app/routes/app_pages.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
@@ -38,11 +37,9 @@ class ResetPasswordController extends GetxController {
     if (!formKey.currentState!.validate()) return;
 
     try {
-      final data = ResetPasswordRequest(
-          phoneNumber: Utils.formatVietnamesePhone(phoneController.text));
-
       EasyLoading.show();
-      final success = await _authRepository.resetPassword(data);
+      final success = await _authRepository
+          .resetPassword(Utils.formatVietnamesePhone(phoneController.text));
       EasyLoading.dismiss();
       if (!success) throw CustomException('Có lỗi xảy ra');
 
