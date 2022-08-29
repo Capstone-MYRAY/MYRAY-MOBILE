@@ -6,7 +6,10 @@ import 'package:myray_mobile/app/modules/history_job/controllers/farmer_history_
 import 'package:myray_mobile/app/modules/history_job/widgets/farmer_history_detail/information_work_card.dart';
 import 'package:myray_mobile/app/modules/history_job/widgets/farmer_history_detail/landowner_cart.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
+import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
 import 'package:myray_mobile/app/shared/utils/utils.dart';
+import 'package:myray_mobile/app/shared/widgets/cards/card_field.dart';
+import 'package:myray_mobile/app/shared/widgets/dialogs/base_dialog.dart';
 import 'package:myray_mobile/app/shared/widgets/dialogs/custom_information.dialog.dart';
 
 class FarmerHistoryJobDetail extends GetView<FarmerHistoryJobDetailController> {
@@ -95,11 +98,42 @@ class FarmerHistoryJobDetail extends GetView<FarmerHistoryJobDetailController> {
                           controller.isFired
                               ? InkWell(
                                   onTap: () {
-                                    CustomInformationDialog.show(
-                                      title: 'Thông báo',
-                                      message:
-                                          'Bạn bị sa thải với lý do: \n ${controller.firedReason}',
-                                    );
+                                    BaseDialog.show(
+                                          insetPadding:
+                                              const EdgeInsets.symmetric(
+                                            horizontal: 25,
+                                            // vertical: Get.height * 0.3,
+                                          ),
+                                          child: SingleChildScrollView(
+                                            child: Column(
+                                              children: [
+                                                Text(AppStrings.titleDetails,
+                                                    style: Get
+                                                        .textTheme.headline4!
+                                                        .copyWith(
+                                                      color: AppColors
+                                                          .primaryColor,
+                                                    )),
+                                                SizedBox(
+                                                  height: Get.height * 0.02,
+                                                ),
+                                                CardField(
+                                                  icon: Icons
+                                                      .info_outline_rounded,
+                                                  title: AppStrings.titleReason,
+                                                  data:
+                                                      controller.firedReason ??
+                                                          'Không có lý do',
+                                                  iconAndTitleSpace:
+                                                      Get.width * 0.03,
+                                                ),
+                                                const SizedBox(
+                                                  height: 10,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        );
                                     //hiện pop up lý do bị đuổi
                                   },
                                   child: Container(
@@ -221,6 +255,46 @@ class FarmerHistoryJobDetail extends GetView<FarmerHistoryJobDetailController> {
                                             title: 'Thông báo',
                                             message:
                                                 'Bạn không tham gia công việc ngày ${Utils.formatddMMyyyy(controller.attendanceList[index].date)}');
+                                        return;
+                                      }
+                                      if (status ==
+                                          AttendanceStatus.fired.index) {
+                                        BaseDialog.show(
+                                          insetPadding:
+                                              const EdgeInsets.symmetric(
+                                            horizontal: 25,
+                                            // vertical: Get.height * 0.3,
+                                          ),
+                                          child: SingleChildScrollView(
+                                            child: Column(
+                                              children: [
+                                                Text(AppStrings.titleDetails,
+                                                    style: Get
+                                                        .textTheme.headline4!
+                                                        .copyWith(
+                                                      color: AppColors
+                                                          .primaryColor,
+                                                    )),
+                                                SizedBox(
+                                                  height: Get.height * 0.02,
+                                                ),
+                                                CardField(
+                                                  icon: Icons
+                                                      .info_outline_rounded,
+                                                  title: AppStrings.titleReason,
+                                                  data:
+                                                      controller.firedReason ??
+                                                          'Không có lý do',
+                                                  iconAndTitleSpace:
+                                                      Get.width * 0.03,
+                                                ),
+                                                const SizedBox(
+                                                  height: 10,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        );
                                         return;
                                       }
                                       FarmerAttendanceDetailDialog.show(
