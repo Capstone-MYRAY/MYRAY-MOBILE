@@ -14,18 +14,24 @@ class BaseDialog {
             EdgeInsets.symmetric(
               horizontal: Get.width * 0.08,
             ),
-        content: Stack(
-          children: [
-            child,
-            Positioned(
-              right: 0,
-              top: 4.0,
-              child: GestureDetector(
-                onTap: () => Get.back(),
-                child: const Icon(Icons.clear),
+        content: Container(
+          constraints: BoxConstraints(
+            minWidth: Get.width * 0.85,
+            maxWidth: Get.width * 0.9,
+          ),
+          child: Stack(
+            children: [
+              child,
+              Positioned(
+                right: 0,
+                top: 4.0,
+                child: GestureDetector(
+                  onTap: () => Get.back(),
+                  child: const Icon(Icons.clear),
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
       barrierDismissible: false,
