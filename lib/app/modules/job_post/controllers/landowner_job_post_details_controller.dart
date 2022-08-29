@@ -351,7 +351,7 @@ class LandownerJobPostDetailsController extends GetxController
     try {
       //check if the garden is deleted
       EasyLoading.show();
-      await _gardenRepository.getById(jobPost.value.id);
+      await _gardenRepository.getById(jobPost.value.gardenId);
       EasyLoading.dismiss();
 
       DateTime now = DateTime.now();
@@ -388,6 +388,8 @@ class LandownerJobPostDetailsController extends GetxController
         InformationDialog.showDialog(
           msg: 'Mảnh vườn của bài đăng này đã xóa, không thể đăng lại!',
         );
+      } else if (e.message.contains('No response')) {
+        InformationDialog.showDialog(msg: 'Vui lòng kiểm tra kết nối mạng');
       }
     } catch (e) {
       CustomSnackbar.show(
