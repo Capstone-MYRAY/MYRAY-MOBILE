@@ -49,7 +49,10 @@ class FarmerDetails extends StatelessWidget {
           onRatingDetails: onRatingDetails,
         ),
         const SizedBox(height: 16.0),
-        PersonalInformation(user: user),
+        PersonalInformation(
+          user: user,
+          isDisplay: false,
+        ),
       ],
     );
   }
