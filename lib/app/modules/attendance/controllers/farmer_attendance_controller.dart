@@ -14,6 +14,7 @@ import 'package:myray_mobile/app/modules/attendance/widgets/farmer_attendance_de
 import 'package:myray_mobile/app/shared/constants/app_colors.dart';
 import 'package:myray_mobile/app/shared/utils/auth_credentials.dart';
 import 'package:myray_mobile/app/shared/utils/custom_exception.dart';
+import 'package:myray_mobile/app/shared/widgets/custom_snackbar.dart';
 import 'package:myray_mobile/app/shared/widgets/dialogs/custom_information.dialog.dart';
 
 class FarmerAttendanceController extends GetxController {
@@ -106,81 +107,160 @@ class FarmerAttendanceController extends GetxController {
     await getAttendanceByJob();
   }
 
-  showDetailAttendance(
-      BuildContext context, AttendanceResponse attendanceResponse) async {
-    int status = attendanceResponse.status;
-    print('Status: $status');
-    if (status == 1) {
+  // showDetailAttendance(
+  //     BuildContext context, AttendanceResponse attendanceResponse) async {
+  //   int status = attendanceResponse.status;
+  //   print('Status: $status');
+  //   if (status == 1) {
+  //     GetAttendanceByDateRequest data = GetAttendanceByDateRequest(
+  //       jobPostId: currentJobPost.id.toString(),
+  //       date: attendanceResponse.date.toLocal(),
+  //     );
+  //     try {
+  //       List<GetAttendanceByDateResponse>? attendance =
+  //           await _attendanceRepository.getList(data);
+
+  //       EasyLoading.show();
+  //       Future.delayed(const Duration(milliseconds: 1000), () {
+  //         EasyLoading.dismiss();
+  //         //when checked attendance
+  //         if (attendance != null && attendance.first.attendances.isNotEmpty) {
+  //           //add attendance parameter.
+  //           Attendance data = attendance.first.attendances.first;
+  //           FarmerAttendanceDetailDialog.show(
+  //               context, data, currentJobPost.title);
+  //           return;
+  //         }
+  //         CustomInformationDialog.show(
+  //             title: 'Thất bại',
+  //             content: const Center(child: Text('Không có dữ liệu')));
+  //       });
+  //     } on CustomException catch (e) {
+  //       print(e.message);
+  //       CustomInformationDialog.show(
+  //           title: 'Thất bại',
+  //           content: const Center(child: Text('Không thể tải dữ liệu')));
+  //     }
+  //     return;
+  //   }
+
+  //   if (status == 0) {
+  //     CustomInformationDialog.show(
+  //         title: 'Thông báo',
+  //         content: const Center(child: Text('Bạn đã vắng mặt')));
+  //     return;
+  //   }
+
+  //   if (status == 4) {
+  //     CustomInformationDialog.show(
+  //       title: 'Đã xin nghỉ',
+  //       content: Container(
+  //         margin: const EdgeInsets.only(left: 10),
+  //         child: Row(
+  //           children: [
+  //             Text(
+  //               'Lý do:',
+  //               style: Get.textTheme.labelMedium!.copyWith(
+  //                 fontWeight: FontWeight.w500,
+  //                 fontSize: Get.textScaleFactor * 16,
+  //               ),
+  //             ),
+  //             const SizedBox(
+  //               width: 10,
+  //             ),
+  //             Expanded(
+  //               child: Text(
+  //                 attendanceResponse.reason ?? 'Không có lý do',
+  //                 style: Get.textTheme.labelMedium!.copyWith(
+  //                     fontSize: Get.textScaleFactor * 16,
+  //                     color: AppColors.black),
+  //                 textAlign: TextAlign.start,
+  //               ),
+  //             ),
+  //           ],
+  //         ),
+  //       ),
+  //     );
+  //     return;
+  //   }
+  // }
+  showAttendance(BuildContext context) async {
+    try {
       GetAttendanceByDateRequest data = GetAttendanceByDateRequest(
         jobPostId: currentJobPost.id.toString(),
-        date: attendanceResponse.date.toLocal(),
+        date: DateTime.now(),
       );
-      try {
-        List<GetAttendanceByDateResponse>? attendance =
-            await _attendanceRepository.getList(data);
 
-        EasyLoading.show();
-        Future.delayed(const Duration(milliseconds: 1000), () {
-          EasyLoading.dismiss();
-          //when checked attendance
-          if (attendance != null && attendance.first.attendances.isNotEmpty) {
-            //add attendance parameter.
-            Attendance data = attendance.first.attendances.first;
-            FarmerAttendanceDetailDialog.show(
-                context, data, currentJobPost.title);
-            return;
-          }
-          CustomInformationDialog.show(
-              title: 'Thất bại',
-              content: const Center(child: Text('Không có dữ liệu')));
-        });
-      } on CustomException catch (e) {
-        print(e.message);
+      EasyLoading.show();
+      List<GetAttendanceByDateResponse>? attendances =
+          await _attendanceRepository.getList(data);
+      EasyLoading.dismiss();
+
+      if (attendances == null || attendances.isEmpty) {
         CustomInformationDialog.show(
-            title: 'Thất bại',
-            content: const Center(child: Text('Không thể tải dữ liệu')));
-      }
-      return;
-    }
-
-    if (status == 0) {
-      CustomInformationDialog.show(
           title: 'Thông báo',
-          content: const Center(child: Text('Bạn đã vắng mặt')));
-      return;
-    }
+          message:
+              'Bạn chưa được điểm danh!\nVui lòng liên hệ chủ vườn hoặc người điều hành gần bạn nhất để được hỗ trợ.',
+          icon: const Icon(Icons.pending_actions_outlined,
+              size: 40, color: AppColors.brown),
+        );
+        return;
+      }
 
-    if (status == 4) {
-      CustomInformationDialog.show(
-        title: 'Đã xin nghỉ',
-        content: Container(
-          margin: const EdgeInsets.only(left: 10),
-          child: Row(
-            children: [
-              Text(
-                'Lý do:',
-                style: Get.textTheme.labelMedium!.copyWith(
-                  fontWeight: FontWeight.w500,
-                  fontSize: Get.textScaleFactor * 16,
-                ),
-              ),
-              const SizedBox(
-                width: 10,
-              ),
-              Expanded(
-                child: Text(
-                  attendanceResponse.reason ?? 'Không có lý do',
-                  style: Get.textTheme.labelMedium!.copyWith(
-                      fontSize: Get.textScaleFactor * 16,
-                      color: AppColors.black),
-                  textAlign: TextAlign.start,
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
-      return;
+      final farmerId = AuthCredentials.instance.user!.id;
+
+      //find farmer in attendance list
+      GetAttendanceByDateResponse? todayAttendance = attendances
+          .firstWhereOrNull((attendance) => attendance.farmer.id == farmerId);
+      // print("attendance: ${todayAttendance?.attendances.length}");
+
+      if (todayAttendance == null || todayAttendance.attendances.isEmpty) {
+        CustomInformationDialog.show(
+          title: 'Thông báo',
+          message:
+              'Bạn chưa được điểm danh!\nVui lòng liên hệ chủ vườn hoặc người điều hành gần bạn nhất để được hỗ trợ.',
+          icon: const Icon(Icons.pending_actions_outlined,
+              size: 40, color: AppColors.brown),
+        );
+        return;
+      }
+      // if (todayAttendance == null)
+      //   throw CustomException('Không thể xem điểm danh');
+      //4: dayOff
+      if (todayAttendance.attendances.first.status ==
+          AttendanceStatus.dayOff.index) {
+        CustomInformationDialog.show(
+          title: 'Thông báo',
+          message:
+              'Bạn đã xin nghỉ phép ngày hôm nay\nVui lòng liên hệ chủ vườn hoặc người điều hành gần bạn nhất để được hỗ trợ.',
+          icon: const Icon(Icons.free_cancellation_outlined,
+              size: 40, color: AppColors.brown),
+        );
+        return;
+      }
+
+      if (todayAttendance.attendances.first.status ==
+          AttendanceStatus.absent.index) {
+        CustomInformationDialog.show(
+            title: 'Thông báo', message: 'Bạn đã vắng mặt');
+        return;
+      }
+
+      FarmerAttendanceDetailDialog.show(Get.context!,
+          todayAttendance.attendances.first, currentJobPost.title);
+    } on CustomException catch (e) {
+      EasyLoading.dismiss();
+      CustomSnackbar.show(
+          title: "Thất bại",
+          message: "Không thể xem điểm danh !",
+          backgroundColor: AppColors.errorColor);
     }
+    // catch (e) {
+    //   EasyLoading.dismiss();
+    //   CustomSnackbar.show(
+    //       title: "Thất bại",
+    //       message: "Không thể xem điểm danh !",
+    //       backgroundColor: AppColors.errorColor);
+    // }
   }
 }
