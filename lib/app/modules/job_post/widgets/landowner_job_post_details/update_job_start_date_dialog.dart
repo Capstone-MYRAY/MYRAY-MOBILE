@@ -14,6 +14,7 @@ class UpdateJobStartDateDialog {
 
   static Future<dynamic> show(
       {required DateTime currentStartDate,
+      DateTime? jobEndDate,
       required void Function(DateTime) updateJobStartDateFn}) async {
     final startDateController = TextEditingController();
     DateTime? selectedDate;
@@ -78,6 +79,10 @@ class UpdateJobStartDateDialog {
                 if (jobStartDate.isBefore(now) ||
                     jobStartDate.isAtSameMomentAs(now)) {
                   return 'Ngày bắt đầu công việc phải sau ngày hiện tại';
+                }
+
+                if (jobEndDate != null && jobStartDate.isAfter(jobEndDate)) {
+                  return 'Ngày bắt đầu công việc phải trước hoặc giống ngày kết thúc';
                 }
 
                 return null;

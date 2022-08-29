@@ -50,6 +50,8 @@ class LandownerJobPostDetailsView
 
   bool get _isEnough => jobPost.status == JobPostStatus.enough.index;
 
+  bool get _isEnd => jobPost.status == JobPostStatus.end.index;
+
   bool get _isRejected => jobPost.status == JobPostStatus.rejected.index;
 
   bool get _isExpired => jobPost.status == JobPostStatus.expired.index;
@@ -156,10 +158,10 @@ class LandownerJobPostDetailsView
   Widget _buildPostInfo() {
     return Obx(
       () => Container(
-        margin: EdgeInsets.only(
+        margin: const EdgeInsets.only(
           top: 16.0,
-          left: Get.width * 0.05,
-          right: Get.width * 0.05,
+          left: 32.0,
+          right: 32.0,
         ),
         child: GridView.count(
           shrinkWrap: true,
@@ -293,7 +295,7 @@ class LandownerJobPostDetailsView
       }
 
       //add repost button
-      if (_isExpired || _isOutOfDate) {
+      if (_isExpired || _isOutOfDate || _isEnd) {
         final button = [
           const SizedBox(height: 8.0),
           FractionallySizedBox(

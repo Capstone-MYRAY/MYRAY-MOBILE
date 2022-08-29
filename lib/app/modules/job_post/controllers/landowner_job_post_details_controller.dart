@@ -95,6 +95,7 @@ class LandownerJobPostDetailsController extends GetxController
     UpdateJobStartDateDialog.show(
       currentStartDate: jobPost.value.jobStartDate,
       updateJobStartDateFn: _onUpdateJobStartDate,
+      jobEndDate: jobPost.value.jobEndDate,
     );
   }
 
@@ -335,7 +336,7 @@ class LandownerJobPostDetailsController extends GetxController
           _jobPostController.updateJobPosts(jobPost.value);
 
           //update balance
-          _profile.calBalance();
+          _profile.getUserInfo();
 
           update([buttonControls]);
 
