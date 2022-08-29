@@ -155,10 +155,15 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
                   Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          AppStrings.landowner,
-                          style: Get.textTheme.displayMedium?.copyWith(
-                            color: AppColors.brown,
+                        Expanded(
+                          child: Text(
+                            AppStrings.landowner,
+                            style: Get.textTheme.headline3?.copyWith(
+                              color: AppColors.brown,
+                            ),
+                            softWrap: true,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 2,
                           ),
                         ),
                         Obx(
@@ -198,16 +203,13 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
                     children: [
                       Text("Họ và tên:", style: Get.textTheme.bodyText1),
                       SizedBox(
-                        width: Get.width * 0.03,
+                        width: Get.width * 0.02,
                       ),
                       Text(
-                        controller.landownerAccount != null
-                            ? controller.landownerAccount!.value.fullName!
-                            : "Tên chủ vườn đang cập nhật",
-                        style: TextStyle(
-                          fontSize: Get.textScaleFactor * 15,
-                        ),
-                      ),
+                          controller.landownerAccount != null
+                              ? controller.landownerAccount!.value.fullName!
+                              : "Tên chủ vườn đang cập nhật",
+                          style: Get.textTheme.bodyText2),
                     ],
                   ),
                   const SizedBox(
@@ -216,33 +218,65 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Địa chỉ:", style: Get.textTheme.bodyText1),
-                      SizedBox(width: Get.width * 0.025),
                       Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.only(right: 15),
-                          child: Text(
-                            controller.jobPost.address ?? 'Đang cập nhật',
-                            style: Get.textTheme.bodyText2!
-                                .copyWith(fontSize: Get.textScaleFactor * 14),
+                        child: Container(
+                          margin: const EdgeInsets.only(right: 20),
+                          child: Text.rich(
+                            TextSpan(
+                              text: "Địa chỉ: ",
+                              style: Get.textTheme.bodyText1!
+                                  .copyWith(height: 1.3),
+                              children: [
+                                TextSpan(
+                                  text: controller.jobPost.address ??
+                                      'Đang cập nhật',
+                                  style: Get.textTheme.bodyText2!.copyWith(),
+                                ),
+                                // WidgetSpan(
+                                //   child: Container(
+                                //     margin: const EdgeInsets.only(left: 10),
+                                //     child: GestureDetector(
+                                //       onTap: () async {
+                                //         Uri googleUri = Uri.parse(
+                                //             'google.navigation:q=${controller.jobPost.gardenLat},${controller.jobPost.gardenLon}&mode=d');
+                                //         if (await canLaunchUrl(googleUri)) {
+                                //           await launchUrl(googleUri);
+                                //         } else {
+                                //           throw 'Could not open the map.';
+                                //         }
+                                //       },
+                                //       child: const Icon(Icons.near_me_outlined,
+                                //           size: 25),
+                                //     ),
+                                //   ),
+                                // ),
+                              ],
+                            ),
                             softWrap: true,
                             overflow: TextOverflow.ellipsis,
                             textAlign: TextAlign.justify,
-                            maxLines: 3,
+                            maxLines: 10,
                           ),
                         ),
                       ),
-                      GestureDetector(
-                        onTap: () async {
-                          Uri googleUri = Uri.parse(
-                              'google.navigation:q=${controller.jobPost.gardenLat},${controller.jobPost.gardenLon}&mode=d');
-                          if (await canLaunchUrl(googleUri)) {
-                            await launchUrl(googleUri);
-                          } else {
-                            throw 'Could not open the map.';
-                          }
-                        },
-                        child: const Icon(Icons.alt_route_rounded),
+                      Container(
+                        margin: const EdgeInsets.only(right: 25),
+                        child: GestureDetector(
+                          onTap: () async {
+                            Uri googleUri = Uri.parse(
+                                'google.navigation:q=${controller.jobPost.gardenLat},${controller.jobPost.gardenLon}&mode=d');
+                            if (await canLaunchUrl(googleUri)) {
+                              await launchUrl(googleUri);
+                            } else {
+                              throw 'Could not open the map.';
+                            }
+                          },
+                          child: const Icon(
+                            Icons.near_me_outlined,
+                            size: 26,
+                            color: AppColors.brown
+                          ),
+                        ),
                       ),
                     ],
                   ),
@@ -282,9 +316,12 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
                   Row(mainAxisAlignment: MainAxisAlignment.start, children: [
                     Text(
                       "Thông tin công việc",
-                      style: Get.textTheme.displayMedium?.copyWith(
+                      style: Get.textTheme.headline3?.copyWith(
                         color: AppColors.brown,
                       ),
+                      softWrap: true,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
                     ),
                   ]),
                   Divider(
@@ -299,15 +336,11 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text("Loại công việc:", style: Get.textTheme.bodyText1),
-                      const SizedBox(
-                        width: 20,
+                      SizedBox(
+                        width: Get.width * 0.02,
                       ),
-                      Text(
-                        controller.jobPost.workTypeName,
-                        style: TextStyle(
-                          fontSize: Get.textScaleFactor * 15,
-                        ),
-                      ),
+                      Text(controller.jobPost.workTypeName,
+                          style: Get.textTheme.bodyText2),
                     ],
                   ),
                   const SizedBox(
@@ -319,17 +352,15 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
                     children: [
                       Text('${AppStrings.labelTreeType}:',
                           style: Get.textTheme.bodyText1),
-                      const SizedBox(
-                        width: 6,
+                      SizedBox(
+                        width: Get.width * 0.02,
                       ),
                       Expanded(
                         child: Text(
                           controller.jobPost.treeTypes == ''
                               ? 'Không phân loại'
                               : controller.jobPost.treeTypes,
-                          style: TextStyle(
-                            fontSize: Get.textScaleFactor * 15,
-                          ),
+                          style: Get.textTheme.bodyText2,
                           softWrap: true,
                         ),
                       ),
@@ -342,18 +373,16 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text("Trả lương theo:", style: Get.textTheme.bodyText1),
-                      const SizedBox(
-                        width: 20,
+                      SizedBox(
+                        width: Get.width * 0.02,
                       ),
                       Text(
-                        controller.jobPost.type == 'PayPerHourJob'
-                            ? AppStrings.payPerHour
-                            : AppStrings.payPerTask,
-                        style: TextStyle(
-                            color: AppColors.primaryColor,
-                            fontSize: Get.textScaleFactor * 15,
-                            fontWeight: FontWeight.w700),
-                      ),
+                          controller.jobPost.type == 'PayPerHourJob'
+                              ? AppStrings.payPerHour
+                              : AppStrings.payPerTask,
+                          style: Get.textTheme.bodyText2!.copyWith(
+                              color: AppColors.primaryColor,
+                              fontWeight: FontWeight.w700)),
                     ],
                   ),
                   const SizedBox(
@@ -363,15 +392,14 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text("Tiền lương:", style: Get.textTheme.bodyText1),
-                      const SizedBox(
-                        width: 44,
+                      SizedBox(
+                        width: Get.width * 0.02,
                       ),
                       Text(
                         controller.jobPost.type == 'PayPerHourJob'
                             ? "${Utils.vietnameseCurrencyFormat.format(controller.jobPost.payPerHourJob!.salary)} /công"
                             : "${Utils.vietnameseCurrencyFormat.format(controller.jobPost.payPerTaskJob!.salary)} ",
-                        style: TextStyle(
-                            fontSize: Get.textScaleFactor * 15,
+                        style: Get.textTheme.bodyText2!.copyWith(
                             color: AppColors.primaryColor,
                             fontWeight: FontWeight.w700),
                       ),
@@ -384,15 +412,13 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text("Ngày bắt đầu:", style: Get.textTheme.bodyText1),
-                      const SizedBox(
-                        width: 27,
+                      SizedBox(
+                        width: Get.width * 0.02,
                       ),
                       Text(
                         DateFormat('dd-MM-yyyy')
                             .format(controller.jobPost.jobStartDate.toLocal()),
-                        style: TextStyle(
-                          fontSize: Get.textScaleFactor * 15,
-                        ),
+                        style: Get.textTheme.bodyText2,
                       ),
                     ],
                   ),
@@ -415,9 +441,12 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
                 Row(mainAxisAlignment: MainAxisAlignment.start, children: [
                   Text(
                     "Mô tả công việc",
-                    style: Get.textTheme.displayMedium?.copyWith(
+                    style: Get.textTheme.headline3?.copyWith(
                       color: AppColors.brown,
                     ),
+                    softWrap: true,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
                   ),
                 ]),
                 Divider(
@@ -439,9 +468,7 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
                             : controller.detailPost!.value.description,
                         maxLines: 10,
                         softWrap: true,
-                        style: Get.textTheme.bodyText2?.copyWith(
-                          fontSize: Get.textScaleFactor * 15,
-                        ),
+                        style: Get.textTheme.bodyText2,
                       ))
                     ],
                   ),
