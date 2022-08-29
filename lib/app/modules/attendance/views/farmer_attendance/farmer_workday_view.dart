@@ -60,8 +60,7 @@ class FarmerWorkDayView extends StatelessWidget {
                                   controller.attendances[index];
                               return InkWell(
                                 onTap: () {
-                                  controller.showDetailAttendance(
-                                      context, attendance);
+                                  controller.showAttendance(context, attendance.date);
                                 },
                                 child: Container(
                                   padding: const EdgeInsets.all(20),
