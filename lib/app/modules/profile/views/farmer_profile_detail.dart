@@ -53,7 +53,7 @@ class FarmerProfileDetailView extends GetView<FarmerProfileController> {
                 const SizedBox(
                   height: 16.0,
                 ),
-                PersonalInformation(user: controller.user),
+                PersonalInformation(user: controller.user, isDisplay: true),
                 const SizedBox(
                   height: 16.0,
                 ),

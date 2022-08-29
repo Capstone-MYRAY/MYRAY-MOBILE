@@ -8,10 +8,12 @@ import 'package:myray_mobile/app/shared/widgets/cards/card_field_no_icon.dart';
 
 class PersonalInformation extends StatelessWidget {
   final Rx<Account> user;
+  final bool isDisplay;
 
   const PersonalInformation({
     Key? key,
     required this.user,
+    required this.isDisplay,
   }) : super(key: key);
 
   @override
@@ -36,7 +38,7 @@ class PersonalInformation extends StatelessWidget {
                     style: Get.textTheme.headline6,
                   ),
                   const SizedBox(height: 16.0),
-                  if (user.value.isLandowner) ...[
+                  if (isDisplay) ...[
                     CardFieldNoIcon(
                       title: 'Số điện thoại',
                       data: user.value.phoneNumber ?? '',
@@ -53,7 +55,7 @@ class PersonalInformation extends StatelessWidget {
                     data: user.value.genderString,
                   ),
                   const SizedBox(height: 24.0),
-                  if (user.value.isLandowner) ...[
+                  if (isDisplay) ...[
                     CardFieldNoIcon(
                       title: 'Email',
                       data: user.value.email ?? '',

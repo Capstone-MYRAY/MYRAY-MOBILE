@@ -52,7 +52,10 @@ class LandownerProfileDetailsView extends GetView<LandownerProfileController> {
                   ),
                 ),
                 const SizedBox(height: 16.0),
-                PersonalInformation(user: controller.user),
+                PersonalInformation(
+                  user: controller.user,
+                  isDisplay: true,
+                ),
                 const SizedBox(height: 16.0),
                 SizedBox(
                   width: Get.width * 0.8,
