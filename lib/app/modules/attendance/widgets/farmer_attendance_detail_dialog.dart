@@ -148,9 +148,9 @@ class FarmerAttendanceDetailDialog {
                                     style: Get.textTheme.headline4),
                                 SizedBox(
                                   height: Get.height * 0.03,
-                                ),
+                                ),                                
                                 Image.network(
-                                  attendance.signature!,
+                                  attendance.signature ?? 'https://luatacc.com/wp-content/uploads/2022/02/chu-ky-la-gi.png',
                                   width: Get.width * 0.9,
                                   height: Get.height * 0.2,
                                   loadingBuilder:
@@ -176,15 +176,15 @@ class FarmerAttendanceDetailDialog {
                         ),
                       ),
                       SizedBox(
-                        height: Get.height * 0.03,
+                        height: Get.height * 0.01,
                       ),
-                      CustomTextButton(
-                        onPressed: () {},
-                        title: 'Báo cáo sai sót',
-                        background: AppColors.errorColor,
-                        padding: EdgeInsets.symmetric(
-                            horizontal: Get.width * 0.2, vertical: 10),
-                      ),
+                      // CustomTextButton(
+                      //   onPressed: () {},
+                      //   title: 'Báo cáo sai sót',
+                      //   background: AppColors.errorColor,
+                      //   padding: EdgeInsets.symmetric(
+                      //       horizontal: Get.width * 0.2, vertical: 10),
+                      // ),
                     ],
                   ),
                 ),
