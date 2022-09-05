@@ -6,7 +6,6 @@ import 'package:myray_mobile/app/modules/payment_history/payment_history_reposit
 import 'package:myray_mobile/app/shared/utils/auth_credentials.dart';
 import 'package:myray_mobile/app/shared/utils/utils.dart';
 import 'package:myray_mobile/app/shared/widgets/controls/my_date_range_picker.dart';
-import 'package:myray_mobile/app/shared/widgets/filters/outlined_filter.dart';
 
 class PaymentHistoryHomeController extends GetxController {
   final _paymentHistoryRepository = Get.find<PaymentHistoryRepository>();

@@ -6,7 +6,6 @@ import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
 import 'package:myray_mobile/app/shared/utils/utils.dart';
 import 'package:myray_mobile/app/shared/widgets/buttons/filled_button.dart';
 import 'package:myray_mobile/app/shared/widgets/cards/card_field.dart';
-import 'package:myray_mobile/app/shared/widgets/cards/card_status_field.dart';
 import 'package:myray_mobile/app/shared/widgets/cards/my_card.dart';
 
 import '../../../shared/widgets/cards/card_user_info.dart';
