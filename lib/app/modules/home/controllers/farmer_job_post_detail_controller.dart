@@ -1,7 +1,5 @@
 import 'package:get/get.dart';
 import 'package:myray_mobile/app/data/models/account.dart';
-import 'package:myray_mobile/app/data/models/feedback/feedback.dart';
-import 'package:myray_mobile/app/data/models/feedback/feedback_models.dart';
 import 'package:myray_mobile/app/data/models/job_post/job_post.dart';
 import 'package:myray_mobile/app/data/services/applied_job_service.dart';
 import 'package:myray_mobile/app/data/services/feedback_service.dart';
@@ -13,7 +11,6 @@ import 'package:myray_mobile/app/shared/constants/app_colors.dart';
 import 'package:myray_mobile/app/shared/constants/app_msg.dart';
 import 'package:myray_mobile/app/shared/constants/common.dart';
 import 'package:myray_mobile/app/shared/utils/auth_credentials.dart';
-import 'package:myray_mobile/app/shared/utils/custom_exception.dart';
 import 'package:myray_mobile/app/shared/widgets/builders/my_loading_builder.dart';
 import 'package:myray_mobile/app/shared/widgets/custom_snackbar.dart';
 import 'package:myray_mobile/app/data/models/job_post/farmer_job_post_detail_response.dart';

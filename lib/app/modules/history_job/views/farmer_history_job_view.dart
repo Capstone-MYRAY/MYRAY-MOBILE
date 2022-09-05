@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:myray_mobile/app/data/models/applied_job/applied_job_response.dart';
-import 'package:myray_mobile/app/data/models/job_post/job_post.dart';
 import 'package:myray_mobile/app/modules/history_job/controllers/farmer_history_job_controller.dart';
 import 'package:myray_mobile/app/modules/history_job/widgets/history_job_card.dart';
 import 'package:myray_mobile/app/routes/app_pages.dart';

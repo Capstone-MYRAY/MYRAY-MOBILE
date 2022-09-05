@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:myray_mobile/app/data/models/feedback/feedback.dart';
 import 'package:myray_mobile/app/data/models/report/report.dart';
 import 'package:myray_mobile/app/modules/job_post/controllers/farmer_inprogress_job_detail.controller.dart';
@@ -14,7 +13,6 @@ import 'package:myray_mobile/app/shared/constants/app_colors.dart';
 import 'package:myray_mobile/app/shared/constants/app_strings.dart';
 import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
 import 'package:myray_mobile/app/shared/utils/utils.dart';
-import 'package:myray_mobile/app/shared/widgets/buttons/custom_outline_button.dart';
 
 // ignore: must_be_immutable
 class FarmerInProgressJobDetail extends GetView<InprogressJobDetailController> {

@@ -2,7 +2,6 @@ import 'package:filter_list/filter_list.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:myray_mobile/app/data/models/tree_type/tree_type.dart';
-import 'package:myray_mobile/app/data/models/work_type/work_type_models.dart';
 import 'package:myray_mobile/app/shared/constants/app_colors.dart';
 import 'package:myray_mobile/app/shared/constants/app_strings.dart';
 import 'package:myray_mobile/app/shared/constants/common.dart';

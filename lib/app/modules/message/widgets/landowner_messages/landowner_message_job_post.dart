@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:myray_mobile/app/modules/message/widgets/landowner_messages/landowner_message_item.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/widgets/toggle_information/toggle_information.dart';
 
