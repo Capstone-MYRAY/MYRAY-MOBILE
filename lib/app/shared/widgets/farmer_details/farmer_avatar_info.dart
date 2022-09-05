@@ -16,6 +16,7 @@ class FarmerAvatarInfo extends StatelessWidget {
   final Color? statusColor;
   final void Function()? navigateToChatScreen;
   final void Function()? onFavoriteToggle;
+  final void Function()? onRatingDetails;
 
   const FarmerAvatarInfo({
     Key? key,
@@ -28,6 +29,7 @@ class FarmerAvatarInfo extends StatelessWidget {
     this.statusColor,
     this.navigateToChatScreen,
     this.onFavoriteToggle,
+    this.onRatingDetails,
   }) : super(key: key);
 
   @override
@@ -52,6 +54,11 @@ class FarmerAvatarInfo extends StatelessWidget {
           itemSize: 28.0,
           rating: rating ?? 0.0,
         ),
+        if (onRatingDetails != null)
+          TextButton(
+            onPressed: onRatingDetails,
+            child: const Text('Xem đánh giá'),
+          ),
         if (statusName != null && statusColor != null) ...[
           const SizedBox(height: 16.0),
           StatusChip(

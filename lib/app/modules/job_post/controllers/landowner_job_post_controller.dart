@@ -7,12 +7,16 @@ import 'package:myray_mobile/app/data/models/job_post/get_request_job_post_list.
 import 'package:myray_mobile/app/data/models/job_post/job_post.dart';
 import 'package:myray_mobile/app/data/models/post_type/post_type_models.dart';
 import 'package:myray_mobile/app/data/services/post_type_repository.dart';
+import 'package:myray_mobile/app/modules/dashboard/controllers/dashboard_controller.dart';
 import 'package:myray_mobile/app/modules/garden/garden_repository.dart';
 import 'package:myray_mobile/app/modules/job_post/job_post_repository.dart';
 import 'package:myray_mobile/app/modules/profile/controllers/landowner_profile_controller.dart';
+import 'package:myray_mobile/app/modules/topup/widgets/top_up_dialog.dart';
 import 'package:myray_mobile/app/routes/app_pages.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/utils/auth_credentials.dart';
+import 'package:myray_mobile/app/shared/utils/custom_exception.dart';
+import 'package:myray_mobile/app/shared/widgets/buttons/filled_button.dart';
 import 'package:myray_mobile/app/shared/widgets/dialogs/base_dialog.dart';
 import 'package:myray_mobile/app/shared/widgets/dialogs/information_dialog.dart';
 
@@ -34,6 +38,7 @@ class LandownerJobPostController extends GetxController {
   int? postTypeFilter;
   int? postStatusFilter;
   int? workStatusFilter;
+  bool isClearFilter = false;
 
   final isLoading = false.obs;
 
@@ -45,7 +50,6 @@ class LandownerJobPostController extends GetxController {
 
   onApplyFilter() {
     onRefresh(isFilter: true);
-    Get.back(); //close filter screen
   }
 
   onClearFilter() {
@@ -133,7 +137,7 @@ class LandownerJobPostController extends GetxController {
     });
   }
 
-  navigateToCreateForm() async {
+  _isHaveGarden() async {
     //check if there is any garden or not
     final gardenRepository = Get.find<GardenRepository>();
     final data = GetGardenRequest(
@@ -141,67 +145,134 @@ class LandownerJobPostController extends GetxController {
       page: 1.toString(),
       pageSize: 1.toString(),
     );
-    final GetGardenResponse? response = await gardenRepository.getGardens(data);
-    if (response != null && response.gardens!.isNotEmpty) {
-      //check if landowner has money or not
-      if (_money == 0) {
-        InformationDialog.showDialog(
-          msg:
-              'Bạn chưa có tiền trong tài khoản. Vui lòng gặp moderator để nạp tiền',
-          confirmTitle: AppStrings.titleClose,
-        );
-        return;
-      }
 
-      _navigateToCreateForm();
+    try {
+      final GetGardenResponse? response =
+          await gardenRepository.getGardens(data);
+      if (response == null || response.gardens!.isEmpty) return false;
+      return true;
+    } on CustomException catch (e) {
+      if (e.message.contains('No response')) {
+        InformationDialog.showDialog(msg: 'Vui lòng kiểm tra kết nối mạng');
+      }
+    }
+  }
+
+  navigateToCreateForm() async {
+    final isHaveGarden = await _isHaveGarden();
+    if (!isHaveGarden) {
+      BaseDialog.show(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              AppStrings.titleInfo,
+              style: Get.textTheme.headline4!.copyWith(
+                color: AppColors.primaryColor,
+              ),
+            ),
+            const SizedBox(height: 16.0),
+            const Text(
+                'Vui lòng tạo một mảnh vườn trước khi tạo một công việc'),
+            const SizedBox(height: 16.0),
+            TextButton.icon(
+              icon: const Icon(
+                Icons.keyboard_double_arrow_right_outlined,
+                size: 24.0,
+              ),
+              label: const Text('Tạo vườn'),
+              style: TextButton.styleFrom(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 8.0,
+                  horizontal: 12.0,
+                ),
+                backgroundColor: AppColors.primaryColor,
+                foregroundColor: AppColors.white,
+                shape: RoundedRectangleBorder(
+                  side: const BorderSide(color: AppColors.white),
+                  borderRadius:
+                      BorderRadius.circular(CommonConstants.borderRadius),
+                ),
+              ),
+              onPressed: () async {
+                Get.back(); //close dialog
+                Get.toNamed(Routes.gardenHome);
+                Get.toNamed(
+                  Routes.gardenForm,
+                  arguments: {
+                    Arguments.action: Activities.create,
+                  },
+                );
+              },
+            ),
+          ],
+        ),
+      );
+
       return;
     }
 
-    BaseDialog.show(
-      child: Column(
-        children: [
-          Text(
-            AppStrings.titleInfo,
-            style: Get.textTheme.headline4!.copyWith(
-              color: AppColors.primaryColor,
-            ),
-          ),
-          const SizedBox(height: 16.0),
-          const Text('Bạn chưa có vườn nào. Vui lòng tạo vườn trước'),
-          const SizedBox(height: 16.0),
-          TextButton.icon(
-            icon: const Icon(
-              Icons.keyboard_double_arrow_right_outlined,
-              size: 24.0,
-            ),
-            label: const Text('Tạo vườn'),
-            style: TextButton.styleFrom(
-              padding: const EdgeInsets.symmetric(
-                vertical: 8.0,
-                horizontal: 12.0,
-              ),
-              backgroundColor: AppColors.primaryColor,
-              foregroundColor: AppColors.white,
-              shape: RoundedRectangleBorder(
-                side: const BorderSide(color: AppColors.white),
-                borderRadius:
-                    BorderRadius.circular(CommonConstants.borderRadius),
+    if (_money == 0) {
+      BaseDialog.show(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              AppStrings.titleInfo,
+              style: Get.textTheme.headline4!.copyWith(
+                color: AppColors.primaryColor,
               ),
             ),
-            onPressed: () async {
-              Get.back(); //close dialog
-              Get.toNamed(Routes.gardenHome);
-              Get.toNamed(
-                Routes.gardenForm,
-                arguments: {
-                  Arguments.action: Activities.create,
-                },
-              );
-            },
-          ),
-        ],
-      ),
-    );
+            const SizedBox(height: 16.0),
+            const Text(
+                'Bạn chưa có tiền trong tài khoản. Nếu bạn cần tuyển người gấp, hãy nạp tiền để có thể nâng cấp bài đăng của mình'),
+            const SizedBox(height: 16.0),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: OutlinedButton(
+                    onPressed: () {
+                      Get.back(); //close dialog
+                      _navigateToCreateForm();
+                    },
+                    style: OutlinedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 12.0,
+                        horizontal: 8.0,
+                      ),
+                    ),
+                    child: const Text('Tạo công việc'),
+                  ),
+                ),
+                const SizedBox(width: 16.0),
+                Expanded(
+                  // width: Get.width * 0.3,
+                  child: FilledButton(
+                    title: 'Nạp tiền ngay',
+                    onPressed: () {
+                      Get.back(); //close dialog
+                      final dashBoardController =
+                          Get.find<DashboardController>();
+                      TopUpDialog.show(Get.context!);
+                      dashBoardController
+                          .changeTabIndex(LandownerTabs.home.index);
+                    },
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 12.0,
+                      horizontal: 8.0,
+                    ),
+                  ),
+                ),
+              ],
+            )
+          ],
+        ),
+      );
+    } else {
+      _navigateToCreateForm();
+    }
   }
 
   Future<void> onRefresh({bool isFilter = false}) async {

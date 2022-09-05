@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:myray_mobile/app/data/models/goong_map/goong_map_models.dart';

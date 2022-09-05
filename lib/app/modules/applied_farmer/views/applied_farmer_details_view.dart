@@ -3,8 +3,10 @@ import 'package:get/get.dart';
 import 'package:myray_mobile/app/data/enums/enums.dart';
 import 'package:myray_mobile/app/data/models/applied_farmer/applied_farmer_models.dart';
 import 'package:myray_mobile/app/modules/applied_farmer/controllers/applied_farmer_details_controller.dart';
+import 'package:myray_mobile/app/modules/applied_farmer/widgets/job_post_info.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
-import 'package:myray_mobile/app/shared/widgets/builders/loading_builder.dart';
+import 'package:myray_mobile/app/shared/widgets/builders/details_error_builder.dart';
+import 'package:myray_mobile/app/shared/widgets/builders/my_loading_builder.dart';
 import 'package:myray_mobile/app/shared/widgets/buttons/filled_button.dart';
 import 'package:myray_mobile/app/shared/widgets/chips/status_chip.dart';
 import 'package:myray_mobile/app/shared/widgets/farmer_details/farmer_details.dart';
@@ -23,24 +25,26 @@ class AppliedFarmerDetailsView extends GetView<AppliedFarmerDetailsController> {
         title: controller.appliedFarmer.value.userInfo.fullName ?? '',
       ),
       body: FutureBuilder(
-        future:
-            controller.isBookMark(controller.appliedFarmer.value.userInfo.id!),
+        future: controller.initData(),
         builder: (_, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const LoadingBuilder();
+            return const MyLoadingBuilder();
           }
 
-          controller.isBookmarked.value = snapshot.data as bool;
+          if (snapshot.hasError) {
+            return const DetailsErrorBuilder();
+          }
+
           final user = controller.appliedFarmer.value.userInfo;
-          return Obx(
-            () => SizedBox(
-              width: double.infinity,
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.only(top: 8.0, bottom: 16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    FarmerDetails(
+          return SizedBox(
+            width: double.infinity,
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.only(top: 8.0, bottom: 16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Obx(
+                    () => FarmerDetails(
                       role: user.roleName,
                       user: Rx(user),
                       avatar: user.imageUrl,
@@ -48,13 +52,32 @@ class AppliedFarmerDetailsView extends GetView<AppliedFarmerDetailsController> {
                       isBookmarked: controller.isBookmarked.value,
                       onFavoriteToggle: () => controller.onToggleBookmark(),
                       navigateToChatScreen: controller.navigateToChatScreen,
+                      onRatingDetails: controller.getFeedbackList,
                     ),
-                    const SizedBox(height: 16.0),
-                    _buildBottom(
+                  ),
+                  const SizedBox(height: 8.0),
+                  Obx(
+                    () => JobPostInfo(
+                      title: controller.appliedFarmer.value.jobPost.title,
+                      gardenName:
+                          controller.appliedFarmer.value.jobPost.gardenName ??
+                              '',
+                      workType:
+                          controller.appliedFarmer.value.jobPost.workTypeName,
+                      workPayType:
+                          controller.appliedFarmer.value.jobPost.workPayType,
+                      approvedFarmer: controller.totalApprovedFarmer.value,
+                      maxFarmer: controller
+                          .appliedFarmer.value.jobPost.payPerHourJob?.maxFarmer,
+                    ),
+                  ),
+                  const SizedBox(height: 16.0),
+                  Obx(
+                    () => _buildBottom(
                       controller.appliedFarmer.value,
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           );
@@ -75,26 +98,28 @@ class AppliedFarmerDetailsView extends GetView<AppliedFarmerDetailsController> {
         child: Row(
           children: [
             Expanded(
-              child: OutlinedButton(
-                onPressed: controller.reject,
-                style: OutlinedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 12.0,
-                  ),
-                ),
-                child: const Text(AppStrings.titleRefuse),
-              ),
-            ),
-            const SizedBox(width: 16.0),
-            Expanded(
               child: FilledButton(
-                title: AppStrings.titleHire,
+                onPressed: controller.reject,
                 padding: const EdgeInsets.symmetric(
                   vertical: 12.0,
                 ),
-                onPressed: controller.approve,
+                title: AppStrings.titleRefuse,
+                color: AppColors.errorColor,
               ),
             ),
+            if (appliedFarmer.jobPost.status ==
+                JobPostStatus.shortHanded.index) ...[
+              const SizedBox(width: 16.0),
+              Expanded(
+                child: FilledButton(
+                  title: AppStrings.titleHire,
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 12.0,
+                  ),
+                  onPressed: controller.approve,
+                ),
+              ),
+            ],
           ],
         ),
       );

@@ -10,7 +10,7 @@ class PaymentHistoryItem extends StatelessWidget {
   final String title;
   final double balance;
   final int point;
-  final double balanceFructuation;
+  final double balanceFluctuation;
   final Color iconColor;
   final void Function()? onTap;
 
@@ -20,14 +20,14 @@ class PaymentHistoryItem extends StatelessWidget {
     required this.title,
     required this.balance,
     required this.point,
-    required this.balanceFructuation,
+    required this.balanceFluctuation,
     required this.iconColor,
     this.onTap,
   }) : super(key: key);
 
   String get _pointSign => point.isNegative ? '' : '+';
   String get _balanceFluctuationSign =>
-      balanceFructuation.isNegative ? '' : '+';
+      balanceFluctuation <= 0 ? '' : '+';
 
   @override
   Widget build(BuildContext context) {
@@ -108,9 +108,9 @@ class PaymentHistoryItem extends StatelessWidget {
                       ),
                     ),
                   Text(
-                    '$_balanceFluctuationSign${Utils.vietnameseCurrencyFormat.format(balanceFructuation)}',
+                    '$_balanceFluctuationSign${Utils.vietnameseCurrencyFormat.format(balanceFluctuation)}',
                     style: Get.textTheme.headline6!.copyWith(
-                      color: balanceFructuation.isNegative
+                      color: balanceFluctuation <= 0
                           ? AppColors.errorColor
                           : AppColors.primaryColor,
                       fontSize: 13 * Get.textScaleFactor,

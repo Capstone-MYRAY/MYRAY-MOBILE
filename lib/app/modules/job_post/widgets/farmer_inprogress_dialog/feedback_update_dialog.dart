@@ -11,9 +11,10 @@ class FeedBackUpdateDialog {
 
   static show({
     required FeedBack newFeedBack,
+    String? title,
   }) {
     return Get.defaultDialog(
-        title: 'Cập nhật đánh giá',
+        title: title ?? 'Cập nhật đánh giá',
         titlePadding: const EdgeInsets.only(top: 20),
         contentPadding: const EdgeInsets.all(20),
         titleStyle: Get.textTheme.headline3,
@@ -87,7 +88,7 @@ class FeedBackUpdateDialog {
                   Expanded(
                     //valid giới hạn lại số chữ nhập
                     child: Text(
-                      newFeedBack.content,
+                      newFeedBack.content ?? '',
                       style: Get.textTheme.bodyText2!
                           .copyWith(fontSize: Get.textScaleFactor * 16),
                       softWrap: true,

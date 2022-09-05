@@ -5,7 +5,7 @@ import 'package:myray_mobile/app/modules/attendance/controllers/job_post_attenda
 import 'package:myray_mobile/app/modules/attendance/widgets/check_attendance_card.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/utils/utils.dart';
-import 'package:myray_mobile/app/shared/widgets/builders/loading_builder.dart';
+import 'package:myray_mobile/app/shared/widgets/builders/my_loading_builder.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class JobPostAttendanceView extends GetView<JobPostAttendanceController> {
@@ -36,7 +36,7 @@ class JobPostAttendanceView extends GetView<JobPostAttendanceController> {
             if (snapshot.connectionState == ConnectionState.waiting &&
                 !controller.attendances
                     .containsKey(controller.selectedDate.value)) {
-              return const LoadingBuilder();
+              return const MyLoadingBuilder();
             }
 
             return Expanded(
@@ -54,22 +54,39 @@ class JobPostAttendanceView extends GetView<JobPostAttendanceController> {
                             item.appliedFarmerStatus ==
                                 AppliedFarmerStatus.end.index;
 
-                        bool isSelectedAfterEndDate = false;
+                        bool isSelectedBeforeEndDate = false;
 
                         if (item.endDate != null) {
-                          isSelectedAfterEndDate = controller.selectedDate.value
-                              .isAfter(
+                          isSelectedBeforeEndDate =
+                              controller.selectedDate.value.isBefore(
                                   DateUtils.dateOnly(item.endDate!.toLocal()));
                         }
 
-                        bool isNotDisplay = item.attendance.isEmpty &&
-                            // isFiredOrEnd &&
-                            isSelectedAfterEndDate;
-                        if (isNotDisplay) {
+                        bool isFiredEndDisplay =
+                            isFiredOrEnd && isSelectedBeforeEndDate;
+
+                        bool isEmptyDisplay = item.attendances.isEmpty &&
+                            (item.appliedFarmerStatus ==
+                                    AppliedFarmerStatus.approved.index ||
+                                isFiredEndDisplay);
+
+                        bool isNotEmptyDisplay = item.attendances.isNotEmpty &&
+                            (item.attendances.first.status ==
+                                    AttendanceStatus.present.index ||
+                                item.attendances.first.status ==
+                                    AttendanceStatus.absent.index ||
+                                (item.attendances.first.status ==
+                                        AttendanceStatus.dayOff.index &&
+                                    item.appliedFarmerStatus ==
+                                        AppliedFarmerStatus.approved.index));
+
+                        bool isDisplay = isEmptyDisplay || isNotEmptyDisplay;
+
+                        if (!isDisplay) {
                           return const SizedBox();
                         }
 
-                        bool isControlDisplayed = item.attendance.isEmpty &&
+                        bool isControlDisplayed = item.attendances.isEmpty &&
                             !controller.selectedDate.value.isAfter(now);
 
                         return CheckAttendanceCard(
@@ -81,17 +98,16 @@ class JobPostAttendanceView extends GetView<JobPostAttendanceController> {
                           avatar: item.farmer.imageUrl,
                           isFiredOrEnd: isFiredOrEnd,
                           isControlDisplayed: isControlDisplayed,
-                          statusName: item.attendance.isNotEmpty
-                              ? item.attendance.first.statusString
+                          statusName: item.attendances.isNotEmpty
+                              ? item.attendances.first.statusString
                               : AppStrings.noAttendance,
-                          statusBackground: item.attendance.isNotEmpty
-                              ? item.attendance.first.statusColor
+                          statusBackground: item.attendances.isNotEmpty
+                              ? item.attendances.first.statusColor
                               : AppColors.grey,
-                          reason: item.attendance.isNotEmpty
-                              ? item.attendance.first.reason
+                          reason: item.attendances.isNotEmpty
+                              ? item.attendances.first.reason
                               : null,
                           onPresent: () => controller.onPresent(item.farmer),
-                          onFinish: () => controller.onFinish(item.farmer),
                           onAbsent: () => controller.onAbsent(item.farmer),
                           onFired: () => controller.onFired(item.farmer),
                         );

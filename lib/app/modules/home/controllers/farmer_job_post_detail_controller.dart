@@ -1,18 +1,22 @@
 import 'package:get/get.dart';
 import 'package:myray_mobile/app/data/models/account.dart';
 import 'package:myray_mobile/app/data/models/job_post/job_post.dart';
+import 'package:myray_mobile/app/data/services/applied_job_service.dart';
+import 'package:myray_mobile/app/data/services/feedback_service.dart';
 import 'package:myray_mobile/app/data/services/message_service.dart';
 import 'package:myray_mobile/app/modules/bookmark/bookmark_repository.dart';
 import 'package:myray_mobile/app/modules/job_post/job_post_repository.dart';
 import 'package:myray_mobile/app/modules/profile/profile_repository.dart';
 import 'package:myray_mobile/app/shared/constants/app_colors.dart';
 import 'package:myray_mobile/app/shared/constants/app_msg.dart';
+import 'package:myray_mobile/app/shared/constants/common.dart';
 import 'package:myray_mobile/app/shared/utils/auth_credentials.dart';
-import 'package:myray_mobile/app/shared/widgets/builders/loading_builder.dart';
+import 'package:myray_mobile/app/shared/widgets/builders/my_loading_builder.dart';
 import 'package:myray_mobile/app/shared/widgets/custom_snackbar.dart';
 import 'package:myray_mobile/app/data/models/job_post/farmer_job_post_detail_response.dart';
 
-class FarmerJobPostDetailController extends GetxController with MessageService {
+class FarmerJobPostDetailController extends GetxController
+    with MessageService, AppliedJobService, FeedBackService {
   final _jobPostRepository = Get.find<JobPostRepository>();
   final _accountRepository = Get.find<ProfileRepository>();
   final _bookmarkRepository = Get.find<BookmarkRepository>();
@@ -22,16 +26,19 @@ class FarmerJobPostDetailController extends GetxController with MessageService {
   Rx<FarmerJobPostDetailResponse>? detailPost;
   Rx<Account>? landownerAccount;
   Rx<bool> isBookmark = false.obs;
+  RxBool isFullApplyRequestJob = false.obs;
+
 
   FarmerJobPostDetailController({required this.jobPost});
 
   @override
   void onInit() async {
-    super.onInit();
     _getLanownerAccount(jobPost.publishedBy);
+    super.onInit();
     _checkFarmerAppliedOrNot(jobPost.id);
-    checkAppliedHourJob();
+    // checkAppliedHourJob();
     checkBookmark(jobPost.publishedBy);
+    checkNumOfAppliedJob();
   }
 
   void navigateToChatScreen() {
@@ -78,6 +85,14 @@ class FarmerJobPostDetailController extends GetxController with MessageService {
         : print('Chưa ứng tuyển');
   }
 
+  //check the num of applied job is 5 or not.
+  checkNumOfAppliedJob() async {
+    int? numOfAppliedJobList = await checkAmountAppliedJob();
+    if (numOfAppliedJobList == CommonConstants.numOfAppliedJobList) {
+      isFullApplyRequestJob(true);
+    }
+  }
+
   getExpiredDate(DateTime publishedDate, int numberPublishDate) {
     var publishDate = publishedDate.toLocal();
     var expiredDate = DateTime(publishDate.year, publishDate.month,
@@ -99,7 +114,7 @@ class FarmerJobPostDetailController extends GetxController with MessageService {
           (result) => {
             if (result || result == null)
               {
-                const LoadingBuilder(),
+                const MyLoadingBuilder(),
                 CustomSnackbar.show(
                     title: "Thành công", message: AppMsg.MSG3006),
               }
@@ -149,4 +164,7 @@ class FarmerJobPostDetailController extends GetxController with MessageService {
       isBookmark.value = false;
     }
   }
+
+
+
 }

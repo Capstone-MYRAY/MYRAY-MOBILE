@@ -7,15 +7,15 @@ class CheckPinDateRequest {
   @JsonKey(name: 'PublishedDate')
   DateTime publishedDate;
 
-  @JsonKey(name: 'numberOfDayPublish')
-  String numOfPublishDay;
+  // @JsonKey(name: 'numberOfDayPublish')
+  // String numOfPublishDay;
 
   @JsonKey(name: 'postTypeId')
   String postTypeId;
 
   CheckPinDateRequest({
     required this.publishedDate,
-    required this.numOfPublishDay,
+    // required this.numOfPublishDay,
     required this.postTypeId,
   });
 

@@ -31,8 +31,8 @@ enum GardenSortColumn {
 }
 
 enum JobPostSortColumn {
-  @JsonValue('PublishedDate')
-  publishedDate,
+  // @JsonValue('PublishedDate')
+  // publishedDate,
 
   @JsonValue('CreatedDate')
   createdDate,
@@ -89,7 +89,7 @@ enum BookmarkSortColumn {
   createdDate
 }
 
-enum ReportSortColumn{
+enum ReportSortColumn {
   @JsonValue('CreatedDate')
   createdDate,
 
@@ -100,7 +100,7 @@ enum ReportSortColumn{
   jobPostId,
 }
 
-enum FeedbackSortColumn{
+enum FeedbackSortColumn {
   @JsonValue('BelongedId')
   belongedId,
 
@@ -114,7 +114,7 @@ enum FeedbackSortColumn{
   createdDate
 }
 
-enum GuidepostSortColumn{
+enum GuidepostSortColumn {
   @JsonValue('Title')
   title,
 
@@ -125,10 +125,15 @@ enum GuidepostSortColumn{
   createdDate
 }
 
-enum CommentSortColumn{
+enum CommentSortColumn {
   @JsonValue('CommentBy')
   commentBy,
 
   @JsonValue('CreatedDate')
   createdDate,
+}
+
+enum WorkTypeSortColumn {
+  @JsonValue('Name')
+  name,
 }

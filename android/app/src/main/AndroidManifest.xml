@@ -1,16 +1,18 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.myray_mobile">
+    package="com.example.myray_mobile"
+    >
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
     
-   <application
-        android:label="MYRAY"
+   <application android:label="MYRAY"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/ic_launcher"
+       >
 
        <meta-data android:name="com.google.android.geo.API_KEY" android:value="@string/GOOGLE_MAPS_API_KEY"/>
 
@@ -52,6 +54,32 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="myray" />
+            </intent-filter>
+            <!-- Deep Links -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!-- Accepts URIs that begin with YOUR_SCHEME://YOUR_HOST -->
+                <data
+                    android:scheme="momo" />
+            </intent-filter>
+
+            <!-- App Links -->
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!-- Accepts URIs that begin with https://YOUR_HOST -->
+                <data
+                    android:scheme="https"
+                    android:host="test-payment.momo.vn" />
             </intent-filter>
         </activity>
         <!-- Don't delete the meta-data below.

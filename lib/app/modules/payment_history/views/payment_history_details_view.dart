@@ -7,7 +7,6 @@ import 'package:myray_mobile/app/modules/payment_history/widgets/payment_basic_i
 import 'package:myray_mobile/app/modules/payment_history/widgets/payment_details_info_card.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
-import 'package:myray_mobile/app/shared/utils/auth_credentials.dart';
 import 'package:myray_mobile/app/shared/utils/utils.dart';
 import 'package:myray_mobile/app/shared/widgets/cards/card_field_no_icon.dart';
 import 'package:myray_mobile/app/shared/widgets/cards/feature_option.dart';
@@ -23,7 +22,12 @@ class PaymentHistoryDetailsView
 
   PaymentHistory get payment => controller.paymentHistory.value;
 
-  bool get isMe => payment.createdBy == AuthCredentials.instance.user!.id;
+  bool get isDisplay {
+    bool isHaveTotalPinDate =
+        payment.totalPinDay != null && payment.totalPinDay != 0;
+    bool isHaveUsedPoint = payment.usedPoint != null && payment.usedPoint != 0;
+    return isHaveTotalPinDate || isHaveUsedPoint;
+  }
 
   Activities? get _action => Get.arguments[Arguments.action];
 
@@ -43,7 +47,7 @@ class PaymentHistoryDetailsView
         child: Column(
           children: [
             _buildAboveCard(),
-            if (isMe) ...[
+            if (isDisplay) ...[
               PaymentDetailsInfoCard(
                 title: AppStrings.titlePaymentHistoryDetails,
                 postingFee: payment.jobPostPrice ?? 0,
@@ -88,7 +92,7 @@ class PaymentHistoryDetailsView
           const SizedBox(height: 8.0),
           PaymentBasicInfo(
             iconColor: payment.statusColor,
-            isMe: isMe,
+            isMe: isDisplay,
             balanceFluctuation: payment.balanceFluctuation ?? 0,
             paymentId: payment.id.toString(),
           ),

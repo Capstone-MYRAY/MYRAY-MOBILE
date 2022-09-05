@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_switch/flutter_switch.dart';
 import 'package:get/get.dart';
 import 'package:myray_mobile/app/data/enums/enums.dart';
 import 'package:myray_mobile/app/data/models/job_post/job_post.dart';
@@ -14,7 +15,7 @@ import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
 import 'package:myray_mobile/app/shared/utils/hex_color_extension.dart';
 import 'package:myray_mobile/app/shared/utils/utils.dart';
 import 'package:myray_mobile/app/shared/widgets/builders/details_error_builder.dart';
-import 'package:myray_mobile/app/shared/widgets/builders/loading_builder.dart';
+import 'package:myray_mobile/app/shared/widgets/builders/my_loading_builder.dart';
 import 'package:myray_mobile/app/shared/widgets/buttons/filled_button.dart';
 import 'package:myray_mobile/app/shared/widgets/cards/card_status_field.dart';
 import 'package:myray_mobile/app/shared/widgets/cards/feature_option.dart';
@@ -39,10 +40,17 @@ class LandownerJobPostDetailsView
       jobPost.status == JobPostStatus.cancel.index;
 
   bool get _isStartJob => jobPost.workStatus == JobPostWorkStatus.started.index;
+  bool get _isNotStart => jobPost.workStatus == JobPostWorkStatus.pending.index;
 
-  bool get _isPosted => jobPost.status == JobPostStatus.posted.index;
+  // bool get _isPosted => jobPost.status == JobPostStatus.posted.index;
 
   bool get _isApproved => jobPost.status == JobPostStatus.approved.index;
+
+  bool get _isShortHanded => jobPost.status == JobPostStatus.shortHanded.index;
+
+  bool get _isEnough => jobPost.status == JobPostStatus.enough.index;
+
+  bool get _isEnd => jobPost.status == JobPostStatus.end.index;
 
   bool get _isRejected => jobPost.status == JobPostStatus.rejected.index;
 
@@ -52,6 +60,12 @@ class LandownerJobPostDetailsView
 
   bool get _isPending => jobPost.status == JobPostStatus.pending.index;
 
+  bool get _canEditJobStartDate =>
+      (_isApproved || _isShortHanded || _isEnough) &&
+      jobPost.jobStartDate
+          .toLocal()
+          .isAfter(DateUtils.dateOnly(DateTime.now()));
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,10 +73,10 @@ class LandownerJobPostDetailsView
         title: const Text(AppStrings.titleJobPostDetail),
       ),
       body: FutureBuilder(
-          future: controller.getPaymentHistory(),
+          future: controller.initData(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const LoadingBuilder();
+              return const MyLoadingBuilder();
             }
 
             if (snapshot.hasError) {
@@ -74,8 +88,22 @@ class LandownerJobPostDetailsView
               padding: const EdgeInsets.only(bottom: 16.0),
               children: [
                 _buildPostInfo(),
-                _buildWorkInformation(),
+                Obx(
+                  () => Container(
+                    margin: EdgeInsets.only(
+                      top: 16.0,
+                      left: Get.width * 0.05,
+                      right: Get.width * 0.05,
+                    ),
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      controller.totalFarmerDisplay,
+                      style: Get.textTheme.bodyText1,
+                    ),
+                  ),
+                ),
                 _buildPostInformation(),
+                _buildWorkInformation(),
                 _buildWorkPlaceInformation(),
                 _buildPaymentHistoryInformation(),
                 if (!_isFeatureNotDisplay) ..._buildFeatures(),
@@ -92,13 +120,48 @@ class LandownerJobPostDetailsView
     );
   }
 
+  Widget _buildFindFarmerToggle() {
+    // if (!_isApproved && !_isShortHanded && !_isEnough) return const SizedBox();
+    return Row(
+      children: [
+        Text(
+          '${AppStrings.labelPostStatus}:',
+          style: Get.textTheme.bodyText2!.copyWith(
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        const SizedBox(width: 8.0),
+        Obx(
+          () => FlutterSwitch(
+            value: controller.isFindingFarmer.value,
+            width: Get.width * 0.3,
+            height: Get.width * 0.08,
+            valueFontSize: 13.0,
+            activeTextFontWeight: FontWeight.normal,
+            inactiveTextFontWeight: FontWeight.normal,
+            onToggle: controller.onFindingFarmerToggle,
+            activeColor: AppColors.successColor,
+            activeText: 'Tuyển người',
+            activeTextColor: AppColors.white,
+            inactiveColor: AppColors.grey,
+            inactiveText: 'Ngừng tuyển',
+            inactiveTextColor: AppColors.white,
+            showOnOff: true,
+            padding: 8.0,
+            toggleSize: 20.0,
+          ),
+        ),
+      ],
+    );
+  }
+
   Widget _buildPostInfo() {
     return Obx(
       () => Container(
-        margin: EdgeInsets.only(
+        margin: const EdgeInsets.only(
           top: 16.0,
-          left: Get.width * 0.05,
-          right: Get.width * 0.05,
+          left: 32.0,
+          right: 32.0,
         ),
         child: GridView.count(
           shrinkWrap: true,
@@ -202,14 +265,29 @@ class LandownerJobPostDetailsView
       }
 
       //add extend job button
-      if (_isPosted) {
+      // if (_isPosted) {
+      //   final buttons = [
+      //     const SizedBox(height: 8.0),
+      //     FractionallySizedBox(
+      //       widthFactor: 0.8,
+      //       child: FilledButton(
+      //         title: AppStrings.titleExtendPostEndDate,
+      //         onPressed: controller.extendExpiredDate,
+      //       ),
+      //     ),
+      //   ];
+      //   widgets.addAll(buttons);
+      // }
+
+      if (jobPost.isPayPerHourJob &&
+          (_isEnough || _isShortHanded || _isApproved)) {
         final buttons = [
           const SizedBox(height: 8.0),
           FractionallySizedBox(
             widthFactor: 0.8,
             child: FilledButton(
-              title: AppStrings.titleExtendPostEndDate,
-              onPressed: controller.extendExpiredDate,
+              title: AppStrings.titleExtendMaxFarmer,
+              onPressed: controller.updateMaxFarmer,
             ),
           ),
         ];
@@ -217,7 +295,7 @@ class LandownerJobPostDetailsView
       }
 
       //add repost button
-      if (_isExpired || _isOutOfDate) {
+      if (_isExpired || _isOutOfDate || _isEnd) {
         final button = [
           const SizedBox(height: 8.0),
           FractionallySizedBox(
@@ -250,6 +328,7 @@ class LandownerJobPostDetailsView
       //add cancel button
       if (_isApproved && !_isStartJob) {
         final buttons = [
+          const SizedBox(height: 8.0),
           FractionallySizedBox(
             widthFactor: 0.8,
             child: FilledButton(
@@ -373,6 +452,18 @@ class LandownerJobPostDetailsView
     return null;
   }
 
+  Widget _buildPostStatus() {
+    if (_isShortHanded || _isEnough) {
+      return _buildFindFarmerToggle();
+    }
+
+    return CardStatusField(
+      statusName: jobPost.jobPostStatusString,
+      title: AppStrings.labelPostStatus,
+      backgroundColor: jobPost.jobPostStatusColor,
+    );
+  }
+
   Widget _buildPostInformation() {
     DateTime? expiryDate = jobPost.pinStartDate == null
         ? null
@@ -383,19 +474,17 @@ class LandownerJobPostDetailsView
       title: AppStrings.titlePostInformation,
       headerBorderRadius: BorderRadius.circular(CommonConstants.borderRadius),
       isOpen: true,
+      isCustom: true,
       child: GetBuilder<LandownerJobPostDetailsController>(
         id: controller.postInformation,
         tag: _myTag,
         builder: (_) => ToggleContentPostInfo(
+          title: AppStrings.titlePostInformation,
           createdDate: jobPost.createdDate,
           publishedDate: jobPost.publishedDate,
-          publishExpiryDate: jobPost.publishedDate
-              .add(Duration(days: jobPost.numOfPublishDay - 1)),
-          postStatus: CardStatusField(
-            statusName: jobPost.jobPostStatusString,
-            title: AppStrings.labelPostStatus,
-            backgroundColor: jobPost.jobPostStatusColor,
-          ),
+          // publishExpiryDate: jobPost.publishedDate
+          //     .add(Duration(days: jobPost.numOfPublishDay - 1)),
+          postStatus: _buildPostStatus(),
           approvedBy: jobPost.approvedName,
           approvedDate: jobPost.approvedDate,
           rejectedReason: jobPost.rejectedReason,
@@ -435,10 +524,13 @@ class LandownerJobPostDetailsView
         tag: _myTag,
         builder: (_) => ToggleContentWorkInfo(
           workName: jobPost.title,
+          workType: jobPost.workTypeName,
           jobStartDate: jobPost.jobStartDate,
+          canEditJobStartDate: _canEditJobStartDate,
+          onEdit: controller.onUpdateJobStartDate,
           jobEndDate: jobPost.jobEndDate,
           treeTypes: jobPost.treeTypes,
-          workType: jobPost.workType,
+          workPayType: jobPost.workPayType,
           description: jobPost.description?.contains('\n') != null
               ? '\n${jobPost.description}'
               : jobPost.description,
@@ -455,7 +547,7 @@ class LandownerJobPostDetailsView
 
   _buildWorkContent() {
     if (Utils.equalsUtf8String(
-        controller.jobPost.value.workType, AppStrings.payPerHour)) {
+        controller.jobPost.value.workPayType, AppStrings.payPerHour)) {
       final PayPerHourJob hourJob = jobPost.payPerHourJob!;
       String estimateFarmer = hourJob.minFarmer == hourJob.maxFarmer
           ? '${hourJob.maxFarmer} người'

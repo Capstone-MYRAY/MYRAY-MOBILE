@@ -40,7 +40,7 @@ class BaseProvider extends GetConnect {
       } on CustomException catch (e) {
         _authController.logOut();
         bool? isDialogOpen = Get.isDialogOpen;
-        if (isDialogOpen == null) {
+        if (isDialogOpen == null || !isDialogOpen) {
           InformationDialog.showDialog(
             msg: e.message,
             confirmTitle: 'Đóng',

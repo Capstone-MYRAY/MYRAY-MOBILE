@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:myray_mobile/app/shared/constants/app_colors.dart';
+import 'package:myray_mobile/app/shared/constants/app_strings.dart';
 import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
+import 'package:myray_mobile/app/shared/utils/utils.dart';
+import 'package:myray_mobile/app/shared/widgets/cards/card_field.dart';
 
 class FarmerOnLeaveCard extends StatelessWidget {
   final String job;
@@ -13,15 +16,15 @@ class FarmerOnLeaveCard extends StatelessWidget {
   final void Function()? onTap;
   //final DateTime createdDate;
 
-  const FarmerOnLeaveCard({
-    Key? key,
-    required this.job,
-    required this.submitDate,
-    required this.dayOffDate,
-    required this.numOfOnleaveDays,
-    required this.reason,
-    this.onTap
-  }) : super(key: key);
+  const FarmerOnLeaveCard(
+      {Key? key,
+      required this.job,
+      required this.submitDate,
+      required this.dayOffDate,
+      required this.numOfOnleaveDays,
+      required this.reason,
+      this.onTap})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +43,7 @@ class FarmerOnLeaveCard extends StatelessWidget {
                 height: Get.height * 0.01,
               ),
               Text('Đơn xin nghỉ phép',
-                  style: Get.textTheme.headline3?.copyWith(
+                  style: Get.textTheme.headline4?.copyWith(
                     color: AppColors.brown,
                     decoration: TextDecoration.underline,
                   ),
@@ -51,103 +54,63 @@ class FarmerOnLeaveCard extends StatelessWidget {
               SizedBox(
                 height: Get.height * 0.02,
               ),
-              Row(children: [
-                const Icon(CustomIcons.briefcase_outline, size: 20),
-                SizedBox(
-                  width: Get.width * 0.03,
-                ),
-                Text(
-                  "Công việc:",
-                  style: Get.textTheme.labelMedium!.copyWith(
-                    fontWeight: FontWeight.w500,
-                    fontSize: Get.textScaleFactor * 15,
-                  ),
-                ),
-                SizedBox(width: Get.width * 0.025),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.only(right: 15),
-                    child: Text(
-                      job,
-                      style: Get.textTheme.labelMedium!.copyWith(
-                        fontWeight: FontWeight.w500,
-                        fontSize: Get.textScaleFactor * 15,
-                      ),
-                      softWrap: true,
-                      overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.justify,
-                      maxLines: 3,
-                    ),
-                  ),
-                ),
-              ]),
+              CardField(
+                  icon: CustomIcons.briefcase_outline,
+                  title: "Công việc",
+                  data: job,
+                  iconAndTitleSpace: Get.width * 0.03,
+                  dataColor: AppColors.primaryColor),
+              SizedBox(
+                height: Get.height * 0.010,
+              ),
+              // Row(children: [
+              //   const Icon(CustomIcons.briefcase_outline, size: 20),
+              //   SizedBox(
+              //     width: Get.width * 0.03,
+              //   ),
+              //   Text(
+              //     "Công việc:",
+              //     style: Get.textTheme.labelMedium!.copyWith(
+              //       fontWeight: FontWeight.w500,
+              //       fontSize: Get.textScaleFactor * 15,
+              //     ),
+              //   ),
+              //   SizedBox(width: Get.width * 0.025),
+              //   Expanded(
+              //     child: Padding(
+              //       padding: const EdgeInsets.only(right: 15),
+              //       child: Text(
+              //         job,
+              //         style: Get.textTheme.labelMedium!.copyWith(
+              //           fontWeight: FontWeight.w500,
+              //           fontSize: Get.textScaleFactor * 15,
+              //         ),
+              //         softWrap: true,
+              //         overflow: TextOverflow.ellipsis,
+              //         textAlign: TextAlign.justify,
+              //         maxLines: 3,
+              //       ),
+              //     ),
+              //   ),
+              // ]),           
+               CardField(
+                  icon: CustomIcons.calendar_minus,
+                  title: "Ngày nghỉ",
+                  data: Utils.formatddMMyyyy(dayOffDate),
+                  iconAndTitleSpace: Get.width * 0.03,
+                  dataColor: AppColors.primaryColor),
+              SizedBox(
+                height: Get.height * 0.010,
+              ),             
+              CardField(
+                  icon: CustomIcons.calendar_range,
+                  title: "Ngày nộp đơn",
+                  data: Utils.formatddMMyyyy(submitDate),
+                  iconAndTitleSpace: Get.width * 0.03,
+                  dataColor: AppColors.primaryColor),
               SizedBox(
                 height: Get.height * 0.01,
-              ),
-              Padding(
-                padding: const EdgeInsets.all(0),
-                child: Row(children: [
-                  const Icon(CustomIcons.calendar_minus, size: 20),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Text(
-                    "Ngày nghỉ:",
-                    style: Get.textTheme.labelMedium!.copyWith(
-                      fontWeight: FontWeight.w500,
-                      fontSize: Get.textScaleFactor * 15,
-                    ),
-                  ),
-                  SizedBox(
-                    width: Get.width * 0.025,
-                  ),
-                  Text(
-                    DateFormat('dd/MM/yyyy').format(dayOffDate),
-                    style: Get.textTheme.bodyText2!.copyWith(
-                        color: AppColors.primaryColor,
-                        fontSize: Get.textScaleFactor * 15,
-                        fontWeight: FontWeight.w500),
-                    softWrap: true,
-                    overflow: TextOverflow.ellipsis,
-                    textAlign: TextAlign.left,
-                    maxLines: 10,
-                  ),
-                ]),
-              ),
-              SizedBox(
-                height: Get.height * 0.01,
-              ),
-              Padding(
-                padding: const EdgeInsets.all(0),
-                child: Row(children: [
-                  const Icon(CustomIcons.calendar_range, size: 20),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Text(
-                    "Ngày nộp đơn:",
-                    style: Get.textTheme.labelMedium!.copyWith(
-                      fontWeight: FontWeight.w500,
-                      fontSize: Get.textScaleFactor * 15,
-                    ),
-                  ),
-                  SizedBox(
-                    width: Get.width * 0.025,
-                  ),
-                  Text(
-                    DateFormat('dd/MM/yyyy').format(submitDate),
-                    // DateFormat('dd/MM/yyyy').format(createdDate),
-                    style: Get.textTheme.bodyText2!.copyWith(
-                        color: AppColors.primaryColor,
-                        fontSize: Get.textScaleFactor * 15,
-                        fontWeight: FontWeight.w500),
-                    softWrap: true,
-                    overflow: TextOverflow.ellipsis,
-                    textAlign: TextAlign.left,
-                    maxLines: 10,
-                  ),
-                ]),
-              ),
+              ),              
               SizedBox(
                 height: Get.height * 0.01,
               ),

@@ -5,7 +5,7 @@ import 'package:myray_mobile/app/modules/bookmark/controllers/farmer_bookmark_co
 import 'package:myray_mobile/app/modules/bookmark/widgets/bookmark_card.dart';
 import 'package:myray_mobile/app/shared/constants/app_colors.dart';
 import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
-import 'package:myray_mobile/app/shared/widgets/builders/loading_builder.dart';
+import 'package:myray_mobile/app/shared/widgets/builders/my_loading_builder.dart';
 import 'package:myray_mobile/app/shared/widgets/lazy_loading_list.dart';
 
 class FarmerBookmark extends GetView<FarmerBookmarkController> {
@@ -22,7 +22,7 @@ class FarmerBookmark extends GetView<FarmerBookmarkController> {
         future: controller.getAllBookmarkAccount(),
         builder: ((context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const LoadingBuilder();
+            return const MyLoadingBuilder();
           }
           if (snapshot.hasError) {
             printError(info: snapshot.error.toString());

@@ -6,7 +6,7 @@ import 'package:myray_mobile/app/modules/applied_farmer/widgets/applied_farmer_c
 import 'package:myray_mobile/app/routes/app_pages.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/widgets/builders/list_empty_builder.dart';
-import 'package:myray_mobile/app/shared/widgets/builders/loading_builder.dart';
+import 'package:myray_mobile/app/shared/widgets/builders/my_loading_builder.dart';
 import 'package:myray_mobile/app/shared/widgets/lazy_loading_list.dart';
 
 class AppliedFarmerList extends StatelessWidget {
@@ -19,11 +19,14 @@ class AppliedFarmerList extends StatelessWidget {
         future: controller.getAppliedFarmers(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const LoadingBuilder();
+            return const MyLoadingBuilder();
           }
 
           if (snapshot.data == null) {
-            return ListEmptyBuilder(onRefresh: controller.onRefresh);
+            return ListEmptyBuilder(
+              onRefresh: controller.onRefresh,
+              msg: 'Không có yêu cầu nào',
+            );
           }
 
           if (snapshot.hasData) {
@@ -39,7 +42,7 @@ class AppliedFarmerList extends StatelessWidget {
                   return AppliedFarmerCard(
                     fullName: appliedFarmer.userInfo.fullName ?? '',
                     phone: appliedFarmer.userInfo.phoneNumber ?? '',
-                    workType: appliedFarmer.jobPost.workType,
+                    workType: appliedFarmer.jobPost.workPayType,
                     avatar: appliedFarmer.userInfo.imageUrl,
                     workTitle: appliedFarmer.jobPost.title,
                     appliedDate: appliedFarmer.appliedDate,

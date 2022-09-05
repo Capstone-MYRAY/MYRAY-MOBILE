@@ -9,3 +9,4 @@ export './garden_service.dart';
 export './message_service.dart';
 export './bookmark_service.dart';
 export './report_service.dart';
+export './tree_type_service.dart';

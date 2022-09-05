@@ -7,15 +7,15 @@ class GetMaxPinDayRequest {
   @JsonKey(name: 'pinDate')
   DateTime pinDate;
 
-  @JsonKey(name: 'numberPublishDay')
-  String numOfPublishDay;
+  // @JsonKey(name: 'numberPublishDay')
+  // String numOfPublishDay;
 
   @JsonKey(name: 'postTypeId')
   String postTypeId;
 
   GetMaxPinDayRequest({
     required this.pinDate,
-    required this.numOfPublishDay,
+    // required this.numOfPublishDay,
     required this.postTypeId,
   });
 

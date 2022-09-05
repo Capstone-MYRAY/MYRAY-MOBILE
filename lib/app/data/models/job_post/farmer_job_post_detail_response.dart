@@ -30,9 +30,6 @@ class FarmerJobPostDetailResponse {
   @JsonKey(name: 'end_job_date')
   DateTime? endJobDate;
 
-  @JsonKey(name: 'num_publish_day')
-  int numPublishDay;
-
   @JsonKey(name: 'published_by')
   int publishedBy;
 
@@ -74,7 +71,6 @@ class FarmerJobPostDetailResponse {
     required this.type,
     required this.startJobDate,
     required this.endJobDate,
-    required this.numPublishDay,
     required this.publishedBy,
     required this.publishedDate,
     required this.createdDate,

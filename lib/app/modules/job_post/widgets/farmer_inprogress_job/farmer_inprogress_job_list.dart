@@ -7,7 +7,7 @@ import 'package:myray_mobile/app/routes/app_pages.dart';
 import 'package:myray_mobile/app/shared/constants/app_assets.dart';
 import 'package:myray_mobile/app/shared/constants/app_colors.dart';
 import 'package:myray_mobile/app/shared/constants/common.dart';
-import 'package:myray_mobile/app/shared/widgets/builders/loading_builder.dart';
+import 'package:myray_mobile/app/shared/widgets/builders/my_loading_builder.dart';
 import 'package:myray_mobile/app/shared/widgets/lazy_loading_list.dart';
 
 class FarmerInprogressJobList extends GetView<FarmerInprogressJobController> {
@@ -19,7 +19,7 @@ class FarmerInprogressJobList extends GetView<FarmerInprogressJobController> {
         future: controller.getInProgressJobList(),
         builder: ((context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const LoadingBuilder();
+            return const MyLoadingBuilder();
           }
           if (snapshot.hasError) {
             printError(info: snapshot.error.toString());
@@ -79,7 +79,7 @@ class FarmerInprogressJobList extends GetView<FarmerInprogressJobController> {
                     controller.inProgressJobPostList[index].jobPost;
                 bool isPayPerHourJob = jobPost.payPerHourJob != null;
                 return Container(
-                    padding: const EdgeInsets.all(8),
+                    padding: const EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 10),
                     child: FarmerInprogressJobCard(
                         job: jobPost.title,
                         address: jobPost.address ?? 'Cập nhật sau',
@@ -92,7 +92,9 @@ class FarmerInprogressJobList extends GetView<FarmerInprogressJobController> {
                             : jobPost.payPerTaskJob!.finishTime.toString() ==
                                     'null'
                                 ? "17:00"
-                                : jobPost.payPerTaskJob!.finishTime.toString(),                       
+                                : jobPost.payPerTaskJob!.finishTime.toString(),
+                        jobPost: jobPost,
+                        jobEndDate: jobPost.jobEndDate?.toLocal(),
                         moreDetail: () {
                           Get.toNamed(Routes.farmerInprogressJobDetail,
                               arguments: {Arguments.item: jobPost});
@@ -100,7 +102,4 @@ class FarmerInprogressJobList extends GetView<FarmerInprogressJobController> {
               }));
         }));
   }
-
- 
-
 }

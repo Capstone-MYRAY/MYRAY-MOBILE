@@ -1,3 +1,4 @@
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:myray_mobile/app/data/enums/enums.dart';
 import 'package:myray_mobile/app/data/models/applied_farmer/applied_farmer_models.dart';
@@ -8,10 +9,11 @@ import 'package:myray_mobile/app/shared/utils/custom_exception.dart';
 import 'package:myray_mobile/app/shared/utils/utils.dart';
 import 'package:myray_mobile/app/shared/widgets/custom_snackbar.dart';
 import 'package:myray_mobile/app/shared/widgets/dialogs/custom_confirm_dialog.dart';
+import 'package:myray_mobile/app/shared/widgets/dialogs/information_dialog.dart';
 
 mixin AppliedFarmerService {
   final _appliedFarmerRepository = Get.find<AppliedFarmerRepository>();
-  Future<bool> canApprove(JobPost jobPost) async {
+  Future<bool> canEnd(JobPost jobPost) async {
     if (Utils.equalsIgnoreCase(jobPost.type, JobType.payPerHourJob.name)) {
       return true;
     } //if job post is pay per hour job
@@ -30,15 +32,22 @@ mixin AppliedFarmerService {
 
     if (appliedFarmers.appliedFarmers!.isEmpty) return true;
 
-    CustomSnackbar.show(
-      title: AppStrings.titleError,
-      message: 'Công việc này đã đủ người, không thể nhận thêm.',
-      backgroundColor: AppColors.errorColor,
-    );
+    InformationDialog.showDialog(
+        msg:
+            'Bạn vẫn chưa xác nhận trả lương cho nông dân, không thể kết thúc công việc');
+
     return false;
   }
 
-  Future<bool?> approveFarmer(int appliedId) async {
+  bool canApprove(JobPost jobPost) {
+    if (jobPost.status == JobPostStatus.shortHanded.index) {
+      return true;
+    }
+
+    return false;
+  }
+
+  Future<int?> approveFarmer(int appliedId) async {
     bool? isApproveConfirm = await CustomDialog.show(
       message: 'Bạn muốn thuê người này?',
       confirm: () async {
@@ -47,9 +56,17 @@ mixin AppliedFarmerService {
       },
     );
 
-    if (isApproveConfirm == null || !isApproveConfirm) return null;
+    if (isApproveConfirm == null || !isApproveConfirm) return 0;
 
-    return await _appliedFarmerRepository.approveFarmer(appliedId);
+    try {
+      EasyLoading.show();
+      int? status = await _appliedFarmerRepository.approveFarmer(appliedId);
+      return status;
+    } catch (e) {
+      throw Exception('Có lỗi xảy ra');
+    } finally {
+      EasyLoading.dismiss();
+    }
   }
 
   Future<bool?> rejectFarmer(int appliedId) async {
@@ -63,6 +80,14 @@ mixin AppliedFarmerService {
 
     if (isApproveConfirm == null || !isApproveConfirm) return null;
 
-    return await _appliedFarmerRepository.rejectFarmer(appliedId);
+    try {
+      EasyLoading.show();
+      bool result = await _appliedFarmerRepository.rejectFarmer(appliedId);
+      return result;
+    } catch (e) {
+      throw Exception('Có lỗi xảy ra');
+    } finally {
+      EasyLoading.dismiss();
+    }
   }
 }

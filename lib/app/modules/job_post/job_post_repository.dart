@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/status/http_status.dart';
 import 'package:myray_mobile/app/data/models/job_post/check_pin_date_request.dart';
@@ -8,9 +10,11 @@ import 'package:myray_mobile/app/data/models/job_post/job_post.dart';
 import 'package:myray_mobile/app/data/models/job_post/job_post_cru.dart';
 import 'package:myray_mobile/app/data/models/job_post/job_post_response.dart';
 import 'package:myray_mobile/app/data/models/job_post/landowner_get_job_post_response.dart';
+import 'package:myray_mobile/app/data/models/job_post/pay_per_hour_job/extend_farmer_request.dart';
 import 'package:myray_mobile/app/data/providers/api/api_provider.dart';
 import 'package:myray_mobile/app/shared/utils/custom_exception.dart';
 import 'package:myray_mobile/app/data/models/job_post/farmer_job_post_detail_response.dart';
+import 'dart:developer' as developer;
 
 class JobPostRepository {
   final ApiProvider _apiProvider = Get.find<ApiProvider>();
@@ -20,6 +24,7 @@ class JobPostRepository {
   Future<JobPostResponse?> getJobPostList(GetRequestJobPostList data) async {
     final response = await _apiProvider.getMethod(_url, data: data.toJson());
     if (response.statusCode == HttpStatus.ok) {
+      developer.log(response.body['list_object'].length.toString());
       return JobPostResponse.fromJson(response.body);
     }
     if (response.statusCode == HttpStatus.badRequest) {
@@ -135,6 +140,48 @@ class JobPostRepository {
     }
 
     return false;
+  }
+
+  Future<bool> extendMaxFarmer(ExtendFarmerRequest data) async {
+    final response = await _apiProvider.patchMethod('/jobpost/extendfarmer',
+        query: data.toJson());
+
+    if (response.isOk) {
+      return true;
+    }
+
+    return false;
+  }
+
+  Future<bool> updateJobStartDate(
+      DateTime newJobStartDate, int jobPostId) async {
+    final response = await _apiProvider.put('/jobpost/startdate/$jobPostId',
+        json.encode(newJobStartDate.toIso8601String()));
+
+    if (response.isOk) {
+      return true;
+    }
+
+    return false;
+  }
+
+  Future<int> countAppliedFarmerWithApprovedAndEndStatus(int jobPostId) async {
+    final response =
+        await _apiProvider.getMethod('/jobpost/countall/$jobPostId');
+    if (response.isOk) {
+      return response.body;
+    }
+
+    return 0;
+  }
+
+  Future<void> needFarmerToggle(int jobPostId) async {
+    final response =
+        await _apiProvider.patchMethod('/jobpost/switch/$jobPostId');
+
+    if (response.statusCode == HttpStatus.badRequest) {
+      throw CustomException('Công việc này đã đủ người, không cần tuyển thêm');
+    }
   }
 
   Future<JobPost?> extendExpiredDate(ExtendExpiredDateRequest data) async {

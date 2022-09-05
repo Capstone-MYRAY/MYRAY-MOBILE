@@ -1,8 +1,11 @@
 import 'package:get/get.dart';
+import 'package:myray_mobile/app/data/enums/enums.dart';
 import 'package:myray_mobile/app/data/providers/notification/notification_provider.dart';
 import 'package:myray_mobile/app/data/providers/signalR_provider.dart';
 import 'package:myray_mobile/app/data/providers/storage_provider.dart';
 import 'package:myray_mobile/app/shared/utils/auth_credentials.dart';
+import 'package:myray_mobile/app/shared/utils/user_current_location.dart';
+import 'package:myray_mobile/app/shared/utils/utils.dart';
 
 class AuthController extends GetxController with StorageProvider {
   final isLogged = false.obs;
@@ -26,7 +29,15 @@ class AuthController extends GetxController with StorageProvider {
     AuthCredentials.instance.updateUserInfor();
     await NotificationProvider.instance
         .subscribeTopic(AuthCredentials.instance.user!.id.toString());
+    await _getUserLocation();
     isLogged.value = true;
+  }
+
+  Future _getUserLocation() async {
+    if (Utils.equalsIgnoreCase(
+        Roles.farmer.name, AuthCredentials.instance.user!.role!)) {
+      await CurrentLocation.instance.saveUserCurrentLocation();
+    }
   }
 
   Future<void> checkLoginStatus() async {
@@ -35,6 +46,7 @@ class AuthController extends GetxController with StorageProvider {
       AuthCredentials.instance.updateUserInfor();
       await NotificationProvider.instance
           .subscribeTopic(AuthCredentials.instance.user!.id.toString());
+      await _getUserLocation();
       isLogged.value = true;
     } else {
       isLogged.value = false;

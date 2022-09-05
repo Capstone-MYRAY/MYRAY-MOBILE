@@ -56,4 +56,11 @@ class JobPostByTypeController extends GetxController {
 
     update();
   }
+
+  void updateJobPosts(JobPost jobPost) {
+    int index = jobPosts.indexWhere((e) => e.id == jobPost.id);
+    if (index >= 0) {
+      jobPosts[index] = jobPost;
+    }
+  }
 }

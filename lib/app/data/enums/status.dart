@@ -9,6 +9,9 @@ enum JobPostStatus {
   outOfDate, // Quá hạn duyệt
   cancel,
   approved,
+  shortHanded,
+  enough,
+  end,
 }
 
 enum JobPostWorkStatus {

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:myray_mobile/app/data/models/applied_job/applied_job_response.dart';
-import 'package:myray_mobile/app/data/models/job_post/job_post.dart';
 import 'package:myray_mobile/app/modules/history_job/controllers/farmer_history_job_controller.dart';
 import 'package:myray_mobile/app/modules/history_job/widgets/history_job_card.dart';
 import 'package:myray_mobile/app/routes/app_pages.dart';
@@ -9,7 +8,7 @@ import 'package:myray_mobile/app/shared/constants/app_assets.dart';
 import 'package:myray_mobile/app/shared/constants/app_colors.dart';
 import 'package:myray_mobile/app/shared/constants/app_strings.dart';
 import 'package:myray_mobile/app/shared/constants/common.dart';
-import 'package:myray_mobile/app/shared/widgets/builders/loading_builder.dart';
+import 'package:myray_mobile/app/shared/widgets/builders/my_loading_builder.dart';
 import 'package:myray_mobile/app/shared/widgets/lazy_loading_list.dart';
 
 class FarmerHistoryJobView extends GetView<FarmerHistoryJobController> {
@@ -26,7 +25,7 @@ class FarmerHistoryJobView extends GetView<FarmerHistoryJobController> {
           future: controller.getHistoryJobList(),
           builder: (constext, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const LoadingBuilder();
+              return const MyLoadingBuilder();
             }
             if (snapshot.hasError) {
               printError(info: snapshot.error.toString());
@@ -89,7 +88,7 @@ class FarmerHistoryJobView extends GetView<FarmerHistoryJobController> {
                       child: HistoryJobCard(
                           title: appliedJob.jobPost.title,
                           nameOnwner:
-                              appliedJob.jobPost.publishedName ?? 'Tên chủ rẫy',
+                              appliedJob.jobPost.publishedName ?? 'Tên chủ vườn',
                           type: appliedJob.jobPost.type == 'PayPerHourJob'
                               ? AppStrings.payPerHour
                               : AppStrings.payPerTask,
@@ -99,10 +98,11 @@ class FarmerHistoryJobView extends GetView<FarmerHistoryJobController> {
                           statusName: appliedJob.statusString,
                           statusColor: appliedJob.statusColor,
                           onTap: () {
-                            Get.toNamed(Routes.farmerHistoryJobDetail, arguments: {
-                              Arguments.tag: appliedJob.id.toString(),
-                              Arguments.item: appliedJob,
-                            });
+                            Get.toNamed(Routes.farmerHistoryJobDetail,
+                                arguments: {
+                                  Arguments.tag: appliedJob.id.toString(),
+                                  Arguments.item: appliedJob,
+                                });
                           }),
                     );
                   },

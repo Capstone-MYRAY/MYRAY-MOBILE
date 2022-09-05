@@ -5,6 +5,7 @@ import 'package:myray_mobile/app/data/models/job_post/pay_per_hour_job/pay_per_h
 import 'package:myray_mobile/app/data/models/job_post/pay_per_task_job/pay_per_task_job.dart';
 import 'package:myray_mobile/app/data/models/tree_jobs/tree_jobs.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
+import 'package:myray_mobile/app/shared/utils/utils.dart';
 
 part 'job_post.g.dart';
 
@@ -19,11 +20,20 @@ class JobPost {
   @JsonKey(name: 'garden_name')
   String? gardenName;
 
+  @JsonKey(name: 'garden_image')
+  String? gardenImage;
+
+  @JsonKey(name: 'garden_lat')
+  double? gardenLat;
+
+  @JsonKey(name: 'garden_lon')
+  double? gardenLon;
+
   @JsonKey(name: 'title')
   String title;
 
   @JsonKey(name: 'tree_jobs')
-  List<TreeJobs> treeJobs;
+  List<TreeJobs>? treeJobs;
 
   @JsonKey(name: 'address')
   String? address;
@@ -37,8 +47,8 @@ class JobPost {
   @JsonKey(name: 'end_job_date')
   DateTime? jobEndDate;
 
-  @JsonKey(name: 'num_publish_day')
-  int numOfPublishDay;
+  // @JsonKey(name: 'num_publish_day')
+  // int numOfPublishDay;
 
   @JsonKey(name: 'published_by')
   int publishedBy;
@@ -48,6 +58,12 @@ class JobPost {
 
   @JsonKey(name: 'published_date')
   DateTime publishedDate;
+
+  @JsonKey(name: 'work_type_id')
+  int workTypeId;
+
+  @JsonKey(name: 'work_type_name')
+  String workTypeName;
 
   @JsonKey(name: 'created_date')
   DateTime createdDate;
@@ -100,38 +116,42 @@ class JobPost {
   @JsonKey(name: 'pay_per_task_job')
   PayPerTaskJob? payPerTaskJob;
 
-  JobPost({
-    required this.id,
-    required this.gardenId,
-    required this.title,
-    required this.type,
-    required this.jobStartDate,
-    required this.numOfPublishDay,
-    required this.publishedBy,
-    required this.publishedDate,
-    required this.createdDate,
-    required this.status,
-    required this.treeJobs,
-    this.publishedName,
-    this.gardenName,
-    this.address,
-    this.approvedBy,
-    this.approvedDate,
-    this.updatedDate,
-    this.description,
-    this.payPerHourJob,
-    this.payPerTaskJob,
-    this.workStatus,
-    this.rejectedReason,
-    this.postTypeId,
-    this.backgroundColor,
-    this.foregroundColor,
-    this.jobEndDate,
-    this.postTypeName,
-    this.approvedName,
-    this.totalPinDay,
-    this.pinStartDate,
-  });
+  JobPost(
+      {required this.id,
+      required this.gardenId,
+      required this.title,
+      required this.type,
+      required this.jobStartDate,
+      // required this.numOfPublishDay,
+      required this.publishedBy,
+      required this.publishedDate,
+      required this.createdDate,
+      required this.status,
+      required this.workTypeId,
+      required this.workTypeName,
+      this.treeJobs,
+      this.publishedName,
+      this.gardenName,
+      this.address,
+      this.approvedBy,
+      this.approvedDate,
+      this.updatedDate,
+      this.description,
+      this.payPerHourJob,
+      this.payPerTaskJob,
+      this.workStatus,
+      this.rejectedReason,
+      this.postTypeId,
+      this.backgroundColor,
+      this.foregroundColor,
+      this.jobEndDate,
+      this.postTypeName,
+      this.approvedName,
+      this.totalPinDay,
+      this.pinStartDate,
+      this.gardenLat,
+      this.gardenLon,
+      this.gardenImage});
 
   @override
   bool operator ==(Object other) {
@@ -146,7 +166,7 @@ class JobPost {
 
   Map<String, dynamic> toJson() => _$JobPostToJson(this);
 
-  String get workType => _workTypeAlias[type] ?? '';
+  String get workPayType => _workPayTypeAlias[type] ?? '';
 
   Color get jobPostStatusColor =>
       _jobPostStatusColor[status] ?? Colors.transparent;
@@ -160,28 +180,56 @@ class JobPost {
       _jobPostWorkStatusString[workStatus] ?? '';
 
   String get treeTypes {
-    if (treeJobs.isEmpty) {
+    if (treeJobs == null && treeJobs!.isEmpty) {
       return '';
     }
 
-    if (treeJobs.length == 1) {
-      return treeJobs.first.type ?? '';
+    if (treeJobs!.length == 1) {
+      return treeJobs!.first.type ?? '';
     }
 
     final buffer = StringBuffer();
 
-    for (int i = 0; i < treeJobs.length; i++) {
-      buffer.write(treeJobs[i].type!);
-      if (i < treeJobs.length - 1) {
+    for (int i = 0; i < treeJobs!.length; i++) {
+      buffer.write(treeJobs![i].type!);
+      if (i < treeJobs!.length - 1) {
         buffer.write(', ');
       }
     }
 
     return buffer.toString();
   }
+
+  bool get isPayPerHourJob =>
+      Utils.equalsIgnoreCase(type, JobType.payPerHourJob.name);
+
+  List<Widget> get gardenImageList {
+    List<Widget> imageWidgetList = [];
+    List<String> imageList = gardenImage!.split(CommonConstants.imageDelimiter);
+    for (String imageUrl in imageList) {
+      imageWidgetList.add(
+        Image.network(
+          imageUrl,
+          fit: BoxFit.cover,
+          loadingBuilder: (context, child, loadingProgress) {
+            if (loadingProgress == null) return child;
+            return Center(
+              child: CircularProgressIndicator(
+                value: loadingProgress.expectedTotalBytes != null
+                    ? loadingProgress.cumulativeBytesLoaded /
+                        loadingProgress.expectedTotalBytes!
+                    : null,
+              ),
+            );
+          },
+        ),
+      );
+    }
+    return imageWidgetList;
+  }
 }
 
-Map<String, String> _workTypeAlias = {
+Map<String, String> _workPayTypeAlias = {
   'PayPerHourJob': AppStrings.payPerHour,
   'PayPerTaskJob': AppStrings.payPerTask,
 };
@@ -194,6 +242,9 @@ Map<int, Color> _jobPostStatusColor = {
   JobPostStatus.outOfDate.index: AppColors.cancelColor,
   JobPostStatus.cancel.index: AppColors.cancelColor,
   JobPostStatus.approved.index: AppColors.successColor,
+  JobPostStatus.shortHanded.index: AppColors.successColor,
+  JobPostStatus.enough.index: AppColors.warningColor,
+  JobPostStatus.end.index: AppColors.cancelColor,
 };
 
 Map<int, String> _jobPostStatusString = {
@@ -204,12 +255,15 @@ Map<int, String> _jobPostStatusString = {
   JobPostStatus.outOfDate.index: AppStrings.jobPostStatusOutOfDate,
   JobPostStatus.cancel.index: AppStrings.jobPostStatusCancel,
   JobPostStatus.approved.index: AppStrings.jobPostStatusApproved,
+  JobPostStatus.shortHanded.index: AppStrings.jobPostStatusShortHanded,
+  JobPostStatus.enough.index: AppStrings.jobPostStatusEnough,
+  JobPostStatus.end.index: AppStrings.jobPostStatusEnd,
 };
 
 Map<int, Color> _jobPostWorkStatusColor = {
   JobPostWorkStatus.pending.index: AppColors.warningColor,
   JobPostWorkStatus.started.index: AppColors.successColor,
-  JobPostWorkStatus.done.index: AppColors.grey,
+  JobPostWorkStatus.done.index: AppColors.cancelColor,
 };
 
 Map<int, String> _jobPostWorkStatusString = {

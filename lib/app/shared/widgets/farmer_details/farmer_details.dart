@@ -15,6 +15,7 @@ class FarmerDetails extends StatelessWidget {
   final void Function()? navigateToChatScreen;
   final void Function()? onFavoriteToggle;
   final Rx<Account> user;
+  final void Function()? onRatingDetails;
 
   const FarmerDetails({
     Key? key,
@@ -28,6 +29,7 @@ class FarmerDetails extends StatelessWidget {
     this.isChatButtonDisplayed = true,
     this.navigateToChatScreen,
     this.onFavoriteToggle,
+    this.onRatingDetails,
   }) : super(key: key);
 
   @override
@@ -44,9 +46,13 @@ class FarmerDetails extends StatelessWidget {
           onFavoriteToggle: onFavoriteToggle,
           navigateToChatScreen: navigateToChatScreen,
           isBookmarked: isBookmarked,
+          onRatingDetails: onRatingDetails,
         ),
         const SizedBox(height: 16.0),
-        PersonalInformation(user: user),
+        PersonalInformation(
+          user: user,
+          isDisplay: false,
+        ),
       ],
     );
   }

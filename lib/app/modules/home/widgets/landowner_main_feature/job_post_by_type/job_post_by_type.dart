@@ -8,7 +8,7 @@ import 'package:myray_mobile/app/routes/app_pages.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/utils/hex_color_extension.dart';
 import 'package:myray_mobile/app/shared/widgets/builders/list_empty_builder.dart';
-import 'package:myray_mobile/app/shared/widgets/builders/loading_builder.dart';
+import 'package:myray_mobile/app/shared/widgets/builders/my_loading_builder.dart';
 import 'package:myray_mobile/app/shared/widgets/lazy_loading_list.dart';
 
 class JobPostByType extends GetView<JobPostByTypeController> {
@@ -29,11 +29,14 @@ class JobPostByType extends GetView<JobPostByTypeController> {
           future: controller.getJobPosts(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const LoadingBuilder();
+              return const MyLoadingBuilder();
             }
 
             if (snapshot.data == null) {
-              return ListEmptyBuilder(onRefresh: controller.onRefresh);
+              return ListEmptyBuilder(
+                onRefresh: controller.onRefresh,
+                msg: 'Không tồn tại bài đăng nào',
+              );
             }
 
             if (snapshot.hasData) {
@@ -64,6 +67,8 @@ class JobPostByType extends GetView<JobPostByTypeController> {
           return LandownerJobPostItem(
             key: ValueKey(jobPost.id),
             title: jobPost.title,
+            gardenName: jobPost.gardenName ?? '',
+            workType: jobPost.workTypeName,
             address: jobPost.address ?? '',
             publishedDate: jobPost.publishedDate,
             postTypeBackground: jobPost.backgroundColor != null
@@ -73,10 +78,10 @@ class JobPostByType extends GetView<JobPostByTypeController> {
                 ? HexColor.fromHex(jobPost.foregroundColor!)
                 : null,
             treeTypes: jobPost.treeTypes,
-            workType: jobPost.workType,
-            expiredDate: jobPost.publishedDate.add(
-              Duration(days: jobPost.numOfPublishDay - 1),
-            ),
+            workPayType: jobPost.workPayType,
+            // expiredDate: jobPost.publishedDate.add(
+            //   Duration(days: jobPost.numOfPublishDay - 1),
+            // ),
             pinType: jobPost.postTypeName,
             postStatusBackground: jobPost.jobPostStatusColor,
             workStatusBackground: jobPost.jobPostWorkStatusColor,

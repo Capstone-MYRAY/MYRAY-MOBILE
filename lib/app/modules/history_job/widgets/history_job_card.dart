@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:myray_mobile/app/shared/constants/app_colors.dart';
+import 'package:myray_mobile/app/shared/constants/app_strings.dart';
 import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
+import 'package:myray_mobile/app/shared/utils/utils.dart';
+import 'package:myray_mobile/app/shared/widgets/cards/card_field.dart';
 import 'package:myray_mobile/app/shared/widgets/chips/status_chip.dart';
 
 class HistoryJobCard extends StatelessWidget {
@@ -52,8 +54,7 @@ class HistoryJobCard extends StatelessWidget {
                       Expanded(
                         child: Text(title,
                             style: Get.textTheme.headline4?.copyWith(
-                                color: AppColors.brown,
-                                fontSize: Get.textScaleFactor * 25),
+                                color: AppColors.brown,),
                             softWrap: true,
                             maxLines: 2,
                             textAlign: TextAlign.start,
@@ -63,131 +64,41 @@ class HistoryJobCard extends StatelessWidget {
                 SizedBox(
                   height: Get.height * 0.02,
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(0),
-                  child: Row(children: [
-                    const Icon(CustomIcons.person, size: 20),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Text(
-                      "Chủ rẫy:",
-                      style: Get.textTheme.labelMedium!.copyWith(
-                        fontWeight: FontWeight.w500,
-                        fontSize: Get.textScaleFactor * 15,
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Text(
-                      nameOnwner,
-                      style: Get.textTheme.bodyText2!.copyWith(
-                        fontSize: Get.textScaleFactor * 15,
-                      ),
-                      softWrap: true,
-                      overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.left,
-                      maxLines: 5,
-                    ),
-                  ]),
+                CardField(
+                  icon: CustomIcons.person,
+                  title: AppStrings.landowner,
+                  data: nameOnwner,
+                  iconAndTitleSpace: Get.width * 0.03,
                 ),
                 SizedBox(
                   height: Get.height * 0.010,
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(0),
-                  child: Row(children: [
-                    const Icon(CustomIcons.box, size: 20),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Text(
-                      "Loại công việc:",
-                      style: Get.textTheme.labelMedium!.copyWith(
-                        fontWeight: FontWeight.w500,
-                        fontSize: Get.textScaleFactor * 15,
-                      ),
-                    ),
-                    SizedBox(
-                      width: Get.width * 0.040,
-                    ),
-                    Text(
-                      type,
-                      style: Get.textTheme.bodyText2!.copyWith(
-                          color: AppColors.primaryColor,
-                          fontSize: Get.textScaleFactor * 15,
-                          fontWeight: FontWeight.w500),
-                      softWrap: true,
-                      overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.left,
-                      maxLines: 10,
-                    ),
-                  ]),
+                 CardField(
+                  icon: CustomIcons.box,
+                  title: AppStrings.labelWorkType,
+                  data: type,
+                  iconAndTitleSpace: Get.width * 0.03,
                 ),
                 SizedBox(
                   height: Get.height * 0.010,
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(0),
-                  child: Row(children: [
-                    const Icon(CustomIcons.calendar_star, size: 20),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Text(
-                      "Ngày bắt đầu:",
-                      style: Get.textTheme.labelMedium!.copyWith(
-                        fontWeight: FontWeight.w500,
-                        fontSize: Get.textScaleFactor * 15,
-                      ),
-                    ),
-                    SizedBox(
-                      width: Get.width * 0.05,
-                    ),
-                    Text(
-                      DateFormat('dd/MM/yyyy').format(startDate),
-                      style: Get.textTheme.bodyText2!.copyWith(
-                        fontSize: Get.textScaleFactor * 15,
-                      ),
-                      softWrap: true,
-                      overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.left,
-                      maxLines: 10,
-                    ),
-                  ]),
+                 CardField(
+                  icon: CustomIcons.calendar_star,
+                  title: "Ngày bắt đầu",
+                  data: Utils.formatddMMyyyy(startDate),
+                  iconAndTitleSpace: Get.width * 0.03,
                 ),
                 SizedBox(
                   height: Get.height * 0.010,
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(0),
-                  child: Row(children: [
-                    const Icon(CustomIcons.calendar_check, size: 20),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Text(
-                      "Ngày kết thúc:",
-                      style: Get.textTheme.labelMedium!.copyWith(
-                        fontWeight: FontWeight.w500,
-                        fontSize: Get.textScaleFactor * 15,
-                      ),
-                    ),
-                    SizedBox(
-                      width: Get.width * 0.040,
-                    ),
-                    Text(
-                      DateFormat('dd/MM/yyyy').format(endDate),
-                      style: Get.textTheme.bodyText2!.copyWith(
-                        fontSize: Get.textScaleFactor * 15,
-                      ),
-                      softWrap: true,
-                      overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.left,
-                      maxLines: 10,
-                    ),
-                  ]),
+                 CardField(
+                  icon: CustomIcons.calendar_check,
+                  title: "Ngày kết thúc",
+                  data: Utils.formatddMMyyyy(endDate),
+                  iconAndTitleSpace: Get.width * 0.03,
+                ),
+                SizedBox(
+                  height: Get.height * 0.010,
                 ),
                 SizedBox(
                   height: Get.height * 0.010,
@@ -200,20 +111,17 @@ class HistoryJobCard extends StatelessWidget {
                       width: 10,
                     ),
                     Text(
-                     "Trạng thái:",
-                      style: Get.textTheme.labelMedium!.copyWith(
+                      "Trạng thái:",
+                      style: Get.textTheme.bodyText2!.copyWith(
                         fontWeight: FontWeight.w500,
-                        fontSize: Get.textScaleFactor * 15,
                       ),
                     ),
                     const SizedBox(
                       width: 10,
                     ),
                     StatusChip(
-                      statusName:
-                          statusName,
-                      backgroundColor:
-                          statusColor,
+                      statusName: statusName,
+                      backgroundColor: statusColor,
                       foregroundColor: Colors.white,
                     ),
                   ]),

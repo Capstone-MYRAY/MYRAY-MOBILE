@@ -8,4 +8,7 @@ class FilterObject {
   bool operator ==(Object other) {
     return other is FilterObject && value == other.value;
   }
+
+  @override
+  int get hashCode => value.hashCode;
 }

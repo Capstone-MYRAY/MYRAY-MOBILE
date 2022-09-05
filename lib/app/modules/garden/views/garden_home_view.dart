@@ -7,7 +7,7 @@ import 'package:myray_mobile/app/modules/garden/widgets/garden_card.dart';
 import 'package:myray_mobile/app/routes/app_pages.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/widgets/builders/list_empty_builder.dart';
-import 'package:myray_mobile/app/shared/widgets/builders/loading_builder.dart';
+import 'package:myray_mobile/app/shared/widgets/builders/my_loading_builder.dart';
 import 'package:myray_mobile/app/shared/widgets/lazy_loading_list.dart';
 
 class GardenHomeView extends GetView<GardenHomeController> {
@@ -34,7 +34,7 @@ class GardenHomeView extends GetView<GardenHomeController> {
           future: controller.getGardens(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const LoadingBuilder();
+              return const MyLoadingBuilder();
             }
 
             if (snapshot.data == null || controller.gardens.isEmpty) {

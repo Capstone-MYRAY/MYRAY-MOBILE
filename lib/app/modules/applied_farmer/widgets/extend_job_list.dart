@@ -4,7 +4,7 @@ import 'package:myray_mobile/app/data/models/extend_end_date_job/extend_end_date
 import 'package:myray_mobile/app/modules/applied_farmer/controllers/extend_job_controller.dart';
 import 'package:myray_mobile/app/modules/applied_farmer/widgets/extend_job_request_card.dart';
 import 'package:myray_mobile/app/shared/widgets/builders/list_empty_builder.dart';
-import 'package:myray_mobile/app/shared/widgets/builders/loading_builder.dart';
+import 'package:myray_mobile/app/shared/widgets/builders/my_loading_builder.dart';
 import 'package:myray_mobile/app/shared/widgets/lazy_loading_list.dart';
 
 class ExtendJobList extends StatelessWidget {
@@ -17,11 +17,14 @@ class ExtendJobList extends StatelessWidget {
         future: controller.getExtendRequests(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const LoadingBuilder();
+            return const MyLoadingBuilder();
           }
 
           if (snapshot.data == null) {
-            return ListEmptyBuilder(onRefresh: controller.onRefresh);
+            return ListEmptyBuilder(
+              onRefresh: controller.onRefresh,
+              msg: 'Không có yêu cầu nào',
+            );
           }
 
           if (snapshot.hasData) {

@@ -11,6 +11,7 @@ import 'package:myray_mobile/app/modules/attendance/controllers/farmer_attendanc
 import 'package:myray_mobile/app/modules/dashboard/controllers/dashboard_controller.dart';
 import 'package:myray_mobile/app/modules/history_job/controllers/history_applied_job_controller.dart';
 import 'package:myray_mobile/app/modules/job_post/controllers/farmer_inprogress_job_controller.dart';
+import 'package:myray_mobile/app/modules/job_post/controllers/farmer_inprogress_job_detail.controller.dart';
 import 'package:myray_mobile/app/modules/job_post/controllers/farmer_job_post_controller.dart';
 import 'package:myray_mobile/app/modules/job_post/controllers/landowner_job_post_controller.dart';
 import 'package:myray_mobile/app/modules/job_post/job_post_repository.dart';
@@ -29,10 +30,14 @@ class NotificationService {
 
   bool get _isFirst => Get.currentRoute == Routes.init;
 
-  updateData(String type, Map<String, dynamic> data) {
+  updateData(String type, Map<String, dynamic> data) async {
+    print('===Noti update');
     if (Utils.equalsIgnoreCase(type, NotificationTypes.topUp.name)) {
       final profile = Get.find<LandownerProfileController>();
       profile.getUserInfo();
+      if (Get.isDialogOpen != null && Get.isDialogOpen!) {
+        Get.back();
+      }
     } else if (Utils.equalsIgnoreCase(type, NotificationTypes.jobPost.name)) {
       final jobPostController = Get.find<LandownerJobPostController>();
       jobPostController.onRefresh();
@@ -52,8 +57,44 @@ class NotificationService {
         historyAppliedJobController.onRefresh();
       }
     } else if (Utils.equalsIgnoreCase(type, NotificationTypes.extendJob.name)) {
-      final controller = Get.find<AppliedJobController>();
-      controller.onRefresh();
+      final appliedJobController = Get.find<AppliedJobController>();
+      appliedJobController.onRefreshExtendPage(); 
+      final inProgressJobPostController =
+          Get.find<FarmerInprogressJobController>();
+      inProgressJobPostController.onRefresh();
+      if (data['action'] != null &&
+          Get.currentRoute == Routes.farmerInprogressJobDetail) {
+        try {
+          final repository = Get.find<JobPostRepository>();
+
+          int id = int.parse(data['jobPostId']);
+
+          EasyLoading.show();
+          JobPost? jobPost = await repository.getById(id);
+          EasyLoading.dismiss();
+
+          if (jobPost == null) {
+            throw CustomException('Job post null');
+          }
+
+          final inProgressDetailController =
+              Get.find<InprogressJobDetailController>();
+          if (jobPost.jobEndDate != null) {
+            inProgressDetailController.updateJobEndDate(jobPost.jobEndDate!);
+          }
+        } catch (e) {
+          print(e.toString());
+          if (EasyLoading.isShow) {
+            EasyLoading.dismiss();
+          }
+
+          CustomSnackbar.show(
+            title: AppStrings.titleError,
+            message: 'Có lỗi xảy ra',
+            backgroundColor: AppColors.errorColor,
+          );
+        }
+      } //approve extend job end date notification
     } else if (Utils.equalsIgnoreCase(type, NotificationTypes.present.name)) {
       if (Get.currentRoute == Routes.farmerCheckAttendance) {
         final controller = Get.find<FarmerAttendanceController>();
@@ -101,7 +142,7 @@ class NotificationService {
     }
 
     if (Utils.equalsIgnoreCase(type, NotificationTypes.extendJob.name)) {
-      return _navigateWhenExtendTaskIsApproved;
+      return () => _navigateWhenExtendTaskIsApproved(data);
     }
 
     return null;
@@ -123,11 +164,42 @@ class NotificationService {
     waitingApproveTabController.tabController.animateTo(index);
   }
 
-  _navigateWhenExtendTaskIsApproved() {
-    _changeDashBoardTab(FarmerTabs.appliedJob.index);
-    final controller = Get.find<AppliedJobController>();
-    controller.tabController.animateTo(1);
-    _popUntilHome();
+  _navigateWhenExtendTaskIsApproved(Map<String, dynamic> data) async {
+    if (Get.currentRoute == Routes.farmerInprogressJobDetail) {
+      return null;
+    }
+
+    try {
+      final repository = Get.find<JobPostRepository>();
+
+      int id = int.parse(data['jobPostId']);
+
+      EasyLoading.show();
+      JobPost? jobPost = await repository.getById(id);
+      EasyLoading.dismiss();
+
+      if (jobPost == null) {
+        throw CustomException('Job post null');
+      }
+
+      _changeDashBoardTab(FarmerTabs.jobPost.index);
+      final controller = Get.find<FarmerJobPostController>();
+      controller.tabController.animateTo(0);
+      _popUntilHome();
+      Get.toNamed(Routes.farmerInprogressJobDetail,
+          arguments: {Arguments.item: jobPost});
+    } catch (e) {
+      print(e.toString());
+      if (EasyLoading.isShow) {
+        EasyLoading.dismiss();
+      }
+
+      CustomSnackbar.show(
+        title: AppStrings.titleError,
+        message: 'Có lỗi xảy ra',
+        backgroundColor: AppColors.errorColor,
+      );
+    }
   }
 
   _navigateWhenFiredFarmer() {

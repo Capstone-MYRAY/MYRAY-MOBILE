@@ -1,4 +1,3 @@
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:myray_mobile/app/data/enums/status.dart';
 import 'package:myray_mobile/app/data/models/applied_farmer/applied_farmer_models.dart';
@@ -6,16 +5,39 @@ import 'package:myray_mobile/app/data/services/applied_farmer_service.dart';
 import 'package:myray_mobile/app/data/services/bookmark_service.dart';
 import 'package:myray_mobile/app/data/services/message_service.dart';
 import 'package:myray_mobile/app/modules/applied_farmer/controllers/applied_farmer_controller.dart';
+import 'package:myray_mobile/app/modules/feedback/widgets/feedback_bottom_sheet/feedback_list_bottom_sheet.dart';
+import 'package:myray_mobile/app/modules/job_post/controllers/landowner_job_post_controller.dart';
+import 'package:myray_mobile/app/modules/job_post/job_post_repository.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/utils/auth_credentials.dart';
+import 'package:myray_mobile/app/shared/utils/custom_exception.dart';
 import 'package:myray_mobile/app/shared/widgets/custom_snackbar.dart';
+import 'package:myray_mobile/app/shared/widgets/dialogs/information_dialog.dart';
 
 class AppliedFarmerDetailsController extends GetxController
     with AppliedFarmerService, MessageService, BookmarkService {
   final Rx<AppliedFarmer> appliedFarmer;
+  final _jobPostRepository = Get.find<JobPostRepository>();
   var isBookmarked = false.obs;
+  var totalApprovedFarmer = 0.obs;
 
   AppliedFarmerDetailsController({required this.appliedFarmer});
+
+  Future<void> initData() async {
+    isBookmarked.value = await isBookMark(appliedFarmer.value.userInfo.id!);
+    await getTotalApprovedFarmer();
+  }
+
+  getFeedbackList() {
+    FeedbackListBottomSheet.show(appliedFarmer.value.userInfo.id!);
+  }
+
+  getTotalApprovedFarmer() async {
+    final totalFarmer =
+        await _jobPostRepository.countAppliedFarmerWithApprovedAndEndStatus(
+            appliedFarmer.value.jobPost.id);
+    totalApprovedFarmer.value = totalFarmer;
+  }
 
   void navigateToChatScreen() {
     final fromId = AuthCredentials.instance.user?.id ?? 0;
@@ -23,12 +45,13 @@ class AppliedFarmerDetailsController extends GetxController
     final jobPostId = appliedFarmer.value.jobPost.id;
     final toAvatar = appliedFarmer.value.userInfo.imageUrl;
     navigateToP2PMessageScreen(
-        fromId,
-        toId,
-        jobPostId,
-        appliedFarmer.value.userInfo.fullName ?? '',
-        appliedFarmer.value.jobPost.title,
-        toAvatar: toAvatar);
+      fromId,
+      toId,
+      jobPostId,
+      appliedFarmer.value.userInfo.fullName ?? '',
+      appliedFarmer.value.jobPost.title,
+      toAvatar: toAvatar,
+    );
   }
 
   onToggleBookmark() {
@@ -47,30 +70,43 @@ class AppliedFarmerDetailsController extends GetxController
 
   approve() async {
     try {
-      EasyLoading.show();
-      bool approvable = await canApprove(appliedFarmer.value.jobPost);
-      EasyLoading.dismiss();
+      bool approvable = canApprove(appliedFarmer.value.jobPost);
 
-      if (!approvable) return;
+      if (!approvable) {
+        throw CustomException(
+            'Công việc này đã đủ người, không thể nhận thêm.');
+      }
 
-      bool? success = await approveFarmer(appliedFarmer.value.id);
+      int? jobPostStatus = await approveFarmer(appliedFarmer.value.id);
 
       //user cancel action
-      if (success == null) return;
+      if (jobPostStatus == null) throw Exception('Có lỗi xảy ra');
 
-      if (!success) throw Exception('Có lỗi xảy ra');
+      if (jobPostStatus == 0) return;
+
+      //update job post status
+      if (jobPostStatus == JobPostStatus.enough.index) {
+        final jobPostController = Get.find<LandownerJobPostController>();
+        jobPostController.updateJobPosts(
+            appliedFarmer.value.jobPost..status = jobPostStatus);
+      }
 
       //update status
       appliedFarmer.value.status = AppliedFarmerStatus.approved.index;
-
-      //remove this farmer from list
-      final appliedFarmerController = Get.find<AppliedFarmerController>();
-      appliedFarmerController.removeItem(appliedFarmer.value);
       appliedFarmer.refresh();
+
+      //update approve farmer
+      totalApprovedFarmer.value += 1;
+
+      //refresh list
+      final appliedFarmerController = Get.find<AppliedFarmerController>();
+      appliedFarmerController.onRefresh();
+    } on CustomException catch (e) {
+      InformationDialog.showDialog(
+        msg: e.message,
+      );
     } catch (e) {
-      if (EasyLoading.isShow) {
-        EasyLoading.dismiss();
-      }
+      print('Approve Error: ${e.toString()}');
       CustomSnackbar.show(
         title: AppStrings.titleError,
         message: 'Có lỗi xảy ra',
@@ -82,6 +118,7 @@ class AppliedFarmerDetailsController extends GetxController
   reject() async {
     try {
       bool? success = await rejectFarmer(appliedFarmer.value.id);
+      // EasyLoading.dismiss();
 
       //user cancel action
       if (success == null) return;

@@ -4,7 +4,7 @@ import 'package:myray_mobile/app/data/models/attendance/attendance_response.dart
 import 'package:myray_mobile/app/modules/attendance/controllers/farmer_attendance_controller.dart';
 import 'package:myray_mobile/app/shared/constants/app_colors.dart';
 import 'package:myray_mobile/app/shared/utils/utils.dart';
-import 'package:myray_mobile/app/shared/widgets/builders/loading_builder.dart';
+import 'package:myray_mobile/app/shared/widgets/builders/my_loading_builder.dart';
 import 'package:myray_mobile/app/shared/widgets/lazy_loading_list.dart';
 
 class FarmerWorkDayView extends StatelessWidget {
@@ -22,7 +22,7 @@ class FarmerWorkDayView extends StatelessWidget {
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Center(
-                      child: LoadingBuilder(),
+                      child: MyLoadingBuilder(),
                     );
                   }
                   return Stack(
@@ -59,8 +59,8 @@ class FarmerWorkDayView extends StatelessWidget {
                               AttendanceResponse attendance =
                                   controller.attendances[index];
                               return InkWell(
-                                onTap: (){
-                                  controller.showDetailAttendance(context, attendance);
+                                onTap: () {
+                                  controller.showAttendance(context, attendance.date);
                                 },
                                 child: Container(
                                   padding: const EdgeInsets.all(20),

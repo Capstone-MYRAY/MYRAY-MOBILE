@@ -21,7 +21,7 @@ class GardenFormView extends GetView<GardenFormController> {
       ),
       body: GestureDetector(
         onPanDown: (_) {
-          FocusScope.of(context).requestFocus(FocusNode());
+          FocusScope.of(context).unfocus();
         },
         child: SingleChildScrollView(
           child: Container(
@@ -184,7 +184,8 @@ class GardenFormView extends GetView<GardenFormController> {
                             controller: controller.descriptionController,
                             icon: const Icon(Icons.paste_outlined),
                             labelText: '${AppStrings.labelDescription}*',
-                            placeholder: AppStrings.placeholderDescription,
+                            placeholder:
+                                'Mô tả mảnh vườn.\nNếu đường đến vườn của bạn khó tìm, hãy mô tả đường sơ lược để người làm dễ tìm',
                             keyBoardType: TextInputType.multiline,
                             minLines: 1,
                             maxLines: 10,

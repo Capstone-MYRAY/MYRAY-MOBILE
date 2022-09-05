@@ -1,29 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:myray_mobile/app/shared/constants/constants.dart';
 
 class BaseDialog {
   BaseDialog._();
 
   static Future<dynamic> show({
     required Widget child,
-    double? width,
+    EdgeInsets? insetPadding,
   }) async {
     return Get.dialog(
       AlertDialog(
-        content: SizedBox(
-          width: width ?? Get.width * 0.9,
+        insetPadding: insetPadding ??
+            EdgeInsets.symmetric(
+              horizontal: Get.width * 0.08,
+            ),
+        content: Container(
+          constraints: BoxConstraints(
+            minWidth: Get.width * 0.85,
+            maxWidth: Get.width * 0.9,
+          ),
           child: Stack(
             children: [
-              Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  child,
-                ],
-              ),
+              child,
               Positioned(
                 right: 0,
-                top: 2.0,
+                top: 4.0,
                 child: GestureDetector(
                   onTap: () => Get.back(),
                   child: const Icon(Icons.clear),

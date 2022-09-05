@@ -62,7 +62,7 @@ class ChangePasswordView extends GetView<ChangePasswordController> {
                     ),
                     InputField(
                         icon: const Icon(CustomIcons.lock_outline),
-                        labelText: AppStrings.labelNewPawword,
+                        labelText: AppStrings.labelNewPassord,
                         controller: controller.newPasswordController,
                         isPassword: true,
                         placeholder: AppStrings.placeholderNewPassword,

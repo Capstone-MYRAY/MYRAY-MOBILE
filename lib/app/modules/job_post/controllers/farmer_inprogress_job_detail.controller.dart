@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:myray_mobile/app/data/models/attendance/attendance.dart';
+import 'package:myray_mobile/app/data/enums/status.dart';
+import 'package:myray_mobile/app/data/models/account.dart';
 import 'package:myray_mobile/app/data/models/attendance/farmer_post_attendance_request.dart';
 import 'package:myray_mobile/app/data/models/attendance/get_attendance_by_date_request.dart';
 import 'package:myray_mobile/app/data/models/attendance/get_attendance_by_date_response.dart';
@@ -18,12 +19,14 @@ import 'package:myray_mobile/app/data/models/report/get_report_response.dart';
 import 'package:myray_mobile/app/data/models/report/post_report_request.dart';
 import 'package:myray_mobile/app/data/models/report/put_update_report_request.dart';
 import 'package:myray_mobile/app/data/models/report/report.dart';
+import 'package:myray_mobile/app/data/services/message_service.dart';
 import 'package:myray_mobile/app/modules/applied_job/applied_job_repository.dart';
 import 'package:myray_mobile/app/modules/attendance/attendance_repository.dart';
 import 'package:myray_mobile/app/modules/attendance/widgets/farmer_attendance_detail_dialog.dart';
 import 'package:myray_mobile/app/modules/feedback/controllers/feedback_controller.dart';
 import 'package:myray_mobile/app/modules/job_post/widgets/farmer_inprogress_dialog/feedback_update_dialog.dart';
 import 'package:myray_mobile/app/modules/job_post/widgets/farmer_inprogress_dialog/report_update_dialog.dart';
+import 'package:myray_mobile/app/modules/profile/profile_repository.dart';
 import 'package:myray_mobile/app/modules/report/report_repository.dart';
 import 'package:myray_mobile/app/shared/constants/app_colors.dart';
 import 'package:myray_mobile/app/shared/utils/auth_credentials.dart';
@@ -33,7 +36,8 @@ import 'package:myray_mobile/app/shared/widgets/controls/my_date_picker.dart';
 import 'package:myray_mobile/app/shared/widgets/custom_snackbar.dart';
 import 'package:myray_mobile/app/shared/widgets/dialogs/custom_information.dialog.dart';
 
-class InprogressJobDetailController extends GetxController {
+class InprogressJobDetailController extends GetxController
+    with MessageService, ProfileRepository {
   final JobPost jobpost;
   FeedBackController feedBackController = Get.find<FeedBackController>();
   final _appliedRepository = Get.find<AppliedJobRepository>();
@@ -72,7 +76,14 @@ class InprogressJobDetailController extends GetxController {
 
     feedbackContentController = TextEditingController();
     feedbackRatingController = TextEditingController();
+
+    _getLanownerAccount(jobpost.publishedBy);
     super.onInit();
+  }
+
+  updateJobEndDate(DateTime jobEndDate) {
+    jobpost.jobEndDate = jobEndDate;
+    update(['jobEndDate']);
   }
 
   String? validateReason(String? value) {
@@ -132,7 +143,7 @@ class InprogressJobDetailController extends GetxController {
     print('_pickedDate: $_pickedDate');
 
     if (_pickedDate != null) {
-      currentExtendDate = _pickedDate;
+      currentExtendDate= _pickedDate;
       extendJobDateController.text = Utils.formatddMMyyyy(_pickedDate);
     }
   }
@@ -301,34 +312,36 @@ class InprogressJobDetailController extends GetxController {
     bool isFormValid = formKey.currentState!.validate();
 
     if (isFormValid) {
+      String ratingFeedback = feedbackRatingController.text;
+      print('>>feed: ${feedbackContentController.text}');
       PostFeedbackRequest data = PostFeedbackRequest(
         content: feedbackContentController.text,
-        numStar: feedbackRatingController.text != '5'
-            ? int.parse(feedbackRatingController.text)
+        numStar: feedbackRatingController.text != '5' && ratingFeedback != ''
+            ? int.parse(ratingFeedback)
             : 5,
         jobPostId: jobPostId,
-        belongedId: AuthCredentials.instance.user!.id!,
+        belongedId: jobpost.publishedBy,
       );
 
       try {
-        FeedBack? feedback = await feedBackController.sendFeedBack(data);
         EasyLoading.show();
+        FeedBack? feedback = await feedBackController.sendFeedBack(data);
+        EasyLoading.dismiss();
 
         if (feedback != null) {
-          Future.delayed(const Duration(milliseconds: 1000), () {
-            EasyLoading.dismiss();
-            CustomSnackbar.show(
-                title: "Thành công", message: "Gửi đánh giá thành công");
-          });
+          onCloseFeedBackDialog();
+          CustomSnackbar.show(
+              title: "Thành công", message: "Gửi đánh giá thành công");
 
           return;
         }
-
         CustomSnackbar.show(
             title: "Thất bại",
             message: "Gửi đánh giá không thành công",
             backgroundColor: AppColors.errorColor);
       } on CustomException catch (e) {
+        EasyLoading.dismiss();
+
         print('Đánh giá xảy ra lỗi: $e');
         CustomSnackbar.show(
             title: "Thất bại",
@@ -348,27 +361,24 @@ class InprogressJobDetailController extends GetxController {
         jobPostId: feedBack.jobPostId,
         belongedId: feedBack.belongedId,
       );
-      EasyLoading.show();
       onCloseFeedBackDialog(); //khi show ra nếu ko đóng key board sẽ bị stack overflow
+
       try {
+        EasyLoading.show();
+
         FeedBack? newFeedBack = await feedBackController.updateFeedback(data);
-        Future.delayed(const Duration(milliseconds: 1200), () {
-          EasyLoading.dismiss();
-          if (newFeedBack != null) {
-            FeedBackUpdateDialog.show(
-              newFeedBack: newFeedBack,
-            );
-            return;
-          }
-          CustomSnackbar.show(
-              title: "Thất bại",
-              message: "Gửi đánh giá không thành công",
-              backgroundColor: AppColors.errorColor);
-        });
+        EasyLoading.dismiss();
+
+        if (newFeedBack != null) {
+          FeedBackUpdateDialog.show(
+            newFeedBack: newFeedBack,
+          );
+          return;
+        }
       } on CustomException catch (e) {
         EasyLoading.dismiss();
 
-        print('$e');
+        print(e.message);
         CustomSnackbar.show(
             title: "Thất bại",
             message: "Không thể gửi đánh giá !",
@@ -406,9 +416,9 @@ class InprogressJobDetailController extends GetxController {
       GetFeedBackResponse? feedBack =
           await feedBackController.getFeedback(data);
       if (feedBack != null) {
-        if (feedBack.listobject!.isNotEmpty) {
-          print("feedback: ${feedBack.listobject!.length}");
-          return feedBack.listobject![0];
+        if (feedBack.listObject!.isNotEmpty) {
+          print("feedback: ${feedBack.listObject!.length}");
+          return feedBack.listObject![0];
         }
       }
       return;
@@ -423,59 +433,83 @@ class InprogressJobDetailController extends GetxController {
   }
 
   showAttendance(BuildContext context) async {
-    GetAttendanceByDateRequest data = GetAttendanceByDateRequest(
-      jobPostId: jobpost.id.toString(),
-      date: DateTime.now(),
-    );
-
     try {
-      List<GetAttendanceByDateResponse>? attendance =
-          await _attendanceRepository.getList(data);
+      GetAttendanceByDateRequest data = GetAttendanceByDateRequest(
+        jobPostId: jobpost.id.toString(),
+        date: DateTime.now(),
+      );
 
       EasyLoading.show();
-      Future.delayed(const Duration(milliseconds: 1000), () {
-        EasyLoading.dismiss();
-        if (attendance != null && attendance.first.attendance.isEmpty) {
-          CustomInformationDialog.show(
-            title: 'Thông báo',
-            message:
-                'Bạn chưa được điểm danh!\nVui lòng liên hệ chủ đất hoặc người điều hành gần bạn nhất để được hỗ trợ.',
-            icon: const Icon(Icons.pending_actions_outlined,
-                size: 40, color: AppColors.brown),
-          );
-          return;
-        }
+      List<GetAttendanceByDateResponse>? attendances =
+          await _attendanceRepository.getList(data);
+      EasyLoading.dismiss();
 
-        //when checked attendance
-        if (attendance != null && attendance.first.attendance.isNotEmpty) {
-          //add attendance parameter.
-          Attendance data = attendance.first.attendance.first;
-          //4: dayOff
-          if (data.status == 4) {
-            CustomInformationDialog.show(
-              title: 'Thông báo',
-              message:
-                  'Bạn đã xin nghỉ phép ngày hôm nay\nVui lòng liên hệ chủ đất hoặc người điều hành gần bạn nhất để được hỗ trợ.',
-              icon: const Icon(Icons.free_cancellation_outlined,
-                  size: 40, color: AppColors.brown),
-            );
-            return;
-          }
-          FarmerAttendanceDetailDialog.show(context, data, jobpost.title);
-          return;
-        }
+      if (attendances == null || attendances.isEmpty) {
+        CustomInformationDialog.show(
+          title: 'Thông báo',
+          message:
+              'Bạn chưa được điểm danh!\nVui lòng liên hệ chủ vườn hoặc người điều hành gần bạn nhất để được hỗ trợ.',
+          icon: const Icon(Icons.pending_actions_outlined,
+              size: 40, color: AppColors.brown),
+        );
+        return;
+      }
 
-        CustomSnackbar.show(
-            title: "Thất bại",
-            message: "Không thể kiểm tra điểm danh !",
-            backgroundColor: AppColors.errorColor);
-      });
+      final farmerId = AuthCredentials.instance.user!.id;
+
+      //find farmer in attendance list
+      GetAttendanceByDateResponse? todayAttendance = attendances
+          .firstWhereOrNull((attendance) => attendance.farmer.id == farmerId);
+      // print("attendance: ${todayAttendance?.attendances.length}");
+
+      if (todayAttendance == null || todayAttendance.attendances.isEmpty) {
+        CustomInformationDialog.show(
+          title: 'Thông báo',
+          message:
+              'Bạn chưa được điểm danh!\nVui lòng liên hệ chủ vườn hoặc người điều hành gần bạn nhất để được hỗ trợ.',
+          icon: const Icon(Icons.pending_actions_outlined,
+              size: 40, color: AppColors.brown),
+        );
+        return;
+      }
+      // if (todayAttendance == null)
+      //   throw CustomException('Không thể xem điểm danh');
+      //4: dayOff
+      if (todayAttendance.attendances.first.status ==
+          AttendanceStatus.dayOff.index) {
+        CustomInformationDialog.show(
+          title: 'Thông báo',
+          message:
+              'Bạn đã xin nghỉ phép ngày hôm nay\nVui lòng liên hệ chủ vườn hoặc người điều hành gần bạn nhất để được hỗ trợ.',
+          icon: const Icon(Icons.free_cancellation_outlined,
+              size: 40, color: AppColors.brown),
+        );
+        return;
+      }
+
+      if (todayAttendance.attendances.first.status ==
+          AttendanceStatus.absent.index) {
+        CustomInformationDialog.show(
+            title: 'Thông báo', message: 'Bạn đã vắng mặt');
+        return;
+      }
+
+      FarmerAttendanceDetailDialog.show(
+          Get.context!, todayAttendance.attendances.first, jobpost.title);
     } on CustomException catch (e) {
+      EasyLoading.dismiss();
       CustomSnackbar.show(
           title: "Thất bại",
           message: "Không thể xem điểm danh !",
           backgroundColor: AppColors.errorColor);
     }
+    // catch (e) {
+    //   EasyLoading.dismiss();
+    //   CustomSnackbar.show(
+    //       title: "Thất bại",
+    //       message: "Không thể xem điểm danh !",
+    //       backgroundColor: AppColors.errorColor);
+    // }
   }
 
   Future<Report?> _reportJob(PostReportRequest reportData) async {
@@ -501,5 +535,34 @@ class InprogressJobDetailController extends GetxController {
 
   Future<Report?> _updateReport(PutUpdateReportRequest data) async {
     return await _reportRepository.updateReport(data);
+  }
+
+  //Chat
+  Account? landownerAccount;
+  _getLanownerAccount(int landownerId) async {
+    await getUser(landownerId).then(
+      (value) => {
+        if (value != null)
+          {
+            landownerAccount = value,
+          },
+      },
+    );
+  }
+
+  void navigateToChatScreen() {
+    print('Im here');
+    final fromId = AuthCredentials.instance.user?.id ?? 0;
+    final toId = jobpost.publishedBy;
+    final jobPostId = jobpost.id;
+
+    navigateToP2PMessageScreen(
+      fromId,
+      toId,
+      jobPostId,
+      jobpost.publishedName ?? 'Chủ vườn',
+      jobpost.title,
+      toAvatar: landownerAccount?.imageUrl,
+    );
   }
 }

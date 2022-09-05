@@ -13,6 +13,7 @@ class AppAssets {
   static const enterPassword = '${_imgPath}enter_password.png';
   static const emptyFolder = '${_imgPath}empty-folder.png';
   static const placeholderImage = '${_imgPath}placeholder_image.png';
+  static const feedBack = '${_imgPath}feedback.png';
 
   //icon
   static const cultivation = '${_imgPath}bean_farmer.png';

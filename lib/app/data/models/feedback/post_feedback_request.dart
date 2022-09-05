@@ -1,15 +1,13 @@
-
 import 'package:json_annotation/json_annotation.dart';
 part 'post_feedback_request.g.dart';
 
 @JsonSerializable(includeIfNull: false)
-class PostFeedbackRequest{
-
+class PostFeedbackRequest {
   @JsonKey(name: 'content')
-  String content;
+  String? content;
 
   @JsonKey(name: 'num_star')
-  int numStar;
+  num numStar;
 
   @JsonKey(name: 'job_post_id')
   int jobPostId;
@@ -17,16 +15,15 @@ class PostFeedbackRequest{
   @JsonKey(name: 'belonged_id')
   int belongedId;
 
-  PostFeedbackRequest({
-    required this.content,
-    required this.numStar,
-    required this.jobPostId,
-    required this.belongedId
-  });
+  PostFeedbackRequest(
+      {this.content,
+      required this.numStar,
+      required this.jobPostId,
+      required this.belongedId});
 
-  factory PostFeedbackRequest.fromJson(Map<String, dynamic> json) => _$PostFeedbackRequestFromJson(json);
+  factory PostFeedbackRequest.fromJson(Map<String, dynamic> json) =>
+      _$PostFeedbackRequestFromJson(json);
   Map<String, dynamic> toJson() => _$PostFeedbackRequestToJson(this);
-  
 }
 
 // {

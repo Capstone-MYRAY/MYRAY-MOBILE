@@ -71,6 +71,7 @@ class Account {
       : AppStrings.farmer;
 
   String get genderString => _genders[gender] ?? AppStrings.other;
+  bool get isLandowner => roleId == CommonConstants.landownerRoleId;
 }
 
 Map<int, String> _genders = {

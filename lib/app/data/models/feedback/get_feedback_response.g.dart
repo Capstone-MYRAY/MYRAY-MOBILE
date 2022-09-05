@@ -8,7 +8,7 @@ part of 'get_feedback_response.dart';
 
 GetFeedBackResponse _$GetFeedBackResponseFromJson(Map<String, dynamic> json) =>
     GetFeedBackResponse(
-      listobject: (json['list_object'] as List<dynamic>?)
+      listObject: (json['list_object'] as List<dynamic>?)
           ?.map((e) => FeedBack.fromJson(e as Map<String, dynamic>))
           .toList(),
       pagingMetadata: json['paging_metadata'] == null
@@ -26,7 +26,7 @@ Map<String, dynamic> _$GetFeedBackResponseToJson(GetFeedBackResponse instance) {
     }
   }
 
-  writeNotNull('list_object', instance.listobject);
+  writeNotNull('list_object', instance.listObject);
   writeNotNull('paging_metadata', instance.pagingMetadata);
   return val;
 }

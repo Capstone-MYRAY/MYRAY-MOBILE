@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
+import 'package:myray_mobile/app/shared/utils/utils.dart';
 import 'package:myray_mobile/app/shared/widgets/buttons/filled_button.dart';
 import 'package:myray_mobile/app/shared/widgets/cards/card_field.dart';
 import 'package:myray_mobile/app/shared/widgets/cards/my_card.dart';
@@ -18,7 +19,6 @@ class CheckAttendanceCard extends StatelessWidget {
   final Color? statusBackground;
   final bool isFiredOrEnd;
   final void Function() onPresent;
-  final void Function() onFinish;
   final void Function() onAbsent;
   final void Function() onFired;
 
@@ -27,7 +27,6 @@ class CheckAttendanceCard extends StatelessWidget {
     required this.fullName,
     required this.phone,
     required this.onPresent,
-    required this.onFinish,
     required this.onAbsent,
     required this.onFired,
     this.avatar,
@@ -69,11 +68,11 @@ class CheckAttendanceCard extends StatelessWidget {
                           color: AppColors.black,
                         ),
                       ),
-                      const SizedBox(height: 4.0),
-                      Text(
-                        phone,
-                        style: Get.textTheme.caption,
-                      ),
+                      // const SizedBox(height: 4.0),
+                      // Text(
+                      //   phone,
+                      //   style: Get.textTheme.caption,
+                      // ),
                     ],
                   ),
                 ),
@@ -100,21 +99,21 @@ class CheckAttendanceCard extends StatelessWidget {
                       title: 'Có mặt',
                       onPressed: onPresent,
                     ),
-                    if (!isFiredOrEnd) ...[
-                      FilledButton(
-                        title: 'Sa thải',
-                        onPressed: onFired,
-                        color: AppColors.errorColor,
-                      ),
-                      FilledButton(
-                        title: 'Hoàn thành',
-                        onPressed: onFinish,
-                      ),
-                    ],
+                    // if (!isFiredOrEnd) ...[
+                    //   FilledButton(
+                    //     title: 'Sa thải',
+                    //     onPressed: onFired,
+                    //     color: AppColors.errorColor,
+                    //   ),
+                    //   FilledButton(
+                    //     title: 'Hoàn thành',
+                    //     onPressed: onFinish,
+                    //   ),
+                    // ],
                   ],
                 ),
               ),
-            if (reason != null) ...[
+            if (Utils.equalsUtf8String(AppStrings.dayOff, statusName!)) ...[
               const SizedBox(height: 12.0),
               CardField(
                 icon: CustomIcons.content_paste,

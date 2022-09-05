@@ -68,9 +68,13 @@ class AppStrings {
   static const titleClearFilter = 'Bỏ lọc';
   static const titleConfirmSignature = 'Chữ ký xác nhận';
   static const titleChangePassword = 'Thay đổi mật khẩu';
-  static const titleFinishJob = 'Hoàn thành công việc';
+  static const titleFinishJob = 'Kết thúc công việc';
   static const titleInfo = 'Thông báo';
   static const titleAppliedJobPost = 'Công việc';
+  static const titleExtendMaxFarmer = 'Tăng số người tối đa';
+  static const titleViewFeedback = 'Xem đánh giá';
+  static const titleTopUp = 'Nạp tiền';
+  static const titltePayByType = 'Trả lương theo';
 
   //Subtitle
   static const subtitleMyGarden = 'Danh sách vườn đã tạo';
@@ -82,7 +86,7 @@ class AppStrings {
   static const subtitleLogout = 'Đăng xuất tài khoản';
   static const subtitleCheckattendance = "Kiểm tra điểm danh";
   static const subtitleHistoryJob = "Công việc đã làm";
-  static const subtitleFarmerFavorite = "Danh sách chủ rẫy yêu thích";
+  static const subtitleFarmerFavorite = "Danh sách chủ vườn yêu thích";
   static const subtitlePassword = "Thay đổi mật khẩu";
   static const subtitleAppliedJobPost = 'Các công việc đã ứng tuyển';
 
@@ -99,7 +103,7 @@ class AppStrings {
   static const labelProvince = 'Tỉnh';
   static const labelDistrict = 'Huyện';
   static const labelCommune = 'Xã';
-  static const labelWorkType = 'Loại hình';
+  static const labelWorkPayType = 'Loại hình';
   static const labelTreeType = 'Loại cây';
   static const labelPublishDate = 'Ngày đăng';
   static const labelExpiryDate = 'Ngày hết hạn';
@@ -156,7 +160,8 @@ class AppStrings {
   static const labelEmail = 'Email';
   static const labelGender = 'Giới tính';
   static const labelOldPassword = 'Mật khẩu cũ*';
-  static const labelNewPawword = 'Mật khẩu mới*';
+  static const labelNewPassord = 'Mật khẩu mới*';
+  static const labelWorkType = 'Loại công việc';
 
   //Placeholder
   static const placeholderPhone = 'Nhập số điện thoại';
@@ -195,6 +200,7 @@ class AppStrings {
   static const placeholderOldPassword = 'Nhập mật khẩu cũ';
   static const placeholderNewPassword = 'Nhập mật khẩu mới';
   static const placeholderIssuedDate = 'Ngày thực hiện giao dịch';
+  static const placeholderTopUp = 'Nhập số tiền cần nạp';
 
   //Caption
   static const captionChooseRole =
@@ -212,12 +218,13 @@ class AppStrings {
   static const forgotPassword = 'Quên mật khẩu?';
   static const resetPassword = 'Đặt lại mật khẩu';
   static const farmer = 'Nông dân';
-  static const landowner = 'Chủ đất';
+  static const landowner = 'Chủ vườn';
   static const loading = 'Đang xử lý';
   static const payPerTask = 'Làm khoán';
   static const payPerHour = 'Làm công';
   static const noData = 'Không có dữ liệu';
   static const noMarkedJobPost = "Không có bài viết nào nổi bật";
+  static const noJobPost = "Không có bài viết nào";
   static const male = 'Nam';
   static const female = 'Nữ';
   static const other = 'Khác';
@@ -234,6 +241,10 @@ class AppStrings {
   static const jobPostStatusOutOfDate = 'Quá hạn duyệt';
   static const jobPostStatusCancel = 'Đã hủy';
   static const jobPostStatusApproved = 'Đã duyệt';
+  static const jobPostStatusShortHanded = 'Đang tuyển người';
+  static const jobPostStatusEnough = 'Đã đủ người';
+  static const jobPostStatusEnd = 'Đã kết thúc';
+
   static const jobPostWorkStatusPending = 'Chưa bắt đầu';
   static const jobPostWorkStatusStarted = 'Đã bắt đầu';
   static const jobPostWorkStatusDone = 'Đã kết thúc';
@@ -273,4 +284,5 @@ class AppStrings {
   static const submit = 'Nộp đơn';
   static const reportJobProblem = 'Báo cáo vấn đề công việc';
   static const feedbackJob = 'Đánh giá công việc';
+  static const cancelAppliedRequest = 'Hủy ứng tuyển';
 }

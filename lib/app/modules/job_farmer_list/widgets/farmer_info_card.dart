@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:myray_mobile/app/data/enums/enums.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
-import 'package:myray_mobile/app/shared/utils/utils.dart';
 import 'package:myray_mobile/app/shared/widgets/buttons/filled_button.dart';
 import 'package:myray_mobile/app/shared/widgets/cards/my_card.dart';
 import 'package:myray_mobile/app/shared/widgets/chips/status_chip.dart';
@@ -63,11 +62,11 @@ class FarmerInfoCard extends StatelessWidget {
                             fullName,
                             style: Get.textTheme.bodyText1,
                           ),
-                          const SizedBox(height: 4.0),
-                          Text(
-                            phone,
-                            style: Get.textTheme.caption,
-                          ),
+                          // const SizedBox(height: 4.0),
+                          // Text(
+                          //   phone,
+                          //   style: Get.textTheme.caption,
+                          // ),
                         ],
                       ),
                     ),

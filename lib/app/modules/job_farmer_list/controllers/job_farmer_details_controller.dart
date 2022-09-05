@@ -9,6 +9,9 @@ import 'package:myray_mobile/app/modules/feedback/feedback_repository.dart';
 import 'package:myray_mobile/app/modules/job_farmer_list/controllers/job_farmer_list_controller.dart';
 import 'package:myray_mobile/app/modules/job_farmer_list/widgets/feedback_dialog.dart';
 import 'package:myray_mobile/app/modules/job_farmer_list/widgets/report_dialog.dart';
+import 'package:myray_mobile/app/modules/job_post/controllers/landowner_job_post_controller.dart';
+import 'package:myray_mobile/app/modules/job_post/controllers/landowner_job_post_details_controller.dart';
+import 'package:myray_mobile/app/modules/profile/profile_repository.dart';
 import 'package:myray_mobile/app/modules/report/report_repository.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/utils/auth_credentials.dart';
@@ -31,6 +34,7 @@ class JobFarmerDetailsController extends GetxController
     isBookmarked.value = await isBookMark(appliedFarmer.value.userInfo.id!);
     await getFeedback();
     await getReport();
+    print(appliedFarmer.value.userInfo.rating);
   }
 
   onToggleBookmark() {
@@ -116,8 +120,23 @@ class JobFarmerDetailsController extends GetxController
 
       if (submittedFeedback == null) throw CustomException('Có lỗi xảy ra');
 
+      //update star
+      final profileRepo = Get.find<ProfileRepository>();
+      final userInfo =
+          await profileRepo.getUser(appliedFarmer.value.userInfo.id!);
+
+      if (userInfo == null) throw CustomException('Có lỗi xảy ra');
+      appliedFarmer.value.userInfo.rating = userInfo.rating;
+
+      print('Rating: ${appliedFarmer.value.userInfo.rating}');
+
       //update ui
       feedback.value = submittedFeedback;
+
+      appliedFarmer.refresh();
+
+      //update job farmer list
+      _jobFarmerController.updateAppliedFarmer(appliedFarmer.value);
 
       EasyLoading.dismiss();
       Get.back(); //close dialog
@@ -177,28 +196,44 @@ class JobFarmerDetailsController extends GetxController
 
   onApprove() async {
     try {
-      EasyLoading.show();
-      bool approvable = await canApprove(appliedFarmer.value.jobPost);
-      EasyLoading.dismiss();
+      bool approvable = canApprove(appliedFarmer.value.jobPost);
 
-      if (!approvable) return;
+      if (!approvable) {
+        throw CustomException(
+            'Công việc này đã đủ người, không thể nhận thêm.');
+      }
 
-      bool? success = await approveFarmer(appliedFarmer.value.id);
+      int? jobPostStatus = await approveFarmer(appliedFarmer.value.id);
 
       //user cancel action
-      if (success == null) return;
+      if (jobPostStatus == null) throw Exception('Có lỗi xảy ra');
 
-      if (success) {
-        //update status
-        appliedFarmer.value.status = AppliedFarmerStatus.approved.index;
+      if (jobPostStatus == 0) return;
 
-        //update job farmer list
-        _jobFarmerController.updateList(appliedFarmer.value);
-        appliedFarmer.refresh();
+      //update job post status
+      if (jobPostStatus == JobPostStatus.enough.index) {
+        final jobPostController = Get.find<LandownerJobPostController>();
+        jobPostController.updateJobPosts(
+            appliedFarmer.value.jobPost..status = jobPostStatus);
       }
+
+      //update job post details
+      final jobPostDetailsController =
+          Get.find<LandownerJobPostDetailsController>(
+              tag: appliedFarmer.value.jobPost.id.toString());
+      jobPostDetailsController.updateJobPostStatus(jobPostStatus);
+
+      //update status
+      appliedFarmer.value.status = AppliedFarmerStatus.approved.index;
+      appliedFarmer.refresh();
+
+      //update approve farmer
+      jobPostDetailsController.totalApprovedFarmer.value += 1;
+
+      //update job farmer list
+      _jobFarmerController.onRefresh();
     } catch (e) {
       print('onApproveError: ${e.toString()}');
-      EasyLoading.dismiss();
       CustomSnackbar.show(
         title: AppStrings.titleError,
         message: 'Có lỗi xảy ra',
@@ -209,9 +244,7 @@ class JobFarmerDetailsController extends GetxController
 
   onReject() async {
     try {
-      EasyLoading.show();
       bool? success = await rejectFarmer(appliedFarmer.value.id);
-      EasyLoading.dismiss();
 
       //user cancel action
       if (success == null) return;
@@ -226,7 +259,6 @@ class JobFarmerDetailsController extends GetxController
       appliedFarmer.refresh();
     } catch (e) {
       print('onRejectError: ${e.toString()}');
-      EasyLoading.dismiss();
       CustomSnackbar.show(
         title: AppStrings.titleError,
         message: 'Có lỗi xảy ra',

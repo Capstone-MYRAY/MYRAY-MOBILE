@@ -11,6 +11,7 @@ GetFeedbackRequest _$GetFeedbackRequestFromJson(Map<String, dynamic> json) =>
       numStar: json['numStar'] as String?,
       jobPostId: json['jobPostId'] as String?,
       createdBy: json['createdBy'] as String?,
+      belongedId: json['belongedId'] as String?,
       sortColumn:
           $enumDecodeNullable(_$FeedbackSortColumnEnumMap, json['sort-column']),
       orderBy: $enumDecodeNullable(_$SortOrderEnumMap, json['order-by']),
@@ -32,6 +33,7 @@ Map<String, dynamic> _$GetFeedbackRequestToJson(GetFeedbackRequest instance) {
   writeNotNull('createdBy', instance.createdBy);
   writeNotNull('sort-column', _$FeedbackSortColumnEnumMap[instance.sortColumn]);
   writeNotNull('order-by', _$SortOrderEnumMap[instance.orderBy]);
+  writeNotNull('belongedId', instance.belongedId);
   writeNotNull('page', instance.page);
   writeNotNull('page-size', instance.pageSize);
   return val;

@@ -45,7 +45,7 @@ class FarmerNotStartJobController extends GetxController {
       // isRefresh(false);
       return true;
     } on CustomException catch (e) {
-      print(e.message);
+      printError(info: e.message);
       isLoading.value = false;
       _hasNextPage = false;
     }

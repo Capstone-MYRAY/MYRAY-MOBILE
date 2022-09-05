@@ -19,7 +19,7 @@ class LoginView extends GetView<LoginController> {
           alignment: Alignment.center,
           width: double.infinity,
           child: GestureDetector(
-            onPanDown: (_) {
+            onTap: () {
               FocusScope.of(context).unfocus();
             },
             child: SingleChildScrollView(
@@ -72,7 +72,7 @@ class LoginView extends GetView<LoginController> {
                           const SizedBox(height: 16.0),
                           GestureDetector(
                             onTap: () {
-                              FocusScope.of(context).unfocus();
+                              FocusScope.of(context).requestFocus(FocusNode());
                               controller.navigateToForgotPasswordScreen();
                             },
                             child: Text(

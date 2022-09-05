@@ -10,9 +10,10 @@ class ReportUpdateDialog {
 
   static show({
     required Report newReport,
+    String? title
   }) {
     return Get.defaultDialog(
-        title: 'Cập nhật báo cáo',
+        title: title ?? 'Cập nhật báo cáo',
         titlePadding: const EdgeInsetsDirectional.only(top: 10),
         contentPadding: const EdgeInsets.all(20),
         titleStyle: Get.textTheme.headline3,

@@ -20,7 +20,7 @@ class AppliedJobView extends GetView<AppliedJobController> {
         body: SingleChildScrollView(
           physics: const NeverScrollableScrollPhysics(),
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10),
             child: Container(
               padding: const EdgeInsets.only(top: 5),
               height: Get.height,

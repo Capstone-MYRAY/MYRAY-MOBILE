@@ -6,11 +6,11 @@ import 'package:myray_mobile/app/modules/applied_job/widgets/farmer_onLeave/farm
 import 'package:myray_mobile/app/shared/constants/app_assets.dart';
 import 'package:myray_mobile/app/shared/constants/app_colors.dart';
 import 'package:myray_mobile/app/shared/utils/utils.dart';
-import 'package:myray_mobile/app/shared/widgets/builders/loading_builder.dart';
+import 'package:myray_mobile/app/shared/widgets/builders/my_loading_builder.dart';
 import 'package:myray_mobile/app/shared/widgets/buttons/custom_text_button.dart';
 import 'package:myray_mobile/app/shared/widgets/lazy_loading_list.dart';
 
-class FarmerOnLeaveList extends StatelessWidget{
+class FarmerOnLeaveList extends StatelessWidget {
   const FarmerOnLeaveList({Key? key}) : super(key: key);
 
   @override
@@ -21,7 +21,7 @@ class FarmerOnLeaveList extends StatelessWidget{
             future: controller.getDayOffList(),
             builder: ((context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return const LoadingBuilder();
+                return const MyLoadingBuilder();
               }
               return Obx(() => LazyLoadingList(
                     onEndOfPage: controller.getDayOffList,
@@ -55,7 +55,7 @@ class FarmerOnLeaveList extends StatelessWidget{
                       }
                       DayOff dayOff = controller.dayOffList[index];
                       return Container(
-                        margin: const EdgeInsets.only(top: 15, bottom: 15),
+                        padding: const EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 10),
                         child: FarmerOnLeaveCard(
                             job: dayOff.appliedJobTitle,
                             submitDate: dayOff.createdDate ?? DateTime.now(),

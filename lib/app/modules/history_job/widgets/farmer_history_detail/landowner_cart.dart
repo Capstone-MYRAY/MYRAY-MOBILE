@@ -37,7 +37,7 @@ class LandOwnerCard extends StatelessWidget {
           children: [
             Expanded(
               child: Container(
-                //canh lề cho thông tin chủ rẫy
+                //canh lề cho thông tin chủ vườn
                 margin: const EdgeInsets.only(left: 10),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

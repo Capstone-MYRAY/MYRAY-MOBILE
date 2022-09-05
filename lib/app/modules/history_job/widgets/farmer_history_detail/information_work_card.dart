@@ -51,67 +51,67 @@ class InformationWorkCard extends StatelessWidget {
             SizedBox(
               height: Get.height * 0.02,
             ),
-            isPayPerHourJob!
-                ? Column(
-                    children: [
-                      buildRowInfor(
-                          title: 'Số ngày nghỉ:',
-                          content: '',
-                          icon: CustomIcons.calendar_minus,
-                          spaceTitleAndContent: 20),
-                      SizedBox(
-                        height: Get.height * 0.01,
-                      ),
-                      Container(
-                        margin: const EdgeInsets.only(left: 35),
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                Text(
-                                  'Có phép: ',
-                                  style: Get.textTheme.bodyText2!.copyWith(
-                                    color: AppColors.primaryColor,
-                                    fontSize: Get.textScaleFactor * 15,
-                                  ),
-                                ),
-                                Text(
-                                  '$permitedNumDayOff ngày',
-                                  style: Get.textTheme.bodyText2!.copyWith(
-                                    fontSize: Get.textScaleFactor * 15,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: Get.height * 0.01,
-                            ),
-                            Row(
-                              children: [
-                                Text(
-                                  'Không phép: ',
-                                  style: Get.textTheme.bodyText2!.copyWith(
-                                    color: AppColors.errorColor,
-                                    fontSize: Get.textScaleFactor * 15,
-                                  ),
-                                ),
-                                Text(
-                                  '$notPermitedNumDayOff ngày',
-                                  style: Get.textTheme.bodyText2!.copyWith(
-                                    fontSize: Get.textScaleFactor * 15,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: Get.height * 0.02,
-                      ),
-                    ],
-                  )
-                : const SizedBox(),
+            // isPayPerHourJob!
+            //     ? Column(
+            //         children: [
+            //           buildRowInfor(
+            //               title: 'Số ngày nghỉ:',
+            //               content: '',
+            //               icon: CustomIcons.calendar_minus,
+            //               spaceTitleAndContent: 20),
+            //           SizedBox(
+            //             height: Get.height * 0.01,
+            //           ),
+            //           Container(
+            //             margin: const EdgeInsets.only(left: 35),
+            //             child: Column(
+            //               children: [
+            //                 Row(
+            //                   children: [
+            //                     Text(
+            //                       'Có phép: ',
+            //                       style: Get.textTheme.bodyText2!.copyWith(
+            //                         color: AppColors.primaryColor,
+            //                         fontSize: Get.textScaleFactor * 15,
+            //                       ),
+            //                     ),
+            //                     Text(
+            //                       '$permitedNumDayOff ngày',
+            //                       style: Get.textTheme.bodyText2!.copyWith(
+            //                         fontSize: Get.textScaleFactor * 15,
+            //                       ),
+            //                     ),
+            //                   ],
+            //                 ),
+            //                 SizedBox(
+            //                   height: Get.height * 0.01,
+            //                 ),
+            //                 Row(
+            //                   children: [
+            //                     Text(
+            //                       'Không phép: ',
+            //                       style: Get.textTheme.bodyText2!.copyWith(
+            //                         color: AppColors.errorColor,
+            //                         fontSize: Get.textScaleFactor * 15,
+            //                       ),
+            //                     ),
+            //                     Text(
+            //                       '$notPermitedNumDayOff ngày',
+            //                       style: Get.textTheme.bodyText2!.copyWith(
+            //                         fontSize: Get.textScaleFactor * 15,
+            //                       ),
+            //                     ),
+            //                   ],
+            //                 ),
+            //               ],
+            //             ),
+            //           ),
+            //           SizedBox(
+            //             height: Get.height * 0.02,
+            //           ),
+            //         ],
+            //       )
+            //     : const SizedBox(),
           ],
         ),
       ),

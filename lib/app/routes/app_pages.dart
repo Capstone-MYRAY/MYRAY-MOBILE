@@ -34,9 +34,11 @@ import 'package:myray_mobile/app/modules/history_job/bindings/history_applied_jo
 import 'package:myray_mobile/app/modules/history_job/views/farmer_history_job_view.dart';
 import 'package:myray_mobile/app/modules/history_job/views/farmer_hitory_job_detail_view.dart';
 import 'package:myray_mobile/app/modules/history_job/views/history_applied_job_view.dart';
+import 'package:myray_mobile/app/modules/home/bindings/farmer_home_binding.dart';
 import 'package:myray_mobile/app/modules/home/bindings/farmer_job_post_detail_binding.dart';
 import 'package:myray_mobile/app/modules/attendance/bindings/job_post_attendance_binding.dart';
 import 'package:myray_mobile/app/modules/home/views/farmer_job_post_detail.dart';
+import 'package:myray_mobile/app/modules/home/views/farmer_job_post_filter.dart';
 import 'package:myray_mobile/app/modules/home/widgets/landowner_main_feature/job_post_by_type/job_post_by_type.dart';
 import 'package:myray_mobile/app/modules/home/widgets/landowner_main_feature/job_post_by_type/job_post_by_type_binding.dart';
 import 'package:myray_mobile/app/modules/job_farmer_list/job_farmer_list_module.dart';
@@ -59,6 +61,8 @@ import 'package:myray_mobile/app/modules/report/bindings/landowner_report_bindin
 import 'package:myray_mobile/app/modules/report/bindings/landowner_report_details_binding.dart';
 import 'package:myray_mobile/app/modules/report/views/landowner_report_details_view.dart';
 import 'package:myray_mobile/app/modules/report/views/landowner_report_view.dart';
+import 'package:myray_mobile/app/modules/topup/bindings/top_up_binding.dart';
+import 'package:myray_mobile/app/modules/topup/views/top_up_view.dart';
 import 'package:myray_mobile/init_view.dart';
 
 part 'app_routes.dart';
@@ -228,6 +232,12 @@ class AppPages {
       binding: JobPostByGardenBinding(),
       transition: Transition.rightToLeft,
     ),
+    GetPage(
+      name: _Paths.topUp,
+      page: () => const TopUpView(),
+      binding: TopUpBinding(),
+      transition: Transition.rightToLeft,
+    ),
 
     //farmer
     GetPage(
@@ -279,7 +289,7 @@ class AppPages {
       page: () => const FarmerHistoryJobDetail(),
       binding: FarmerHistoryJobDetailBinding(),
       transition: Transition.rightToLeft,
-    ),   
+    ),
     GetPage(
       name: _Paths.changePassword,
       page: () => const ChangePasswordView(),
@@ -292,5 +302,11 @@ class AppPages {
       binding: HistoryAppliedJobBinding(),
       transition: Transition.downToUp,
     ),
+    GetPage(
+      name: _Paths.farmerJobPostFilter,
+      page: () => FarmerJobPostFilter(),
+      binding: FarmerJobPostBinding(),
+      transition: Transition.downToUp,
+    )
   ];
 }

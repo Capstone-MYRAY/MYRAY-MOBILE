@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/status/http_status.dart';
 import 'package:myray_mobile/app/data/models/account.dart';
@@ -5,7 +7,6 @@ import 'package:myray_mobile/app/data/models/auth/auth_request.dart';
 import 'package:myray_mobile/app/data/models/auth/auth_response.dart';
 import 'package:myray_mobile/app/data/models/auth/signup_request.dart';
 import 'package:myray_mobile/app/data/models/change_password/change_password.dart';
-import 'package:myray_mobile/app/data/models/reset_password/reset_password_request.dart';
 import 'package:myray_mobile/app/data/providers/api/api_provider.dart';
 import 'package:myray_mobile/app/shared/utils/custom_exception.dart';
 
@@ -56,9 +57,11 @@ class AuthRepository {
     return false;
   }
 
-  Future<bool> resetPassword(ResetPasswordRequest data) async {
-    final response = await _apiProvider.postMethod(
-        '/authentication/resetpassword', data.toJson());
+  Future<bool> resetPassword(String phoneNumber) async {
+    final response = await _apiProvider.post(
+        '/authentication/resetpassword', json.encode(phoneNumber));
+
+    print(response.bodyString);
 
     if (response.isOk) {
       return true;

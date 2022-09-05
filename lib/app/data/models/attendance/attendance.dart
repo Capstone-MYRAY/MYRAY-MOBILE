@@ -6,12 +6,12 @@ import 'package:myray_mobile/app/shared/constants/constants.dart';
 part 'attendance.g.dart';
 
 @JsonSerializable(includeIfNull: false)
-class Attendance {
+class Attendance implements Comparable<Attendance> {
   @JsonKey(name: 'id')
   int? id;
 
   @JsonKey(name: 'date')
-  DateTime? date;
+  DateTime date;
 
   @JsonKey(name: 'salary')
   double? salary;
@@ -38,7 +38,7 @@ class Attendance {
     required this.appliedJobId,
     required this.accountId,
     this.id,
-    this.date,
+    required this.date,
     this.salary,
     this.bonusPoint,
     this.reason,
@@ -53,6 +53,11 @@ class Attendance {
       _$AttendanceFromJson(json);
 
   Map<String, dynamic> toJson() => _$AttendanceToJson(this);
+
+  @override
+  int compareTo(Attendance other) {
+    return -date.compareTo(other.date);
+  }
 }
 
 Map<int, String> _statusString = {

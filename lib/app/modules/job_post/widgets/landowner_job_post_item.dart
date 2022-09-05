@@ -12,6 +12,7 @@ import 'package:myray_mobile/app/shared/widgets/chips/status_chip.dart';
 class LandownerJobPostItem extends StatelessWidget {
   final String title;
   final String address;
+  final String workPayType;
   final String workType;
   final String? pinType;
   final String treeTypes;
@@ -25,6 +26,7 @@ class LandownerJobPostItem extends StatelessWidget {
   final Color? workStatusForeground;
   final String postStatusString;
   final String workStatusString;
+  final String gardenName;
 
   final void Function() onDetailsPress;
 
@@ -32,12 +34,14 @@ class LandownerJobPostItem extends StatelessWidget {
     Key? key,
     required this.title,
     required this.address,
-    required this.workType,
+    required this.workPayType,
     required this.treeTypes,
     required this.publishedDate,
     required this.onDetailsPress,
     required this.postStatusString,
     required this.workStatusString,
+    required this.workType,
+    required this.gardenName,
     this.expiredDate,
     this.pinType,
     this.postTypeBackground,
@@ -75,28 +79,40 @@ class LandownerJobPostItem extends StatelessWidget {
           ),
           const SizedBox(height: 12.0),
           CardField(
-            icon: CustomIcons.map_marker_outline,
-            title: AppStrings.labelAddress,
-            data: address,
+            icon: CustomIcons.briefcase_outline,
+            title: AppStrings.labelWorkType,
+            data: workType,
           ),
+          const SizedBox(height: 12.0),
+          CardField(
+            icon: CustomIcons.sprout_outline,
+            title: AppStrings.labelGardenName,
+            data: gardenName,
+          ),
+          // CardField(
+          //   icon: CustomIcons.map_marker_outline,
+          //   title: AppStrings.labelAddress,
+          //   data: address,
+          // ),
           const SizedBox(height: 8.0),
           CardField(
             icon: CustomIcons.bulletin_board,
-            title: AppStrings.labelWorkType,
-            data: workType,
+            title: AppStrings.labelWorkPayType,
+            data: workPayType,
             isCenter: true,
           ),
           const SizedBox(height: 8.0),
           CardField(
             icon: CustomIcons.tree_outline,
             title: AppStrings.labelTreeType,
-            data: treeTypes,
+            data: treeTypes.isEmpty ? 'Không phân loại' : treeTypes,
           ),
           const SizedBox(height: 8.0),
           CardField(
             icon: CustomIcons.calendar_range,
             title: AppStrings.labelPublishDate,
             data: Utils.formatddMMyyyy(publishedDate),
+            isCenter: true,
           ),
           const SizedBox(height: 8.0),
           if (expiredDate != null)

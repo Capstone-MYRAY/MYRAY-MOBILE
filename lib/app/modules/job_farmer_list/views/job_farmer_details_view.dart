@@ -3,12 +3,13 @@ import 'package:get/get.dart';
 import 'package:myray_mobile/app/data/enums/enums.dart';
 import 'package:myray_mobile/app/data/models/feedback/feedback.dart';
 import 'package:myray_mobile/app/data/models/report/report.dart';
+import 'package:myray_mobile/app/modules/feedback/widgets/feedback_bottom_sheet/feedback_list_bottom_sheet.dart';
 import 'package:myray_mobile/app/modules/job_farmer_list/controllers/controllers.dart';
 import 'package:myray_mobile/app/modules/job_farmer_list/widgets/feedback_farmer_card.dart';
 import 'package:myray_mobile/app/modules/job_farmer_list/widgets/report_farmer_card.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/widgets/builders/details_error_builder.dart';
-import 'package:myray_mobile/app/shared/widgets/builders/loading_builder.dart';
+import 'package:myray_mobile/app/shared/widgets/builders/my_loading_builder.dart';
 import 'package:myray_mobile/app/shared/widgets/buttons/filled_button.dart';
 import 'package:myray_mobile/app/shared/widgets/farmer_details/farmer_details.dart';
 import 'package:myray_mobile/app/shared/widgets/farmer_details/farmer_details_appbar.dart';
@@ -20,10 +21,13 @@ class JobFarmerDetailsView extends GetView<JobFarmerDetailsController> {
   String get tag => Get.arguments[Arguments.tag];
 
   bool get canReportFeedback {
+    bool isPending = controller.appliedFarmer.value.jobPost.workStatus ==
+        JobPostWorkStatus.pending.index;
     DateTime? endDate = controller.appliedFarmer.value.jobPost.jobEndDate;
-    return endDate == null ||
-        DateTime.now().isBefore(endDate
-            .add(const Duration(days: CommonConstants.dayCanEditFeedback)));
+    return !isPending &&
+        (endDate == null ||
+            DateTime.now().isBefore(endDate.add(
+                const Duration(days: CommonConstants.dayCanEditFeedback))));
   }
 
   @override
@@ -36,10 +40,11 @@ class JobFarmerDetailsView extends GetView<JobFarmerDetailsController> {
         future: controller.init(),
         builder: (_, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const LoadingBuilder();
+            return const MyLoadingBuilder();
           }
 
           if (snapshot.hasError) {
+            print(snapshot.error.toString());
             return const DetailsErrorBuilder();
           }
 
@@ -62,6 +67,10 @@ class JobFarmerDetailsView extends GetView<JobFarmerDetailsController> {
                       isBookmarked: controller.isBookmarked.value,
                       onFavoriteToggle: () => controller.onToggleBookmark(),
                       navigateToChatScreen: controller.navigateToChatScreen,
+                      onRatingDetails: () {
+                        FeedbackListBottomSheet.show(
+                            controller.appliedFarmer.value.userInfo.id!);
+                      },
                     ),
                     _buildFeedback(),
                     _buildReport(),
@@ -96,19 +105,19 @@ class JobFarmerDetailsView extends GetView<JobFarmerDetailsController> {
         SizedBox(
           width: Get.width * 0.35,
           child: SizedBox(
-            child: OutlinedButton(
+            child: FilledButton(
               onPressed: controller.onReject,
-              style: OutlinedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 12.0,
-                ),
+              padding: const EdgeInsets.symmetric(
+                vertical: 12.0,
               ),
-              child: const Text(AppStrings.titleRefuse),
+              title: AppStrings.titleRefuse,
+              color: AppColors.errorColor,
             ),
           ),
         ),
-        const SizedBox(width: 16.0),
-        if (controller.feedback.value == null)
+        if (controller.appliedFarmer.value.jobPost.status ==
+            JobPostStatus.shortHanded.index) ...[
+          const SizedBox(width: 16.0),
           SizedBox(
             width: Get.width * 0.35,
             child: FilledButton(
@@ -119,6 +128,7 @@ class JobFarmerDetailsView extends GetView<JobFarmerDetailsController> {
               onPressed: controller.onApprove,
             ),
           ),
+        ]
       ],
     );
   }
@@ -163,7 +173,7 @@ class JobFarmerDetailsView extends GetView<JobFarmerDetailsController> {
     return FeedbackFarmerCard(
       createdDate: feedback.createdDate,
       rating: feedback.numStar.toDouble(),
-      content: feedback.content,
+      content: feedback.content ?? '',
       canUpdate: canReportFeedback,
       onEditPressed: controller.onFeedback,
     );

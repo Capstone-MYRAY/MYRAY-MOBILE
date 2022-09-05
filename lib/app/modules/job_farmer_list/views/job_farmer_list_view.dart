@@ -6,9 +6,8 @@ import 'package:myray_mobile/app/routes/app_pages.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/data/models/applied_farmer/applied_farmer.dart';
 import 'package:myray_mobile/app/modules/job_farmer_list/widgets/farmer_info_card.dart';
-import 'package:myray_mobile/app/shared/utils/utils.dart';
 import 'package:myray_mobile/app/shared/widgets/builders/list_empty_builder.dart';
-import 'package:myray_mobile/app/shared/widgets/builders/loading_builder.dart';
+import 'package:myray_mobile/app/shared/widgets/builders/my_loading_builder.dart';
 import 'package:myray_mobile/app/shared/widgets/controls/dropdown_list.dart';
 import 'package:myray_mobile/app/shared/widgets/lazy_loading_list.dart';
 
@@ -55,11 +54,14 @@ class JobFarmerListView extends GetView<JobFarmerListController> {
         future: controller.getAppliedFarmers(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const LoadingBuilder();
+            return const MyLoadingBuilder();
           }
 
           if (snapshot.data == null) {
-            return ListEmptyBuilder(onRefresh: controller.onRefresh);
+            return ListEmptyBuilder(
+              onRefresh: controller.onRefresh,
+              msg: 'Chưa có nông dân nào',
+            );
           }
 
           if (snapshot.hasData) {
@@ -79,11 +81,8 @@ class JobFarmerListView extends GetView<JobFarmerListController> {
                     avatar: appliedFarmer.userInfo.imageUrl,
                     statusName: appliedFarmer.statusString,
                     statusColor: appliedFarmer.statusColor,
-                    isDisplayEllipsis: Utils.equalsIgnoreCase(
-                            appliedFarmer.jobPost.type,
-                            JobType.payPerTaskJob.name) &&
-                        appliedFarmer.status ==
-                            AppliedFarmerStatus.approved.index,
+                    isDisplayEllipsis: appliedFarmer.status ==
+                        AppliedFarmerStatus.approved.index,
                     onFinish: () => controller.onFinish(appliedFarmer),
                     onFired: () => controller.onFired(appliedFarmer),
                     onButtonTap: () {

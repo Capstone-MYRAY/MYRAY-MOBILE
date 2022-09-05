@@ -11,7 +11,9 @@ class CustomBottomNavigationBar extends StatelessWidget {
   final bool? isDisableFilledButton;
   final bool? isChangedState;
   final bool? isExpired;
-  const CustomBottomNavigationBar({
+  final int status;
+  var titleButton = AppStrings.shortApplyButton;
+  CustomBottomNavigationBar({
     Key? key,
     this.onPressedOutlineButton,
     this.onPressedFilledButton,
@@ -19,10 +21,12 @@ class CustomBottomNavigationBar extends StatelessWidget {
     this.isDisableFilledButton = false,
     this.isChangedState = false,
     this.isExpired = false,
+    this.status = 8
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    getStatus(status);
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: Row(
@@ -38,12 +42,27 @@ class CustomBottomNavigationBar extends StatelessWidget {
           ),
           Flexible(
             child: FilledButton(
-              title: isExpired! ? 'Hết hạn' : AppStrings.shortApplyButton,
-              onPressed: onPressedFilledButton,
+              // title: isExpired! ? 'Hết hạn' : AppStrings.shortApplyButton,
+              title: titleButton,
+              onPressed: (isExpired! || status == 9) ? null : onPressedFilledButton,
             ),
           ),
         ],
       ),
     );
+  }
+
+  getStatus(int status) {
+    switch (status) {
+      case 4:
+        titleButton = 'Hết hạn';
+        break;
+      case 9: 
+        titleButton = 'Đủ người';
+        break;
+      default:
+        titleButton = AppStrings.shortApplyButton;
+        break;
+    }
   }
 }

@@ -7,7 +7,7 @@ import 'package:myray_mobile/app/modules/comment/controllers/comment_controller.
 import 'package:myray_mobile/app/modules/comment/widgets/comment_function_bottom_sheet.dart';
 import 'package:myray_mobile/app/modules/comment/widgets/comment_container_widget.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
-import 'package:myray_mobile/app/shared/widgets/builders/loading_builder.dart';
+import 'package:myray_mobile/app/shared/widgets/builders/my_loading_builder.dart';
 import 'package:myray_mobile/app/shared/widgets/dialogs/custom_confirm_dialog.dart';
 import 'package:myray_mobile/app/shared/widgets/lazy_loading_list.dart';
 
@@ -73,19 +73,19 @@ class CommentModalBottomSheet {
                   // height: 70,
                   child: CommentBox(
                       userImage: commentAccount == null
-                      ? (isFarmer 
-                          ? 'https://i.im.ge/2022/08/02/Fy6jHr.farmer.png'
-                          : 'https://i.im.ge/2022/08/02/Fy69ym.landowner.png')
-                      : commentAccount.imageUrl ?? 
-                      (isFarmer 
-                          ? 'https://i.im.ge/2022/08/02/Fy6jHr.farmer.png'
-                          : 'https://i.im.ge/2022/08/02/Fy69ym.landowner.png')
-                      ,
+                          ? (isFarmer
+                              ? 'https://i.im.ge/2022/08/02/Fy6jHr.farmer.png'
+                              : 'https://i.im.ge/2022/08/02/Fy69ym.landowner.png')
+                          : commentAccount.imageUrl ??
+                              (isFarmer
+                                  ? 'https://i.im.ge/2022/08/02/Fy6jHr.farmer.png'
+                                  : 'https://i.im.ge/2022/08/02/Fy69ym.landowner.png'),
                       labelText: 'Bình luận...',
                       withBorder: false,
                       errorText: 'Comment cannot be blank',
                       sendButtonMethod: () async {
-                        controller.onCreateComment(guidePostId, context, commentAccount!);
+                        controller.onCreateComment(
+                            guidePostId, context, commentAccount!);
                       },
                       formKey: controller.formKey,
                       commentController: controller.commentController,
@@ -98,7 +98,7 @@ class CommentModalBottomSheet {
                         builder: (context, snapshot) {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
-                            return const LoadingBuilder();
+                            return const MyLoadingBuilder();
                           }
                           return Obx(() => LazyLoadingList(
                                 onEndOfPage: () =>
@@ -137,34 +137,38 @@ class CommentModalBottomSheet {
                                   String userRole = controller.roleUser;
                                   print('user role: $userRole');
                                   return CommentContainer(
-                                          name: comment.fullname ?? 'Ẩn danh',
-                                          comment: comment.content,
-                                          commentDateTime: comment.createDate,
-                                          imageUrl: comment.avatar,
-                                          onLongPress: () {
-                                            comment.commentBy == userId
-                                            ? CommentFunctionBottomSheet.showMenu(
-                                                context: context,
-                                                delete: () {
-                                                  CustomDialog.show(
-                                                      confirm: () {
-                                                        Get.back(); //tắt bottom sheet function menu
-                                                        controller
-                                                            .onDeleteComment(
-                                                                comment.id);
-                                                      },
-                                                      message: AppStrings
-                                                          .confirmDeleteMessage,
-                                                      confirmTitle: AppStrings
-                                                          .titleDelete);
-                                                },
-                                                edit: () {
-                                                  Get.back(); //Tắt menu
-                                                  controller.onCloseComment();
-                                                  controller.onEditComment(context, comment);
-                                                })
+                                      name: comment.fullname ?? 'Ẩn danh',
+                                      comment: comment.content,
+                                      commentDateTime: comment.createDate,
+                                      imageUrl: comment.avatar,
+                                      onLongPress: () {
+                                        comment.commentBy == userId
+                                            ? CommentFunctionBottomSheet
+                                                .showMenu(
+                                                    context: context,
+                                                    delete: () {
+                                                      CustomDialog.show(
+                                                          confirm: () {
+                                                            Get.back(); //tắt bottom sheet function menu
+                                                            controller
+                                                                .onDeleteComment(
+                                                                    comment.id);
+                                                          },
+                                                          message: AppStrings
+                                                              .confirmDeleteMessage,
+                                                          confirmTitle:
+                                                              AppStrings
+                                                                  .titleDelete);
+                                                    },
+                                                    edit: () {
+                                                      Get.back(); //Tắt menu
+                                                      controller
+                                                          .onCloseComment();
+                                                      controller.onEditComment(
+                                                          context, comment);
+                                                    })
                                             : null;
-                                          });
+                                      });
                                 },
                               ));
                         },

@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:myray_mobile/app/data/enums/enums.dart';
 import 'package:myray_mobile/app/modules/attendance/widgets/farmer_attendance_detail_dialog.dart';
 import 'package:myray_mobile/app/modules/history_job/controllers/farmer_history_job_detail_controller.dart';
 import 'package:myray_mobile/app/modules/history_job/widgets/farmer_history_detail/information_work_card.dart';
 import 'package:myray_mobile/app/modules/history_job/widgets/farmer_history_detail/landowner_cart.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
 import 'package:myray_mobile/app/shared/utils/utils.dart';
+import 'package:myray_mobile/app/shared/widgets/cards/card_field.dart';
+import 'package:myray_mobile/app/shared/widgets/dialogs/base_dialog.dart';
 import 'package:myray_mobile/app/shared/widgets/dialogs/custom_information.dialog.dart';
 
 class FarmerHistoryJobDetail extends GetView<FarmerHistoryJobDetailController> {
@@ -78,24 +81,58 @@ class FarmerHistoryJobDetail extends GetView<FarmerHistoryJobDetailController> {
                               indent: 45,
                               endIndent: 45,
                               height: 10),
-                          Obx(() => Container(
-                            margin: const EdgeInsets.only(left: 85, top: 15),
-                            child: InformationWorkCard.buildRowInfor(
-                                title: 'Trạng thái:',
-                                icon: Icons.power_settings_new,
-                                content:
-                                    controller.appliedJob.value.statusString,
-                                spaceIconAndTitle: 10,
-                                contentColor:
-                                    controller.appliedJob.value.statusColor),
-                          ),),
+                          Obx(
+                            () => Container(
+                              margin: const EdgeInsets.only(left: 85, top: 15),
+                              child: InformationWorkCard.buildRowInfor(
+                                  title: 'Trạng thái:',
+                                  icon: Icons.power_settings_new,
+                                  content:
+                                      controller.appliedJob.value.statusString,
+                                  spaceIconAndTitle: 10,
+                                  contentColor:
+                                      controller.appliedJob.value.statusColor),
+                            ),
+                          ),
                           controller.isFired
                               ? InkWell(
                                   onTap: () {
-                                    CustomInformationDialog.show(
-                                      title: 'Thông báo',
-                                      message: 'Bạn bị sa thải với lý do: \n ${controller.firedReason}',
-                                    );
+                                    BaseDialog.show(
+                                          insetPadding:
+                                              const EdgeInsets.symmetric(
+                                            horizontal: 25,
+                                            // vertical: Get.height * 0.3,
+                                          ),
+                                          child: SingleChildScrollView(
+                                            child: Column(
+                                              children: [
+                                                Text(AppStrings.titleDetails,
+                                                    style: Get
+                                                        .textTheme.headline4!
+                                                        .copyWith(
+                                                      color: AppColors
+                                                          .primaryColor,
+                                                    )),
+                                                SizedBox(
+                                                  height: Get.height * 0.02,
+                                                ),
+                                                CardField(
+                                                  icon: Icons
+                                                      .info_outline_rounded,
+                                                  title: AppStrings.titleReason,
+                                                  data:
+                                                      controller.firedReason ??
+                                                          'Không có lý do',
+                                                  iconAndTitleSpace:
+                                                      Get.width * 0.03,
+                                                ),
+                                                const SizedBox(
+                                                  height: 10,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        );
                                     //hiện pop up lý do bị đuổi
                                   },
                                   child: Container(
@@ -134,7 +171,7 @@ class FarmerHistoryJobDetail extends GetView<FarmerHistoryJobDetailController> {
               ),
               Obx(
                 () => LandOwnerCard(
-                  name: controller.jobPost.publishedName!,
+                  name: controller.jobPost.publishedName ?? 'Chủ vườn',
                   address: controller.jobPost.address ?? 'Không có địa chỉ',
                   isBookmark: controller.isBookmark.value,
                   bookmark: controller.onBookmark,
@@ -174,31 +211,17 @@ class FarmerHistoryJobDetail extends GetView<FarmerHistoryJobDetailController> {
                         )
                       : Column(
                           children: [
-                            Container(
-                              width: Get.width * 0.6,
-                              decoration: const BoxDecoration(
-                                color: AppColors.primaryColor,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(5)),
-                              ),
-                              padding: const EdgeInsets.all(20),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SizedBox(
-                                    height: Get.height * 0.03,
-                                    child: Text(
-                                      'Báo cáo trả công ',
-                                      softWrap: true,
-                                      maxLines: 3,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: Get.textTheme.headline4!.copyWith(
-                                        color: AppColors.white,
-                                      ),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  ),
-                                ],
+                            SizedBox(
+                              height: Get.height * 0.04,
+                              child: Text(
+                                'Báo cáo trả công ',
+                                softWrap: true,
+                                maxLines: 3,
+                                overflow: TextOverflow.ellipsis,
+                                style: Get.textTheme.headline3!.copyWith(
+                                  color: AppColors.primaryColor,
+                                ),
+                                textAlign: TextAlign.center,
                               ),
                             ),
                             const SizedBox(
@@ -216,18 +239,61 @@ class FarmerHistoryJobDetail extends GetView<FarmerHistoryJobDetailController> {
                                 shrinkWrap: true,
                                 itemCount: controller.attendanceList.length,
                                 itemBuilder: ((context, index) {
+                                  int status =
+                                      controller.attendanceList[index].status;
                                   return InkWell(
                                     splashColor:
                                         AppColors.primaryColor.withOpacity(0.2),
                                     onTap: () {
                                       // print('status: ${controller.attendanceList[index].reason}');
-                                      if (controller
-                                              .attendanceList[index].status !=
-                                          1) {
+                                      if (status ==
+                                              AttendanceStatus.absent.index ||
+                                          status ==
+                                              AttendanceStatus.dayOff.index) {
                                         CustomInformationDialog.show(
                                             title: 'Thông báo',
                                             message:
-                                                'Bạn không tham gia công việc ngày hôm nay');
+                                                'Bạn không tham gia công việc ngày ${Utils.formatddMMyyyy(controller.attendanceList[index].date)}');
+                                        return;
+                                      }
+                                      if (status ==
+                                          AttendanceStatus.fired.index) {
+                                        BaseDialog.show(
+                                          insetPadding:
+                                              const EdgeInsets.symmetric(
+                                            horizontal: 25,
+                                            // vertical: Get.height * 0.3,
+                                          ),
+                                          child: SingleChildScrollView(
+                                            child: Column(
+                                              children: [
+                                                Text(AppStrings.titleDetails,
+                                                    style: Get
+                                                        .textTheme.headline4!
+                                                        .copyWith(
+                                                      color: AppColors
+                                                          .primaryColor,
+                                                    )),
+                                                SizedBox(
+                                                  height: Get.height * 0.02,
+                                                ),
+                                                CardField(
+                                                  icon: Icons
+                                                      .info_outline_rounded,
+                                                  title: AppStrings.titleReason,
+                                                  data:
+                                                      controller.firedReason ??
+                                                          'Không có lý do',
+                                                  iconAndTitleSpace:
+                                                      Get.width * 0.03,
+                                                ),
+                                                const SizedBox(
+                                                  height: 10,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        );
                                         return;
                                       }
                                       FarmerAttendanceDetailDialog.show(
@@ -240,14 +306,28 @@ class FarmerHistoryJobDetail extends GetView<FarmerHistoryJobDetailController> {
                                     child: Container(
                                       padding: const EdgeInsets.all(20),
                                       margin: const EdgeInsets.only(
-                                          top: 10, bottom: 10),
+                                          top: 8, bottom: 8),
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(5),
                                         color: AppColors.white,
                                       ),
-                                      child: Text(
-                                        Utils.formatddMMyyyy(controller
-                                            .attendanceList[index].date),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            Utils.formatddMMyyyy(controller
+                                                .attendanceList[index].date),
+                                          ),
+                                          Text(
+                                            controller.attendanceList[index]
+                                                .statusString,
+                                            style: TextStyle(
+                                                color: controller
+                                                    .attendanceList[index]
+                                                    .statusColor),
+                                          ),
+                                        ],
                                       ),
                                     ),
                                   );
@@ -300,17 +380,43 @@ class FarmerHistoryJobDetail extends GetView<FarmerHistoryJobDetailController> {
                                         decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(10),
-                                          image: DecorationImage(
-                                              image: NetworkImage(controller
-                                                  .attendanceList
-                                                  .first
-                                                  .signature!)),
+                                          // image: DecorationImage(
+                                          //     image:
+                                          //     // Image.network(controller
+                                          //     //     .attendanceList
+                                          //     //     .first
+                                          //     //     .signature!)
+
+                                          //      NetworkImage(controller
+                                          //         .attendanceList
+                                          //         .first
+                                          //         .signature!
+                                          //   )
+                                          //   ),
                                         ),
                                         child: Image.network(
                                           controller
                                               .attendanceList.first.signature!,
-                                          width: 50,
-                                          height: 50,
+                                          // width: ,
+                                          // height: 50,
+                                          loadingBuilder: (context, child,
+                                              loadingProgress) {
+                                            if (loadingProgress == null) {
+                                              return child;
+                                            }
+                                            return Center(
+                                              child: CircularProgressIndicator(
+                                                value: loadingProgress
+                                                            .expectedTotalBytes !=
+                                                        null
+                                                    ? loadingProgress
+                                                            .cumulativeBytesLoaded /
+                                                        loadingProgress
+                                                            .expectedTotalBytes!
+                                                    : null,
+                                              ),
+                                            );
+                                          },
                                         ),
                                       ),
                                       SizedBox(
