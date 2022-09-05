@@ -5,7 +5,6 @@ import 'package:myray_mobile/app/data/models/guidepost/full_guidepost.dart';
 import 'package:myray_mobile/app/data/models/guidepost/guidepost.dart';
 import 'package:myray_mobile/app/modules/comment/widgets/comment_modal_bottom_sheet.dart';
 import 'package:myray_mobile/app/modules/guidepost/controllers/guidepost_controller.dart';
-import 'package:myray_mobile/app/modules/guidepost/widgets/avatar.dart';
 import 'package:myray_mobile/app/modules/guidepost/widgets/avatar_content.dart';
 import 'package:myray_mobile/app/shared/constants/app_assets.dart';
 import 'package:myray_mobile/app/shared/constants/app_colors.dart';
@@ -13,7 +12,6 @@ import 'package:myray_mobile/app/shared/constants/app_strings.dart';
 import 'package:myray_mobile/app/shared/utils/utils.dart';
 import 'package:myray_mobile/app/shared/widgets/builders/my_loading_builder.dart';
 import 'package:myray_mobile/app/shared/widgets/lazy_loading_list.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
 class GuidePostView extends GetView<GuidepostController> {
   const GuidePostView({Key? key}) : super(key: key);

@@ -194,34 +194,6 @@ class FarmerJobPostFilter extends GetView<FarmerHomeController> {
         }).toList(),
       ),
     );
-
-    // DropdownSearch<FilterPrice>(
-    //   key: UniqueKey(),
-    //   popupProps: const PopupProps.menu(
-    //     showSelectedItems: true,
-    //     constraints: BoxConstraints(
-    //       maxHeight: 120.0,
-    //     ),
-    //   ),
-    //   dropdownDecoratorProps: const DropDownDecoratorProps(
-    //     dropdownSearchDecoration: InputDecoration(
-    //       // icon: Icon(CustomIcons.bulletin_board, size: 24),
-    //       labelText: 'Chọn mức lương',
-    //       isDense: true,
-    //       floatingLabelBehavior: FloatingLabelBehavior.auto,
-    //     ),
-    //   ),
-    //   selectedItem: controller.selectSalaryRange.value,
-    //   items: PriceList.priceList,
-    //   compareFn: (item1, item2) {
-    //     return true;
-    //   },
-    //   onChanged: (value){
-
-    //     print('get ${value?.salaryFrom}');
-    //   },
-    //   autoValidateMode: AutovalidateMode.onUserInteraction,
-    // );
   }
 
   Widget _buildProvinceDropdownList() {

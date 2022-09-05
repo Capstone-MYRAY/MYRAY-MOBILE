@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:myray_mobile/app/data/models/feedback/feedback.dart';
 import 'package:myray_mobile/app/data/models/feedback/feedback_models.dart';
 import 'package:myray_mobile/app/data/services/feedback_service.dart';
 import 'package:myray_mobile/app/shared/utils/custom_exception.dart';

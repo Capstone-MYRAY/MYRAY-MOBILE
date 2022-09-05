@@ -6,7 +6,6 @@ import 'package:myray_mobile/app/modules/history_job/controllers/farmer_history_
 import 'package:myray_mobile/app/modules/history_job/widgets/farmer_history_detail/information_work_card.dart';
 import 'package:myray_mobile/app/modules/history_job/widgets/farmer_history_detail/landowner_cart.dart';
 import 'package:myray_mobile/app/shared/constants/constants.dart';
-import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
 import 'package:myray_mobile/app/shared/utils/utils.dart';
 import 'package:myray_mobile/app/shared/widgets/cards/card_field.dart';
 import 'package:myray_mobile/app/shared/widgets/dialogs/base_dialog.dart';

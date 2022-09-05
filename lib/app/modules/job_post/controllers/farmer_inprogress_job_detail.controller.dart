@@ -3,7 +3,6 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:myray_mobile/app/data/enums/status.dart';
 import 'package:myray_mobile/app/data/models/account.dart';
-import 'package:myray_mobile/app/data/models/attendance/attendance.dart';
 import 'package:myray_mobile/app/data/models/attendance/farmer_post_attendance_request.dart';
 import 'package:myray_mobile/app/data/models/attendance/get_attendance_by_date_request.dart';
 import 'package:myray_mobile/app/data/models/attendance/get_attendance_by_date_response.dart';

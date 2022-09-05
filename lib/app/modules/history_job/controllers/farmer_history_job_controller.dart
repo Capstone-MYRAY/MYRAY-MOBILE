@@ -1,11 +1,8 @@
 
 import 'package:get/get.dart';
-import 'package:myray_mobile/app/data/enums/enums.dart';
 import 'package:myray_mobile/app/data/models/applied_job/applied_job_response.dart';
 import 'package:myray_mobile/app/data/models/applied_job/get_applied_job_request.dart';
 import 'package:myray_mobile/app/data/models/applied_job/get_applied_job_response.dart';
-import 'package:myray_mobile/app/data/models/job_post/job_post.dart';
-import 'package:myray_mobile/app/data/models/job_post/job_post_response.dart';
 import 'package:myray_mobile/app/modules/history_job/history_job_repository.dart';
 import 'package:myray_mobile/app/shared/utils/custom_exception.dart';
 

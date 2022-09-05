@@ -64,17 +64,6 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
                     );
                     return;
                   }
-                  // if (controller.jobPost.type == 'PayPerHourJob') {
-                  //   controller.checkAppliedHourJob();
-                  //   if (controller.isAppliedHourJob.value) {
-                  //     InformationDialog.showDialog(
-                  //       msg:
-                  //           ' Bạn đã ứng tuyển một công việc có loại hình làm công',
-                  //       confirmTitle: "Đóng",
-                  //     );
-                  //     return;
-                  //   }
-                  // }
                   CustomDialog.show(
                       confirm: () => controller.applyJob(controller.jobPost.id),
                       message: AppMsg.MSG3005);
@@ -232,24 +221,6 @@ class FarmerJobPostDetail extends GetView<FarmerJobPostDetailController> {
                                       'Đang cập nhật',
                                   style: Get.textTheme.bodyText2!.copyWith(),
                                 ),
-                                // WidgetSpan(
-                                //   child: Container(
-                                //     margin: const EdgeInsets.only(left: 10),
-                                //     child: GestureDetector(
-                                //       onTap: () async {
-                                //         Uri googleUri = Uri.parse(
-                                //             'google.navigation:q=${controller.jobPost.gardenLat},${controller.jobPost.gardenLon}&mode=d');
-                                //         if (await canLaunchUrl(googleUri)) {
-                                //           await launchUrl(googleUri);
-                                //         } else {
-                                //           throw 'Could not open the map.';
-                                //         }
-                                //       },
-                                //       child: const Icon(Icons.near_me_outlined,
-                                //           size: 25),
-                                //     ),
-                                //   ),
-                                // ),
                               ],
                             ),
                             softWrap: true,

@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:myray_mobile/app/data/models/job_post/job_post.dart';
 import 'package:myray_mobile/app/modules/home/controllers/farmer_home_controller.dart';
-import 'package:myray_mobile/app/modules/home/views/farmer_job_post_filter.dart';
-import 'package:myray_mobile/app/modules/home/widgets/farmer_post_card%20copy.dart';
 import 'package:myray_mobile/app/modules/home/widgets/farmer_post_card.dart';
 import 'package:myray_mobile/app/routes/app_pages.dart';
 import 'package:myray_mobile/app/shared/constants/app_assets.dart';
@@ -15,7 +10,6 @@ import 'package:myray_mobile/app/shared/constants/app_strings.dart';
 import 'package:myray_mobile/app/shared/constants/common.dart';
 import 'package:myray_mobile/app/shared/icons/custom_icons_icons.dart';
 import 'package:myray_mobile/app/shared/utils/hex_color_extension.dart';
-import 'package:myray_mobile/app/shared/utils/user_current_location.dart';
 import 'package:myray_mobile/app/shared/widgets/builders/list_empty_builder.dart';
 import 'package:myray_mobile/app/shared/widgets/builders/my_loading_builder.dart';
 import 'package:myray_mobile/app/shared/widgets/controls/search_and_filter.dart';
@@ -67,23 +61,7 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
           }
           if (snapshot.hasError) {
             printError(info: snapshot.error.toString());
-            return
-                // FarmerPostCard(
-                //   title: 'Tên bài post',
-                //   address: 'Địa chỉ: '  + address.split(',').last,
-                //   distance: distance,
-                //   price: 1200000,
-                //   treeType: 'Cây điều, cây na, cây ổi', //no
-                //   workType: AppStrings.payPerHour,
-                //   expiredDate: '11/08/2022',
-                //   isExpired: false,
-                //   isStatus: true,
-                //   statusColor: AppColors.errorColor,
-                //   statusName: 'Vị trí 1',
-                //   onTap: () {},
-                // );
-
-                SizedBox(
+            return SizedBox(
               width: double.infinity,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -222,34 +200,7 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
 
                             // )
                             :
-                            // FarmerPostCard(
-                            //     title: 'Tên bài post nè',
-                            //     address: address.split(',').last,
-                            //     distance: distance,
-                            //     price: 1200000,
-                            //     treeType: 'Không phân loại', //no
-                            //     workType: AppStrings.payPerHour,
-                            //     expiredDate: '11/08/2022',
-                            //     isExpired: false,
-                            //     onTap: () {},
-                            //   ),
-
-                            // Center(
-                            //     child: Column(
-                            //       children: [
-                            //         Text(
-                            //           AppStrings.noMarkedJobPost,
-                            //           style: Get.textTheme.bodyMedium!
-                            //               .copyWith(color: AppColors.grey),
-                            //         ),
-                            //         const SizedBox(height: 10),
-                            //         const ImageIcon(
-                            //             AssetImage(AppAssets.noJobFound),
-                            //             size: 20,
-                            //             color: AppColors.grey)
-                            //       ],
-                            //     ),
-                            //   ),
+                           
                             const SizedBox(),
                       ),
                       const SizedBox(
@@ -284,10 +235,6 @@ class FarmerHomeView extends GetView<FarmerHomeController> {
                         () => controller.listObject.isNotEmpty
                             ? Flexible(
                                 child: ListView.builder(
-                                    // padding: const EdgeInsets.only(
-                                    //   left: 5.0,
-                                    //   right: 5.0,
-                                    // ),
                                     itemCount: controller.listObject.length,
                                     physics:
                                         const NeverScrollableScrollPhysics(),
